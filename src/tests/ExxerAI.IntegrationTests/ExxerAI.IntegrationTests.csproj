@@ -9,28 +9,22 @@
     Architecture: Complete system testing with external dependencies
     ===============================================================================
   -->
+
   <!-- ============================================================================ -->
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
-
-
-	
   <PropertyGroup>
-	  <!-- Target Framework -->
-	  <TargetFramework>.net10.0</TargetFramework>
+    <!-- Target Framework -->
+    <TargetFramework>.net10.0</TargetFramework>
 
-	  <!-- Language Features -->
-	  <Nullable>enable</Nullable>
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
 
-	  <!-- Versioning -->
-	  <AssemblyVersion>2025.6.29.51</AssemblyVersion>
-	  <FileVersion>2025.6.29.51</FileVersion>
-	  <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Versioning -->
+    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+    <FileVersion>2025.6.29.51</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-
-
-
 
   <PropertyGroup Label="Project Configuration">
     <ProjectGuid>{1719112F-4E41-9721-37BB-888C624C9A09}</ProjectGuid>
@@ -41,11 +35,11 @@
   </PropertyGroup>
 
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.WebAPI\ExxerAI.WebAPI.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.BlazorUI\ExxerAI.BlazorUI.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.WebAPI\ExxerAI.WebAPI.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.BlazorUI\ExxerAI.BlazorUI.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Testing Framework">
@@ -58,7 +52,11 @@
 
   <ItemGroup Label="Integration Testing Infrastructure">
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-    <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="Testcontainers" />
+    <PackageReference Include="Testcontainers.MsSql" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
   </ItemGroup>
 
 </Project> 

@@ -11,6 +11,22 @@
     ===============================================================================
   -->
 
+  <!-- ============================================================================ -->
+  <!-- CORE PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+    <!-- Target Framework -->
+    <TargetFramework>.net10.0</TargetFramework>
+
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
+
+    <!-- Versioning -->
+    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+    <FileVersion>2025.6.29.51</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
   <PropertyGroup Label="Project Configuration">
     <AssemblyName>ExxerAI.BlazorUI</AssemblyName>
     <RootNamespace>ExxerAI.BlazorUI</RootNamespace>
@@ -29,6 +45,10 @@
 
   <ItemGroup Label="MudBlazor UI Framework - ON ROCKETS! 🚀">
     <PackageReference Include="MudBlazor" />
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="Microsoft.SemanticKernel" />
   </ItemGroup>
 
   <ItemGroup Label="Real-time Communication">
@@ -38,13 +58,11 @@
   <ItemGroup Label="Structured Logging">
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Extensions.Hosting" />
-    <PackageReference Include="Serilog.Sinks.Console" />
     <PackageReference Include="Serilog.Settings.Configuration" />
   </ItemGroup>
 
   <ItemGroup Label="JSON and HTTP">
     <PackageReference Include="System.Text.Json" />
-    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 
   <ItemGroup Label="Validation and Results">

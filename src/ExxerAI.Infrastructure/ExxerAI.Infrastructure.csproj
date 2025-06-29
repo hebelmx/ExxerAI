@@ -10,12 +10,26 @@
     ===============================================================================
   -->
 
+  <!-- ============================================================================ -->
+  <!-- CORE PROPERTIES -->
+  <!-- ============================================================================ -->
   <PropertyGroup Label="Project Configuration">
+    <!-- Target Framework -->
+    <TargetFramework>.net10.0</TargetFramework>
+
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
+
+    <!-- Versioning -->
+    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+    <FileVersion>2025.6.29.51</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+
+
     <AssemblyName>ExxerAI.Infrastructure</AssemblyName>
     <RootNamespace>ExxerAI.Infrastructure</RootNamespace>
-  </PropertyGroup>
 
-  <PropertyGroup Label="Documentation">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
@@ -26,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup Label="AI and LLM Providers">
-    <PackageReference Include="Microsoft.SemanticKernel.Core" />
+    <PackageReference Include="Microsoft.SemanticKernel" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.OpenAI" />
     <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" />
   </ItemGroup>
@@ -61,6 +75,11 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Options" />
+  </ItemGroup>
+
+  <ItemGroup Label="Microsoft Extensions - Additional">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 
 </Project> 

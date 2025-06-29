@@ -9,20 +9,21 @@
     Architecture: Interface-driven testing with mock implementations
     ===============================================================================
   -->
+
   <!-- ============================================================================ -->
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
   <PropertyGroup>
-	  <!-- Target Framework -->
-	  <TargetFramework>.net10.0</TargetFramework>
+    <!-- Target Framework -->
+    <TargetFramework>.net10.0</TargetFramework>
 
-	  <!-- Language Features -->
-	  <Nullable>enable</Nullable>
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
 
-	  <!-- Versioning -->
-	  <AssemblyVersion>2025.6.29.51</AssemblyVersion>
-	  <FileVersion>2025.6.29.51</FileVersion>
-	  <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Versioning -->
+    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+    <FileVersion>2025.6.29.51</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Label="Project Configuration">
@@ -34,8 +35,8 @@
   </PropertyGroup>
 
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Testing Framework">

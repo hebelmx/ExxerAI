@@ -9,7 +9,21 @@
     Architecture: Application layer in clean architecture
     ===============================================================================
   -->
+  <!-- ============================================================================ -->
+  <!-- CORE PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+	  <!-- Target Framework -->
+	  <TargetFramework>.net10.0</TargetFramework>
 
+	  <!-- Language Features -->
+	  <Nullable>enable</Nullable>
+
+	  <!-- Versioning -->
+	  <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+	  <FileVersion>2025.6.29.51</FileVersion>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
   <PropertyGroup Label="Project Configuration">
     <AssemblyName>ExxerAI.Application</AssemblyName>
     <RootNamespace>ExxerAI.Application</RootNamespace>
@@ -18,6 +32,19 @@
   <PropertyGroup Label="Documentation">
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Target Framework -->
+    <TargetFramework>.net10.0</TargetFramework>
+
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
+
+    <!-- Versioning -->
+    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+    <FileVersion>2025.6.29.51</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup Label="Project References">

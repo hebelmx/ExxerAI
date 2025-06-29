@@ -6,9 +6,9 @@ namespace ExxerAI.Domain.ValueObjects;
 public record AgentResult
 {
     /// <summary>
-    /// Gets a value indicating whether the operation was successful
+    /// Gets a value indicating whether the execution was successful
     /// </summary>
-    public bool Success { get; init; }
+    public bool IsSuccessful { get; init; }
 
     /// <summary>
     /// Gets the output or response from the agent
@@ -16,9 +16,9 @@ public record AgentResult
     public string Output { get; init; } = string.Empty;
 
     /// <summary>
-    /// Gets any error messages if the operation failed
+    /// Gets the error message if execution failed
     /// </summary>
-    public string[] Errors { get; init; } = Array.Empty<string>();
+    public string ErrorMessage { get; init; } = string.Empty;
 
     /// <summary>
     /// Gets additional metadata about the execution
@@ -33,7 +33,12 @@ public record AgentResult
     /// <summary>
     /// Gets the timestamp when this result was created
     /// </summary>
-    public DateTime CompletedAt { get; init; } = DateTime.UtcNow;
+    public DateTime Timestamp { get; init; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets a value indicating whether the execution failed
+    /// </summary>
+    public bool IsFailure => !IsSuccessful;
 
     /// <summary>
     /// Creates a successful result with the specified output
@@ -41,14 +46,44 @@ public record AgentResult
     /// <param name="output">The agent output</param>
     /// <param name="executionTimeMs">The execution time in milliseconds</param>
     /// <returns>A successful agent result</returns>
-    public static AgentResult Success(string output, long executionTimeMs = 0) =>
-        new() { Success = true, Output = output, ExecutionTimeMs = executionTimeMs };
+    public static AgentResult CreateSuccess(string output, long executionTimeMs = 0) =>
+        new()
+        {
+            IsSuccessful = true,
+            Output = output,
+            ExecutionTimeMs = executionTimeMs
+        };
 
     /// <summary>
-    /// Creates a failed result with the specified errors
+    /// Creates a failed result with the specified error message
     /// </summary>
-    /// <param name="errors">The error messages</param>
+    /// <param name="errorMessage">The error message</param>
+    /// <param name="executionTimeMs">The execution time in milliseconds</param>
     /// <returns>A failed agent result</returns>
-    public static AgentResult Failure(params string[] errors) =>
-        new() { Success = false, Errors = errors };
+    public static AgentResult CreateFailure(string errorMessage, long executionTimeMs = 0) =>
+        new()
+        {
+            IsSuccessful = false,
+            ErrorMessage = errorMessage,
+            ExecutionTimeMs = executionTimeMs
+        };
+
+    /// <summary>
+    /// Creates a failed result with exception details
+    /// </summary>
+    /// <param name="exception">The exception that occurred</param>
+    /// <param name="executionTimeMs">The execution time in milliseconds</param>
+    /// <returns>A failed agent result</returns>
+    public static AgentResult CreateFailure(Exception exception, long executionTimeMs = 0) =>
+        new()
+        {
+            IsSuccessful = false,
+            ErrorMessage = exception.Message,
+            ExecutionTimeMs = executionTimeMs,
+            Metadata = new Dictionary<string, object>
+            {
+                ["ExceptionType"] = exception.GetType().Name,
+                ["StackTrace"] = exception.StackTrace ?? string.Empty
+            }
+        };
 } 

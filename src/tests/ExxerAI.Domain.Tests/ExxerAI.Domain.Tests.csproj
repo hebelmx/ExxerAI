@@ -9,21 +9,23 @@
     Architecture: I-TDD focused testing with comprehensive coverage
     ===============================================================================
   -->
+
   <!-- ============================================================================ -->
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
   <PropertyGroup>
-	  <!-- Target Framework -->
-	  <TargetFramework>.net10.0</TargetFramework>
+    <!-- Target Framework -->
+    <TargetFramework>.net10.0</TargetFramework>
 
-	  <!-- Language Features -->
-	  <Nullable>enable</Nullable>
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
 
-	  <!-- Versioning -->
-	  <AssemblyVersion>2025.6.29.51</AssemblyVersion>
-	  <FileVersion>2025.6.29.51</FileVersion>
-	  <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Versioning -->
+    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
+    <FileVersion>2025.6.29.51</FileVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
   <PropertyGroup Label="Project Configuration">
     <ProjectGuid>{A1A1A1A1-B2B2-3C3C-4D4D-5E5E5E5E5E5E}</ProjectGuid>
     <AssemblyName>ExxerAI.Domain.Tests</AssemblyName>
@@ -33,7 +35,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Testing Framework">
