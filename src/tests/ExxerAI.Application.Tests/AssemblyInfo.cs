@@ -1,11 +1,4 @@
-using System.Runtime.CompilerServices;
+using Xunit;
 
-// This module initializer is required by xUnit v3
-public static class ModuleInitializer
-{
-    [ModuleInitializer]
-    public static void Initialize()
-    {
-        // Initialize xUnit v3
-    }
-}
+// Configure xUnit v3 with Microsoft Testing Platform
+[assembly: TestFramework("Xunit.MicrosoftTestingPlatformTestFramework", "xunit.v3.core")]

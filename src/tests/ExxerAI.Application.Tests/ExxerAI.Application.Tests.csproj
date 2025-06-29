@@ -22,7 +22,7 @@
 	  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
 	  <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
 	  <TestingPlatformServer>true</TestingPlatformServer>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
 
 	  <!-- Language Features -->
 	  <Nullable>enable</Nullable>
@@ -44,8 +44,12 @@
   </ItemGroup>
 
   <ItemGroup Label="Testing Framework">
+    <!-- Use xUnit v3 packages -->
     <PackageReference Include="xunit.v3" />
-    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
 	<PackageReference Include="Shouldly" />
 	<PackageReference Include="NSubstitute" />

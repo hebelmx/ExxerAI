@@ -101,7 +101,14 @@
 		<PackageVersion Include="Testcontainers.MsSql" Version="4.5.0" />
 		<PackageVersion Include="Testcontainers.PostgreSql" Version="4.5.0" />
 		<PackageVersion Include="xunit.v3" Version="3.0.0-pre.25" />
-		<PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
+		<PackageVersion Include="xunit.v3.core" Version="3.0.0-pre.25" />
+		<PackageVersion Include="xunit.v3.assert" Version="3.0.0-pre.25" />
+		<PackageVersion Include="xunit.v3.runner.utility" Version="3.0.0-pre.25" />
+		<PackageVersion Include="xunit.v3.runner.console" Version="3.0.0-pre.25" />
+		<PackageVersion Include="Microsoft.Testing.Platform" Version="1.0.0-preview.7.23562.1" />
+		<PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="1.0.0-preview.7.23562.1" />
+		<PackageVersion Include="Microsoft.Testing.Platform.MSBuild" Version="1.0.0-preview.7.23562.1" />
+		<PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
 		<PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="10.0.0-preview.5.25277.114" />
 		<!--================================================================-->
 		<!--== Validation ==-->

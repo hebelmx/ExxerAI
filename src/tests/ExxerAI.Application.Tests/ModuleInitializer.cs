@@ -1,5 +1,5 @@
 using System.Runtime.CompilerServices;
-using Xunit.v3;
+using Xunit;
 
 namespace ExxerAI.Application.Tests;
 
@@ -9,6 +9,6 @@ public static class ModuleInitializer
     public static void Initialize()
     {
         // This method is required for xUnit v3 to discover and run tests
-        AssertHelper.RecordExistence();
+        Assert.RecordExistence();
     }
 }
