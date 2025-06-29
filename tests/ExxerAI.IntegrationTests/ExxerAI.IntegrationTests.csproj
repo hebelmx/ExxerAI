@@ -11,7 +11,7 @@
   -->
 
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{E5E5E5E5-F6F6-7G7G-8H8H-9I9I9I9I9I9I}</ProjectGuid>
+    <ProjectGuid>{1719112F-4E41-9721-37BB-888C624C9A09}</ProjectGuid>
     <AssemblyName>ExxerAI.IntegrationTests</AssemblyName>
     <RootNamespace>ExxerAI.IntegrationTests</RootNamespace>
     <IsPackable>false</IsPackable>

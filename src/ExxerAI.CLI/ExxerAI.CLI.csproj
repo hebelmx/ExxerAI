@@ -11,7 +11,7 @@
   -->
 
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{F6G7H8I9-J0K1-2345-FGHI-678901234FGH}</ProjectGuid>
+    <ProjectGuid>{C6291957-B580-3FEF-7294-36C3121C41FE}</ProjectGuid>
     <AssemblyName>ExxerAI.CLI</AssemblyName>
     <RootNamespace>ExxerAI.CLI</RootNamespace>
     <OutputType>Exe</OutputType>
