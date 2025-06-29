@@ -1,7 +1,9 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Infrastructure.Services;
+using ExxerAI.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.SwaggerGen;
 using FluentValidation;
 using Serilog;
 using System.Text.Json;
@@ -16,14 +18,19 @@ using System.Text.Json;
 
 // Configure Serilog early for startup logging
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .WriteTo.File("logs/startup-.log", rollingInterval: RollingInterval.Day)
-    .CreateBootstrapLogger();
+.WriteTo.Console()
+.WriteTo.File("logs/startup-.log", rollingInterval: RollingInterval.Day)
+.CreateBootstrapLogger();
 
 try
 {
     Log.Information("🚀 Starting ExxerAI WebAPI...");
 
+    // Add the required using directive for SwaggerGen
+
+    // Ensure the Swashbuckle.AspNetCore NuGet package is installed in your project.
+    // You can install it using the following command in the terminal:
+    // dotnet add package Swashbuckle.AspNetCore
     var builder = WebApplication.CreateBuilder(args);
 
     // ===== LOGGING =====
@@ -34,9 +41,9 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(c =>
     {
-        c.SwaggerDoc("v1", new() 
-        { 
-            Title = "ExxerAI API", 
+        c.SwaggerDoc("v1", new()
+        {
+            Title = "ExxerAI API",
             Version = "v1",
             Description = "AI Agent Orchestration API"
         });
@@ -78,14 +85,13 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI(c => 
+        app.UseSwaggerUI(c =>
         {
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExxerAI API v1");
             c.RoutePrefix = string.Empty; // Swagger at root
         });
     }
 
-    app.UseSerilogRequestLogging();
     app.UseCors();
     app.UseRouting();
 
@@ -105,11 +111,13 @@ try
         ILogger<Program> logger) =>
     {
         logger.LogInformation("🤖 Executing agent with context: {Context}", context);
-        
+
         var result = await agent.ExecuteAsync(context, CancellationToken.None);
-        
-        return result.IsSuccessful 
-            ? Results.Ok(result) 
+
+        logger.LogInformation("Agent execution result: {Result}", result);
+
+        return result.IsSuccessful
+            ? Results.Ok(result)
             : Results.BadRequest(result);
     })
     .WithName("ExecuteAgent")
@@ -132,15 +140,17 @@ try
         ILogger<Program> logger) =>
     {
         logger.LogInformation("🎭 Coordinating {Count} agents", contexts.Length);
-        
+
         var results = new List<AgentResult>();
-        
+
         foreach (var context in contexts)
         {
             // This would be implemented based on your orchestrator interface
             logger.LogInformation("Processing context for coordination...");
+            var result = await orchestrator.ExecuteAsync(context, CancellationToken.None);
+            results.Add(result);
         }
-        
+
         return Results.Ok(results);
     })
     .WithName("CoordinateAgents")
@@ -150,7 +160,7 @@ try
     // app.MapHub<AgentHub>("/hubs/agents");
 
     // ===== STARTUP =====
-    Log.Information("🌐 ExxerAI WebAPI starting on {Urls}", 
+    Log.Information("🌐 ExxerAI WebAPI starting on {Urls}",
         string.Join(", ", app.Urls.DefaultIfEmpty("default URLs")));
 
     await app.RunAsync();
@@ -162,4 +172,4 @@ catch (Exception ex)
 finally
 {
     await Log.CloseAndFlushAsync();
-} 
+}
