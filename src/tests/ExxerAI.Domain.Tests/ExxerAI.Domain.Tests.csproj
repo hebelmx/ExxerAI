@@ -1,61 +1,53 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- 
-    ===============================================================================
-    ExxerAI.Domain.Tests - Domain Logic Unit Tests
-    ===============================================================================
-    Purpose: Unit tests for domain entities, value objects, and business rules
-    Dependencies: Domain layer, testing framework (xUnit, Shouldly, NSubstitute)
-    Architecture: I-TDD focused testing with comprehensive coverage
-    ===============================================================================
-  -->
-  <!-- ============================================================================ -->
-  <!-- CORE PROPERTIES -->
-  <!-- ============================================================================ -->
   <PropertyGroup>
-	  <!-- Target Framework -->
-	  <TargetFramework>.net10.0</TargetFramework>
-	  <OutputType>Exe</OutputType>
-	  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<OutputType>Exe</OutputType>
+	<RootNamespace>ExxerAI.Domain.Tests</RootNamespace>
+	<TargetFramework>net10.0</TargetFramework>
+	<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+	<!--
+	To enable the Microsoft Testing Platform 'dotnet test' experience, add property:
 	  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-	  <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
-	  <TestingPlatformServer>true</TestingPlatformServer>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	  <!-- Language Features -->
-	  <Nullable>enable</Nullable>
 
-	  <!-- Versioning -->
+	To enable the Microsoft Testing Platform native command line experience, add property:
+	  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
-	  <ImplicitUsings>enable</ImplicitUsings>
+	For more information on Microsoft Testing Platform support in xUnit.net, please visit:
+	  https://xunit.net/docs/getting-started/v3/microsoft-testing-platform
+	-->
   </PropertyGroup>
 
-
-  <PropertyGroup Label="Version Management">
-	  <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-
-
-  <PropertyGroup Label="Project Configuration">
-   <AssemblyName>ExxerAI.Domain.Tests</AssemblyName>
-    <RootNamespace>ExxerAI.Domain.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
-  </PropertyGroup>
-
-  <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+  <ItemGroup>
+	<Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup Label="Testing Framework">
-	  <PackageReference Include="xunit.v3" />
-	  <PackageReference Include="xunit.runner.visualstudio">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
 
-	  <PackageReference Include="Shouldly"  />
-	  <PackageReference Include="NSubstitute" />
+  <ItemGroup>
+	<Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<PackageReference Include="Microsoft.NET.Test.Sdk" />
+	<PackageReference Include="Microsoft.Testing.Extensions.TrxReport.Abstractions" />
+	<PackageReference Include="xunit.v3" />
+	<PackageReference Include="xunit.runner.visualstudio">
+	  <PrivateAssets>all</PrivateAssets>
+	  <!--<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>-->
+	</PackageReference>
   </ItemGroup>
 
 
+	<ItemGroup>
+		<PackageReference Include="NSubstitute" />
+		<PackageReference Include="Shouldly" />
 
-</Project> 
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

@@ -1,55 +1,45 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- 
-    ===============================================================================
-    ExxerAI.WebAPI.Tests - Web API Integration Tests
-    ===============================================================================
-    Purpose: Integration tests for REST API endpoints and controllers
-    Dependencies: WebAPI layer, testing framework, ASP.NET Core testing
-    Architecture: Full stack API testing with test server
-    ===============================================================================
-  -->
-  <!-- ============================================================================ -->
-  <!-- CORE PROPERTIES -->
-  <!-- ============================================================================ -->
   <PropertyGroup>
-	  <!-- Target Framework -->
-	  <TargetFramework>.net10.0</TargetFramework>
-
-	  <!-- Language Features -->
-	  <Nullable>enable</Nullable>
-
-	  <!-- Versioning -->
-	  <AssemblyVersion>2025.6.29.51</AssemblyVersion>
-	  <FileVersion>2025.6.29.51</FileVersion>
-	  <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-
-  <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{9B7C39BE-5A6E-4B69-F2C6-40FEAEE76790}</ProjectGuid>
-    <AssemblyName>ExxerAI.WebAPI.Tests</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
     <RootNamespace>ExxerAI.WebAPI.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+    <TargetFramework>net10.0</TargetFramework>
+	  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+    <!--
+    To enable the Microsoft Testing Platform 'dotnet test' experience, add property:
+      <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+
+    To enable the Microsoft Testing Platform native command line experience, add property:
+      <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+
+    For more information on Microsoft Testing Platform support in xUnit.net, please visit:
+      https://xunit.net/docs/getting-started/v3/microsoft-testing-platform
+    -->
   </PropertyGroup>
 
-  <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
-    <ProjectReference Include="..\..\src\ExxerAI.WebAPI\ExxerAI.WebAPI.csproj" />
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <ItemGroup Label="Testing Framework">
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Shouldly" />
-    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NSubstitute" />
+		<PackageReference Include="Shouldly" />
+
+	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExxerAI.WebAPI\ExxerAI.WebAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="Web API Testing">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-  </ItemGroup>
-
-</Project> 
+</Project>

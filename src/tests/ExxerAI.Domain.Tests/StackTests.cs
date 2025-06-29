@@ -1,5 +1,3 @@
-using Xunit;
-
 // The tests in this file are structured using nested classes, in a "context" style. This means
 // that each nested class is a context, meaning: there is a shared setup that puts the tests
 // into the correct environment.
@@ -28,14 +26,21 @@ using Xunit;
 //
 //   Context: Create a Stack<string> to test a different type
 //     Push("Help"), call Pop, verify that what is returned from Pop equals "Help"
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 
+/// <summary>
+/// Provides a set of tests for the Stack class.
+/// </summary>
 public class StackTests
 {
+    /// <summary>
+    /// Test for an empty stack.
+    /// </summary>
     public class EmptyStack
     {
-        readonly Stack<int> stack;
+        private readonly Stack<int> stack;
 
         public EmptyStack() =>
             stack = new();
@@ -81,9 +86,9 @@ public class StackTests
 
     public class StackWithOneElement
     {
-        const int PushedValue = 42;
+        private const int PushedValue = 42;
 
-        readonly Stack<int> stack;
+        private readonly Stack<int> stack;
 
         public StackWithOneElement()
         {
@@ -142,11 +147,11 @@ public class StackTests
 
     public class StackWithMultipleValues
     {
-        const int FirstPushedValue = 42;
-        const int SecondPushedValue = 21;
-        const int ThirdPushedValue = 11;
+        private const int FirstPushedValue = 42;
+        private const int SecondPushedValue = 21;
+        private const int ThirdPushedValue = 11;
 
-        readonly Stack<int> stack;
+        private readonly Stack<int> stack;
 
         public StackWithMultipleValues()
         {

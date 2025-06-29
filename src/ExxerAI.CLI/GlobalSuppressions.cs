@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Roslynator", "RCS1102:Make class static", Justification = "<Pending>", Scope = "type", Target = "~T:ExxerAI.Application.Tests.StackTests")]
+[assembly: SuppressMessage("Compiler", "CS1591:Missing XML comment for publicly visible type or member", Justification = "<Pending>", Scope = "member", Target = "~M:ExxerAI.CLI.TestAgent.RunBasicTestAsync~System.Threading.Tasks.Task")]

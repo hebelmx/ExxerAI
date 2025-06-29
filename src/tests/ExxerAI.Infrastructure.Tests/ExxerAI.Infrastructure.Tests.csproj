@@ -1,68 +1,45 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- 
-    ===============================================================================
-    ExxerAI.Infrastructure.Tests - Infrastructure Integration Tests
-    ===============================================================================
-    Purpose: Integration tests for external adapters and implementations
-    Dependencies: All layers, testing framework, test containers
-    Architecture: Real implementation testing with external dependencies
-    ===============================================================================
-  -->
-  <!-- ============================================================================ -->
-  <!-- CORE PROPERTIES -->
-  <!-- ============================================================================ -->
   <PropertyGroup>
-	  <!-- Target Framework -->
-	  <TargetFramework>.net10.0</TargetFramework>
-	  <OutputType>Exe</OutputType>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ExxerAI.Infrastructure.Tests</RootNamespace>
+    <TargetFramework>net10.0</TargetFramework>
 	  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 	  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-	  <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
-	  <TestingPlatformServer>true</TestingPlatformServer>
-	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-	  <!-- Language Features -->
-	  <Nullable>enable</Nullable>
+    <!--
+    To enable the Microsoft Testing Platform 'dotnet test' experience, add property:
+      <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
 
+    To enable the Microsoft Testing Platform native command line experience, add property:
+      <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
-	  <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
-  <PropertyGroup Label="Project Configuration">
-    <AssemblyName>ExxerAI.Infrastructure.Tests</AssemblyName>
-    <RootNamespace>ExxerAI.Infrastructure.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+    For more information on Microsoft Testing Platform support in xUnit.net, please visit:
+      https://xunit.net/docs/getting-started/v3/microsoft-testing-platform
+    -->
   </PropertyGroup>
 
-  <PropertyGroup Label="Version Management">
-	  <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-  </PropertyGroup>
-
-  <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-    <ProjectReference Include="..\..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
-    <ProjectReference Include="..\..\..\src\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+  <ItemGroup>
+    <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
-  <ItemGroup Label="Testing Framework">
-	  <PackageReference Include="xunit.v3" />
-	  <PackageReference Include="xunit.runner.visualstudio">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
-
-	  <PackageReference Include="Shouldly"  />
-	  <PackageReference Include="NSubstitute" />
+  <ItemGroup>
+    <Using Include="Xunit" />
   </ItemGroup>
 
-  <ItemGroup Label="Framework Dependencies">
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection"  />
-	  <PackageReference Include="Microsoft.Extensions.Logging"  />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NSubstitute" />
+		<PackageReference Include="Shouldly" />
+
+	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="Testing Infrastructure">
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
-
-  </ItemGroup>
-
-</Project> 
+</Project>
