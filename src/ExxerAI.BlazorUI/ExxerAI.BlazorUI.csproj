@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorAuto">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.BlazorUI - Interactive Web Application
+    ===============================================================================
+    Purpose: Provides modern web UI for ExxerAI agent interaction and management
+    Dependencies: Application layer, Infrastructure layer, MudBlazor
+    Architecture: Presentation layer with interactive UI components
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{E5F6G7H8-I9J0-1234-EFGH-567890123EFG}</ProjectGuid>
+    <AssemblyName>ExxerAI.BlazorUI</AssemblyName>
+    <RootNamespace>ExxerAI.BlazorUI</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Documentation">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="UI Framework">
+    <PackageReference Include="MudBlazor" />
+  </ItemGroup>
+
+  <ItemGroup Label="Structured Logging">
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup Label="JSON Handling">
+    <PackageReference Include="System.Text.Json" />
+    <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+</Project> 

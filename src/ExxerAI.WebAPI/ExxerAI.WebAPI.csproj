@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.WebAPI - REST API Presentation Layer
+    ===============================================================================
+    Purpose: Provides HTTP endpoints for ExxerAI agent orchestration
+    Dependencies: Application layer, Infrastructure layer, web framework
+    Architecture: Presentation layer in clean architecture
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{D4E5F6G7-H8I9-0123-DEFG-456789012DEF}</ProjectGuid>
+    <AssemblyName>ExxerAI.WebAPI</AssemblyName>
+    <RootNamespace>ExxerAI.WebAPI</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Documentation">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Web API Framework">
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup Label="Structured Logging">
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup Label="Validation and Results">
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentResults" />
+  </ItemGroup>
+
+</Project> 

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.Domain - Core Business Logic and Entities
+    ===============================================================================
+    Purpose: Contains domain entities, value objects, enums, and business rules
+    Dependencies: None (pure domain logic, no external dependencies)
+    Architecture: Domain-Driven Design principles
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{A1B2C3D4-E5F6-7890-ABCD-123456789ABC}</ProjectGuid>
+    <AssemblyName>ExxerAI.Domain</AssemblyName>
+    <RootNamespace>ExxerAI.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Documentation">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <!-- No external dependencies - pure domain logic -->
+
+</Project> 

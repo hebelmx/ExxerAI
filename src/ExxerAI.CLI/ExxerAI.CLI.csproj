@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.CLI - Command Line Interface
+    ===============================================================================
+    Purpose: Provides command-line access to ExxerAI agent orchestration
+    Dependencies: Application layer, Infrastructure layer
+    Architecture: Console application for CLI operations
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{F6G7H8I9-J0K1-2345-FGHI-678901234FGH}</ProjectGuid>
+    <AssemblyName>ExxerAI.CLI</AssemblyName>
+    <RootNamespace>ExxerAI.CLI</RootNamespace>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Documentation">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Framework Dependencies">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" />
+  </ItemGroup>
+
+  <ItemGroup Label="Structured Logging">
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="Serilog.Settings.Configuration" />
+  </ItemGroup>
+
+</Project> 
