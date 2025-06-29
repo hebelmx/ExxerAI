@@ -1,0 +1,41 @@
+## Visual Studio / .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+## NuGet
+*.nupkg
+packages/
+
+## Logs
+*.log
+logs/
+
+## Config files with secrets
+appsettings.Development.json
+appsettings.Local.json
+*.env
+.env.*
+secrets.json
+
+## IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## OS
+.DS_Store
+Thumbs.db
