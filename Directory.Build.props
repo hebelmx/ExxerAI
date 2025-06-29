@@ -1,0 +1,60 @@
+<Project>
+  
+  <!-- 
+    ===============================================================================
+    ExxerAI Build Configuration - Global Properties
+    ===============================================================================
+    Purpose: Centralizes build settings and ensures artifacts are outside repo
+    Author: ExxerAI Team
+    ===============================================================================
+  -->
+  
+  <PropertyGroup Label="Build Artifacts Location">
+    <!-- Build artifacts outside repository structure -->
+    <BaseOutputPath>$(MSBuildThisFileDirectory)artifacts\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)artifacts\obj\</BaseIntermediateOutputPath>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)artifacts\packages\</PackageOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Framework and Language Settings">
+    <!-- Target .NET 8 for stability and LTS support -->
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Code Quality and Standards">
+    <!-- Enforce high code quality standards -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+    <WarningsNotAsErrors>CS1591</WarningsNotAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Assembly Information">
+    <!-- Common assembly attributes -->
+    <Company>ExxerAI</Company>
+    <Product>ExxerAI Intelligence System</Product>
+    <Copyright>Copyright © ExxerAI 2025</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <InformationalVersion>1.0.0-dev</InformationalVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Performance and Optimization">
+    <!-- Enable performance optimizations -->
+    <Optimize Condition="'$(Configuration)' == 'Release'">true</Optimize>
+    <DebugType Condition="'$(Configuration)' == 'Release'">portable</DebugType>
+    <DebugSymbols Condition="'$(Configuration)' == 'Release'">true</DebugSymbols>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Analyzers and Code Style">
+    <!-- Enable code analyzers -->
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory).editorconfig</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+</Project> 

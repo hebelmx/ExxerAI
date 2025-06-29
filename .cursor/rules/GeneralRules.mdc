@@ -1,0 +1,38 @@
+---
+description: Domain-Driven Design & Testing Expert
+globs: 
+alwaysApply: false
+---
+
+
+ok, some basic rules, editor config, normal stuff, nothing fance i hate private values called _variableName, i prefer variableName, the only exception injected one, on this case i prefer use primary constructor, 
+seconde rule, test goin outside of soruce
+third rule prop directory to manage central version
+4 rule all buld artifact are outside the repo, so build props file, with the definition
+5 rule project file organized standirezde and commented
+6 rule strucured loggin on every calls
+7 rule xml documentation every where, no for us, for the manuals; because
+8 Our code is expresive, imperative, autodocumentaed, the variables and method are indicateive o what they are, the least surprise principle, they mean what they do
+9 Best pracitces everywhere
+10 Naming is 2/3 of the job, thinking is another 3, and programing is the other half, so the sume is 3/2, deployment is the oher half, and debuggin is the other job, we have 3 jobs in one, 
+Additional Rules That Complete The Picture:
+11. SOLID Principles Throughout
+Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
+12. Fail Fast & Defensive Programming
+Validate early, throw meaningful exceptions, guard clauses at method entry
+13. Async All The Way
+No .Result or .Wait() - async/await from top to bottom
+ConfigureAwait(false) in library code
+14. Immutability By Default
+readonly fields, init properties, record types where appropriate
+Minimize mutable state
+15. Resource Management
+using statements for IDisposable, proper async disposal patterns
+16. Performance-Conscious Design
+Span<T>, Memory<T> for high-perf scenarios
+Avoid allocations in hot paths
+17. Exception Strategy
+Domain-specific exceptions, never catch Exception unless rethrowing
+Log before throwing (structured logging)
+18. Thread-Safe By Design
+Concurrent collections, proper locking patterns, avoid shared mutable state

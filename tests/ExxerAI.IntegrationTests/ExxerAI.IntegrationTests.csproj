@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.IntegrationTests - End-to-End Integration Tests
+    ===============================================================================
+    Purpose: Full system integration tests across all layers and components
+    Dependencies: All layers, testing framework, test containers, real services
+    Architecture: Complete system testing with external dependencies
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{E5E5E5E5-F6F6-7G7G-8H8H-9I9I9I9I9I9I}</ProjectGuid>
+    <AssemblyName>ExxerAI.IntegrationTests</AssemblyName>
+    <RootNamespace>ExxerAI.IntegrationTests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.WebAPI\ExxerAI.WebAPI.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.BlazorUI\ExxerAI.BlazorUI.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing Framework">
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup Label="Integration Testing Infrastructure">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+  </ItemGroup>
+
+</Project> 

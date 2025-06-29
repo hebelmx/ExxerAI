@@ -1,17 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorAuto">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <!-- 
     ===============================================================================
-    ExxerAI.BlazorUI - Interactive Web Application
+    ExxerAI.BlazorUI - MudBlazor on Rockets! 🚀
     ===============================================================================
-    Purpose: Provides modern web UI for ExxerAI agent interaction and management
-    Dependencies: Application layer, Infrastructure layer, MudBlazor
-    Architecture: Presentation layer with interactive UI components
+    Purpose: Professional AI agent management interface with Material Design 3
+    Dependencies: Application layer, Infrastructure layer, MudBlazor components
+    Architecture: Blazor Server with interactive components
+    Features: Real-time agent interactions, beautiful UI, mobile responsive
     ===============================================================================
   -->
 
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{E5F6G7H8-I9J0-1234-EFGH-567890123EFG}</ProjectGuid>
     <AssemblyName>ExxerAI.BlazorUI</AssemblyName>
     <RootNamespace>ExxerAI.BlazorUI</RootNamespace>
   </PropertyGroup>
@@ -27,8 +27,12 @@
     <ProjectReference Include="..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="UI Framework">
+  <ItemGroup Label="MudBlazor UI Framework - ON ROCKETS! 🚀">
     <PackageReference Include="MudBlazor" />
+  </ItemGroup>
+
+  <ItemGroup Label="Real-time Communication">
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" />
   </ItemGroup>
 
   <ItemGroup Label="Structured Logging">
@@ -38,9 +42,14 @@
     <PackageReference Include="Serilog.Settings.Configuration" />
   </ItemGroup>
 
-  <ItemGroup Label="JSON Handling">
+  <ItemGroup Label="JSON and HTTP">
     <PackageReference Include="System.Text.Json" />
     <PackageReference Include="Newtonsoft.Json" />
+  </ItemGroup>
+
+  <ItemGroup Label="Validation and Results">
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentResults" />
   </ItemGroup>
 
 </Project> 

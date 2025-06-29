@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.Domain.Tests - Domain Logic Unit Tests
+    ===============================================================================
+    Purpose: Unit tests for domain entities, value objects, and business rules
+    Dependencies: Domain layer, testing framework (xUnit, Shouldly, NSubstitute)
+    Architecture: I-TDD focused testing with comprehensive coverage
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{A1A1A1A1-B2B2-3C3C-4D4D-5E5E5E5E5E5E}</ProjectGuid>
+    <AssemblyName>ExxerAI.Domain.Tests</AssemblyName>
+    <RootNamespace>ExxerAI.Domain.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing Framework">
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+</Project> 

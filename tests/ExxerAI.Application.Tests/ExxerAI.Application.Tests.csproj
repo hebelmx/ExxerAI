@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.Application.Tests - Application Service and Interface Tests
+    ===============================================================================
+    Purpose: I-TDD tests for application services, interfaces, and use cases
+    Dependencies: Application layer, Domain layer, testing framework
+    Architecture: Interface-driven testing with mock implementations
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{B2B2B2B2-C3C3-4D4D-5E5E-6F6F6F6F6F6F}</ProjectGuid>
+    <AssemblyName>ExxerAI.Application.Tests</AssemblyName>
+    <RootNamespace>ExxerAI.Application.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing Framework">
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup Label="Framework Dependencies">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+</Project> 

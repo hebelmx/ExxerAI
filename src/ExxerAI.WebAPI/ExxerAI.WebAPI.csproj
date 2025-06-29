@@ -2,16 +2,16 @@
 
   <!-- 
     ===============================================================================
-    ExxerAI.WebAPI - REST API Presentation Layer
+    ExxerAI.WebAPI - REST API Powerhouse
     ===============================================================================
-    Purpose: Provides HTTP endpoints for ExxerAI agent orchestration
+    Purpose: High-performance API endpoints for ExxerAI agent orchestration
     Dependencies: Application layer, Infrastructure layer, web framework
-    Architecture: Presentation layer in clean architecture
+    Architecture: Minimal APIs with Swagger documentation
+    Features: OpenAPI, SignalR hubs, structured logging
     ===============================================================================
   -->
 
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{D4E5F6G7-H8I9-0123-DEFG-456789012DEF}</ProjectGuid>
     <AssemblyName>ExxerAI.WebAPI</AssemblyName>
     <RootNamespace>ExxerAI.WebAPI</RootNamespace>
   </PropertyGroup>
@@ -30,6 +30,10 @@
   <ItemGroup Label="Web API Framework">
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup Label="Real-time Communication">
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" />
   </ItemGroup>
 
   <ItemGroup Label="Structured Logging">

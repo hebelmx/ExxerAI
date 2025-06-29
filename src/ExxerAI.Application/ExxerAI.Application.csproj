@@ -11,7 +11,6 @@
   -->
 
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{B2C3D4E5-F6G7-8901-BCDE-234567890BCD}</ProjectGuid>
     <AssemblyName>ExxerAI.Application</AssemblyName>
     <RootNamespace>ExxerAI.Application</RootNamespace>
   </PropertyGroup>

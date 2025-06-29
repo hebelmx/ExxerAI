@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- 
+    ===============================================================================
+    ExxerAI.Infrastructure.Tests - Infrastructure Integration Tests
+    ===============================================================================
+    Purpose: Integration tests for external adapters and implementations
+    Dependencies: All layers, testing framework, test containers
+    Architecture: Real implementation testing with external dependencies
+    ===============================================================================
+  -->
+
+  <PropertyGroup Label="Project Configuration">
+    <ProjectGuid>{C3C3C3C3-D4D4-5E5E-6F6F-7G7G7G7G7G7G}</ProjectGuid>
+    <AssemblyName>ExxerAI.Infrastructure.Tests</AssemblyName>
+    <RootNamespace>ExxerAI.Infrastructure.Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup Label="Project References">
+    <ProjectReference Include="..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\src\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing Framework">
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Shouldly" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing Infrastructure">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+</Project> 
