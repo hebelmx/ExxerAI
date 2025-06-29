@@ -1,55 +1,65 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- 
-    ===============================================================================
-    ExxerAI.Application.Tests - Application Service and Interface Tests
-    ===============================================================================
-    Purpose: I-TDD tests for application services, interfaces, and use cases
-    Dependencies: Application layer, Domain layer, testing framework
-    Architecture: Interface-driven testing with mock implementations
-    ===============================================================================
+	===============================================================================
+	ExxerAI.Application.Tests - Application Service and Interface Tests
+	===============================================================================
+	Purpose: I-TDD tests for application services, interfaces, and use cases
+	Dependencies: Application layer, Domain layer, testing framework
+	Architecture: Interface-driven testing with mock implementations
+	===============================================================================
   -->
-
   <!-- ============================================================================ -->
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
   <PropertyGroup>
-    <!-- Target Framework -->
-    <TargetFramework>.net10.0</TargetFramework>
+	  <!-- Target Framework -->
+	  <TargetFramework>.net10.0</TargetFramework>
+	  <OutputType>Exe</OutputType>
+	  
+	  <!-- Microsoft Testing Platform Support -->
+	  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+	  <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+	  <TestingPlatformServer>true</TestingPlatformServer>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
-    <!-- Language Features -->
-    <Nullable>enable</Nullable>
+	  <!-- Language Features -->
+	  <Nullable>enable</Nullable>
+	  <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
-    <!-- Versioning -->
-    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
-    <FileVersion>2025.6.29.51</FileVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
+  <PropertyGroup Label="Version Management">
+	  <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
 
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{B2B2B2B2-C3C3-4D4D-5E5E-6F6F6F6F6F6F}</ProjectGuid>
-    <AssemblyName>ExxerAI.Application.Tests</AssemblyName>
-    <RootNamespace>ExxerAI.Application.Tests</RootNamespace>
-    <IsPackable>false</IsPackable>
-    <IsTestProject>true</IsTestProject>
+	<IsPackable>false</IsPackable>
+	<IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-    <ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
+	<ProjectReference Include="..\..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	<ProjectReference Include="..\..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Testing Framework">
-    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.v3" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Shouldly" />
-    <PackageReference Include="NSubstitute" />
+	<PackageReference Include="Shouldly" />
+	<PackageReference Include="NSubstitute" />
   </ItemGroup>
 
   <ItemGroup Label="Framework Dependencies">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Microsoft.Extensions.Logging" />
+	<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+	<PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- This ensures xUnit v3 integration with Microsoft Testing Platform -->
+    <Using Include="Xunit" />
+    <Using Include="System" />
   </ItemGroup>
 
-</Project> 
+</Project>

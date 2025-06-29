@@ -43,7 +43,7 @@
     <ProjectReference Include="..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup Label="MudBlazor UI Framework - ON ROCKETS! 🚀">
+  <ItemGroup Label="MudBlazor UI Framework - ON ROCKETS! ">
     <PackageReference Include="MudBlazor" />
     <PackageReference Include="Serilog.AspNetCore" />
     <PackageReference Include="Serilog.Sinks.Console" />

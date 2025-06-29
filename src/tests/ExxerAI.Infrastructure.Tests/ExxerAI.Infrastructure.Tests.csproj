@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <!-- 
     ===============================================================================
@@ -9,51 +9,60 @@
     Architecture: Real implementation testing with external dependencies
     ===============================================================================
   -->
-
   <!-- ============================================================================ -->
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
   <PropertyGroup>
-    <!-- Target Framework -->
-    <TargetFramework>.net10.0</TargetFramework>
+	  <!-- Target Framework -->
+	  <TargetFramework>.net10.0</TargetFramework>
+	  <OutputType>Exe</OutputType>
+	  <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+	  <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+	  <IsTestingPlatformApplication>false</IsTestingPlatformApplication>
+	  <TestingPlatformServer>true</TestingPlatformServer>
+	  <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+	  <!-- Language Features -->
+	  <Nullable>enable</Nullable>
 
-    <!-- Language Features -->
-    <Nullable>enable</Nullable>
 
-    <!-- Versioning -->
-    <AssemblyVersion>2025.6.29.51</AssemblyVersion>
-    <FileVersion>2025.6.29.51</FileVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
+	  <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
   <PropertyGroup Label="Project Configuration">
-    <ProjectGuid>{7C7CEAE4-213F-B0EC-DD0F-7D922780CF09}</ProjectGuid>
     <AssemblyName>ExxerAI.Infrastructure.Tests</AssemblyName>
     <RootNamespace>ExxerAI.Infrastructure.Tests</RootNamespace>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
 
+  <PropertyGroup Label="Version Management">
+	  <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
   <ItemGroup Label="Project References">
-    <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-    <ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
-    <ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup Label="Testing Framework">
-    <PackageReference Include="xunit" />
-    <PackageReference Include="xunit.runner.visualstudio" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" />
-    <PackageReference Include="Shouldly" />
-    <PackageReference Include="NSubstitute" />
+	  <PackageReference Include="xunit.v3" />
+	  <PackageReference Include="xunit.runner.visualstudio">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+	  </PackageReference>
+
+	  <PackageReference Include="Shouldly"  />
+	  <PackageReference Include="NSubstitute" />
   </ItemGroup>
 
-  <ItemGroup Label="Infrastructure Testing">
-    <PackageReference Include="Testcontainers" />
-    <PackageReference Include="Testcontainers.MsSql" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
-    <PackageReference Include="Microsoft.Extensions.Logging" />
+  <ItemGroup Label="Framework Dependencies">
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection"  />
+	  <PackageReference Include="Microsoft.Extensions.Logging"  />
+  </ItemGroup>
+
+  <ItemGroup Label="Testing Infrastructure">
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+
   </ItemGroup>
 
 </Project> 

@@ -3,7 +3,6 @@ using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using FluentValidation;
 using Serilog;
 using System.Text.Json;
@@ -17,10 +16,11 @@ using System.Text.Json;
 // ===============================================================================
 
 // Configure Serilog early for startup logging
+
 Log.Logger = new LoggerConfiguration()
-.WriteTo.Console()
-.WriteTo.File("logs/startup-.log", rollingInterval: RollingInterval.Day)
-.CreateBootstrapLogger();
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateLogger();
 
 try
 {
@@ -33,21 +33,8 @@ try
     // dotnet add package Swashbuckle.AspNetCore
     var builder = WebApplication.CreateBuilder(args);
 
-    // ===== LOGGING =====
-    builder.Host.UseSerilog((context, configuration) =>
-        configuration.ReadFrom.Configuration(context.Configuration));
-
     // ===== CORE SERVICES =====
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen(c =>
-    {
-        c.SwaggerDoc("v1", new()
-        {
-            Title = "ExxerAI API",
-            Version = "v1",
-            Description = "AI Agent Orchestration API"
-        });
-    });
 
     // ===== JSON CONFIGURATION =====
     builder.Services.ConfigureHttpJsonOptions(options =>
@@ -80,17 +67,6 @@ try
 
     // ===== APPLICATION BUILD =====
     var app = builder.Build();
-
-    // ===== MIDDLEWARE PIPELINE =====
-    if (app.Environment.IsDevelopment())
-    {
-        app.UseSwagger();
-        app.UseSwaggerUI(c =>
-        {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "ExxerAI API v1");
-            c.RoutePrefix = string.Empty; // Swagger at root
-        });
-    }
 
     app.UseCors();
     app.UseRouting();
