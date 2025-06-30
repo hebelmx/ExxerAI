@@ -1,6 +1,7 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Application.Services;
 using ExxerAI.Infrastructure.Repositories;
+using ExxerAI.Domain;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,10 @@ builder.Services.AddControllers();
 
 // Configure dependency injection
 builder.Services.AddScoped<IAgentService, AgentService>();
+
+// Register repositories - both specific interfaces and generic IRepository<T>
 builder.Services.AddScoped<IAgentRepository, InMemoryAgentRepository>();
+builder.Services.AddScoped<IRepository<Agent>, InMemoryAgentRepository>();
 builder.Services.AddScoped<ITaskRepository, InMemoryTaskRepository>();
 
 // Add CORS for development

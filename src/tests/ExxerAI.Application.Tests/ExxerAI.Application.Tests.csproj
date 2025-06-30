@@ -12,12 +12,14 @@
 		<PackageReference Include="Shouldly" />
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.runner.visualstudio" />
+		<PackageReference Include="NSubstitute" />
 	</ItemGroup>
 
 	
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="Xunit.v3" />
   </ItemGroup>
 
 	
@@ -25,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
     <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project> 
