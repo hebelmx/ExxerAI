@@ -388,4 +388,44 @@ public class AgentService : IAgentService
 			return Result.WithFailure($"An error occurred while deleting the agent: {ex.Message}");
 		}
 	}
+
+	/// <summary>
+	/// Gets all agents
+	/// </summary>
+	/// <param name="cancellationToken">Cancellation token</param>
+	/// <returns>The result of the operation containing all agents</returns>
+	public async Task<Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var result = await _agentRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
+
+			if (result.IsFailure)
+			{
+				return Result<IEnumerable<Agent>>.WithFailure(result.Errors);
+			}
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			return Result<IEnumerable<Agent>>.WithFailure($"An error occurred while retrieving all agents: {ex.Message}");
+		}
+	}
+
+	/// <summary>
+	/// Assigns a task to an agent (alias for AssignTaskAsync)
+	/// </summary>
+	/// <param name="agentId">The agent identifier</param>
+	/// <param name="taskId">The task identifier</param>
+	/// <param name="cancellationToken">Cancellation token</param>
+	/// <returns>The result of the operation</returns>
+	public async Task<Result> AssignTaskToAgentAsync(
+		Guid agentId,
+		Guid taskId,
+		CancellationToken cancellationToken = default)
+	{
+		// Delegate to the main AssignTaskAsync method
+		return await AssignTaskAsync(agentId, taskId, cancellationToken).ConfigureAwait(false);
+	}
 } 

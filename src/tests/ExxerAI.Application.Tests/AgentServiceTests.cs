@@ -363,13 +363,13 @@ public class AgentServiceTests
 			// Arrange
 			var agentId = Guid.NewGuid();
 			var agent = new Agent { Id = agentId };
-			var activeTasks = new[] { new AgentTask { Id = Guid.NewGuid(), Status = TaskStatus.InProgress } };
+					var activeTasks = new[] { new AgentTask { Id = Guid.NewGuid(), Status = TaskStatus.InProgress } };
 
-			_mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
-				.Returns(Result<Agent>.Success(agent));
+		_mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
+			.Returns(Result<Agent>.Success(agent));
 
-			_mockTaskRepository.GetByAgentAsync(agentId, Domain.TaskStatus.InProgress, Arg.Any<CancellationToken>())
-				.Returns(Result<IEnumerable<AgentTask>>.Success(activeTasks));
+		_mockTaskRepository.GetByAgentAsync(agentId, TaskStatus.InProgress, Arg.Any<CancellationToken>())
+			.Returns(Result<IEnumerable<AgentTask>>.Success(activeTasks));
 
 			// Act
 			var result = await _agentService.DeleteAgentAsync(agentId);

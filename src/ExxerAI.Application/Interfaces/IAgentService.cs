@@ -30,6 +30,13 @@ public interface IAgentService
     Task<Result<Agent>> GetAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Gets all agents
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation containing all agents</returns>
+    Task<Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets all active agents
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
@@ -68,6 +75,18 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<Result> AssignTaskAsync(
+        Guid agentId, 
+        Guid taskId, 
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Assigns a task to an agent (alias for compatibility)
+    /// </summary>
+    /// <param name="agentId">The agent identifier</param>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    Task<Result> AssignTaskToAgentAsync(
         Guid agentId, 
         Guid taskId, 
         CancellationToken cancellationToken = default);
