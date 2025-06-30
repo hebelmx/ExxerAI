@@ -1,0 +1,34 @@
+{
+  "stryker-config": {
+    "project": "ExxerAI.Application/ExxerAI.Application.csproj",
+    "test-projects": [
+      "tests/ExxerAI.Application.Tests/ExxerAI.Application.Tests.csproj"
+    ],
+    "reporters": [
+      "progress",
+      "html",
+      "json"
+    ],
+    "mutation-level": "Standard",
+    "thresholds": {
+      "high": 80,
+      "low": 60,
+      "break": 50
+    },
+    "coverage-analysis": "perTest",
+    "disable-bail": false,
+    "concurrency": 2,
+    "additional-timeout": 45000,
+    "ignore-methods": [
+      "*ToString*",
+      "*GetHashCode*",
+      "*Equals*"
+    ],
+    "mutate": [
+      "ExxerAI.Application/**/*.cs",
+      "!**/*Tests.cs",
+      "!**/obj/**/*",
+      "!**/bin/**/*"
+    ]
+  }
+} 
