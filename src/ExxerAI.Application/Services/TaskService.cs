@@ -1,248 +1,314 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
-using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.Application.Services;
 
+/// <summary>
+/// Service implementation for managing tasks in the ExxerAI system
+/// </summary>
 public class TaskService : ITaskService
 {
-private readonly ITaskRepository _taskRepository;
-private readonly IAgentRepository _agentRepository;
-private readonly ILogger<TaskService> _logger;
+	private readonly ITaskRepository _taskRepository;
+	private readonly IAgentRepository _agentRepository;
 
-public TaskService(
-ITaskRepository taskRepository,
-IAgentRepository agentRepository,
-ILogger<TaskService> logger)
-{
-_taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
-_agentRepository = agentRepository ?? throw new ArgumentNullException(nameof(agentRepository));
-_logger = logger ?? throw new ArgumentNullException(nameof(logger));
-}
+	/// <summary>
+	/// Initializes a new instance of the TaskService class
+	/// </summary>
+	/// <param name="taskRepository">The task repository</param>
+	/// <param name="agentRepository">The agent repository</param>
+	public TaskService(
+		ITaskRepository taskRepository,
+		IAgentRepository agentRepository)
+	{
+		_taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+		_agentRepository = agentRepository ?? throw new ArgumentNullException(nameof(agentRepository));
+	}
 
-public async Task<Result<AgentTask>> CreateTaskAsync(
-string title,
-string description,
-string taskType,
-TaskData input,
-TaskPriority priority = TaskPriority.Normal,
-DateTime? deadline = null,
-CancellationToken cancellationToken = default)
-{
-try
-{
-if (string.IsNullOrWhiteSpace(title))
-return Result<AgentTask>.WithFailure("Task title cannot be null or empty");
+	/// <summary>
+	/// Creates a new task
+	/// </summary>
+	public async Task<Result<AgentTask>> CreateTaskAsync(
+		string title,
+		string description,
+		string taskType,
+		TaskData input,
+		TaskPriority priority = TaskPriority.Normal,
+		DateTime? deadline = null,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			if (string.IsNullOrWhiteSpace(title))
+				return Result<AgentTask>.WithFailure("Task title cannot be null or empty");
 
-var task = new AgentTask
-{
-Title = title,
-Description = description ?? string.Empty,
-TaskType = taskType,
-Input = input ?? new TaskData(),
-Priority = priority,
-Status = Domain.TaskStatus.Pending,
-Deadline = deadline,
-CreatedAt = DateTime.UtcNow
-};
+			if (string.IsNullOrWhiteSpace(taskType))
+				return Result<AgentTask>.WithFailure("Task type cannot be null or empty");
 
-var result = await _taskRepository.AddAsync(task, cancellationToken);
-return result.IsFailure ? Result<AgentTask>.WithFailure(result.Errors) : Result<AgentTask>.Success(task);
-}
-catch (Exception ex)
-{
-return Result<AgentTask>.WithFailure($"Error creating task: {ex.Message}");
-}
-}
+			var task = new AgentTask
+			{
+				Title = title,
+				Description = description ?? string.Empty,
+				TaskType = taskType,
+				Input = input ?? new TaskData(),
+				Priority = priority,
+				Status = Domain.TaskStatus.Pending,
+				Deadline = deadline,
+				CreatedAt = DateTime.UtcNow
+			};
 
-public async Task<Result<AgentTask>> GetTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
-{
-try
-{
-return await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-}
-catch (Exception ex)
-{
-return Result<AgentTask>.WithFailure($"Error retrieving task: {ex.Message}");
-}
-}
+			var result = await _taskRepository.AddAsync(task, cancellationToken).ConfigureAwait(false);
+			return result.IsFailure ? Result<AgentTask>.WithFailure(result.Errors) : Result<AgentTask>.Success(task);
+		}
+		catch (Exception ex)
+		{
+			return Result<AgentTask>.WithFailure($"An error occurred while creating the task: {ex.Message}");
+		}
+	}
 
-public async Task<Result<IEnumerable<AgentTask>>> GetPendingTasksAsync(string? taskType = null, CancellationToken cancellationToken = default)
-{
-try
-{
-var result = await _taskRepository.GetByStatusAsync(Domain.TaskStatus.Pending, cancellationToken);
-if (result.IsFailure) return Result<IEnumerable<AgentTask>>.WithFailure(result.Errors);
+	/// <summary>
+	/// Gets a task by its identifier
+	/// </summary>
+	public async Task<Result<AgentTask>> GetTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var result = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			return result.IsFailure ? Result<AgentTask>.WithFailure($"Task with ID {taskId} not found") : result;
+		}
+		catch (Exception ex)
+		{
+			return Result<AgentTask>.WithFailure($"An error occurred while retrieving the task: {ex.Message}");
+		}
+	}
 
-var tasks = result.Value ?? Enumerable.Empty<AgentTask>();
-if (!string.IsNullOrWhiteSpace(taskType))
-tasks = tasks.Where(t => string.Equals(t.TaskType, taskType, StringComparison.OrdinalIgnoreCase));
+	/// <summary>
+	/// Gets pending tasks that are ready for assignment
+	/// </summary>
+	public async Task<Result<IEnumerable<AgentTask>>> GetPendingTasksAsync(
+		string? taskType = null,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var result = await _taskRepository.GetByStatusAsync(Domain.TaskStatus.Pending, cancellationToken).ConfigureAwait(false);
+			if (result.IsFailure) 
+				return Result<IEnumerable<AgentTask>>.WithFailure(result.Errors);
 
-return Result<IEnumerable<AgentTask>>.Success(tasks);
-}
-catch (Exception ex)
-{
-return Result<IEnumerable<AgentTask>>.WithFailure($"Error retrieving pending tasks: {ex.Message}");
-}
-}
+			var tasks = result.Value ?? Enumerable.Empty<AgentTask>();
+			if (!string.IsNullOrWhiteSpace(taskType))
+				tasks = tasks.Where(t => string.Equals(t.TaskType, taskType, StringComparison.OrdinalIgnoreCase));
 
-public async Task<Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(Guid agentId, Domain.TaskStatus? status = null, CancellationToken cancellationToken = default)
-{
-try
-{
-return await _taskRepository.GetByAgentAsync(agentId, status, cancellationToken);
-}
-catch (Exception ex)
-{
-return Result<IEnumerable<AgentTask>>.WithFailure($"Error retrieving agent tasks: {ex.Message}");
-}
-}
+			return Result<IEnumerable<AgentTask>>.Success(tasks);
+		}
+		catch (Exception ex)
+		{
+			return Result<IEnumerable<AgentTask>>.WithFailure($"An error occurred while retrieving pending tasks: {ex.Message}");
+		}
+	}
 
-public async Task<Result> StartTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
-{
-try
-{
-var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-if (taskResult.IsFailure) return Result.WithFailure($"Task {taskId} not found");
+	/// <summary>
+	/// Gets tasks assigned to a specific agent
+	/// </summary>
+	public async Task<Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(
+		Guid agentId,
+		Domain.TaskStatus? status = null,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var result = await _taskRepository.GetByAgentAsync(agentId, status, cancellationToken).ConfigureAwait(false);
+			return result.IsFailure ? Result<IEnumerable<AgentTask>>.WithFailure(result.Errors) : result;
+		}
+		catch (Exception ex)
+		{
+			return Result<IEnumerable<AgentTask>>.WithFailure($"An error occurred while retrieving agent tasks: {ex.Message}");
+		}
+	}
 
-var task = taskResult.Value!;
-if (task.Status != Domain.TaskStatus.Pending)
-return Result.WithFailure($"Task {taskId} is not pending. Status: {task.Status}");
+	/// <summary>
+	/// Starts execution of a task
+	/// </summary>
+	public async Task<Result> StartTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			if (taskResult.IsFailure) 
+				return Result.WithFailure($"Task with ID {taskId} not found");
 
-task.Status = Domain.TaskStatus.InProgress;
-task.StartedAt = DateTime.UtcNow;
+			var task = taskResult.Value!;
+			if (task.Status != Domain.TaskStatus.Pending)
+				return Result.WithFailure($"Task {taskId} is not in Pending status. Current status: {task.Status}");
 
-var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken);
-return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
-}
-catch (Exception ex)
-{
-return Result.WithFailure($"Error starting task: {ex.Message}");
-}
-}
+			task.Status = Domain.TaskStatus.InProgress;
+			task.StartedAt = DateTime.UtcNow;
 
-public async Task<Result> CompleteTaskAsync(Guid taskId, TaskData output, CancellationToken cancellationToken = default)
-{
-try
-{
-var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-if (taskResult.IsFailure) return Result.WithFailure($"Task {taskId} not found");
+			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
+			return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
+		}
+		catch (Exception ex)
+		{
+			return Result.WithFailure($"An error occurred while starting the task: {ex.Message}");
+		}
+	}
 
-var task = taskResult.Value!;
-if (task.Status != Domain.TaskStatus.InProgress)
-return Result.WithFailure($"Task {taskId} is not in progress. Status: {task.Status}");
+	/// <summary>
+	/// Completes a task with output data
+	/// </summary>
+	public async Task<Result> CompleteTaskAsync(
+		Guid taskId,
+		TaskData output,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			if (taskResult.IsFailure) 
+				return Result.WithFailure($"Task with ID {taskId} not found");
 
-task.Status = Domain.TaskStatus.Completed;
-task.CompletedAt = DateTime.UtcNow;
-task.Output = output ?? new TaskData();
+			var task = taskResult.Value!;
+			if (task.Status != Domain.TaskStatus.InProgress)
+				return Result.WithFailure($"Task {taskId} is not in InProgress status. Current status: {task.Status}");
 
-var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken);
-return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
-}
-catch (Exception ex)
-{
-return Result.WithFailure($"Error completing task: {ex.Message}");
-}
-}
+			task.Status = Domain.TaskStatus.Completed;
+			task.CompletedAt = DateTime.UtcNow;
+			task.Output = output ?? new TaskData();
 
-public async Task<Result> FailTaskAsync(Guid taskId, string errorMessage, CancellationToken cancellationToken = default)
-{
-try
-{
-var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-if (taskResult.IsFailure) return Result.WithFailure($"Task {taskId} not found");
+			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
+			return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
+		}
+		catch (Exception ex)
+		{
+			return Result.WithFailure($"An error occurred while completing the task: {ex.Message}");
+		}
+	}
 
-var task = taskResult.Value!;
-task.Status = Domain.TaskStatus.Failed;
-task.CompletedAt = DateTime.UtcNow;
-task.ErrorMessage = errorMessage;
+	/// <summary>
+	/// Fails a task with an error message
+	/// </summary>
+	public async Task<Result> FailTaskAsync(
+		Guid taskId,
+		string errorMessage,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			if (taskResult.IsFailure) 
+				return Result.WithFailure($"Task with ID {taskId} not found");
 
-var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken);
-return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
-}
-catch (Exception ex)
-{
-return Result.WithFailure($"Error failing task: {ex.Message}");
-}
-}
+			var task = taskResult.Value!;
+			if (task.Status != Domain.TaskStatus.InProgress)
+				return Result.WithFailure($"Task {taskId} is not in InProgress status. Current status: {task.Status}");
 
-public async Task<Result> RetryTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
-{
-try
-{
-var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-if (taskResult.IsFailure) return Result.WithFailure($"Task {taskId} not found");
+			task.Status = Domain.TaskStatus.Failed;
+			task.CompletedAt = DateTime.UtcNow;
+			task.ErrorMessage = errorMessage ?? "Task failed without specific error message";
 
-var task = taskResult.Value!;
-if (task.Status != Domain.TaskStatus.Failed)
-return Result.WithFailure($"Task {taskId} is not failed. Status: {task.Status}");
+			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
+			return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
+		}
+		catch (Exception ex)
+		{
+			return Result.WithFailure($"An error occurred while failing the task: {ex.Message}");
+		}
+	}
 
-task.Status = Domain.TaskStatus.Pending;
-task.RetryCount++;
-task.ErrorMessage = null;
-task.StartedAt = null;
-task.CompletedAt = null;
+	/// <summary>
+	/// Retries a failed task
+	/// </summary>
+	public async Task<Result> RetryTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			if (taskResult.IsFailure) 
+				return Result.WithFailure($"Task with ID {taskId} not found");
 
-var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken);
-return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
-}
-catch (Exception ex)
-{
-return Result.WithFailure($"Error retrying task: {ex.Message}");
-}
-}
+			var task = taskResult.Value!;
+			if (task.Status != Domain.TaskStatus.Failed)
+				return Result.WithFailure($"Task {taskId} is not in Failed status. Current status: {task.Status}");
 
-public async Task<Result> CancelTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
-{
-try
-{
-var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-if (taskResult.IsFailure) return Result.WithFailure($"Task {taskId} not found");
+			task.Status = Domain.TaskStatus.Pending;
+			task.RetryCount++;
+			task.ErrorMessage = null;
+			task.StartedAt = null;
+			task.CompletedAt = null;
 
-var task = taskResult.Value!;
-if (task.Status == Domain.TaskStatus.Completed || task.Status == Domain.TaskStatus.Cancelled)
-return Result.WithFailure($"Task {taskId} cannot be cancelled. Status: {task.Status}");
+			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
+			return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
+		}
+		catch (Exception ex)
+		{
+			return Result.WithFailure($"An error occurred while retrying the task: {ex.Message}");
+		}
+	}
 
-task.Status = Domain.TaskStatus.Cancelled;
-task.CompletedAt = DateTime.UtcNow;
+	/// <summary>
+	/// Cancels a task
+	/// </summary>
+	public async Task<Result> CancelTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			if (taskResult.IsFailure) 
+				return Result.WithFailure($"Task with ID {taskId} not found");
 
-var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken);
-return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
-}
-catch (Exception ex)
-{
-return Result.WithFailure($"Error cancelling task: {ex.Message}");
-}
-}
+			var task = taskResult.Value!;
+			if (task.Status == Domain.TaskStatus.Completed || task.Status == Domain.TaskStatus.Cancelled)
+				return Result.WithFailure($"Task {taskId} cannot be cancelled. Current status: {task.Status}");
 
-public async Task<Result> UpdateTaskMetadataAsync(Guid taskId, TaskMetadata metadata, CancellationToken cancellationToken = default)
-{
-try
-{
-var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken);
-if (taskResult.IsFailure) return Result.WithFailure($"Task {taskId} not found");
+			task.Status = Domain.TaskStatus.Cancelled;
+			task.CompletedAt = DateTime.UtcNow;
 
-var task = taskResult.Value!;
-task.Metadata = metadata ?? new TaskMetadata();
+			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
+			return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
+		}
+		catch (Exception ex)
+		{
+			return Result.WithFailure($"An error occurred while cancelling the task: {ex.Message}");
+		}
+	}
 
-var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken);
-return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
-}
-catch (Exception ex)
-{
-return Result.WithFailure($"Error updating task metadata: {ex.Message}");
-}
-}
+	/// <summary>
+	/// Updates task metadata
+	/// </summary>
+	public async Task<Result> UpdateTaskMetadataAsync(
+		Guid taskId,
+		TaskMetadata metadata,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
+			if (taskResult.IsFailure) 
+				return Result.WithFailure($"Task with ID {taskId} not found");
 
-public async Task<Result<IEnumerable<AgentTask>>> GetOverdueTasksAsync(CancellationToken cancellationToken = default)
-{
-try
-{
-		return await _taskRepository.GetOverdueTasksAsync(cancellationToken);
-}
-catch (Exception ex)
-{
-return Result<IEnumerable<AgentTask>>.WithFailure($"Error retrieving overdue tasks: {ex.Message}");
-}
-}
+			var task = taskResult.Value!;
+			task.Metadata = metadata ?? new TaskMetadata();
+
+			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
+			return updateResult.IsFailure ? Result.WithFailure(updateResult.Errors) : Result.Success();
+		}
+		catch (Exception ex)
+		{
+			return Result.WithFailure($"An error occurred while updating task metadata: {ex.Message}");
+		}
+	}
+
+	/// <summary>
+	/// Gets overdue tasks
+	/// </summary>
+	public async Task<Result<IEnumerable<AgentTask>>> GetOverdueTasksAsync(CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			return await _taskRepository.GetOverdueTasksAsync(cancellationToken).ConfigureAwait(false);
+		}
+		catch (Exception ex)
+		{
+			return Result<IEnumerable<AgentTask>>.WithFailure($"An error occurred while retrieving overdue tasks: {ex.Message}");
+		}
+	}
 }
