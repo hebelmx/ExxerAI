@@ -8,6 +8,13 @@ using ExxerAI.UI.Data;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity.UI;
 
+/// <summary>
+/// Main entry point for the ExxerAI Blazor UI application
+/// </summary>
+/// <remarks>
+/// Configures the Blazor Server application with authentication, database context, and MudBlazor UI components.
+/// Sets up Identity framework for user management and authentication.
+/// </remarks>
 var builder = WebApplication.CreateBuilder(args);
 
 // Add MudBlazor services

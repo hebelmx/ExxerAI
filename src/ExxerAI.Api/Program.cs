@@ -2,6 +2,13 @@ using ExxerAI.Application.Interfaces;
 using ExxerAI.Application.Services;
 using ExxerAI.Infrastructure.Repositories;
 
+/// <summary>
+/// Main entry point for the ExxerAI Web API application
+/// </summary>
+/// <remarks>
+/// Configures the web application with dependency injection, CORS policies, and middleware pipeline.
+/// Sets up services for agent management, task processing, and repository implementations.
+/// </remarks>
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
