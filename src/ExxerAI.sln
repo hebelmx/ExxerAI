@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		Directory.Packages.props = Directory.Packages.props
+		tests\ExxerAI.Application.Tests\global.json = tests\ExxerAI.Application.Tests\global.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
@@ -89,7 +90,7 @@ Global
 		{12B7D76C-E281-167F-5DC1-937F7B5940A4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5DC44979-886B-4BD8-99C4-FD8F8575E4D3}
 		FileExplorer = ..\
+		SolutionGuid = {5DC44979-886B-4BD8-99C4-FD8F8575E4D3}
 	EndGlobalSection
 EndGlobal
