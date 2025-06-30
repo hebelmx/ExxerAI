@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -9,12 +9,22 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="Shouldly" />
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.runner.visualstudio" />
 	</ItemGroup>
+
+	
 
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
-</Project>
+	
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+  </ItemGroup>
+
+</Project> 

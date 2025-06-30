@@ -144,6 +144,38 @@ public class AgentTaskTests
         // Assert
         task.Deadline.ShouldBe(deadline);
     }
+
+    [Fact]
+    public void Should_CalculateExecutionDuration_When_StartedAndCompleted()
+    {
+        // Arrange
+        var task = new AgentTask { Title = "Duration Test" };
+        var startTime = DateTime.UtcNow;
+        var endTime = startTime.AddMinutes(30);
+
+        // Act
+        task.StartedAt = startTime;
+        task.CompletedAt = endTime;
+
+        // Assert
+        task.ExecutionDuration.ShouldNotBeNull();
+        task.ExecutionDuration.Value.TotalMinutes.ShouldBe(30, 0.1);
+    }
+
+    [Fact]
+    public void Should_DetectOverdueTask_When_PastDeadline()
+    {
+        // Arrange
+        var task = new AgentTask 
+        { 
+            Title = "Overdue Test",
+            Deadline = DateTime.UtcNow.AddDays(-1),
+            Status = TaskStatus.Pending
+        };
+
+        // Act & Assert
+        task.IsOverdue.ShouldBeTrue();
+    }
 }
 
 /// <summary>
@@ -200,6 +232,356 @@ public class LanguageModelTests
         model.Configuration.MaxTokensPerRequest.ShouldBe(1000);
         model.Configuration.RequestTimeoutSeconds.ShouldBe(30);
         model.Configuration.RateLimitPerMinute.ShouldBe(60);
+    }
+}
+
+/// <summary>
+/// Unit tests for Workflow domain entity
+/// </summary>
+public class WorkflowTests
+{
+    [Fact]
+    public void Should_CreateWorkflow_When_ValidDataProvided()
+    {
+        // Arrange & Act
+        var workflow = new Workflow
+        {
+            Name = "Test Workflow",
+            Description = "A test workflow for development",
+            Status = WorkflowStatus.Active
+        };
+
+        // Assert
+        workflow.Id.ShouldNotBe(Guid.Empty);
+        workflow.Name.ShouldBe("Test Workflow");
+        workflow.Description.ShouldBe("A test workflow for development");
+        workflow.Status.ShouldBe(WorkflowStatus.Active);
+        workflow.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
+        workflow.Definition.ShouldNotBeNull();
+        workflow.Executions.ShouldNotBeNull();
+    }
+
+    [Theory]
+    [InlineData(nameof(WorkflowStatus.Draft))]
+    [InlineData(nameof(WorkflowStatus.Active))]
+    [InlineData(nameof(WorkflowStatus.Running))]
+    [InlineData(nameof(WorkflowStatus.Completed))]
+    [InlineData(nameof(WorkflowStatus.Failed))]
+    [InlineData(nameof(WorkflowStatus.Paused))]
+    [InlineData(nameof(WorkflowStatus.Archived))]
+    public void Should_HandleWorkflowStatuses_When_DifferentStatesProvided(string statusName)
+    {
+        // Arrange
+        var workflow = new Workflow { Name = "Status Test" };
+        var expectedStatus = EnumModel.FromName<WorkflowStatus>(statusName);
+
+        // Act
+        workflow.Status = expectedStatus;
+
+        // Assert
+        workflow.Status.ShouldBe(expectedStatus);
+    }
+
+    [Fact]
+    public void Should_InitializeEmptyExecutions_When_WorkflowCreated()
+    {
+        // Arrange & Act
+        var workflow = new Workflow();
+
+        // Assert
+        workflow.Executions.ShouldNotBeNull();
+        workflow.Executions.ShouldBeEmpty();
+    }
+}
+
+/// <summary>
+/// Unit tests for WorkflowExecution domain entity
+/// </summary>
+public class WorkflowExecutionTests
+{
+    [Fact]
+    public void Should_CreateWorkflowExecution_When_ValidDataProvided()
+    {
+        // Arrange & Act
+        var execution = new WorkflowExecution
+        {
+            WorkflowId = Guid.NewGuid(),
+            Status = WorkflowExecutionStatus.Running
+        };
+
+        // Assert
+        execution.Id.ShouldNotBe(Guid.Empty);
+        execution.WorkflowId.ShouldNotBe(Guid.Empty);
+        execution.Status.ShouldBe(WorkflowExecutionStatus.Running);
+        execution.StartedAt.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
+        execution.Input.ShouldNotBeNull();
+        execution.Output.ShouldNotBeNull();
+        execution.StepExecutions.ShouldNotBeNull();
+    }
+
+    [Theory]
+    [InlineData(nameof(WorkflowExecutionStatus.Starting))]
+    [InlineData(nameof(WorkflowExecutionStatus.Running))]
+    [InlineData(nameof(WorkflowExecutionStatus.Completed))]
+    [InlineData(nameof(WorkflowExecutionStatus.Failed))]
+    [InlineData(nameof(WorkflowExecutionStatus.Cancelled))]
+    [InlineData(nameof(WorkflowExecutionStatus.Paused))]
+    public void Should_HandleExecutionStatuses_When_DifferentStatesProvided(string statusName)
+    {
+        // Arrange
+        var execution = new WorkflowExecution();
+        var expectedStatus = EnumModel.FromName<WorkflowExecutionStatus>(statusName);
+
+        // Act
+        execution.Status = expectedStatus;
+
+        // Assert
+        execution.Status.ShouldBe(expectedStatus);
+    }
+}
+
+/// <summary>
+/// Unit tests for Conversation domain entity
+/// </summary>
+public class ConversationTests
+{
+    [Fact]
+    public void Should_CreateConversation_When_ValidDataProvided()
+    {
+        // Arrange & Act
+        var conversation = new Conversation
+        {
+            Title = "Test Conversation",
+            AgentId = Guid.NewGuid(),
+            LanguageModelId = Guid.NewGuid(),
+            Status = ConversationStatus.Active
+        };
+
+        // Assert
+        conversation.Id.ShouldNotBe(Guid.Empty);
+        conversation.Title.ShouldBe("Test Conversation");
+        conversation.AgentId.ShouldNotBe(Guid.Empty);
+        conversation.LanguageModelId.ShouldNotBe(Guid.Empty);
+        conversation.Status.ShouldBe(ConversationStatus.Active);
+        conversation.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
+        conversation.Messages.ShouldNotBeNull();
+        conversation.Metadata.ShouldNotBeNull();
+    }
+
+    [Theory]
+    [InlineData(nameof(ConversationStatus.Active))]
+    [InlineData(nameof(ConversationStatus.Paused))]
+    [InlineData(nameof(ConversationStatus.Completed))]
+    [InlineData(nameof(ConversationStatus.Archived))]
+    public void Should_HandleConversationStatuses_When_DifferentStatesProvided(string statusName)
+    {
+        // Arrange
+        var conversation = new Conversation();
+        var expectedStatus = EnumModel.FromName<ConversationStatus>(statusName);
+
+        // Act
+        conversation.Status = expectedStatus;
+
+        // Assert
+        conversation.Status.ShouldBe(expectedStatus);
+    }
+}
+
+/// <summary>
+/// Unit tests for ConversationMessage domain entity
+/// </summary>
+public class ConversationMessageTests
+{
+    [Fact]
+    public void Should_CreateMessage_When_ValidDataProvided()
+    {
+        // Arrange & Act
+        var message = new ConversationMessage
+        {
+            ConversationId = Guid.NewGuid(),
+            Role = MessageRole.User,
+            Content = "Hello, world!",
+            TokenCount = 3
+        };
+
+        // Assert
+        message.Id.ShouldNotBe(Guid.Empty);
+        message.ConversationId.ShouldNotBe(Guid.Empty);
+        message.Role.ShouldBe(MessageRole.User);
+        message.Content.ShouldBe("Hello, world!");
+        message.TokenCount.ShouldBe(3);
+        message.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
+        message.Metadata.ShouldNotBeNull();
+    }
+
+    [Theory]
+    [InlineData(nameof(MessageRole.System))]
+    [InlineData(nameof(MessageRole.User))]
+    [InlineData(nameof(MessageRole.Assistant))]
+    [InlineData(nameof(MessageRole.Function))]
+    public void Should_HandleMessageRoles_When_DifferentRolesProvided(string roleName)
+    {
+        // Arrange
+        var message = new ConversationMessage();
+        var expectedRole = EnumModel.FromName<MessageRole>(roleName);
+
+        // Act
+        message.Role = expectedRole;
+
+        // Assert
+        message.Role.ShouldBe(expectedRole);
+    }
+}
+
+/// <summary>
+/// Unit tests for TaskData value object
+/// </summary>
+public class TaskDataTests
+{
+    [Fact]
+    public void Should_InitializeDefaults_When_Created()
+    {
+        // Arrange & Act
+        var taskData = new TaskData();
+
+        // Assert
+        taskData.ContentType.ShouldBe("application/json");
+        taskData.Content.ShouldBe(string.Empty);
+        taskData.Properties.ShouldNotBeNull();
+        taskData.Properties.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Should_AllowCustomProperties_When_Added()
+    {
+        // Arrange
+        var taskData = new TaskData();
+
+        // Act
+        taskData.Properties["priority"] = "high";
+        taskData.Properties["category"] = "development";
+
+        // Assert
+        taskData.Properties.Count.ShouldBe(2);
+        taskData.Properties["priority"].ShouldBe("high");
+        taskData.Properties["category"].ShouldBe("development");
+    }
+}
+
+/// <summary>
+/// Unit tests for TaskMetadata value object
+/// </summary>
+public class TaskMetadataTests
+{
+    [Fact]
+    public void Should_InitializeEmptyCollections_When_Created()
+    {
+        // Arrange & Act
+        var metadata = new TaskMetadata();
+
+        // Assert
+        metadata.Properties.ShouldNotBeNull();
+        metadata.Properties.ShouldBeEmpty();
+        metadata.Context.ShouldNotBeNull();
+        metadata.Context.ShouldBeEmpty();
+        metadata.Metrics.ShouldNotBeNull();
+        metadata.Metrics.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Should_AllowMetricsStorage_When_Added()
+    {
+        // Arrange
+        var metadata = new TaskMetadata();
+
+        // Act
+        metadata.Metrics["execution_time"] = 1500.5;
+        metadata.Metrics["memory_usage"] = 256.0;
+
+        // Assert
+        metadata.Metrics.Count.ShouldBe(2);
+        metadata.Metrics["execution_time"].ShouldBe(1500.5);
+        metadata.Metrics["memory_usage"].ShouldBe(256.0);
+    }
+}
+
+/// <summary>
+/// Unit tests for ModelCapabilities value object
+/// </summary>
+public class ModelCapabilitiesTests
+{
+    [Fact]
+    public void Should_InitializeDefaults_When_Created()
+    {
+        // Arrange & Act
+        var capabilities = new ModelCapabilities();
+
+        // Assert
+        capabilities.SupportsTextGeneration.ShouldBeTrue();
+        capabilities.SupportsCodeGeneration.ShouldBeFalse();
+        capabilities.SupportsImageAnalysis.ShouldBeFalse();
+        capabilities.SupportsFunctionCalling.ShouldBeFalse();
+        capabilities.SupportsStreaming.ShouldBeTrue();
+        capabilities.MaxOutputTokens.ShouldBe(2048);
+        capabilities.SupportedFormats.ShouldNotBeNull();
+        capabilities.SupportedFormats.ShouldContain("text");
+    }
+
+    [Fact]
+    public void Should_AllowCapabilityConfiguration_When_Modified()
+    {
+        // Arrange
+        var capabilities = new ModelCapabilities();
+
+        // Act
+        capabilities.SupportsCodeGeneration = true;
+        capabilities.SupportsImageAnalysis = true;
+        capabilities.MaxOutputTokens = 4096;
+
+        // Assert
+        capabilities.SupportsCodeGeneration.ShouldBeTrue();
+        capabilities.SupportsImageAnalysis.ShouldBeTrue();
+        capabilities.MaxOutputTokens.ShouldBe(4096);
+    }
+}
+
+/// <summary>
+/// Unit tests for AgentCapabilities value object
+/// </summary>
+public class AgentCapabilitiesTests
+{
+    [Fact]
+    public void Should_InitializeDefaults_When_Created()
+    {
+        // Arrange & Act
+        var capabilities = new AgentCapabilities();
+
+        // Assert
+        capabilities.CanProcessNaturalLanguage.ShouldBeTrue();
+        capabilities.CanGenerateCode.ShouldBeFalse();
+        capabilities.CanAnalyzeData.ShouldBeFalse();
+        capabilities.CanCallExternalAPIs.ShouldBeFalse();
+        capabilities.MaxConcurrentTasks.ShouldBe(1);
+        capabilities.SupportedTaskTypes.ShouldNotBeNull();
+        capabilities.SupportedTaskTypes.ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void Should_AllowTaskTypeConfiguration_When_Added()
+    {
+        // Arrange
+        var capabilities = new AgentCapabilities();
+
+        // Act
+        capabilities.SupportedTaskTypes.Add("text-generation");
+        capabilities.SupportedTaskTypes.Add("code-review");
+        capabilities.MaxConcurrentTasks = 3;
+
+        // Assert
+        capabilities.SupportedTaskTypes.Count.ShouldBe(2);
+        capabilities.SupportedTaskTypes.ShouldContain("text-generation");
+        capabilities.SupportedTaskTypes.ShouldContain("code-review");
+        capabilities.MaxConcurrentTasks.ShouldBe(3);
     }
 }
 
