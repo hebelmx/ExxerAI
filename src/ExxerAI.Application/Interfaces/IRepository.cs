@@ -137,6 +137,12 @@ public interface ITaskRepository : IRepository<Domain.AgentTask>
         string taskType, 
         Domain.TaskStatus? status = null, 
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Seeds the repository with sample tasks for development/testing
+    /// </summary>
+    /// <returns>The result of the seeding operation</returns>
+    Task<Result> SeedAsync();
 }
 
 /// <summary>
