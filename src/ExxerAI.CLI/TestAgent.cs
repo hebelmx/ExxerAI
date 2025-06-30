@@ -15,8 +15,8 @@ public static class TestAgent
     {
         Console.WriteLine("🤖 ExxerAI Agent Test - Connecting to Local Ollama...\n");
 
-        // Create logger
-        using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+        // Create logger (simple logger without console extensions)
+        using var loggerFactory = LoggerFactory.Create(builder => { });
         var logger = loggerFactory.CreateLogger<GeneralPurposeAgent>();
 
         try
