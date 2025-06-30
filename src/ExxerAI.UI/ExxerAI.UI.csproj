@@ -20,9 +20,9 @@
     <PackageReference Include="MudBlazor"  />
     <PackageReference Include="Extensions.MudBlazor.StaticInput"  />
 
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI"/> 
-    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" />
+    
 
   </ItemGroup>
 
