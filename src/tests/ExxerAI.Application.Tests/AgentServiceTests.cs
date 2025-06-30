@@ -3,6 +3,7 @@ using ExxerAI.Application.Services;
 using ExxerAI.Domain;
 using NSubstitute;
 using Shouldly;
+using TaskStatus = ExxerAI.Domain.TaskStatus;
 
 namespace ExxerAI.Application.Tests;
 
@@ -240,7 +241,7 @@ public class AgentServiceTests
 			var taskId = Guid.NewGuid();
 
 			var agent = new Agent { Id = agentId, Status = AgentStatus.Active };
-			var task = new AgentTask { Id = taskId, Status = Domain.TaskStatus.Pending };
+			var task = new AgentTask { Id = taskId, Status = TaskStatus.Pending };
 
 			_mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
 				.Returns(Result<Agent>.Success(agent));
@@ -310,7 +311,7 @@ public class AgentServiceTests
 			var taskId = Guid.NewGuid();
 
 			var agent = new Agent { Id = agentId, Status = AgentStatus.Active };
-			var task = new AgentTask { Id = taskId, Status = Domain.TaskStatus.InProgress };
+			var task = new AgentTask { Id = taskId, Status = TaskStatus.InProgress };
 
 			_mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
 				.Returns(Result<Agent>.Success(agent));
@@ -342,7 +343,7 @@ public class AgentServiceTests
 			_mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
 				.Returns(Result<Agent>.Success(agent));
 
-			_mockTaskRepository.GetByAgentAsync(agentId, Domain.TaskStatus.InProgress, Arg.Any<CancellationToken>())
+			_mockTaskRepository.GetByAgentAsync(agentId, TaskStatus.InProgress, Arg.Any<CancellationToken>())
 				.Returns(Result<IEnumerable<AgentTask>>.Success(Array.Empty<AgentTask>()));
 
 			_mockAgentRepository.DeleteAsync(agentId, Arg.Any<CancellationToken>())
@@ -362,7 +363,7 @@ public class AgentServiceTests
 			// Arrange
 			var agentId = Guid.NewGuid();
 			var agent = new Agent { Id = agentId };
-			var activeTasks = new[] { new AgentTask { Id = Guid.NewGuid(), Status = Domain.TaskStatus.InProgress } };
+			var activeTasks = new[] { new AgentTask { Id = Guid.NewGuid(), Status = TaskStatus.InProgress } };
 
 			_mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
 				.Returns(Result<Agent>.Success(agent));

@@ -3,6 +3,7 @@ using ExxerAI.Application.Services;
 using ExxerAI.Domain;
 using ExxerAI.Infrastructure.Repositories;
 using Shouldly;
+using TaskStatus = ExxerAI.Domain.TaskStatus;
 
 namespace ExxerAI.Application.Tests;
 

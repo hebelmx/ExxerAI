@@ -1,6 +1,7 @@
 using ExxerAI.Domain;
 using ExxerAI.Infrastructure.Repositories;
 using Shouldly;
+using TaskStatus = ExxerAI.Domain.TaskStatus;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -21,24 +22,24 @@ public class InMemoryTaskRepositoryTests
 	/// </summary>
 	public class CrudOperationsTests : InMemoryTaskRepositoryTests
 	{
-		[Fact]
-		public async Task Should_AddTask_When_ValidTaskProvided()
+			[Fact]
+	public async Task Should_AddTask_When_ValidTaskProvided()
+	{
+		// Arrange
+		var task = new AgentTask
 		{
-			// Arrange
-			var task = new AgentTask
-			{
-				Title = "Test Task",
-				Description = "Test Description",
-				TaskType = "Analysis",
-				Priority = TaskPriority.High,
-				Status = TaskStatus.Pending
-			};
+			Title = "Test Task",
+			Description = "Test Description",
+			TaskType = "Analysis",
+			Priority = TaskPriority.High,
+			Status = TaskStatus.Pending
+		};
 
-			// Act
-			var result = await _repository.AddAsync(task);
+		// Act
+		var result = await _repository.AddAsync(task, TestContext.Current.CancellationToken);
 
-			// Assert
-			result.IsSuccess.ShouldBeTrue();
+		// Assert
+		result.IsSuccess.ShouldBeTrue();
 			result.Value.ShouldNotBeNull();
 			result.Value.Id.ShouldNotBe(Guid.Empty);
 			result.Value.Title.ShouldBe(task.Title);

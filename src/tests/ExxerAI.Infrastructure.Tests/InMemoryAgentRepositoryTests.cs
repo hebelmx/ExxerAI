@@ -271,7 +271,7 @@ public class InMemoryAgentRepositoryTests
 			result.Value.Count().ShouldBeGreaterThanOrEqualTo(1);
 			
 			var agentWithCount = result.Value.FirstOrDefault(atc => atc.Agent.Name == "Test Agent");
-			agentWithCount.ShouldNotBeNull();
+			agentWithCount.Agent.ShouldNotBeNull();
 			agentWithCount.TaskCount.ShouldBe(0); // No tasks initially
 		}
 	}
