@@ -126,6 +126,7 @@ public async Task<Result<WorkflowExecution>> GetWorkflowExecutionAsync(Guid exec
 {
 try
 {
+await Task.CompletedTask;
 // This would typically use an execution repository
 return Result<WorkflowExecution>.WithFailure("Execution repository not implemented");
 }
@@ -151,6 +152,7 @@ public async Task<Result> PauseWorkflowExecutionAsync(Guid executionId, Cancella
 {
 try
 {
+await Task.CompletedTask;
 return Result.WithFailure("Execution management not implemented");
 }
 catch (Exception ex)
@@ -163,6 +165,7 @@ public async Task<Result> ResumeWorkflowExecutionAsync(Guid executionId, Cancell
 {
 try
 {
+await Task.CompletedTask;
 return Result.WithFailure("Execution management not implemented");
 }
 catch (Exception ex)
@@ -175,6 +178,7 @@ public async Task<Result> CancelWorkflowExecutionAsync(Guid executionId, Cancell
 {
 try
 {
+await Task.CompletedTask;
 return Result.WithFailure("Execution management not implemented");
 }
 catch (Exception ex)
@@ -206,6 +210,7 @@ public async Task<Result> ValidateWorkflowDefinitionAsync(WorkflowDefinition def
 {
 try
 {
+await Task.CompletedTask;
 if (definition == null)
 return Result.WithFailure("Workflow definition cannot be null");
 

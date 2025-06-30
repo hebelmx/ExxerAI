@@ -162,6 +162,11 @@ public class Conversation
     public string Title { get; set; } = string.Empty;
 
     /// <summary>
+    /// Gets or sets the system prompt for the conversation
+    /// </summary>
+    public string SystemPrompt { get; set; } = string.Empty;
+
+    /// <summary>
     /// Gets or sets the agent participating in this conversation
     /// </summary>
     public Guid AgentId { get; set; }
@@ -267,6 +272,15 @@ public class ConversationMessage
     /// Gets or sets when the message was created
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets when the message was created (alias for CreatedAt)
+    /// </summary>
+    public DateTime Timestamp 
+    { 
+        get => CreatedAt; 
+        set => CreatedAt = value; 
+    }
 
     /// <summary>
     /// Gets or sets the token count for this message

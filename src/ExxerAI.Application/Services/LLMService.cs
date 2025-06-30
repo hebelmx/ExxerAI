@@ -1,5 +1,6 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
+using System.Runtime.CompilerServices;
 
 namespace ExxerAI.Application.Services;
 
@@ -86,7 +87,7 @@ var conversation = new Conversation
 AgentId = agentId,
 LanguageModelId = modelId,
 Title = title ?? "New Conversation",
-SystemPrompt = systemPrompt,
+SystemPrompt = systemPrompt ?? string.Empty,
 Status = ConversationStatus.Active,
 CreatedAt = DateTime.UtcNow
 };
@@ -137,7 +138,7 @@ return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
 }
 }
 
-public async IAsyncEnumerable<LLMResponseChunk> StreamTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, CancellationToken cancellationToken = default)
+public async IAsyncEnumerable<LLMResponseChunk> StreamTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 {
 var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
 if (modelResult.IsFailure) yield break;
