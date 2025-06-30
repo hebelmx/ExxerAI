@@ -31,9 +31,25 @@ public interface IAgent
     /// <returns>True if the agent can handle the context, false otherwise</returns>
     Task<bool> CanHandleAsync(AgentContext context);
 
+    /// <summary>
+    /// Executes the agent with simple string parameters (legacy method)
+    /// </summary>
+    /// <param name="prompt">The input prompt or request</param>
+    /// <param name="agentType">The type of agent to use</param>
+    /// <returns>A task representing the asynchronous operation</returns>
     Task ExecuteAsync(string prompt, string agentType);
 
+    /// <summary>
+    /// Executes the agent with the provided context and cancellation token
+    /// </summary>
+    /// <param name="context">The execution context</param>
+    /// <param name="cancellationToken">Cancellation token for operation cancellation</param>
+    /// <returns>The execution result</returns>
     Task<AgentResult> ExecuteAsync(AgentContext context, CancellationToken cancellationToken);
 
+    /// <summary>
+    /// Gets the current status and health information of this agent
+    /// </summary>
+    /// <returns>A string description of the agent's current status</returns>
     Task<string> GetAgentStatusAsync();
 }

@@ -83,7 +83,6 @@ public static class TestAgent
             Console.WriteLine($"🔧 Stack trace: {ex.StackTrace}");
         }
 
-        Console.WriteLine("\n🏁 Test completed. Press any key to exit...");
-        Console.ReadKey();
+        Console.WriteLine("\n🏁 Test completed successfully!");
     }
 } 

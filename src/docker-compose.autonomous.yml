@@ -1,0 +1,292 @@
+version: '3.8'
+
+# ExxerAI Autonomous Intelligence System
+# Optimized for Dual-GPU Development Machine
+# Docker Compose for Multi-Service Orchestration
+
+services:
+  # ===== CORE AI SERVICES =====
+  
+  # Ollama LLM Service (GPU 1)
+  ollama:
+    image: ollama/ollama:latest
+    container_name: exxerai-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']  # GPU 1 for LLM processing
+              capabilities: [gpu]
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # Qdrant Vector Database (GPU 2 for embeddings)
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: exxerai-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+      - QDRANT__LOG_LEVEL=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['1']  # GPU 2 for vector operations
+              capabilities: [gpu]
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # ===== DATABASE SERVICES =====
+  
+  # PostgreSQL for Business Intelligence
+  postgres:
+    image: postgres:16-alpine
+    container_name: exxerai-postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    environment:
+      - POSTGRES_DB=exxerai_intelligence
+      - POSTGRES_USER=exxerai_admin
+      - POSTGRES_PASSWORD=autonomous_intelligence_2024
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
+    command: postgres -c shared_preload_libraries=pg_stat_statements -c max_connections=200
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # Redis for Caching & Session Management
+  redis:
+    image: redis:7.2-alpine
+    container_name: exxerai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 2gb --maxmemory-policy allkeys-lru
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # ===== MONITORING & LOGGING =====
+  
+  # Seq for Structured Logging
+  seq:
+    image: datalust/seq:latest
+    container_name: exxerai-seq
+    ports:
+      - "5341:80"
+    volumes:
+      - seq_data:/data
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_ADMINPASSWORDHASH=autonomous2024
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # Grafana for Performance Monitoring
+  grafana:
+    image: grafana/grafana:latest
+    container_name: exxerai-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/dashboards:/etc/grafana/provisioning/dashboards
+      - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=autonomous2024
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # ===== EXXERAI APPLICATION SERVICES =====
+  
+  # ExxerAI WebAPI
+  exxerai-webapi:
+    build:
+      context: .
+      dockerfile: ExxerAI.WebAPI/Dockerfile
+    container_name: exxerai-webapi
+    ports:
+      - "7001:8080"
+      - "7002:8081"  # HTTPS
+    volumes:
+      - ./config/appsettings.Production.json:/app/appsettings.Production.json
+      - ./logs:/app/logs
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=exxerai_intelligence;Username=exxerai_admin;Password=autonomous_intelligence_2024
+      - ConnectionStrings__Redis=redis:6379
+      - LLMProviders__Ollama__BaseUrl=http://ollama:11434
+      - VectorStore__Qdrant__ConnectionString=http://qdrant:6333
+      - Logging__Seq__ServerUrl=http://seq:5341
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+      - qdrant
+      - seq
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # ExxerAI Autonomous Agent Worker
+  exxerai-autonomous-worker:
+    build:
+      context: .
+      dockerfile: ExxerAI.Worker/Dockerfile
+    container_name: exxerai-autonomous-worker
+    volumes:
+      - ./config/appsettings.Production.json:/app/appsettings.Production.json
+      - ./logs:/app/logs
+      - ./data/google-credentials.json:/app/credentials/google-credentials.json
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=exxerai_intelligence;Username=exxerai_admin;Password=autonomous_intelligence_2024
+      - ConnectionStrings__Redis=redis:6379
+      - LLMProviders__Ollama__BaseUrl=http://ollama:11434
+      - VectorStore__Qdrant__ConnectionString=http://qdrant:6333
+      - GoogleDrive__CredentialsPath=/app/credentials/google-credentials.json
+      - AutonomousAgent__CycleIntervalMinutes=60
+      - AutonomousAgent__Enabled=true
+      - Logging__Seq__ServerUrl=http://seq:5341
+    depends_on:
+      - postgres
+      - redis
+      - ollama
+      - qdrant
+      - exxerai-webapi
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # ExxerAI Blazor UI
+  exxerai-blazorui:
+    build:
+      context: .
+      dockerfile: ExxerAI.BlazorUI/Dockerfile
+    container_name: exxerai-blazorui
+    ports:
+      - "7003:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ApiSettings__BaseUrl=http://exxerai-webapi:8080
+    depends_on:
+      - exxerai-webapi
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # ===== DEVELOPMENT UTILITIES =====
+  
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: exxerai-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/ssl:/etc/nginx/ssl
+    depends_on:
+      - exxerai-webapi
+      - exxerai-blazorui
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+  # Portainer for Container Management
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: exxerai-portainer
+    ports:
+      - "9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: unless-stopped
+    networks:
+      - exxerai-network
+
+# ===== NETWORKS =====
+networks:
+  exxerai-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ===== VOLUMES =====
+volumes:
+  ollama_data:
+    driver: local
+  qdrant_data:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  seq_data:
+    driver: local
+  grafana_data:
+    driver: local
+  portainer_data:
+    driver: local
+
+# ===== AUTONOMOUS INTELLIGENCE CONFIGURATION =====
+# This compose file creates a complete autonomous AI ecosystem:
+#
+# 🤖 AI Processing:
+#   - Ollama (GPU 1): LLM processing for natural language understanding
+#   - Qdrant (GPU 2): Vector storage for semantic search and RAG
+#
+# 📊 Data Management:
+#   - PostgreSQL: Business intelligence data and user preferences
+#   - Redis: Caching and real-time session management
+#
+# 🔍 Monitoring:
+#   - Seq: Structured logging for autonomous operations
+#   - Grafana: Performance monitoring and dashboards
+#   - Portainer: Container management interface
+#
+# 🚀 Applications:
+#   - WebAPI: REST services for agent orchestration
+#   - Autonomous Worker: Background intelligence collection
+#   - Blazor UI: User interface for reports and feedback
+#   - Nginx: Load balancing and SSL termination
+#
+# 🎯 Optimizations for Dual-GPU Machine:
+#   - GPU isolation: Ollama on GPU 1, Qdrant on GPU 2
+#   - Memory limits: Configured for high-performance workloads
+#   - Network isolation: Dedicated bridge network
+#   - Volume optimization: Persistent storage for all critical data
+#
+# 💼 Business Intelligence Focus:
+#   - Google Drive integration ready
+#   - Siemens, Rockwell, ABB monitoring capability
+#   - Automotive sector intelligence collection
+#   - Microsoft ecosystem updates tracking
+#   - Personalized weekly report generation 

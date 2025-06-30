@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary
 
-The ExxerAI system is a C#/.NET-based orchestration framework designed for managing contextual and persona-based interactions with Large Language Models (LLMs). 
+The ExxerAI system is a C#/.NET-based orchestration framework designed for managing contextual and persona-based interactions with Large Language Models (LLMs).
 Built as a modular, extensible sister project to an existing invoice-to-PDF application, ExxerAI leverages modern .NET technologies to support dynamic workflows, multi-agent reasoning, and vectorized memory.
 
 ---
@@ -128,31 +128,31 @@ The system implements intelligent document ingestion from Google Drive with vers
 flowchart TD
     GD["📁 Google Drive<br/>Watch API"] --> DW["👁️ Document Watch<br/>Service"]
     DW --> |"New/Modified"| DC["🔍 Document Change<br/>Detector"]
-    
+  
     DC --> VD["🔄 Version Detection<br/>Engine"]
     VD --> |"Same Content Hash"| SKIP["⏭️ Skip Processing<br/>(Already Indexed)"]
     VD --> |"Content Changed"| UPDATE["🔄 Update Process"]
     VD --> |"New Document"| NEW["✨ New Process"]
     VD --> |"Uncertain"| NOTIFY["📧 Human Verification"]
-    
+  
     UPDATE --> EXT["📄 Content Extraction"]
     NEW --> EXT
     NOTIFY --> |"User Decision"| EXT
-    
+  
     EXT --> HASH["🔐 Generate Hash<br/>SHA-256 + Metadata"]
     HASH --> EMB["🧠 Generate<br/>Embeddings"]
     EMB --> STORE["💾 Store Blob +<br/>Vector + Index"]
-    
+  
     subgraph "Deletion Handling"
         DEL["🗑️ Document Deleted<br/>on Drive"] --> MARK["🔒 Mark as Deleted<br/>(Keep Embeddings)"]
         MARK --> IDX["📊 Update Index<br/>(Status: Deleted)"]
     end
-    
+  
     classDef processStyle fill:#e3f2fd,stroke:#1565c0,stroke-width:2px
     classDef decisionStyle fill:#fff3e0,stroke:#ef6c00,stroke-width:2px
     classDef storageStyle fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
     classDef alertStyle fill:#ffebee,stroke:#c62828,stroke-width:2px
-    
+  
     class GD,DW,EXT,HASH,EMB processStyle
     class DC,VD decisionStyle
     class STORE,IDX storageStyle
@@ -162,6 +162,7 @@ flowchart TD
 #### **Core Components:**
 
 **1. Document Watch Service** (`IDocumentWatchService`)
+
 ```csharp
 public interface IDocumentWatchService
 {
@@ -172,6 +173,7 @@ public interface IDocumentWatchService
 ```
 
 **2. Version Detection Engine** (`IVersionDetectionEngine`)
+
 ```csharp
 public interface IVersionDetectionEngine
 {
@@ -183,6 +185,7 @@ public interface IVersionDetectionEngine
 ```
 
 **3. Document Hash Generator** (`IDocumentHashGenerator`)
+
 ```csharp
 public interface IDocumentHashGenerator
 {
@@ -195,22 +198,26 @@ public interface IDocumentHashGenerator
 #### **Processing Rules:**
 
 **Version Detection Logic:**
+
 1. **Content Hash Comparison**: SHA-256 of document content + metadata fingerprint
 2. **Metadata Fingerprint**: File size + creation date + MIME type + title similarity
 3. **Name Pattern Matching**: Detect version patterns (v1, v2, _final, _draft, etc.)
 4. **Similarity Scoring**: Content similarity analysis for uncertain cases
 
 **Decision Matrix:**
-| Condition | Action | Notification |
-|-----------|--------|-------------|
-| Hash Match | Skip Processing | None |
-| Hash Different + Same Name | Update Existing | Log Update |
-| Hash Different + Similar Name | Update Existing | Log Version Change |
-| New Hash + Unknown Name | Create New | Log New Document |
+
+
+| Condition                           | Action             | Notification       |
+| ------------------------------------- | -------------------- | -------------------- |
+| Hash Match                          | Skip Processing    | None               |
+| Hash Different + Same Name          | Update Existing    | Log Update         |
+| Hash Different + Similar Name       | Update Existing    | Log Version Change |
+| New Hash + Unknown Name             | Create New         | Log New Document   |
 | Uncertain Match (70-90% similarity) | Human Verification | Email/Notification |
-| Document Deleted | Mark Deleted | Log Deletion |
+| Document Deleted                    | Mark Deleted       | Log Deletion       |
 
 **Storage Strategy:**
+
 ```csharp
 public class DocumentAsset
 {
@@ -238,6 +245,7 @@ public enum DocumentStatus
 ```
 
 **Notification System:**
+
 ```csharp
 public interface IDocumentNotificationService
 {
@@ -250,13 +258,13 @@ public interface IDocumentNotificationService
 
 #### **Key Features:**
 
-✅ **Deduplication**: Content hash prevents reprocessing identical documents  
-🔄 **Version Tracking**: Maintains document evolution history  
-🧠 **Smart Detection**: Recognizes document updates even with name changes  
-📧 **Human-in-Loop**: Requests verification for uncertain cases  
-🗑️ **Soft Deletion**: Preserves embeddings for deleted documents  
-📊 **Comprehensive Indexing**: Fast lookup and relationship mapping  
-🔐 **Secure Hashing**: SHA-256 + metadata fingerprinting  
+✅ **Deduplication**: Content hash prevents reprocessing identical documents
+🔄 **Version Tracking**: Maintains document evolution history
+🧠 **Smart Detection**: Recognizes document updates even with name changes
+📧 **Human-in-Loop**: Requests verification for uncertain cases
+🗑️ **Soft Deletion**: Preserves embeddings for deleted documents
+📊 **Comprehensive Indexing**: Fast lookup and relationship mapping
+🔐 **Secure Hashing**: SHA-256 + metadata fingerprinting
 ⚡ **Real-time Processing**: Watch API for immediate document updates
 
 ---
@@ -277,7 +285,7 @@ public class Agent
     public Persona PersonaProfile { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime LastActiveAt { get; private set; }
-    
+  
     public Agent(string agentType, Persona persona, Dictionary<string, object> capabilities)
     {
         AgentId = Guid.NewGuid().ToString();
@@ -288,13 +296,13 @@ public class Agent
         CreatedAt = DateTime.UtcNow;
         LastActiveAt = DateTime.UtcNow;
     }
-    
+  
     public void UpdateState(AgentState newState)
     {
         CurrentState = newState;
         LastActiveAt = DateTime.UtcNow;
     }
-    
+  
     public bool CanHandle(string capability) => Capabilities.ContainsKey(capability);
     public T GetCapability<T>(string capability) => (T)Capabilities[capability];
 }
@@ -307,7 +315,7 @@ public class Persona
     public List<PromptTemplate> Templates { get; private set; }
     public Dictionary<string, string> Traits { get; private set; }
     public DateTime CreatedAt { get; private set; }
-    
+  
     public Persona(string name, string role, Dictionary<string, string> traits)
     {
         Id = Guid.NewGuid().ToString();
@@ -317,7 +325,7 @@ public class Persona
         Templates = new List<PromptTemplate>();
         CreatedAt = DateTime.UtcNow;
     }
-    
+  
     public void AddTemplate(PromptTemplate template) => Templates.Add(template);
     public PromptTemplate GetTemplate(string contextTag) => Templates.FirstOrDefault(t => t.ContextTag == contextTag);
     public string GetTrait(string key) => Traits.GetValueOrDefault(key, string.Empty);
@@ -331,7 +339,7 @@ public class PromptTemplate
     public int Version { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public Dictionary<string, string> Parameters { get; private set; }
-    
+  
     public PromptTemplate(string templateText, string contextTag, Dictionary<string, string> parameters = null)
     {
         Id = Guid.NewGuid().ToString();
@@ -341,7 +349,7 @@ public class PromptTemplate
         CreatedAt = DateTime.UtcNow;
         Parameters = parameters ?? new Dictionary<string, string>();
     }
-    
+  
     public string RenderTemplate(Dictionary<string, object> context)
     {
         var result = TemplateText;
@@ -351,7 +359,7 @@ public class PromptTemplate
         }
         return result;
     }
-    
+  
     public PromptTemplate CreateNewVersion(string updatedText)
     {
         return new PromptTemplate(updatedText, ContextTag, Parameters) { Version = Version + 1 };
@@ -368,7 +376,7 @@ public class ExecutionPlan
     public DateTime? StartedAt { get; private set; }
     public DateTime? CompletedAt { get; private set; }
     public string CreatedBy { get; private set; }
-    
+  
     public ExecutionPlan(List<string> tags, string createdBy)
     {
         Id = Guid.NewGuid().ToString();
@@ -378,7 +386,7 @@ public class ExecutionPlan
         CreatedAt = DateTime.UtcNow;
         CreatedBy = createdBy;
     }
-    
+  
     public void AddStep(ExecutionStep step) => Steps.Add(step);
     public void Start() { State = ExecutionState.Running; StartedAt = DateTime.UtcNow; }
     public void Complete() { State = ExecutionState.Completed; CompletedAt = DateTime.UtcNow; }
@@ -400,7 +408,7 @@ public class DocumentAsset
     public DocumentVersion Version { get; private set; }
     public List<string> RelatedDocuments { get; private set; }
     public Dictionary<string, string> Metadata { get; private set; }
-    
+  
     public DocumentAsset(string fileName, byte[] content, string sourcePath)
     {
         Id = Guid.NewGuid().ToString();
@@ -412,7 +420,7 @@ public class DocumentAsset
         RelatedDocuments = new List<string>();
         Metadata = new Dictionary<string, string>();
     }
-    
+  
     public void SetHash(string hash) => ContentHash = hash;
     public void SetEmbeddings(float[] embeddings) => Embeddings = embeddings;
     public void MarkAsActive() => Status = DocumentStatus.Active;
@@ -431,7 +439,7 @@ public class MemoryEntry
     public string SessionId { get; private set; }
     public Dictionary<string, object> Context { get; private set; }
     public float[] Embeddings { get; private set; }
-    
+  
     public MemoryEntry(string type, string content, string sessionId, TimeSpan? ttl = null)
     {
         Id = Guid.NewGuid().ToString();
@@ -442,7 +450,7 @@ public class MemoryEntry
         ExpiresAt = ttl.HasValue ? DateTime.UtcNow.Add(ttl.Value) : null;
         Context = new Dictionary<string, object>();
     }
-    
+  
     public bool IsExpired() => ExpiresAt.HasValue && DateTime.UtcNow > ExpiresAt.Value;
     public void SetEmbeddings(float[] embeddings) => Embeddings = embeddings;
     public void AddContext(string key, object value) => Context[key] = value;
@@ -594,14 +602,14 @@ public interface IAgent
     string AgentType { get; }
     AgentState CurrentState { get; }
     Dictionary<string, object> Capabilities { get; }
-    
+  
     Task<AgentResult> ExecuteAsync(AgentContext context);
     Task<bool> CanHandleAsync(AgentContext context);
     Task InitializeAsync(Dictionary<string, object> parameters);
     Task<AgentState> GetStateAsync();
     Task SetStateAsync(AgentState state);
     Task DisposeAsync();
-    
+  
     event EventHandler<AgentStateChangedEventArgs> StateChanged;
 }
 
@@ -776,8 +784,10 @@ public interface IDocumentIngestionService
 ## 8. Example Use Scenarios
 
 ### 8.1 Automated Document Audit with Retrospective Justification
+
 **Actors**: IngestorAgent, RetrieverAgent, AnalyzerAgent, ReportBuilder
 **Flow**:
+
 1. A user drops a folder of invoices into Google Drive.
 2. IngestorAgent parses the documents via `IDocumentParser`.
 3. Embeddings are generated and stored via `IVectorDbClient`.
@@ -786,32 +796,40 @@ public interface IDocumentIngestionService
 6. ReportBuilder generates a justification report using a template.
 
 ### 8.2 Grounded Question Answering from Operational Manuals
+
 **Actors**: RetrieverAgent, LLMProviderClient, VerificatorAgent
 **Flow**:
+
 1. User asks: "What is the SOP for restarting line A3?"
 2. RetrieverAgent searches document memory using `ISearchEngine`.
 3. Matching content is fed to `ILLMProviderClient` for response generation.
 4. VerificatorAgent ensures response alignment with the source.
 
 ### 8.3 Workflow Execution from Natural Language
+
 **Actors**: NaturalLanguageParser, PlanBuilder, ExecutionEngine
 **Flow**:
+
 1. User says: "Summarize the last three weekly reports and email the result."
 2. INaturalLanguageParser extracts the intent.
 3. PlanBuilder generates a multi-step ExecutionPlan.
 4. ExecutionEngine coordinates tasks: document retrieval, summarization, and dispatch.
 
 ### 8.4 Agent-Driven Classification Pipeline
+
 **Actors**: PreprocessorAgent, DocumentClassifier, OrchestratorAgent
 **Flow**:
+
 1. Documents uploaded are intercepted by PreprocessorAgent.
 2. Content is passed to `IDocumentClassifier`.
 3. Tags are assigned for routing to specialized processing agents.
 4. OrchestratorAgent dispatches execution based on classifications.
 
 ### 8.5 Fallback on LLM Failure
+
 **Actors**: PlannerAgent, ExecutorAgent, StatisticalAgent, FlowController
 **Flow**:
+
 1. PlannerAgent submits a plan with critical steps.
 2. ExecutorAgent fails to complete due to provider outage.
 3. FlowController detects failure and invokes StatisticalAgent.
@@ -822,6 +840,7 @@ public interface IDocumentIngestionService
 ## 9. Interface-Driven Test-Driven Development (I-TDD)
 
 ### 9.1 ILLMProviderClient Tests
+
 ```csharp
 public class LLMProviderClientTests
 {
@@ -839,6 +858,7 @@ public class LLMProviderClientTests
 ```
 
 ### 9.2 IVectorDbClient Tests
+
 ```csharp
 public class VectorDbClientTests
 {
@@ -856,6 +876,7 @@ public class VectorDbClientTests
 ```
 
 ### 9.3 IExecutionEngine Tests
+
 ```csharp
 public class ExecutionEngineTests
 {
@@ -874,6 +895,7 @@ public class ExecutionEngineTests
 ```
 
 ### 9.4 IAgent Tests
+
 ```csharp
 public class AgentTests
 {
@@ -1025,23 +1047,25 @@ graph TD
 
 ## 14. Environment Deployment Matrix
 
+
 | Component              | Dev | Staging | Prod | Notes                               |
-| ---------------------- | --- | ------- | ---- | ----------------------------------- |
-| ASP.NET Core WebHost   | ✓   | ✓       | ✓    | Dockerized / K8s                    |
-| Redis Cache            | ✓   | ✓       | ✓    | Cluster mode in prod                |
-| Qdrant Vector DB       | ✓   | ✓       | ✓    | Container or remote hosted          |
-| SQLServer 2025         | ✓   | ✓       | ✓    | With JSON + Vector support          |
-| MongoDB (Blob storage) | ✓   | ✓       | ✓    | For large doc storage               |
-| Ollama/OpenAI LLMs     | ✓   | ✓       | ✓    | Swap with config + env vars         |
-| Serilog + Seq          | ✓   | ✓       | ✓    | Telemetry pipelines                 |
-| Admin Panel            | ✓   | ✓       | ✓    | Auth integrated, Blazor suggested   |
-| Azure Key Vault        | ✓   | ✓       | ✓    | Secure key store backend for config |
+| ------------------------ | ----- | --------- | ------ | ------------------------------------- |
+| ASP.NET Core WebHost   | ✓  | ✓      | ✓   | Dockerized / K8s                    |
+| Redis Cache            | ✓  | ✓      | ✓   | Cluster mode in prod                |
+| Qdrant Vector DB       | ✓  | ✓      | ✓   | Container or remote hosted          |
+| SQLServer 2025         | ✓  | ✓      | ✓   | With JSON + Vector support          |
+| MongoDB (Blob storage) | ✓  | ✓      | ✓   | For large doc storage               |
+| Ollama/OpenAI LLMs     | ✓  | ✓      | ✓   | Swap with config + env vars         |
+| Serilog + Seq          | ✓  | ✓      | ✓   | Telemetry pipelines                 |
+| Admin Panel            | ✓  | ✓      | ✓   | Auth integrated, Blazor suggested   |
+| Azure Key Vault        | ✓  | ✓      | ✓   | Secure key store backend for config |
 
 ---
 
 ## 15. Maintenance and Support Strategy
 
 ### Continuous Tool and Model Integration
+
 - Recognizing the rapid evolution of generative AI ecosystems, ExxerAI embraces modular, pluggable architecture.
 - Interfaces and abstraction layers enable quick replacement or addition of:
   - LLMs (OpenAI, Ollama, Mistral, etc.)
@@ -1049,11 +1073,13 @@ graph TD
   - Parsing and planning modules
 
 ### Best Practices
+
 - **Weekly Tech Review**: Evaluate emergent tools and standards
 - **Modular Rollout Pipeline**: CI/CD with dependency injection enabling sandboxed tech trials
 - **Version Pinning**: Critical packages are version-locked to ensure runtime consistency
 
 ### Agent Evolution and Lifecycle
+
 - Agents are versioned, deprecated or promoted based on:
   - Accuracy metrics
   - Feedback signals
@@ -1061,10 +1087,12 @@ graph TD
 - Orchestrator dynamically routes to best-fit versions
 
 ### Human-in-the-Loop Oversight
+
 - Admin panel and logs ensure observability and manual override
 - Retrospective sessions support continual tuning and relevance curation
 
 ### Audit & Security
+
 - Secrets managed via `IKeyStoreService`
 - Logging and search backed by structured logs and traceable decision paths
 
@@ -1073,19 +1101,23 @@ graph TD
 ## 16. Update Layer Integration
 
 ### Purpose
+
 - Monitor, retrieve, and evaluate new tools, models, and datasets across the ecosystem.
 
 ### Functionality
+
 - Periodic scanning of trusted registries and publications
 - Notification system for critical updates
 - Plugin loader interface for sandbox trials
 
 ### Architecture
+
 - `IUpdateScannerService` fetches new releases and metadata
 - `INotificationHub` alerts maintainers
 - `ITrialSandbox` hosts testable snapshots
 
 ### Policy
+
 - All integrations require evaluation logs and manual enablement
 - Version snapshot and rollback capability for regression mitigation
 
@@ -1130,6 +1162,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 ## 18. Preferred Packages
 
 ### **Core Framework & Runtime**
+
 - **Microsoft.AspNetCore.App** - Primary web framework
 - **Microsoft.Extensions.Hosting** - Application hosting
 - **Microsoft.Extensions.DependencyInjection** - DI container
@@ -1137,6 +1170,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **Microsoft.Extensions.Logging** - Logging abstraction
 
 ### **AI & LLM Integration**
+
 - **Microsoft.SemanticKernel** - AI orchestration framework
 - **Microsoft.Extensions.AI** - AI abstractions
 - **Azure.AI.OpenAI** - OpenAI integration
@@ -1144,6 +1178,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **ModelContextProtocol** - MCP integration
 
 ### **Data Access & Storage**
+
 - **Microsoft.EntityFrameworkCore** - ORM framework
 - **Npgsql.EntityFrameworkCore.PostgreSQL** - PostgreSQL provider
 - **MongoDB.Driver** - MongoDB client
@@ -1151,12 +1186,14 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **StackExchange.Redis** - Redis client
 
 ### **Authentication & Security**
+
 - **Microsoft.AspNetCore.Authentication.JwtBearer** - JWT authentication
 - **Microsoft.AspNetCore.Authorization** - Authorization policies
 - **Azure.Security.KeyVault.Secrets** - Key management
 - **BCrypt.Net-Next** - Password hashing
 
 ### **Observability & Monitoring**
+
 - **Serilog.AspNetCore** - Structured logging
 - **Serilog.Sinks.Seq** - Seq log server
 - **Serilog.Sinks.File** - File-based logging
@@ -1165,6 +1202,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **prometheus-net.AspNetCore** - Metrics collection
 
 ### **Testing & Quality**
+
 - **xUnit** - Unit testing framework
 - **Microsoft.AspNetCore.Mvc.Testing** - Integration testing
 - **NSubstitute** - Mocking framework (preferred over Moq)
@@ -1174,6 +1212,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **IDateTimeMachine** - Industrial-grade time abstraction (proprietary)
 
 ### **Resilience & Reliability**
+
 - **Polly** - Resilience and retry policies
 - **HybridCache** - Local and in-memory caching
 - **Microsoft.Extensions.Caching.Memory** - In-memory caching fallback
@@ -1181,12 +1220,14 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **Microsoft.Extensions.Diagnostics.HealthChecks** - Health checks
 
 ### **Document Processing**
+
 - **PdfPig** - PDF manipulation and reading
 - **ClosedXML** - Excel document processing
 - **Markdig** - Markdown processing
 - **HtmlAgilityPack** - HTML parsing
 
 ### **Data Access & Storage (Enhanced)**
+
 - **Microsoft.EntityFrameworkCore** - ORM framework
 - **Npgsql.EntityFrameworkCore.PostgreSQL** - PostgreSQL provider
 - **Dapper** - Micro-ORM for performance-critical operations
@@ -1197,15 +1238,18 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **StackExchange.Redis** - Redis client
 
 ### **Result Patterns & Error Handling**
+
 - **FluentResults** - Result pattern implementation (optional)
 - **Custom Result Classes** - Proprietary result pattern (primary choice)
 
 ### **External Integrations**
+
 - **Google.Apis.Drive.v3** - Google Drive API client
 - **Google.Apis.Auth** - Google OAuth authentication
 - **Google.Apis.Sheets.v4** - Google Sheets integration
 
 ### **Validation & Serialization**
+
 - **FluentValidation** - Input validation
 - **System.Text.Json** - JSON serialization
 - **YamlDotNet** - YAML processing
@@ -1216,18 +1260,21 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 ## 19. Forbidden Packages
 
 ### **Deprecated/Legacy Packages**
+
 - **Newtonsoft.Json** - Use System.Text.Json instead
 - **System.Web** - Legacy ASP.NET, not .NET Core
 - **Microsoft.AspNet.*** - Legacy ASP.NET packages
 - **EntityFramework** - Use EntityFrameworkCore instead
 
 ### **Anti-Pattern/Architecture Violations**
+
 - **AutoMapper** - Use static methods on DTOs or extension methods instead (Jimmy considering commercial, obsolete pattern)
 - **MediatR** - Adds unnecessary complexity to simple CRUD operations (Jimmy considering commercial, obsolete pattern)
 - **FluentAssertions** - Use Shouldly instead ($120/dev annual, no more features)
 - **Moq** - Use NSubstitute or real implementations instead
 
 ### **Security Risk & Compromised Packages**
+
 - **Microsoft.AspNetCore.Mvc.NewtonsoftJson** - Potential vulnerabilities
 - **System.Drawing.Common** - Cross-platform security issues
 - **Microsoft.AspNetCore.NodeServices** - Security concerns
@@ -1236,6 +1283,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **Vendor-compromised packages** - Supply chain security risks
 
 ### **Commercial/Proprietary Restrictions**
+
 - **Azure-specific packages** - Avoid vendor lock-in to Microsoft Azure
 - **Office 365/Microsoft 365 packages** - Commercial licensing restrictions
 - **Telerik components** without license - Commercial restrictions
@@ -1244,6 +1292,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **Any commercial packages** - Prefer FOSS alternatives
 
 ### **Performance/Compatibility Issues**
+
 - **Microsoft.Extensions.Logging.Console** in production - Use structured logging
 - **Microsoft.EntityFrameworkCore.InMemory** in production - Data loss risk
 - **System.Data.SqlClient** - Use Microsoft.Data.SqlClient instead
@@ -1251,6 +1300,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **Microsoft.ApplicationInsights.AspNetCore** - Azure lock-in, use open alternatives
 
 ### **Unmaintained/Abandoned**
+
 - **Microsoft.AspNetCore.SpaServices** - Deprecated
 - **Microsoft.AspNetCore.SpaServices.Extensions** - Deprecated
 - **Microsoft.Extensions.Caching.SqlServer** - Better alternatives available
@@ -1258,6 +1308,7 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 - **iTextSharp** - Use PdfPig instead for better licensing
 
 ### **Framework Version Restrictions**
+
 - **Packages targeting < .NET 8** - Must support .NET 8 or greater
 - **Legacy .NET Framework packages** - Use .NET Core/.NET equivalents
 - **Packages not supporting .NET Standard 2.0** - For library components, ensure .NET Standard 2.0 compatibility
@@ -1265,7 +1316,9 @@ Extreme latency/throughput constraints where contextual prompting introduces una
   - **Exception**: .NET 10.0 pre-releases allowed for future updates and evaluation
 
 ### **Package Selection Criteria**
+
 **REQUIRED QUALITIES:**
+
 - **FOSS Compliant** - Open source with permissive licensing
 - **Trusted Vendors** - Established maintainers with good support track record
 - **Active Development** - Regular updates and security patches
@@ -1279,22 +1332,28 @@ Extreme latency/throughput constraints where contextual prompting introduces una
 ## 20. Implementation Strategy & Next Steps
 
 ### **Foundation First Approach**
+
 The ExxerAI system will be built incrementally, starting with core interfaces and expanding functionality based on real-world usage and validated requirements. This approach ensures rapid MVP delivery while maintaining architectural integrity.
 
 ### **Technology Decision Framework**
+
 Each technology addition will be evaluated using the **CPT Framework**:
+
 - **Cost**: Direct costs (licensing, hosting) and indirect costs (training, maintenance)
 - **Performance**: Benchmarks, scalability, and resource utilization
 - **Time**: Implementation time, learning curve, and time-to-market impact
 
 ### **Risk Mitigation Strategy**
+
 A comprehensive risk assessment will be conducted for each major technology decision, with specific mitigation strategies for:
+
 - **Vendor lock-in**: Abstraction layers and fallback options
 - **Scaling challenges**: Performance testing and gradual rollout
 - **Cost escalation**: Usage monitoring and budget controls
 - **Security vulnerabilities**: Regular audits and updates
 
 ### **Success Metrics**
+
 - **Technical**: System uptime, response times, error rates
 - **Business**: User adoption, task completion rates, cost efficiency
 - **Quality**: Test coverage, code quality scores, security compliance
@@ -1306,7 +1365,9 @@ A comprehensive risk assessment will be conducted for each major technology deci
 ## **CRITICAL GAPS & MISSING INTERFACES** ✅ **RESOLVED**
 
 ### **Missing Core Interfaces:** ✅ **IMPLEMENTED**
+
 All missing interfaces have been defined with comprehensive method signatures:
+
 - ✅ **IKeyStoreService** - Secure secret management with Azure Key Vault integration
 - ✅ **IHealthCheckService** - System health monitoring with component-level checks
 - ✅ **IMetricsCollector** - Performance metrics with Prometheus integration
@@ -1319,6 +1380,7 @@ All missing interfaces have been defined with comprehensive method signatures:
 - ✅ **IRetryPolicyManager** - Retry policies with Polly integration
 
 ### **Enhanced Interface Definitions:** ✅ **COMPLETED**
+
 - ✅ **IAgent** - Full capabilities, state management, and lifecycle events
 - ✅ **IExecutionEngine** - Transaction support with rollback mechanisms
 - ✅ **IFlowController** - Circuit breaker patterns and flow evaluation
@@ -1329,15 +1391,18 @@ All missing interfaces have been defined with comprehensive method signatures:
 ## **OVER-ENGINEERING CONCERNS** ✅ **ADDRESSED**
 
 ### **Incremental Technology Addition Strategy** 📝 **NOTE ADDED**
+
 *Each technology will be added incrementally. Assessment will consider cost, performance, and implementation time to achieve MVP as soon as possible.*
 
 **Current Approach:**
+
 - **Phase 1 MVP**: PostgreSQL + OpenAI + Basic Agents (5 types)
 - **Phase 2**: Add Qdrant vector database + Redis caching
 - **Phase 3**: Add Ollama + MongoDB (if needed)
 - **Phase 4**: Additional database support (only if required)
 
 **Technology Decision Framework:**
+
 - **CPT Analysis**: Cost + Performance + Time evaluation for each addition
 - **ROI Validation**: Prove value before adding complexity
 - **Usage Metrics**: Data-driven decisions on technology stack expansion
@@ -1347,6 +1412,7 @@ All missing interfaces have been defined with comprehensive method signatures:
 ## **UNDER-ENGINEERING CONCERNS** ✅ **RESOLVED**
 
 ### **Missing Critical Components:** ✅ **IMPLEMENTED**
+
 - ✅ **State Management** - `IStateManager` with Redis persistence
 - ✅ **Transaction Support** - ACID guarantees in `IExecutionEngine`
 - ✅ **Monitoring & Observability** - `IObservabilityService` with Application Insights
@@ -1357,6 +1423,7 @@ All missing interfaces have been defined with comprehensive method signatures:
 - ✅ **Testing Framework** - Comprehensive I-TDD with real implementations
 
 ### **Missing Business Logic:** ✅ **IMPLEMENTED**
+
 - ✅ **Prompt Template Versioning** - Change management in domain model
 - ✅ **Result Caching Strategy** - TTL policies and cache invalidation
 - ✅ **Memory Cleanup** - Retention policies with automatic cleanup
@@ -1367,20 +1434,24 @@ All missing interfaces have been defined with comprehensive method signatures:
 ## **VIABILITY ISSUES** ✅ **MITIGATED**
 
 ### **Implementation Complexity** 📝 **NOTE ADDED**
+
 *This will be solved using Claude, the best programmer in the world as senior developer and leader of design and engineering, and ABR as architect and decision maker - a master with more than 30 years of solving critical problems, aided by an enthusiastic team of motivated engineers.*
 
 **Updated Estimates:**
+
 - **Development Time**: 3-6 months for MVP (reduced from 12-18 months)
 - **Team Composition**: Claude (Senior Developer) + ABR (Architect) + Motivated Engineers
 - **Operational Complexity**: Medium (reduced from High) with proper tooling
 - **Maintenance Burden**: Manageable with automated testing and monitoring
 
 ### **Technology Risks** 📝 **RISK ASSESSMENT REQUIRED**
+
 *A risk assessment must be made to implement mitigation strategies for:*
 
 **Risk Mitigation Matrix:**
+
 - **LLM Provider Lock-in** → Multiple provider support + prompt abstraction layers
-- **Vector DB Scaling** → Performance benchmarking + horizontal scaling strategies  
+- **Vector DB Scaling** → Performance benchmarking + horizontal scaling strategies
 - **Memory Management** → Retention policies + archival strategies + cost monitoring
 - **Cost Scaling** → Usage quotas + cost alerts + alternative provider fallbacks
 
@@ -1389,11 +1460,13 @@ All missing interfaces have been defined with comprehensive method signatures:
 ## **FINAL VERDICT** ✅ **UPDATED**
 
 ### **Current State: 9/10** (Upgraded from 6/10)
+
 - **Excellent:** Complete interface definitions, comprehensive architecture, risk mitigation
 - **Good:** Solid implementation strategy, technology decision framework, team composition
 - **Minor:** Subject to ±0.5 variation after detailed risk analysis
 
 ### **Is it viable?**
+
 **YES** - The system now has complete interface definitions, addresses all critical gaps, and includes comprehensive risk mitigation strategies. The incremental approach with expert leadership significantly improves viability.
 
 ---
@@ -1403,6 +1476,7 @@ All missing interfaces have been defined with comprehensive method signatures:
 ## **MVP Core Components** (Phase 1 - 8-10 days)
 
 ### **Essential Interfaces to Implement First:**
+
 ```csharp
 // 1. Foundation Layer (Day 1-2)
 ILLMProviderClient (OpenAI only)
@@ -1429,6 +1503,7 @@ Documentation
 ```
 
 ### **MVP Agent Types** (Reduced from 15+ to 5):
+
 1. **OrchestratorAgent** - Central coordination
 2. **PlannerAgent** - Intent → ExecutionPlan conversion
 3. **ExecutorAgent** - Step execution
@@ -1436,6 +1511,7 @@ Documentation
 5. **ResponderAgent** - Format final responses
 
 ### **MVP Technology Stack:**
+
 ```yaml
 Framework: ASP.NET Core 8
 Database: PostgreSQL (single instance)
@@ -1448,12 +1524,14 @@ Testing: xUnit + NSubstitute
 ```
 
 ### **MVP Use Cases:**
+
 1. **Document Q&A** - Upload PDF → Ask questions → Get answers
 2. **Simple Planning** - Natural language → Execution steps
 3. **Basic Memory** - Remember conversation context
 4. **Template Management** - Store and version prompts
 
 ### **Success Criteria for MVP:**
+
 - [ ] Process document upload and indexing
 - [ ] Answer questions with source citations
 - [ ] Convert natural language to execution plans
@@ -1462,15 +1540,18 @@ Testing: xUnit + NSubstitute
 - [ ] Monitor system health and performance
 
 ### **Next Phase Roadmap:**
+
 - **Phase 2 (Days 11-15)**: Add Qdrant vector DB + advanced document processing
 - **Phase 3 (Days 16-18)**: Add Ollama support + advanced agents
 - **Phase 4 (Days 19-20)**: Add MongoDB + full monitoring suite
 - **Phase 5 (Future)**: Add advanced features (statistical analysis, multi-tenancy)
 
 ### **Repository Decision:**
+
 **Recommendation**: Create a new repository `ExxerAI` separate from the current invoice project. This allows:
+
 - Clean architecture from day 1
-- Independent deployment and versioning  
+- Independent deployment and versioning
 - No legacy code interference
 - Focused development environment
 
@@ -1498,7 +1579,7 @@ $folders = @{
     "src/ExxerAI.Domain/ValueObjects" = "AgentState.cs"
     "src/ExxerAI.Domain/Enums" = "ExecutionState.cs"
     "src/ExxerAI.Domain/Events" = "AgentStateChangedEvent.cs"
-    
+  
     # Application Layer
     "src/ExxerAI.Application/Interfaces" = "IAgent.cs"
     "src/ExxerAI.Application/Services" = "AgentOrchestrationService.cs"
@@ -1506,7 +1587,7 @@ $folders = @{
     "src/ExxerAI.Application/DTOs" = "AgentRequest.cs"
     "src/ExxerAI.Application/DTOs/Extensions" = "AgentExtensions.cs"
     "src/ExxerAI.Application/Behaviors" = "LoggingBehavior.cs"
-    
+  
     # Infrastructure Layer
     "src/ExxerAI.Infrastructure/LLM/OpenAI" = "OpenAIClient.cs"
     "src/ExxerAI.Infrastructure/LLM/Ollama" = ".gitkeep"
@@ -1526,7 +1607,7 @@ $folders = @{
     "src/ExxerAI.Infrastructure/Files/PDF" = "PdfPigProcessor.cs"
     "src/ExxerAI.Infrastructure/Files/Excel" = "ClosedXmlProcessor.cs"
     "src/ExxerAI.Infrastructure/Files/Markdown" = "MarkdigProcessor.cs"
-    
+  
     # Presentation Layer
     "src/ExxerAI.WebAPI" = "Program.cs"
     "src/ExxerAI.WebAPI/Controllers" = "AgentsController.cs"
@@ -1540,7 +1621,7 @@ $folders = @{
     "src/ExxerAI.BlazorUI/wwwroot" = ".gitkeep"
     "src/ExxerAI.CLI" = "Program.cs"
     "src/ExxerAI.CLI/Commands" = "AgentCommands.cs"
-    
+  
     # Test Projects
     "tests/ExxerAI.Domain.Tests" = "ExxerAI.Domain.Tests.csproj"
     "tests/ExxerAI.Domain.Tests/Entities" = "AgentTests.cs"
@@ -1559,7 +1640,7 @@ $folders = @{
     "tests/ExxerAI.IntegrationTests/Scenarios" = "DocumentIngestionScenarioTests.cs"
     "tests/ExxerAI.IntegrationTests/Fixtures" = "TestFixture.cs"
     "tests/ExxerAI.PerformanceTests" = "ExxerAI.PerformanceTests.csproj"
-    
+  
     # Documentation & Tools
     "docs/architecture" = "README.md"
     "docs/api" = "openapi.yaml"
@@ -1569,7 +1650,7 @@ $folders = @{
     "tools/migrations" = ".gitkeep"
     "tools/scripts" = "setup-dev-env.ps1"
     "tools/dev-setup" = ".gitkeep"
-    
+  
     # Shared Package
     "packages/ExxerAI.Shared" = "ExxerAI.Shared.csproj"
     "packages/ExxerAI.Shared/Constants" = "ApplicationConstants.cs"
@@ -1582,13 +1663,13 @@ $folders = @{
 foreach ($folder in $folders.Keys) {
     $fullPath = Join-Path $SolutionPath $folder
     $fileName = $folders[$folder]
-    
+  
     # Create directory
     New-Item -ItemType Directory -Path $fullPath -Force | Out-Null
-    
+  
     # Create file (either .gitkeep or actual file)
     $filePath = Join-Path $fullPath $fileName
-    
+  
     if ($fileName -eq ".gitkeep") {
         "# This file keeps the directory in Git`n# Remove this file when adding actual content" | Out-File -FilePath $filePath -Encoding UTF8
         Write-Host "Created: $folder/.gitkeep" -ForegroundColor DarkYellow
@@ -1603,9 +1684,9 @@ foreach ($folder in $folders.Keys) {
 # Function to generate appropriate file stubs
 function Get-FileStub {
     param($FileName, $FolderPath)
-    
+  
     $namespace = ($FolderPath -replace "src/", "" -replace "/", ".").Split("/")[0]
-    
+  
     switch -Regex ($FileName) {
         "\.cs$" {
             if ($FileName.EndsWith("Tests.cs")) {
@@ -1623,10 +1704,10 @@ public class $($FileName -replace "\.cs", "")
     {
         // Arrange
         var expected = true;
-        
+  
         // Act
         var actual = true;
-        
+  
         // Assert
         actual.ShouldBe(expected);
     }
@@ -1733,12 +1814,12 @@ $rootFiles = @{
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
-    
+  
     <!-- AI & LLM Integration -->
     <PackageVersion Include="Microsoft.SemanticKernel" Version="1.0.0" />
     <PackageVersion Include="Azure.AI.OpenAI" Version="1.0.0" />
     <PackageVersion Include="OllamaSharp" Version="1.0.0" />
-    
+  
     <!-- Data Access & Storage -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
@@ -1748,13 +1829,13 @@ $rootFiles = @{
     <PackageVersion Include="LiteDB" Version="5.0.21" />
     <PackageVersion Include="MongoDB.Driver" Version="2.25.0" />
     <PackageVersion Include="Qdrant.Client" Version="1.7.0" />
-    
+  
     <!-- Authentication & Security -->
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="8.0.0" />
     <PackageVersion Include="Azure.Security.KeyVault.Secrets" Version="4.6.0" />
     <PackageVersion Include="BCrypt.Net-Next" Version="4.0.3" />
-    
+  
     <!-- Observability & Monitoring -->
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Sinks.Seq" Version="7.0.1" />
@@ -1763,7 +1844,7 @@ $rootFiles = @{
     <PackageVersion Include="Serilog.Sinks.Demystify" Version="1.0.2" />
     <PackageVersion Include="prometheus-net.AspNetCore" Version="8.2.1" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="8.0.0" />
-    
+  
     <!-- Testing & Quality -->
     <PackageVersion Include="xUnit" Version="2.8.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
@@ -1771,28 +1852,28 @@ $rootFiles = @{
     <PackageVersion Include="Shouldly" Version="4.2.1" />
     <PackageVersion Include="Meziantou.Extensions.Logging.Xunit" Version="1.0.9" />
     <PackageVersion Include="Bogus" Version="35.5.1" />
-    
+  
     <!-- Resilience & Reliability -->
     <PackageVersion Include="Polly" Version="8.3.1" />
     <PackageVersion Include="HybridCache" Version="1.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
-    
+  
     <!-- Document Processing -->
     <PackageVersion Include="PdfPig" Version="0.1.8" />
     <PackageVersion Include="ClosedXML" Version="0.102.2" />
     <PackageVersion Include="Markdig" Version="0.37.0" />
     <PackageVersion Include="HtmlAgilityPack" Version="1.11.59" />
-    
+  
     <!-- External Integrations -->
     <PackageVersion Include="Google.Apis.Drive.v3" Version="1.68.0.3383" />
     <PackageVersion Include="Google.Apis.Auth" Version="1.68.0" />
     <PackageVersion Include="Google.Apis.Sheets.v4" Version="1.68.0.3383" />
-    
+  
     <!-- Validation & Serialization -->
     <PackageVersion Include="FluentValidation" Version="11.9.0" />
     <PackageVersion Include="System.Text.Json" Version="8.0.0" />
     <PackageVersion Include="YamlDotNet" Version="15.1.2" />
-    
+  
     <!-- Result Patterns -->
     <PackageVersion Include="FluentResults" Version="3.15.2" />
   </ItemGroup>
@@ -2190,7 +2271,8 @@ A C#/.NET-based orchestration framework for managing contextual and persona-base
 - **Days 9-10**: Integration and testing
 
 ## Project Structure
-````
+```
+
 src/
 ├── ExxerAI.Domain/          # Core business logic and entities
 ├── ExxerAI.Application/     # Use cases and application services
@@ -2206,7 +2288,88 @@ tests/
 ├── ExxerAI.WebAPI.Tests/       # API integration tests
 ├── ExxerAI.IntegrationTests/   # End-to-end tests
 └── ExxerAI.PerformanceTests/   # Load and performance tests
+
 ````
+
+
+we need information on this
+my most important bussines partners are this ones:
+
+Provider-clients
+Siemens
+Rockwell
+ABB
+
+Clientes
+Tremec
+Valeo,
+Alll Automotive Oem, importants
+GM, Ford, VW, Audi, RAM, Stelantes, are the same, Tesla, not so much anymore but still importan, Nissan, Honda, Toyota, etc.. you have the idea,
+Automotive tier1 on Quereataro, the bajio and mexico .
+Tech news, microsofot, dotnet, sql, c#, hackernews, not so much linkedint, youtube,
+news about AI, but maybe is overwhelmin already have to much
+tech in general, same case as above
+Echonomy,
+Strategical Shifts
+From our quotations we must extract ( signalr to market tends)
+Corporative fusion betwenn our providers and clients
+Contacts from ours perspective users, (and movilite betwen companies) we sell to bissines, but we negotiate with people,
+
+Not imporant to me, but very nagging, i am not sure if have something
+all the goverment and regulatory agencies, on mexico and the usa
+
+i am gong to past this to the plan, please make it formal enahce the wordking 
+we need information on this
+my most important bussines partners are this ones:
+
+Provider-clients
+Siemens
+Rockwell
+ABB
+
+Clientes
+Tremec
+Valeo,
+Alll Automotive Oem, importants
+GM, Ford, VW, Audi, RAM, Stelantes, are the same, Tesla, not so much anymore but still importan, Nissan, Honda, Toyota, etc.. you have the idea,
+Automotive tier1 on Quereataro, the bajio and mexico .
+Tech news, microsofot, dotnet, sql, c#, hackernews, not so much linkedint, youtube,
+news about AI, but maybe is overwhelmin already have to much
+tech in general, same case as above
+Echonomy,
+Strategical Shifts
+From our quotations we must extract ( signalr to market tends)
+Corporative fusion betwenn our providers and clients
+Contacts from ours perspective users, (and movilite betwen companies) we sell to bissines, but we negotiate with people,
+
+Not imporant to me, but very nagging, i am not sure if have something
+all the goverment and regulatory agencies, on mexico and the usa
+we need information on this
+my most important bussines partners are this ones:
+
+Provider-clients
+Siemens
+Rockwell
+ABB
+
+Clientes
+Tremec
+Valeo,
+Alll Automotive Oem, importants
+GM, Ford, VW, Audi, RAM, Stelantes, are the same, Tesla, not so much anymore but still importan, Nissan, Honda, Toyota, etc.. you have the idea,
+Automotive tier1 on Quereataro, the bajio and mexico .
+Tech news, microsofot, dotnet, sql, c#, hackernews, not so much linkedint, youtube,
+news about AI, but maybe is overwhelmin already have to much
+tech in general, same case as above
+Echonomy,
+Strategical Shifts
+From our quotations we must extract ( signalr to market tends)
+Corporative fusion betwenn our providers and clients
+Contacts from ours perspective users, (and movilite betwen companies) we sell to bissines, but we negotiate with people,
+
+Not imporant to me, but very nagging, i am not sure if have something
+all the goverment and regulatory agencies, on mexico and the usa
+
 
 ## Development
 See ``/docs/architecture/`` for detailed documentation.
@@ -2226,7 +2389,7 @@ MIT License - see LICENSE file for details.
 foreach ($file in $rootFiles.Keys) {
     $filePath = Join-Path $SolutionPath $file
     $content = $rootFiles[$file]
-    
+  
     if ($content -eq "") {
         Write-Host "Skipping: $file (will be created by dotnet CLI)" -ForegroundColor DarkGray
     } else {
@@ -2278,7 +2441,7 @@ flowchart TD
             MMS["🗄️ Memory Management<br/>Service"]
             DIS["📁 Document Ingestion<br/>Service"]
         end
-        
+  
         subgraph "Agents"
             OA["🎯 Orchestrator Agent"]
             PA["📋 Planner Agent"]
@@ -2286,7 +2449,7 @@ flowchart TD
             RA["🔍 Retriever Agent"]
             RSA["💬 Responder Agent"]
         end
-        
+  
         subgraph "Cross-Cutting"
             VB["✅ Validation Behavior"]
             LB["📝 Logging Behavior"]
@@ -2304,7 +2467,7 @@ flowchart TD
             PT["📝 Prompt Template"]
             DA["📄 Document Asset"]
         end
-        
+  
         subgraph "Value Objects"
             AST["⚙️ Agent State"]
             ER["✅ Execution Result"]
@@ -2318,25 +2481,25 @@ flowchart TD
             OAI["🧠 OpenAI Client"]
             OL["🏠 Ollama Client"]
         end
-        
+  
         subgraph "Data Storage"
             PG["🐘 PostgreSQL<br/>Vector + Relational"]
             RD["⚡ Redis Cache"]
             LDB["💾 LiteDB<br/>Embedded Storage"]
         end
-        
+  
         subgraph "External APIs"
             GD["📁 Google Drive API<br/>Document Watch<br/>Version Detection<br/>Content Extraction"]
             GS["📊 Google Sheets API"]
             EMAIL["📧 Email Notification<br/>Service"]
         end
-        
+  
         subgraph "Monitoring & Logging"
             SL["📊 Serilog + Seq"]
             PM["📈 Prometheus"]
             HC["❤️ Health Checks"]
         end
-        
+  
         subgraph "File Processing"
             PDF["📄 PdfPig Processor"]
             XLS["📊 ClosedXML Processor"]
@@ -2386,7 +2549,7 @@ flowchart TD
     classDef applicationStyle fill:#f3e5f5,stroke:#4a148c,stroke-width:3px,color:#000
     classDef domainStyle fill:#e1f5fe,stroke:#01579b,stroke-width:3px,color:#000
     classDef infrastructureStyle fill:#e8f5e8,stroke:#1b5e20,stroke-width:3px,color:#000
-    
+  
     class UI1,UI2,UI3 presentationStyle
     class AS,WES,PMS,MMS,DIS,OA,PA,EA,RA,RSA,VB,LB,RB,MB applicationStyle
     class AG,PE,EP,ME,PT,DA,AST,ER,VR,DH domainStyle
@@ -2620,3 +2783,113 @@ ExxerAI.sln
 🔄 **Scalable**: Horizontal scaling through stateless design  
 🛡️ **Secure**: Security concerns isolated in infrastructure layer
 
+---
+
+## 19. Business Intelligence & Strategic Stakeholders
+
+### 🏭 **Provider-Clients (Technology Partners)**
+
+#### **Tier 1 Industrial Automation Partners**
+- **🔵 Siemens** - Industrial automation, digitalization solutions
+- **🟠 Rockwell Automation** - Industrial control systems, factory automation
+- **🔴 ABB** - Robotics, power, and automation technologies
+
+*Strategic Importance: These partnerships drive our technology stack decisions and industrial IoT integration capabilities.*
+
+---
+
+### 🚗 **Automotive Client Ecosystem**
+
+#### **Key Automotive Clients**
+- **🔧 Tremec** - Transmission systems manufacturer
+- **⚙️ Valeo** - Automotive supplier, technology solutions
+
+#### **Global OEM Partners**
+- **🇺🇸 American OEMs**: General Motors, Ford, RAM, Stellantis
+- **🇩🇪 German Premium**: Volkswagen, Audi  
+- **🚗 Electric & Innovation**: Tesla (reduced but still significant)
+- **🇯🇵 Japanese Quality**: Nissan, Honda, Toyota
+- **🌍 Additional Global OEMs**: All major automotive manufacturers
+
+#### **Regional Focus Areas**
+- **🎯 Primary Markets**: Querétaro, El Bajío, Mexico
+- **🏭 Sector**: Automotive Tier 1 suppliers and manufacturers
+- **🔗 Relationship Model**: B2B sales with personal relationship management
+
+*Strategic Note: "We sell to businesses, but we negotiate with people" - Human relationship tracking is critical*
+
+---
+
+### 📊 **Business Intelligence Sources**
+
+#### **🔧 Technology Intelligence**
+- **Microsoft Ecosystem**: .NET, SQL Server, C# developments
+- **Developer Community**: Hacker News (high priority)
+- **Professional Network**: LinkedIn (selective engagement)
+- **Video Content**: YouTube technical channels
+- **Platform Focus**: Microsoft-centric technology stack
+
+#### **🤖 AI & Innovation Intelligence** 
+- **AI Industry News**: Market developments, competitive landscape
+- **Technology Trends**: Emerging AI capabilities, integration opportunities
+- **⚠️ Volume Management**: "Maybe overwhelming already, have too much" - Need intelligent filtering
+
+#### **📈 Economic & Strategic Intelligence**
+- **Market Trends**: Economic indicators affecting industrial sector
+- **Strategic Shifts**: Industry transformation patterns
+- **Corporate M&A**: Provider and client consolidation activities
+- **Contact Mobility**: Personnel movement between companies (relationship continuity)
+
+#### **💼 Sales Intelligence (SignalR Integration)**
+- **Quotation Analysis**: Extract market trend signals from our quotes
+- **Competitive Positioning**: Monitor pricing and solution trends
+- **Client Behavior**: Pattern recognition in purchasing decisions
+- **Market Timing**: Economic cycle impact on industrial investments
+
+#### **🏛️ Regulatory Intelligence (Low Priority)**
+- **Mexican Regulatory**: Government agencies and compliance
+- **US Regulatory**: Cross-border business requirements
+- **Assessment**: "Not important to me, but very nagging" - Automate monitoring
+
+---
+
+### 🎯 **ExxerAI Integration Strategy**
+
+#### **High-Priority Intelligence Automation**
+1. **🔍 Provider-Client Monitoring**: Siemens, Rockwell, ABB news and developments
+2. **🚗 Automotive Sector Tracking**: OEM and Tier 1 supplier intelligence  
+3. **💻 Microsoft Tech Stack**: .NET, C#, SQL Server updates and roadmap
+4. **📊 Economic Indicators**: Industrial automation market trends
+
+#### **Medium-Priority Intelligence**
+1. **🤖 AI Industry Developments**: Filtered and contextual to our business
+2. **🏭 Contact Relationship Tracking**: Personnel mobility between companies
+3. **💰 M&A Activity Monitoring**: Provider and client consolidation
+
+#### **Automated Low-Priority Processing**
+1. **🏛️ Regulatory Compliance**: Mexican and US government requirements
+2. **📰 General Tech News**: Filtered for relevance to our technology stack
+
+#### **Google Drive Integration Priority**
+- **📋 Sales Documentation**: Quotation analysis and trend extraction
+- **👥 Contact Management**: Relationship tracking across companies
+- **📈 Market Intelligence**: Strategic shift documentation
+- **🔗 Partnership Records**: Provider-client relationship evolution
+
+---
+
+### 🚀 **Strategic Implementation**
+
+#### **MCP Integration for Business Intelligence**
+- **Google Drive MCP**: Sales documentation and market intelligence
+- **Web Search MCP**: Real-time monitoring of providers and clients
+- **Database MCP**: Contact relationship and trend analysis
+- **RSS/News MCP**: Technology and industry news aggregation
+
+#### **Agent Specialization for Business Context**
+- **Market Intelligence Agent**: Provider-client news and trends
+- **Relationship Tracking Agent**: Contact mobility and M&A monitoring
+- **Technical Intelligence Agent**: Microsoft ecosystem developments
+- **Economic Analysis Agent**: Industrial market trend analysis
+
+*This business intelligence framework ensures ExxerAI serves real strategic needs while automating the "nagging but necessary" regulatory monitoring.*

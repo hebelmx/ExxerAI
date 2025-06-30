@@ -18,6 +18,6 @@ try
 catch (Exception ex)
 {
     Console.WriteLine($"❌ Application failed: {ex.Message}");
-    Console.WriteLine("Press any key to exit...");
-    Console.ReadKey();
+    Console.WriteLine("Application exiting...");
+    Environment.ExitCode = 1;
 }

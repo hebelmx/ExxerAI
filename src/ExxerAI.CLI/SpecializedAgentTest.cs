@@ -93,7 +93,6 @@ public static class SpecializedAgentTest
             Console.WriteLine("\n" + "-".PadRight(80, '-'));
         }
 
-        Console.WriteLine("\n🏁 Specialized Agent Test completed. Press any key to exit...");
-        Console.ReadKey();
+        Console.WriteLine("\n🏁 Specialized Agent Test completed successfully!");
     }
 } 

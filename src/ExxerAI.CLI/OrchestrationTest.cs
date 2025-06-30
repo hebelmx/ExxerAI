@@ -124,8 +124,7 @@ public static class OrchestrationTest
             }
 
             Console.WriteLine(new string('-', 100));
-            Console.WriteLine("Press any key to continue to next test...");
-            Console.ReadKey();
+            Console.WriteLine("Continuing to next test...");
             Console.WriteLine();
         }
 
@@ -134,8 +133,6 @@ public static class OrchestrationTest
         var status = await orchestrator.GetAgentStatusAsync();
         Console.WriteLine(status);
 
-        Console.WriteLine("\n🏁 Multi-Agent Orchestration Test completed!");
-        Console.WriteLine("Press any key to exit...");
-        Console.ReadKey();
+        Console.WriteLine("\n🏁 Multi-Agent Orchestration Test completed successfully!");
     }
 } 
