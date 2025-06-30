@@ -23,7 +23,8 @@ dotnet sln add ExxerAI.CLI/ExxerAI.CLI.csproj
 dotnet new webapi --auth Individual --use-local-db --use-controllers --name ExxerAI.Api --framework net9.0 --use-program-main
 dotnet sln add ExxerAI.Api/ExxerAI.Api.csproj
 
-dotnet new mudblazor --interactivity Server --name ExxerAI.UI --all-interactive --auth Individual sqlserver --framework net9.0
+#dotnet new mudblazor --interactivity Server --name ExxerAI.UI --all-interactive  server --auth Individual sqlserver --framework net9.0
+dotnet new mudblazor --interactivity Server --name ExxerAI.UI -ai -au individual --framework net9.0
 dotnet sln add ExxerAI.UI/ExxerAI.UI.csproj
 
 # Create tests folder and test projects

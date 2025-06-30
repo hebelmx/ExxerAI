@@ -132,6 +132,8 @@
 		<!--================================================================-->
 		<!--== UI (for future projects) ==-->
 		<!--==============================================================-->
+		<PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="3.2.0" />
+		<PackageVersion Include="MudBlazor.Extensions" Version="8.7.0" />
 		<PackageVersion Include="MudBlazor" Version="8.8.0" />
 	</ItemGroup>
 </Project>
