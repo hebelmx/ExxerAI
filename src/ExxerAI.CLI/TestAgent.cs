@@ -1,30 +1,27 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Application.Services;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Infrastructure.Services;
-using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.CLI;
 
 /// <summary>
-/// Simple test class to verify Ollama connection and agent functionality
+/// Test class for autonomous agent functionality
 /// </summary>
 public static class TestAgent
 {
     public static async Task RunBasicTestAsync()
     {
-        Console.WriteLine("🤖 ExxerAI Agent Test - Connecting to Local Ollama...\n");
+        Console.WriteLine("🚀 ExxerAI Basic Agent Test - Autonomous AI Conversation\n");
 
-        // Create logger (simple logger without console extensions)
-        using var loggerFactory = LoggerFactory.Create(builder => { });
-        var logger = loggerFactory.CreateLogger<GeneralPurposeAgent>();
+        var ollamaProvider = new OllamaProvider();
+
+        // Create a general-purpose agent
+        var agent = new GeneralPurposeAgent(ollamaProvider);
+
+        Console.WriteLine("🤖 ExxerAI Agent Test - Connecting to Local Ollama...\n");
 
         try
         {
-            // Create Ollama provider
-            var ollamaProvider = new OllamaProvider();
-            Console.WriteLine($"✅ Created {ollamaProvider.ProviderName} provider");
-
             // Test provider health
             Console.WriteLine("🔍 Checking Ollama health...");
             var isHealthy = await ollamaProvider.IsHealthyAsync();
@@ -35,10 +32,6 @@ public static class TestAgent
                 Console.WriteLine("❌ Ollama is not responding. Make sure Docker container is running.");
                 return;
             }
-
-            // Create agent
-            var agent = new GeneralPurposeAgent(logger, ollamaProvider);
-            Console.WriteLine($"🤖 Created agent: {agent.AgentId} ({agent.AgentType})");
 
             // Test agent status
             var status = await agent.GetAgentStatusAsync();

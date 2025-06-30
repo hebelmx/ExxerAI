@@ -1,27 +1,23 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.ValueObjects;
-using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.Application.Services;
 
 /// <summary>
-/// General-purpose autonomous AI agent capable of handling various tasks
+/// General-purpose autonomous agent capable of handling diverse tasks
 /// </summary>
 public class GeneralPurposeAgent : IAgent
 {
-    private readonly ILogger<GeneralPurposeAgent> _logger;
     private readonly ILLMProvider _llmProvider;
 
     public string AgentId { get; }
     public string AgentType { get; }
 
     public GeneralPurposeAgent(
-        ILogger<GeneralPurposeAgent> logger, 
         ILLMProvider llmProvider,
         string? agentId = null,
         string agentType = "GeneralPurpose")
     {
-        _logger = logger;
         _llmProvider = llmProvider;
         AgentId = agentId ?? Guid.NewGuid().ToString();
         AgentType = agentType;
@@ -41,7 +37,7 @@ public class GeneralPurposeAgent : IAgent
         }
         catch (Exception ex)
         {
-            _logger.LogWarning("Error checking if agent can handle context: {Error}", ex.Message);
+            Console.WriteLine($"Error checking if agent can handle context: {ex.Message}");
             return false;
         }
     }
@@ -59,19 +55,19 @@ public class GeneralPurposeAgent : IAgent
     /// </summary>
     public async Task<AgentResult> ExecuteAsync(AgentContext context, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Agent {AgentId} executing task: {Input}", AgentId, context.Input);
+        Console.WriteLine($"Agent {AgentId} executing task: {context.Input}");
 
         try
         {
             // Use the LLM provider to generate intelligent responses
             var result = await _llmProvider.GenerateAgentResponseAsync(context, cancellationToken);
             
-            _logger.LogInformation("Agent {AgentId} completed task successfully", AgentId);
+            Console.WriteLine($"Agent {AgentId} completed task successfully");
             return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Agent {AgentId} failed to execute task: {Input}", AgentId, context.Input);
+            Console.WriteLine($"Agent {AgentId} failed to execute task: {context.Input}");
             return AgentResult.CreateFailure($"Execution failed: {ex.Message}");
         }
     }
@@ -84,7 +80,7 @@ public class GeneralPurposeAgent : IAgent
         var context = new AgentContext { Input = prompt };
         var result = await ExecuteAsync(context);
         
-        _logger.LogInformation("Legacy execution completed with result: {Success}", result.IsSuccessful);
+        Console.WriteLine($"Legacy execution completed with result: {result.IsSuccessful}");
     }
 
     /// <summary>

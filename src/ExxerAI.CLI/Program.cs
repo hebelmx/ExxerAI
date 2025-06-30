@@ -1,9 +1,9 @@
 using ExxerAI.CLI;
 
 // ===============================================================================
-// ExxerAI Command Line Interface - Autonomous Agent Testing
+// ExxerAI Command Line Interface - Multi-Agent Orchestration Testing
 // ===============================================================================
-// Purpose: Test and demonstrate autonomous AI agent capabilities
+// Purpose: Test and demonstrate multi-agent task orchestration and coordination
 // Dependencies: Local Ollama instance, SemanticKernel, ExxerAI services
 // ===============================================================================
 
@@ -12,8 +12,8 @@ Console.WriteLine("====================================\n");
 
 try 
 {
-    // Run the basic agent test
-    await TestAgent.RunBasicTestAsync();
+    // Run the multi-agent orchestration test
+    await OrchestrationTest.RunOrchestrationTestAsync();
 }
 catch (Exception ex)
 {
