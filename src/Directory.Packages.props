@@ -76,6 +76,7 @@
 		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0-preview.5.25277.114" />
 		<PackageVersion Include="Microsoft.Extensions.Options" Version="10.0.0-preview.5.25277.114" />
 		<PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.0-preview.5.25277.114" />
+
 		<!--================================================================-->
 		<!--== Aspire Packages (Keep all as requested) ==-->
 		<!--==============================================================-->
@@ -93,6 +94,14 @@
 		<!--==============================================================-->
 		<PackageVersion Include="StackExchange.Redis" Version="2.8.41" />
 		<!--================================================================-->
+
+		<!--================================================================-->
+		<!--== Data Storage ==-->
+		<!--==============================================================-->
+		<PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="10.0.0-preview.5.25277.114" />
+		<PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="10.0.0-preview.5.25277.114" />
+		<!--================================================================-->
+
 		<!--== Testing & TDD ==-->
 		<!--==============================================================-->
 		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />

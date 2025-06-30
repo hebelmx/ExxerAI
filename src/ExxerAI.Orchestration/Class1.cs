@@ -1,6 +1,8 @@
 ﻿namespace ExxerAI.Orchestration;
 
-public class Class1
+/// <summary>
+/// Marker interface for orchestration layer
+/// </summary>
+public interface IOrchestrationMarker
 {
-
 }

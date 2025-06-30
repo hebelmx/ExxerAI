@@ -1,6 +1,8 @@
 ﻿namespace ExxerAI.Infrastructure;
 
-public class Class1
+/// <summary>
+/// Marker interface for infrastructure layer
+/// </summary>
+public interface IInfrastructureMarker
 {
-
 }
