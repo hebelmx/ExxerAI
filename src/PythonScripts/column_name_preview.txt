@@ -1,0 +1,478 @@
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:18:
+  .HasColumnName("BarCodeId")  ➜  .HasColumnName(nameof(BarCode.BarCodeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:25:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(BarCode.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:30:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(BarCode.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:35:
+  .HasColumnName("Label")  ➜  .HasColumnName(nameof(BarCode.Label))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:41:
+  .HasColumnName("PartStatus")  ➜  .HasColumnName(nameof(BarCode.PartStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:46:
+  .HasColumnName("FlowStatus")  ➜  .HasColumnName(nameof(BarCode.FlowStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:51:
+  .HasColumnName("CreatedOn")  ➜  .HasColumnName(nameof(BarCode.CreatedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\BarCodeConfiguration.cs:56:
+  .HasColumnName("ModifiedOn")  ➜  .HasColumnName(nameof(BarCode.ModifiedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:15:
+  .HasColumnName("AppId")  ➜  .HasColumnName(nameof(ConfigApp.AppId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:22:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(ConfigApp.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:27:
+  .HasColumnName("PlcId")  ➜  .HasColumnName(nameof(ConfigApp.PlcId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:32:
+  .HasColumnName("Client")  ➜  .HasColumnName(nameof(ConfigApp.Client))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:38:
+  .HasColumnName("Factory")  ➜  .HasColumnName(nameof(ConfigApp.Factory))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:44:
+  .HasColumnName("Line")  ➜  .HasColumnName(nameof(ConfigApp.Line))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:50:
+  .HasColumnName("Project")  ➜  .HasColumnName(nameof(ConfigApp.Project))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:56:
+  .HasColumnName("Version")  ➜  .HasColumnName(nameof(ConfigApp.Version))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:62:
+  .HasColumnName("CreatedOn")  ➜  .HasColumnName(nameof(ConfigApp.CreatedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigAppConfiguration.cs:67:
+  .HasColumnName("ModifiedOn")  ➜  .HasColumnName(nameof(ConfigApp.ModifiedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigDatabaseLogConfiguration.cs:17:
+  builder.Property(e => e.DatabaseLogId).HasColumnName("DatabaseLogID");  ➜  .HasColumnName(nameof(ConfigDatabaseLog.DatabaseLogID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigDatabaseLogConfiguration.cs:35:
+  .HasColumnName("TSQL");  ➜  .HasColumnName(nameof(ConfigDatabaseLog.TSQL))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConfigDbConfiguration.cs:19:
+  .HasColumnName("SystemInformationID")  ➜  .HasColumnName(nameof(ConfigDb.SystemInformationID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConnectionStatusConfiguration.cs:19:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(ConnectionStatus.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ConnectionStatusConfiguration.cs:24:
+  .HasColumnName("Message")  ➜  .HasColumnName(nameof(ConnectionStatus.Message))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CustomerConfiguration.cs:19:
+  .HasColumnName("CustomerId")  ➜  .HasColumnName(nameof(Customer.CustomerId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CustomerConfiguration.cs:26:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Customer.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CustomerConfiguration.cs:32:
+  .HasColumnName("IsActive")  ➜  .HasColumnName(nameof(Customer.IsActive))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:17:
+  .HasColumnName("CycleId")  ➜  .HasColumnName(nameof(Cycle.CycleId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:24:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Cycle.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:29:
+  .HasColumnName("BarCodeId")  ➜  .HasColumnName(nameof(Cycle.BarCodeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:34:
+  .HasColumnName("CycleStatus")  ➜  .HasColumnName(nameof(Cycle.CycleStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:39:
+  .HasColumnName("PartStatus")  ➜  .HasColumnName(nameof(Cycle.PartStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:44:
+  .HasColumnName("CycleTime")  ➜  .HasColumnName(nameof(Cycle.CycleTime))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:49:
+  .HasColumnName("TaktTime")  ➜  .HasColumnName(nameof(Cycle.TaktTime))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:54:
+  .HasColumnName("StartedOn")  ➜  .HasColumnName(nameof(Cycle.StartedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CyclesConfiguration.cs:59:
+  .HasColumnName("FinishedOn")  ➜  .HasColumnName(nameof(Cycle.FinishedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CycleStatusConfiguration.cs:15:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(CycleStatusEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CycleStatusConfiguration.cs:21:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(CycleStatusEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\CycleStatusConfiguration.cs:28:
+  .HasColumnName("DisplayName")  ➜  .HasColumnName(nameof(CycleStatusEntity.DisplayName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsConfiguration.cs:16:
+  .HasColumnName("DefectId")  ➜  .HasColumnName(nameof(Defect.DefectId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsConfiguration.cs:22:
+  .HasColumnName("DefectTypeId")  ➜  .HasColumnName(nameof(Defect.DefectTypeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsConfiguration.cs:27:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(Defect.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsConfiguration.cs:33:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Defect.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsConfiguration.cs:39:
+  .HasColumnName("ShortName")  ➜  .HasColumnName(nameof(Defect.ShortName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:16:
+  .HasColumnName("DefectRegisterId")  ➜  .HasColumnName(nameof(DefectRegister.DefectRegisterId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:23:
+  .HasColumnName("BarCodeId")  ➜  .HasColumnName(nameof(DefectRegister.BarCodeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:28:
+  .HasColumnName("Comment")  ➜  .HasColumnName(nameof(DefectRegister.Comment))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:34:
+  .HasColumnName("DefectId")  ➜  .HasColumnName(nameof(DefectRegister.DefectId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:39:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(DefectRegister.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:45:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(DefectRegister.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:50:
+  .HasColumnName("PartsQuantity")  ➜  .HasColumnName(nameof(DefectRegister.PartsQuantity))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\DefectsRegisterConfiguration.cs:54:
+  .HasColumnName("TimeStamp")  ➜  .HasColumnName(nameof(DefectRegister.TimeStamp))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\EdgeConfiguration.cs:15:
+  .HasColumnName("EdgeId")  ➜  .HasColumnName(nameof(Edge.EdgeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\EdgeConfiguration.cs:21:
+  .HasColumnName("Weight")  ➜  .HasColumnName(nameof(Edge.Weight))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\EpDaqHealthConfiguration.cs:15:
+  .HasColumnName("RegisterEpDaqHealtId")  ➜  .HasColumnName(nameof(EpDaqHealth.RegisterEpDaqHealtId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\EpDaqHealthConfiguration.cs:22:
+  .HasColumnName("TimeStamp")  ➜  .HasColumnName(nameof(EpDaqHealth.TimeStamp))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\FlowStatusConfiguration.cs:14:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(FlowStatusEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\FlowStatusConfiguration.cs:20:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(FlowStatusEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\FlowStatusConfiguration.cs:27:
+  .HasColumnName("DisplayName")  ➜  .HasColumnName(nameof(FlowStatusEntity.DisplayName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\FlowTypeConfiguration.cs:14:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(WorkFlowTypeEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\FlowTypeConfiguration.cs:20:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(WorkFlowTypeEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\FlowTypeConfiguration.cs:27:
+  .HasColumnName("DisplayName")  ➜  .HasColumnName(nameof(WorkFlowTypeEntity.DisplayName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\GatewayTaskConfiguration.cs:17:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(GatewayTaskEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\GatewayTaskConfiguration.cs:23:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(GatewayTaskEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\GatewayTaskConfiguration.cs:30:
+  .HasColumnName("DisplayName")  ➜  .HasColumnName(nameof(GatewayTaskEntity.DisplayName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\KpiOeeConfiguration.cs:13:
+  builder.Property(e => e.Id).HasColumnName("ID");  ➜  .HasColumnName(nameof(KpiOee.ID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\KpiOeeConfiguration.cs:18:
+  .HasColumnName("OEE")  ➜  .HasColumnName(nameof(KpiOee.OEE))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\LineConfiguration.cs:19:
+  .HasColumnName("LineId")  ➜  .HasColumnName(nameof(Line.LineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\LineConfiguration.cs:26:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Line.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\LineConfiguration.cs:32:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(Line.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\LineConfiguration.cs:38:
+  .HasColumnName("Status")  ➜  .HasColumnName(nameof(Line.Status))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:16:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Machine.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:26:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Machine.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:39:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(Machine.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:45:
+  .HasColumnName("Location")  ➜  .HasColumnName(nameof(Machine.Location))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:51:
+  .HasColumnName("MachineType")  ➜  .HasColumnName(nameof(Machine.MachineType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:56:
+  .HasColumnName("WorkFlowType")  ➜  .HasColumnName(nameof(Machine.WorkFlowType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:61:
+  .HasColumnName("EnableAppTraceability")  ➜  .HasColumnName(nameof(Machine.EnableAppTraceability))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:67:
+  .HasColumnName("EnableBypassTraceability")  ➜  .HasColumnName(nameof(Machine.EnableBypassTraceability))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:74:
+  .HasColumnName("Retry")  ➜  .HasColumnName(nameof(Machine.Retry))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachinesConfiguration.cs:98:
+  .HasColumnName("RuleId")  ➜  .HasColumnName(nameof(Machine.RuleId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachineStatusConfiguration.cs:14:
+  .HasColumnName("StatusMachine")  ➜  .HasColumnName(nameof(MachineStatus.StatusMachine))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachineStatusConfiguration.cs:19:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(MachineStatus.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachineStatusConfiguration.cs:24:
+  .HasColumnName("BreakDownTime")  ➜  .HasColumnName(nameof(MachineStatus.BreakDownTime))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachineStatusConfiguration.cs:29:
+  .HasColumnName("UpdatedOn")  ➜  .HasColumnName(nameof(MachineStatus.UpdatedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachineTypeConfiguration.cs:14:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(MachineTypeEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MachineTypeConfiguration.cs:21:
+  .HasColumnName("DisplayName")  ➜  .HasColumnName(nameof(MachineTypeEntity.DisplayName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MasterLabelConfiguration.cs:14:
+  .HasColumnName("MasterLabelId")  ➜  .HasColumnName(nameof(MasterLabel.MasterLabelId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MasterLabelConfiguration.cs:21:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(MasterLabel.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\MasterLabelConfiguration.cs:27:
+  .HasColumnName("MasterLabelCode")  ➜  .HasColumnName(nameof(MasterLabel.MasterLabelCode))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:14:
+  .HasColumnName("LiderId");  ➜  .HasColumnName(nameof(Order.LiderId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:17:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Order.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:22:
+  .HasColumnName("ToolId")  ➜  .HasColumnName(nameof(Order.ToolId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:27:
+  .HasColumnName("OperatorId")  ➜  .HasColumnName(nameof(Order.OperatorId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:32:
+  .HasColumnName("OrderId")  ➜  .HasColumnName(nameof(Order.OrderId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:37:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(Order.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:42:
+  .HasColumnName("ProgrammerId")  ➜  .HasColumnName(nameof(Order.ProgrammerId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:47:
+  .HasColumnName("ResultsId")  ➜  .HasColumnName(nameof(Order.ResultsId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:55:
+  builder.Property(e => e.LeaderId).HasColumnName("LeaderId");  ➜  .HasColumnName(nameof(Order.LeaderId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:57:
+  builder.Property(e => e.MachineId).HasColumnName("MachineId");  ➜  .HasColumnName(nameof(Order.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:59:
+  builder.Property(e => e.ToolingId).HasColumnName("ToolingId");  ➜  .HasColumnName(nameof(Order.ToolingId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:61:
+  builder.Property(e => e.OperatorId).HasColumnName("OperatorID");  ➜  .HasColumnName(nameof(Order.OperatorID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:63:
+  builder.Property(e => e.OrderId).HasColumnName("OrderID");  ➜  .HasColumnName(nameof(Order.OrderID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:65:
+  builder.Property(e => e.ProductId).HasColumnName("ProductID");  ➜  .HasColumnName(nameof(Order.ProductID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:67:
+  builder.Property(e => e.ProgrammerId).HasColumnName("ProgrammerID");  ➜  .HasColumnName(nameof(Order.ProgrammerID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\OrdersConfiguration.cs:69:
+  builder.Property(e => e.ResultsId).HasColumnName("ResultsID");  ➜  .HasColumnName(nameof(Order.ResultsID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PartStatusConfiguration.cs:14:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(PartStatusEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PartStatusConfiguration.cs:20:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(PartStatusEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PartStatusConfiguration.cs:27:
+  .HasColumnName("DisplayName")  ➜  .HasColumnName(nameof(PartStatusEntity.DisplayName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:15:
+  .HasColumnName("PlcId")  ➜  .HasColumnName(nameof(Plc.PlcId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:22:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Plc.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:28:
+  .HasColumnName("PlcBrand")  ➜  .HasColumnName(nameof(Plc.PlcBrand))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:34:
+  .HasColumnName("IpAddress")  ➜  .HasColumnName(nameof(Plc.IpAddress))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:40:
+  .HasColumnName("PlcType")  ➜  .HasColumnName(nameof(Plc.PlcType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:46:
+  .HasColumnName("Options")  ➜  .HasColumnName(nameof(Plc.Options))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:52:
+  .HasColumnName("CommLibrary")  ➜  .HasColumnName(nameof(Plc.CommLibrary))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:58:
+  .HasColumnName("BrandOwner")  ➜  .HasColumnName(nameof(Plc.BrandOwner))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\PLCConfiguration.cs:65:
+  .HasColumnName("Enabled")  ➜  .HasColumnName(nameof(Plc.Enabled))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:19:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(Product.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:26:
+  .HasColumnName("PartNumber")  ➜  .HasColumnName(nameof(Product.PartNumber))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:32:
+  .HasColumnName("ProductName")  ➜  .HasColumnName(nameof(Product.ProductName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:38:
+  .HasColumnName("IsActive")  ➜  .HasColumnName(nameof(Product.IsActive))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:43:
+  .HasColumnName("Version")  ➜  .HasColumnName(nameof(Product.Version))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:48:
+  .HasColumnName("CustomerPartNumber")  ➜  .HasColumnName(nameof(Product.CustomerPartNumber))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:54:
+  .HasColumnName("AliasPartNumber")  ➜  .HasColumnName(nameof(Product.AliasPartNumber))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:60:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(Product.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:75:
+  .HasColumnName("CustomerName")  ➜  .HasColumnName(nameof(Product.CustomerName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:81:
+  .HasColumnName("CustomerId")  ➜  .HasColumnName(nameof(Product.CustomerId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:86:
+  .HasColumnName("RuleId")  ➜  .HasColumnName(nameof(Product.RuleId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductsConfiguration.cs:91:
+  .HasColumnName("LineId")  ➜  .HasColumnName(nameof(Product.LineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:14:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(ProductSpec.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:19:
+  .HasColumnName("ToolId")  ➜  .HasColumnName(nameof(ProductSpec.ToolId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:24:
+  .HasColumnName("PerformanceSpecId")  ➜  .HasColumnName(nameof(ProductSpec.PerformanceSpecId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:29:
+  .HasColumnName("PerformanceSpecsName")  ➜  .HasColumnName(nameof(ProductSpec.PerformanceSpecsName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:35:
+  .HasColumnName("ProductSpecId")  ➜  .HasColumnName(nameof(ProductSpec.ProductSpecId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:40:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(ProductSpec.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:45:
+  .HasColumnName("RecipeId")  ➜  .HasColumnName(nameof(ProductSpec.RecipeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ProductSpecsConfiguration.cs:50:
+  .HasColumnName("RecipeType")  ➜  .HasColumnName(nameof(ProductSpec.RecipeType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:15:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(Recipe.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:22:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(Recipe.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:27:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Recipe.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:33:
+  .HasColumnName("CycleTimeMinimum")  ➜  .HasColumnName(nameof(Recipe.CycleTimeMinimum))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:38:
+  .HasColumnName("CycleTimeMaximum")  ➜  .HasColumnName(nameof(Recipe.CycleTimeMaximum))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:43:
+  .HasColumnName("MaxCyclesOk")  ➜  .HasColumnName(nameof(Recipe.MaxCyclesOk))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:49:
+  .HasColumnName("MaxCyclesNOk")  ➜  .HasColumnName(nameof(Recipe.MaxCyclesNOk))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RecipeConfiguration.cs:55:
+  .HasColumnName("Retry")  ➜  .HasColumnName(nameof(Recipe.Retry))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:25:
+  .HasColumnName("RegisterId")  ➜  .HasColumnName(nameof(Register.RegisterId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:32:
+  .HasColumnName("CycleId")  ➜  .HasColumnName(nameof(Register.CycleId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:37:
+  .HasColumnName("Value")  ➜  .HasColumnName(nameof(Register.Value))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:43:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Register.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:49:
+  .HasColumnName("StatusValueId")  ➜  .HasColumnName(nameof(Register.StatusValueId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:54:
+  .HasColumnName("VariableId")  ➜  .HasColumnName(nameof(Register.VariableId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:59:
+  .HasColumnName("DataType")  ➜  .HasColumnName(nameof(Register.DataType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RegistersConfiguration.cs:65:
+  .HasColumnName("TimeStamp")  ➜  .HasColumnName(nameof(Register.TimeStamp))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ResultValidationConfiguration.cs:14:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(ResultValidationEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ResultValidationConfiguration.cs:20:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(ResultValidationEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RulesConfiguration.cs:19:
+  .HasColumnName("RuleID")  ➜  .HasColumnName(nameof(Rule.RuleID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RulesConfiguration.cs:42:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Rule.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\RulesConfiguration.cs:53:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(Rule.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\SettingsConfiguration.cs:15:
+  .HasColumnName("SettingId")  ➜  .HasColumnName(nameof(Setting.SettingId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\SettingsConfiguration.cs:22:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Setting.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\SettingsConfiguration.cs:27:
+  .HasColumnName("Config")  ➜  .HasColumnName(nameof(Setting.Config))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ShiftsConfiguration.cs:19:
+  .HasColumnName("ShiftID")  ➜  .HasColumnName(nameof(Shift.ShiftID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ShiftsConfiguration.cs:26:
+  .HasColumnName("StartBy")  ➜  .HasColumnName(nameof(Shift.StartBy))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ShiftsConfiguration.cs:31:
+  .HasColumnName("EndTime")  ➜  .HasColumnName(nameof(Shift.EndTime))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StatusConfigurationsConfiguration.cs:14:
+  .HasColumnName("ModifiedOn")  ➜  .HasColumnName(nameof(StatusConfiguration.ModifiedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StatusConfigurationsConfiguration.cs:19:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(StatusConfiguration.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StatusConfigurationsConfiguration.cs:24:
+  .HasColumnName("Message")  ➜  .HasColumnName(nameof(StatusConfiguration.Message))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:15:
+  .HasColumnName("StoppageRegisterId")  ➜  .HasColumnName(nameof(StoppageRegister.StoppageRegisterId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:22:
+  .HasColumnName("ProductionOrderId")  ➜  .HasColumnName(nameof(StoppageRegister.ProductionOrderId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:27:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(StoppageRegister.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:32:
+  .HasColumnName("StoppageId")  ➜  .HasColumnName(nameof(StoppageRegister.StoppageId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:37:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(StoppageRegister.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:43:
+  .HasColumnName("Comment")  ➜  .HasColumnName(nameof(StoppageRegister.Comment))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:49:
+  .HasColumnName("TimeStamp")  ➜  .HasColumnName(nameof(StoppageRegister.TimeStamp))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:55:
+  .HasColumnName("StoppedTime")  ➜  .HasColumnName(nameof(StoppageRegister.StoppedTime))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:59:
+  .HasColumnName("StartedOn")  ➜  .HasColumnName(nameof(StoppageRegister.StartedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:63:
+  .HasColumnName("FinishedOn");  ➜  .HasColumnName(nameof(StoppageRegister.FinishedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppagesRegisterConfiguration.cs:66:
+  .HasColumnName("RegistedOn");  ➜  .HasColumnName(nameof(StoppageRegister.RegistedOn))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppegesConfiguration.cs:15:
+  .HasColumnName("StoppageId")  ➜  .HasColumnName(nameof(Stoppage.StoppageId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppegesConfiguration.cs:21:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(Stoppage.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppegesConfiguration.cs:27:
+  .HasColumnName("Description2")  ➜  .HasColumnName(nameof(Stoppage.Description2))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppegesConfiguration.cs:39:
+  .HasColumnName("StoppageName")  ➜  .HasColumnName(nameof(Stoppage.StoppageName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppegesConfiguration.cs:45:
+  .HasColumnName("ShortName")  ➜  .HasColumnName(nameof(Stoppage.ShortName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\StoppegesConfiguration.cs:51:
+  .HasColumnName("StoppageTypeId")  ➜  .HasColumnName(nameof(Stoppage.StoppageTypeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TagsGroupsConfiguration.cs:14:
+  .HasColumnName("Id")  ➜  .HasColumnName(nameof(TagsGroupEntity.Id))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TagsGroupsConfiguration.cs:20:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(TagsGroupEntity.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:18:
+  .HasColumnName("ResponseId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.ResponseId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:25:
+  .HasColumnName("CommandId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.CommandId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:36:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:41:
+  .HasColumnName("BarCodeId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.BarCodeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:46:
+  .HasColumnName("CycleId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.CycleId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:51:
+  .HasColumnName("CyclesOk")  ➜  .HasColumnName(nameof(TaskGatewayResponse.CyclesOk))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:56:
+  .HasColumnName("ShiftId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.ShiftId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:61:
+  .HasColumnName("ResultValidation")  ➜  .HasColumnName(nameof(TaskGatewayResponse.ResultValidation))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:69:
+  .HasColumnName("PartNumber")  ➜  .HasColumnName(nameof(TaskGatewayResponse.PartNumber))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:74:
+  .HasColumnName("Label")  ➜  .HasColumnName(nameof(TaskGatewayResponse.Label))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:79:
+  .HasColumnName("Error")  ➜  .HasColumnName(nameof(TaskGatewayResponse.Error))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:84:
+  .HasColumnName("LastMachineId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.LastMachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:89:
+  .HasColumnName("NextMachineId")  ➜  .HasColumnName(nameof(TaskGatewayResponse.NextMachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:94:
+  .HasColumnName("CycleStatus")  ➜  .HasColumnName(nameof(TaskGatewayResponse.CycleStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:102:
+  .HasColumnName("FlowStatus")  ➜  .HasColumnName(nameof(TaskGatewayResponse.FlowStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskGatewayResponseConfiguration.cs:110:
+  .HasColumnName("PartStatus")  ➜  .HasColumnName(nameof(TaskGatewayResponse.PartStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:15:
+  .HasColumnName("CommandId")  ➜  .HasColumnName(nameof(TaskGatewayRequest.CommandId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:22:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(TaskGatewayRequest.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:27:
+  .HasColumnName("BarCodeId")  ➜  .HasColumnName(nameof(TaskGatewayRequest.BarCodeId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:32:
+  .HasColumnName("CycleId")  ➜  .HasColumnName(nameof(TaskGatewayRequest.CycleId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:37:
+  .HasColumnName("CycleStatus")  ➜  .HasColumnName(nameof(TaskGatewayRequest.CycleStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:45:
+  .HasColumnName("PartStatus")  ➜  .HasColumnName(nameof(TaskGatewayRequest.PartStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:53:
+  .HasColumnName("FlowStatus")  ➜  .HasColumnName(nameof(TaskGatewayRequest.FlowStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:61:
+  .HasColumnName("ResultValidation")  ➜  .HasColumnName(nameof(TaskGatewayRequest.ResultValidation))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:69:
+  .HasColumnName("GatewayTask")  ➜  .HasColumnName(nameof(TaskGatewayRequest.GatewayTask))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:77:
+  .HasColumnName("Comment")  ➜  .HasColumnName(nameof(TaskGatewayRequest.Comment))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\TaskRequestEventConfiguration.cs:83:
+  .HasColumnName("TimeStamp")  ➜  .HasColumnName(nameof(TaskGatewayRequest.TimeStamp))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ToolingConfiguration.cs:15:
+  .HasColumnName("ToolId")  ➜  .HasColumnName(nameof(Tooling.ToolId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\ToolingConfiguration.cs:22:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Tooling.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\UsersConfiguration.cs:22:
+  .HasColumnName("UserID")  ➜  .HasColumnName(nameof(User.UserID))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:15:
+  .HasColumnName("VariableId")  ➜  .HasColumnName(nameof(Variable.VariableId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:21:
+  .HasColumnName("MachineId")  ➜  .HasColumnName(nameof(Variable.MachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:26:
+  .HasColumnName("Name")  ➜  .HasColumnName(nameof(Variable.Name))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:32:
+  .HasColumnName("Description")  ➜  .HasColumnName(nameof(Variable.Description))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:38:
+  .HasColumnName("Address")  ➜  .HasColumnName(nameof(Variable.Address))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:44:
+  .HasColumnName("Alias")  ➜  .HasColumnName(nameof(Variable.Alias))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:50:
+  .HasColumnName("NetType")  ➜  .HasColumnName(nameof(Variable.NetType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:56:
+  .HasColumnName("Direction")  ➜  .HasColumnName(nameof(Variable.Direction))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:61:
+  .HasColumnName("VariableGroupId")  ➜  .HasColumnName(nameof(Variable.VariableGroupId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:66:
+  .HasColumnName("VariableSpecId")  ➜  .HasColumnName(nameof(Variable.VariableSpecId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:71:
+  .HasColumnName("Length")  ➜  .HasColumnName(nameof(Variable.Length))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:76:
+  .HasColumnName("IsActive")  ➜  .HasColumnName(nameof(Variable.IsActive))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:81:
+  .HasColumnName("TagStatus")  ➜  .HasColumnName(nameof(Variable.TagStatus))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:86:
+  .HasColumnName("Value")  ➜  .HasColumnName(nameof(Variable.Value))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:92:
+  .HasColumnName("NativeType")  ➜  .HasColumnName(nameof(Variable.NativeType))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesConfiguration.cs:98:
+  .HasColumnName("NativeAddress")  ➜  .HasColumnName(nameof(Variable.NativeAddress))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesGroupsConfiguration.cs:15:
+  .HasColumnName("VariableGroupId")  ➜  .HasColumnName(nameof(VariablesGroup.VariableGroupId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\VariablesGroupsConfiguration.cs:22:
+  .HasColumnName("VariableGroupName")  ➜  .HasColumnName(nameof(VariablesGroup.VariableGroupName))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\WorkFlowConfiguration.cs:19:
+  .HasColumnName("WorkFlowId")  ➜  .HasColumnName(nameof(WorkFlow.WorkFlowId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\WorkFlowConfiguration.cs:26:
+  .HasColumnName("ProductId")  ➜  .HasColumnName(nameof(WorkFlow.ProductId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\WorkFlowConfiguration.cs:31:
+  .HasColumnName("NextMachineId")  ➜  .HasColumnName(nameof(WorkFlow.NextMachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\WorkFlowConfiguration.cs:36:
+  .HasColumnName("LastMachineId")  ➜  .HasColumnName(nameof(WorkFlow.LastMachineId))
+D:\IndTrace\Dev\IndTraceV2025\Src\Infrastructure\IndTrace.Persistence\Configurations\WorkFlowConfiguration.cs:59:
+  .HasColumnName("RuleId")  ➜  .HasColumnName(nameof(WorkFlow.RuleId))
