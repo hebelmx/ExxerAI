@@ -35,7 +35,16 @@ app.MapGet("/weatherforecast", () =>
 
 app.Run();
 
+/// <summary>
+/// Represents weather forecast data for a specific date
+/// </summary>
+/// <param name="Date">The date of the forecast</param>
+/// <param name="TemperatureC">The temperature in Celsius</param>
+/// <param name="Summary">A summary description of the weather</param>
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
+    /// <summary>
+    /// Gets the temperature in Fahrenheit
+    /// </summary>
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 }
