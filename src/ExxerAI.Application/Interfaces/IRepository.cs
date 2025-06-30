@@ -1,7 +1,7 @@
 using ExxerAI.Application;
 using ExxerAI.Domain;
 
-namespace ExxerAI.Infrastructure.Interfaces;
+namespace ExxerAI.Application.Interfaces;
 
 /// <summary>
 /// Generic repository interface for data access operations

@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using ExxerAI.Application;
 using ExxerAI.Domain;
-using ExxerAI.Infrastructure.Interfaces;
+using ExxerAI.Application.Interfaces;
 
 namespace ExxerAI.Infrastructure.Repositories;
 
