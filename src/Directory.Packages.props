@@ -120,7 +120,7 @@
 		<!--================================================================-->
 		<!--== Web & SignalR (for future projects) ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0-preview.5.25277.114" />
+
 		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="10.0.0-preview.5.25277.114" />
 		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="10.0.0-preview.5.25277.114" />
 		<!--================================================================-->
