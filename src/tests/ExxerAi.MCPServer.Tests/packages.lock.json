@@ -598,6 +598,15 @@
         "resolved": "13.0.1",
         "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
       },
+      "Serilog.Extensions.Logging": {
+        "type": "Transitive",
+        "resolved": "8.0.0",
+        "contentHash": "YEAMWu1UnWgf1c1KP85l1SgXGfiVo0Rz6x08pCiPOIBt2Qe18tcZLvdBUuV5o1QHvrs8FAry9wTIhgBRtjIlEg==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "8.0.0",
+          "Serilog": "3.1.1"
+        }
+      },
       "System.ClientModel": {
         "type": "Transitive",
         "resolved": "1.0.0",
@@ -898,13 +907,18 @@
         "type": "Project",
         "dependencies": {
           "Extensions.MudBlazor.StaticInput": "[2.0.0, )",
+          "FluentResults": "[3.16.0, )",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "[9.0.0, )",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "[9.0.0, )",
           "Microsoft.EntityFrameworkCore.SqlServer": "[9.0.0, )",
           "Microsoft.EntityFrameworkCore.Tools": "[9.0.0, )",
           "Microsoft.Extensions.AI": "[9.0.1-preview.1.24570.5, )",
-          "ModelContextProtocol": "[0.3.0-preview.1, )",
-          "MudBlazor": "[8.0.0, )"
+          "Microsoft.Extensions.Logging": "[9.0.5, )",
+          "ModelContextProtocol.AspNetCore": "[0.3.0-preview.1, )",
+          "MudBlazor": "[8.0.0, )",
+          "Serilog": "[4.2.0, )",
+          "Serilog.Extensions.Hosting": "[8.0.0, )",
+          "Serilog.Sinks.Console": "[6.0.0, )"
         }
       },
       "Extensions.MudBlazor.StaticInput": {
@@ -916,6 +930,16 @@
           "Microsoft.AspNetCore.Components": "8.0.6",
           "Microsoft.AspNetCore.Components.Web": "8.0.6",
           "MudBlazor": "7.0.0"
+        }
+      },
+      "FluentResults": {
+        "type": "CentralTransitive",
+        "requested": "[3.16.0, )",
+        "resolved": "3.16.0",
+        "contentHash": "VWacGzOyN9k7LOKqiNLnFvqTDLbFvepHlINdM3pPTD0YWI+a+VW/Q9gcx4gmJDpDZ32cAsczz5vmRjLCL5UOhA==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "2.1.1",
+          "System.Threading.Tasks.Extensions": "4.5.4"
         }
       },
       "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
@@ -1006,6 +1030,15 @@
           "ModelContextProtocol.Core": "0.3.0-preview.1"
         }
       },
+      "ModelContextProtocol.AspNetCore": {
+        "type": "CentralTransitive",
+        "requested": "[0.3.0-preview.1, )",
+        "resolved": "0.3.0-preview.1",
+        "contentHash": "5N+x6auqcU1EVTcopUO0HOkcnzGJ8lyYqcPBGmErNXUJVxT2oecZb/pjCayCHrjkyilqcm1KfdQV43Qp7auSyw==",
+        "dependencies": {
+          "ModelContextProtocol": "0.3.0-preview.1"
+        }
+      },
       "MudBlazor": {
         "type": "CentralTransitive",
         "requested": "[8.0.0, )",
@@ -1015,6 +1048,34 @@
           "Microsoft.AspNetCore.Components": "9.0.1",
           "Microsoft.AspNetCore.Components.Web": "9.0.1",
           "Microsoft.Extensions.Localization": "9.0.1"
+        }
+      },
+      "Serilog": {
+        "type": "CentralTransitive",
+        "requested": "[4.2.0, )",
+        "resolved": "4.2.0",
+        "contentHash": "gmoWVOvKgbME8TYR+gwMf7osROiWAURterc6Rt2dQyX7wtjZYpqFiA/pY6ztjGQKKV62GGCyOcmtP1UKMHgSmA=="
+      },
+      "Serilog.Extensions.Hosting": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.0, )",
+        "resolved": "8.0.0",
+        "contentHash": "db0OcbWeSCvYQkHWu6n0v40N4kKaTAXNjlM3BKvcbwvNzYphQFcBR+36eQ/7hMMwOkJvAyLC2a9/jNdUL5NjtQ==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Serilog": "3.1.1",
+          "Serilog.Extensions.Logging": "8.0.0"
+        }
+      },
+      "Serilog.Sinks.Console": {
+        "type": "CentralTransitive",
+        "requested": "[6.0.0, )",
+        "resolved": "6.0.0",
+        "contentHash": "fQGWqVMClCP2yEyTXPIinSr5c+CBGUvBybPxjAGcf7ctDhadFhrQw03Mv8rJ07/wR5PDfFjewf2LimvXCDzpbA==",
+        "dependencies": {
+          "Serilog": "4.0.0"
         }
       }
     }

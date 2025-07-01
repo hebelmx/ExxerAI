@@ -38,7 +38,6 @@
 	<!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Core Framework">
-		<PackageReference Include="FluentResults" />
 		<PackageReference Include="Microsoft.Extensions.Logging" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
 	</ItemGroup>

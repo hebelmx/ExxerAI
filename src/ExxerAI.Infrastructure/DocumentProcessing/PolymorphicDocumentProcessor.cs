@@ -2,7 +2,6 @@ using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
-using FluentResults;
 
 // Ensure you have the PdfPig NuGet package installed in your project.
 // You can install it using the following command in the NuGet Package Manager Console:

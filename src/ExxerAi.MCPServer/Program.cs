@@ -28,7 +28,7 @@ public class Program
 
 		// Configure Serilog
 		Log.Logger = new LoggerConfiguration()
-			.ReadFrom.Configuration(builder.Configuration)
+			.MinimumLevel.Information().WriteTo.Console()
 			.Enrich.FromLogContext()
 			.CreateLogger();
 
