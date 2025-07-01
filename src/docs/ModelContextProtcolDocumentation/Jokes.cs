@@ -1,7 +1,7 @@
-﻿using ModelContextProtocol.Server;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using ModelContextProtocol.Server;
 
-namespace McpSample.AspNetCoreSseServer;
+namespace ExxerAi.MCPServer.Samples;
 
 [McpServerToolType]
 public static class Jokes

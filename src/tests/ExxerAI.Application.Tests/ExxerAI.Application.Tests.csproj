@@ -7,6 +7,11 @@
 
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		<RestoreLockedMode>false</RestoreLockedMode>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<DisablePackageRestore>true</DisablePackageRestore>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -18,7 +23,7 @@
 
 	<ItemGroup>
 		<Using Include="Xunit" />
-		
+
 	</ItemGroup>
 
 	<ItemGroup>
@@ -29,6 +34,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
 		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
 	</ItemGroup>
 
-</Project> 
+</Project>

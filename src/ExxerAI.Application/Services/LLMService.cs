@@ -4,17 +4,34 @@ using System.Runtime.CompilerServices;
 
 namespace ExxerAI.Application.Services;
 
+/// <summary>
+/// Service for managing language model operations and conversations
+/// </summary>
 public class LLMService : ILLMService
 {
 private readonly ILanguageModelRepository _modelRepository;
 private readonly IConversationRepository _conversationRepository;
 
+/// <summary>
+/// Initializes a new instance of the LLMService
+/// </summary>
+/// <param name="modelRepository">Repository for language model operations</param>
+/// <param name="conversationRepository">Repository for conversation operations</param>
+/// <exception cref="ArgumentNullException">Thrown when any parameter is null</exception>
 public LLMService(ILanguageModelRepository modelRepository, IConversationRepository conversationRepository)
 {
 _modelRepository = modelRepository ?? throw new ArgumentNullException(nameof(modelRepository));
 _conversationRepository = conversationRepository ?? throw new ArgumentNullException(nameof(conversationRepository));
 }
 
+/// <summary>
+/// Generates text using the specified language model
+/// </summary>
+/// <param name="modelId">The unique identifier of the language model</param>
+/// <param name="prompt">The input prompt for text generation</param>
+/// <param name="parameters">Optional parameters for generation</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>A result containing the generated LLM response</returns>
 public async Task<Result<LLMResponse>> GenerateTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, CancellationToken cancellationToken = default)
 {
 try
@@ -43,6 +60,13 @@ return Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
 }
 }
 
+/// <summary>
+/// Continues an existing conversation with a new message
+/// </summary>
+/// <param name="conversationId">The unique identifier of the conversation</param>
+/// <param name="message">The message to add to the conversation</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>A result containing the assistant's response message</returns>
 public async Task<Result<ConversationMessage>> ContinueConversationAsync(Guid conversationId, string message, CancellationToken cancellationToken = default)
 {
 try
@@ -78,6 +102,15 @@ return Result<ConversationMessage>.WithFailure($"Error continuing conversation: 
 }
 }
 
+/// <summary>
+/// Creates a new conversation with the specified agent and model
+/// </summary>
+/// <param name="agentId">The unique identifier of the agent</param>
+/// <param name="modelId">The unique identifier of the language model</param>
+/// <param name="title">Optional title for the conversation</param>
+/// <param name="systemPrompt">Optional system prompt for the conversation</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>A result containing the newly created conversation</returns>
 public async Task<Result<Conversation>> CreateConversationAsync(Guid agentId, Guid modelId, string? title = null, string? systemPrompt = null, CancellationToken cancellationToken = default)
 {
 try
@@ -101,6 +134,14 @@ return Result<Conversation>.WithFailure($"Error creating conversation: {ex.Messa
 }
 }
 
+/// <summary>
+/// Estimates the cost for generating text with the specified token counts
+/// </summary>
+/// <param name="modelId">The unique identifier of the language model</param>
+/// <param name="inputTokens">The number of input tokens</param>
+/// <param name="outputTokens">The number of output tokens</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>A result containing the estimated cost in decimal format</returns>
 public async Task<Result<decimal>> EstimateCostAsync(Guid modelId, int inputTokens, int outputTokens, CancellationToken cancellationToken = default)
 {
 try
@@ -118,6 +159,13 @@ return Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
 }
 }
 
+/// <summary>
+/// Counts the number of tokens in the provided text using the specified model's tokenizer
+/// </summary>
+/// <param name="modelId">The unique identifier of the language model</param>
+/// <param name="text">The text to tokenize and count</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>A result containing the token count</returns>
 public async Task<Result<int>> CountTokensAsync(Guid modelId, string text, CancellationToken cancellationToken = default)
 {
 try
@@ -138,6 +186,14 @@ return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
 }
 }
 
+/// <summary>
+/// Streams text generation in real-time using the specified language model
+/// </summary>
+/// <param name="modelId">The unique identifier of the language model</param>
+/// <param name="prompt">The input prompt for text generation</param>
+/// <param name="parameters">Optional parameters for generation</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>An async enumerable of response chunks</returns>
 public async IAsyncEnumerable<LLMResponseChunk> StreamTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 {
 var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
@@ -159,6 +215,12 @@ await Task.Delay(100, cancellationToken); // Simulate processing delay
 }
 }
 
+/// <summary>
+/// Validates whether the specified language model is available and functional
+/// </summary>
+/// <param name="modelId">The unique identifier of the language model to validate</param>
+/// <param name="cancellationToken">Cancellation token for async operations</param>
+/// <returns>A result containing true if the model is valid, false otherwise</returns>
 public async Task<Result<bool>> ValidateModelAsync(Guid modelId, CancellationToken cancellationToken = default)
 {
 try

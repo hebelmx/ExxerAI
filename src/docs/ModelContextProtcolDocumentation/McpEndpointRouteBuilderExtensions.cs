@@ -1,8 +1,7 @@
-﻿using ModelContextProtocol.Protocol.Messages;
+﻿using Microsoft.Extensions.Options;
 using ModelContextProtocol.Server;
-using ModelContextProtocol.Utils.Json;
-using Microsoft.Extensions.Options;
-using ModelContextProtocol.Protocol.Transport;
+
+namespace ExxerAi.MCPServer.Samples;
 
 public static class McpEndpointRouteBuilderExtensions
 {
