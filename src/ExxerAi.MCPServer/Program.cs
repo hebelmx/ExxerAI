@@ -6,6 +6,7 @@ using ExxerAi.MCPServer.Application.Tools;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.InMemory;
 using MudBlazor.Services;
 using Serilog;
 using ModelContextProtocol.AspNetCore;
