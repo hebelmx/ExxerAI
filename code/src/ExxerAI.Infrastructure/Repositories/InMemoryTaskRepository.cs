@@ -30,7 +30,7 @@ public class InMemoryTaskRepository : ITaskRepository
 			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithSuccess(task));
 		}
 
-		return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure($"Task not found with ID: {id}"));
+		return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure("Task not found"));
 	}
 
 	/// <summary>
@@ -57,21 +57,28 @@ public class InMemoryTaskRepository : ITaskRepository
 			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure("Task cannot be null"));
 		}
 
-		if (entity.Id == Guid.Empty)
+		// Create a copy to avoid modifying the original entity
+		var taskToAdd = new AgentTask
 		{
-			entity.Id = Guid.NewGuid();
+			Id = entity.Id == Guid.Empty ? Guid.NewGuid() : entity.Id,
+			Title = entity.Title,
+			Description = entity.Description,
+			TaskType = entity.TaskType,
+			Priority = entity.Priority,
+			Status = entity.Status,
+			AssignedAgentId = entity.AssignedAgentId,
+			Deadline = entity.Deadline,
+			CreatedAt = DateTime.UtcNow
+		};
+
+		if (_tasks.ContainsKey(taskToAdd.Id))
+		{
+			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure($"Task with ID {taskToAdd.Id} already exists"));
 		}
 
-		if (_tasks.ContainsKey(entity.Id))
+		if (_tasks.TryAdd(taskToAdd.Id, taskToAdd))
 		{
-			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure($"Task with ID {entity.Id} already exists"));
-		}
-
-		entity.CreatedAt = DateTime.UtcNow;
-
-		if (_tasks.TryAdd(entity.Id, entity))
-		{
-			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithSuccess(entity));
+			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithSuccess(taskToAdd));
 		}
 
 		return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure("Failed to add task"));
@@ -95,10 +102,10 @@ public class InMemoryTaskRepository : ITaskRepository
 			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure("Task ID cannot be empty"));
 		}
 
-		if (!_tasks.ContainsKey(entity.Id))
-		{
-			return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure($"Task not found with ID: {entity.Id}"));
-		}
+		        if (!_tasks.ContainsKey(entity.Id))
+        {
+            return Task.FromResult(ExxerAI.Domain.Result<AgentTask>.WithFailure($"Task not found with ID: {entity.Id}"));
+        }
 
 		_tasks[entity.Id] = entity;
 
@@ -123,7 +130,7 @@ public class InMemoryTaskRepository : ITaskRepository
 			return Task.FromResult(ExxerAI.Domain.Result<bool>.WithSuccess(true));
 		}
 
-		return Task.FromResult(ExxerAI.Domain.Result<bool>.WithFailure($"Task not found with ID: {id}"));
+		        return Task.FromResult(ExxerAI.Domain.Result<bool>.WithFailure($"Task not found with ID: {id}"));
 	}
 
 	/// <summary>

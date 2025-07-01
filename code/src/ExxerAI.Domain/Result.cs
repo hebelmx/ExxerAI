@@ -264,7 +264,7 @@ public class Result<T>
     /// <param name="value">The value returned by the operation.</param>
     public Result(bool isSuccess, List<string>? errors, T? value = default)
     {
-        _isSuccess = isSuccess;
+        _isSuccess = (value is not null) ? isSuccess : false;
         Errors = errors;
         _value = value;
     }
@@ -294,13 +294,8 @@ public class Result<T>
             if (_value == null) return false;
             // Check if errors are not null or empty
             if (Errors != null && Errors.Any()) return false;
-            // Check if T implements IEnumerable and is empty
-            if (_value is IEnumerable<object> enumerable)
-            {
-                // Cache the result to avoid double enumeration
-                return enumerable.Any();
-            }
-            // Otherwise, return true since T is not null and errors are empty
+            // For collections, an empty collection is still a valid successful result
+            // The presence of a non-null collection (even if empty) indicates success
             return _isSuccess;
         }
     }

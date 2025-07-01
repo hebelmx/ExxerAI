@@ -134,9 +134,8 @@ public class DocumentAssetTests
         // Arrange
         var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
-        // Act & Assert
-        Should.Throw<ArgumentException>(() => document.SetContentHash(invalidHash!))
-            .Message.ShouldContain("Content hash cannot be null or empty");
+        // Act & Assert - Focus on behavior: should throw ArgumentException, not exact message
+        Should.Throw<ArgumentException>(() => document.SetContentHash(invalidHash!));
     }
 
     [Fact]

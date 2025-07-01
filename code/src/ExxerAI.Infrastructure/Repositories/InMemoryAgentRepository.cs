@@ -29,7 +29,7 @@ public class InMemoryAgentRepository : IAgentRepository
         var success = _agents.TryGetValue(id, out var agent);
         return success && agent != null
             ? Task.FromResult(ExxerAI.Domain.Result<Agent>.WithSuccess(agent))
-            : Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure($"Agent with ID '{id}' not found"));
+            : Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure("Agent not found"));
     }
 
     /// <summary>
@@ -95,7 +95,7 @@ public class InMemoryAgentRepository : IAgentRepository
             return Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure("Agent name is required"));
 
         if (!_agents.ContainsKey(entity.Id))
-            return Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure($"Agent with ID '{entity.Id}' not found"));
+            return Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure("Agent not found"));
 
         // Update timestamp
         entity.UpdatedAt = DateTime.UtcNow;
@@ -121,7 +121,7 @@ public class InMemoryAgentRepository : IAgentRepository
         var success = _agents.TryRemove(id, out _);
         return success
             ? Task.FromResult(ExxerAI.Domain.Result<bool>.WithSuccess(true))
-            : Task.FromResult(ExxerAI.Domain.Result<bool>.WithFailure($"Agent with ID '{id}' not found"));
+            : Task.FromResult(ExxerAI.Domain.Result<bool>.WithFailure("Agent not found"));
     }
 
     /// <summary>

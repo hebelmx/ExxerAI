@@ -336,12 +336,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="documentType">The document type to check</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The confidence score for processing this document type</returns>
-    public async Task<Result<float>> GetProcessingConfidenceAsync(
+    public Task<Result<float>> GetProcessingConfidenceAsync(
         DocumentType documentType,
         CancellationToken cancellationToken = default)
     {
-        await Task.CompletedTask; // Placeholder for async operation
-
         var confidence = documentType switch
         {
             DocumentType.IMSSPayment => 0.95f, // High confidence based on KpiExxerpro experience
@@ -351,12 +349,12 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             _ => 0.70f
         };
 
-        return Result<float>.WithSuccess(confidence);
+        return Task.FromResult(Result<float>.WithSuccess(confidence));
     }
 
     #region Private Implementation Methods
 
-    private async Task<Result<string>> ExtractTextDirectlyAsync(
+    private Task<Result<string>> ExtractTextDirectlyAsync(
         byte[] documentData,
         DocumentMetadata metadata,
         CancellationToken cancellationToken)
@@ -368,19 +366,19 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 // TODO: Implement PDF text extraction when PdfPig is properly resolved
                 // For now, return placeholder text
                 var placeholderText = $"PDF text extraction placeholder for {metadata.FileName}";
-                return Result<string>.WithSuccess(placeholderText);
+                return Task.FromResult(Result<string>.WithSuccess(placeholderText));
             }
             else
             {
                 // For non-PDF files, attempt to read as text
                 var text = Encoding.UTF8.GetString(documentData);
-                return Result<string>.WithSuccess(text);
+                return Task.FromResult(Result<string>.WithSuccess(text));
             }
         }
         catch (Exception ex)
         {
             _logger.LogWarning(ex, "Direct text extraction failed for {FileName}", metadata.FileName);
-            return Result<string>.WithFailure($"Direct text extraction failed: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Direct text extraction failed: {ex.Message}"));
         }
     }
 
@@ -405,7 +403,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         }
     }
 
-    private async Task<Result<ExtractedData>> ExtractFieldsUsingSchemaAsync(
+    private Task<Result<ExtractedData>> ExtractFieldsUsingSchemaAsync(
         string text,
         SchemaDefinition schema,
         CancellationToken cancellationToken)
@@ -428,12 +426,12 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             _logger.LogDebug("Extracted {FieldCount} fields using schema {SchemaName}",
                 extractedData.Fields.Count, schema.Name);
 
-            return Result<ExtractedData>.WithSuccess(extractedData);
+            return Task.FromResult(Result<ExtractedData>.WithSuccess(extractedData));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error extracting fields using schema");
-            return Result<ExtractedData>.WithFailure($"Field extraction error: {ex.Message}");
+            return Task.FromResult(Result<ExtractedData>.WithFailure($"Field extraction error: {ex.Message}"));
         }
     }
 
@@ -480,7 +478,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         }
     }
 
-    private async Task<Result<ValidationResult>> ValidateExtractedDataAsync(
+    private Task<Result<ValidationResult>> ValidateExtractedDataAsync(
         ExtractedData data,
         DocumentMetadata metadata,
         CancellationToken cancellationToken)
@@ -505,7 +503,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             }
         }
 
-        return Result<ValidationResult>.WithSuccess(validation);
+        return Task.FromResult(Result<ValidationResult>.WithSuccess(validation));
     }
 
     private static FieldValidationResult ValidateField(string fieldName, object value)

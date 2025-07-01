@@ -51,8 +51,10 @@ public class AgentsController : ControllerBase
 			if (!ModelState.IsValid)
 			{
 				var errors = ModelState
-					.SelectMany(x => x.Value!.Errors)
+					.Where(x => x.Value?.Errors != null)
+					.SelectMany(x => x.Value!.Errors) // Safe: filtered by Where clause above
 					.Select(x => x.ErrorMessage)
+					.Where(msg => !string.IsNullOrEmpty(msg))
 					.ToList();
 
 				return BadRequest(new ApiResponse<object>
@@ -71,24 +73,26 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				_logger.LogWarning("Failed to create agent: {Error}", result.Error);
+				_logger.LogWarning("Failed to create agent: {Error}", result.Error ?? "Unknown error");
 				return BadRequest(new ApiResponse<object>
 				{
 					Success = false,
 					Message = "Failed to create agent",
-					Errors = [result.Error]
+					Errors = [result.Error ?? "Unknown error"]
 				});
 			}
 
+			// Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
+			var agent = result.Data!;
 			var response = new ApiResponse<AgentResponse>
 			{
 				Success = true,
 				Message = "Agent created successfully",
-				Data = result.Data!.ToResponse()
+				Data = agent.ToResponse()
 			};
 
-			_logger.LogInformation("Successfully created agent with ID: {AgentId}", result.Data!.Id);
-			return CreatedAtAction(nameof(GetAgent), new { id = result.Data.Id }, response);
+			_logger.LogInformation("Successfully created agent with ID: {AgentId}", agent.Id);
+			return CreatedAtAction(nameof(GetAgent), new { id = agent.Id }, response);
 		}
 		catch (Exception ex)
 		{
@@ -132,15 +136,17 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Agent not found",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "Agent not found" }
 				});
 			}
 
+			// Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
+			var agent = result.Data!;
 			var response = new ApiResponse<AgentResponse>
 			{
 				Success = true,
 				Message = "Agent retrieved successfully",
-				Data = result.Data!.ToResponse()
+				Data = agent.ToResponse()
 			};
 
 			return Ok(response);
@@ -178,20 +184,22 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				_logger.LogError("Failed to retrieve active agents: {Error}", result.Error);
+				_logger.LogError("Failed to retrieve active agents: {Error}", result.Error ?? "Unknown error");
 				return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
 				{
 					Success = false,
 					Message = "Failed to retrieve agents",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "Unknown error" }
 				});
 			}
 
+			// Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
+			var agents = result.Data!;
 			var response = new ApiResponse<IEnumerable<AgentResponse>>
 			{
 				Success = true,
-				Message = $"Retrieved {result.Data!.Count()} active agents",
-				Data = result.Data!.Select(a => a.ToResponse())
+				Message = $"Retrieved {agents.Count()} active agents",
+				Data = agents.Select(a => a.ToResponse())
 			};
 
 			return Ok(response);
@@ -236,8 +244,10 @@ public class AgentsController : ControllerBase
 			if (!ModelState.IsValid)
 			{
 				var errors = ModelState
-					.SelectMany(x => x.Value!.Errors)
+					.Where(x => x.Value?.Errors != null)
+					.SelectMany(x => x.Value!.Errors) // Safe: filtered by Where clause above
 					.Select(x => x.ErrorMessage)
+					.Where(msg => !string.IsNullOrEmpty(msg))
 					.ToList();
 
 				return BadRequest(new ApiResponse<object>
@@ -255,13 +265,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Error.Contains("not found"))
+				if (result.Error?.Contains("not found") == true)
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent not found",
-						Errors = new List<string> { result.Error }
+						Errors = new List<string> { result.Error ?? "Agent not found" }
 					});
 				}
 
@@ -269,7 +279,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to update agent configuration",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "Configuration update failed" }
 				});
 			}
 
@@ -316,8 +326,10 @@ public class AgentsController : ControllerBase
 			if (!ModelState.IsValid)
 			{
 				var errors = ModelState
-					.SelectMany(x => x.Value!.Errors)
+					.Where(x => x.Value?.Errors != null)
+					.SelectMany(x => x.Value!.Errors) // Safe: filtered by Where clause above
 					.Select(x => x.ErrorMessage)
+					.Where(msg => !string.IsNullOrEmpty(msg))
 					.ToList();
 
 				return BadRequest(new ApiResponse<object>
@@ -332,13 +344,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Error.Contains("not found"))
+				if (result.Error?.Contains("not found") == true)
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent not found",
-						Errors = new List<string> { result.Error }
+						Errors = new List<string> { result.Error ?? "Agent not found" }
 					});
 				}
 
@@ -346,7 +358,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to update agent status",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "Status update failed" }
 				});
 			}
 
@@ -393,8 +405,10 @@ public class AgentsController : ControllerBase
 			if (!ModelState.IsValid)
 			{
 				var errors = ModelState
-					.SelectMany(x => x.Value!.Errors)
+					.Where(x => x.Value?.Errors != null)
+					.SelectMany(x => x.Value!.Errors) // Safe: filtered by Where clause above
 					.Select(x => x.ErrorMessage)
+					.Where(msg => !string.IsNullOrEmpty(msg))
 					.ToList();
 
 				return BadRequest(new ApiResponse<object>
@@ -409,13 +423,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Error.Contains("not found"))
+				if (result.Error?.Contains("not found") == true)
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent or task not found",
-						Errors = new List<string> { result.Error }
+						Errors = new List<string> { result.Error ?? "Agent or task not found" }
 					});
 				}
 
@@ -423,7 +437,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to assign task",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "Task assignment failed" }
 				});
 			}
 
@@ -472,15 +486,17 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "No suitable agent found",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "No suitable agent found" }
 				});
 			}
 
+			// Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
+			var agent = result.Data!;
 			var response = new ApiResponse<AgentResponse>
 			{
 				Success = true,
 				Message = "Best agent found",
-				Data = result.Data!.ToResponse()
+				Data = agent.ToResponse()
 			};
 
 			return Ok(response);
@@ -524,13 +540,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Error.Contains("not found"))
+				if (result.Error?.Contains("not found") == true)
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent not found",
-						Errors = new List<string> { result.Error }
+						Errors = new List<string> { result.Error ?? "Agent not found" }
 					});
 				}
 
@@ -538,7 +554,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to delete agent",
-					Errors = new List<string> { result.Error }
+					Errors = new List<string> { result.Error ?? "Agent deletion failed" }
 				});
 			}
 

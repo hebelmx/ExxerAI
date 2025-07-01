@@ -256,7 +256,7 @@ public static class AgentMappingExtensions
 			CanAnalyzeData = capabilities.CanAnalyzeData,
 			CanCallExternalAPIs = capabilities.CanCallExternalAPIs,
 			MaxConcurrentTasks = capabilities.MaxConcurrentTasks,
-			SupportedTaskTypes = capabilities.SupportedTaskTypes.ToList()
+			SupportedTaskTypes = capabilities.SupportedTaskTypes?.ToList() ?? new List<string>()
 		};
 	}
 
@@ -272,7 +272,9 @@ public static class AgentMappingExtensions
 			TaskTimeoutSeconds = configuration.TaskTimeoutSeconds,
 			MaxRetries = configuration.MaxRetries,
 			Priority = configuration.Priority,
-			CustomProperties = new Dictionary<string, object>(configuration.CustomProperties)
+			CustomProperties = configuration.CustomProperties != null 
+				? new Dictionary<string, object>(configuration.CustomProperties)
+				: new Dictionary<string, object>()
 		};
 	}
 
@@ -290,7 +292,7 @@ public static class AgentMappingExtensions
 			CanAnalyzeData = dto.CanAnalyzeData,
 			CanCallExternalAPIs = dto.CanCallExternalAPIs,
 			MaxConcurrentTasks = dto.MaxConcurrentTasks,
-			SupportedTaskTypes = dto.SupportedTaskTypes.ToList()
+			SupportedTaskTypes = dto.SupportedTaskTypes?.ToList() ?? new List<string>()
 		};
 	}
 
@@ -306,7 +308,9 @@ public static class AgentMappingExtensions
 			TaskTimeoutSeconds = request.TaskTimeoutSeconds,
 			MaxRetries = request.MaxRetries,
 			Priority = request.Priority,
-			CustomProperties = new Dictionary<string, object>(request.CustomProperties)
+			CustomProperties = request.CustomProperties != null 
+				? new Dictionary<string, object>(request.CustomProperties)
+				: new Dictionary<string, object>()
 		};
 	}
 } 

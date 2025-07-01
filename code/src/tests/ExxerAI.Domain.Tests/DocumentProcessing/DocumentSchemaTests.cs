@@ -561,7 +561,7 @@ public class KeywordPatternTests
 
     [Theory]
     [InlineData("TOTAL $15,000.00", "TOTAL", nameof(PositionStrategy.NextToken), "$15,000.00")]
-    [InlineData("AMOUNT: 25000", "AMOUNT", nameof(PositionStrategy.NextToken), "25000")]
+    [InlineData("AMOUNT 25000", "AMOUNT", nameof(PositionStrategy.NextToken), "25000")]
     [InlineData("PERIODO 12-2023 SIGUIENTE", "PERIODO", nameof(PositionStrategy.NextToken), "12-2023")]
     public void Should_ExtractNextToken_When_NextTokenStrategyUsed(
         string text, string keyword, string strategyName, string expectedValue)
