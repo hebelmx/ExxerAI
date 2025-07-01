@@ -17,8 +17,8 @@
   </PropertyGroup>
 
   <PropertyGroup Label="Framework and Language Settings">
-    <!-- Target .NET 8 for stability and LTS support -->
-    <TargetFramework>net8.0</TargetFramework>
+    <!-- Target .NET 9 for stability and LTS support -->
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>

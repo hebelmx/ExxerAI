@@ -2,7 +2,7 @@
 using ExxerAI.Domain;
 using Shouldly;
 
-namespace ExxerAI.Application.Tests;
+namespace ExxerAI.Integration.Tests;
 
 /// <summary>
 /// Unit tests for Result class
@@ -89,7 +89,7 @@ public class ResultTests
         // Act & Assert
         result.Errors.ShouldBeOfType<List<string>>();
         result.Errors.Count.ShouldBe(2);
-        
+
         // Verify it's read-only by checking interface
         result.Errors.ShouldBeAssignableTo<IReadOnlyList<string>>();
     }

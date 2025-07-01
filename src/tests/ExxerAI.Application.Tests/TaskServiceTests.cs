@@ -23,7 +23,7 @@ public class TaskServiceTests
         _taskService = new TaskService(_taskRepository, _agentRepository);
     }
 
-    #region Constructor Tests
+    // Constructor Tests
 
     [Fact]
     public void Should_ThrowArgumentNullException_When_TaskRepositoryIsNull()
@@ -48,9 +48,9 @@ public class TaskServiceTests
         _taskService.ShouldNotBeNull();
     }
 
-    #endregion
+    //
 
-    #region CreateTaskAsync Tests
+    // CreateTaskAsync Tests
 
     [Fact]
     public async Task Should_CreateTask_When_ValidDataProvided()
@@ -151,13 +151,13 @@ public class TaskServiceTests
         result.IsSuccess.ShouldBeTrue();
 
         await _taskRepository.Received(1).AddAsync(
-            Arg.Is<AgentTask>(t => 
+            Arg.Is<AgentTask>(t =>
                 t.Title == title &&
                 t.Description == string.Empty &&
                 t.TaskType == taskType &&
                 t.Priority == TaskPriority.Normal &&
                 t.Status == TaskStatus.Pending &&
-                t.Deadline == null), 
+                t.Deadline == null),
             Arg.Any<CancellationToken>());
     }
 
@@ -201,9 +201,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain(e => e.Contains("An error occurred while creating the task"));
     }
 
-    #endregion
+    //
 
-    #region GetTaskAsync Tests
+    // GetTaskAsync Tests
 
     [Fact]
     public async Task Should_GetTask_When_ValidIdProvided()
@@ -242,9 +242,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain($"Task with ID {taskId} not found");
     }
 
-    #endregion
+    //
 
-    #region GetPendingTasksAsync Tests
+    // GetPendingTasksAsync Tests
 
     [Fact]
     public async Task Should_GetPendingTasks_When_Called()
@@ -310,9 +310,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain(repositoryError);
     }
 
-    #endregion
+    //
 
-    #region GetAgentTasksAsync Tests
+    // GetAgentTasksAsync Tests
 
     [Fact]
     public async Task Should_GetAgentTasks_When_ValidAgentIdProvided()
@@ -358,9 +358,9 @@ public class TaskServiceTests
         await _taskRepository.Received(1).GetByAgentAsync(agentId, status, Arg.Any<CancellationToken>());
     }
 
-    #endregion
+    //
 
-    #region StartTaskAsync Tests
+    // StartTaskAsync Tests
 
     [Fact]
     public async Task Should_StartTask_When_TaskIsPending()
@@ -371,7 +371,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -426,9 +426,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain("is not in Pending status");
     }
 
-    #endregion
+    //
 
-    #region CompleteTaskAsync Tests
+    // CompleteTaskAsync Tests
 
     [Fact]
     public async Task Should_CompleteTask_When_TaskIsInProgress()
@@ -440,7 +440,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -466,7 +466,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -502,9 +502,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain("is not in InProgress status");
     }
 
-    #endregion
+    //
 
-    #region FailTaskAsync Tests
+    // FailTaskAsync Tests
 
     [Fact]
     public async Task Should_FailTask_When_TaskIsInProgress()
@@ -516,7 +516,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -541,7 +541,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -553,18 +553,18 @@ public class TaskServiceTests
         task.ErrorMessage.ShouldBe("Task failed without specific error message");
     }
 
-    #endregion
+    //
 
-    #region RetryTaskAsync Tests
+    // RetryTaskAsync Tests
 
     [Fact]
     public async Task Should_RetryTask_When_TaskIsFailed()
     {
         // Arrange
         var taskId = Guid.NewGuid();
-        var task = new AgentTask 
-        { 
-            Id = taskId, 
+        var task = new AgentTask
+        {
+            Id = taskId,
             Status = TaskStatus.Failed,
             RetryCount = 2,
             ErrorMessage = "Previous error",
@@ -574,7 +574,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -614,9 +614,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain("is not in Failed status");
     }
 
-    #endregion
+    //
 
-    #region CancelTaskAsync Tests
+    // CancelTaskAsync Tests
 
     [Theory]
     [InlineData(TaskStatus.Pending)]
@@ -630,7 +630,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -665,9 +665,9 @@ public class TaskServiceTests
         result.Errors.ShouldContain("cannot be cancelled");
     }
 
-    #endregion
+    //
 
-    #region UpdateTaskMetadataAsync Tests
+    // UpdateTaskMetadataAsync Tests
 
     [Fact]
     public async Task Should_UpdateMetadata_When_ValidDataProvided()
@@ -680,7 +680,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -703,7 +703,7 @@ public class TaskServiceTests
 
         _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
             .Returns(Result<AgentTask>.Success(task));
-        
+
         _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
@@ -715,9 +715,9 @@ public class TaskServiceTests
         task.Metadata.ShouldNotBeNull();
     }
 
-    #endregion
+    //
 
-    #region GetOverdueTasksAsync Tests
+    // GetOverdueTasksAsync Tests
 
     [Fact]
     public async Task Should_GetOverdueTasks_When_Called()
@@ -758,5 +758,5 @@ public class TaskServiceTests
         result.Errors.ShouldContain(e => e.Contains("An error occurred while retrieving overdue tasks"));
     }
 
-    #endregion
+    //
 }
