@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using ModelContextProtocol.Server;
+using ExxerAi.MCPServer.Application.Attributes.Server;
 using ExxerAi.MCPServer.Application.Interfaces;
 
 namespace ExxerAi.MCPServer.Application.Tools;

@@ -1,8 +1,8 @@
 using System.ComponentModel;
-using ModelContextProtocol.Server;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using ExxerAi.MCPServer.Application.Attributes.Server;
 using ExxerAi.MCPServer.Application.Interfaces;
 
 namespace ExxerAi.MCPServer.Application.Tools;

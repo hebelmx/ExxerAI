@@ -392,8 +392,9 @@ public class DocumentIngestionService : IDocumentIngestionService
         return Result<DocumentProcessingResult>.WithSuccess(new DocumentProcessingResult
         {
             DocumentId = changeEvent.DocumentId,
-            IsSuccessful = true,
-            OverallConfidence = 1.0f,
+            Confidence = 1.0f,
+            LLMConfidence = 1.0f,
+            GroundingConfidence = 1.0f,
             ProcessingTimeMs = 10,
             ExtractedText = "[Document Deleted]"
         });

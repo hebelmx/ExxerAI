@@ -40,6 +40,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
     <PackageReference Include="ModelContextProtocol" />
     <PackageReference Include="ModelContextProtocol.Core" />
@@ -87,6 +88,11 @@
     <Content Remove="Samples\**" />
     <EmbeddedResource Remove="Samples\**" />
     <None Remove="Samples\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Application\Attributes\Server\mcp\ModelContextProtocol.AspNetCore\ModelContextProtocol.AspNetCore.csproj" />
+    <None Include="Application\Attributes\Server\mcp\ModelContextProtocol.Core\ModelContextProtocol.Core.csproj" />
+    <None Include="Application\Attributes\Server\mcp\ModelContextProtocol\ModelContextProtocol.csproj" />
   </ItemGroup>
 
 </Project>
