@@ -310,9 +310,9 @@
       },
       "xunit.analyzers": {
         "type": "CentralTransitive",
-        "requested": "[1.16.0, )",
-        "resolved": "1.16.0",
-        "contentHash": "hptYM7vGr46GUIgZt21YHO4rfuBAQS2eINbFo16CV/Dqq+24Tp+P5gDCACu1AbFfW4Sp/WRfDPSK8fmUUb8s0Q=="
+        "requested": "[1.18.0, )",
+        "resolved": "1.18.0",
+        "contentHash": "OtFMHN8yqIcYP9wcVIgJrq01AfTxijjAqVDy/WeQVSyrDC1RzBWeQPztL49DN2syXRah8TYnfvk035s7L95EZQ=="
       }
     }
   }
