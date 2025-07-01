@@ -107,7 +107,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="reason">The reason for requiring review</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> RequireHumanReviewAsync(
+    Task<ExxerAI.Domain.Result<bool>> RequireHumanReviewAsync(
         string recordId, 
         string reason, 
         CancellationToken cancellationToken = default);

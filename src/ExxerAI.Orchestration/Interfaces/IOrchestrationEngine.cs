@@ -13,14 +13,14 @@ public interface IOrchestrationEngine
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> StartAsync(CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> StartAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the orchestration engine
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> StopAsync(CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> StopAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules a workflow for execution
@@ -29,7 +29,7 @@ public interface IOrchestrationEngine
     /// <param name="input">The input data for the workflow</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result containing the workflow execution</returns>
-    Task<Result<WorkflowExecution>> ScheduleWorkflowAsync(
+    Task<ExxerAI.Domain.Result<WorkflowExecution>> ScheduleWorkflowAsync(
         Guid workflowId,
         Dictionary<string, object> input,
         CancellationToken cancellationToken = default);
@@ -40,7 +40,7 @@ public interface IOrchestrationEngine
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result containing the assigned agent</returns>
-    Task<Result<Agent>> AssignTaskToAgentAsync(
+    Task<ExxerAI.Domain.Result<Agent>> AssignTaskToAgentAsync(
         Guid taskId,
         CancellationToken cancellationToken = default);
 
@@ -55,7 +55,7 @@ public interface IOrchestrationEngine
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The orchestration metrics</returns>
-    Task<Result<OrchestrationMetrics>> GetMetricsAsync(CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<OrchestrationMetrics>> GetMetricsAsync(CancellationToken cancellationToken = default);
 }
 
 /// <summary>
@@ -141,7 +141,7 @@ public interface IAgentScheduler
     /// <param name="task">The task to assign</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The best agent for the task if found</returns>
-    Task<Result<Agent>> FindBestAgentAsync(
+    Task<ExxerAI.Domain.Result<Agent>> FindBestAgentAsync(
         AgentTask task,
         CancellationToken cancellationToken = default);
 
@@ -151,7 +151,7 @@ public interface IAgentScheduler
     /// <param name="agent">The agent to register</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> RegisterAgentAsync(Agent agent, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> RegisterAgentAsync(Agent agent, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unregisters an agent from the scheduler
@@ -159,7 +159,7 @@ public interface IAgentScheduler
     /// <param name="agentId">The agent identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> UnregisterAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> UnregisterAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets the current workload for an agent
@@ -167,7 +167,7 @@ public interface IAgentScheduler
     /// <param name="agentId">The agent identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The agent's current workload</returns>
-    Task<Result<AgentWorkload>> GetAgentWorkloadAsync(
+    Task<ExxerAI.Domain.Result<AgentWorkload>> GetAgentWorkloadAsync(
         Guid agentId,
         CancellationToken cancellationToken = default);
 }
@@ -215,7 +215,7 @@ public interface IWorkflowExecutor
     /// <param name="input">The input data</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The workflow execution result</returns>
-    Task<Result<WorkflowExecution>> ExecuteAsync(
+    Task<ExxerAI.Domain.Result<WorkflowExecution>> ExecuteAsync(
         Workflow workflow,
         Dictionary<string, object> input,
         CancellationToken cancellationToken = default);
@@ -226,7 +226,7 @@ public interface IWorkflowExecutor
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> PauseExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> PauseExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resumes a paused workflow execution
@@ -234,7 +234,7 @@ public interface IWorkflowExecutor
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> ResumeExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> ResumeExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a workflow execution
@@ -242,5 +242,5 @@ public interface IWorkflowExecutor
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> CancelExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> CancelExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
 }

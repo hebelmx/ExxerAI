@@ -13,16 +13,14 @@ public interface ITaskService
     /// <param name="title">The task title</param>
     /// <param name="description">The task description</param>
     /// <param name="taskType">The task type</param>
-    /// <param name="input">The task input data</param>
     /// <param name="priority">The task priority</param>
-    /// <param name="deadline">The optional deadline</param>
+    /// <param name="deadline">Optional deadline for the task</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the created task</returns>
-    Task<Result<AgentTask>> CreateTaskAsync(
+    Task<ExxerAI.Domain.Result<AgentTask>> CreateTaskAsync(
         string title,
         string description,
         string taskType,
-        TaskData input,
         TaskPriority priority = TaskPriority.Normal,
         DateTime? deadline = null,
         CancellationToken cancellationToken = default);
@@ -33,16 +31,16 @@ public interface ITaskService
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the task if found</returns>
-    Task<Result<AgentTask>> GetTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<AgentTask>> GetTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets pending tasks that are ready for assignment
+    /// Gets all pending tasks
     /// </summary>
-    /// <param name="taskType">Optional task type filter</param>
+    /// <param name="maxCount">Maximum number of tasks to return</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of pending tasks</returns>
-    Task<Result<IEnumerable<AgentTask>>> GetPendingTasksAsync(
-        string? taskType = null, 
+    Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetPendingTasksAsync(
+        int maxCount = 100, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -52,29 +50,45 @@ public interface ITaskService
     /// <param name="status">Optional status filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of agent tasks</returns>
-    Task<Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(
+    Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(
         Guid agentId, 
-        Domain.TaskStatus? status = null, 
+        ExxerAI.Domain.TaskStatus? status = null, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Starts execution of a task
+    /// Updates a task's status
     /// </summary>
     /// <param name="taskId">The task identifier</param>
+    /// <param name="status">The new status</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> StartTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> UpdateTaskStatusAsync(
+        Guid taskId, 
+        ExxerAI.Domain.TaskStatus status, 
+        CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Completes a task with output data
+    /// Assigns a task to an agent
     /// </summary>
     /// <param name="taskId">The task identifier</param>
-    /// <param name="output">The task output data</param>
+    /// <param name="agentId">The agent identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> CompleteTaskAsync(
+    Task<ExxerAI.Domain.Result<bool>> AssignTaskToAgentAsync(
         Guid taskId, 
-        TaskData output, 
+        Guid agentId, 
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Completes a task with optional output data
+    /// </summary>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="outputData">Optional output data</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    Task<ExxerAI.Domain.Result<bool>> CompleteTaskAsync(
+        Guid taskId, 
+        TaskData? outputData = null, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -84,18 +98,10 @@ public interface ITaskService
     /// <param name="errorMessage">The error message</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> FailTaskAsync(
+    Task<ExxerAI.Domain.Result<bool>> FailTaskAsync(
         Guid taskId, 
         string errorMessage, 
         CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Retries a failed task
-    /// </summary>
-    /// <param name="taskId">The task identifier</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The result of the operation</returns>
-    Task<Result> RetryTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a task
@@ -103,24 +109,20 @@ public interface ITaskService
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<Result> CancelTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Updates task metadata
-    /// </summary>
-    /// <param name="taskId">The task identifier</param>
-    /// <param name="metadata">The task metadata</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The result of the operation</returns>
-    Task<Result> UpdateTaskMetadataAsync(
-        Guid taskId, 
-        TaskMetadata metadata, 
-        CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<bool>> CancelTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets overdue tasks
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of overdue tasks</returns>
-    Task<Result<IEnumerable<AgentTask>>> GetOverdueTasksAsync(CancellationToken cancellationToken = default);
+    Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetOverdueTasksAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a task
+    /// </summary>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    Task<ExxerAI.Domain.Result<bool>> DeleteTaskAsync(Guid taskId, CancellationToken cancellationToken = default);
 } 

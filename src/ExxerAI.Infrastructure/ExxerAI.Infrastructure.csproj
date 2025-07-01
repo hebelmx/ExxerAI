@@ -55,6 +55,7 @@
   <!-- ============================================================================ -->
   <ItemGroup Label="Core Framework">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="FluentResults" />
   </ItemGroup>
 
   <!-- ============================================================================ -->
