@@ -30,9 +30,9 @@ public class DocumentIngestionService : IDocumentIngestionService
         IDocumentHashGenerator hashGenerator,
         ILogger<DocumentIngestionService> logger)
     {
-        _documentProcessor = documentProcessor;
-        _hashGenerator = hashGenerator;
-        _logger = logger;
+        _documentProcessor = documentProcessor ?? throw new ArgumentNullException(nameof(documentProcessor));
+        _hashGenerator = hashGenerator ?? throw new ArgumentNullException(nameof(hashGenerator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     /// <summary>
@@ -49,6 +49,8 @@ public class DocumentIngestionService : IDocumentIngestionService
             {
                 return Result<string>.WithFailure("Folder ID cannot be empty");
             }
+
+            _logger.LogInformation("Starting watch for Google Drive folder {FolderId}", folderId);
 
             var sessionId = Guid.NewGuid().ToString();
             var session = new WatchSession
@@ -165,14 +167,15 @@ public class DocumentIngestionService : IDocumentIngestionService
                 return Result<DocumentProcessingResult>.WithSuccess(new DocumentProcessingResult
                 {
                     DocumentId = changeEvent.DocumentId,
-                    IsSuccessful = true,
-                    OverallConfidence = 1.0f,
+                    Confidence = 1.0f,
+                    LLMConfidence = 1.0f,
+                    GroundingConfidence = 1.0f,
                     ProcessingTimeMs = 0
                 });
             }
 
             // For deleted documents, handle separately
-            if (changeEvent.ChangeType == DocumentChangeType.Deleted)
+            if (changeEvent.ChangeType == ExxerAI.Application.Interfaces.DocumentChangeType.Deleted)
             {
                 return await HandleDocumentDeletionAsync(changeEvent, cancellationToken);
             }

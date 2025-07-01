@@ -3,108 +3,94 @@ using System.ComponentModel.DataAnnotations;
 namespace ExxerAI.Domain.DocumentProcessing;
 
 /// <summary>
-/// Represents a document in the processing pipeline with its content and metadata.
+/// Represents a document in the processing pipeline
 /// </summary>
 public class Document
 {
     /// <summary>
-    /// Gets or sets the unique identifier for the document.
+    /// Gets or sets the unique document identifier
     /// </summary>
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
-    /// Gets or sets the document filename.
-    /// </summary>
-    [StringLength(500)]
-    public string FileName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the raw document content.
+    /// Gets or sets the document content as byte array
     /// </summary>
     public byte[] Content { get; set; } = Array.Empty<byte>();
 
     /// <summary>
-    /// Gets or sets the extracted text content.
-    /// </summary>
-    public string TextContent { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the document type classification.
-    /// </summary>
-    public DocumentType DocumentType { get; set; } = DocumentType.Unknown;
-
-    /// <summary>
-    /// Gets or sets the MIME type of the document.
-    /// </summary>
-    [StringLength(100)]
-    public string MimeType { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the document metadata.
+    /// Gets or sets the document metadata
     /// </summary>
     public DocumentMetadata Metadata { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets when the document was created.
+    /// Gets or sets the extracted text content if available
+    /// </summary>
+    public string? ExtractedText { get; set; }
+
+    /// <summary>
+    /// Gets or sets the document processing status
+    /// </summary>
+    public DocumentStatus Status { get; set; } = DocumentStatus.Processing;
+
+    /// <summary>
+    /// Gets or sets when the document was created
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Gets or sets when the document was last modified.
+    /// Gets or sets when the document was last updated
     /// </summary>
-    public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Gets or sets the content hash for integrity verification.
+    /// Gets the file size of the document content
     /// </summary>
-    [StringLength(64)]
-    public string ContentHash { get; set; } = string.Empty;
+    public long Size => Content?.Length ?? 0;
 
     /// <summary>
-    /// Gets or sets additional document properties.
+    /// Gets whether the document has content
     /// </summary>
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public bool HasContent => Content?.Length > 0;
 
     /// <summary>
-    /// Initializes a new instance of the Document class.
+    /// Gets whether the document has extracted text
+    /// </summary>
+    public bool HasExtractedText => !string.IsNullOrEmpty(ExtractedText);
+
+    /// <summary>
+    /// Initializes a new instance of the Document class
     /// </summary>
     public Document() { }
 
     /// <summary>
-    /// Initializes a new instance of the Document class with basic properties.
+    /// Initializes a new instance of the Document class with content and metadata
     /// </summary>
-    /// <param name="fileName">The document filename.</param>
-    /// <param name="content">The document content.</param>
-    /// <param name="mimeType">The MIME type.</param>
-    public Document(string fileName, byte[] content, string mimeType)
+    /// <param name="content">The document content</param>
+    /// <param name="metadata">The document metadata</param>
+    public Document(byte[] content, DocumentMetadata metadata)
     {
-        FileName = fileName;
         Content = content;
-        MimeType = mimeType;
-        Metadata = new DocumentMetadata
-        {
-            FileName = fileName,
-            MimeType = mimeType,
-            FileSize = content.Length
-        };
+        Metadata = metadata;
+        UpdatedAt = DateTime.UtcNow;
     }
 
     /// <summary>
-    /// Gets the size of the document content in bytes.
+    /// Sets the extracted text content
     /// </summary>
-    public long SizeInBytes => Content.Length;
-
-    /// <summary>
-    /// Checks if the document has text content extracted.
-    /// </summary>
-    public bool HasTextContent => !string.IsNullOrWhiteSpace(TextContent);
-
-    /// <summary>
-    /// Gets a summary of the document for display purposes.
-    /// </summary>
-    /// <returns>A formatted summary string.</returns>
-    public string GetSummary()
+    /// <param name="text">The extracted text</param>
+    public void SetExtractedText(string text)
     {
-        return $"Document [{Id[..8]}]: {FileName} ({SizeInBytes} bytes, {DocumentType})";
+        ExtractedText = text;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Updates the document status
+    /// </summary>
+    /// <param name="status">The new status</param>
+    public void UpdateStatus(DocumentStatus status)
+    {
+        Status = status;
+        UpdatedAt = DateTime.UtcNow;
     }
 } 

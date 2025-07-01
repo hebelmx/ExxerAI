@@ -7,7 +7,6 @@ by executing the cycle defined in `TASK_IMPLEMENTATION_PROJECT AUTONOMOS LOOP.md
 
 ---
 
-
 ### EXECUTION DIRECTIVE: CONTINUOUS AUTONOMOUS LOOP
 
 THIS TASK IS TO BE EXECUTED AUTONOMOUSLY IN A CONTINUOUS LOOP:
@@ -66,11 +65,9 @@ The agent must remain in this cycle, refining, validating, and improving, zero o
 
 ## 🔁 AUTONOMOUS EXECUTION CYCLE
 
-### 1. Project File Review (`.csproj`)
+### 1. UNDERSTAND PROJECT OBJECTIVES
 
-Inspect every `.csproj` file in the solution.Ensure no broken references, version mismatches, or deprecated structures.
-Also review any other important file like soltution props, build config,
-all must comply with best practices, must be clear and documented
+Study `PROJECT_DESIGN_EXXERAI_CENTER_OP.md Inspect. Ensure it have the full picture this was a guideline a foundation, but is a live document, image all the involved parties, how they want the product, the user, the developers, the owners, the mantainers, the deployers, have the best picture of the project on mind, while we need to comply with the specification we don't have to be limited by this, we have to deliver and enhance a dream, make the vision of a dream a relity beyond fantasy, while completing on time and budget with the best practices.
 
 > *"A clean foundation promises a bright future."*
 

@@ -3,87 +3,96 @@ using System.ComponentModel.DataAnnotations;
 namespace ExxerAI.Domain.DocumentProcessing;
 
 /// <summary>
-/// Represents an extraction schema that defines how to extract specific fields from documents.
-/// This is an alias for SchemaDefinition to maintain API compatibility.
+/// Represents a schema for extracting specific fields from documents
 /// </summary>
 public class ExtractionSchema
 {
     /// <summary>
-    /// Gets or sets the unique identifier for the schema.
+    /// Gets or sets the unique identifier for the extraction schema
     /// </summary>
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
-    /// Gets or sets the schema name.
+    /// Gets or sets the schema name
     /// </summary>
     [StringLength(255)]
     public string Name { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the document type this schema applies to.
+    /// Gets or sets the document type this schema applies to
     /// </summary>
     public DocumentType DocumentType { get; set; } = DocumentType.Unknown;
 
     /// <summary>
-    /// Gets or sets the schema version.
+    /// Gets or sets the schema version
     /// </summary>
     public int Version { get; set; } = 1;
 
     /// <summary>
-    /// Gets or sets the list of field definitions for extraction.
+    /// Gets or sets the list of field definitions to extract
     /// </summary>
     public List<FieldDefinition> Fields { get; set; } = new();
 
     /// <summary>
-    /// Gets or sets when this schema was created.
+    /// Gets or sets when this schema was created
     /// </summary>
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Gets or sets when this schema was last updated.
+    /// Gets or sets when this schema was last updated
     /// </summary>
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Gets or sets the accuracy score for this schema.
+    /// Gets or sets the accuracy score for this schema (0.0 to 1.0)
     /// </summary>
     public float AccuracyScore { get; set; } = 1.0f;
 
     /// <summary>
-    /// Gets or sets whether this schema is active.
+    /// Gets or sets whether this schema is active
     /// </summary>
     public bool IsActive { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets additional schema metadata.
+    /// Gets or sets additional schema metadata
     /// </summary>
     public Dictionary<string, object> Metadata { get; set; } = new();
 
     /// <summary>
-    /// Gets the required fields from this schema.
+    /// Gets or sets the minimum confidence threshold for successful extraction
+    /// </summary>
+    public float MinimumConfidenceThreshold { get; set; } = 0.7f;
+
+    /// <summary>
+    /// Gets the required fields from this schema
     /// </summary>
     public IEnumerable<FieldDefinition> RequiredFields => Fields.Where(f => f.IsRequired);
 
     /// <summary>
-    /// Gets the optional fields from this schema.
+    /// Gets the optional fields from this schema
     /// </summary>
     public IEnumerable<FieldDefinition> OptionalFields => Fields.Where(f => !f.IsRequired);
 
     /// <summary>
-    /// Gets the total number of fields in this schema.
+    /// Gets the number of fields in this schema
     /// </summary>
     public int FieldCount => Fields.Count;
 
     /// <summary>
-    /// Initializes a new instance of the ExtractionSchema class.
+    /// Gets the number of required fields in this schema
+    /// </summary>
+    public int RequiredFieldCount => RequiredFields.Count();
+
+    /// <summary>
+    /// Initializes a new instance of the ExtractionSchema class
     /// </summary>
     public ExtractionSchema() { }
 
     /// <summary>
-    /// Initializes a new instance of the ExtractionSchema class with basic properties.
+    /// Initializes a new instance of the ExtractionSchema class with basic properties
     /// </summary>
-    /// <param name="name">The schema name.</param>
-    /// <param name="documentType">The document type this schema applies to.</param>
+    /// <param name="name">The schema name</param>
+    /// <param name="documentType">The document type</param>
     public ExtractionSchema(string name, DocumentType documentType)
     {
         Name = name;
@@ -91,26 +100,23 @@ public class ExtractionSchema
     }
 
     /// <summary>
-    /// Adds a field definition to this schema.
+    /// Adds a field definition to the schema
     /// </summary>
-    /// <param name="field">The field definition to add.</param>
+    /// <param name="field">The field definition to add</param>
     public void AddField(FieldDefinition field)
     {
-        if (field != null && !Fields.Any(f => f.Name.Equals(field.Name, StringComparison.OrdinalIgnoreCase)))
-        {
-            Fields.Add(field);
-            UpdatedAt = DateTime.UtcNow;
-        }
+        Fields.Add(field);
+        UpdatedAt = DateTime.UtcNow;
     }
 
     /// <summary>
-    /// Removes a field definition from this schema.
+    /// Removes a field definition from the schema
     /// </summary>
-    /// <param name="fieldName">The name of the field to remove.</param>
-    /// <returns>True if the field was removed, false if not found.</returns>
+    /// <param name="fieldName">The name of the field to remove</param>
+    /// <returns>True if the field was removed</returns>
     public bool RemoveField(string fieldName)
     {
-        var field = Fields.FirstOrDefault(f => f.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
+        var field = Fields.FirstOrDefault(f => f.Name == fieldName);
         if (field != null)
         {
             Fields.Remove(field);
@@ -121,19 +127,39 @@ public class ExtractionSchema
     }
 
     /// <summary>
-    /// Gets a field definition by name.
+    /// Gets a field definition by name
     /// </summary>
-    /// <param name="fieldName">The name of the field to find.</param>
-    /// <returns>The field definition or null if not found.</returns>
+    /// <param name="fieldName">The field name</param>
+    /// <returns>The field definition or null if not found</returns>
     public FieldDefinition? GetField(string fieldName)
     {
-        return Fields.FirstOrDefault(f => f.Name.Equals(fieldName, StringComparison.OrdinalIgnoreCase));
+        return Fields.FirstOrDefault(f => f.Name == fieldName);
     }
 
     /// <summary>
-    /// Validates that this schema is properly configured.
+    /// Checks if a field exists in this schema
     /// </summary>
-    /// <returns>A list of validation errors, empty if valid.</returns>
+    /// <param name="fieldName">The field name to check</param>
+    /// <returns>True if the field exists</returns>
+    public bool HasField(string fieldName)
+    {
+        return Fields.Any(f => f.Name == fieldName);
+    }
+
+    /// <summary>
+    /// Updates the accuracy score based on extraction results
+    /// </summary>
+    /// <param name="newScore">The new accuracy score</param>
+    public void UpdateAccuracyScore(float newScore)
+    {
+        AccuracyScore = Math.Max(0.0f, Math.Min(1.0f, newScore));
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>
+    /// Validates the schema configuration
+    /// </summary>
+    /// <returns>A list of validation errors, empty if valid</returns>
     public List<string> Validate()
     {
         var errors = new List<string>();
@@ -143,103 +169,44 @@ public class ExtractionSchema
             errors.Add("Schema name is required");
         }
 
-        if (!Fields.Any())
+        if (Fields.Count == 0)
         {
-            errors.Add("Schema must have at least one field definition");
+            errors.Add("Schema must have at least one field");
         }
 
-        // Check for duplicate field names
-        var duplicateFields = Fields.GroupBy(f => f.Name.ToLowerInvariant())
+        var duplicateNames = Fields.GroupBy(f => f.Name)
                                    .Where(g => g.Count() > 1)
                                    .Select(g => g.Key);
 
-        foreach (var duplicate in duplicateFields)
+        foreach (var duplicateName in duplicateNames)
         {
-            errors.Add($"Duplicate field name: {duplicate}");
-        }
-
-        // Validate each field
-        foreach (var field in Fields)
-        {
-            if (string.IsNullOrWhiteSpace(field.Name))
-            {
-                errors.Add("Field name is required for all fields");
-            }
-
-            if (string.IsNullOrWhiteSpace(field.PrimaryPattern) && !field.AlternativePatterns.Any())
-            {
-                errors.Add($"Field '{field.Name}' must have at least one extraction pattern");
-            }
+            errors.Add($"Duplicate field name: {duplicateName}");
         }
 
         return errors;
     }
 
     /// <summary>
-    /// Creates a copy of this schema with a new version number.
+    /// Creates a copy of this schema
     /// </summary>
-    /// <returns>A new schema instance with incremented version.</returns>
-    public ExtractionSchema CreateNewVersion()
-    {
-        var newSchema = new ExtractionSchema(Name, DocumentType)
-        {
-            Version = Version + 1,
-            Fields = Fields.Select(f => new FieldDefinition(f.Name, f.Type, f.IsRequired, f.PrimaryPattern)).ToList(),
-            Metadata = new Dictionary<string, object>(Metadata)
-        };
-
-        return newSchema;
-    }
-
-    /// <summary>
-    /// Converts this extraction schema to a schema definition.
-    /// </summary>
-    /// <returns>A SchemaDefinition equivalent of this extraction schema.</returns>
-    public SchemaDefinition ToSchemaDefinition()
-    {
-        return new SchemaDefinition
-        {
-            Id = Id,
-            Name = Name,
-            DocumentType = DocumentType,
-            Version = Version,
-            Fields = Fields.ToList(),
-            CreatedAt = CreatedAt,
-            UpdatedAt = UpdatedAt,
-            AccuracyScore = AccuracyScore,
-            IsActive = IsActive,
-            Metadata = new Dictionary<string, object>(Metadata)
-        };
-    }
-
-    /// <summary>
-    /// Creates an extraction schema from a schema definition.
-    /// </summary>
-    /// <param name="schemaDefinition">The schema definition to convert.</param>
-    /// <returns>An ExtractionSchema equivalent.</returns>
-    public static ExtractionSchema FromSchemaDefinition(SchemaDefinition schemaDefinition)
+    /// <returns>A new ExtractionSchema instance with copied values</returns>
+    public ExtractionSchema Clone()
     {
         return new ExtractionSchema
         {
-            Id = schemaDefinition.Id,
-            Name = schemaDefinition.Name,
-            DocumentType = schemaDefinition.DocumentType,
-            Version = schemaDefinition.Version,
-            Fields = schemaDefinition.Fields.ToList(),
-            CreatedAt = schemaDefinition.CreatedAt,
-            UpdatedAt = schemaDefinition.UpdatedAt,
-            AccuracyScore = schemaDefinition.AccuracyScore,
-            IsActive = schemaDefinition.IsActive,
-            Metadata = new Dictionary<string, object>(schemaDefinition.Metadata)
+            Name = $"{Name}_Copy",
+            DocumentType = DocumentType,
+            Version = Version + 1,
+            Fields = Fields.Select(f => new FieldDefinition(f.Name, f.Type, f.IsRequired, f.PrimaryPattern)
+            {
+                Description = f.Description,
+                AlternativePatterns = new List<ExtractionPattern>(f.AlternativePatterns),
+                ValidationRules = new List<ValidationRule>(f.ValidationRules)
+            }).ToList(),
+            AccuracyScore = AccuracyScore,
+            IsActive = IsActive,
+            Metadata = new Dictionary<string, object>(Metadata),
+            MinimumConfidenceThreshold = MinimumConfidenceThreshold
         };
-    }
-
-    /// <summary>
-    /// Returns a string representation of this schema.
-    /// </summary>
-    /// <returns>A formatted string with schema information.</returns>
-    public override string ToString()
-    {
-        return $"ExtractionSchema[{Name} v{Version}, {FieldCount} fields, {DocumentType}]";
     }
 } 

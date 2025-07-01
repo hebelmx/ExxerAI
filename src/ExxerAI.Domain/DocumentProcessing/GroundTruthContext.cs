@@ -69,6 +69,21 @@ public class GroundTruthContext
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
+    /// Gets or sets whether strict validation is enabled.
+    /// </summary>
+    public bool StrictValidation { get; set; } = false;
+
+    /// <summary>
+    /// Gets or sets the minimum confidence threshold for acceptance.
+    /// </summary>
+    public float MinimumConfidenceThreshold { get; set; } = 0.7f;
+
+    /// <summary>
+    /// Gets or sets the tolerance level for data variations.
+    /// </summary>
+    public float ToleranceLevel { get; set; } = 0.1f;
+
+    /// <summary>
     /// Initializes a new instance of the GroundTruthContext class.
     /// </summary>
     public GroundTruthContext() { }
