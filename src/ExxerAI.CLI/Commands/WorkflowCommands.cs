@@ -53,7 +53,7 @@ public class WorkflowCommands
 		Console.WriteLine("The following workflows will be available in future versions:");
 		Console.WriteLine();
 		Console.WriteLine("  - Agent Coordination Workflows");
-		Console.WriteLine("  - Data Processing Pipelines");
+		Console.WriteLine("  - Value Processing Pipelines");
 		Console.WriteLine("  - Task Orchestration Flows");
 		Console.WriteLine("  - Multi-Agent Collaboration Workflows");
 		Console.WriteLine();
@@ -184,9 +184,9 @@ public class WorkflowCommands
 		Console.WriteLine();
 		Console.WriteLine("Examples (future functionality):");
 		Console.WriteLine("  exxerai workflow list");
-		Console.WriteLine("  exxerai workflow create \"Data Pipeline\" --template processing");
-		Console.WriteLine("  exxerai workflow execute \"Data Pipeline\" --parameters input.json");
-		Console.WriteLine("  exxerai workflow status \"Data Pipeline\"");
+		Console.WriteLine("  exxerai workflow create \"Value Pipeline\" --template processing");
+		Console.WriteLine("  exxerai workflow execute \"Value Pipeline\" --parameters input.json");
+		Console.WriteLine("  exxerai workflow status \"Value Pipeline\"");
 		Console.WriteLine();
 		Console.WriteLine("Stay tuned for full workflow orchestration capabilities!");
 		Console.WriteLine();

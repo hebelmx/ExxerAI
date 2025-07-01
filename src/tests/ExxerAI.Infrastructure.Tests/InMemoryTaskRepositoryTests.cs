@@ -40,11 +40,11 @@ public class InMemoryTaskRepositoryTests
 
 		// Assert
 		result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Id.ShouldNotBe(Guid.Empty);
-			result.Value.Title.ShouldBe(task.Title);
-			result.Value.CreatedAt.ShouldBeGreaterThan(DateTime.MinValue);
-		}
+		result.Data.ShouldNotBeNull();
+		result.Data.Id.ShouldNotBe(Guid.Empty);
+		result.Data.Title.ShouldBe(task.Title);
+		result.Data.CreatedAt.ShouldBeGreaterThan(DateTime.MinValue);
+	}
 
 		[Fact]
 		public async Task Should_GenerateId_When_TaskHasEmptyId()
@@ -62,9 +62,9 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Id.ShouldNotBe(Guid.Empty);
-			result.Value.Id.ShouldNotBe(task.Id); // Should have new ID
+			result.Data.ShouldNotBeNull();
+			result.Data.Id.ShouldNotBe(Guid.Empty);
+			result.Data.Id.ShouldNotBe(task.Id); // Should have new ID
 		}
 
 		[Fact]
@@ -84,8 +84,8 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Id.ShouldBe(taskId);
+			result.Data.ShouldNotBeNull();
+			result.Data.Id.ShouldBe(taskId);
 		}
 
 		[Fact]
@@ -103,7 +103,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain($"Task with ID {taskId} already exists");
+			result.Error.ShouldContain($"Task with ID {taskId} already exists");
 		}
 
 		[Fact]
@@ -119,16 +119,16 @@ public class InMemoryTaskRepositoryTests
 			};
 
 			var addResult = await _repository.AddAsync(task);
-			var taskId = addResult.Value!.Id;
+			var taskId = addResult.Data!.Id;
 
 			// Act
 			var result = await _repository.GetByIdAsync(taskId);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Id.ShouldBe(taskId);
-			result.Value.Title.ShouldBe(task.Title);
+			result.Data.ShouldNotBeNull();
+			result.Data.Id.ShouldBe(taskId);
+			result.Data.Title.ShouldBe(task.Title);
 		}
 
 		[Fact]
@@ -139,7 +139,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task not found");
+			result.Error.ShouldContain("Task not found");
 		}
 
 		[Fact]
@@ -155,7 +155,7 @@ public class InMemoryTaskRepositoryTests
 			};
 
 			var addResult = await _repository.AddAsync(task);
-			var addedTask = addResult.Value!;
+			var addedTask = addResult.Data!;
 
 			addedTask.Title = "Updated Task";
 			addedTask.Description = "Updated Description";
@@ -166,10 +166,10 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Title.ShouldBe("Updated Task");
-			result.Value.Description.ShouldBe("Updated Description");
-			result.Value.Status.ShouldBe(TaskStatus.InProgress);
+			result.Data.ShouldNotBeNull();
+			result.Data.Title.ShouldBe("Updated Task");
+			result.Data.Description.ShouldBe("Updated Description");
+			result.Data.Status.ShouldBe(TaskStatus.InProgress);
 		}
 
 		[Fact]
@@ -183,7 +183,7 @@ public class InMemoryTaskRepositoryTests
 			};
 
 			var addResult = await _repository.AddAsync(task);
-			var taskId = addResult.Value!.Id;
+			var taskId = addResult.Data!.Id;
 
 			// Act
 			var deleteResult = await _repository.DeleteAsync(taskId);
@@ -217,8 +217,8 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Count().ShouldBeGreaterThanOrEqualTo(3);
+			result.Data.ShouldNotBeNull();
+			result.Data.Count().ShouldBeGreaterThanOrEqualTo(3);
 		}
 	}
 
@@ -249,9 +249,9 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Count().ShouldBeGreaterThanOrEqualTo(2);
-			result.Value.All(t => t.Status == TaskStatus.Pending).ShouldBeTrue();
+			result.Data.ShouldNotBeNull();
+			result.Data.Count().ShouldBeGreaterThanOrEqualTo(2);
+			result.Data.All(t => t.Status == TaskStatus.Pending).ShouldBeTrue();
 		}
 
 		[Fact]
@@ -279,9 +279,9 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Count().ShouldBe(2);
-			result.Value.All(t => t.AssignedAgentId == agentId1).ShouldBeTrue();
+			result.Data.ShouldNotBeNull();
+			result.Data.Count().ShouldBe(2);
+			result.Data.All(t => t.AssignedAgentId == agentId1).ShouldBeTrue();
 		}
 
 		[Fact]
@@ -307,10 +307,10 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Count().ShouldBe(1);
-			result.Value.First().Status.ShouldBe(TaskStatus.InProgress);
-			result.Value.First().AssignedAgentId.ShouldBe(agentId);
+			result.Data.ShouldNotBeNull();
+			result.Data.Count().ShouldBe(1);
+			result.Data.First().Status.ShouldBe(TaskStatus.InProgress);
+			result.Data.First().AssignedAgentId.ShouldBe(agentId);
 		}
 
 		[Fact]
@@ -335,9 +335,9 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Count().ShouldBe(2);
-			result.Value.All(t => t.TaskType == "DataAnalysis").ShouldBeTrue();
+			result.Data.ShouldNotBeNull();
+			result.Data.Count().ShouldBe(2);
+			result.Data.All(t => t.TaskType == "DataAnalysis").ShouldBeTrue();
 		}
 
 		[Fact]
@@ -387,10 +387,10 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
-			result.Value.Count().ShouldBe(2);
-			result.Value.All(t => t.Deadline < now).ShouldBeTrue();
-			result.Value.All(t => t.Status != TaskStatus.Completed).ShouldBeTrue();
+			result.Data.ShouldNotBeNull();
+			result.Data.Count().ShouldBe(2);
+			result.Data.All(t => t.Deadline < now).ShouldBeTrue();
+			result.Data.All(t => t.Status != TaskStatus.Completed).ShouldBeTrue();
 		}
 	}
 
@@ -407,7 +407,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task cannot be null");
+			result.Error.ShouldContain("Task cannot be null");
 		}
 
 		[Fact]
@@ -418,7 +418,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task cannot be null");
+			result.Error.ShouldContain("Task cannot be null");
 		}
 
 		[Fact]
@@ -437,7 +437,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain($"Task not found with ID: {task.Id}");
+			result.Error.ShouldContain($"Task not found with ID: {task.Id}");
 		}
 
 		[Fact]
@@ -456,7 +456,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task ID cannot be empty");
+			result.Error.ShouldContain("Task ID cannot be empty");
 		}
 
 		[Fact]
@@ -467,7 +467,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task not found with ID:");
+			result.Error.ShouldContain("Task not found with ID:");
 		}
 
 		[Fact]
@@ -478,7 +478,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task ID cannot be empty");
+			result.Error.ShouldContain("Task ID cannot be empty");
 		}
 
 		[Fact]
@@ -489,7 +489,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Agent ID cannot be empty");
+			result.Error.ShouldContain("Agent ID cannot be empty");
 		}
 
 		[Fact]
@@ -500,7 +500,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task type cannot be empty");
+			result.Error.ShouldContain("Task type cannot be empty");
 		}
 
 		[Fact]
@@ -511,7 +511,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsFailure.ShouldBeTrue();
-			result.Errors.ShouldContain("Task ID cannot be empty");
+			result.Error.ShouldContain("Task ID cannot be empty");
 		}
 	}
 
@@ -531,14 +531,14 @@ public class InMemoryTaskRepositoryTests
 			};
 
 			var addResult = await _repository.AddAsync(task);
-			var taskId = addResult.Value!.Id;
+			var taskId = addResult.Data!.Id;
 
 			// Act
 			var result = await _repository.ExistsAsync(taskId);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldBeTrue();
+			result.Data.ShouldBeTrue();
 		}
 
 		[Fact]
@@ -549,7 +549,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldBeFalse();
+			result.Data.ShouldBeFalse();
 		}
 	}
 
@@ -579,7 +579,7 @@ public class InMemoryTaskRepositoryTests
 			
 			var allTasks = await _repository.GetAllAsync();
 			allTasks.IsSuccess.ShouldBeTrue();
-			allTasks.Value!.Count().ShouldBeGreaterThanOrEqualTo(100);
+			allTasks.Data!.Count().ShouldBeGreaterThanOrEqualTo(100);
 		}
 
 		[Fact]
@@ -593,7 +593,7 @@ public class InMemoryTaskRepositoryTests
 			};
 
 			var addResult = await _repository.AddAsync(task);
-			var taskId = addResult.Value!.Id;
+			var taskId = addResult.Data!.Id;
 
 			// Act - Multiple concurrent reads
 			var readTasks = Enumerable.Range(1, 50)
@@ -602,7 +602,7 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			results.All(r => r.IsSuccess).ShouldBeTrue();
-			results.All(r => r.Value!.Id == taskId).ShouldBeTrue();
+			results.All(r => r.Data!.Id == taskId).ShouldBeTrue();
 		}
 
 		[Fact]
@@ -616,7 +616,7 @@ public class InMemoryTaskRepositoryTests
 			};
 
 			var addResult = await _repository.AddAsync(task);
-			var taskToUpdate = addResult.Value!;
+			var taskToUpdate = addResult.Data!;
 
 			// Act - Multiple concurrent updates
 			var updateTasks = Enumerable.Range(1, 10)
@@ -675,7 +675,7 @@ public class InMemoryTaskRepositoryTests
 			
 			var allTasks = await _repository.GetAllAsync();
 			allTasks.IsSuccess.ShouldBeTrue();
-			allTasks.Value!.Count().ShouldBeGreaterThanOrEqualTo(taskCount);
+			allTasks.Data!.Count().ShouldBeGreaterThanOrEqualTo(taskCount);
 		}
 
 		[Fact]
@@ -739,19 +739,19 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			allTasks.IsSuccess.ShouldBeTrue();
-			allTasks.Value!.ShouldBeEmpty();
+			allTasks.Data!.ShouldBeEmpty();
 			
 			statusTasks.IsSuccess.ShouldBeTrue();
-			statusTasks.Value!.ShouldBeEmpty();
+			statusTasks.Data!.ShouldBeEmpty();
 			
 			agentTasks.IsSuccess.ShouldBeTrue();
-			agentTasks.Value!.ShouldBeEmpty();
+			agentTasks.Data!.ShouldBeEmpty();
 			
 			typeTasks.IsSuccess.ShouldBeTrue();
-			typeTasks.Value!.ShouldBeEmpty();
+			typeTasks.Data!.ShouldBeEmpty();
 			
 			overdueTasks.IsSuccess.ShouldBeTrue();
-			overdueTasks.Value!.ShouldBeEmpty();
+			overdueTasks.Data!.ShouldBeEmpty();
 		}
 
 		[Fact]
@@ -774,9 +774,9 @@ public class InMemoryTaskRepositoryTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldNotBeNull();
+			result.Data.ShouldNotBeNull();
 			// Tasks without deadlines should not appear in overdue results
-			result.Value.ShouldNotContain(t => tasksWithoutDeadline.Contains(t));
+			result.Data.ShouldNotContain(t => tasksWithoutDeadline.Contains(t));
 		}
 
 		[Fact]
@@ -800,7 +800,7 @@ public class InMemoryTaskRepositoryTests
 			// Assert
 			var allTasks = await _repository.GetAllAsync();
 			allTasks.IsSuccess.ShouldBeTrue();
-			allTasks.Value!.Count(t => t.Title == "Duplicate Title").ShouldBeGreaterThanOrEqualTo(3);
+			allTasks.Data!.Count(t => t.Title == "Duplicate Title").ShouldBeGreaterThanOrEqualTo(3);
 		}
 	}
 } 

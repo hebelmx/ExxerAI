@@ -238,7 +238,7 @@ public class EnhancedDocumentIntelligenceAgent
 
             // Add business insights
             report.Insights.Add($"Processed {report.GroundingReport.TotalRecordsProcessed} documents with {report.GroundingReport.SuccessRate:P} success rate");
-            report.Insights.Add($"Data quality score: {report.QualityMetrics.OverallQualityScore:P}");
+            report.Insights.Add($"Value quality score: {report.QualityMetrics.OverallQualityScore:P}");
             report.Insights.Add($"Average confidence: {report.GroundingReport.AverageConfidenceScore:P}");
 
             // Add recommended actions

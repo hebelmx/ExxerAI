@@ -591,7 +591,7 @@ public class TaskCommands
 		Console.WriteLine("Examples:");
 		Console.WriteLine("  exxerai task list");
 		Console.WriteLine("  exxerai task list --status pending");
-		Console.WriteLine("  exxerai task create \"Process Data\" --type DataProcessing --priority High");
+		Console.WriteLine("  exxerai task create \"Process Value\" --type DataProcessing --priority High");
 		Console.WriteLine("  exxerai task assign 12345678-1234-1234-1234-123456789012 87654321-4321-4321-4321-210987654321");
 		Console.WriteLine("  exxerai task update 12345678-1234-1234-1234-123456789012 --status Completed");
 		Console.WriteLine();

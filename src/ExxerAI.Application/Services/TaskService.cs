@@ -106,7 +106,7 @@ public class TaskService : ITaskService
 			if (result.IsFailure) 
 				return ExxerAI.Domain.Result<IEnumerable<AgentTask>>.WithFailure(result.Error ?? "Failed to retrieve pending tasks");
 
-			var tasks = result.Data ?? Enumerable.Empty<AgentTask>();
+			var tasks = result.Value ?? Enumerable.Empty<AgentTask>();
 			var limitedTasks = tasks.Take(maxCount);
 
 			return ExxerAI.Domain.Result<IEnumerable<AgentTask>>.WithSuccess(limitedTasks);
@@ -158,7 +158,7 @@ public class TaskService : ITaskService
 			if (taskResult.IsFailure) 
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
-			var task = taskResult.Data!;
+			var task = taskResult.Value!;
 			task.Status = status;
 
 			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
@@ -188,7 +188,7 @@ public class TaskService : ITaskService
 			if (taskResult.IsFailure) 
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
-			var task = taskResult.Data!;
+			var task = taskResult.Value!;
 			if (task.Status != Domain.TaskStatus.Pending)
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment. Current status: {task.Status}");
 
@@ -221,7 +221,7 @@ public class TaskService : ITaskService
 			if (taskResult.IsFailure) 
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
-			var task = taskResult.Data!;
+			var task = taskResult.Value!;
 			if (task.Status != Domain.TaskStatus.InProgress)
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not in InProgress status. Current status: {task.Status}");
 
@@ -256,7 +256,7 @@ public class TaskService : ITaskService
 			if (taskResult.IsFailure) 
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
-			var task = taskResult.Data!;
+			var task = taskResult.Value!;
 			if (task.Status != Domain.TaskStatus.InProgress)
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not in InProgress status. Current status: {task.Status}");
 
@@ -287,7 +287,7 @@ public class TaskService : ITaskService
 			if (taskResult.IsFailure) 
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
-			var task = taskResult.Data!;
+			var task = taskResult.Value!;
 			if (task.Status == Domain.TaskStatus.Completed || task.Status == Domain.TaskStatus.Cancelled)
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} cannot be cancelled. Current status: {task.Status}");
 

@@ -294,7 +294,7 @@ public class AgentTaskDomainTests
 		public void Should_InitializeEmptyTaskData_When_TaskCreated()
 		{
 			// Arrange & Act
-			var task = new AgentTask { Title = "Data Test" };
+			var task = new AgentTask { Title = "Value Test" };
 
 			// Assert
 			task.Input.ShouldNotBeNull();
@@ -314,7 +314,7 @@ public class AgentTaskDomainTests
 		public void Should_StoreTaskData_When_DataProvided()
 		{
 			// Arrange
-			var task = new AgentTask { Title = "Data Storage Test" };
+			var task = new AgentTask { Title = "Value Storage Test" };
 			var inputData = new TaskData
 			{
 				ContentType = "text/plain",
@@ -452,7 +452,7 @@ public class AgentTaskDomainTests
 		public void Should_HandleComplexTaskData_When_LargeObjectProvided()
 		{
 			// Arrange
-			var task = new AgentTask { Title = "Complex Data Test" };
+			var task = new AgentTask { Title = "Complex Value Test" };
 			var complexData = new TaskData
 			{
 				ContentType = "application/complex+json",

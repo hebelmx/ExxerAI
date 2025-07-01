@@ -167,7 +167,7 @@ public class MappingTests
 				CanAnalyzeData = false,
 				CanCallExternalAPIs = true,
 				MaxConcurrentTasks = 10,
-				SupportedTaskTypes = { "Web", "Data", "Code", "Analysis" }
+				SupportedTaskTypes = { "Web", "Value", "Code", "Analysis" }
 			};
 
 			// Act
@@ -182,7 +182,7 @@ public class MappingTests
 			dto.MaxConcurrentTasks.ShouldBe(10);
 			dto.SupportedTaskTypes.Count.ShouldBe(4);
 			dto.SupportedTaskTypes.ShouldContain("Web");
-			dto.SupportedTaskTypes.ShouldContain("Data");
+			dto.SupportedTaskTypes.ShouldContain("Value");
 			dto.SupportedTaskTypes.ShouldContain("Code");
 			dto.SupportedTaskTypes.ShouldContain("Analysis");
 		}

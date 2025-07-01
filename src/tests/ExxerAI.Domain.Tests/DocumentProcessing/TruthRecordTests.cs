@@ -115,7 +115,8 @@ public class TruthRecordTests
             Type = "GoogleDrive",
             Id = "doc-123",
             Path = "/business/imss/payment_12_2023.pdf",
-            ProcessedBy = "DocumentIntelligenceAgent"
+            ProcessedBy = "DocumentIntelligenceAgent",
+            ProcessedAt = DateTime.UtcNow
         };
 
         var validationResults = new ValidationResult
@@ -228,7 +229,8 @@ public class DataSourceTests
             Type = "GoogleDrive",
             Id = "gdrive-doc-123",
             Path = "/business/finance/imss_payments/payment_12_2023.pdf",
-            ProcessedBy = "EnhancedDocumentIntelligenceAgent",
+            ProcessedBy = "DocumentIntelligenceAgent",
+            ProcessedAt = DateTime.UtcNow,
             MCPSessionId = "mcp-session-456",
             AccessedAt = accessTime
         };
@@ -240,7 +242,7 @@ public class DataSourceTests
         dataSource.Type.ShouldBe("GoogleDrive");
         dataSource.Id.ShouldBe("gdrive-doc-123");
         dataSource.Path.ShouldBe("/business/finance/imss_payments/payment_12_2023.pdf");
-        dataSource.ProcessedBy.ShouldBe("EnhancedDocumentIntelligenceAgent");
+        dataSource.ProcessedBy.ShouldBe("DocumentIntelligenceAgent");
         dataSource.MCPSessionId.ShouldBe("mcp-session-456");
         dataSource.AccessedAt.ShouldBe(accessTime);
         dataSource.Metadata["FileSize"].ShouldBe(2048);

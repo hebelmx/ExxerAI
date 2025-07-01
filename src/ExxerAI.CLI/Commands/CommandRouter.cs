@@ -79,7 +79,7 @@ public class CommandRouter
 		Console.WriteLine();
 		Console.WriteLine("Examples:");
 		Console.WriteLine("  exxerai agent list");
-		Console.WriteLine("  exxerai agent create \"Data Processor\" --description \"Processes data\"");
+		Console.WriteLine("  exxerai agent create \"Value Processor\" --description \"Processes data\"");
 		Console.WriteLine("  exxerai task list --status pending");
 		Console.WriteLine("  exxerai task assign 123 456");
 		Console.WriteLine();

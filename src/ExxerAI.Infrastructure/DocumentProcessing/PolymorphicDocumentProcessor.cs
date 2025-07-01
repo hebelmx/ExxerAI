@@ -1,14 +1,14 @@
+using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.Collections.Concurrent;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
-using Microsoft.Extensions.Logging;
-
-// Ensure you have the PdfPig NuGet package installed in your project.
-// You can install it using the following command in the NuGet Package Manager Console:
-// Install-Package PdfPig
-
-using UglyToad.PdfPig;
-using UglyToad.PdfPig.Content;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+// PdfPig package
+using PdfPig;
+using PdfPig.DocumentLayoutAnalysis.TextExtractor;
 
 using System.Text;
 using System.Text.RegularExpressions;
@@ -70,7 +70,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             var textExtractionResult = await ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
             if (textExtractionResult.IsSuccess)
             {
-                result.ExtractedText = textExtractionResult.Data!;
+                result.ExtractedText = textExtractionResult.Value!;
                 result.Confidence = 0.9f; // High confidence for direct text
                 _logger.LogDebug("Direct text extraction successful, {Length} characters extracted",
                     result.ExtractedText.Length);
@@ -84,7 +84,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 var ocrResult = await ExtractTextViaOCRAsync(documentData, metadata, cancellationToken);
                 if (ocrResult.IsSuccess)
                 {
-                    result.ExtractedText = ocrResult.Data!;
+                    result.ExtractedText = ocrResult.Value!;
                     result.Confidence = 0.7f; // Lower confidence for OCR
                 }
                 else
@@ -99,7 +99,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             if (extractionResult.IsSuccess)
             {
                 // Cannot assign to init-only ExtractedFields, but can assign to regular GroundedData property
-                result.GroundedData = extractionResult.Data;
+                result.GroundedData = extractionResult.Value;
                 // Note: ExtractedFields is init-only, would need to create new object to modify it
                 // For now, data is accessible through GroundedData.Fields
             }
@@ -110,7 +110,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 var llmResult = await VerifyWithLLMAsync(result, schema, cancellationToken);
                 if (llmResult.IsSuccess)
                 {
-                    result.LLMConfidence = llmResult.Data!;
+                    result.LLMConfidence = llmResult.Value!;
                     result.ExtractionMethod = ExtractionMethod.Hybrid;
                 }
             }
@@ -119,12 +119,12 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 result.LLMConfidence = result.Confidence; // Use base confidence
             }
 
-            // Stage 5: Data Validation and Grounding
+            // Stage 5: Value Validation and Grounding
             var validationResult = await ValidateExtractedDataAsync(result.GroundedData, metadata, cancellationToken);
             if (validationResult.IsSuccess)
             {
-                result.ValidationResults = validationResult.Data!;
-                result.GroundingConfidence = validationResult.Data.Confidence;
+                result.ValidationResults = validationResult.Value!;
+                result.GroundingConfidence = validationResult.Value.Confidence;
             }
 
             stopwatch.Stop();
@@ -164,7 +164,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 return Result<ExtractedData>.WithFailure($"Text extraction failed: {textResult.Error}");
             }
 
-            return await ExtractFieldsUsingSchemaAsync(textResult.Data!, schema, cancellationToken);
+            return await ExtractFieldsUsingSchemaAsync(textResult.Value!, schema, cancellationToken);
         }
         catch (Exception ex)
         {
@@ -269,7 +269,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 var textResult = await ExtractTextDirectlyAsync(sample, metadata, cancellationToken);
                 if (textResult.IsSuccess)
                 {
-                    extractedTexts.Add(textResult.Data!);
+                    extractedTexts.Add(textResult.Value!);
                 }
             }
 

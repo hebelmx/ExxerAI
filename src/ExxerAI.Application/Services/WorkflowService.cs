@@ -113,7 +113,7 @@ public class WorkflowService : IWorkflowService
 			if (workflowResult.IsFailure) 
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Workflow {workflowId} not found");
 
-			var workflow = workflowResult.Data!;
+			var workflow = workflowResult.Value!;
 			workflow.Definition.Configuration = configuration ?? new WorkflowConfiguration();
 
 			var updateResult = await _workflowRepository.UpdateAsync(workflow, cancellationToken).ConfigureAwait(false);

@@ -16,7 +16,7 @@ public class BusinessIntelligenceReport
     public GroundingReport GroundingReport { get; set; } = new();
 
     /// <summary>
-    /// Data quality metrics for the reporting period
+    /// Value quality metrics for the reporting period
     /// </summary>
     public DataQualityMetrics QualityMetrics { get; set; } = new();
 

@@ -251,7 +251,7 @@ public class InMemoryTaskRepository : ITaskRepository
 			new AgentTask
 			{
 				Id = Guid.NewGuid(),
-				Title = "Analyze Data Patterns",
+				Title = "Analyze Value Patterns",
 				Description = "Analyze incoming data for patterns and anomalies",
 				TaskType = "analysis",
 				Priority = TaskPriority.High,

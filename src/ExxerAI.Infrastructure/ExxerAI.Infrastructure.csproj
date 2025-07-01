@@ -38,6 +38,7 @@
   <!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
   <!-- ============================================================================ -->
   <ItemGroup Label="Core Framework">
+    <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="FluentResults" />
@@ -57,6 +58,7 @@
   <!-- ============================================================================ -->
   <ItemGroup Label="Document Processing">
     <PackageReference Include="PdfPig" />
+    <PackageReference Include="SixLabors.ImageSharp" />
   </ItemGroup>
 
   <!-- ============================================================================ -->

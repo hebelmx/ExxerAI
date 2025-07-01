@@ -125,27 +125,27 @@ public enum TruthRecordStatus
     /// Record is active and serves as the authoritative source
     /// </summary>
     Active,
-    
+
     /// <summary>
     /// Record has been superseded by a newer version
     /// </summary>
     Superseded,
-    
+
     /// <summary>
     /// Record is under review and may not be reliable
     /// </summary>
     UnderReview,
-    
+
     /// <summary>
     /// Record requires human review before being activated
     /// </summary>
     RequiresHumanReview,
-    
+
     /// <summary>
     /// Record has been archived and is no longer active
     /// </summary>
     Archived,
-    
+
     /// <summary>
     /// Record has been marked as invalid
     /// </summary>
@@ -196,6 +196,11 @@ public class DataSource
     /// Gets or sets when the source was accessed
     /// </summary>
     public DateTime AccessedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets when the source was proccesed
+    /// </summary>
+    public DateTime ProcessedAt { get; set; } = DateTime.UtcNow;
 }
 
 /// <summary>
@@ -259,27 +264,27 @@ public enum ConflictResolutionStrategy
     /// Use the data with the highest confidence score
     /// </summary>
     MostConfident,
-    
+
     /// <summary>
     /// Use the most recent data
     /// </summary>
     MostRecent,
-    
+
     /// <summary>
     /// Use the data from the most trusted source
     /// </summary>
     MostTrusted,
-    
+
     /// <summary>
     /// Merge data from multiple sources
     /// </summary>
     Merge,
-    
+
     /// <summary>
     /// Require human intervention to resolve
     /// </summary>
     HumanReview,
-    
+
     /// <summary>
     /// Use a custom algorithm to resolve
     /// </summary>
@@ -374,4 +379,4 @@ public class ProcessingStep
     /// Gets or sets any error message if the step failed
     /// </summary>
     public string? ErrorMessage { get; set; }
-} 
+}

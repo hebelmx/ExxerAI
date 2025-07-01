@@ -187,10 +187,10 @@ public class AgentService : IAgentService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
-			agentResult.Data!.Configuration = configuration;
-			agentResult.Data.UpdatedAt = DateTime.UtcNow;
+			agentResult.Value!.Configuration = configuration;
+			agentResult.Value.UpdatedAt = DateTime.UtcNow;
 
-			var updateResult = await _agentRepository.UpdateAsync(agentResult.Data, cancellationToken).ConfigureAwait(false);
+			var updateResult = await _agentRepository.UpdateAsync(agentResult.Value, cancellationToken).ConfigureAwait(false);
 			if (updateResult.IsFailure)
 			{
 				return ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update agent");
@@ -229,10 +229,10 @@ public class AgentService : IAgentService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
-			agentResult.Data!.Status = status;
-			agentResult.Data.UpdatedAt = DateTime.UtcNow;
+			agentResult.Value!.Status = status;
+			agentResult.Value.UpdatedAt = DateTime.UtcNow;
 
-			var updateResult = await _agentRepository.UpdateAsync(agentResult.Data, cancellationToken).ConfigureAwait(false);
+			var updateResult = await _agentRepository.UpdateAsync(agentResult.Value, cancellationToken).ConfigureAwait(false);
 			if (updateResult.IsFailure)
 			{
 				return ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update agent");
@@ -277,7 +277,7 @@ public class AgentService : IAgentService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
-			if (agentResult.Data!.Status != AgentStatus.Active)
+			if (agentResult.Value!.Status != AgentStatus.Active)
 			{
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent {agentId} is not active and cannot be assigned tasks");
 			}
@@ -289,15 +289,15 @@ public class AgentService : IAgentService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task not found with ID: {taskId}");
 			}
 
-			if (taskResult.Data!.Status != Domain.TaskStatus.Pending)
+			if (taskResult.Value!.Status != Domain.TaskStatus.Pending)
 			{
-				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment (Status: {taskResult.Data.Status})");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment (Status: {taskResult.Value.Status})");
 			}
 
 			// Assign the task
-			taskResult.Data.AssignedAgentId = agentId;
+			taskResult.Value.AssignedAgentId = agentId;
 
-			var updateResult = await _taskRepository.UpdateAsync(taskResult.Data, cancellationToken).ConfigureAwait(false);
+			var updateResult = await _taskRepository.UpdateAsync(taskResult.Value, cancellationToken).ConfigureAwait(false);
 			if (updateResult.IsFailure)
 			{
 				return ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update task");
@@ -350,7 +350,7 @@ public class AgentService : IAgentService
 				return ExxerAI.Domain.Result<Agent>.WithFailure(agentsResult.Error ?? "Failed to find agents");
 			}
 
-			var supportingAgents = agentsResult.Data!.Where(a => a.Status == AgentStatus.Active).ToList();
+			var supportingAgents = agentsResult.Value!.Where(a => a.Status == AgentStatus.Active).ToList();
 			if (!supportingAgents.Any())
 			{
 				return ExxerAI.Domain.Result<Agent>.WithFailure($"No active agents found that support task type: {taskType}");
@@ -365,7 +365,7 @@ public class AgentService : IAgentService
 			}
 
 			// Find the agent with the least tasks among those that support this task type
-			var bestAgent = agentsWithTaskCountResult.Data!
+			var bestAgent = agentsWithTaskCountResult.Value!
 				.Where(atc => supportingAgents.Contains(atc.Agent))
 				.OrderBy(atc => atc.TaskCount)
 				.ThenBy(atc => atc.Agent.CreatedAt) // Tie-breaker: oldest agent first
@@ -409,7 +409,7 @@ public class AgentService : IAgentService
 
 			// Check for active tasks before deletion
 			var activeTasksResult = await _taskRepository.GetByAgentAsync(agentId, Domain.TaskStatus.InProgress, cancellationToken).ConfigureAwait(false);
-			if (activeTasksResult.IsSuccess && activeTasksResult.Data!.Any())
+			if (activeTasksResult.IsSuccess && activeTasksResult.Value!.Any())
 			{
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Cannot delete agent {agentId} as it has active tasks in progress");
 			}

@@ -6,7 +6,7 @@ using ExxerAI.Domain;
 namespace ExxerAI.Api.Controllers;
 
 /// <summary>
-/// Controller for managing agents in the ExxerAI system
+/// Controller for managing AI agents
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
@@ -17,7 +17,7 @@ public class AgentsController : ControllerBase
 	private readonly ILogger<AgentsController> _logger;
 
 	/// <summary>
-	/// Initializes a new instance of the AgentsController class
+	/// Initializes a new instance of the AgentsController
 	/// </summary>
 	/// <param name="agentService">The agent service</param>
 	/// <param name="logger">The logger</param>
@@ -46,7 +46,7 @@ public class AgentsController : ControllerBase
 	{
 		try
 		{
-			_logger.LogInformation("Creating new agent with name: {Name}", request.Name);
+			_logger.LogInformation("Creating new agent: {AgentName}", request.Name);
 
 			if (!ModelState.IsValid)
 			{
@@ -132,7 +132,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Agent not found",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 
@@ -178,12 +178,12 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				_logger.LogError("Failed to retrieve active agents: {Errors}", string.Join(", ", result.Errors));
+				_logger.LogError("Failed to retrieve active agents: {Error}", result.Error);
 				return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
 				{
 					Success = false,
 					Message = "Failed to retrieve agents",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 
@@ -255,13 +255,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Errors.Any(e => e.Contains("not found")))
+				if (result.Error.Contains("not found"))
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent not found",
-						Errors = result.Errors.ToList()
+						Errors = new List<string> { result.Error }
 					});
 				}
 
@@ -269,7 +269,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to update agent configuration",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 
@@ -332,13 +332,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Errors.Any(e => e.Contains("not found")))
+				if (result.Error.Contains("not found"))
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent not found",
-						Errors = result.Errors.ToList()
+						Errors = new List<string> { result.Error }
 					});
 				}
 
@@ -346,7 +346,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to update agent status",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 
@@ -409,13 +409,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Errors.Any(e => e.Contains("not found")))
+				if (result.Error.Contains("not found"))
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent or task not found",
-						Errors = result.Errors.ToList()
+						Errors = new List<string> { result.Error }
 					});
 				}
 
@@ -423,7 +423,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to assign task",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 
@@ -472,7 +472,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "No suitable agent found",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 
@@ -524,13 +524,13 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				if (result.Errors.Any(e => e.Contains("not found")))
+				if (result.Error.Contains("not found"))
 				{
 					return NotFound(new ApiResponse<object>
 					{
 						Success = false,
 						Message = "Agent not found",
-						Errors = result.Errors.ToList()
+						Errors = new List<string> { result.Error }
 					});
 				}
 
@@ -538,7 +538,7 @@ public class AgentsController : ControllerBase
 				{
 					Success = false,
 					Message = "Failed to delete agent",
-					Errors = result.Errors.ToList()
+					Errors = new List<string> { result.Error }
 				});
 			}
 

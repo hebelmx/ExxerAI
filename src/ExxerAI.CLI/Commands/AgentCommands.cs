@@ -62,13 +62,13 @@ public class AgentCommands
 		try
 		{
 			var result = await _agentRepository.GetAllAsync();
-			if (!result.IsSuccess)
+			if (result.IsFailure)
 			{
-				Console.WriteLine($"Error retrieving agents: {string.Join(", ", result.Errors)}");
+				Console.WriteLine($"Error retrieving agents: {result.Error}");
 				return 1;
 			}
 
-			var agents = result.Value ?? Enumerable.Empty<Agent>();
+			var agents = result.Data!;
 			
 			// Parse filtering options
 			string? statusFilter = null;
@@ -155,13 +155,14 @@ public class AgentCommands
 				description ?? $"Auto-generated agent {name}",
 				capabilities);
 
-			if (!result.IsSuccess)
+			if (result.IsFailure)
 			{
-				Console.WriteLine($"Error creating agent: {string.Join(", ", result.Errors)}");
+				Console.WriteLine($"Error creating agent: {result.Error}");
 				return 1;
 			}
 
-			Console.WriteLine($"Agent '{name}' created successfully with ID: {result.Value?.Id}");
+			var createdAgent = result.Data!;
+			Console.WriteLine($"Agent '{name}' created successfully with ID: {createdAgent.Id}");
 			return 0;
 		}
 		catch (Exception ex)
@@ -194,9 +195,9 @@ public class AgentCommands
 		try
 		{
 			var result = await _agentRepository.DeleteAsync(agentId);
-			if (!result.IsSuccess)
+			if (result.IsFailure)
 			{
-				Console.WriteLine($"Error deleting agent: {string.Join(", ", result.Errors)}");
+				Console.WriteLine($"Error deleting agent: {result.Error}");
 				return 1;
 			}
 
@@ -233,13 +234,13 @@ public class AgentCommands
 		try
 		{
 			var result = await _agentRepository.GetByIdAsync(agentId);
-			if (!result.IsSuccess)
+			if (result.IsFailure)
 			{
-				Console.WriteLine($"Error retrieving agent: {string.Join(", ", result.Errors)}");
+				Console.WriteLine($"Error retrieving agent: {result.Error}");
 				return 1;
 			}
 
-			var agent = result.Value;
+			var agent = result.Data!;
 			if (agent == null)
 			{
 				Console.WriteLine($"Agent {agentId} not found.");
@@ -259,7 +260,7 @@ public class AgentCommands
 			Console.WriteLine($"  Capabilities:");
 			Console.WriteLine($"    Natural Language: {caps.CanProcessNaturalLanguage}");
 			Console.WriteLine($"    Code Generation:  {caps.CanGenerateCode}");
-			Console.WriteLine($"    Data Analysis:    {caps.CanAnalyzeData}");
+			Console.WriteLine($"    Value Analysis:    {caps.CanAnalyzeData}");
 			Console.WriteLine($"    External APIs:    {caps.CanCallExternalAPIs}");
 			Console.WriteLine($"    Max Concurrent:   {caps.MaxConcurrentTasks}");
 			
@@ -295,13 +296,13 @@ public class AgentCommands
 		try
 		{
 			var result = await _agentRepository.GetByIdAsync(agentId);
-			if (!result.IsSuccess || result.Value == null)
+			if (result.IsFailure || result.Data == null)
 			{
-				Console.WriteLine($"Error retrieving agent: {string.Join(", ", result.Errors)}");
+				Console.WriteLine($"Error retrieving agent: {result.Error}");
 				return 1;
 			}
 
-			var agent = result.Value;
+			var agent = result.Data;
 			
 			// Parse update options
 			for (int i = 1; i < args.Length - 1; i++)
@@ -315,9 +316,9 @@ public class AgentCommands
 			agent.UpdatedAt = DateTime.UtcNow;
 
 			var updateResult = await _agentRepository.UpdateAsync(agent);
-			if (!updateResult.IsSuccess)
+			if (updateResult.IsFailure)
 			{
-				Console.WriteLine($"Error updating agent: {string.Join(", ", updateResult.Errors)}");
+				Console.WriteLine($"Error updating agent: {updateResult.Error}");
 				return 1;
 			}
 
@@ -376,20 +377,20 @@ public class AgentCommands
 		try
 		{
 			var result = await _agentRepository.GetByIdAsync(agentId);
-			if (!result.IsSuccess || result.Value == null)
+			if (result.IsFailure || result.Data == null)
 			{
-				Console.WriteLine($"Error retrieving agent: {string.Join(", ", result.Errors)}");
+				Console.WriteLine($"Error retrieving agent: {result.Error}");
 				return 1;
 			}
 
-			var agent = result.Value;
+			var agent = result.Data;
 			agent.Status = newStatus;
 			agent.UpdatedAt = DateTime.UtcNow;
 
 			var updateResult = await _agentRepository.UpdateAsync(agent);
-			if (!updateResult.IsSuccess)
+			if (updateResult.IsFailure)
 			{
-				Console.WriteLine($"Error changing agent status: {string.Join(", ", updateResult.Errors)}");
+				Console.WriteLine($"Error changing agent status: {updateResult.Error}");
 				return 1;
 			}
 
@@ -425,7 +426,7 @@ public class AgentCommands
 		Console.WriteLine("Examples:");
 		Console.WriteLine("  exxerai agent list");
 		Console.WriteLine("  exxerai agent list --status active");
-		Console.WriteLine("  exxerai agent create \"Data Processor\" --description \"Processes data files\"");
+		Console.WriteLine("  exxerai agent create \"Value Processor\" --description \"Processes data files\"");
 		Console.WriteLine("  exxerai agent status 12345678-1234-1234-1234-123456789012");
 		Console.WriteLine("  exxerai agent update 12345678-1234-1234-1234-123456789012 --name \"New Name\"");
 		Console.WriteLine();
