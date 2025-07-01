@@ -3,6 +3,7 @@ using ModelContextProtocol.Server;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using ExxerAi.MCPServer.Application.Interfaces;
 
 namespace ExxerAi.MCPServer.Application.Tools;
 
@@ -11,14 +12,14 @@ namespace ExxerAi.MCPServer.Application.Tools;
 /// Provides basic system information, time, and file operations
 /// </summary>
 [McpServerToolType]
-public class SystemTools
+public class SystemTools : ISystemTools
 {
 	private readonly ILogger<SystemTools> _logger;
 
 	/// <summary>
 	/// Initializes a new instance of the SystemTools class
 	/// </summary>
-	/// <param name="logger">The logger</param>
+	/// <param name="logger">The logger instance</param>
 	public SystemTools(ILogger<SystemTools> logger)
 	{
 		_logger = logger ?? throw new ArgumentNullException(nameof(logger));

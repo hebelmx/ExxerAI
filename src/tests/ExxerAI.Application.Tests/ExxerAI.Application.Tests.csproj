@@ -10,7 +10,7 @@
 
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		
 		<DisablePackageRestore>true</DisablePackageRestore>
 	</PropertyGroup>
 

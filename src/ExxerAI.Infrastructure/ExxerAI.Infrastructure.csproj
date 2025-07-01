@@ -1,4 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="Google.Apis.Auth" />
+    <PackageReference Include="Google.Apis.Drive.v3" />
+    <PackageReference Include="Google.Apis.Core" />
+    <PackageReference Include="UglyToad.PdfPig" />
+    <PackageReference Include="FluentResults" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
@@ -11,10 +20,7 @@
     <Nullable>enable</Nullable>
 
 
-	  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-	  <RestoreLockedMode>false</RestoreLockedMode>
-	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-	  <DisablePackageRestore>true</DisablePackageRestore>
+
 
   </PropertyGroup>
 

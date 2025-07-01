@@ -1,5 +1,4 @@
 using Google.Apis.Auth.OAuth2;
-using Google.Apis.Drive.v3;
 using Google.Apis.Services;
 using Microsoft.Extensions.Logging;
 
@@ -28,7 +27,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
         _hashGenerator = hashGenerator;
         _versionEngine = versionEngine;
         _notificationService = notificationService;
-        
+
         _driveService = new DriveService(new BaseClientService.Initializer()
         {
             HttpClientInitializer = credential,
@@ -42,7 +41,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
     public async Task StartWatchingAsync(string folderId)
     {
         _logger.LogInformation("🔍 Starting Google Drive watch for business intelligence folder: {FolderId}", folderId);
-        
+
         try
         {
             // Set up push notification channel for real-time updates
@@ -56,7 +55,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
 
             var request = _driveService.Files.Watch(channel, folderId);
             var response = await request.ExecuteAsync();
-            
+
             _logger.LogInformation("✅ Google Drive watch established: {ChannelId}", response.Id);
         }
         catch (Exception ex)
@@ -72,16 +71,16 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
     public async Task<DocumentChangeEvent> DetectChangesAsync()
     {
         _logger.LogInformation("🔍 Detecting Google Drive changes for business intelligence");
-        
+
         try
         {
             // Get recent changes from Drive API
             var request = _driveService.Changes.List("1"); // Start from page token 1
             request.PageSize = 100;
             request.Fields = "nextPageToken,newStartPageToken,changes(fileId,file(id,name,mimeType,modifiedTime,size))";
-            
+
             var response = await request.ExecuteAsync();
-            
+
             foreach (var change in response.Changes ?? new List<Google.Apis.Drive.v3.Data.Change>())
             {
                 if (change.File != null)
@@ -104,7 +103,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
                     }
                 }
             }
-            
+
             return null; // No changes detected
         }
         catch (Exception ex)
@@ -120,7 +119,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
     private async Task<DocumentAsset> ProcessDocumentChangeAsync(Google.Apis.Drive.v3.Data.File driveFile)
     {
         _logger.LogInformation("📄 Processing document change: {FileName}", driveFile.Name);
-        
+
         try
         {
             // Check if this is a business intelligence relevant document
@@ -151,13 +150,13 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
 
             // Check for version detection
             var versionDecision = await _versionEngine.DetermineVersionStatusAsync(metadata);
-            
+
             if (versionDecision.Action == VersionAction.Skip)
             {
                 _logger.LogInformation("⏭️ Skipping duplicate document: {FileName}", driveFile.Name);
                 return null;
             }
-            
+
             if (versionDecision.Action == VersionAction.RequestHumanVerification)
             {
                 await _notificationService.RequestHumanVerificationAsync(new DocumentVerificationRequest
@@ -171,14 +170,14 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
 
             // Create document asset
             var documentAsset = new DocumentAsset(driveFile.Name, content, $"GoogleDrive/{driveFile.Id}");
-            
+
             // Generate content hash
             var hash = await _hashGenerator.GenerateHashAsync(content, metadata);
             documentAsset.SetHash(hash.ContentHash);
-            
+
             // Add business intelligence metadata
             AddBusinessIntelligenceMetadata(documentAsset, driveFile);
-            
+
             _logger.LogInformation("✅ Successfully processed business intelligence document: {FileName}", driveFile.Name);
             return documentAsset;
         }
@@ -220,7 +219,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
         };
 
         var isSupportedType = businessMimeTypes.Contains(mimeType);
-        
+
         return isRelevant && isSupportedType;
     }
 
@@ -233,10 +232,10 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
         documentAsset.Metadata["driveFileId"] = driveFile.Id;
         documentAsset.Metadata["businessIntelligence"] = "true";
         documentAsset.Metadata["extractedAt"] = DateTime.UtcNow.ToString("O");
-        
+
         // Categorize by business intelligence type
         var fileName = driveFile.Name.ToLowerInvariant();
-        
+
         if (fileName.Contains("quotation") || fileName.Contains("quote") || fileName.Contains("proposal"))
         {
             documentAsset.Metadata["biCategory"] = "sales-intelligence";
@@ -303,7 +302,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
             var request = _driveService.Files.Get(documentId);
             request.Fields = "modifiedTime";
             var file = await request.ExecuteAsync();
-            
+
             return file.ModifiedTime > lastProcessed;
         }
         catch (Exception ex)
@@ -319,7 +318,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
     public async Task<IngestionResult> ProcessDocumentAsync(DocumentMetadata document)
     {
         _logger.LogInformation("📊 Processing document for business intelligence: {FileName}", document.FileName);
-        
+
         try
         {
             // Implementation would include:
@@ -327,7 +326,7 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
             // 2. Entity recognition (partners, contacts, etc.)
             // 3. Signal extraction for market trends
             // 4. Relationship mapping
-            
+
             return new IngestionResult
             {
                 Success = true,
@@ -346,11 +345,17 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
 
     // Additional interface implementations...
     public Task StopWatchingAsync(string folderId) => Task.CompletedTask;
+
     public Task<List<string>> GetWatchedFoldersAsync() => Task.FromResult(new List<string>());
+
     public Task<IngestionResult> UpdateDocumentAsync(string documentId, DocumentMetadata newVersion) => Task.FromResult(new IngestionResult());
+
     public Task<bool> MarkDocumentAsDeletedAsync(string documentId) => Task.FromResult(true);
+
     public Task<DocumentAsset> GetDocumentAsync(string documentId) => Task.FromResult<DocumentAsset>(null);
+
     public Task<List<DocumentAsset>> GetDocumentVersionsAsync(string baseDocumentId) => Task.FromResult(new List<DocumentAsset>());
+
     public Task<IngestionStatistics> GetIngestionStatsAsync(DateTime from, DateTime to) => Task.FromResult(new IngestionStatistics());
 }
 
@@ -408,4 +413,4 @@ public class IngestionStatistics
     public int TotalDocuments { get; set; }
     public int ProcessedDocuments { get; set; }
     public DateTime LastUpdate { get; set; }
-} 
+}

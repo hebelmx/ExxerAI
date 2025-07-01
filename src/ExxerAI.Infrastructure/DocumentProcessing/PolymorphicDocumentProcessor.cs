@@ -2,8 +2,14 @@ using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
-using PdfPig;
-using PdfPig.Content;
+
+// Ensure you have the PdfPig NuGet package installed in your project.
+// You can install it using the following command in the NuGet Package Manager Console:
+// Install-Package UglyToad.PdfPig
+
+using UglyToad.PdfPig;
+using UglyToad.PdfPig.Content;
+
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -42,12 +48,12 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the document processing operation</returns>
     public async Task<Result<DocumentProcessingResult>> ProcessDocumentAsync(
-        byte[] documentData, 
-        DocumentMetadata metadata, 
+        byte[] documentData,
+        DocumentMetadata metadata,
         CancellationToken cancellationToken = default)
     {
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
-        _logger.LogInformation("Starting polymorphic document processing for {FileName} ({FileSize} bytes)", 
+        _logger.LogInformation("Starting polymorphic document processing for {FileName} ({FileSize} bytes)",
             metadata.FileName, documentData.Length);
 
         try
@@ -64,7 +70,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             {
                 result.ExtractedText = textExtractionResult.Data!;
                 result.Confidence = 0.9f; // High confidence for direct text
-                _logger.LogDebug("Direct text extraction successful, {Length} characters extracted", 
+                _logger.LogDebug("Direct text extraction successful, {Length} characters extracted",
                     result.ExtractedText.Length);
             }
             else
@@ -72,7 +78,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 // Stage 2: OCR Fallback
                 _logger.LogInformation("Direct text extraction failed, falling back to OCR");
                 result.ExtractionMethod = ExtractionMethod.OCR;
-                
+
                 var ocrResult = await ExtractTextViaOCRAsync(documentData, metadata, cancellationToken);
                 if (ocrResult.IsSuccess)
                 {
@@ -120,7 +126,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             stopwatch.Stop();
             result.ProcessingTimeMs = stopwatch.ElapsedMilliseconds;
 
-            _logger.LogInformation("Document processing completed in {ProcessingTime}ms with overall confidence {Confidence:F2}", 
+            _logger.LogInformation("Document processing completed in {ProcessingTime}ms with overall confidence {Confidence:F2}",
                 result.ProcessingTimeMs, result.OverallConfidence);
 
             return Result<DocumentProcessingResult>.WithSuccess(result);
@@ -140,8 +146,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the field extraction operation</returns>
     public async Task<Result<ExtractedData>> ExtractFieldsAsync(
-        byte[] documentData, 
-        SchemaDefinition schema, 
+        byte[] documentData,
+        SchemaDefinition schema,
         CancellationToken cancellationToken = default)
     {
         try
@@ -171,12 +177,12 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the validation and grounding operation</returns>
     public async Task<Result<ValidationResult>> ValidateAndGroundDataAsync(
-        ExtractedData data, 
-        Dictionary<string, object> context, 
+        ExtractedData data,
+        Dictionary<string, object> context,
         CancellationToken cancellationToken = default)
     {
-        return await ValidateExtractedDataAsync(data, 
-            new DocumentMetadata { Properties = context }, 
+        return await ValidateExtractedDataAsync(data,
+            new DocumentMetadata { Properties = context },
             cancellationToken);
     }
 
@@ -187,10 +193,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the rule adaptation operation</returns>
     public async Task<Result<LearningResult>> AdaptProcessingRulesAsync(
-        IEnumerable<DocumentProcessingResult> processingHistory, 
+        IEnumerable<DocumentProcessingResult> processingHistory,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Adapting processing rules from {Count} historical results", 
+        _logger.LogInformation("Adapting processing rules from {Count} historical results",
             processingHistory.Count());
 
         try
@@ -205,7 +211,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             {
                 // Group by document type and analyze patterns
                 var groupedByType = successfulResults.GroupBy(r => ExtractDocumentTypeFromId(r.DocumentId));
-                
+
                 foreach (var group in groupedByType)
                 {
                     var typePattern = $"Learned {group.Count()} successful patterns for {group.Key}";
@@ -219,7 +225,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 learningResult.ConfidenceImprovement = CalculateConfidenceImprovement(successfulResults);
             }
 
-            _logger.LogInformation("Rule adaptation completed, learned {PatternCount} new patterns", 
+            _logger.LogInformation("Rule adaptation completed, learned {PatternCount} new patterns",
                 patterns.Count);
 
             return Result<LearningResult>.WithSuccess(learningResult);
@@ -239,11 +245,11 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the schema learning operation</returns>
     public async Task<Result<SchemaDefinition>> LearnDocumentSchemaAsync(
-        IEnumerable<byte[]> samples, 
-        DocumentType documentType, 
+        IEnumerable<byte[]> samples,
+        DocumentType documentType,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Learning schema for {DocumentType} from {SampleCount} samples", 
+        _logger.LogInformation("Learning schema for {DocumentType} from {SampleCount} samples",
             documentType, samples.Count());
 
         try
@@ -270,7 +276,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             // Analyze common field patterns
             schema.Fields = AnalyzeFieldPatterns(extractedTexts, documentType);
 
-            _logger.LogInformation("Schema learning completed, discovered {FieldCount} fields", 
+            _logger.LogInformation("Schema learning completed, discovered {FieldCount} fields",
                 schema.Fields.Count);
 
             return Result<SchemaDefinition>.WithSuccess(schema);
@@ -289,7 +295,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The confidence score for processing this document type</returns>
     public async Task<Result<float>> GetProcessingConfidenceAsync(
-        DocumentType documentType, 
+        DocumentType documentType,
         CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask; // Placeholder for async operation
@@ -309,8 +315,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     #region Private Implementation Methods
 
     private async Task<Result<string>> ExtractTextDirectlyAsync(
-        byte[] documentData, 
-        DocumentMetadata metadata, 
+        byte[] documentData,
+        DocumentMetadata metadata,
         CancellationToken cancellationToken)
     {
         try
@@ -319,7 +325,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             {
                 using var stream = new MemoryStream(documentData);
                 using var pdf = PdfDocument.Open(stream);
-                
+
                 var text = new StringBuilder();
                 foreach (var page in pdf.GetPages())
                 {
@@ -343,8 +349,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     }
 
     private async Task<Result<string>> ExtractTextViaOCRAsync(
-        byte[] documentData, 
-        DocumentMetadata metadata, 
+        byte[] documentData,
+        DocumentMetadata metadata,
         CancellationToken cancellationToken)
     {
         try
@@ -352,7 +358,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             // OCR implementation would go here using Tesseract
             // For now, return a placeholder
             await Task.Delay(100, cancellationToken); // Simulate OCR processing time
-            
+
             _logger.LogInformation("OCR processing completed for {FileName}", metadata.FileName);
             return Result<string>.WithSuccess("OCR extracted text placeholder");
         }
@@ -364,8 +370,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     }
 
     private async Task<Result<ExtractedData>> ExtractFieldsUsingSchemaAsync(
-        string text, 
-        SchemaDefinition schema, 
+        string text,
+        SchemaDefinition schema,
         CancellationToken cancellationToken)
     {
         try
@@ -383,7 +389,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 }
             }
 
-            _logger.LogDebug("Extracted {FieldCount} fields using schema {SchemaName}", 
+            _logger.LogDebug("Extracted {FieldCount} fields using schema {SchemaName}",
                 extractedData.Fields.Count, schema.Name);
 
             return Result<ExtractedData>.WithSuccess(extractedData);
@@ -418,8 +424,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     }
 
     private async Task<Result<float>> VerifyWithLLMAsync(
-        DocumentProcessingResult result, 
-        SchemaDefinition schema, 
+        DocumentProcessingResult result,
+        SchemaDefinition schema,
         CancellationToken cancellationToken)
     {
         try
@@ -427,7 +433,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             // LLM verification would analyze the extracted data for consistency
             // This is a placeholder implementation
             var llmConfidence = Math.Min(result.Confidence + 0.1f, 1.0f);
-            
+
             _logger.LogDebug("LLM verification completed with confidence {Confidence:F2}", llmConfidence);
             return Result<float>.WithSuccess(llmConfidence);
         }
@@ -439,8 +445,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     }
 
     private async Task<Result<ValidationResult>> ValidateExtractedDataAsync(
-        ExtractedData data, 
-        DocumentMetadata metadata, 
+        ExtractedData data,
+        DocumentMetadata metadata,
         CancellationToken cancellationToken)
     {
         var validation = new ValidationResult
@@ -454,7 +460,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         {
             var fieldValidation = ValidateField(field.Key, field.Value);
             validation.FieldResults[field.Key] = fieldValidation;
-            
+
             if (!fieldValidation.IsValid)
             {
                 validation.IsValid = false;
@@ -530,7 +536,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 fields.Add(new FieldDefinition("InvoiceNumber", FieldType.AlphaNumeric, true, @"(?:INVOICE|FACTURA)[:\s#]*([A-Z0-9\-]+)"));
                 fields.Add(new FieldDefinition("Total", FieldType.Currency, true, @"(?:TOTAL)[:\s]*\$?([0-9,]+\.?\d*)"));
                 break;
-                
+
             case DocumentType.TaxDocument:
                 fields.Add(new FieldDefinition("TaxId", FieldType.AlphaNumeric, true, @"(?:RFC)[:\s]*([A-Z0-9]+)"));
                 fields.Add(new FieldDefinition("TaxAmount", FieldType.Currency, false, @"(?:IMPUESTO)[:\s]*\$?([0-9,]+\.?\d*)"));
@@ -555,10 +561,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     private static float CalculateConfidenceImprovement(List<DocumentProcessingResult> results)
     {
         if (!results.Any()) return 0.0f;
-        
+
         var averageConfidence = results.Average(r => r.OverallConfidence);
         return Math.Min(averageConfidence * 0.1f, 0.2f); // Cap improvement at 20%
     }
 
-    #endregion
-} 
+    #endregion Private Implementation Methods
+}

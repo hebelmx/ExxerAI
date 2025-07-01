@@ -5,8 +5,8 @@
 		<Nullable>enable</Nullable>
 
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-		<RestoreLockedMode>false</RestoreLockedMode>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<
+		
 		<DisablePackageRestore>false</DisablePackageRestore>
 	</PropertyGroup>
 

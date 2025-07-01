@@ -5,9 +5,9 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-ExxerAI.UI-e580dab3-dd33-45be-9ba8-4cf6cf5dc0db</UserSecretsId>
-	  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-	  <RestoreLockedMode>false</RestoreLockedMode>
-	  <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	 
+	  <
+	  
 	  <DisablePackageRestore>true</DisablePackageRestore>
   </PropertyGroup>
 

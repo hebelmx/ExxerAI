@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net9.0</TargetFramework>
@@ -10,8 +10,8 @@
 
 
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-		<RestoreLockedMode>false</RestoreLockedMode>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+
+
 		<DisablePackageRestore>true</DisablePackageRestore>
 	</PropertyGroup>
 
