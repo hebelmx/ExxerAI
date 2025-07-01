@@ -35,6 +35,15 @@
   </PropertyGroup>
 
   <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Core Framework">
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="FluentResults" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
   <!-- PACKAGE REFERENCES - GOOGLE APIS -->
   <!-- ============================================================================ -->
   <ItemGroup Label="Google APIs">
@@ -48,14 +57,6 @@
   <!-- ============================================================================ -->
   <ItemGroup Label="Document Processing">
     <PackageReference Include="PdfPig" />
-  </ItemGroup>
-
-  <!-- ============================================================================ -->
-  <!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
-  <!-- ============================================================================ -->
-  <ItemGroup Label="Core Framework">
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
-    <PackageReference Include="FluentResults" />
   </ItemGroup>
 
   <!-- ============================================================================ -->

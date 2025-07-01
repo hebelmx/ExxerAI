@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace ExxerAI.UI.Data;
-
-/// <summary>
-/// Represents a user in the ExxerAI application, extending ASP.NET Core Identity
-/// </summary>
-public class ApplicationUser : IdentityUser
+namespace ExxerAI.UI.Data
 {
-}
+    // Add profile data for application users by adding properties to the ApplicationUser class
+    public class ApplicationUser : IdentityUser
+    {
+    }
 
+}

@@ -17,6 +17,8 @@
     <PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="2.0.0" />
     <!-- AI and Extensions -->
     <PackageVersion Include="Microsoft.Extensions.AI" Version="9.0.1-preview.1.24570.5" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
     <!-- Google APIs -->
     <PackageVersion Include="Google.Apis.Drive.v3" Version="1.68.0.3568" />
     <PackageVersion Include="Google.Apis.Auth" Version="1.68.0" />

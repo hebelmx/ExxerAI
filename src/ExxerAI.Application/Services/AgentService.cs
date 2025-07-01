@@ -32,7 +32,7 @@ public class AgentService : IAgentService
 	/// <param name="capabilities">The agent capabilities</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation containing the created agent</returns>
-	public async Task<Result<Agent>> CreateAgentAsync(
+	public async Task<ExxerAI.Domain.Result<Agent>> CreateAgentAsync(
 		string name,
 		string description,
 		AgentCapabilities capabilities,
@@ -42,17 +42,17 @@ public class AgentService : IAgentService
 		{
 			if (string.IsNullOrWhiteSpace(name))
 			{
-				return Result<Agent>.WithFailure("Agent name cannot be empty");
+				return ExxerAI.Domain.Result<Agent>.WithFailure("Agent name cannot be empty");
 			}
 
 			if (string.IsNullOrWhiteSpace(description))
 			{
-				return Result<Agent>.WithFailure("Agent description cannot be empty");
+				return ExxerAI.Domain.Result<Agent>.WithFailure("Agent description cannot be empty");
 			}
 
 			if (capabilities == null)
 			{
-				return Result<Agent>.WithFailure("Agent capabilities cannot be null");
+				return ExxerAI.Domain.Result<Agent>.WithFailure("Agent capabilities cannot be null");
 			}
 
 			var agent = new Agent
@@ -68,14 +68,14 @@ public class AgentService : IAgentService
 
 			if (addResult.IsFailure)
 			{
-				return Result<Agent>.WithFailure(addResult.Errors);
+				return ExxerAI.Domain.Result<Agent>.WithFailure(addResult.Error ?? "Failed to add agent");
 			}
 
 			return addResult;
 		}
 		catch (Exception ex)
 		{
-			return Result<Agent>.WithFailure($"An error occurred while creating the agent: {ex.Message}");
+			return ExxerAI.Domain.Result<Agent>.WithFailure($"An error occurred while creating the agent: {ex.Message}");
 		}
 	}
 
@@ -85,27 +85,51 @@ public class AgentService : IAgentService
 	/// <param name="agentId">The agent identifier</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation containing the agent if found</returns>
-	public async Task<Result<Agent>> GetAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
+	public async Task<ExxerAI.Domain.Result<Agent>> GetAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
 	{
 		try
 		{
 			if (agentId == Guid.Empty)
 			{
-				return Result<Agent>.WithFailure("Agent ID cannot be empty");
+				return ExxerAI.Domain.Result<Agent>.WithFailure("Agent ID cannot be empty");
 			}
 
 			var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
 
 			if (result.IsFailure)
 			{
-				return Result<Agent>.WithFailure($"Agent not found with ID: {agentId}");
+				return ExxerAI.Domain.Result<Agent>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
 			return result;
 		}
 		catch (Exception ex)
 		{
-			return Result<Agent>.WithFailure($"An error occurred while retrieving the agent: {ex.Message}");
+			return ExxerAI.Domain.Result<Agent>.WithFailure($"An error occurred while retrieving the agent: {ex.Message}");
+		}
+	}
+
+	/// <summary>
+	/// Gets all agents
+	/// </summary>
+	/// <param name="cancellationToken">Cancellation token</param>
+	/// <returns>The result of the operation containing all agents</returns>
+	public async Task<ExxerAI.Domain.Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			var result = await _agentRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
+
+			if (result.IsFailure)
+			{
+				return ExxerAI.Domain.Result<IEnumerable<Agent>>.WithFailure(result.Error ?? "Failed to retrieve agents");
+			}
+
+			return result;
+		}
+		catch (Exception ex)
+		{
+			return ExxerAI.Domain.Result<IEnumerable<Agent>>.WithFailure($"An error occurred while retrieving all agents: {ex.Message}");
 		}
 	}
 
@@ -114,7 +138,7 @@ public class AgentService : IAgentService
 	/// </summary>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation containing the list of active agents</returns>
-	public async Task<Result<IEnumerable<Agent>>> GetActiveAgentsAsync(CancellationToken cancellationToken = default)
+	public async Task<ExxerAI.Domain.Result<IEnumerable<Agent>>> GetActiveAgentsAsync(CancellationToken cancellationToken = default)
 	{
 		try
 		{
@@ -122,14 +146,14 @@ public class AgentService : IAgentService
 
 			if (result.IsFailure)
 			{
-				return Result<IEnumerable<Agent>>.WithFailure(result.Errors);
+				return ExxerAI.Domain.Result<IEnumerable<Agent>>.WithFailure(result.Error ?? "Failed to retrieve active agents");
 			}
 
 			return result;
 		}
 		catch (Exception ex)
 		{
-			return Result<IEnumerable<Agent>>.WithFailure($"An error occurred while retrieving active agents: {ex.Message}");
+			return ExxerAI.Domain.Result<IEnumerable<Agent>>.WithFailure($"An error occurred while retrieving active agents: {ex.Message}");
 		}
 	}
 
@@ -140,7 +164,7 @@ public class AgentService : IAgentService
 	/// <param name="configuration">The new configuration</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation</returns>
-	public async Task<Result> UpdateAgentConfigurationAsync(
+	public async Task<ExxerAI.Domain.Result<bool>> UpdateAgentConfigurationAsync(
 		Guid agentId,
 		AgentConfiguration configuration,
 		CancellationToken cancellationToken = default)
@@ -149,34 +173,34 @@ public class AgentService : IAgentService
 		{
 			if (agentId == Guid.Empty)
 			{
-				return Result.WithFailure("Agent ID cannot be empty");
+				return ExxerAI.Domain.Result<bool>.WithFailure("Agent ID cannot be empty");
 			}
 
 			if (configuration == null)
 			{
-				return Result.WithFailure("Configuration cannot be null");
+				return ExxerAI.Domain.Result<bool>.WithFailure("Configuration cannot be null");
 			}
 
 			var agentResult = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
 			if (agentResult.IsFailure)
 			{
-				return Result.WithFailure($"Agent not found with ID: {agentId}");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
-			agentResult.Value!.Configuration = configuration;
-			agentResult.Value.UpdatedAt = DateTime.UtcNow;
+			agentResult.Data!.Configuration = configuration;
+			agentResult.Data.UpdatedAt = DateTime.UtcNow;
 
-			var updateResult = await _agentRepository.UpdateAsync(agentResult.Value, cancellationToken).ConfigureAwait(false);
+			var updateResult = await _agentRepository.UpdateAsync(agentResult.Data, cancellationToken).ConfigureAwait(false);
 			if (updateResult.IsFailure)
 			{
-				return Result.WithFailure(updateResult.Errors);
+				return ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update agent");
 			}
 
-			return Result.Success();
+			return ExxerAI.Domain.Result<bool>.WithSuccess(true);
 		}
 		catch (Exception ex)
 		{
-			return Result.WithFailure($"An error occurred while updating agent configuration: {ex.Message}");
+			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while updating agent configuration: {ex.Message}");
 		}
 	}
 
@@ -187,7 +211,7 @@ public class AgentService : IAgentService
 	/// <param name="status">The new status</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation</returns>
-	public async Task<Result> UpdateAgentStatusAsync(
+	public async Task<ExxerAI.Domain.Result<bool>> UpdateAgentStatusAsync(
 		Guid agentId,
 		AgentStatus status,
 		CancellationToken cancellationToken = default)
@@ -196,29 +220,29 @@ public class AgentService : IAgentService
 		{
 			if (agentId == Guid.Empty)
 			{
-				return Result.WithFailure("Agent ID cannot be empty");
+				return ExxerAI.Domain.Result<bool>.WithFailure("Agent ID cannot be empty");
 			}
 
 			var agentResult = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
 			if (agentResult.IsFailure)
 			{
-				return Result.WithFailure($"Agent not found with ID: {agentId}");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
-			agentResult.Value!.Status = status;
-			agentResult.Value.UpdatedAt = DateTime.UtcNow;
+			agentResult.Data!.Status = status;
+			agentResult.Data.UpdatedAt = DateTime.UtcNow;
 
-			var updateResult = await _agentRepository.UpdateAsync(agentResult.Value, cancellationToken).ConfigureAwait(false);
+			var updateResult = await _agentRepository.UpdateAsync(agentResult.Data, cancellationToken).ConfigureAwait(false);
 			if (updateResult.IsFailure)
 			{
-				return Result.WithFailure(updateResult.Errors);
+				return ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update agent");
 			}
 
-			return Result.Success();
+			return ExxerAI.Domain.Result<bool>.WithSuccess(true);
 		}
 		catch (Exception ex)
 		{
-			return Result.WithFailure($"An error occurred while updating agent status: {ex.Message}");
+			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while updating agent status: {ex.Message}");
 		}
 	}
 
@@ -229,7 +253,7 @@ public class AgentService : IAgentService
 	/// <param name="taskId">The task identifier</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation</returns>
-	public async Task<Result> AssignTaskAsync(
+	public async Task<ExxerAI.Domain.Result<bool>> AssignTaskAsync(
 		Guid agentId,
 		Guid taskId,
 		CancellationToken cancellationToken = default)
@@ -238,178 +262,52 @@ public class AgentService : IAgentService
 		{
 			if (agentId == Guid.Empty)
 			{
-				return Result.WithFailure("Agent ID cannot be empty");
+				return ExxerAI.Domain.Result<bool>.WithFailure("Agent ID cannot be empty");
 			}
 
 			if (taskId == Guid.Empty)
 			{
-				return Result.WithFailure("Task ID cannot be empty");
+				return ExxerAI.Domain.Result<bool>.WithFailure("Task ID cannot be empty");
 			}
 
 			// Verify agent exists and is active
 			var agentResult = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
 			if (agentResult.IsFailure)
 			{
-				return Result.WithFailure($"Agent not found with ID: {agentId}");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
 			}
 
-			if (agentResult.Value!.Status != AgentStatus.Active)
+			if (agentResult.Data!.Status != AgentStatus.Active)
 			{
-				return Result.WithFailure($"Agent {agentId} is not active and cannot be assigned tasks");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent {agentId} is not active and cannot be assigned tasks");
 			}
 
 			// Verify task exists and is available for assignment
 			var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
 			if (taskResult.IsFailure)
 			{
-				return Result.WithFailure($"Task not found with ID: {taskId}");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task not found with ID: {taskId}");
 			}
 
-			if (taskResult.Value!.Status != Domain.TaskStatus.Pending)
+			if (taskResult.Data!.Status != Domain.TaskStatus.Pending)
 			{
-				return Result.WithFailure($"Task {taskId} is not available for assignment (Status: {taskResult.Value.Status})");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment (Status: {taskResult.Data.Status})");
 			}
 
 			// Assign the task
-			taskResult.Value.AssignedAgentId = agentId;
+			taskResult.Data.AssignedAgentId = agentId;
 
-			var updateResult = await _taskRepository.UpdateAsync(taskResult.Value, cancellationToken).ConfigureAwait(false);
+			var updateResult = await _taskRepository.UpdateAsync(taskResult.Data, cancellationToken).ConfigureAwait(false);
 			if (updateResult.IsFailure)
 			{
-				return Result.WithFailure(updateResult.Errors);
+				return ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update task");
 			}
 
-			return Result.Success();
+			return ExxerAI.Domain.Result<bool>.WithSuccess(true);
 		}
 		catch (Exception ex)
 		{
-			return Result.WithFailure($"An error occurred while assigning the task: {ex.Message}");
-		}
-	}
-
-	/// <summary>
-	/// Finds the best available agent for a specific task type
-	/// </summary>
-	/// <param name="taskType">The task type</param>
-	/// <param name="cancellationToken">Cancellation token</param>
-	/// <returns>The result of the operation containing the best agent if found</returns>
-	public async Task<Result<Agent>> FindBestAgentForTaskAsync(
-		string taskType,
-		CancellationToken cancellationToken = default)
-	{
-		try
-		{
-			if (string.IsNullOrWhiteSpace(taskType))
-			{
-				return Result<Agent>.WithFailure("Task type cannot be empty");
-			}
-
-			// Find agents that support this task type
-			var agentsResult = await _agentRepository.FindByTaskTypeAsync(taskType, cancellationToken).ConfigureAwait(false);
-			if (agentsResult.IsFailure)
-			{
-				return Result<Agent>.WithFailure(agentsResult.Errors);
-			}
-
-			var supportingAgents = agentsResult.Value!.Where(a => a.Status == AgentStatus.Active).ToList();
-			if (!supportingAgents.Any())
-			{
-				return Result<Agent>.WithFailure($"No active agents found that support task type: {taskType}");
-			}
-
-			// Get agents with their current task count
-			var agentsWithTaskCountResult = await _agentRepository.GetAgentsWithTaskCountAsync(cancellationToken).ConfigureAwait(false);
-			if (agentsWithTaskCountResult.IsFailure)
-			{
-				// Fallback to first supporting agent if we can't get task counts
-				return Result<Agent>.Success(supportingAgents.First());
-			}
-
-			// Find the agent with the least tasks among those that support this task type
-			var bestAgent = agentsWithTaskCountResult.Value!
-				.Where(atc => supportingAgents.Contains(atc.Agent))
-				.OrderBy(atc => atc.TaskCount)
-				.ThenBy(atc => atc.Agent.CreatedAt) // Tie-breaker: oldest agent first
-				.Select(atc => atc.Agent)
-				.FirstOrDefault();
-
-			if (bestAgent == null)
-			{
-				return Result<Agent>.WithFailure($"No suitable agent found for task type: {taskType}");
-			}
-
-			return Result<Agent>.Success(bestAgent);
-		}
-		catch (Exception ex)
-		{
-			return Result<Agent>.WithFailure($"An error occurred while finding the best agent: {ex.Message}");
-		}
-	}
-
-	/// <summary>
-	/// Deletes an agent
-	/// </summary>
-	/// <param name="agentId">The agent identifier</param>
-	/// <param name="cancellationToken">Cancellation token</param>
-	/// <returns>The result of the operation</returns>
-	public async Task<Result> DeleteAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
-	{
-		try
-		{
-			if (agentId == Guid.Empty)
-			{
-				return Result.WithFailure("Agent ID cannot be empty");
-			}
-
-			// Check if agent exists
-			var agentResult = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
-			if (agentResult.IsFailure)
-			{
-				return Result.WithFailure($"Agent not found with ID: {agentId}");
-			}
-
-			// Check for active tasks before deletion
-			var activeTasksResult = await _taskRepository.GetByAgentAsync(agentId, Domain.TaskStatus.InProgress, cancellationToken).ConfigureAwait(false);
-			if (activeTasksResult.IsSuccess && activeTasksResult.Value!.Any())
-			{
-				return Result.WithFailure($"Cannot delete agent {agentId} as it has active tasks in progress");
-			}
-
-			var deleteResult = await _agentRepository.DeleteAsync(agentId, cancellationToken).ConfigureAwait(false);
-			if (deleteResult.IsFailure)
-			{
-				return Result.WithFailure(deleteResult.Errors);
-			}
-
-			return Result.Success();
-		}
-		catch (Exception ex)
-		{
-			return Result.WithFailure($"An error occurred while deleting the agent: {ex.Message}");
-		}
-	}
-
-	/// <summary>
-	/// Gets all agents
-	/// </summary>
-	/// <param name="cancellationToken">Cancellation token</param>
-	/// <returns>The result of the operation containing all agents</returns>
-	public async Task<Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default)
-	{
-		try
-		{
-			var result = await _agentRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
-
-			if (result.IsFailure)
-			{
-				return Result<IEnumerable<Agent>>.WithFailure(result.Errors);
-			}
-
-			return result;
-		}
-		catch (Exception ex)
-		{
-			return Result<IEnumerable<Agent>>.WithFailure($"An error occurred while retrieving all agents: {ex.Message}");
+			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while assigning the task: {ex.Message}");
 		}
 	}
 
@@ -420,12 +318,113 @@ public class AgentService : IAgentService
 	/// <param name="taskId">The task identifier</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation</returns>
-	public async Task<Result> AssignTaskToAgentAsync(
+	public async Task<ExxerAI.Domain.Result<bool>> AssignTaskToAgentAsync(
 		Guid agentId,
 		Guid taskId,
 		CancellationToken cancellationToken = default)
 	{
-		// Delegate to the main AssignTaskAsync method
 		return await AssignTaskAsync(agentId, taskId, cancellationToken).ConfigureAwait(false);
+	}
+
+	/// <summary>
+	/// Finds the best available agent for a specific task type
+	/// </summary>
+	/// <param name="taskType">The task type</param>
+	/// <param name="cancellationToken">Cancellation token</param>
+	/// <returns>The result of the operation containing the best agent if found</returns>
+	public async Task<ExxerAI.Domain.Result<Agent>> FindBestAgentForTaskAsync(
+		string taskType,
+		CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			if (string.IsNullOrWhiteSpace(taskType))
+			{
+				return ExxerAI.Domain.Result<Agent>.WithFailure("Task type cannot be empty");
+			}
+
+			// Find agents that support this task type
+			var agentsResult = await _agentRepository.FindByTaskTypeAsync(taskType, cancellationToken).ConfigureAwait(false);
+			if (agentsResult.IsFailure)
+			{
+				return ExxerAI.Domain.Result<Agent>.WithFailure(agentsResult.Error ?? "Failed to find agents");
+			}
+
+			var supportingAgents = agentsResult.Data!.Where(a => a.Status == AgentStatus.Active).ToList();
+			if (!supportingAgents.Any())
+			{
+				return ExxerAI.Domain.Result<Agent>.WithFailure($"No active agents found that support task type: {taskType}");
+			}
+
+			// Get agents with their current task count
+			var agentsWithTaskCountResult = await _agentRepository.GetAgentsWithTaskCountAsync(cancellationToken).ConfigureAwait(false);
+			if (agentsWithTaskCountResult.IsFailure)
+			{
+				// Fallback to first supporting agent if we can't get task counts
+				return ExxerAI.Domain.Result<Agent>.WithSuccess(supportingAgents.First());
+			}
+
+			// Find the agent with the least tasks among those that support this task type
+			var bestAgent = agentsWithTaskCountResult.Data!
+				.Where(atc => supportingAgents.Contains(atc.Agent))
+				.OrderBy(atc => atc.TaskCount)
+				.ThenBy(atc => atc.Agent.CreatedAt) // Tie-breaker: oldest agent first
+				.Select(atc => atc.Agent)
+				.FirstOrDefault();
+
+			if (bestAgent == null)
+			{
+				return ExxerAI.Domain.Result<Agent>.WithFailure($"No suitable agent found for task type: {taskType}");
+			}
+
+			return ExxerAI.Domain.Result<Agent>.WithSuccess(bestAgent);
+		}
+		catch (Exception ex)
+		{
+			return ExxerAI.Domain.Result<Agent>.WithFailure($"An error occurred while finding the best agent: {ex.Message}");
+		}
+	}
+
+	/// <summary>
+	/// Deletes an agent
+	/// </summary>
+	/// <param name="agentId">The agent identifier</param>
+	/// <param name="cancellationToken">Cancellation token</param>
+	/// <returns>The result of the operation</returns>
+	public async Task<ExxerAI.Domain.Result<bool>> DeleteAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
+	{
+		try
+		{
+			if (agentId == Guid.Empty)
+			{
+				return ExxerAI.Domain.Result<bool>.WithFailure("Agent ID cannot be empty");
+			}
+
+			// Check if agent exists
+			var agentResult = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
+			if (agentResult.IsFailure)
+			{
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Agent not found with ID: {agentId}");
+			}
+
+			// Check for active tasks before deletion
+			var activeTasksResult = await _taskRepository.GetByAgentAsync(agentId, Domain.TaskStatus.InProgress, cancellationToken).ConfigureAwait(false);
+			if (activeTasksResult.IsSuccess && activeTasksResult.Data!.Any())
+			{
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Cannot delete agent {agentId} as it has active tasks in progress");
+			}
+
+			var deleteResult = await _agentRepository.DeleteAsync(agentId, cancellationToken).ConfigureAwait(false);
+			if (deleteResult.IsFailure)
+			{
+				return ExxerAI.Domain.Result<bool>.WithFailure(deleteResult.Error ?? "Failed to delete agent");
+			}
+
+			return ExxerAI.Domain.Result<bool>.WithSuccess(true);
+		}
+		catch (Exception ex)
+		{
+			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while deleting the agent: {ex.Message}");
+		}
 	}
 } 

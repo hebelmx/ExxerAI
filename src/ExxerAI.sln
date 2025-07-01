@@ -27,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solutions Items", "Solutions Items", "{369CB01D-A1A7-72D2-AABC-3F0945D148A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.UI", "ExxerAI.UI\ExxerAI.UI.csproj", "{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Orchestration.Tests", "tests\ExxerAI.Orchestration.Tests\ExxerAI.Orchestration.Tests.csproj", "{22052174-6E09-00E3-62E3-48B77992BB18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Api.Tests", "tests\ExxerAI.Api.Tests\ExxerAI.Api.Tests.csproj", "{2A4CA202-3520-A0EE-CB90-CD88CD63D9B3}"
@@ -42,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\Directory.Build.props = ..\Directory.Build.props
 		..\Directory.Packages.props = ..\Directory.Packages.props
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.UI", "ExxerAI.UI\ExxerAI.UI.csproj", "{214B1701-5587-47F6-AE89-41E672BD4A8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -161,18 +161,6 @@ Global
 		{8AA0D0BA-B1F5-43BF-BBCF-2068EF002F90}.Release|x64.Build.0 = Release|Any CPU
 		{8AA0D0BA-B1F5-43BF-BBCF-2068EF002F90}.Release|x86.ActiveCfg = Release|Any CPU
 		{8AA0D0BA-B1F5-43BF-BBCF-2068EF002F90}.Release|x86.Build.0 = Release|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Debug|x64.Build.0 = Debug|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Debug|x86.Build.0 = Debug|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x64.ActiveCfg = Release|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x64.Build.0 = Release|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x86.ActiveCfg = Release|Any CPU
-		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x86.Build.0 = Release|Any CPU
 		{22052174-6E09-00E3-62E3-48B77992BB18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{22052174-6E09-00E3-62E3-48B77992BB18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22052174-6E09-00E3-62E3-48B77992BB18}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -221,6 +209,18 @@ Global
 		{C12E1E6C-21E2-480F-8BEE-E94185337213}.Release|x64.Build.0 = Release|Any CPU
 		{C12E1E6C-21E2-480F-8BEE-E94185337213}.Release|x86.ActiveCfg = Release|Any CPU
 		{C12E1E6C-21E2-480F-8BEE-E94185337213}.Release|x86.Build.0 = Release|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Debug|x64.Build.0 = Debug|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Debug|x86.Build.0 = Debug|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Release|x64.ActiveCfg = Release|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Release|x64.Build.0 = Release|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Release|x86.ActiveCfg = Release|Any CPU
+		{214B1701-5587-47F6-AE89-41E672BD4A8E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

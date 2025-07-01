@@ -47,7 +47,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="metadata">Document metadata including type and schema information</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the document processing operation</returns>
-    public async Task<Result<DocumentProcessingResult>> ProcessDocumentAsync(
+    public async Task<ExxerAI.Domain.Result<DocumentProcessingResult>> ProcessDocumentAsync(
         byte[] documentData,
         DocumentMetadata metadata,
         CancellationToken cancellationToken = default)
@@ -87,7 +87,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 }
                 else
                 {
-                    return Result<DocumentProcessingResult>.WithFailure($"Both direct text and OCR extraction failed: {ocrResult.Error}");
+                    return ExxerAI.Domain.Result<DocumentProcessingResult>.WithFailure($"Both direct text and OCR extraction failed: {ocrResult.Error}");
                 }
             }
 
