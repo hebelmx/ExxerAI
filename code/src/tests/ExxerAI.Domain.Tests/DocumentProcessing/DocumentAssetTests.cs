@@ -14,22 +14,22 @@ public class DocumentAssetTests
     public void Should_InitializeWithDefaultValues_When_DocumentAssetCreated()
     {
         // Act
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Assert
-        document.Id.ShouldNotBe(Guid.Empty);
-        document.OriginalFileName.ShouldBe(string.Empty);
+        document.Id.ShouldNotBe(string.Empty);
+        document.OriginalFileName.ShouldBe("test.pdf");
         document.ContentHash.ShouldBe(string.Empty);
         document.Fingerprint.ShouldNotBeNull();
-        document.Content.ShouldBeEmpty();
+        document.Content.ShouldBe(new byte[] { 1, 2, 3 });
         document.Embeddings.ShouldBeEmpty();
         document.Status.ShouldBe(DocumentStatus.Processing);
         document.ProcessedAt.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
         document.Version.ShouldNotBeNull();
-        document.Version.VersionNumber.ShouldBe(1);
+        document.Version.Number.ShouldBe(1);
         document.RelatedDocuments.ShouldBeEmpty();
         document.Metadata.ShouldBeEmpty();
-        document.IsDeleted.ShouldBeFalse();
+        document.IsDeleted().ShouldBeFalse();
     }
 
     [Theory]
@@ -39,18 +39,16 @@ public class DocumentAssetTests
     public void Should_SetProperties_When_DocumentAssetInitializedWithValues(string fileName, string mimeType, long size)
     {
         // Arrange & Act
-        var document = new DocumentAsset
+        var document = new DocumentAsset(fileName, new byte[size], $"/documents/{fileName}")
         {
-            OriginalFileName = fileName,
             MimeType = mimeType,
-            Size = size,
             SourcePath = $"/documents/{fileName}"
         };
 
         // Assert
         document.OriginalFileName.ShouldBe(fileName);
         document.MimeType.ShouldBe(mimeType);
-        document.Size.ShouldBe(size);
+        document.FileSize.ShouldBe(size);
         document.SourcePath.ShouldBe($"/documents/{fileName}");
     }
 
@@ -58,36 +56,36 @@ public class DocumentAssetTests
     public void Should_MarkAsActive_When_MarkAsActiveCalled()
     {
         // Arrange
-        var document = new DocumentAsset { Status = DocumentStatus.Processing };
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Act
         document.MarkAsActive();
 
         // Assert
         document.Status.ShouldBe(DocumentStatus.Active);
-        document.IsDeleted.ShouldBeFalse();
+        document.IsDeleted().ShouldBeFalse();
     }
 
     [Fact]
     public void Should_MarkAsDeleted_When_MarkAsDeletedCalled()
     {
         // Arrange
-        var document = new DocumentAsset { Status = DocumentStatus.Active };
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Act
         document.MarkAsDeleted();
 
         // Assert
         document.Status.ShouldBe(DocumentStatus.Deleted);
-        document.IsDeleted.ShouldBeTrue();
+        document.IsDeleted().ShouldBeTrue();
     }
 
     [Fact]
     public void Should_AddRelatedDocument_When_ValidGuidProvided()
     {
         // Arrange
-        var document = new DocumentAsset();
-        var relatedDocumentId = Guid.NewGuid();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
+        var relatedDocumentId = Guid.NewGuid().ToString();
 
         // Act
         document.AddRelatedDocument(relatedDocumentId);
@@ -101,8 +99,8 @@ public class DocumentAssetTests
     public void Should_NotAddDuplicateRelatedDocument_When_SameGuidAddedTwice()
     {
         // Arrange
-        var document = new DocumentAsset();
-        var relatedDocumentId = Guid.NewGuid();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
+        var relatedDocumentId = Guid.NewGuid().ToString();
 
         // Act
         document.AddRelatedDocument(relatedDocumentId);
@@ -117,7 +115,7 @@ public class DocumentAssetTests
     public void Should_SetContentHash_When_ValidHashProvided()
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
         var validHash = "a1b2c3d4e5f6789012345678901234567890123456789012345678901234567890123456";
 
         // Act
@@ -134,7 +132,7 @@ public class DocumentAssetTests
     public void Should_ThrowArgumentException_When_InvalidHashProvided(string? invalidHash)
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Act & Assert
         Should.Throw<ArgumentException>(() => document.SetContentHash(invalidHash!))
@@ -145,7 +143,7 @@ public class DocumentAssetTests
     public void Should_SetEmbeddings_When_ValidEmbeddingsProvided()
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
         var embeddings = new float[] { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
 
         // Act
@@ -160,7 +158,7 @@ public class DocumentAssetTests
     public void Should_SetEmptyEmbeddings_When_NullEmbeddingsProvided()
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Act
         document.SetEmbeddings(null!);
@@ -174,16 +172,16 @@ public class DocumentAssetTests
     public void Should_ReturnCorrectIsDeleted_When_StatusIsDeleted()
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Act & Assert - Initially not deleted
-        document.IsDeleted.ShouldBeFalse();
+        document.IsDeleted().ShouldBeFalse();
 
         // Act - Mark as deleted
-        document.Status = DocumentStatus.Deleted;
+        document.MarkAsDeleted();
 
         // Assert - Now deleted
-        document.IsDeleted.ShouldBeTrue();
+        document.IsDeleted().ShouldBeTrue();
     }
 
     [Theory]
@@ -194,49 +192,54 @@ public class DocumentAssetTests
     public void Should_ReturnFalseForIsDeleted_When_StatusIsNotDeleted(string statusName)
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
         var status = Enum.Parse<DocumentStatus>(statusName);
 
         // Act
-        document.Status = status;
+        // Cannot directly set Status as it's private set, use methods instead
+        if (status == DocumentStatus.Active)
+            document.MarkAsActive();
+        else if (status == DocumentStatus.Archived)
+            document.MarkAsArchived();
+        else if (status == DocumentStatus.Error)
+            document.MarkAsFailed("Test error");
 
         // Assert
-        document.IsDeleted.ShouldBeFalse();
+        document.IsDeleted().ShouldBeFalse();
     }
 
     [Fact]
     public void Should_InitializeDocumentFingerprint_When_DocumentAssetCreated()
     {
         // Act
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Assert
         document.Fingerprint.ShouldNotBeNull();
         document.Fingerprint.Properties.ShouldNotBeNull();
         document.Fingerprint.Properties.ShouldBeEmpty();
-        document.Fingerprint.TitleHash.ShouldBe(string.Empty);
+        document.Fingerprint.TitlePattern.ShouldBe(string.Empty);
     }
 
     [Fact]
     public void Should_InitializeDocumentVersion_When_DocumentAssetCreated()
     {
         // Act
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Assert
         document.Version.ShouldNotBeNull();
-        document.Version.VersionNumber.ShouldBe(1);
-        document.Version.VersionLabel.ShouldBe(string.Empty);
-        document.Version.BaseDocumentId.ShouldBeNull();
+        document.Version.Number.ShouldBe(1);
+        document.Version.Label.ShouldBe(string.Empty);
         document.Version.PreviousVersionId.ShouldBeNull();
-        document.Version.ChangeDescription.ShouldBe(string.Empty);
+        document.Version.Notes.ShouldBe(string.Empty);
     }
 
     [Fact]
     public void Should_AllowMetadataManipulation_When_DocumentAssetCreated()
     {
         // Arrange
-        var document = new DocumentAsset();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
 
         // Act
         document.Metadata["author"] = "John Doe";
@@ -254,9 +257,9 @@ public class DocumentAssetTests
     public void Should_MaintainUniqueIds_When_MultipleDocumentsCreated()
     {
         // Act
-        var document1 = new DocumentAsset();
-        var document2 = new DocumentAsset();
-        var document3 = new DocumentAsset();
+        var document1 = new DocumentAsset("test1.pdf", new byte[] { 1 }, "/test/path1");
+        var document2 = new DocumentAsset("test2.pdf", new byte[] { 2 }, "/test/path2");
+        var document3 = new DocumentAsset("test3.pdf", new byte[] { 3 }, "/test/path3");
 
         // Assert
         document1.Id.ShouldNotBe(document2.Id);
@@ -268,7 +271,6 @@ public class DocumentAssetTests
     public void Should_HandleLargeContent_When_ContentSet()
     {
         // Arrange
-        var document = new DocumentAsset();
         var largeContent = new byte[1024 * 1024]; // 1MB
         for (int i = 0; i < largeContent.Length; i++)
         {
@@ -276,12 +278,11 @@ public class DocumentAssetTests
         }
 
         // Act
-        document.Content = largeContent;
-        document.Size = largeContent.Length;
+        var document = new DocumentAsset("large.pdf", largeContent, "/test/path");
 
         // Assert
         document.Content.Length.ShouldBe(1024 * 1024);
-        document.Size.ShouldBe(1024 * 1024);
+        document.FileSize.ShouldBe(1024 * 1024);
         document.Content[0].ShouldBe((byte)0);
         document.Content[255].ShouldBe((byte)255);
         document.Content[256].ShouldBe((byte)0); // Wraps around
@@ -291,8 +292,8 @@ public class DocumentAssetTests
     public void Should_HandleComplexRelatedDocuments_When_MultipleRelatedDocumentsAdded()
     {
         // Arrange
-        var document = new DocumentAsset();
-        var relatedIds = Enumerable.Range(0, 10).Select(_ => Guid.NewGuid()).ToList();
+        var document = new DocumentAsset("test.pdf", new byte[] { 1, 2, 3 }, "/test/path");
+        var relatedIds = Enumerable.Range(0, 10).Select(_ => Guid.NewGuid().ToString()).ToList();
 
         // Act
         foreach (var id in relatedIds)
@@ -322,9 +323,9 @@ public class DocumentFingerprintTests
 
         // Assert
         fingerprint.FileSize.ShouldBe(0);
-        fingerprint.CreationDate.ShouldBe(default(DateTime));
-        fingerprint.ModificationDate.ShouldBe(default(DateTime));
-        fingerprint.TitleHash.ShouldBe(string.Empty);
+        fingerprint.CreatedDate.ShouldBe(default(DateTime));
+        fingerprint.MimeType.ShouldBe(string.Empty);
+        fingerprint.TitlePattern.ShouldBe(string.Empty);
         fingerprint.Properties.ShouldNotBeNull();
         fingerprint.Properties.ShouldBeEmpty();
     }
@@ -334,22 +335,21 @@ public class DocumentFingerprintTests
     {
         // Arrange
         var creationDate = DateTime.UtcNow.AddDays(-30);
-        var modificationDate = DateTime.UtcNow.AddDays(-1);
 
         // Act
         var fingerprint = new DocumentFingerprint
         {
             FileSize = 2048,
-            CreationDate = creationDate,
-            ModificationDate = modificationDate,
-            TitleHash = "sample-hash-123"
+            CreatedDate = creationDate,
+            MimeType = "application/pdf",
+            TitlePattern = "sample-hash-123"
         };
 
         // Assert
         fingerprint.FileSize.ShouldBe(2048);
-        fingerprint.CreationDate.ShouldBe(creationDate);
-        fingerprint.ModificationDate.ShouldBe(modificationDate);
-        fingerprint.TitleHash.ShouldBe("sample-hash-123");
+        fingerprint.CreatedDate.ShouldBe(creationDate);
+        fingerprint.MimeType.ShouldBe("application/pdf");
+        fingerprint.TitlePattern.ShouldBe("sample-hash-123");
     }
 }
 
@@ -365,35 +365,32 @@ public class DocumentVersionTests
         var version = new DocumentVersion();
 
         // Assert
-        version.VersionNumber.ShouldBe(1);
-        version.VersionLabel.ShouldBe(string.Empty);
-        version.BaseDocumentId.ShouldBeNull();
+        version.Number.ShouldBe(1);
+        version.Label.ShouldBe(string.Empty);
         version.PreviousVersionId.ShouldBeNull();
-        version.ChangeDescription.ShouldBe(string.Empty);
+        version.NextVersionId.ShouldBeNull();
+        version.Notes.ShouldBe(string.Empty);
     }
 
     [Fact]
     public void Should_SetProperties_When_DocumentVersionInitializedWithValues()
     {
         // Arrange
-        var baseId = Guid.NewGuid();
-        var previousId = Guid.NewGuid();
+        var previousId = Guid.NewGuid().ToString();
 
         // Act
         var version = new DocumentVersion
         {
-            VersionNumber = 3,
-            VersionLabel = "Final",
-            BaseDocumentId = baseId,
+            Number = 3,
+            Label = "Final",
             PreviousVersionId = previousId,
-            ChangeDescription = "Updated financial figures"
+            Notes = "Updated financial figures"
         };
 
         // Assert
-        version.VersionNumber.ShouldBe(3);
-        version.VersionLabel.ShouldBe("Final");
-        version.BaseDocumentId.ShouldBe(baseId);
+        version.Number.ShouldBe(3);
+        version.Label.ShouldBe("Final");
         version.PreviousVersionId.ShouldBe(previousId);
-        version.ChangeDescription.ShouldBe("Updated financial figures");
+        version.Notes.ShouldBe("Updated financial figures");
     }
 } 

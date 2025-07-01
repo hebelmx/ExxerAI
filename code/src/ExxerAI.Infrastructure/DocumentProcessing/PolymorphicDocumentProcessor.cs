@@ -143,65 +143,98 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     }
 
     /// <summary>
-    /// Extracts fields from a document using a specific schema
+    /// Extracts specific fields from a document using adaptive patterns.
     /// </summary>
-    /// <param name="documentData">The raw document data</param>
-    /// <param name="schema">The extraction schema to use</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The result of the field extraction operation</returns>
-    public async Task<Result<ExtractedData>> ExtractFieldsAsync(
-        byte[] documentData,
-        SchemaDefinition schema,
+    /// <param name="document">The document to extract fields from.</param>
+    /// <param name="schema">The extraction schema defining expected fields.</param>
+    /// <param name="cancellationToken">Cancellation token for operation control.</param>
+    /// <returns>The field extraction results with confidence scores.</returns>
+    public async Task<Result<ExtractionResult>> ExtractFieldsAsync(
+        Document document,
+        ExtractionSchema schema,
         CancellationToken cancellationToken = default)
     {
         try
         {
-            // Extract text first
-            var metadata = new DocumentMetadata { DocumentType = schema.DocumentType };
+            // Convert Document to bytes and process
+            var documentData = document.Content;
+            var metadata = new DocumentMetadata 
+            { 
+                DocumentType = document.Type,
+                FileName = document.FileName
+            };
+            
             var textResult = await ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
             if (!textResult.IsSuccess)
             {
-                return Result<ExtractedData>.WithFailure($"Text extraction failed: {textResult.Error}");
+                return Result<ExtractionResult>.WithFailure($"Text extraction failed: {textResult.Error}");
             }
 
-            return await ExtractFieldsUsingSchemaAsync(textResult.Value!, schema, cancellationToken);
+            // Convert SchemaDefinition to ExtractionSchema if needed
+            var schemaDefinition = new SchemaDefinition
+            {
+                Name = schema.Name,
+                DocumentType = schema.DocumentType,
+                Fields = schema.Fields.Select(f => new FieldDefinition
+                {
+                    Name = f.Name,
+                    PrimaryPattern = f.Pattern,
+                    ConfidenceThreshold = f.RequiredConfidence
+                }).ToList()
+            };
+
+            var extractedDataResult = await ExtractFieldsUsingSchemaAsync(textResult.Value!, schemaDefinition, cancellationToken);
+            if (!extractedDataResult.IsSuccess)
+            {
+                return Result<ExtractionResult>.WithFailure(extractedDataResult.Error);
+            }
+
+            // Convert ExtractedData to ExtractionResult
+            var extractionResult = new ExtractionResult
+            {
+                Fields = extractedDataResult.Value!.Fields,
+                Confidence = extractedDataResult.Value.OverallConfidence,
+                ExtractedAt = DateTime.UtcNow
+            };
+
+            return Result<ExtractionResult>.WithSuccess(extractionResult);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error extracting fields using schema {SchemaName}", schema.Name);
-            return Result<ExtractedData>.WithFailure($"Field extraction error: {ex.Message}");
+            return Result<ExtractionResult>.WithFailure($"Field extraction error: {ex.Message}");
         }
     }
 
     /// <summary>
-    /// Validates and grounds extracted data against known patterns and dictionaries
+    /// Validates and grounds extracted data against known patterns and business rules.
     /// </summary>
-    /// <param name="data">The extracted data to validate</param>
-    /// <param name="context">The grounding context for validation</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The result of the validation and grounding operation</returns>
+    /// <param name="data">The extracted data to validate.</param>
+    /// <param name="context">The ground truth context for validation.</param>
+    /// <param name="cancellationToken">Cancellation token for operation control.</param>
+    /// <returns>The validation result with grounded data.</returns>
     public async Task<Result<ValidationResult>> ValidateAndGroundDataAsync(
         ExtractedData data,
-        Dictionary<string, object> context,
+        GroundTruthContext context,
         CancellationToken cancellationToken = default)
     {
         return await ValidateExtractedDataAsync(data,
-            new DocumentMetadata { Properties = context },
+            new DocumentMetadata { Properties = context.Properties },
             cancellationToken);
     }
 
     /// <summary>
-    /// Adapts processing rules based on historical processing results
+    /// Adapts processing rules based on processing history and feedback.
     /// </summary>
-    /// <param name="processingHistory">Historical processing results for learning</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The result of the rule adaptation operation</returns>
+    /// <param name="history">The processing history to learn from.</param>
+    /// <param name="cancellationToken">Cancellation token for operation control.</param>
+    /// <returns>The learning result with updated processing rules.</returns>
     public async Task<Result<LearningResult>> AdaptProcessingRulesAsync(
-        IEnumerable<DocumentProcessingResult> processingHistory,
+        ProcessingHistory history,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Adapting processing rules from {Count} historical results",
-            processingHistory.Count());
+            history.Results.Count());
 
         try
         {
@@ -209,7 +242,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             var schemaUpdates = new List<string>();
 
             // Analyze successful extractions to identify patterns
-            var successfulResults = processingHistory.Where(r => r.IsSuccessful).ToList();
+            var successfulResults = history.Results.Where(r => r.IsSuccessful).ToList();
             if (successfulResults.Any())
             {
                 // Group by document type and analyze patterns
@@ -245,28 +278,31 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     }
 
     /// <summary>
-    /// Learns document schema from a set of sample documents
+    /// Learns document schema from sample documents to improve future processing.
     /// </summary>
-    /// <param name="samples">Sample documents for schema learning</param>
-    /// <param name="documentType">The type of documents being analyzed</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>The result of the schema learning operation</returns>
+    /// <param name="samples">Sample documents to learn from.</param>
+    /// <param name="cancellationToken">Cancellation token for operation control.</param>
+    /// <returns>The learned schema definition.</returns>
     public async Task<Result<SchemaDefinition>> LearnDocumentSchemaAsync(
-        IEnumerable<byte[]> samples,
-        DocumentType documentType,
+        IEnumerable<Document> samples,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Learning schema for {DocumentType} from {SampleCount} samples",
-            documentType, samples.Count());
+        _logger.LogInformation("Learning schema from {SampleCount} samples", samples.Count());
 
         try
         {
             // Extract text from all samples and analyze common patterns
             var extractedTexts = new List<string>();
+            var documentType = samples.FirstOrDefault()?.Type ?? DocumentType.Unknown;
+            
             foreach (var sample in samples)
             {
-                var metadata = new DocumentMetadata { DocumentType = documentType };
-                var textResult = await ExtractTextDirectlyAsync(sample, metadata, cancellationToken);
+                var metadata = new DocumentMetadata 
+                { 
+                    DocumentType = sample.Type,
+                    FileName = sample.FileName
+                };
+                var textResult = await ExtractTextDirectlyAsync(sample.Content, metadata, cancellationToken);
                 if (textResult.IsSuccess)
                 {
                     extractedTexts.Add(textResult.Value!);
