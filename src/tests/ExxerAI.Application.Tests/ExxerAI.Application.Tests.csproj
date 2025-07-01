@@ -43,14 +43,8 @@
 		<PackageReference Include="xunit" />
 		<PackageReference Include="xunit.runner.visualstudio" />
 		<PackageReference Include="coverlet.collector" />
-	</ItemGroup>
-
-	<!-- ============================================================================ -->
-	<!-- PACKAGE REFERENCES - TESTING UTILITIES -->
-	<!-- ============================================================================ -->
-	<ItemGroup Label="Testing Utilities">
-		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
+		<PackageReference Include="NSubstitute" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
@@ -58,6 +52,8 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Global Usings">
 		<Using Include="Xunit" />
+		<Using Include="NSubstitute" />
+		<Using Include="Shouldly" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->

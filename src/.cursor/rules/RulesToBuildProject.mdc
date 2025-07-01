@@ -42,6 +42,7 @@ dotnet restore --force-evaluate --no-cache
 ## ⚙️ Required .csproj Directives (Per Project or Globally)
 
 Each `.csproj` must contain:
+o the Directory.Build.props
 
 ```xml
 <PropertyGroup>
