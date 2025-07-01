@@ -1,30 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <!-- ============================================================================ -->
+  <!-- CORE PROPERTIES -->
+  <!-- ============================================================================ -->
   <PropertyGroup>
+    <!-- Target Framework -->
     <TargetFramework>net9.0</TargetFramework>
+    
+    <!-- Language Features -->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Security & Configuration -->
     <UserSecretsId>aspnet-ExxerAI.UI-e580dab3-dd33-45be-9ba8-4cf6cf5dc0db</UserSecretsId>
-	 
-	  <
-	  
-	  
+    
+    <!-- Application Information -->
+    <AssemblyTitle>ExxerAI User Interface</AssemblyTitle>
+    <Description>ExxerAI Intelligence System Web User Interface</Description>
+    <Company>Exxerpro Solutions</Company>
+    <Product>ExxerAI Intelligence System</Product>
+    <Title>ExxerAI.UI</Title>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="Data\app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
-  </ItemGroup>
+  <!-- ============================================================================ -->
+  <!-- PUBLISHING PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+    <!-- Publishing Enhancements -->
+    <EnableDynamicPgo>true</EnableDynamicPgo>
+    <TieredCompilation>true</TieredCompilation>
+    <PublishSingleFile>false</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
 
-
-  <ItemGroup>
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - ENTITY FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Entity Framework">
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - UI FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="UI Framework">
     <PackageReference Include="MudBlazor" />
     <PackageReference Include="Extensions.MudBlazor.StaticInput" />
+  </ItemGroup>
 
-
+  <!-- ============================================================================ -->
+  <!-- CONTENT FILES -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Database Files">
+    <None Update="Data\app.db" CopyToOutputDirectory="PreserveNewest" ExcludeFromSingleFile="true" />
   </ItemGroup>
 
 </Project>

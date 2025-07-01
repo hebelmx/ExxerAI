@@ -96,8 +96,8 @@ Of course all with their own properties:
   </ItemGroup>
 
 </Project>
-<PackageVersion Include="EFCore.SqlServer.VectorSearch" Version="0.2.0" />
-<PackageReference Include="EFCore.SqlServer.VectorSearch" />
+
+
 
 Step 2: Please make sure all projects all classes all public class and methods and properties have xml comments
 
