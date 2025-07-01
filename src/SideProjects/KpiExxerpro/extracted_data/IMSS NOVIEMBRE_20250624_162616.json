@@ -1,0 +1,17 @@
+{
+  "archivo_original": "IMSS NOVIEMBRE.pdf",
+  "fecha_procesamiento": "2025-06-24T16:26:16.570774",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Nombre emisor:\nINSTITUTO MEXICANO DEL SEGURO\nSOCIAL\nFolio:\n202211-E2386064109-15122022-380210\nRFC receptor:\nESO100126H10\nNombre receptor:\nEXXERPRO SOLUTIONS\nCódigo postal del\nreceptor:\n76113\nRégimen fiscal\nreceptor:\nGeneral de Ley Personas Morales\nUso CFDI:\nGastos en general\nNo. de serie del CSD:\n00001000000510986159\nSerie:\nA\nCódigo postal, fecha y hora de\nemisión:\n06600 2022-12-23 10:20:18\nEfecto de comprobante:\nIngreso\nRégimen fiscal:\nPersonas Morales con Fines no Lucrativos\nExportación:\nNo aplica\nConceptos\nClave del producto\ny/o servicio\nNo. identificación\nCantidad\nClave de unidad\nUnidad\nValor unitario\nImporte\nDescuento\nObjeto impuesto\n85101701\n1\nE48\n21,622.42\n21,622.42\nNo objeto de impuesto.\nDescripción\nCuotas IMSS\nNúmero de pedimento\nNúmero de cuenta predial\nMoneda:\nPeso Mexicano\nForma de pago:\nTransferencia electrónica de fondos (incluye SPEI)\nMétodo de pago:\nPago en una sola exhibición\nSubtotal\n$ 21,622.42\nTotal\n$ 21,622.42\nSello digital del CFDI:\nkGkcxGVApKg63IW+elMPsOR42JgSXqGVChZiyXLfzdvIaUhWfl/2WvuBkERseSctmxwUZqgriw/bJQx0X1qrgj3FiSYltksgxNnyDZ+7SyY0WL73MY0AbR7+I/6Piu8s48RJMNSZzZHwL5AEroF\nl3923gsxXzR9RR+plnQZRM6PxZbyGand2SPuBvAGxraGdECLBjBqshHpJKQ4oTtAG2orUHXmMFITTCNK+9x0pFTHjseyZ0+idQCOumDD7PJenolO6PpaGB3cxfp5ahCPqR1t/7yYxpuCgrj\nYJDBpamIBq2nKnyVMxhhRfBC2KMcjhNrFMV2X/iDePyVJ8e0BWiw==\nSello digital del SAT:\ncf6BnYAuvkhOHCA2h82Pa2P8xgGB4qwnH5MKmNX75i+FW4/RcIll064zLHoViEdfNX/SDlm7dxi0bXKm4Q90yj5yshE3tdN4/RBVFLAmKSmP1CI8JcwHk7f6tXLN8Lb8OxHT5SgUutM80rvJ8\nz2DHxADc9/eUZfPzWPMdfEQSJ1nK7lAwEUx9IEXUXTpzwYCjvFqWxq/tWqBMKOjBWXe4GtmJXBkPj0NoYov00YQzqK9R1XOObUCnljTVdymkEuf8zn8JVfcWi1CpjyTpl6Vtm76ZYVjfwdvS\nlHgEhCwJy/Mm4QRxoF7cldJNILI20zQbCth5ZPoxwwunZi6Dq4HEw==\nCadena Original del complemento de certificación digital del SAT:\n||1.1|C5621EE0-C3AB-4F35-AFB7-110B651C7369|2022-12-23T10:20:22|SAT970701NN3|kGkcxGVApKg63IW+elMPsOR42JgSXqGVChZiyXLfzdvIaUhW\nfl/2WvuBkERseSctmxwUZqgriw/bJQx0X1qrgj3FiSYltksgxNnyDZ+7SyY0WL73MY0AbR7+I/6Piu8s48RJMNSZzZHwL5AEroFl3923gsxXzR9RR+plnQZRM\n6PxZbyGand2SPuBvAGxraGdECLBjBqshHpJKQ4oTtAG2orUHXmMFITTCNK+9x0pFTHjseyZ0+idQCOumDD7PJenolO6PpaGB3cxfp5ahCPqR1t/7yYxp\nuCgrjYJDBpamIBq2nKnyVMxhhRfBC2KMcjhNrFMV2X/iDePyVJ8e0BWiw==|00001000000504465028||\nRFC del proveedor de certificación:\nSAT970701NN3\nNo. de serie del certificado SAT\n00001000000504465028\nFecha y hora de certificación:\n2022-12-23 10:20:22\nRFC emisor:\nIMS421231I45\nFolio fiscal:\nC5621EE0-C3AB-4F35-AFB7-110B651C7369\nEste documento es una representación impresa de un CFDI\nPágina 1 de 1\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "periodo_imss": "Transferencia electrónica de fondos"
+  }
+}

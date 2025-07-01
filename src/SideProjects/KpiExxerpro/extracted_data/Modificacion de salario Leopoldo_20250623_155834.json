@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Modificacion de salario Leopoldo.pdf",
+  "fecha_procesamiento": "2025-06-23T15:58:34.539917",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\nSEGURIDAD Y SOLIDARIDAD SOCIAL\n\nwww.imss.gob.mx\nInicio\nContacto y Directorios\n\nInicio - IDSE - Menú IDSE - Movimientos afiliatorios\n\nE238606410 - EXXERPRO SOLUTIONS SA DE CV\ne AV DEL SOL 1B 4B\nRegresar\n\nMOVIMIENTOS AFILIATORIOS\n\nLote de movimientos 4 165959595\nRegistro patronal: E238606410\nNombre: EXXERPRO SOLUTIONS SA DE CV\n| Acuse de recibo | Status: Enviado\n\nDatos del Registro Patronal\n\nRegistro patronal: | E238606410 ]\n\nNombre: EXXERPRO SOLUTIONS SA DE CV\n\nT 7\nCausa No. Seg. Díg.  T. T. Jor. Fecha Cl-\nBaja Soc. Ver Trab. Hombre Sal. reduc. mov. pun T. Quai?\n\nde  SDI\nMov\n\nJIMENEZ DIAZ\n\n266.66 S 7106940004 LEOPOLDO\n\n01/abr/16\n\nAlgunos derechos reservados IMSS | Reforma 476, Col. Juárez, México DF |Tel. 01 800 6232323 | Acerca del Portal | Avisos Legales\n\nÚltima modificación: 08/11/2011, 12:00 hrs. Ger Adob:\nPara poder ver los documentos necesitas instalar dos E\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E238606410"
+  }
+}

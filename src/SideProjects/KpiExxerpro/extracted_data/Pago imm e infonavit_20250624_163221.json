@@ -1,0 +1,18 @@
+{
+  "archivo_original": "Pago imm e infonavit.pdf",
+  "fecha_procesamiento": "2025-06-24T16:32:21.261627",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": " \nBancaNet Empresarial \nInternet \nCliente: 75594965/EXXERPRO SOLUTIONS SA DE CV  \nComprobante de Pago \n \n \n17/03/2011 \n3:38:33 PM\nCuenta de Cargo \n4264/92860 \nImporte \n7,884.95 \n  \nNo. Autorización \n085861 \nFecha de Aplicación 17/03/2011 \n  \nEstatus del archivo \nTransferido \nTipo de Pago \nW300 \n  \nRepresentante 1 \n03 SARA,ZEA/DIAZ \n  \nRepresentante 2 \nRegistro Patronal: \nE2386064109 \n  \nFolio SUA: 053963 \n  \nPeríodo de Pago: 2011-02 \n \n  \nAbono a Cuenta del IMSS \n  \nAbono a Cuenta de la AFORE \n  \nAbono a Cuenta del INFONAVIT  \n  \n  \n \nCuenta 4 Seguros \n$2,794.99  \nRet. Ces. y Vejez \n$2,832.79  \nAport. Viv. Cta. Ind. \n$2,257.17 \nActualización \n$0.00 \n  \nActualización \n$0.00 \n  \nAport. Viv. Amort. \nCred. \n$0.00 \n \nRecargos Moratorios \n$0.00 \n  \nRecargos Moratorios \n$0.00 \n  \nAmortización de \nCrédito \n$0.00 \n \n  \n  \n  \nAport. Voluntarias \n$0.00 \n  \nActualización \n$0.00 \n \n  \n  \n  \nAport. Complem \n$0.00 \n  \nRecargos Moratorios \n$0.00 \n \n  \n  \n  \n  \n  \n  \nMultas INFONAVIT \n$0.00 \n \n  \n  \n  \n  \n  \n  \nDonativo FUNDEMEX \n$0.00 \n \n  \n  \n  \n  \n  \n  \n  \n  \n \n  \n  \n  \n  \n  \n  \n  \n  \n \n  \n  \n  \n  \n  \n  \nTotal Viv \n$2,257.17 \nTotal \n$2,794.99  \nTotal \n$2,832.79  \nTotal ACV \n$0.00 \n \n  \n  \n \n  \n  \n  \n  \nTOTAL \n$7,884.95 \nPage 1 of 1\n17/03/2011\nhttps://www.bancanetempresarial.banamex.com.mx/scripts/cgiclntc7/898HJND8I6N1UH...\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109",
+    "periodo_imss": "de Pago"
+  }
+}

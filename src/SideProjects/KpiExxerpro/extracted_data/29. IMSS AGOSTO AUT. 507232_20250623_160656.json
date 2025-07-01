@@ -1,0 +1,17 @@
+{
+  "archivo_original": "29. IMSS AGOSTO AUT. 507232.pdf",
+  "fecha_procesamiento": "2025-06-23T16:06:56.884789",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Viernes 13 de Septiembre de 2024, 2:16 PM Centro de México\nPago SUA - SIPARE\n \n \nSu pago ha sido  aplicado  con número de autorización  507232.\n \n \n \n  Cuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C - 4264/92860\nSaldo actualizado MXN: $ 145,281.14\n \n \n \n  Datos del pago\nLínea de Captura SIPARE\nE13GLMUL-4C6G-2-AMIW-5844-001WRXI-002N9MD-\n001B97Q-001G5NS-XAHP\nRegistro Patronal\nE2386064109\nPeriodo de pago\n202408\nFolio SUA\n495752\nFecha de Vencimiento\n17/09/2024\nOrigen línea de captura\n2\nImporte IMSS\n32,088.06\nImporte RCV\n44,447.89\nImporte Vivienda\n22,047.74\nImporte ACV\n24,334.48\nImporte Total MXN\n122918.17\nFecha de aplicación de pago\n13/09/2024 (ddmmaaaa)\n \n \n \n \nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos(IMSS/INFONAVIT) para cualquier posible\naclaración.\n \n \n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109"
+  }
+}

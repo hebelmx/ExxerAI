@@ -1,0 +1,65 @@
+
+
+Hola, necesito un script en Python que automatice la extracción de datos desde archivos PDF de una categoría específica de documentos (por ejemplo, facturas, cotizaciones, órdenes de compra, etc.).
+
+
+Mis archivos están organizados en una estructura de carpetas así:
+
+////
+agregar estructura
+///
+
+El script Debe recorrer todas las subcarpetas desde una raíz (por ejemplo, ./) 
+y procesar solo los archivos .pdf. o el que usuario indique
+por default pdf, deber haberr un campo para cambiar, podria ser xls, doc, xlsx, docx, 
+los mas usados en negocios.
+
+Si el usuaio especifica un tipo de arhivo no soportado se debera indicar
+con un empatico mensaje de error y sugerir que libreria podria soportarlo
+para que un programador experto la agregue, a solicitud del usuario
+
+
+Extraer metadatos clave desde el path: año, cliente, etc.
+
+Extracción de contenido del documento
+
+Anexo una muestra de los documentos. para un analis previo, la mayoria los
+documentos a procesar seguiran la misma estructura.
+
+Extraer y guardar estos campos (usando expresiones regulares flexibles y tolerantes a formatos distintos):
+Fecha (y fecha de timbrado si aplica)
+determinar todos los campos relevantes utilizando documentos muestra,
+
+Determinar el tipo de documento: “Factura”, "Cotizacion", "Pago de Impuesto", "Pago de Salario"
+ ,"Pago de seguro social", etc.
+Detectar si el documento contiene texto para determinar el “Estatus”.
+
+Manejo de excepciones:
+
+Si falta un campo crítico (como Total o Fecha), registrar un aviso pero no detener la ejecución.
+
+Agregar una columna “Notas” donde se anoten advertencias o irregularidades detectadas por el script.
+
+Salida en Excel:
+
+Consolidar todos los registros en un solo archivo Excel llamado documentos_clasificados.xlsx.
+
+Crear una hoja por año (2020, 2021, etc.).
+
+Diseño para principiantes:
+
+Todo el código debe estar claramente comentado paso a paso.
+
+Debe indicar cómo instalar las bibliotecas necesarias (pymupdf, pandas, openpyxl).
+
+Incluir sugerencias para personalizar campos o adaptar el script a otras categorías de documentos (como cotizaciones).
+
+Flexibilidad:
+
+El script debe ser reutilizable para otros tipos de documentos con estructura similar.
+
+Los nombres de campos y hojas deben poder adaptarse fácilmente.
+
+Por favor, genera un script claro, robusto y flexible que cumpla con estos requisitos. 
+
+Gracias.

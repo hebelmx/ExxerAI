@@ -1,0 +1,82 @@
+SISTEMA ÚNICO DE AUTODETERMINACIÓN
+RESUMEN DE LIQUIDACIÓN
+Fecha:
+04/dic/2013
+Mes de Proceso: 09 / 2011 
+Folio SUA:
+773490
+RFC:
+Registro Patronal:
+Nombre o Razón Social:
+DESCRIPCIÓN
+IMPORTE
+EXXERPRO SOLUTIONS SA DE CV
+E23-86064-10-9
+ESO-100126-H10
+V 3.3.2
+Versión Archivo: 3.2.8
+000000000
+N. Crédito:
+01
+T. D.
+ 0.00
+T O T A L ------------->
+ 0.00
+Recargos
+ 0.00
+Actualización 
+ 0.00
+S U  B    T O T A L
+ 0.00
+Amortización
+ 0.00
+Aportación Patronal Con Crédito
+ 0.00
+Aportación Patronal Sin Crédito
+Para abono en cuenta del INFONAVIT
+ 0.00
+T O T A L ----------->
+ 0.00
+Aportaciones Voluntarias
+ 0.00
+Recargos
+ 0.00
+Actualización
+ 0.00
+S U  B    T O T A L
+ 0.00
+Cesantía en Edad Avanzada y Vejez
+ 0.00
+Retiro
+Para abono en cuenta individual
+ 3,873.04
+T O T A L ----------->
+ 0.00
+Recargos
+ 0.00
+Actualización
+ 3,873.04
+S U B    T O T A L
+ 350.50
+Guarderías y Prestaciones Sociales
+ 832.44
+Invalidez y Vida
+ 190.52
+Riesgos de Trabajo
+ 499.47
+Gastos Médicos Pensionados
+ 332.99
+Prestaciones en Dinero
+ 202.72
+Excedente 3 SMGDF
+ 1,464.40
+Cuota Fija
+Para Abono en Cuenta del IMSS
+ 3,873.04
+T O T A L    A    P A G A R  --------->
+Multas
+ 0.00
+ 0.00
+DONATIVO FUNDEMEX  ------------>
+Aportaciones Complementarias
+ 0.00

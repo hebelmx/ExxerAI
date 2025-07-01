@@ -1,0 +1,17 @@
+{
+  "archivo_original": "resumen liquidacion lectsua.pdf",
+  "fecha_procesamiento": "2025-06-24T16:24:52.919203",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SISTEMA ÚNICO DE AUTODETERMINACIÓN\nRESUMEN DE LIQUIDACIÓN\nFecha:\n29/nov/2013\nMes de Proceso: 01 / 2012 \nFolio SUA:\n238701\nRFC:\nRegistro Patronal:\nNombre o Razón Social:\nDESCRIPCIÓN\nIMPORTE\nEXXERPRO SOLUTIONS SA DE CV\nE23-86064-10-9\nESO-100126-H10\nV 3.3.2\nVersión Archivo: 3.2.8\n000000000\nN. Crédito:\n01\nT. D.\n 0.00\nT O T A L ------------->\n 0.00\nRecargos\n 0.00\nActualización \n 0.00\nS U  B    T O T A L\n 0.00\nAmortización\n 0.00\nAportación Patronal Con Crédito\n 0.00\nAportación Patronal Sin Crédito\nPara abono en cuenta del INFONAVIT\n 0.00\nT O T A L ----------->\n 0.00\nAportaciones Voluntarias\n 0.00\nRecargos\n 0.00\nActualización\n 0.00\nS U  B    T O T A L\n 0.00\nCesantía en Edad Avanzada y Vejez\n 0.00\nRetiro\nPara abono en cuenta individual\n 6,169.47\nT O T A L ----------->\n 0.00\nRecargos\n 0.00\nActualización\n 6,169.47\nS U B    T O T A L\n 555.09\nGuarderías y Prestaciones Sociales\n 1,318.36\nInvalidez y Vida\n 301.72\nRiesgos de Trabajo\n 791.01\nGastos Médicos Pensionados\n 527.33\nPrestaciones en Dinero\n 310.94\nExcedente 3 SMGDF\n 2,365.02\nCuota Fija\nPara Abono en Cuenta del IMSS\n 6,169.47\nT O T A L    A    P A G A R  --------->\nMultas\n 0.00\n 0.00\nDONATIVO FUNDEMEX  ------------>\nAportaciones Complementarias\n 0.00\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Nombre"
+  }
+}

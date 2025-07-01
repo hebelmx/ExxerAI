@@ -1,0 +1,2 @@
+/env /home/abel/projects/ExxerProAIExplorer/myenv/bin/python3.12 /home/abel/.vscode/extensions/ms-python.debugpy-2024.8.0-linux-x64/bundled/libs/debugpy/adapter/../../debugpy/launcher 53541 -- /home/abel/projects/ExxerProAIExplorer/src/test_code/test_llama_embeding.py 
+

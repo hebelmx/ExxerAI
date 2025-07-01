@@ -1,0 +1,18 @@
+{
+  "archivo_original": "cedula bim lectsua.pdf",
+  "fecha_procesamiento": "2025-06-25T09:17:11.863242",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SISTEMA ÚNICO DE AUTODETERMINACIÓN\nCÉDULA DE DETERMINACIÓN DE CUOTAS, APORTACIONES Y AMORTIZACIONES\nNo. de Seguridad Social\nN O M B R E\nRFC/CURP\nClave\nFecha\nDías\nSDI\nInc.\nAus.\nRetiro\nC y V Pat\nSuma\nAportación \nPatronal\nRegistro Patronal: \nNombre o Razón Social:\nPeríodo de Proceso: 02-2011 \nAmortización\nRFC:\nActividad: \nArea Geográfica:\n1\nPágina:\nDelegación IMSS:\nDomicilio:\nCódigo Postal:\nEntidad:\nPob., Mun. / Deleg.D.F.: \n04/dic/2013\nFecha de Proceso:\nESO-100126-H10\nE23-86064-10-9\nSuma\nAct. y Rec.\nEXXERPRO SOLUTIONS SA DE CV\nAV DEL SOL 1B INT 4B COL EL SOL\n76113\nDISE/O INDUSTRIAL\nC\nConvenio de Reembolso:\nN\nC y V Obr\nV 3.3.2\nAportación Patronal:\n5.0%\nQUERETARO\nSubdelegación IMSS:\n23\n01\nQUERETARO\nVersión Archivo: 3.2.8\n14-10-86-1271-5\nLEMJ860304HHGNNN01\n 0.00\n 682.39\n 682.39\n 856.41\n 0.00\n 272.96\n 429.91\n 153.54\n00\n00\n 59\nDE LEON MENDOZA JUAN DE DIOS\n01/01/2011\n 231.32\nM/S\n14-10-88-1665-4\nFAUE880918HDFRGN07\n 0.00\n 682.39\n 682.39\n 856.41\n 0.00\n 272.96\n 429.91\n 153.54\n00\n00\n 59\nFARFAN UGALDE ENRIQUE\n01/01/2011\n 231.32\nM/S\n14-10-87-0643-4\nLUGS-870605-\n 0.00\n 206.50\n 206.50\n 259.16\n 0.00\n 82.60\n 130.10\n 46.46\n00\n00\n 59\nLUJAN GARCIA SERGIO\n01/01/2011\n 70.00\nISM\n14-09-88-1195-4\nSOVJ-880218-\n 0.00\n 3.50\n 3.50\n 4.40\n 0.00\n 1.40\n 2.21\n 0.79\n00\n00\n 1\nSOLIS VALVERDE JUAN CARLOS\n26/02/2011\n 70.00\nAlta\n13-05-86-3288-9\nZEDS860430MHGXZR08\n 0.00\n 682.39\n 682.39\n 856.41\n 0.00\n 272.96\n 429.91\n 153.54\n00\n00\n 59\nZEA DIAZ SARA\n01/01/2011\n 231.32\nM/S\nTotal de Cotizantes:\nTotal a Pagar de RCV:\nC y V\nSDI\nINC\nAUS\nCesantía y Vejez\nSalario Diario Integrado\nIncapacidades\nAusentismos\n$2,832.79\nTotal a Pagar RCV e INFONAVIT\n$5,089.96\nPara el cálculo del ramo de CV y de Vivienda se utilizará\nel tope salarial establecido en la ley respectiva.\n 5\n$0.00\n$0.00\nRecargos de Aportaciones y Amortizaciones:\nActualización de Aportaciones y Amortizaciones:\nAportación Patronal S/Crédito:\nAportación Patronal C/Crédito:\nAmortización\n$2,257.17\nTotal a Pagar de INFONAVIT\nTotal de Acreditados:\n$2,257.17\n$0.00\n$0.00\n 237\n 902.88\n 1,422.04\n 507.87\n 0.00\n 2,832.79\n 2,257.17\n 0.00\n 2,257.17\n 0\nMulta\n$0.00\nDonativo FUNDEMEX\n$0.00\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Nombre",
+    "periodo_imss": "de Proceso"
+  }
+}

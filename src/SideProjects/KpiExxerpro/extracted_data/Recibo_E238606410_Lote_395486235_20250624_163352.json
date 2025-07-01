@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_395486235.pdf",
+  "fecha_procesamiento": "2025-06-24T16:33:52.915793",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2024-12-02 17:57\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n395486235\nE2386064109\n  Número de folio:\n8085730644391381686\n  Serial del certificado:\n00000100000210805461\nHuella Digital\ndb5c83d09b58f23f11ef61b924a258b28ba5ee96\nInformación General\nIMSS DESDE SU EMPRESA\n06428674    10002122024000  0874             0GOMY770127MGTNRD03\nE238606410967967705699GONZALEZ\nMARIN\nMARIA YADIRA\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n17B59FEB980075553EFD3C7F66BAFD610FF787631D305142E394BEC7F68E0BFB168268BDC70CC94CAD7E2DD5D8FECCD8D72FF1D4D4D\nD314268810D465536E8F9 | 1159330029\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

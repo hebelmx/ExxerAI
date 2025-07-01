@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_360530720 Baja Irving.pdf",
+  "fecha_procesamiento": "2025-06-23T16:04:43.874246",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2023-09-08 11:49\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n360530720\nE2386064109\n  Número de folio:\n3952918671777482492\n  Serial del certificado:\n00000100000209948564\nHuella Digital\n5e49049d09276cc203e13dc656c10355bf5441c3\nInformación General\nIMSS DESDE SU EMPRESA\n00000066    00008092023000  0266             1\nE238606410903190039713CASTILLO\nCAMPUZANO\nANDREY\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n21D307227F97C42030A195886F1D19612E9354BDB8918B287EDF838078188AD2EFCEC43E75DC52AAA267F406721DF6E3A0FE60D2286838\nCB0993FC35A4660BDC | 923052981\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Acuse modificacion Leopoldo.pdf",
+  "fecha_procesamiento": "2025-06-23T15:58:00.514333",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n\nAcuse de recibo electrónico\nIMSS DESDE SU EMPRESA\n\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n\nInformación General\n\nNúmero de folio: 2497611621061054404\nRazón Social:  EXXERPRO SOLUTIONS SA DE CV\nNúmero de lote: 165959595\nRFC del patrón: ESO100126H10 Fecha y hora de recepción del lote: 2016-05-10 09:39\nRegistro Patronal: E2386064109 Serial del certificado: 00000100000204527964\nHuella Digital\nb42246ff24f57eb45fc6a78C24b2c3804e1844c\nE238606410971069400043JIMENEZ DIAZ LEOPOLDO 02666610051600001042016000 070938 o 9\n\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\n\nSello Digital:\nA30AF449B30CC6F386C445698F8571792AEDC05DB684193D042352DD7ADEDBCDA8A34EDF21252E138B9EF4C9A45F803EE58A75D851B53\nFD88A077F07FD9DBB92 | 4323489\n\nMÉXICO\n\nPRESIDENCIA DE LA REPÚBLICA\n\nContacto:\nco .MER Reforma 476, Col. Juárez\nA O) C.P. 06600, Del. Cuauhtémoc\nIMSS Ciudad de México\nTel. 01 800 6232323\n\nPágina 1 de 1\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109."
+  }
+}

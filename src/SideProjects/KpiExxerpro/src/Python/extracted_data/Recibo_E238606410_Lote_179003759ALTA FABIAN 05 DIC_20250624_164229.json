@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_179003759ALTA FABIAN 05 DIC.pdf",
+  "fecha_procesamiento": "2025-06-24T16:42:29.960835",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS  S.A. DE C.V. con Registro Patronal E2386064109.\n2016-12-05 10:01\n  Razón Social:\nEXXERPRO SOLUTIONS  S.A. DE C.V.\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n179003759\nE2386064109\n  Número de folio:\n293786807005496024\n  Serial del certificado:\n00000100000205240069\nHuella Digital\ncca14cc1c786e487f734d041c9ac8d8b301feaf6\nInformación General\nIMSS DESDE SU EMPRESA\n01500005121620005122016000  081001           0HERF940321HTCRMB04\nE238606410968169457667HERNANDEZ\nRAMOS\nFABIAN\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\nB236D469CFE7F11DE27330CA4933FAC00AB9A3B62E542A4BEF0D64C866B7A3D8BA654F0AE967B1B2F05D601B467628CA4F893C5527C9F\n548778CA5B34449599C | 65346209\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

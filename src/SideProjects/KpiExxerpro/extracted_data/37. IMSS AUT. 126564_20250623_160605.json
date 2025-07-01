@@ -1,0 +1,17 @@
+{
+  "archivo_original": "37. IMSS AUT. 126564.pdf",
+  "fecha_procesamiento": "2025-06-23T16:06:05.998213",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "cítibanamexé%\n\nJueves 15 de Junio de 2023, 9:31 AM Centro de México\n\nPago SUA - SIPARE\n\nBancaNet Empresarial\n\nSu pago ha sido aplicado con número de autorización 126564.\n\nCuentas\n\nCuenta retiro\n\nEXXERPRO SOLUTIONS SA DE C - 4264/92860\n\nSaldo actualizado MXN: $ 43,881.72\n\nDatos del pago\n\nLínea de Captura SIPARE\n\nRegistro Patronal\nPeriodo de pago\n\nFolio SUA\n\nFecha de Vencimiento\nOrigen línea de captura\nImporte IMSS\n\nImporte RCV\n\nImporte Vivienda\nImporte ACV\n\nImporte Total MXN\n\nFecha de aplicación de pago\n\nE13GLMUL-4C3L-1-6U10-5381-001K40W-0000000-\n0000000-0000000-BCCS\n\nE2386064109\n202305\n318852\n19/06/2023\n\n1\n\n26,179.52\n0.00\n\n0.00\n\n0.00\n26179.52\n15/06/2023 (ddmmaaaa)\n\nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos(IMSS/INFONAVIT) para\ncualquier posible aclaración.\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Periodo"
+  }
+}

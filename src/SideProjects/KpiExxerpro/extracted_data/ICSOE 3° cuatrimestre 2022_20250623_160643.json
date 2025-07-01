@@ -1,0 +1,17 @@
+{
+  "archivo_original": "ICSOE 3° cuatrimestre 2022.pdf",
+  "fecha_procesamiento": "2025-06-23T16:06:43.809914",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "N230461109\nFecha y hora de presentación:  16/01/2023 19:02:44\nAcuse de Informativa de Contratos de Servicios\nu Obras Especializados\nFOLIO DEFINITIVO DE LA INFORMATIVA:\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\nESO100126H10\nEXXERPRO SOLUTIONS\n2022\nTercero\nNormal\nNúm.\nRFC Contratante\nNombre, Denominación o Razón\nSocial del Contratante\nFolio definitivo del\ncontrato\nFecha de inicio\ndel contrato\nNúmero de\ntrabajadores para\neste contrato\n1\nEAB9407041X0\nELECTRICA A-B\nA23T0816178\n22/12/2022\n16\nlepxHFtROHGqAsEXy3RlqfVzz4IHXTM7jl0FVZ2SdHoCddVHUojilkhpCG5shhL06DqNaPnCnGTj7da8UbMGeEOcls\nq2XOtWC2jXfQ2HKdW+qzXGq89nG8nOBy4j711AcBj+9IbgTGIpoqSUMaBH061zoUose1wt8w8wQJ+hrVXK5XfoU3cs\n1kzXulR80yFNj/0rSTKaqAqUb3vdI4hSkJQbJqj2Jep9roxmr3vjHIonMwdrK8QtDGitx4C1rLSwwcLXpFeOTe12+Amgn\n0LZdu7ItR91GOqTB8tQoBNuuiPqJtUSXc+YI6QQAbzqhyvPmAK0Tr1nYcArzCtaoTiQYw==\n5d74cab9-a8eb-41e2-8438-9d26f4d239b9\nDatos del Contratista Prestador de Servicios Especializados o Ejecutor de Obras Especializada\nRFC:\nNOMBRE, DENOMINACIÓN O RAZÓN SOCIAL:\nDatos de la informativa\nAño:\nCuatrimestre:\nTipo de Informativa:\nDeclaro bajo protesta de decir verdad que los datos comunicados al Instituto Mexicano del Seguro Social contenidos en esta\ninformativa son verídicos. Asimismo soy sabedor de las sanciones en las que puedo incurrir al no cumplir con mis obligaciones en\nmateria de seguridad social como prestador de servicios o ejecutor de obra especializada.\n(Notas: 1.- El aplicativo, le asignó de forma automática el folio de la informativa, el cual puede visualizar en la parte superior izquierda de este acuse)\nSecuencia notarial:\nNúmero de serie:\n00001000000507854484\nEste acuse es emitido sin prejuzgar la veracidad de los datos asentados, ni el cumplimiento dentro de los plazos establecidos.\nQuedan a salvo las facultades de revisión de esta autoridad. Sus datos personales son incorporados y protegidos en los sistemas del\nIMSS, de conformidad con las disposiciones legales de la materia.\nSello Digital\nDetalle del (los) contrato (s)\nSello Digital de la E-firma:\ndOdZNYl4iJCQisHCypYvx1CnYpTx9xVETd33GySbKjxRCIeC0LTTUnR6vgKKzCkC0PiIiHBfnLeOflHSrr5gMtLvmpxsI8ynTTut+ena6Bk4\nOLTrjsWm/jfPc4iVMHqgB8TUcMmicnveqWqpkm6HCD3eHyCKS2+l2IlNd2MpWa7BCYckEF//Qr8qboDig5VmfLO8u9cDy8NuPuimt\nh34eNSu8FRu0VTj3ZtbOPF+K6qkElQu3ZORqNQPYHoAvzqoLEe4BkIH8ZBdOltozhgVAHbN8G/ZkWmfEg9C+mH4UALsIgXCxv60d\n+ydhtGQEpGMdGbGgSgliYg2bHphucXjoQ==\nPágina\n1 de\n1\nContacto: Paseo de la Reforma 476, P.B. Col. Juárez,\nAlcaldía Cuauhtémoc, C.P. 06600, Ciudad de México.\nTel. 800 623 23 23\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "NOMBRE,"
+  }
+}

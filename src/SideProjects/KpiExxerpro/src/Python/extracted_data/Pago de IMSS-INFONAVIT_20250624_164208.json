@@ -1,0 +1,18 @@
+{
+  "archivo_original": "Pago de IMSS-INFONAVIT.pdf",
+  "fecha_procesamiento": "2025-06-24T16:42:08.535071",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Miércoles 13 de Marzo de 2013, 10:55 AM Centro de México\nAutorizadores\nUsuario 06\nROCIO RAMIREZ RAMIREZ\nCuentas\nCuenta Retiro\nEXXERPRO SOLUTIONS SA D  4264/92860\nDatos del pago\nNúmero de archivos\n1\nImporte Total\n$ 18,852.55\nResumen de Pagos\nArchivo\nFolio SUA\nRegistro patronal\nTotal a pagar\nEstatus\nAutorización\nW1302361.SUA\n096295\nE2386064109\n18852.55\nAplicada\n032360\nEste documento es de carácter informativo, no tiene ninguna validez oficial como comprobante legal o fiscal\nPágina 1 de 1\n13/03/2013\nhttps://www.bancanetempresarial.banamex.com.mx/bestbanking/spanishdir/impresion.htm\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Total",
+    "periodo_imss": "Número de archivos\n1\nImporte Total"
+  }
+}

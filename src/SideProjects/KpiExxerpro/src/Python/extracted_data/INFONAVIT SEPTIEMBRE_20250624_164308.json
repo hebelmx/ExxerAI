@@ -1,0 +1,17 @@
+{
+  "archivo_original": "INFONAVIT SEPTIEMBRE.pdf",
+  "fecha_procesamiento": "2025-06-24T16:43:08.270036",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Nombre emisor:\nInstituto del Fondo Nacional de la Vivienda para\nlos Trabajadores\nFolio:\nPP563835\nRFC receptor:\nESO100126H10\nNombre receptor:\nEXXERPRO SOLUTIONS\nCódigo postal del\nreceptor:\n76113\nRégimen fiscal\nreceptor:\nGeneral de Ley Personas Morales\nUso CFDI:\nGastos en general\nNo. de serie del CSD:\n00001000000511704417\nCódigo postal, fecha y hora de\nemisión:\n01029 2022-09-28 11:29:19\nEfecto de comprobante:\nIngreso\nRégimen fiscal:\nPersonas Morales con Fines no Lucrativos\nExportación:\nNo aplica\nConceptos\nClave del producto\ny/o servicio\nNo. identificación\nCantidad\nClave de unidad\nUnidad\nValor unitario\nImporte\nDescuento\nObjeto impuesto\n93161606\n1.0\nXNA\n10,415.80\n10,415.80\nNo objeto de impuesto.\nDescripción\nAportacion s/Credito\nNúmero de pedimento\nNúmero de cuenta predial\n93161606\n1.0\nXNA\n4,085.43\n4,085.43\nNo objeto de impuesto.\nDescripción\nAportacion c/Credito\nNúmero de pedimento\nNúmero de cuenta predial\n93161606\n1.0\nXNA\n25,149.52\n25,149.52\nNo objeto de impuesto.\nDescripción\nAmortizaciones\nNúmero de pedimento\nNúmero de cuenta predial\n93161606\n1.0\nXNA\n581.98\n581.98\nNo objeto de impuesto.\nDescripción\nRecargos\nNúmero de pedimento\nNúmero de cuenta predial\nMoneda:\nPeso Mexicano\nForma de pago:\nTransferencia electrónica de fondos (incluye SPEI)\nMétodo de pago:\nPago en una sola exhibición\nSubtotal\n$ 40,232.73\nTotal\n$ 40,232.73\nSello digital del CFDI:\nF4Cei4yUYw7clnV3Vcv1wLfvWA35dPzujlGlFKJUyogqpvUXV+ug5SbwOA8Umwdpic+Y6GUzSL3am4DMDMNBDn7a+dtTyciYad6ywSNzvUvlyeGwmUt5ZjzZAZXWeKEImk6jsnHZdjlbjH5D\nlv+f5RN8dLsrYBPNgqICL4zj7q3DIUF64b8KpKUjypi9d/u6ol5GFrCfOiBB/RTDAr7IbtphS/l3O0vNMsjqCm/618InHuVxx4m8ndwuIoh6rVIajmfCaVy1qEltRY2QOGzPvkpgYcJ42LDwdRPKhOH\nLx847LKR5SWisQsgZyaF6vSrOtg4CCgLZRRPqHHCmoGin8g==\nSello digital del SAT:\nCMBFELVKUq30Q6PU0RH1g5g1sr0yN/tM9SCMZZP0WckyikDGL1eO0eDZCQuBW7e9HK/Rn3S2QP/KWar5Tm8lQKDYRsbdPnNQazJDdz4iySS9kKiTbnXnRcCtqGUYAedVmxzCJkhJwY\nyVf0fBSKFj8I82kzlaOW5xe+EhAZNKssi8F1CpFoR66E5G00KU431THUgG6hV4EancpUWF0nJ7REQ33QiXGr8JGUWpNeMt3PvK69RbDHWEldBtlkRXNeaAzd1Bv7/irCp3WaazsimvscTvU\nydgRKuOnmDSw2NqZXwVfZSiPmPzQ4G42ldT/8XHE4CA3EjPbdAq77DjtrnfCQ==\nCadena Original del complemento de certificación digital del SAT:\n||1.1|7F90A7B8-BF48-4118-AF43-467146A2CCD1|2022-09-28T11:30:22|SAT970701NN3|F4Cei4yUYw7clnV3Vcv1wLfvWA35dPzujlGlFKJUyogqpvUXV+\nug5SbwOA8Umwdpic+Y6GUzSL3am4DMDMNBDn7a+dtTyciYad6ywSNzvUvlyeGwmUt5ZjzZAZXWeKEImk6jsnHZdjlbjH5Dlv+f5RN8dLsrYBPNgqICL4zj\n7q3DIUF64b8KpKUjypi9d/u6ol5GFrCfOiBB/RTDAr7IbtphS/l3O0vNMsjqCm/618InHuVxx4m8ndwuIoh6rVIajmfCaVy1qEltRY2QOGzPvkpgYcJ42LDwdRPK\nhOHLx847LKR5SWisQsgZyaF6vSrOtg4CCgLZRRPqHHCmoGin8g==|00001000000504465028||\nRFC del proveedor de certificación:\nSAT970701NN3\nNo. de serie del certificado SAT\n00001000000504465028\nFecha y hora de certificación:\n2022-09-28 11:30:22\nRFC emisor:\nINF7205011ZA\nFolio fiscal:\n7F90A7B8-BF48-4118-AF43-467146A2CCD1\nEste documento es una representación impresa de un CFDI\nPágina 1 de 1\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "periodo_imss": "Transferencia electrónica de fondos"
+  }
+}

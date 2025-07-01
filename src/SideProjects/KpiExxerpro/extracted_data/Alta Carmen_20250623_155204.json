@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Alta Carmen.pdf",
+  "fecha_procesamiento": "2025-06-23T15:52:04.816252",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "3\nA INSTITUTO MEXICANO DEL SEGURO SOCIAL\nLS) SEGUIIDAD Y SOUDAIEDAD SOCIAL\n\nma\n\nf\n\nInicio - IDSE - Menú IDSE ” Movimientos afiliatorios\n\nSalir\nE238606410 - EXXERPRO SOLUTIONS S.A. DE C.V.\nAV DEL SOL 1B INT 4B SOL EL\n\nERegresar\n\nMOVIMIENTOS AFILIATORIOS|\n\nte de movimientos + 116755362\nRegistro patronal: E238606410\n\nNombre: EXXERPRO SOLUTIONS S.A. DE C.V.\n| Acuse de recibo |\n\nStatus: Enviado\n\nDatos del Registro Patronal\nRegistro patron\n\nE238606410\nNombre: EXXERPRO SOLUTIONS S.A. DE C.V.\nde Causa No. Seg. Jor. Fecha a\nmay PL Baja Soc. Ver Trab. T.Sal vóduc. mov. YMF 7, CURP\n8 266 - BOS) Ss 1 BRIONES RAMIREZ CARMEN o 0 06/ene/14 o\n\nÚltima modificación: 08/11/2011, 12:00 hrs.\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E238606410"
+  }
+}

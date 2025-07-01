@@ -1,0 +1,15 @@
+{
+  "archivo_original": "E2386064109.pdf",
+  "fecha_procesamiento": "2025-06-23T16:03:54.756568",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "EXXERPRO SOLUTIONS SA DE CV\nE2386064109\n25 de Abril de 2022\nMéxico, D.F., a 10 de Mayo del 2022\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

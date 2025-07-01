@@ -1,0 +1,18 @@
+{
+  "archivo_original": "imprimeAcuse RT2017.pdf",
+  "fecha_procesamiento": "2025-06-24T16:54:01.313440",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Instituto Mexicano del Seguro Social\nRegistro Patronal :\nDelegación:\nSubdelegación:\nFolio:\nLote número:\nFecha de transacción:\nRazón Social:\nActividad Económica:\nClase :\nRepresentante Legal :\nE2386064109\n[23] Queretaro\n[1] Queretaro\n23-01503096\n23-01503096\n16-02-2018\nEXXERPRO SOLUTIONS S.A. DE C.V.\nDISE¿O INDUSTRIAL\n1\n841\nM C ABEL BRIONES RAMIREZ\nDeterminación de la Prima de RT - Envío de Archivo.\nFracción :\nDenominación del trámite:\nDías Subsidiados (S):\nPorcentajes (I):\nDefunciones (D):\nTrabajadores Prom. (N):\nAños prom. Vida A. (V):\nFactor de Prima (F):\nPrima Mínima R. (M):\nDías del Año:\n0\n0.0\n0\n00011.9\n28\n2.3\n00.00500\n365\nPeriodo Revisión:\nPrima Anterior:\nPrima Declarada:\n2017\n00.50000\n00.50000\nMM\nDD\nAAAA\nIMSS Desde su empresa\nAcuse Notarial de confirmación de transmisión del archivo de la Determinación de la Prima en el Seguro de\nRiesgos de Trabajo Derivada de la Revisión Anual de la Siniestralidad de la Empresa :\nEXXERPRO SOLUTIONS S.A. DE C.V.\nal Instituto Mexicano del Seguro Social.\nDatos base para la Determinación.\nNO\nAcreditación STyPS:\n16\n02\n2018\nFecha de solicitud del trámite\n       /              /\nCadena Original:\nNOTARIA_RAZON_SOCIAL=EXXERPRO SOLUTIONS S.A. DE C.V. | NOTARIA_DENOMINACION_TRAMITE=DETERMINACION ANUAL DE PRIMA |\nNOTARIA_NOMBRE_ARCHIVO=E2386064.DAP | NOTARIA_TAMANO_ARCHIVO=546 bytes | NOTARIA_REGISTRO_PATRONAL=E2386064109 |           FECHA_ENVIO=2018-02-16 18:24 |\nNOTARIA_SECUENCIA_FIRMA=404310491 | SELLO_DIGITAL=4C82C19DC10CF6AFFCBF45254314FDC9071A7B55 | 594447184\n1\nPágina\nContacto:\nde 1\nPaseo de la Reforma 476, P.B.\nCol. Juárez, Cuauhtémoc\nC.P. 06600 Ciudad de México\nTel. 01 800 623 23 23\nhttp://atencion.contactoimss.com.mx\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Delegaci",
+    "periodo_imss": "Revisión"
+  }
+}

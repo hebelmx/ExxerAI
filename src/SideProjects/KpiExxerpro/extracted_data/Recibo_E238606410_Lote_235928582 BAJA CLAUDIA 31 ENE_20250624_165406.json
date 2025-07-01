@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_235928582 BAJA CLAUDIA 31 ENE.pdf",
+  "fecha_procesamiento": "2025-06-24T16:54:06.742385",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2019-02-05 12:16\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n235928582\nE2386064109\n  Número de folio:\n832001629626648038\n  Serial del certificado:\n00000100000207714699\nHuella Digital\nff67aaec630268e29914f7c442326b042e752bdf\nInformación General\nIMSS DESDE SU EMPRESA\n00000005021900031012019000  021216           1\nE238606410914028506583BRIONES\nRAMIREZ\nCLAUDIA\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\nD387E799F4ADF480AC302CA61B276B8AF63CC4E2877DCAE132505EC9130789DE9564ABAB00DB66E734914A0DB9E126B9595E98A3B532E\n942B0D72C61ECEDCA9A | 329976351\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

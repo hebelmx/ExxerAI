@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_241356347 ALTA ABEL 12 ABR.pdf",
+  "fecha_procesamiento": "2025-06-23T16:02:01.035978",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2019-04-12 17:04\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n241356347\nE2386064109\n  Número de folio:\n5614581126065507577\n  Serial del certificado:\n00000100000207714699\nHuella Digital\nbfb45a263f54c98d26165a8851cb04abe78459d3\nInformación General\nIMSS DESDE SU EMPRESA\n04796512041920012042019000  081704           0\nE238606410914927453994BRIONES\nRAMIREZ\nABEL\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n94FA012721125B194A0A3C2467A1F5B0A3A715781F899AA19CF3191DE88A316CD5DAB98A0CDD639AE73EC06F69D31B0556EF0FE936CF7\n67DA787D4D85EF7EA05 | 356534375\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

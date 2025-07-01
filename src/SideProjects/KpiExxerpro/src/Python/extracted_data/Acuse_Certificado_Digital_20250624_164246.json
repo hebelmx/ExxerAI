@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Acuse_Certificado_Digital.pdf",
+  "fecha_procesamiento": "2025-06-24T16:42:46.388926",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Constancia de Recepción del Certificado Digital del Número Patronal de Identificación\nElectrónica (NPIE) asignado por el IMSS\n03 de enero de 2019\nA T E N T A M E N T E\nNombre, denominación o razón social:\nRegistro Patronal:\nNúmero Patronal de Identificación Electrónica:\nEXXERPRO SOLUTIONS SA DE CV\nE2386064109\nE2386064109\n/ODH74l4//nA2XGaJ1seZ1YBqVFNydnW+CWEfbK1Y79/XlTGWHZDyvWU0RBHQ8iE5GrRa5ew7S7B\n5zGTgzUmnucXIoNHZhUcH+M88YXbl/KgT6wci8goP/Plnu1zPdlfI0SIeoSw+r0bpgIJF6wGPH16\nxwTdONz6SS43ByqdjzvAravjb+Pkmg==\n C. Subdelegado del Instituto Mexicano del Seguro Social\nPresente\nEl que suscribe C. BRIONES  RAMIREZ MARIA DEL CARMEN, con Registro Federal de Contribuyentes (RFC):\nBIRC780715FE2, con Clave Única de Registro de Población (CURP): BIRC780715MGTRMR04 y señalando\npara oír y recibir notificaciones el domicilio fiscal ubicado en AV DEL SOL 1 B 4 B, EL SOL, QUERÉTARO,\nQUERETARO, QUERETARO, 76113, así como la dirección de correo electrónico: exxerpro@exxerpro.com.\nA través del presente, manifiesto bajo protesta de decir verdad que recibí del Instituto Mexicano del Seguro\nSocial, el archivo correspondiente al Certificado Digital, el cual me fue entregado en el dispositivo de\nalmacenamiento electrónico por mí presentado para tales efectos, por lo que queda bajo mi absoluta\nresponsabilidad el resguardo, confidencialidad, uso y manejo del mismo.\nAcepto que los trámites electrónicos y actuaciones electrónicas realizados con el Número Patronal de\nIdentificación Electrónica (NPIE) y Certificado Digital son de mi autoría y producen los mismos efectos jurídicos\nque los realizados con mi firma autógrafa.\nESO100126H10\nR.F.C. del Patrón:\n5a 39 ef c5 a9 55 78 7e 69 00 12 22 5e 91 9b 32\nFolio de solicitud:\nSello digital\nNombre y Firma\nSerial del certificado: 00000100000207714699\nUsuario:E238606410\n de 1\nPágina 1\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "N"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_174886954BAJA JOAQUIN 26 SEPT.pdf",
+  "fecha_procesamiento": "2025-06-23T15:59:29.654321",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS  S.A. DE C.V. con Registro Patronal E2386064109.\n2016-09-27 11:27\n  Razón Social:\nEXXERPRO SOLUTIONS  S.A. DE C.V.\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n174886954\nE2386064109\n  Número de folio:\n920882335776981995\n  Serial del certificado:\n00000100000204527964\nHuella Digital\ne0d1749fa1c1388751491a2919120bd96b3ce54a\nInformación General\nIMSS DESDE SU EMPRESA\n00000027091600026092016000  021127           2\nE238606410914029300143ALVARADO\nMARTINEZ\nJOAQUIN\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\nD413BF2676F89122875A26BC2B4118695A2A1C1044FB26218DB364274EECBF96E1520EE2B185A705E2DD14339E4D795EBFFA7DC2CAAD0\nFBF5543AF7ECD0A4A25 | 45788041\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

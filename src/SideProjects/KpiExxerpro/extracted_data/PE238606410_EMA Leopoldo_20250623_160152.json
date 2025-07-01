@@ -1,0 +1,15 @@
+{
+  "archivo_original": "PE238606410_EMA Leopoldo.pdf",
+  "fecha_procesamiento": "2025-06-23T16:01:52.984454",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "OS\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\n1) SEGURIDAD Y SOLIDARIDAD SOCIAL\nPropuesta de Cédula de Determinación de Cuotas IMSS\n\nDel 23-ESTATAL QUER?TARO\nSubdel 01-QUER?TARO\n\nEXXERPRO SOLUTIONS SA DE CV PATRONAL OBRERA SUMA\nE23 - 86064 - 10 - 9 R.F.C, ESO100126H10 IMPORTE TOTAL: 13,833.13 1,959.60 15,792.73\nAV DEL SOL 1B INT 4B SOL EL QUERETARO Cuota Fija: 6,280.97 6,280.97\nQUERETARO Excedente: 629.82 229.02 858.84\nC.P. 76113 MPIO. E23 SEC. NOT. 91 Prestaciones en Dinero: 969.12 346.12 1,315.24\n8401 DISE O INDUSTRIAL Gastos Med. Pens. Art. 25: 1,453.70 519.17 1,972.87\n\nEstimado  Patr?n: Te recomendamos consultar Riesgos de Trabajo: 692.24 692.24\nperi?dicamente la p?gina: Invalidez y Vida Patronal: 2,422.81 865.29 3,288.10\n\nhttp://www.imss.gob.mx/patrones/sua/actualizacion\n\nGuarderías y Prestaciones Sociales: 1,384.47 1,384.47\n\nRecuerda que con tu archivo de pago puedes generar en\nSIPARE tu L?nea de Captura, visita:\nhttp://www.imss.gob.mx/patrones/sipare\n\nPERIODO PROPUESTA PRIMA R. T. CLASE RT S.M.G.V. Fecha Sal Min uU DESDE COTIZANTES DIAS COT.\n0: 018 IMSS 0.5001 1 01/12/2017 3 18 (2018 13 382\n181075062 . 80.60\n\nDETALLE DE TRABAJADORES\nN? de Seguridad Social Apellidos y Nombre(s) del Asegurado\nMOVIMIENTOS CUOTAS ENFERMEDADES Y MATERNIDAD\n\nEXCEDENTE PRESTACIONES EN | GASTOS MEDICOS INVALIDEZ Y VIDA [SUARDERÍAS]\nCLAVE [FECHA PALARIO | CUOTA PAT OBR DINERO PENS. IS OBR Y\na PAT OBR PAT OBR rar\n\n71 06 94 0004 3 JIMENEZ DIAZ LEOPOLDO\n30 450.53 493.27 68.88 25.05 94.61 33.79 141.92 50.68 67.58 236.53 84.47 135.16 1,431.94\n\nEMI - 01 Formato para el Patrón\n\nVERSIÓN 05013 23:45:00 CLAVES DE MOVIMIENTOS: A- Alta, B - Baja, R - Reingreso\nMS- Modificación de Salario\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

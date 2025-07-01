@@ -1,0 +1,15 @@
+{
+  "archivo_original": "PE238606410_EMA FABIAN.pdf",
+  "fecha_procesamiento": "2025-06-23T16:02:16.896723",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "»\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\nD SEGURIDAD Y SOLIDARIDAD SOCIAL\nPropuesta de Cédula de Determinación de Cuotas IMSS\nDel 23-ESTATAL QUER?TARO\nSubdel 01-QUER?TARO\n\nEXXERPRO SOLUTIONS SA DE CV PATRONAL OBRERA SUMA\nE23 - 86064 - 10 - 9 R.F.C. ESO100126H10 IMPORTE TOTAL: 13,870.50 1,933.86 15,804.36\nAV DEL SOL 1B INT 48 SOL EL QUERETARO Cuota Fija: 0,411.72 041172\nQUERETARO Excedente: 608.51 221.27 829.78\nC.P. 76113 MPIO. E23 SEC, NOT. 91 Prestaciones en Dinero: 959.04 342.54 1,301.58\n8401 DISE O INDUSTRIAL Gastos Med. Pens. Art. 25: 1,438.57 513.77 1,952.34\nEstimado Patr?n: Si pagas en sucursal bancaria, s?lo Riesgos de Trabajo: 685.01 685.01\npodr?s hacerlo presentando tu L?nea de Captura ahora Invalidez y Vida Patronal: . 2,397.60 856.28 3,253.88\n\nGuarderías y Prestaciones Sociales: 1,370.05 1,370.05\n\npuedes generarla con la Nueva Versi?n del SUA 3.5.6, y\n\nvisita:  www.imss.gob.mx/patrones/sua/actualizacion O\ndesde SIPARE con tu archivo  SUA, en:\n\nwww.imss.gob.mx/patrones/sipare\n\nPERIODO PROPUESTA PRIMA R. T. CLASE RT S.M.G.V. Fecha Sal Min| U AL U.M.A. DESDE COTIZANTES DIAS COT.\n03 - 2019 ES 0.50001 1 01/01/2019 3 19 12019 12 372\n191054380 . 84.49\n\nDETALLE DE TRABAJADORES\nApellidos y Nombre(s) del Asegurado\n\nMOVIMIENTOS CUOTAS ENFERMEDADES Y MATERNIDAD\n\nEXCEDENTE PRESTACIONES EN | GASTOS MEDICOS | riesgos | INVALIDEZ Y VIDA [GUARDERÍAS\nDIARIO PAT OBR DINERO PENS. DE PAT OBR | pres.\nPAT OBR PAT OBR |TRABAJO pd\n\n68 16 M 5766 7 HERNANDEZ RAMOS FABIAN HERF940321HTCRMBO4\nA 31 428.53 534.31 59.70 21.71 92.99 33.21 139.49 49.82 66.42 23248 83.03 132.84 1,446.00\n\nEMI - 01 Formato para el Patrón\n\nVERSIÓN 05013 23:45:00 CLAVES DE MOVIMIENTOS: A- Alta, B - Baja, R - Reingreso\nMS- Modificación de Salario\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

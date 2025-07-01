@@ -1,0 +1,63 @@
+---
+description: Extracción resiliente de KPIs desde PDFs industriales
+globs:  
+alwaysApply: true
+---
+
+Reglas Optimizadas para el Agente de Extracción de KPIs desde PDFs
+1. Propósito General del Agente
+- Identificar y extraer automáticamente campos clave desde documentos PDF (digitales o escaneados) para generar series históricas de indicadores (KPIs).
+- Mejorar progresivamente mediante aprendizaje de patrones nuevos identificados.
+- PDFs digitales → Priorizar extracción con fitz (PyMuPDF) u otras APIs OCR-aware.
+- Clasifica PDFs en texto digital o imagen escaneada. Prioriza fitz (`PyMuPDF`) y si falla, usa OCR (`pdf2image + pytesseract`).
+- PDFs escaneados → Fallback automático a OCR (pdf2image + pytesseract).
+- Etapa 1: fitz.page.get_text("text").
+- Si el texto es sospechosamente corto o vacío → activar OCR.
+- Etapa 2: OCR con configuración multilenguaje (spa, eng).
+- Soporta errores estructurales y OCR incompleto con tolerancia basada en patrones flexibles.
+- Adaptarse dinámicamente a distintos formatos, inconsistencias estructurales o escaneos de baja calidad.
+- Extrae campos clave como ejemplo: `registro_patronal`, `periodo`, `dias_cotizar`, `cuota_fija`, `total_pagar`, etc., usando expresiones regulares.
+- Recolecta hasta muestras de texto por archivo como `extracted_text_samples`.
+- Registro del método usado (texto, ocr, mixto) por documento.
+- Guarda resultados parciales en `.csv` incremental y finaliza en `.xlsx`.
+- Documenta errores y logs en `log_contextual.txt`. Marca registros problemáticos con columna `nota`.
+- Usa expresiones robustas para patrones rotos o ilegibles y adapta campos adicionales automáticamente si aparecen nuevos patrones.
+- Detección y Adaptabilidad de Campos Clave
+- Mantener una lista modular y ampliable de campos con alias y expresiones regulares tolerantes.
+- Autoaprendizaje: guardar patrones nuevos detectados para revisión manual. 
+- Soportar expresiones como:
+- regex
+- Copiar
+- Editar
+- (registro\s*patronal|rfc|registro\s+IMSS)\s*[:\-]?\s*(\w+)
+- Exploración de Archivos
+- Uso recursivo de os.walk() optimizado con filtros por extensión y tamaño mínimo.
+- key es definida como una clave del tipo de archivo procesado, puede ser generada o definida en el script
+- Soporte de reanudación por checkpoint (processed_files_key.log).
+- Soporte de reanudación por archivo cambiado (salvar tamaño o hash on processed_files_key ) (processed_files_key.log).
+- Generación de Resultados
+- Escribir "output_file_name".csv incrementalmente tras cada archivo.
+- Exportar "output_file_name".xlsx al cierre.
+- Entorno de Ejecución y Tolerancia a Errores
+- Validación automática de dependencias al inicio.
+- Si faltan binarios (Tesseract, Poppler) o librerías, ofrecer mensajes precisos de instalación.
+- Incluir logs de entorno (Python, SO, paths relevantes).
+- Scripts deben estar documentados y preparados para principiantes.
+- Aplica buenas prácticas: no forzar extracción, mantener modularidad, y garantizar claridad del flujo.
+- Guardar texto completo y campos extraídos por archivo (.json o .pickle) en extracted_data/.
+- Manejo de Errores
+- Logs detallados en log_contextual_key.txt con timestamp, archivo, error y stacktrace simplificado.
+- Añadir columna status y nota al DataFrame para cada entrada procesada.
+- Retener errores críticos para análisis posterior sin interrumpir ejecución.
+- Modularidad del Código
+- Separar lógica en funciones especializadas por tarea: clasificación, OCR, extracción por regex, logging, etc.
+- Facilitar mantenimiento y evolución.
+- Soporte, Comentarios y Usabilidad
+- Comentarios detallados en español en cada bloque del script.
+- Funciones autocontenidas con nombres significativos.
+- Incluir resumen general del flujo al inicio del archivo Python.
+- Buenas Prácticas de Ingeniería
+- Validar campos antes de insertar al DataFrame (normalización de valores, padding de ceros, tipos).
+- Priorizar claridad sobre concisión.
+- Reutilizar módulos y patrones comprobados.
+

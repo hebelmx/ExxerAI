@@ -1,0 +1,15 @@
+{
+  "archivo_original": "PE238606410_EMA FABIAN.pdf",
+  "fecha_procesamiento": "2025-06-23T16:04:05.698966",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\nSEGURIDAD Y SOLIDARIDAD SOCIAL\n\nPropuesta de Cédula de Determinación de Cuotas IMSS\n\nDel 23-ESTATAL QUER?TARO\nSubdel 01-QUER?TARO\nEXXERPRO SOLUTIONS SA DE CV PATRONAL\nE23 - 86064 - 10 - 9 R.F.C. ESO100126H10\nAV DEL SOL 1B INT 48 SOL EL QUERETARO\nQUERETARO\ncop. 76113 MPIO.  E23\n8401 DISE O INDUSTRIAL\n\nOBRERA SUMA\n\nSEC. NOT. 91\n\nES E a ES Z E\n\nGuarderías y Prestaciones Sociales: 825.91 825.91\n\nPERIODO PROPUESTA PRIMA R. CLASE RT v Fecha Sal M U.M.A. AL JESDE COTIZANTES DIAS COT.\n1 021 IMSS 50000 1 141.7 01/01/2021 31/01/2021 01/02/2021 13 331\n211287512 88 89.62\n\nDETALLE DE TRABAJADORES\nN? de Seguridad Social Apellidos y Nombre(s) del Asegurado\nCUOTAS ENFERMEDADES Y MATERNIDAD\n\nEXCEDENTE PRESTACIONES EN | GASTOS MEDICOS INVALIDEZ Y VIDA [GUARDERÍAS\nLAR! RIESGOS\nD És AmO PAT OBR DINERO PEN: DE PAT OBR | prtsr.\nPAT OBR PAT OBR | TRABAJO 6\n\n46.50 162.75 58. 1,162.50\n\nEMI - 01 Formato para el Patrón\n\nVERSIÓN 05013 23:45:00 CLAVES DE MOVIMIENTOS: A- Alta, B - Baja, R - Reingreso\nMS- Modificación de Salario\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

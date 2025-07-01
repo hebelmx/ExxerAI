@@ -1,0 +1,17 @@
+{
+  "archivo_original": "ALTA JOSE CARLO ANGEL JOSUE.pdf",
+  "fecha_procesamiento": "2025-06-24T16:26:10.934716",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2022-08-22 12:18\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n329834597\nE2386064109\n  Número de folio:\n4271265671031312357\n  Serial del certificado:\n00000100000209948564\nHuella Digital\n3fefe4c7dd94ef267ef1756d604d3387b361a2ca\nInformación General\nIMSS DESDE SU EMPRESA\n02000030    20022082022000  0830             0\nE238606410918139895348LIMA\nHERNANDEZ\nJOSE CARLO\n9\n02000030    20022082022000  0830             0\nE238606410908190107030MARQUEZ\nAGUEDA\nANGEL JOSUE\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n61A22B015B1962543E882FBED84E04D579B2023A0715F03BCD387405F27AE39E1EB6099FA22F148A2F1B38A955D2F86DBED3D8CD48DB06\n408EDF18032E0EF0C8 | 744654027\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

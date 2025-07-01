@@ -1,0 +1,18 @@
+{
+  "archivo_original": "Pago imss-infonavit.pdf",
+  "fecha_procesamiento": "2025-06-24T16:27:57.444601",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Jueves 14 de Noviembre de 2013, 1:00 PM Centro de México\nPago SUA - SIPARE\nSu pago ha sido aplicado con número de autorización 088998. \nCuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C -\n4264/92860\nSaldo actualizado MXN: $ 226,512.32\nDatos del pago\nLínea de Captura SIPARE\nE13GLMUL-4BBY-1-82MS-1816-000HVSE-\n000JRS5-000BTYA-000GQLU-320Q\nRegistro Patronal\nE2386064109\nPeriodo de pago\n201310\nFolio SUA\n376660\nFecha de Vencimiento\n19/11/2013\nOrigen línea de captura\n1\nImporte IMSS\n8,343.50\nImporte RCV\n9,224.69\nImporte Vivienda\n5,520.34\nImporte ACV\n7,809.78\nImporte Total MXN\n30898.31\nFecha de aplicación de pago\n14/11/2013 (ddmmaaaa)\nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos\n(IMSS/INFONAVIT) para cualquier posible aclaración.\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109",
+    "periodo_imss": "de pago\n201310\nFolio SUA\n376660\nFecha de Vencimiento\n19/11/2013\nOrigen línea de captura\n1\nImporte IMSS\n8"
+  }
+}

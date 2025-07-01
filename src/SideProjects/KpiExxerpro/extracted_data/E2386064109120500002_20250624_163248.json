@@ -1,0 +1,17 @@
+{
+  "archivo_original": "E2386064109120500002.pdf",
+  "fecha_procesamiento": "2025-06-24T16:32:48.924937",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Periodo NRP\nNSS\nNombre\nNumero de Credito Tipo de des Descuento\nEmision ApEmision AmorPagos AportacPagos Amorti Adeudos Apo Adeudos AmoCausal\nObservaciones\n1205 E2386064109 14088706834 LUJAN$GARC\n0\n0\n1079.33\n0\n0\n0\n1079.33\n0\n160 NSS con el que se pago. 14108706434\n1205 E2386064109 45988054966 ALVARADO$M\n2210071820\n3\n14.926\n488\n1875.68\n488\n1868.2\n0\n7.48\n 9999NO BORRAR\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "periodo_imss": "NRP\nNSS\nNombre\nNumero de Credito Tipo de des Descuento\nEmision ApEmision AmorPagos AportacPagos Amorti Adeudos Apo Adeudos AmoCausal\nObservaciones\n1205 E2386064109 14088706834 LUJAN"
+  }
+}

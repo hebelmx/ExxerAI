@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_279262511 ALTA ALEJANDRO MARTINEZ LUJAN 01 OCT.pdf",
+  "fecha_procesamiento": "2025-06-24T16:28:40.040827",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2020-10-01 12:16\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n279262511\nE2386064109\n  Número de folio:\n3149624626646895575\n  Serial del certificado:\n00000100000209014183\nHuella Digital\n8e4e617d28ce772c34c706981040a10937494ac0\nInformación General\nIMSS DESDE SU EMPRESA\n01287901102020001102020000  081216           0\nE238606410913937807355MARTINEZ\nLUJAN\nALEJANDRO\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n6770D86BEDCED707676632CCDE09BD89EE4EB4A85C1EDE7577C975FC34EA91698344EDD4A873D932807BE457FDAFF9FB3C1F2BAA1DA\nC00A62B123D17C1D25F96 | 554185806\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

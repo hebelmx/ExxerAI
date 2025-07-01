@@ -1,0 +1,17 @@
+{
+  "archivo_original": "SISUB_0515098559_ZW58_Acuse_P106_2023.pdf",
+  "fecha_procesamiento": "2025-06-24T16:33:51.659290",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SISUB \nSistema de Información de  \nSubcontratación\nCoordinación General de Recaudación Fiscal \nGerencia Senior de Fiscalización \nACUSE DE RECIBO ELECTRÓNICO  \n \nFolio de Acuse Art.29 Bis: 22_3_0013733 \n  \nMediante el presente se hace constar la transmisíon y recepción de información que da cumplimiento a lo \ndispuesto en el artículo 29 Bis de la Ley del Infonavit, del Patron/sujeto obligado:   \n \n \nRFC: ESO100126H10   \nNombre, denominación o razón social: EXXERPRO SOLUTIONS SA DE CV \nNúmero de Contrato :1  \nNúmero \nde \nregistro \nante \nla \nSTPS: \nAR98492021 \n \nCuatrimestre en que se declara: 03/2022 \nNúmero de Registros Patronales Recibidos: 1 \nNúmero de Trabajadores Relacionados: 17 \nFecha de Carga: 16/01/2023 18:07:10\n16 de Enero del 2023\nSello digital:\nc+zaplrZdXZnrAqtmHNkmHHiXvSSzHl04kCAEqhzuSiP\n+iorJHmClVBZMi9WABudWeqM8x34I9xUFy9PbuRZyGfxYaB89WR6\n+kdRH21qK7ctoaQHiHsBNXFxBYDV28YbSY5WhlfuXYKe0NroTJjKr1aliZqYWw6n1OGJLPLf4ZrQmSRx0IMnG\n57OV6hXXT7IrS0LtnboAmk3k8aFpr9NHhfcG0abPWH6jf\n+Hzhilwkc98G2DP4ka8ryUgP4NU132lZENcRS7oVO5YNaWcJ0dQ54CQEl8izqJVYkA/\nWzmwvPWoPq6W9VfqmKT0pxvcGlR43CVTUsfciMxznYM/MbZGg==\nCadena Original:\n||ESO100126H10|EXXERPRO SOLUTIONS SA DE CV|E2386064109 |16 de enero de 2023 18:07:10|SISUB|\nInformación Cargada|22_3_0013733||\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "ESO100126H10"
+  }
+}

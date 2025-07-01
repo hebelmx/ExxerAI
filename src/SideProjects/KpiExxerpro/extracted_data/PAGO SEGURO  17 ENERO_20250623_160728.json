@@ -1,0 +1,17 @@
+{
+  "archivo_original": "PAGO SEGURO  17 ENERO.pdf",
+  "fecha_procesamiento": "2025-06-23T16:07:28.334095",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Viernes 17 de Enero de 2025, 1:40 PM Centro de México\nPago SUA - SIPARE\n \n \nSu pago ha sido  aplicado  con el siguiente número de autorización  378149.\n \n \n \n \nAutorizadores\nUsuario 01\nABEL BRIONES RAMIREZ\n \n \n \n  Cuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C - 4264/92860\nSaldo actualizado MXN: $ 437,750.13\n \n \n \n  Datos del pago\nLínea de Captura SIPARE\nE13GLMUL-4C6K-2-L2MF-5971-0022WJ0-002OVJP-001A9CR-001V4UE-\n177N\nRegistro Patronal\nE2386064109\nPeriodo de pago\n202412\nFolio SUA\n983175\nFecha de Vencimiento\n20/01/2025\nOrigen línea de captura\n2\nImporte IMSS\n34,947.00\nImporte RCV\n45,198.61\nImporte Vivienda\n21,582.99\nImporte ACV\n31,322.30\nImporte Total MXN\n133050.90\nFecha de aplicación de pago\n17/01/2025 (ddmmaaaa)\n \n \n \n \nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos(IMSS/INFONAVIT) para cualquier posible aclaración.\n \n \n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109"
+  }
+}

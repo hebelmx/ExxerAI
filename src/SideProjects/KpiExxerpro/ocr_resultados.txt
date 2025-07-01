@@ -1,0 +1,195 @@
+Archivos procesados por OCR exitosamente:
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2011\01. Cedulas\12. Diciembre\Cedula NOviembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\1. Enero\Cedula imss diciembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\1. Enero\Cedula infonavit.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\1. Enero\SIPARE linea de captura.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\10. Octubre\Cedula IMSS octubre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\10. Octubre\Sipare Octubre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\11. Noviembre\IMSS e INFONAVIT Noviembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\11. Noviembre\IMSS Noviembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\11. Noviembre\Sipare Noviembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\12. Diciembre\Cedula IMSS diciembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\12. Diciembre\Sipare diciembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\2. Febrero\Cedula IMSS febrero.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\2. Febrero\SIPARE linea de captura febrero.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\3. Marzo\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\3. Marzo\Cedula Infonavit.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\4. Abril\IMSS Abril 2014.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\4. Abril\Sipare Abril 2014.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\5. Mayo\cedula imss mayo 2014.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\5. Mayo\cedula Infonavit mayo 2014.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\5. Mayo\Sipare mayo 2014.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\6. Junio\Junio Imss.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\6. Junio\Sipare junio.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\7. Julio\IMSS julio.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\7. Julio\INFONAVIT julio.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\7. Julio\Sipare Julio.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\8. Agosto\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\8. Agosto\Cedula INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\8. Agosto\IMSS agosto.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\8. Agosto\Sipare IMSS agosto.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\9. Septiembre\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2014\1. Cedulas\9. Septiembre\Cedula INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\1. Enero\IMSS ENERO 2015.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\1. Enero\INFONAVIT ENERO 2015.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\1. Enero\SIPARE ENERO 2015.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\2. Febrero\Cedula IMSS febrero.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\2. Febrero\Sipare febrero.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\3. MArzo\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\3. MArzo\Cedula INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\3. MArzo\SIPARE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\4. Abril\Cedula IMSS abril.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\4. Abril\sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\5. Mayo\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\5. Mayo\Cedula infonavit.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\5. Mayo\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\6. Junio\cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\6. Junio\Sipare junio 2015.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\7. Julio\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\7. Julio\Cedula INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\7. Julio\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\8. Agosto\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\8. Agosto\SIPARE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\9. Septiembre\IMSS septiembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\9. Septiembre\Infonavit septiembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2015\1. Cedulas\9. Septiembre\Sipare septiembre.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\1. Enero\imss.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\1. Enero\infonavit.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\1. Enero\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\2. Febrero\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\2. Febrero\SIPARE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\3. Marzo\IMSS marzo.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\3. Marzo\Infonavit marzo.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\3. Marzo\Sipare marzo.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\4. Abril\sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\5. Mayo\IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\5. Mayo\INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\5. Mayo\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\6. Junio\Cedula IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\6. Junio\SIPARE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\7. Julio\IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\7. Julio\Infonavit.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\7. Julio\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\8. Agosto\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\9. Septiembre\IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\9. Septiembre\INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2016\1. Cedulas\9. Septiembre\SIPARE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2017\1. Cedulas\1. Enero\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2017\1. Cedulas\6. Junio\Cedula IMSS junio.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2017\1. Cedulas\6. Junio\Sipare.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2017\1. Cedulas\7. Julio\IMSS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2017\1. Cedulas\7. Julio\INFONAVIT.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2017\1. Cedulas\7. Julio\SIPARE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\1. Cuauhtemoc Ene 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\2. Leopoldo ENE 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\3. Diego ENE 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\4. Alexis ENE 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\5. Fabian ENE 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\6. Victor ENE 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\2. Febrero\7. Jose Del Rio ENE 2018.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Abel.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Alexis.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Cuauhtemoc.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Diego.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Fabian.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Jose.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Leopoldo.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\4. Abril\PE238606410_EMA MAR2018 Victor.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\5. Mayo\PE238606410_EMA Abel.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\5. Mayo\PE238606410_EMA Cuauhtemoc2.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\5. Mayo\PE238606410_EMA Diego.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\5. Mayo\PE238606410_EMA Fabian.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\5. Mayo\PE238606410_EMA Leopoldo.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2018\CEDULAS\5. Mayo\PE238606410_EMA Victor.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA ALEXIS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA DAVID.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA FERNANDO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2019\CEDULAS\4. Abril\PE238606410_EMA VICTOR.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2020\CEDULAS\12. Diciembre\PE238606410_EMA ALEXIS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2020\CEDULAS\12. Diciembre\PE238606410_EMA AXEL.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2020\CEDULAS\12. Diciembre\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2020\CEDULAS\12. Diciembre\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2020\CEDULAS\12. Diciembre\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\10. OCTUBRE\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\10. OCTUBRE\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\10. OCTUBRE\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\10. OCTUBRE\PE238606410_EMA JUAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\10. OCTUBRE\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\6. JUNIO\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\6. JUNIO\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\6. JUNIO\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\6. JUNIO\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\7. JULIO\PE238606410_EMA CUAUH.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\7. JULIO\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\7. JULIO\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\7. JULIO\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\8. AGOSTO\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\8. AGOSTO\PE238606410_EMA DAVID.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\8. AGOSTO\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\8. AGOSTO\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\8. AGOSTO\PE238606410_EMA JUAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\8. AGOSTO\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\9. SEPTIEMBRE\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\9. SEPTIEMBRE\PE238606410_EMA DAVID.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\9. SEPTIEMBRE\PE238606410_EMA DIEGO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\9. SEPTIEMBRE\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\9. SEPTIEMBRE\PE238606410_EMA JUAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2021\CEDULAS\9. SEPTIEMBRE\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2022\CEDULAS\1. ENERO\PE238606410_CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2022\CEDULAS\1. ENERO\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2022\CEDULAS\1. ENERO\PE238606410_EMA JUAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2022\CEDULAS\1. ENERO\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA ALEJANDRO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA ANGEL.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA ARTURO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA BALTAZAR.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA CARLO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA CHRISTIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA IRVING.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA JUAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA LISSET.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA MAXIMO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\10. OCTUBRE\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\11. NOVIEMBRE\44. IMSS OCT AUT. 455716.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\11. NOVIEMBRE\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA ALEJANDRO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA ANGEL JOSUE.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA AXEL.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA CARLO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA CHRISTIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA FABIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA JESUS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA JOSE BALTAZAR.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA JUAN JESUS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA LISSET.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\2 FEBRERO\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\5. MAYO\20. PAGO IMSS INFONAVIT AUT. 365205.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\6. JUNIO\37. IMSS AUT. 126564.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA ALEJANDRO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA ANDREY.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA ANGEL.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA AXEL.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA BALTAZAR.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA CHRISTIAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA CUAUHTEMOC.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA IRVING.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA JESUS.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA JOSE CARLO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA JUAN.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA LISSET.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\7. JULIO\PE238606410_EMA SERGIO.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2023\CEDULAS\9. SEPTIEMBRE\45. IMSS AGOSTO AUT. 091712.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2024\CEDULAS\1. ENERO\34. IMSS AUT. 306271.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2024\CEDULAS\10. OCTUBRE\35. IMSS SEPT AUT. 250111.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2024\CEDULAS\7. JULIO\PAGO IMSS JUNIO AUT. 588407.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2024\CEDULAS\8. AGOSTO\19. IMSS JULIO AUT. 280365.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2025\CÉDULAS\PRUEBAOCR.pdf
+[OK] C:\Users\moren\Documents\GitHub\KpiExxerpro\Fixture\2025\CÉDULAS\PRUEBATD.pdf
+
+Archivos procesados por OCR que fallaron:

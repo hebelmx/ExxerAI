@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_328003073 ALTA ARLET 15 JUL.pdf",
+  "fecha_procesamiento": "2025-06-24T16:26:12.056885",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2022-07-28 10:56\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n328003073\nE2386064109\n  Número de folio:\n3394102233209391470\n  Serial del certificado:\n00000100000209014183\nHuella Digital\n73d87e049bb253126ecd925c7b2b7b6baa451591\nInformación General\nIMSS DESDE SU EMPRESA\n02870365    20015072022000  0865             0\nE238606410973150088893CARDENAS\nBRIONES\nARLET GUADALUOE\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n5BF95B1FFDCBC0AD9F695687A0E79BF9E61526792C68EB46CC2C8B9B785020157D227F2678D6F54F9B00A409963675743BF9D317F57BB7\n349AF91C3F00871EA7 | 734758368\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

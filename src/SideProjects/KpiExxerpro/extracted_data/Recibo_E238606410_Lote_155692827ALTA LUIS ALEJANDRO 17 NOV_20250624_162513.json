@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_155692827ALTA LUIS ALEJANDRO 17 NOV.pdf",
+  "fecha_procesamiento": "2025-06-24T16:25:13.026704",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "IMSS DESDE SU EMPRESA\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de\nAfiliación, Clasificación de Empresas, Recaudación y Fiscalización, el Instituto Mexicano\ndel Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto\nObligado con Nombre o Razón Social EXXERPRO SOLUTIONS  S.A. DE C.V. con\nRegistro Patronal E2386064109.\n2015-11-17 16:35\nFecha y hora de recepción del lote\nEXXERPRO SOLUTIONS  S.A. DE C.V.\nRazón Social\nESO100126H10\nRFC del patrón\n155692827\nNúmero de lote\nRegistro Patronal\nE2386064109\nNúmero de folio\n389278807\n07144FBF73F72AAF643F11A6801DB7CAA326B3EC\nSerial del certificado\n00000100000202454201\nHuella Digital\n01200017111510017112015000  081634           0\nE238606410914947707940NAVA\nGARFIAS\nLUIS ALEJANDRO\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es\nextraído de la notaría electrónica.\nPágina 1 de 1\n05E91856520DF50E23329ED3F990389410556032 | 545011584\nSello Digital\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109"
+  }
+}

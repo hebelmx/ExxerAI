@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Alta Carmen acuse.pdf",
+  "fecha_procesamiento": "2025-06-23T15:52:03.029331",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "Acuse de recibo electrónico\nIMSS DESDE SU EMPRESA\n\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de\nAfiliación, Clasificación de Empresas, Recaudación y Fiscalización, el Instituto Mexicano\ndel Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto\nObligado con Nombre o Razón Social EXXERPRO SOLUTIONS S.A. DE C.V. con\nRegistro Patronal E2386064109.\n\nNúmero de folio 338052956\n\nNúmero de lote 116755362\n\nRFC del patrón ESO100126H10\n\nRegistro Patronal E2386064109\n\nRazón Social EXXERPRO SOLUTIONS S.A. DE C.V.\nFecha y hora de recepción del lote 2014-01-06 09:40\n\nSerial del certificado 00000100000201376854\n\nHuella Digital\n\n365F45D73B70C2BD9FECDCFCCIDDCB875FFA4354\n\nE238606410912937810955BRIONES RAMIREZ CARMEN 02660006011410006012014000 080942 0\n\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es\nextraído de la notaría electrónica.\n\nSello Digital\n0C6BF8DF315D7BD2B7F60C736E461DC395AC86E1 | 371116828\n\nPágina 1 de 1\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109."
+  }
+}

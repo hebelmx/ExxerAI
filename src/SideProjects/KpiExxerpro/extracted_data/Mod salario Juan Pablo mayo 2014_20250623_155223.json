@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Mod salario Juan Pablo mayo 2014.pdf",
+  "fecha_procesamiento": "2025-06-23T15:52:23.528680",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "hb\nbh) Constancia de presentación de movimientos afiliatorios\nIMSS IMSS DESDE SU EMPRESA\n\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación,\nClasificación de Empresas, Recaudación y Fiscalización, el Instituto Mexicano del Seguro\nSocial extiende la presente Constancia de presentación de movimientos afiliatorios del Patrón o\nSujeto Obligado con Nombre o Razón Social EXXERPRO SOLUTIONS S.A. DE C.V. con\nRegistro Patronal E2386064109.\n\nNúmero de folio 348017416\n\nNúmero de lote 124374652\n\nRFC del patrón ESO100126H10\n\nRegistro Patronal E2386064109\n\nRazón Social EXXERPRO SOLUTIONS S.A. DE C.V.\n\nFecha y hora de recepción del lote 2014-05-14 18:40\n\nSerial del certificado 00000100000202454201\nHuella Digital\n9E7F90800DE1CAF13950E4451D87C169F4DF5F62\n\nANC ICO O CIO IO CIO CO CIO IC CA CA\n\nRelación de movimientos operados\n\nBaja\nlo |\n\nGaszosssa] pemnoezoveno anrasio Jrasio [o | 009] o Jraesaona o |\n\nSello Digital\nD50EE769C4D8AB0F74180248E5567B1EDF789188 | 403830195\n\nPágina 1 de 2\n\n\nPara efectos de lo anterior se entenderá por: Modif. (Modificación de salario), Reing. (Reingreso), Fec-Mov (Fecha de\nmovimiento), NSS (Número de Seguridad Social), Sal. Base (Salario base), Tipo Sal. (Tipo de salario) que puede ser: 0.\nSalario Fijo, 1. Salario Variable, 2. Salario Mixto, Tipo Trab. (Tipo de trabajador), que puede ser: 1. Permanente, 2.\nEventual urbano, 3. Eventual de la construcción, 4. Eventual del campo, Ext. (Extemporáneo), UMF (Unidad de Medicina\nFamiliar), Tipo Mov. (Tipo de movimiento), que puede ser: 1. Alta, 2. Baja, 7. Modificación de salario, 8. Reingreso, C. Baja\n(Causa de baja), que puede ser: O - No aplica, 1 - Término del contrato, 2 - Separación voluntaria, 3 - Abandono de empleo,\n4 - Defunción, 5 - Clausura, 6 - Otra, 7 - Ausentismo, 8 - Rescisión de contrato, 9 - Jubilación, A - Pensión.\n\nSello Digital\nD50EE769C4D8AB0F74180248E5567B1EDF789188 | 403830195\n\nPágina 2 de 2\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109."
+  }
+}

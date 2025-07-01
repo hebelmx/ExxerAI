@@ -1,0 +1,18 @@
+{
+  "archivo_original": "junio 2024 resumen liquidacion_gbl.pdf",
+  "fecha_procesamiento": "2025-06-24T16:27:08.334468",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SISTEMA ÚNICO DE AUTODETERMINACIÓN\n11/jul./2024\nFecha:\nEXXERPRO SOLUTIONS SA DE CV\nRegistro Patronal:\nMes de Proceso:  Junio-2024\nDESCRIPCIÓN\nIMPORTE\nE23-86064-10-9\nNombre o Razón Social:\nRESUMEN DE LIQUIDACIÓN\nFolio SUA:\n752189\nV 3.6.3\nBimestre de Proceso:  03-2024\nESO-100126-H10\nR.F.C.:\nPara abono en cuenta del IMSS\n 31,526.14\n 31,526.14\nT O T A L\nRecargos\nActualización\nS U B     T O T A L\nGuarderías y Prestaciones Sociales\nInvalidez y Vida\nRiesgos de Trabajo\nGastos Médicos Pensionados\nPrestaciones en Dinero\nExcedente \nCuota Fija\n 43,391.93\n 43,391.93\nT O T A L\nAportaciones Voluntarias\nRecargos\nActualización\nS U B     T O T A L\nCesantía en Edad Avanzada y Vejez\nRetiro\nPara abono en cuenta individual\nT O T A L   A   P A G A R:    \n 120,630.01\n 45,711.94\nT O T A L\n 45,711.94\nTotal de Acreditados\nRecargos de Aportaciones y Amortizaciones\nActualización de Aportaciones y Amortizaciones\nS U B     T O T A L\nAmortización\nAportación Patronal con crédito\nAportación Patronal sin crédito\nPara abono en cuenta del INFONAVIT\n 13,754.11\n 1,111.66\n 2,532.37\n 3,798.59\n 1,332.83\n 6,330.91\n 2,665.67\n 0.00\n 0.00\n 10,732.11\n 0.00\n 0.00\n 0.00\n 32,659.82\n 21,465.41\n 5,364.83\n 0.00\n 0.00\n 18,881.70\n 3\nAportaciones Complementarias\n 0.00\nDonativo FUNDEMEX\nMulta\n 0.00\n 0.00\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Mes",
+    "periodo_rcv": "de Proceso"
+  }
+}

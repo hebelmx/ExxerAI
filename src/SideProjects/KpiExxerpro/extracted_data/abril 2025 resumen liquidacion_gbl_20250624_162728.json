@@ -1,0 +1,18 @@
+{
+  "archivo_original": "abril 2025 resumen liquidacion_gbl.pdf",
+  "fecha_procesamiento": "2025-06-24T16:27:28.785980",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SISTEMA ÚNICO DE AUTODETERMINACIÓN\n13/may./2025\nFecha:\nEXXERPRO SOLUTIONS SA DE CV\nRegistro Patronal:\nMes de Proceso:  Abril-2025\nDESCRIPCIÓN\nIMPORTE\nE23-86064-10-9\nNombre o Razón Social:\nRESUMEN DE LIQUIDACIÓN\nFolio SUA:\n560656\nV 3.6.5\nBimestre de Proceso:  02-2025\nESO-100126-H10\nR.F.C.:\nPara abono en cuenta del IMSS\n 35,253.46\n 35,253.46\nT O T A L\nRecargos\nActualización\nS U B     T O T A L\nGuarderías y Prestaciones Sociales\nInvalidez y Vida\nRiesgos de Trabajo\nGastos Médicos Pensionados\nPrestaciones en Dinero\nExcedente \nCuota Fija\n 54,596.11\n 54,596.11\nT O T A L\nAportaciones Voluntarias\nRecargos\nActualización\nS U B     T O T A L\nCesantía en Edad Avanzada y Vejez\nRetiro\nPara abono en cuenta individual\nT O T A L   A   P A G A R:    \n 159,172.29\n 69,322.72\nT O T A L\n 69,322.72\nTotal de Acreditados\nRecargos de Aportaciones y Amortizaciones\nActualización de Aportaciones y Amortizaciones\nS U B     T O T A L\nAmortización\nAportación Patronal con crédito\nAportación Patronal sin crédito\nPara abono en cuenta del INFONAVIT\n 15,925.66\n 1,056.85\n 2,777.18\n 4,165.80\n 1,461.68\n 6,942.93\n 2,923.36\n 0.00\n 0.00\n 12,180.85\n 0.00\n 0.00\n 0.00\n 42,415.26\n 22,176.74\n 8,275.29\n 0.00\n 0.00\n 38,870.69\n 4\nAportaciones Complementarias\n 0.00\nDonativo FUNDEMEX\nMulta\n 0.00\n 0.00\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Mes",
+    "periodo_rcv": "de Proceso"
+  }
+}

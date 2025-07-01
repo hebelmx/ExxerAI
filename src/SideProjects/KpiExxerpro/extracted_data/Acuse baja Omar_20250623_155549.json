@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Acuse baja Omar.pdf",
+  "fecha_procesamiento": "2025-06-23T15:55:49.305406",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "¡3\n1) Acuse de recibo electrónico\n\nIMSS IMSS DESDE SU EMPRESA\n\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de\nAfiliación, Clasificación de Empresas, Recaudación y Fiscalización, el Instituto Mexicano\ndel Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto\nObligado con Nombre o Razón Social EXXERPRO SOLUTIONS S.A. DE C.V. con\nRegistro Patronal E2386064109.\n\nNúmero de folio 373995618\n\nNúmero de lote 144116257\n\nRFC del patrón ESO100126H10\n\nRegistro Patronal E2386064109\n\nRazón Social EXXERPRO SOLUTIONS S.A. DE CV.\nFecha y hora de recepción del lote 2015-05-04 15:59\n\nSerial del certificado 00000100000202454201\n\nHuella Digital\n\n606B9C278FAF36811B92DFDCBCA025B4E29AE638\n\nE238606410914088818043GODINEZ CEDILLO OMAR 00000004051500004052015000 021559 2\n\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es\nextraído de la notaría electrónica.\n\nSello Digital\nEBA29096BA6C1C25F608ECA7F7EFED7AFDA2EOFF | 491786901\n\nPágina 1 de 1\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109."
+  }
+}

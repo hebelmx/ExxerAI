@@ -1,0 +1,18 @@
+{
+  "archivo_original": "PAGO SEGURO SOCIAL INFONAVIT.pdf",
+  "fecha_procesamiento": "2025-06-24T16:34:22.587798",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Miércoles 14 de Mayo de 2025, 5:39 PM Centro de México\nPago SUA - SIPARE\n \n \nSu pago ha sido  aplicado  con el siguiente número de autorización  657979.\n \n \n \n  Autorizadores\nUsuario 08\nABEL BRIONES RAMIREZ\n \n \n \n  Cuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C - 4264/92860\nSaldo actualizado MXN: $ 387,410.49\n \n \n \n  Datos del pago\nLínea de Captura SIPARE\nE13GLMUL-4C94-2-C0LS-6094-0023K6A-\n00390NV-001BJ62-002T1T2-ALV2\nRegistro Patronal\nE2386064109\nPeriodo de pago\n202504\nFolio SUA\n560656\nFecha de Vencimiento\n19/05/2025\nOrigen línea de captura\n2\nImporte IMSS\n35,253.46\nImporte RCV\n54,596.11\nImporte Vivienda\n22,176.74\nImporte ACV\n47,145.98\nImporte Total MXN\n159172.29\nFecha de aplicación de pago\n14/05/2025 (ddmmaaaa)\n \n \n \n  NOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos(IMSS/INFONAVIT) para\ncualquier posible aclaración.\n \n \n14/5/25, 5:39 p.m.\nbancanetempresarial.citibanamex.com.mx/bancanet3/spanishdir/impresion.htm\nhttps://bancanetempresarial.citibanamex.com.mx/bancanet3/spanishdir/impresion.htm\n1/1\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109",
+    "periodo_imss": "de pago\n202504\nFolio SUA\n560656\nFecha de Vencimiento\n19/05/2025\nOrigen línea de captura\n2\nImporte IMSS\n35"
+  }
+}

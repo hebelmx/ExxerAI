@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Uriel Sanchez Hernandez.pdf",
+  "fecha_procesamiento": "2025-06-23T15:56:00.785965",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "SEC LAIA Y IDU OCTAL\n\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\n\nwww.imss.gob.mx\nInicio\nContacto y Directorios\n\nInicio - IDSE - Menú IDSE ” Movimientos afiliatorios\n\n(Regresar\n\nSalir\n\nE238606410 - EXXERPRO SOLUTIONS S.A. DE C.V.\nAV DEL SOL 1B INT 4B SOL EL\n\nMOVIMIENTOS AFILIATORIOS|\n\nte de movimientos + 138924826\n\nRegistro patronal:\nNombre:\n| Acuse de recibo |\n\nE238606410\nEXXERPRO SOLUTIONS S.A. DE C.V.\nStatus: Enviado\n\nRegistro patronal:\n\nNombre:\n\nNo. Seg. Díg.\nSoc. Ver\n\nT.\nTrab\n\n1408905958\n\nDatos del Registro Patronal\n\nEXXERPRO SOLUTIONS S.A, DE C.V.\n\nJor. Fecha\n\nNombre T. Sal.\nreduc. mov.\n\nSANCHEZ HERNANDEZ URIEL 31/ene/15\n\nAlgunos derechos\n\nÚltima modificación: 08/11/2011, 12:00 hrs.\n\no DF |Tel. 01 800 6232323 | Acerca del Portal | Avisos Legales\n\namidobe\nReader\nPara poder ver los documentos necesitas instalar d\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Nombre:"
+  }
+}

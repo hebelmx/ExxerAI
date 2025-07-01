@@ -1,0 +1,17 @@
+{
+  "archivo_original": "12. IMSS NOV 2023.pdf",
+  "fecha_procesamiento": "2025-06-24T16:34:11.996189",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Nombre emisor:\nINSTITUTO MEXICANO DEL SEGURO\nSOCIAL\nFolio:\n202311-E2386064109-14122023-738593\nRFC receptor:\nESO100126H10\nNombre receptor:\nEXXERPRO SOLUTIONS\nCódigo postal del\nreceptor:\n76113\nRégimen fiscal\nreceptor:\nGeneral de Ley Personas Morales\nUso CFDI:\nGastos en general.\nNo. de serie del CSD:\n00001000000510986159\nSerie:\nA\nCódigo postal, fecha y hora de\nemisión:\n06600 2023-12-26 14:19:22\nEfecto de comprobante:\nIngreso\nRégimen fiscal:\nPersonas Morales con Fines no Lucrativos\nExportación:\nNo aplica\nConceptos\nClave del producto\ny/o servicio\nNo. identificación\nCantidad\nClave de unidad\nUnidad\nValor unitario\nImporte\nDescuento\nObjeto impuesto\n85101701\n1\nE48\n31,794.16\n31,794.16\nNo objeto de impuesto.\nDescripción\nCuotas IMSS\nNúmero de pedimento\nNúmero de cuenta predial\nMoneda:\nPeso Mexicano\nForma de pago:\nTransferencia electrónica de fondos (incluye SPEI)\nMétodo de pago:\nPago en una sola exhibición\nSubtotal\n$ 31,794.16\nTotal\n$ 31,794.16\nSello digital del CFDI:\nQrHof4lxmmTRHwjSU6lhMW5xuRmMzs11mTSrf3PXu1Ojf2rnroAEcorS9uXlOCaa1WVjakmHN7HmvNXd+mwlNzVZwpSUyn9qNt3UX4Z4wN4AtG5Sp0Xfa3C5n+DGmEYEgswaZZhdYyKo\nmyoJN5eQG1w+6wbzXQ6nntG3GpOwHCLHIILXiCHzGt8kEnxPVzDuIvAPVX/n4yj+DEVVjVBKYnLzp3aD9MBA5gFFy5gR2pS/YZmZ6z6OKA2NEmH7gO4PYiaEyStTlDe1pHomrfswyKoq2\ntthbDliqDRpkZIdBGzcyVL8Rfgr6YWfD3WBhLalzlb25UXSYxfhx7T/9opNcg==\nSello digital del SAT:\nexNgcfXy2vvixcSD8A8VDa2MHqyOn5OgTeXFFI/yKH7Ne757IF27EAPNrVRUgIPEk1QPdQs3p0JW0ODJ9xTgQaW7oaSo2wtReroHEVzkjQkimHQ4eIoEqpcJ3EiOT/9ukzoEcuH1fn3POaQ\nHifsRcq9aiUR7ejEJBDvyOnldj2ILSr8ZFThhvxFU3c7dM7xTzSfljIPg500v+MvSWXNBmkwfuGMpWNJVRQ1PCjy4xZ+C0L7u9QEElxRVW9Brv7tG1Mr1pL+QWLzrCJefhnbujodq/EplmWMSI2\nWC8SszKGLoYeI3aAx1XJUJJQ0NpKFAbx9jB8PYE+EVDplUpRlQ+Q==\nCadena Original del complemento de certificación digital del SAT:\n||1.1|39829220-CACA-40BC-803D-A91B950C898C|2023-12-26T14:19:23|SAT970701NN3|QrHof4lxmmTRHwjSU6lhMW5xuRmMzs11mTSrf3PXu1Ojf2rn\nroAEcorS9uXlOCaa1WVjakmHN7HmvNXd+mwlNzVZwpSUyn9qNt3UX4Z4wN4AtG5Sp0Xfa3C5n+DGmEYEgswaZZhdYyKomyoJN5eQG1w+6wbzXQ6n\nntG3GpOwHCLHIILXiCHzGt8kEnxPVzDuIvAPVX/n4yj+DEVVjVBKYnLzp3aD9MBA5gFFy5gR2pS/YZmZ6z6OKA2NEmH7gO4PYiaEyStTlDe1pHomrfswy\nKoq2tthbDliqDRpkZIdBGzcyVL8Rfgr6YWfD3WBhLalzlb25UXSYxfhx7T/9opNcg==|00001000000504465028||\nRFC del proveedor de certificación:\nSAT970701NN3\nNo. de serie del certificado SAT\n00001000000504465028\nFecha y hora de certificación:\n2023-12-26 14:19:23\nRFC emisor:\nIMS421231I45\nFolio fiscal:\n39829220-CACA-40BC-803D-A91B950C898C\nEste documento es una representación impresa de un CFDI\nPágina 1 de 1\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "periodo_imss": "Transferencia electrónica de fondos"
+  }
+}

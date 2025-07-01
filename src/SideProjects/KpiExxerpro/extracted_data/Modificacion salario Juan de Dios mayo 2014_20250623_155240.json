@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Modificacion salario Juan de Dios mayo 2014.pdf",
+  "fecha_procesamiento": "2025-06-23T15:52:40.638303",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "INSTITUTO MEXICAMO DEL SEGURO SOCIAL\nSEGA Y SOLDADO HOCIAL\n\n7\n\nfñ\n\nInicio - IDSE - Menú IDSE ” Movimientos afiliatorios Salir\n\nE238606410 - EXXERPRO SOLUTIONS S.A. DE C.V.\nAV DEL SOL 1B INT 4B SOL EL\n\n(Regresar\n\nMOVIMIENTOS AFILIATORIOS|\n\nte de movimientos 4 124374360\n\nRegistro patronal: E238606410\nNombre: EXXERPRO SOLUTIONS S.A. DE C.V.\n| Acuse de recibo | Status: Enviado\n\nDatos del Registro Patronal\n\n| E238606410 ]\n\nEXXERPRO SOLUTIONS S.A. DE C.V.\n\nT.\nde SDI\nMov\n\nCausa No. Seg. Díg. T. Jor. — Fecha ce\nBaja Soc. Ver Trab, T.Sal. educ. mov. UMF 7, CURP\n\nA O DELEON MENDOZA JUAN DE DIOS o O 14/may/l4 0\n\nAdobe\nÚltima modificación: 08/11/2011, 12:00 hrs. Para poder ver los documentos necesitas instalar ,\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E238606410"
+  }
+}

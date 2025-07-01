@@ -1,0 +1,17 @@
+{
+  "archivo_original": "AFIL-04.pdf",
+  "fecha_procesamiento": "2025-06-23T14:26:35.422963",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": " \n InstitutoMexicano del Seguro Social -Instituto del Fondo Nacional de la Vivienda para los TrabajadoresAvisodeBajadelTrabajador(AFIL-04)\n Fecha de publicación del formato en el DOFUMFFecha de solicitud del trámite31     /         07           / 2015\n \n /                         /DD                      MM                      AAAA\n                              \n Número de Registro Patronal:CURP:\n CURP (Sólo en caso de Patrón Persona Física):*RFC:\n RFC:Nombre(s):Sin abreviaturas\n Nombre, denominación, razón social del patrón o sujeto obligado:En caso de persona física (sin abreviaturas):   Nombre(s)  Primer Apellido  Segundo ApellidoPrimer apellido:Sin abreviaturas\n Ubicación del centro de trabajoSegundo apellido:Sin abreviaturas\n Código postal:Sexo:1 Hombre2 Mujer\n Calle:Por ejemplo: Avenida Insurgentes Sur, Boulevard Ávila Camacho, Calzada, Corredor, etc.Fecha de baja del trabajador asegurado:Último día de salario devengado/              /DD                MM              AAAA\n Número exterior:Número Interior:Causa de la baja:\n Colonia:Por ejemplo: Ampliación Juárez, Residencial Hidalgo, Fraccionamiento, Sección, etc.\n *Localidad:\n Municipio o Delegación:\n Estado o Distrito Federal:\n Exclusivo del IMSS\n Fecha y hora de recepción de este aviso en el IMSS:Firmadelpatrónsujetoobligadoosurepresentantelegal\n Los movimientos que ampara este formato surten efecto tanto para el IMSS como para el INFONAVIT conforme a sus respectivas leyes. Conserve este documento para cualquier aclaración.Extemporáneo:Aplicación Art. 37 LSS1Clave de argumento:Importante para el patrónDurante el estado de huelga no procederá el aviso de baja, salvo en caso de que el trabajador reúna los requisitos para obtener una pensión.El aviso de baja no surtirá efecto legal o administrativo alguno cuando se presente en el periodo en que el trabajador se encuentre incapacitado temporalmente para el trabajo.Si el aviso de baja es presentado extemporáneamente surtirá efectos a partir de la fecha de su presentación (artículo 37 de la Ley del Seguro Social y artículo 57 del Reglamento de la Ley del Seguro Social en materia de Afiliación, Clasificación de Empresas, Recaudación y Fiscalización).Homoclave en el Registro Federal de Trámites y Servicios:IMSS-02-002-JIMSS-02-002-KIMSS-02-009IMSS-02-038-CIMSS-02-013Homoclave del formatoAFIL-04\nSe presenta por triplicado“Deconformidad con los artículos 4 y 69-M, fracción V de la Ley Federal de Procedimiento Administrativo, los formatos para solicitar trámites y servicios deberán publicarse en el Diario Oficial de la Federación (DOF)”Contacto:Paseo de la Reforma 476, P.B.Col. Juárez, DelegaciónCuauhtémoc C.P. 06600 D.F.Tel. 01 800 623 23 23http://atencion.contactoimss.com.mx\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "RFC:Nombre(s):Sin"
+  }
+}

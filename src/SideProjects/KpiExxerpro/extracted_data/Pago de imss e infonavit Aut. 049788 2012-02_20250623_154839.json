@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Pago de imss e infonavit Aut. 049788 2012-02.pdf",
+  "fecha_procesamiento": "2025-06-23T15:48:39.942740",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "BancaNet Empresarial\nInternet\nCliente: 75594965/EXXERPRO SOLUTIONS SA DE CV \nComprobante de Pago\n20/03/2012\n11:29:19 AM\nCuenta de Cargo\n4264/92860\nImporte\n17,885.05\nNo. Autorización\n049788\nFecha de Aplicación\n20/03/2012\nEstatus del archivo\nTransferido\nTipo de Pago\nW300\nRepresentante 1\n03 SARA,ZEA/DIAZ\nRepresentante 2\nRegistro Patronal:\nE2386064109\nFolio SUA: 929160\nPeríodo de Pago: 2012-02\nAbono a Cuenta del IMSS\nAbono a Cuenta de la AFORE\nAbono a Cuenta del INFONAVIT\nCuenta 4 Seguros\n$5,771.45\nRet. Ces. y Vejez\n$6,741.71\nAport. Viv. Cta. Ind.\n$5,371.89\nActualización\n$0.00\nActualización\n$0.00\nAport. Viv. Amort. \nCred.\n$0.00\nRecargos Moratorios\n$0.00\nRecargos Moratorios\n$0.00\nAmortización de \nCrédito\n$0.00\nAport. Voluntarias\n$0.00\nActualización\n$0.00\nAport. Complem\n$0.00\nRecargos Moratorios $0.00\nMultas INFONAVIT\n$0.00\nDonativo FUNDEMEX $0.00\nTotal Viv\n$5,371.89\nTotal\n$5,771.45\nTotal\n$6,741.71\nTotal ACV\n$0.00\nTOTAL\n$17,885.05\nPage 1 of 1\n20/03/2012\nhttps://www.bancanetempresarial.banamex.com.mx/scripts/cgiclntc4/X9N5ZMZ8OKBU...\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109"
+  }
+}

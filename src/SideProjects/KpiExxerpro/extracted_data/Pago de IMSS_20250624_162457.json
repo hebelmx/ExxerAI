@@ -1,0 +1,18 @@
+{
+  "archivo_original": "Pago de IMSS.pdf",
+  "fecha_procesamiento": "2025-06-24T16:24:57.721700",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Viernes 14 de Junio de 2013, 4:21 PM Centro de México\nAutorizadores\nUsuario 06\nROCIO RAMIREZ RAMIREZ\nCuentas\nCuenta Retiro\nEXXERPRO SOLUTIONS SA DE C 4264/92860\nDatos del pago\nNúmero de archivos\n1\nImporte Total\n$ 7,697.6\nResumen de Pagos\nArchivo\nFolio SUA\nRegistro patronal\nTotal a pagar\nEstatus\nAutorización\nW1305361.SUA\n503765\nE2386064109\n7697.6\nAplicada\n199042\nEste documento es de carácter informativo, no tiene ninguna validez oficial como comprobante legal o fiscal\nPágina 1 de 1\n14/06/2013\nhttps://www.bancanetempresarial.banamex.com.mx/bestbanking/spanishdir/impresion.htm\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Total",
+    "periodo_imss": "Número de archivos\n1\nImporte Total"
+  }
+}

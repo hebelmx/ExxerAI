@@ -1,0 +1,162 @@
+SISTEMA ÚNICO DE AUTODETERMINACIÓN
+CÉDULA DE DETERMINACIÓN DE CUOTAS, APORTACIONES Y AMORTIZACIONES
+No. de Seguridad Social
+N O M B R E
+RFC/CURP
+Clave
+Fecha
+Días
+SDI
+Inc.
+Aus.
+Retiro
+C y V Pat
+Suma
+Aportación 
+Patronal
+Registro Patronal: 
+Nombre o Razón Social:
+Período de Proceso: 09-2011 
+Amortización
+RFC:
+Actividad: 
+Area Geográfica:
+1
+Página:
+Delegación IMSS:
+Domicilio:
+Código Postal:
+Entidad:
+Pob., Mun. / Deleg.D.F.: 
+04/dic/2013
+Fecha de Proceso:
+ESO-100126-H10
+E23-86064-10-9
+Suma
+Act. y Rec.
+EXXERPRO SOLUTIONS SA DE CV
+AV DEL SOL 1B INT 4B COL EL SOL
+76113
+DISE/O INDUSTRIAL
+C
+Convenio de Reembolso:
+N
+C y V Obr
+V 3.3.2
+Aportación Patronal:
+5.0%
+QUERETARO
+Subdelegación IMSS:
+23
+01
+QUERETARO
+Versión Archivo: 3.2.8
+14-10-86-1271-5
+LEMJ860304HHGNNN01
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+00
+00
+ 0
+DE LEON MENDOZA JUAN DE DIOS
+01/09/2011
+ 367.68
+M/S
+14-10-88-1665-4
+FAUE880918HDFRGN07
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+00
+00
+ 0
+FARFAN UGALDE ENRIQUE
+ 231.32
+Carga Inic.
+14-10-87-0643-4
+LUGS-870605-
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+00
+00
+ 0
+LUJAN GARCIA SERGIO
+01/09/2011
+ 322.88
+M/S
+13-05-86-3288-9
+ZEDS860430MHGXZR08
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+00
+00
+ 0
+ZEA DIAZ SARA
+ 246.47
+Carga Inic.
+Total de Cotizantes:
+Total a Pagar de RCV:
+C y V
+SDI
+INC
+AUS
+Cesantía y Vejez
+Salario Diario Integrado
+Incapacidades
+Ausentismos
+$0.00
+Total a Pagar RCV e INFONAVIT
+$0.00
+Para el cálculo del ramo de CV y de Vivienda se utilizará
+el tope salarial establecido en la ley respectiva.
+ 4
+$0.00
+$0.00
+Recargos de Aportaciones y Amortizaciones:
+Actualización de Aportaciones y Amortizaciones:
+Aportación Patronal S/Crédito:
+Aportación Patronal C/Crédito:
+Amortización
+$0.00
+Total a Pagar de INFONAVIT
+Total de Acreditados:
+$0.00
+$0.00
+$0.00
+ 0
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0.00
+ 0
+Multa
+$0.00
+Donativo FUNDEMEX
+$0.00

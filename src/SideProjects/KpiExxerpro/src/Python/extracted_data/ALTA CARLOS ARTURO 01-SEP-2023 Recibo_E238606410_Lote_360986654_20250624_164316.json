@@ -1,0 +1,17 @@
+{
+  "archivo_original": "ALTA CARLOS ARTURO 01-SEP-2023 Recibo_E238606410_Lote_360986654.pdf",
+  "fecha_procesamiento": "2025-06-24T16:43:16.610846",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2023-09-14 09:20\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n360986654\nE2386064109\n  Número de folio:\n5135867831195486340\n  Serial del certificado:\n00000100000209948564\nHuella Digital\n6f5fa4ad641252d03cde4f87fd95df02a9360c74\nInformación General\nIMSS DESDE SU EMPRESA\n0328950926  10001092023000  080926           0ROJC021230HQTDMRA5\nE238606410930190295557RODRIGUEZ\nJIMENEZ\nCARLOS ARTURO\n9\n0328950927  10001092023000  080927           0ROJC021230HQTDMRA5\nE238606410930190295557RODRIGUEZ\nJIMENEZ\nCARLOS ARTURO\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\nFCA97326EB6D2290F5D62CB91BCAD8A1BC0303ED4675044AAA2B3AFA0CAC19BFCF035DFBF3DD004448DBB9C04E7FC7B40FE6357AF4E\n330B60C834D40F1AB2C7E | 925809561\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

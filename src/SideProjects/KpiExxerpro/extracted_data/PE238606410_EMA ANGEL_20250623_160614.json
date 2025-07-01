@@ -1,0 +1,15 @@
+{
+  "archivo_original": "PE238606410_EMA ANGEL.pdf",
+  "fecha_procesamiento": "2025-06-23T16:06:14.017328",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "OS\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\n1) SEGURIDAD Y SOLIDARIDAD SOCIAL\nPropuesta de Cédula de Determinación de Cuotas IMSS\nDel 23-ESTATAL QUER?TARO\nSubdel 01-QUER?TARO\n\nEXXERPRO SOLUTIONS SA DE CV PATRONAL OBRERA SUMA\nE23 - 86064 - 10 - 9 R.F.C. ESO100126H10 IMPORTE TOTAL: 23,947.66 2,865.23 26,812.89\nAV DEL SOL 1B INT 48 SOL EL QUERETARO Cuota Fija: 12,697.80 12,697.80\nQUERETARO Excedente: 464.23 168.82 633.05\nc.P. 76113 MPIO. E23 SEC. NOT. 91 Prestaciones en Dinero: 1,509.98 539.29 2,049.27\n8401 DISE O INDUSTRIAL Gastos Med. Pens. Art. 25: 2,264.96 808.92 3,073.88\nEmpresario: La L?nea de Captura contenida en esta Riesgos de Trabajo: 1,078.54 1,078.54\nPropuesta es tu medio de pago, pres?ntala en portal Invalidez y Vida Patronal: : 3,775.00 1,348.20 5,123.20\nGuarderías y Prestaciones Sociales: 2,157.15 2,157.15\n\nbancario, u obtenla en l?nea con la nueva Versi?n SUA El BA\nArt. 31 de la Ley del SS, establece los beneficios por\nausentismo de trabajadores. Si por COVID19 tu empresa\npresenta problemas de liquidez, contamos con un\nconvenio, consulta: www.imss.gob.mx/tramites/imss02089\n\nPERIODO PROPUESTA PRIMAR.T. | CLASE RT S.M.V Fecha Sal Mi U.M.A. AL U.M.A. DESDE COTIZANTES DIAS COT.\n06 - 2023 IMSS 0.50000 1 207.44 01/01/2023 31/01/2023 01/02/2023 20 600\n231146756 96.22 103.74\nDETALLE DE TRABAJADORES\n\nN* de Seguridad Social Apellidos y Nombre(s) del Asegurado\nMOVIMIENTOS CUOTAS ENFERMEDADES Y MATERNIDAD\n\nSA EXCEDENTE PRESTACIONES EN | GASTOS MEDICOS | riescos | INVALIDEZ Y VIDA [GUARDERÍAS]\nCLAVE |FECHA |D ato | CUOTA PAT OBR DINERO PENS. DE PAT OBR E\nFIJA PAT OBR PAT OBR | TRABAJO\n\n08 19 01 0703 0 MARQUEZ AGUEDA ANGEL JOSUE MAAA010622HCSRGNAO\n4 30 288.55 634.89 0.00 0.00 60.60 21.64 90.89 32.46 43.28 151.49 54.10 86.57 1,175.92\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

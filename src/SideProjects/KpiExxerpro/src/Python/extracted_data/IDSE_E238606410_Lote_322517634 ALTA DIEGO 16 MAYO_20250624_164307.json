@@ -1,0 +1,17 @@
+{
+  "archivo_original": "IDSE_E238606410_Lote_322517634 ALTA DIEGO 16 MAYO.pdf",
+  "fecha_procesamiento": "2025-06-24T16:43:07.489529",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Número de lote:\n  Registro Patronal:\n  RFC del patrón:\n  Serial del certificado:\n  Número de folio:\n  Razón Social:\nIMSS DESDE SU EMPRESA\n5043769053990175883\n322517634\nConstancia de presentación de movimientos afiliatorios\nESO100126H10\nHuella Digital\nE2386064109\n2022-05-16 10:54\nc5ddfc92921ff9cf48cd6f67ac1641b0e61b97a1\nInformación General\nEXXERPRO SOLUTIONS SA DE CV\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende la presente Constancia de presentación de movimientos afiliatorios del Patrón o\nSujeto Obligado con Nombre o Razón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n00000100000209014183\nBajas\nModif.\nTotal\nRechazados\nModif.\nTotal\nTotal\nOperados\nMovimientos recibidos por el IMSS\nReing.\nModif.\nBajas\nBajas\nReing.\nReing.\n0\n0\n0\n0\n0\n0\n0\n1\n1\n1\n1\n0\nRelación de movimientos operados\nTipo\nNSS\nNombre Asegurado\nSal. Base Ext.\nFec-Mov\nUMF Tipo\nTipo\nC. Baja\n$\n8\nRUIZ PASTOR DIEGO\n172.87\n0\n000\n0\n16/05/2022\n73150092234\n2\n0\nContacto:\n 2\nPágina 1 de\nSello Digital:\n11E571BB9DFAB458A596AEA65237FC186D34E0F659803944E83CDF9902058D608C09C2C1A593B7881FE54AEF9A0C05C4F87A23C26CE212\n0B39EE3275830B09DA | 705172691\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\nPara efectos de lo anterior se entenderá por: Modif. (Modificación de salario), Reing. (Reingreso), Fec-Mov (Fecha de movimiento), NSS (Número\nde Seguridad Social), Sal. Base (Salario base), Tipo Sal. (Tipo de salario) que puede ser: 0. Salario Fijo, 1. Salario Variable, 2. Salario Mixto, Tipo\nTrab. (Tipo de trabajador),  que puede ser: 1. Permanente, 2. Eventual urbano, 3. Eventual de la construcción, 4. Eventual del campo, Ext.\n(Extemporáneo), UMF (Unidad de Medicina Familiar), Tipo Mov. (Tipo de movimiento), que puede ser: 1. Alta, 2. Baja, 7. Modificación de salario, 8.\nReingreso, C. Baja (Causa de baja), que puede ser: 0 - No aplica, 1 - Término del contrato, 2 - Separación voluntaria, 3 - Abandono de empleo, 4 -\nDefunción, 5 - Clausura, 6 - Otra, 7 - Ausentismo, 8 - Rescisión de contrato, 9 - Jubilación, A - Pensión.\nContacto:\n 2\nPágina 2 de\nSello Digital:\n11E571BB9DFAB458A596AEA65237FC186D34E0F659803944E83CDF9902058D608C09C2C1A593B7881FE54AEF9A0C05C4F87A23C26CE212\n0B39EE3275830B09DA | 705172691\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "RFC"
+  }
+}

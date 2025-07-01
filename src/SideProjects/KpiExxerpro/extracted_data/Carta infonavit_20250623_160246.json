@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Carta infonavit.pdf",
+  "fecha_procesamiento": "2025-06-23T16:02:46.794193",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": " \n \n \nQuerétaro, Qro, a 25 de octubre de 2021 \n \n \n \nINSTITUTO NACIONAL DE LA VIVIENDA PARA LOS TRABAJADORES \n \nLIC. FRANZ ANTONIO JIMÉNEZ RUEDA \nGERENTE SR DE FISCALIZACIÓN  \nPRESENTE: \n \n \n \nPor este conducto le informo que la empresa que represento con razón social EXXERPRO \nSOLUTIONS, S.A. DE C.V. Con registro patronal E2386064109, y con registro federal de \ncontribuyentes ESO100126H10 con domicilio fiscal en Avenida del Sol no. exterior. 1-B no. interior \n4-B, Colonia El Sol, Querétaro, Qro  C. P. 76113, y con número de Registro de Prestadoras de \nServicios Especializados u Obras Especializadas ante la STPS, AR9849/2021, con la actividad \nregistrada de “Diseño, rediseño, supervisión, mantenimiento, servicio, operación, administración, \nreparación, fabricación, automatización, desarrollo, implementación y comercio de toda clase de \nsistemas, equipos eléctricos, de cómputo, de automatización, de telecomunicaciones, de redes \nindustriales, de redes de cómputo, software, instrumentación y de control, maquinaria industrial, \nmecánica, hidráulica, neumática, civil, eléctrica de baja, media y de alta tensión, simuladores, \nmodelado, optimización, automatización, control, así como partes y accesorios relacionados con los \nmismos y sus similares.” \n \nDeclaro bajo protesta de decir verdad que no se celebró contrato alguno de prestación de servicios \nu obras especializadas ni se cuenta con trabajadores que hayan brindado servicios de \nsubcontratación durante el cuatrimestre mayo-agosto 2021. \n \n \n. \nATENTAMENTE \n \n \n \n \nMARIA DEL CARMEN BRIONES RAMIREZ \nRepresentante Legal. \nExxerpro Solutions, S.A. de C.V. \nAv. El Sol 1-B Local 4-B \nPlaza comercial el Sol, Col. El sol. \nQueretaro, Qro. CP. 76113 \nTel. 01442 220 0876 \ncarmen.briones@exxerpro.com \n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109,"
+  }
+}

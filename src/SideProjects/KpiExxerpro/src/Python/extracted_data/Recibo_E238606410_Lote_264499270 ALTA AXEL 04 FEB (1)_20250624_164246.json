@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_264499270 ALTA AXEL 04 FEB (1).pdf",
+  "fecha_procesamiento": "2025-06-24T16:42:46.834542",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2020-02-05 17:39\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n264499270\nE2386064109\n  Número de folio:\n4064847394252540009\n  Serial del certificado:\n00000100000208107181\nHuella Digital\n60d5bfefe334ac3d8173f101061452a84b7affa7\nInformación General\nIMSS DESDE SU EMPRESA\n07316405022020004022020000  081739           0\nE238606410905169368288PEREA\nPERDOMO\nAXEL FERNANDO\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n95966E18B95D97C32216738A96F30C7D8D574C6DE7EE2E59C55A430FD1E67868C6EEC056D4DE65A9931DEECE66B81B76137CBC1E6865\nC0F3BFABFB16F5E7986F | 468293028\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

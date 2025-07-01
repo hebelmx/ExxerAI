@@ -1,0 +1,15 @@
+{
+  "archivo_original": "IMSS ENERO.pdf",
+  "fecha_procesamiento": "2025-06-23T16:07:27.424657",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Nombre emisor:\nINSTITUTO MEXICANO DEL SEGURO\nSOCIAL\nFolio:\n202412-E2386064109-17012025-983175\nRFC receptor:\nESO100126H10\nNombre receptor:\nEXXERPRO SOLUTIONS\nCódigo postal del\nreceptor:\n76113\nRégimen fiscal\nreceptor:\nGeneral de Ley Personas Morales\nUso CFDI:\nGastos en general.\nNo. de serie del CSD:\n00001000000510986159\nSerie:\nA\nCódigo postal, fecha y hora de\nemisión:\n06600 2025-01-23 15:41:34\nEfecto de comprobante:\nIngreso\nRégimen fiscal:\nPersonas Morales con Fines no Lucrativos\nExportación:\nNo aplica\nConceptos\nClave del producto\ny/o servicio\nNo. identificación\nCantidad\nClave de unidad\nUnidad\nValor unitario\nImporte\nDescuento\nObjeto impuesto\n85101701\n1\nE48\n34,947.00\n34,947.00\nNo objeto de impuesto.\nDescripción\nCuotas IMSS\nNúmero de pedimento\nNúmero de cuenta predial\n85101701\n1\nE48\n45,198.61\n45,198.61\nNo objeto de impuesto.\nDescripción\nCuotas RCV\nNúmero de pedimento\nNúmero de cuenta predial\nMoneda:\nPeso Mexicano\nForma de pago:\nTransferencia electrónica de fondos (incluye SPEI)\nMétodo de pago:\nPago en una sola exhibición\nSubtotal\n$ 80,145.61\nTotal\n$ 80,145.61\nSello digital del CFDI:\nQx7A1JSTQINm+3rFv0ZQiibl7whllWL5sn1I3VhbPxCsRSX65QxCS7672UqFZotsjG1uL6WCPpEOUeZ9E5MVXqeA73HW1s9EaTFxVc5Fc2wsKwFTiv+wASc1q02dzoN3mWmt2hZJPD4Yp\n+UyTLc6NO+A2Ln49mJ1CHsb3j0voWqcRQjNDjmyCvCqONpgGtpHCv7PM2FxfLFT46+YQfRkEaQSRomtuRVcraszUTXVNUVTUnAmyL/ntnOPt8ndk/jPRGsbOdYrh7XxF43kLj4/SzYIF1Rh\nquZne23VpwRIoOOkB6AcnCbOPFx1ABKqrXLWGejPEFsPNu8gGvRwjbGX4w==\nSello digital del SAT:\nSCjGrrWQ13W2qxMmHcX3dW6gs1Mj8ZCwFyOFrAFFjazroAAKsuxCyWRACwYHdsJpRBTxuTfQPsOaHKrOtwKL87PqfREFugjlw+svFgc/Gd4UkgPTe6DKVcV3xtyQtaqalgDZyaA5nThHwh\nUX24KdevOfml/bRFYQw6E3zGdS04Xc5Hyi/SR5RscxfMocPMLe3KkZyIMELrTA0ftXl5tcdN0d9aHAeAeVv+u8YHQJDK1BSTGphMWVlqFgZqOLubeajYrQx3uFvCrrZVr46TMejz5VY+4B1zY\nhX3UD5cIi9EmOQTO6sMBaPfeV+rvvoFoSWiBFiLfd/u2RBIgGpe3zWg==\nCadena Original del complemento de certificación digital del SAT:\n||1.1|980C463E-8422-4002-8C31-3C279DCA58A8|2025-01-23T15:43:42|SAT970701NN3|Qx7A1JSTQINm+3rFv0ZQiibl7whllWL5sn1I3VhbPxCsRSX65Q\nxCS7672UqFZotsjG1uL6WCPpEOUeZ9E5MVXqeA73HW1s9EaTFxVc5Fc2wsKwFTiv+wASc1q02dzoN3mWmt2hZJPD4Yp+UyTLc6NO+A2Ln49mJ1CH\nsb3j0voWqcRQjNDjmyCvCqONpgGtpHCv7PM2FxfLFT46+YQfRkEaQSRomtuRVcraszUTXVNUVTUnAmyL/ntnOPt8ndk/jPRGsbOdYrh7XxF43kLj4/SzYI\nF1RhquZne23VpwRIoOOkB6AcnCbOPFx1ABKqrXLWGejPEFsPNu8gGvRwjbGX4w==|00001000000705250068||\nRFC del proveedor de certificación:\nSAT970701NN3\nNo. de serie del certificado SAT\n00001000000705250068\nFecha y hora de certificación:\n2025-01-23 15:43:42\nRFC emisor:\nIMS421231I45\nFolio fiscal:\n980C463E-8422-4002-8C31-3C279DCA58A8\nEste documento es una representación impresa de un CFDI\nPágina 1 de 1\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

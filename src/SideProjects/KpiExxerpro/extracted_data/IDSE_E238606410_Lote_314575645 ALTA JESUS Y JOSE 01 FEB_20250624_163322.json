@@ -1,0 +1,17 @@
+{
+  "archivo_original": "IDSE_E238606410_Lote_314575645 ALTA JESUS Y JOSE 01 FEB.pdf",
+  "fecha_procesamiento": "2025-06-24T16:33:22.660267",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Número de lote:\n  Registro Patronal:\n  RFC del patrón:\n  Serial del certificado:\n  Número de folio:\n  Razón Social:\nIMSS DESDE SU EMPRESA\n5917459819582015068\n314575645\nConstancia de presentación de movimientos afiliatorios\nESO100126H10\nHuella Digital\nE2386064109\n2022-02-01 10:55\nf81d776d52fbbb9b76c5dc050abe5031b1956056\nInformación General\nEXXERPRO SOLUTIONS SA DE CV\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende la presente Constancia de presentación de movimientos afiliatorios del Patrón o\nSujeto Obligado con Nombre o Razón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n00000100000209014183\nBajas\nModif.\nTotal\nRechazados\nModif.\nTotal\nTotal\nOperados\nMovimientos recibidos por el IMSS\nReing.\nModif.\nBajas\nBajas\nReing.\nReing.\n0\n0\n0\n0\n0\n0\n0\n2\n2\n2\n2\n0\nRelación de movimientos operados\nTipo\nNSS\nNombre Asegurado\nSal. Base Ext.\nFec-Mov\nUMF Tipo\nTipo\nC. Baja\n$\n8\nAMADOR SANDOVAL JESUS RODANIM\n200.00\n0\n000\n0\n01/02/2022\n11169657829\n2\n0\n$\n8\nMUNIZ MUNIZ JOSE MANUEL\n200.00\n0\n000\n0\n01/02/2022\n19179893144\n2\n0\nContacto:\n 2\nPágina 1 de\nSello Digital:\nB2689EB5E1A253FBCC36238BA7EC4DDC7D5271772A8E31A4A78697C15ED7A66130BCA3C96FDED188310ECB7141C1508FBF6E09C812736\n4365C4E68332DEB2D16 | 660520440\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\nPara efectos de lo anterior se entenderá por: Modif. (Modificación de salario), Reing. (Reingreso), Fec-Mov (Fecha de movimiento), NSS (Número\nde Seguridad Social), Sal. Base (Salario base), Tipo Sal. (Tipo de salario) que puede ser: 0. Salario Fijo, 1. Salario Variable, 2. Salario Mixto, Tipo\nTrab. (Tipo de trabajador),  que puede ser: 1. Permanente, 2. Eventual urbano, 3. Eventual de la construcción, 4. Eventual del campo, Ext.\n(Extemporáneo), UMF (Unidad de Medicina Familiar), Tipo Mov. (Tipo de movimiento), que puede ser: 1. Alta, 2. Baja, 7. Modificación de salario, 8.\nReingreso, C. Baja (Causa de baja), que puede ser: 0 - No aplica, 1 - Término del contrato, 2 - Separación voluntaria, 3 - Abandono de empleo, 4 -\nDefunción, 5 - Clausura, 6 - Otra, 7 - Ausentismo, 8 - Rescisión de contrato, 9 - Jubilación, A - Pensión.\nContacto:\n 2\nPágina 2 de\nSello Digital:\nB2689EB5E1A253FBCC36238BA7EC4DDC7D5271772A8E31A4A78697C15ED7A66130BCA3C96FDED188310ECB7141C1508FBF6E09C812736\n4365C4E68332DEB2D16 | 660520440\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "RFC"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "archivo_original": "cedula men lectsua.pdf",
+  "fecha_procesamiento": "2025-06-24T16:42:05.916173",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SubDelegación IMSS:\n%\n29/nov/2013\nFecha de Proceso:\nESO-100126-H10\nPob. , Mun. / Deleg.D.F.:\nEntidad:\nCódigo Postal:\nDomicilio:\nDelegación IMSS:\nPágina:\n1\nArea Geográfica:\nActividad: \nRFC:\nNombre o Razón Social:\nRegistro Patronal: \nE23-86064-10-9\nSUMA\nPrima de R.T.\nPeríodo de Proceso:  05-2012\nEnfermedades y Maternidad\nG.P.S.\nI.V.\nR.T.\nG.M.P.\nP.D.\nExc.\nC.F.\nAus.\nInc.\nSDI\nDías\nFecha\nClave\nRFC/CURP\nN O M B R E\nNo. de Seguridad Social\nCÉDULA DE DETERMINACIÓN DE CUOTAS\nSISTEMA ÚNICO DE AUTODETERMINACIÓN\nEXXERPRO SOLUTIONS SA DE CV\nAV DEL SOL 1B INT 4B COL EL SOL\nQUERETARO\n76113\nDISE/O INDUSTRIAL\nC\nAct. y Rec.\n 0.50000\nV 3.3.2\nQUERETARO\n01\n23\nVersión Archivo: 3.3.2\n000000000\nN. Crédito:\n01\nT. D.:\n14-10-86-1271-5\nLEMJ860304HHGNNN01\nDE LEON MENDOZA JUAN DE DIOS\n00\n 1,242.44\n 394.17\n 94.06\n 171.96\n 120.67\n 286.60\n 114.64\n 60.34\n 31\n 0\nCarga Inic.\n 389.27\n14-10-88-1665-4\nFAUE880918HDFRGN07\nFARFAN UGALDE ENRIQUE\n00\n 518.90\n 190.73\n 29.59\n 68.08\n 47.77\n 113.46\n 45.38\n 23.89\n 15\n 0\nCarga Inic.\n 318.49\nBaja\n15/05/2012\n 0.00\n14-02-86-3631-5\nHEOJ860316HQTRVN02\nHERNANDEZ OVIEDO JUAN PABLO\n00\n 859.85\n 394.17\n 20.01\n 101.61\n 71.31\n 169.36\n 67.74\n 35.65\n 31\n 0\nCarga Inic.\n 230.02\n14-10-87-0643-4\nLUGS-870605-\nLUJAN GARCIA SERGIO\n00\n 1,157.41\n 394.17\n 77.60\n 156.33\n 109.70\n 260.54\n 104.22\n 54.85\n 31\n 0\nCarga Inic.\n 353.88\n28-01-80-0797-2\nRARR800509MQTMMC01\nRAMIREZ RAMIREZ ROCIO\n00\n 365.44\n 139.87\n 18.78\n 47.15\n 33.09\n 78.58\n 31.43\n 16.54\n 11\n 0\nReing\n21/05/2012\n 300.80\nBaja\n31/05/2012\n 0.00\n13-05-86-3288-9\nZEDS860430MHGXZR08\nZEA DIAZ SARA\n00\n 1,029.88\n 394.17\n 52.92\n 132.88\n 93.25\n 221.46\n 88.58\n 46.62\n 31\n 0\nCarga Inic.\n 300.80\nTotal de Cotizantes:\n$5,173.92\nTotal de Cuotas IMSS\nCuota Fija\nExcedente 3 SMGDF\nPrestaciones en Dinero\nGastos Médicos Pensionados (Art.25)\nRiesgos de Trabajo\nInvalidez y Vida\nGuarderias y Prestaciones Sociales\nC. F.\nEXC.\nP.D.\nG.M.P.\nR.T.\nI.V.\nG.P.S.\nSalario Diario Integrado\nIncapacidades\nAusentismos\nSDI\nINC\nAUS\nPara el cálculo del seguro de IV se utilizará el \ntope\nsalarial establecido en la Ley del Seguro Social\n 6\n 150\n 1,907.28\n 292.96\n 451.99\n 678.01\n 237.89\n 1,130.00\n 475.79\n 0.00\n 5,173.92\nTotal de Días cotizados para el calculo \nde trabajadores promedio expuestos al \n 150\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E23-86064-10-9",
+    "periodo_imss": "de Proceso"
+  }
+}

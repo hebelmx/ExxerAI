@@ -1,0 +1,17 @@
+{
+  "archivo_original": "ALTA MAXIMO VARGAS 18-JUL-2023 Recibo_E238606410_Lote_356541285.pdf",
+  "fecha_procesamiento": "2025-06-24T16:33:34.870324",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2023-07-21 09:50\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n356541285\nE2386064109\n  Número de folio:\n1349384908309807118\n  Serial del certificado:\n00000100000209948564\nHuella Digital\ne39ad192aaecce1f2adec717c1ea70ac71e164ed\nInformación General\nIMSS DESDE SU EMPRESA\n0301180953  10018072023000  080953           0VATM910108HHGRLX05\nE238606410913119117334VARGAS\nTLAXCANTITLA\nMAXIMO\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n4D0E4D5C97EB38A2C2D6D1B93F6A2806C8DD50AEA227318F77FDD68E1D6822E4E093E2E9A2D0CCC19572583E91EBFD051839600BA27B\nD27AC2E29A33C11B0BFC | 900727866\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Alta Pablo.pdf",
+  "fecha_procesamiento": "2025-06-23T16:00:14.148131",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n\nAcuse de recibo electrónico\nIMSS DESDE SU EMPRESA\n\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS S.A. DE C.V. con Registro Patronal E2386064109.\n\nInformación General\n\nNúmero de folio: 3534902724240097762\n\nRazón Social:  EXXERPRO SOLUTIONS S.A. DE C.V.\nNúmero de lote: 187145532\nRFC del patrón: ESO100126H10 Fecha y hora de recepción del lote: 2017-04-03 09:21\nRegistro Patronal: E2386064109 Serial del certificado: 00000100000205240069\n\nHuella Digital\n\n684876ac25109190a8623de1177745ae4880966\n\nE238606410914099224330ZUNIGA PEREZ PABLO ADRIAN 01500003041720003042017000 080921 0 9\n\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\n\nSello Digital:\n4FFCEC8A1F93B6649DDE36C2AF53185E5FB8FF672C7CF74019AC979FFBFB412204FA389B480C5A7BCD67A17EC83A026172B525B7EFF3D\n551FCBOB1DBF9D3DBFF | 103202765\n\nMER Contacto:\n» Es y Reforma 476, Col. Juárez\nMEXICO la Ye Oi E) C.P. 06600, Del. Cuauhtémoc\ntó - » IMSS Ciudad de México\n\nTel. 01 800 6232323\n\nPágina 1 de 1\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109."
+  }
+}

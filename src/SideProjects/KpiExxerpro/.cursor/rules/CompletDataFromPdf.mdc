@@ -1,0 +1,74 @@
+---
+description: Agente resiliente de Lectura Inversa (Excel → PDF) KPIs desde PDFs industriales
+globs:  
+alwaysApply: true
+---
+
+-Reglas Optimizadas para el Agente de Lectura Inversa (Excel → PDF)
+- 1. Propósito General
+- Leer un archivo Excel con nombres de archivos PDF y campos parcialmente llenos.
+- Localizar el archivo PDF en la ruta especificada.
+- Reextraer los campos faltantes del PDF y completar el Excel.
+- 2. Entrada Esperada
+- Archivo Excel con columnas mínimas:
+- nombre_archivo
+- ruta_pdf
+- campos_faltantes (puede ser lista o booleano por campo)
+- Opcional: columnas prellenadas con valores parciales.
+- 3. Lógica de Ejecución
+- Por cada fila:
+- Verificar existencia del archivo PDF en la ruta especificada.
+- Clasificar si es texto digital (fitz) o escaneado (OCR).
+- Extraer texto usando:
+- fitz.page.get_text() (digital)
+- pdf2image + pytesseract (escaneado)
+- Aplicar expresiones regulares definidas por campo esperado.
+- Completar solo los campos faltantes en el Excel original.
+- Registrar en columna método_extracción: "fitz", "ocr", "mixto", "fallido".
+- 4. Output
+- Archivo Excel actualizado con campos completados.
+- Log detallado por fila (archivo, método, errores).
+- Copia del texto completo y campos extraídos (por archivo) en .json o .pickle.
+- 5. Manejo de Errores
+- Si falta el PDF o no se puede extraer texto, marcar con status = "error" y motivo en nota.
+- Registrar errores críticos sin detener el proceso.
+- 6. Buenas Prácticas
+- No sobrescribir datos existentes salvo que campo esté vacío.
+- Usar expresiones flexibles y patrones tolerantes.
+- Modificar solo los campos indicados como faltantes.
+- 7. Completitud Condicional
+- Si el archivo ya tiene todos los campos completos, omitir extracción.
+- Si solo algunos campos faltan, extraer únicamente los requeridos.
+- 8. Flexibilidad de Campos
+- Los nombres de campo en el Excel pueden tener alias (ej. registro_imss vs registro_patronal).
+- Usar un diccionario de alias para mapear a expresiones regulares estándar.
+- 9. Trazabilidad y Auditoría
+- Para cada fila, incluir:
+- fecha_procesamiento
+- nombre_archivo_original
+- nota_contextual (ej. “OCR parcial, campo estimado con patrón 2”)
+- Generar un archivo .log con errores, tiempo de ejecución y resumen de filas procesadas.
+- 10. Checkpoint y Reanudación
+- Mantener un registro incremental (procesados.log) con hash o tamaño del PDF para evitar reprocesar archivos ya tratados.
+- 11. Modularidad del Script
+- El script debe estar dividido por funciones, por ejemplo:
+- leer_excel()
+- extraer_texto_pdf()
+- buscar_campos()
+- actualizar_excel()
+- registrar_logs()
+- 12. Configuración Externa
+- Soportar configuración externa (config.py o .json) con:
+- Ruta del Excel
+- Ruta base para PDFs
+- Ruta de salida y logs (opcional)
+- Retener errores críticos para análisis posterior sin interrumpir ejecución.
+- Modularidad del Código
+- Facilitar mantenimiento y evolución.
+- Soporte, Comentarios y Usabilidad
+- Comentarios detallados en español en cada bloque del script.
+- Incluir resumen general del flujo al inicio del archivo Python.
+- Buenas Prácticas de Ingeniería
+- Validar campos antes de insertar al DataFrame (normalización de valores, padding de ceros, tipos).
+- Priorizar claridad sobre concisión.
+- Reutilizar módulos y patrones comprobados.

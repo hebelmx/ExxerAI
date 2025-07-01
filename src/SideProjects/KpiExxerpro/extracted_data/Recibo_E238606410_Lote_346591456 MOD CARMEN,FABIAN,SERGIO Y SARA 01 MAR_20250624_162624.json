@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_346591456 MOD CARMEN,FABIAN,SERGIO Y SARA 01 MAR.pdf",
+  "fecha_procesamiento": "2025-06-24T16:26:24.460075",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2023-03-08 16:31\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n346591456\nE2386064109\n  Número de folio:\n3136596240258842624\n  Serial del certificado:\n00000100000209948564\nHuella Digital\n4f3c96dc6d58d4e0076c0834f680fac54484cab6\nInformación General\nIMSS DESDE SU EMPRESA\n04616946    00001032023000  0746             0\nE238606410912937810955BRIONES\nRAMIREZ\nMARIA DEL CARMEN\n9\n04616946    00001032023000  0746             0\nE238606410968169457667HERNANDEZ\nRAMOS\nFABIAN\n9\n04616946    00001032023000  0746             0\nE238606410914088706834LUJAN\nGARCIA\nSERGIO\n9\n04616946    00001032023000  0746             0\nE238606410913058632889ZEA\nDIAZ\nSARA\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\n82B22D79C6FB700B8DC4B96C08305924FCCA75A6C481295D44CBDA0DE0968E41B77F8A05D35F15D5FC226EA9BE66660A814EADBF80DD\n4D66D61DD5E221CA7DF9 | 839881761\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "archivo_original": "15. IMSS MZO AUT. 334010.pdf",
+  "fecha_procesamiento": "2025-06-24T16:27:02.255082",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Viernes 12 de Abril de 2024, 12:31 PM Centro de México\nPago SUA - SIPARE\n \n \nSu pago ha sido  aplicado  con el siguiente número de autorización  334010.\n \n \n \n \nAutorizadores\nUsuario 01\nABEL BRIONES RAMIREZ\n \n \n \n  Cuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C - 4264/92860\nSaldo actualizado MXN: $ 309,747.10\n \n \n \n  Datos del pago\nLínea de Captura SIPARE\nE13GLMUL-4C6B-2-HMXT-5689-001W17K-\n0000000-0000000-0000000-N1P7\nRegistro Patronal\nE2386064109\nPeriodo de pago\n202403\nFolio SUA\n822881\nFecha de Vencimiento\n17/04/2024\nOrigen línea de captura\n2\nImporte IMSS\n31,741.76\nImporte RCV\n0.00\nImporte Vivienda\n0.00\nImporte ACV\n0.00\nImporte Total MXN\n31741.76\nFecha de aplicación de pago\n12/04/2024 (ddmmaaaa)\n \n \n \n \nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los\ninstitutos(IMSS/INFONAVIT) para cualquier posible aclaración.\n \n \n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109",
+    "periodo_imss": "de pago\n202403\nFolio SUA\n822881\nFecha de Vencimiento\n17/04/2024\nOrigen línea de captura\n2\nImporte IMSS\n31"
+  }
+}

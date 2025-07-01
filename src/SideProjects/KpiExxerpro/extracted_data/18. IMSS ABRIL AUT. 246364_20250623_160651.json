@@ -1,0 +1,17 @@
+{
+  "archivo_original": "18. IMSS ABRIL AUT. 246364.pdf",
+  "fecha_procesamiento": "2025-06-23T16:06:51.912026",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Lunes 20 de Mayo de 2024, 4:00 PM Centro de México\nPago SUA - SIPARE\n \n \nSu pago ha sido  aplicado  con número de autorización  246364.\n \n \n \n  Cuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C - 4264/92860\nSaldo actualizado MXN: $ 140,413.34\n \n \n \n  Datos del pago\nLínea de Captura SIPARE\nE13GLMUL-4C6C-2-AH9D-5723-001UHZ9-002KF1H-\n0019M67-001FYVH-SKTO\nRegistro Patronal\nE2386064109\nPeriodo de pago\n202404\nFolio SUA\n488929\nFecha de Vencimiento\n20/05/2024\nOrigen línea de captura\n2\nImporte IMSS\n31,025.97\nImporte RCV\n43,118.45\nImporte Vivienda\n21,282.55\nImporte ACV\n24,246.53\nImporte Total MXN\n119673.50\nFecha de aplicación de pago\n20/05/2024 (ddmmaaaa)\n \n \n \n \nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos(IMSS/INFONAVIT) para\ncualquier posible aclaración.\n \n \n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109"
+  }
+}

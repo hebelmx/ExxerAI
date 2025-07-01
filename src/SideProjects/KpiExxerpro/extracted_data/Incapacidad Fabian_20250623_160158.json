@@ -1,0 +1,15 @@
+{
+  "archivo_original": "Incapacidad Fabian.pdf",
+  "fecha_procesamiento": "2025-06-23T16:01:58.653176",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "A DE MEDIA PELESACIÓN DE NONE\nPr\n\n“El asegurado a quien PD E OA reee\n¡durante el periodo que sa Indica en seta dupla\n\nla ooo ea “probable riesgo”,\ndeberá entregar al seno de Salud enel Trabajo el Formato ST yo S 5\nsegún corresponda, debidamente llenado.\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

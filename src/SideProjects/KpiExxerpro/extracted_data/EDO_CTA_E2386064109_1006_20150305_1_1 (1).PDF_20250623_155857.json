@@ -1,0 +1,17 @@
+{
+  "archivo_original": "EDO_CTA_E2386064109_1006_20150305_1_1 (1).PDF.pdf",
+  "fecha_procesamiento": "2025-06-23T15:58:57.665855",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "V0A0 Estado de Cuenta\n\nINFONAVIT Fecha y hora de creación: 05.03.2015 15:18:28\nPeriodo:| 1006\nNúmero de Registro Patronal: [E2386064109\n\nDirección Fiscal\n\nDirección: | AV DEL SOL 1B INT 4B SOL, EL\nDelegación / Municipio: | QUERETARO\nEntidad Federativa: | QUERÉTARO\n\nCódigo Postal:\n\nResumen\n\nConcepto Monto de aportación Monto de amortización Monto total\nEmisión $ 1.510,63 $ 1.510,63\nAjustes 0,00 $ 0,00\nPagos -1.522,59 $ -1.522,59\nAdeudos $\nDetalle de Trabajadores\nConcepto No. Crédito Monto de aportación |Monto de amortización Monto total\n13058632889 ZEA DIAZ SARA\nEmisión 485,71 $ 485,71\nAjustes 0,00 0,00\nPagos -539,67 -539,67\nAdeudos 0,00 0,00\n14108612715 |0000000000_ |DE LEON MENDOZA JUAN DE DIOS\nEmisión 426,88 0,00 426,88\nAjustes 0,00 0,00 0,00\nPagos -426,88 | $ 0,00 |$ -426,88\nAdeudos 0,00 |$ 0,00 |$ 0,00\n14108706434 |0000000000  |LUJAN GARCIA SERGIO\nEmisión 42,00 0,00 42,00\nAjustes 0,00 0,00 |$ 0,00\nPagos 0,00 0,00 0,00\nAdeudos 42,00|$ 0,00 42,00\n14108816654 | 0000000000 |FARFAN UGALDE ENRIQUE\nEmisión $ 426,88 | $ 0,00 426,88\nAjustes 0,00 0,00 0,00\nPagos -426,88 0,00 426,88\nAdeudos 0,00 0,00 0,00\n14947707940 [0000000000  |NAVA GARFIAS LUIS ALEJANDRO\nEmisión 129,16 129,16\nAjustes 0,00 0,00\nAdeudos\n\nAVISO SOBRE EL USO DE LA INFORMACIÓN CONTENIDA EN EL PORTAL DEL INFONAVIT\n\nLa información que se muestra aquí corresponde al periodo seleccionado en su consulta y sólo es de carácter informativo y estadístico; por lo tanto, no es válida para usos jurídicos\ndebido a que se encuentra en constante actualización.\n\nEl Instituto del Fondo Nacional de la Vivienda para los Trabajadores, con domicilio en Avenida Barranca del Muerto núm. 280, Colonia Guadalupe Inn, Delegación Álvaro Obregón,\nMéxico, Distrito Federal, C.P. 01029, es responsable del uso y protección de los datos personales que recaba para establecer contacto con sus usuarios y contribuyentes, o bien con\nfines meramente informativos y de consulta. Los detalles de la política de protección de ellos se encuentran en su Aviso de privacidad en el portal www.infonavit.org.mx\n\nPágina 1 de 1\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "[E2386064109"
+  }
+}

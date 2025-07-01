@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Recibo_E238606410_Lote_345141484 ALTA ORLANDO 20 FEB.pdf",
+  "fecha_procesamiento": "2025-06-24T16:26:23.745136",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n  Fecha y hora de recepción del lote:\n  Registro Patronal:\nAcuse de recibo electrónico\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS SA DE CV con Registro Patronal E2386064109.\n2023-02-21 10:30\n  Razón Social:\nEXXERPRO SOLUTIONS SA DE CV\n  RFC del patrón:\nESO100126H10\n  Número de lote:\n345141484\nE2386064109\n  Número de folio:\n9062012732195490782\n  Serial del certificado:\n00000100000209948564\nHuella Digital\nd9d6018632fd2f5a9e40a1344e34494e64882a60\nInformación General\nIMSS DESDE SU EMPRESA\n02176740    20020022023000  0840             0\nE238606410908149884713HURTADO\nHUERTA\nRENE ORLANDO\n9\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\nPágina 1 de 1\nContacto:\nReforma 476, Col. Juárez\nC.P. 06600, Del. Cuauhtémoc\nCiudad de México\nTel. 01 800 6232323\nE8FA1125D310B9AFC5496C73FD2FE9A75AAA10D965E0D6DCE5AE8EAF8B35D37C73B9E677C9EAF5490A8AC8CAD19BC5B89D12C1F4D1B\n2A15995B1436A2C209138 | 830790581\nSello Digital:\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Acuse"
+  }
+}

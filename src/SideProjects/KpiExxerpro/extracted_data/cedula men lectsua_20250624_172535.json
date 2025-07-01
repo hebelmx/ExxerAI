@@ -1,0 +1,18 @@
+{
+  "archivo_original": "cedula men lectsua.pdf",
+  "fecha_procesamiento": "2025-06-24T17:25:35.944847",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "SubDelegación IMSS:\n%\n04/dic/2013\nFecha de Proceso:\nESO-100126-H10\nPob. , Mun. / Deleg.D.F.:\nEntidad:\nCódigo Postal:\nDomicilio:\nDelegación IMSS:\nPágina:\n1\nArea Geográfica:\nActividad: \nRFC:\nNombre o Razón Social:\nRegistro Patronal: \nE23-86064-10-9\nSUMA\nPrima de R.T.\nPeríodo de Proceso:  04-2011\nEnfermedades y Maternidad\nG.P.S.\nI.V.\nR.T.\nG.M.P.\nP.D.\nExc.\nC.F.\nAus.\nInc.\nSDI\nDías\nFecha\nClave\nRFC/CURP\nN O M B R E\nNo. de Seguridad Social\nCÉDULA DE DETERMINACIÓN DE CUOTAS\nSISTEMA ÚNICO DE AUTODETERMINACIÓN\nEXXERPRO SOLUTIONS SA DE CV\nAV DEL SOL 1B INT 4B COL EL SOL\nQUERETARO\n76113\nDISE/O INDUSTRIAL\nC\nAct. y Rec.\n 0.54355\nV 3.3.2\nQUERETARO\n01\n23\nVersión Archivo: 3.2.8\n000000000\nN. Crédito:\n01\nT. D.:\n14-10-86-1271-5\nLEMJ860304HHGNNN01\nDE LEON MENDOZA JUAN DE DIOS\n00\n 826.18\n 366.10\n 23.33\n 98.89\n 69.40\n 164.81\n 65.93\n 37.72\n 30\n 0\nCarga Inic.\n 231.32\n14-10-88-1665-4\nFAUE880918HDFRGN07\nFARFAN UGALDE ENRIQUE\n00\n 826.18\n 366.10\n 23.33\n 98.89\n 69.40\n 164.81\n 65.93\n 37.72\n 30\n 0\nCarga Inic.\n 231.32\n14-10-87-0643-4\nLUGS-870605-\nLUJAN GARCIA SERGIO\n00\n 498.27\n 366.10\n 0.00\n 29.93\n 21.00\n 49.88\n 19.95\n 11.41\n 30\n 0\nCarga Inic.\n 70.00\n13-05-86-3288-9\nZEDS860430MHGXZR08\nZEA DIAZ SARA\n00\n 826.18\n 366.10\n 23.33\n 98.89\n 69.40\n 164.81\n 65.93\n 37.72\n 30\n 0\nCarga Inic.\n 231.32\nTotal de Cotizantes:\n$2,976.81\nTotal de Cuotas IMSS\nCuota Fija\nExcedente 3 SMGDF\nPrestaciones en Dinero\nGastos Médicos Pensionados (Art.25)\nRiesgos de Trabajo\nInvalidez y Vida\nGuarderias y Prestaciones Sociales\nC. F.\nEXC.\nP.D.\nG.M.P.\nR.T.\nI.V.\nG.P.S.\nSalario Diario Integrado\nIncapacidades\nAusentismos\nSDI\nINC\nAUS\nPara el cálculo del seguro de IV se utilizará el \ntope\nsalarial establecido en la Ley del Seguro Social\n 4\n 120\n 1,464.40\n 69.99\n 217.74\n 326.60\n 124.57\n 544.31\n 229.20\n 0.00\n 2,976.81\nTotal de Días cotizados para el calculo \nde trabajadores promedio expuestos al \n 120\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E23-86064-10-9",
+    "periodo_imss": "de Proceso"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "archivo_original": "8. PAGO IMMS AUT. 013037.pdf",
+  "fecha_procesamiento": "2025-06-24T16:42:14.316313",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Viernes 14 de Marzo de 2014, 8:12 AM Centro de México\nPago SUA - SIPARE\nSu pago ha sido aplicado con número de autorización 013037. \nCuentas\nCuenta retiro\nEXXERPRO SOLUTIONS SA DE C -\n 4264/92860\nSaldo actualizado MXN: $ 242,655.80\nDatos del pago\nLínea de Captura SIPARE\nE13GLMUL-4BEI-1-710O-1939-000FGK7-\n000IBPE-000B348-000FVQ9-2944\nRegistro Patronal\nE2386064109\nPeriodo de pago\n201402\nFolio SUA\n327912\nFecha de Vencimiento\n18/03/2014\nOrigen línea de captura\n1\nImporte IMSS\n7,213.03\nImporte RCV\n8,549.78\nImporte Vivienda\n5,172.56\nImporte ACV\n7,409.61\nImporte Total MXN\n28344.98\nFecha de aplicación de pago\n14/03/2014 (ddmmaaaa)\nNOTA: Este comprobante en forma conjunta con su Estado de Cuentas le servirá de Comprobante de Pago ante los institutos\n(IMSS/INFONAVIT) para cualquier posible aclaración.\nPágina 1 de 1\n14/03/2014\nhttps://www.bancanetempresarial.banamex.com.mx/bestbanking/spanishdir/impresion.htm\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109",
+    "periodo_imss": "de pago\n201402\nFolio SUA\n327912\nFecha de Vencimiento\n18/03/2014\nOrigen línea de captura\n1\nImporte IMSS\n7"
+  }
+}

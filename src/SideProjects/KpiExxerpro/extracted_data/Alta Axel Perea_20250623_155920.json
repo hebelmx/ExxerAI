@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Alta Axel Perea.pdf",
+  "fecha_procesamiento": "2025-06-23T15:59:20.655360",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "INSTITUTO MEXICANO DEL SEGURO SOCIAL\n\nAcuse de recibo electrónico\nIMSS DESDE SU EMPRESA\n\nEn términos del Artículo 6 del Reglamento de la Ley del Seguro Social en Materia de Afiliación, Clasificación de Empresas, Recaudación y\nFiscalización, el Instituto Mexicano del Seguro Social extiende el presente Acuse de recibo electrónico del Patrón o Sujeto Obligado con Nombre o\nRazón Social EXXERPRO SOLUTIONS S.A. DE C.V. con Registro Patronal E2386064109.\n\nInformación General\n\nNúmero de folio: 7734282755219802151\n\nRazón Social:  EXXERPRO SOLUTIONS S.A. DE C.V.\nNúmero de lote: 169385980\nRFC del patrón: ESO100126H10 Fecha y hora de recepción del lote: 2016-07-04 18:16\nRegistro Patronal: E2386064109 Serial del certificado: 00000100000204527964\n\nHuella Digital\n\n170a50730de88bba7106192064a814b0b169f368\n\nE238606410905169368288PEREZ PERDOMO AXEL FERNANDO 01333304071620004072016000 081816 0 9\n\nEste documento es una representación impresa de los movimientos afiliatorios que fueron transmitidos, mismo que es extraído de la notaría\n\nSello Digital:\n24EE3FEBA090D9026C17C38376780B87F77E4BBAC6779FE5FC56C4FC271F05B4BFA44CEF1A99A25C1ACA22B79889DF398470BC63B2647\nCCD92697D1CD817DE91 | 20137235\n\nMER Contacto:\n» Es y Reforma 476, Col. Juárez\nMEXICO la Ye Oi E) C.P. 06600, Del. Cuauhtémoc\ntó - » IMSS Ciudad de México\n\nTel. 01 800 6232323\n\nPágina 1 de 1\n\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109."
+  }
+}

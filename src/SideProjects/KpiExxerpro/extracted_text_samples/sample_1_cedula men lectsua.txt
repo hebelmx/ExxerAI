@@ -1,0 +1,163 @@
+SubDelegación IMSS:
+%
+04/dic/2013
+Fecha de Proceso:
+ESO-100126-H10
+Pob. , Mun. / Deleg.D.F.:
+Entidad:
+Código Postal:
+Domicilio:
+Delegación IMSS:
+Página:
+1
+Area Geográfica:
+Actividad: 
+RFC:
+Nombre o Razón Social:
+Registro Patronal: 
+E23-86064-10-9
+SUMA
+Prima de R.T.
+Período de Proceso:  09-2011
+Enfermedades y Maternidad
+G.P.S.
+I.V.
+R.T.
+G.M.P.
+P.D.
+Exc.
+C.F.
+Aus.
+Inc.
+SDI
+Días
+Fecha
+Clave
+RFC/CURP
+N O M B R E
+No. de Seguridad Social
+CÉDULA DE DETERMINACIÓN DE CUOTAS
+SISTEMA ÚNICO DE AUTODETERMINACIÓN
+EXXERPRO SOLUTIONS SA DE CV
+AV DEL SOL 1B INT 4B COL EL SOL
+QUERETARO
+76113
+DISE/O INDUSTRIAL
+C
+Act. y Rec.
+ 0.54355
+V 3.3.2
+QUERETARO
+01
+23
+Versión Archivo: 3.2.8
+000000000
+N. Crédito:
+01
+T. D.:
+14-10-86-1271-5
+LEMJ860304HHGNNN01
+DE LEON MENDOZA JUAN DE DIOS
+00
+ 1,145.00
+ 366.10
+ 84.70
+ 157.18
+ 110.30
+ 261.97
+ 104.79
+ 59.96
+ 30
+ 0
+M/S
+01/09/2011
+ 367.68
+14-10-88-1665-4
+FAUE880918HDFRGN07
+FARFAN UGALDE ENRIQUE
+00
+ 826.18
+ 366.10
+ 23.33
+ 98.89
+ 69.40
+ 164.81
+ 65.93
+ 37.72
+ 30
+ 0
+Carga Inic.
+ 231.32
+14-10-87-0643-4
+LUGS-870605-
+LUJAN GARCIA SERGIO
+00
+ 1,040.25
+ 366.10
+ 64.54
+ 138.03
+ 96.86
+ 230.05
+ 92.02
+ 52.65
+ 30
+ 0
+M/S
+01/09/2011
+ 322.88
+13-05-86-3288-9
+ZEDS860430MHGXZR08
+ZEA DIAZ SARA
+00
+ 861.61
+ 366.10
+ 30.15
+ 105.37
+ 73.94
+ 175.61
+ 70.25
+ 40.19
+ 30
+ 0
+Carga Inic.
+ 246.47
+Total de Cotizantes:
+$3,873.04
+Total de Cuotas IMSS
+Cuota Fija
+Excedente 3 SMGDF
+Prestaciones en Dinero
+Gastos Médicos Pensionados (Art.25)
+Riesgos de Trabajo
+Invalidez y Vida
+Guarderias y Prestaciones Sociales
+C. F.
+EXC.
+P.D.
+G.M.P.
+R.T.
+I.V.
+G.P.S.
+Salario Diario Integrado
+Incapacidades
+Ausentismos
+SDI
+INC
+AUS
+Para el cálculo del seguro de IV se utilizará el 
+tope
+salarial establecido en la Ley del Seguro Social
+ 4
+ 120
+ 1,464.40
+ 202.72
+ 332.99
+ 499.47
+ 190.52
+ 832.44
+ 350.50
+ 0.00
+ 3,873.04
+Total de Días cotizados para el calculo 
+de trabajadores promedio expuestos al 
+ 120

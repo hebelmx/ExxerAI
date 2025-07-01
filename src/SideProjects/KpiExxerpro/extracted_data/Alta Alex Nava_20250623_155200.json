@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Alta Alex Nava.pdf",
+  "fecha_procesamiento": "2025-06-23T15:52:00.946651",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "E\n\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\nSEC LAIA Y IDU OCTAL\n\nwww.imss.gob.mx\nInicio\nContacto y Directorios\n\nInicio - IDSE - Menú IDSE ” Movimientos afiliatorios\n\n(Regresar\n\nSalir\n\nE238606410 - EXXERPRO SOLUTIONS S.A. DE C.V.\nAV DEL SOL 1B INT 4B SOL EL\n\nMOVIMIENTOS AFILIATORIOS|\n\nte de movimientos + 131079373\n\nRegistro patronal:\nNombre:\n| Acuse de recibo |\n\nE238606410\nEXXERPRO SOLUTIONS S.A. DE C.V.\nStatus: Enviado\n\nNo. Seg.\nSoc.\n\n1494770794\n\nRegistro patronal:\n\nNombre: EXXERPRO SOLUTIONS S.A. DE C.V.\n\nDatos del Registro Patronal\n\nE238606410\n\nDíg.\nVer\n\nJor. Fecha\nreduc. mov.\n\nT.\nTrab Nombre T. Sal.\n\nNAVA GARFIAS LUIS ALEJANDRO 10/sep/14\n\nAlgunos derechos\n\nÚltima modificación: 08/11/2011, 12:00 hrs.\n\nrvados IMSS | Reforma 476, Col. Ju: o DF |Tel. 01 800 6232323 | Acerca del Portal | Avisos Legales\n\namidobe\nPara poder ver los documentos necesitas instalar d\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Nombre:"
+  }
+}

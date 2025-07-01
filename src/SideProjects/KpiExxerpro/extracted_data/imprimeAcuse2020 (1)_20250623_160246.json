@@ -1,0 +1,17 @@
+{
+  "archivo_original": "imprimeAcuse2020 (1).pdf",
+  "fecha_procesamiento": "2025-06-23T16:02:46.914705",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "Instituto Mexicano del Seguro Social\nRegistro Patronal :\nDelegación:\nSubdelegación:\nFolio:\nLote número:\nFecha de transacción:\nRazón Social:\nActividad Económica:\nClase :\nRepresentante Legal :\nE2386064109\n [23] Queretaro\n[1] Queretaro\n23-01502398\n23-01502398\n10-02-2021\nEXXERPRO SOLUTIONS S.A. DE C.V.\nDISE¿O INDUSTRIAL\n1\n841\nM C ABEL BRIONES RAMIREZ\nDeterminación de la Prima de RT - Envío de Archivo.\nFracción :\nDenominación del trámite:\nDías Subsidiados (S):\nPorcentajes (I):\nDefunciones (D):\nTrabajadores Prom. (N):\nAños prom. Vida A. (V):\nFactor de Prima (F):\nPrima Mínima R. (M):\nDías del Año:\n0\n0.0\n0\n00010.6\n28\n2.3\n00.00500\n365\nPeriodo Revisión:\nPrima Anterior:\nPrima Declarada:\n2020\n00.50000\n00.50000\nMM\nDD\nAAAA\nIMSS Desde su empresa\nAcuse Notarial de confirmación de transmisión del archivo de la Determinación de la Prima en el Seguro de\nRiesgos de Trabajo Derivada de la Revisión Anual de la Siniestralidad de la Empresa :\nEXXERPRO SOLUTIONS S.A. DE C.V.\nal Instituto Mexicano del Seguro Social.\nDatos base para la Determinación.\nNO\nAcreditación STyPS:\n10\n02\n2021\nFecha de solicitud del trámite\n       /              /\nCadena Original:\nNOTARIA_RAZON_SOCIAL=EXXERPRO SOLUTIONS S.A. DE C.V. | NOTARIA_DENOMINACION_TRAMITE=DETERMINACION ANUAL DE PRIMA |\nNOTARIA_NOMBRE_ARCHIVO=E2386064.DAP | NOTARIA_TAMANO_ARCHIVO=546 bytes | NOTARIA_REGISTRO_PATRONAL=E2386064109 |           FECHA_ENVIO=2021-02-10 14:18 |\nN\nO\nT\nA\nR\nI\nA\n_\nS\nE\nC\nU\nE\nN\nC\nI\nA\n_\nF\nI\nR\nM\nA\n=\n8\n6\n8\n4\n7\n3\n2\n7\n7\n7\n3\n4\n7\n3\n0\n4\n6\n7\n4\n \n|\nSELLO_DIGITAL=26640F6C87C15D2088F5FC6CF0B1C862FBDA210C4340AAD4E4008BBE8D109317F0789B90BA6D772414EC010986F4CF2D55463A63ED2E6A0B27\n1\nPágina\nContacto:\nde 1\nPaseo de la Reforma 476, P.B.\nCol. Juárez, Cuauhtémoc\nC.P. 06600 Ciudad de México\nTel. 01 800 623 23 23\nhttp://atencion.contactoimss.com.mx\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "Delegación:"
+  }
+}

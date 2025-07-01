@@ -1,0 +1,18 @@
+{
+  "archivo_original": "Pago imss.pdf",
+  "fecha_procesamiento": "2025-06-24T16:24:51.908584",
+  "metodo_extraccion": "texto_digital",
+  "texto_completo": "BancaNet Empresarial\nInternet\nCliente: 75594965/EXXERPRO SOLUTIONS SA DE CV \nComprobante de Pago\n16/12/2011\n1:08:35 PM\nCuenta de Cargo\n4264/92860\nImporte\n3,126.30\nNo. Autorización\n080199\nFecha de Aplicación\n16/12/2011\nEstatus del archivo\nTransferido\nTipo de Pago\nW300\nRepresentante 1\n03 SARA,ZEA/DIAZ\nRepresentante 2\nRegistro Patronal:\nE2386064109\nFolio SUA: 729316\nPeríodo de Pago: 2011-11\nAbono a Cuenta del IMSS\nAbono a Cuenta de la AFORE\nAbono a Cuenta del INFONAVIT\nCuenta 4 Seguros\n$3,126.30\nRet. Ces. y Vejez\n$0.00\nAport. Viv. Cta. Ind.\n$0.00\nActualización\n$0.00\nActualización\n$0.00\nAport. Viv. Amort. \nCred.\n$0.00\nRecargos Moratorios\n$0.00\nRecargos Moratorios\n$0.00\nAmortización de \nCrédito\n$0.00\nAport. Voluntarias\n$0.00\nActualización\n$0.00\nAport. Complem\n$0.00\nRecargos Moratorios\n$0.00\nMultas INFONAVIT\n$0.00\nDonativo FUNDEMEX\n$0.00\nTotal Viv\n$0.00\nTotal\n$3,126.30\nTotal\n$0.00\nTotal ACV\n$0.00\nTOTAL\n$3,126.30\nPage 1 of 1\n16/12/2011\nhttps://www.bancanetempresarial.banamex.com.mx/scripts/cgiclntc3/9CYV0FHNALC5...\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "E2386064109",
+    "periodo_imss": "de Pago"
+  }
+}

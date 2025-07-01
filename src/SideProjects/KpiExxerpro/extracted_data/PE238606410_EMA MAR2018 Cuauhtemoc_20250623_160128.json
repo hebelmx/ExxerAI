@@ -1,0 +1,15 @@
+{
+  "archivo_original": "PE238606410_EMA MAR2018 Cuauhtemoc.pdf",
+  "fecha_procesamiento": "2025-06-23T16:01:28.473098",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "os\nINSTITUTO MEXICANO DEL SEGURO SOCIAL\n15) SEGURIDAD Y SOLIDARIDAD SOCIAL\n\nPropuesta de Cédula de Determinación de Cuotas IMSS\n\nDel 23-ESTATAL QUER?TARO\nSubdel 01-QUER?TARO\n\nEXXERPRO SOLUTIONS SA DE CV PATRONAL OBRERA SUMA\nE23 - 86064 - 10 - 9 R.F.C. ESO100126H10 IMPORTE TOTAL: 13,815.46 1,998.70 15,814.10\nAV DEL SOL 18 INT 4B SOL EL QUERETARO Cuota Fija: 6,116.52 6,116.52\nQUERETARO Excedente: 650.85 236.66 887.5\nc.P. 76113 MPIO. E23 SEC. NOT. 91 Prestaciones en Dinero: 986.74 352.42 1,339.16\n8401 DISE O INDUSTRIAL Gastos Med. Pens. Art. 25: 1,480.11 528.61 2,008.7;\n\nEstimado  Patr?n: Te recomendamos consultar Riesgos de Trabajo: 704.81 704.81\nperi?dicamente la p?gina: Invalidez y Vida Patronal: 2,466.83 881.01 3,347.84\nGuarderías y Prestaciones Sociales: 1,409.60 1,409.6(\n\nhttp://www.imss.gob.mx/patrones/sua/actualizacion\n\nRecuerda que con tu archivo de pago puedes generar en\nSIPARE tu L?nea de Captura, visita:\nhttp://www.imss.gob.mx/patrones/sipare\n\nFecha Límite de Pago: 17/04/2018\n\nDIAS COT.\n372\n\nU.M.A. DESDE\n01/02/2018\n80.60\n\nDETALLE DE TRABAJADORES\nN* de Seguridad Social Apellidos y Nombre(s) del Asegurado\nMOVIMIENTOS CUOTAS ENFERMEDADES Y MATERNIDAD\n\nE ALARIO) cuota EXCEDENTE PRESTACIONES EN | GASTOS MEDICOS | riesgos | INVALIDEZ Y VIDA [GUARDERÍAS]\nDias [S\nDIARIO | iya PAT OBR M0 A DE PAT OBR | prisr.\nTRABAJO soc.\n\n35 14 92 9249 8 ARROYO GONZALEZ CUAUHTEMOC ROGELIO\n4 am 533 509.71 99.41 36.15 115.73 41.33 173.60 62.00 82.67 A 103.33 165.33 1,678.59\nEMI - 01 Formato para el Patrón\nVERSIÓN 05013 23:45:00 CLAVES DE MOVIMIENTOS: A- Alta, B - Baja, R - Reingreso\n\nMS- Modificación de Salario\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {}
+}

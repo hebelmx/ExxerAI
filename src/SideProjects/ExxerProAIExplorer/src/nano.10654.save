@@ -1,0 +1,2 @@
+/env DEBUGPY_LOG_DIR=/home/abel/.vscode/extensions/ms-python.debugpy-2024.8.0-linux-x64 /home/abel/projects/ExxerProAIExplorer/myenv/bin/python3.12 /home/abel/.vscode/extensions/ms-python.debugpy-2024.8.0-linux-x64/bundled/libs/debugpy/adapter/../../debugpy/launcher 48719 -- /home/abel/projects/ExxerProAIExplorer/src/test_code/test_llama_embeding.py 
+

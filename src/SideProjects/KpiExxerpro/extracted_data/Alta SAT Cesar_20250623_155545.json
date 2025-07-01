@@ -1,0 +1,17 @@
+{
+  "archivo_original": "Alta SAT Cesar.pdf",
+  "fecha_procesamiento": "2025-06-23T15:55:45.732982",
+  "metodo_extraccion": "ocr",
+  "texto_completo": "CEDULA DE IDENTIFICACION FISCAL\n22sar\n\nServicio de Administración Tributaria\n\nCOGC9304098ZA\nRegistro Federal de Contribuyentes\n\nCESAR ALEJANDRO CORONA\nGONZALEZ\nNombre, denominacion o razón social\n\nidCIF: 15050069272\nVALIDA TU INFORMACIÓN FISCAL\n\nFOLIO: RF201565347284\n\nSHCP %%sar\no Oo Servicio de Administración Tributaria\n\nACUSE ÚNICO DE INSCRIPCIÓN AL REGISTRO FEDERAL DE\nCONTRIBUYENTES\n\nLugar y Fecha de Emisión\nQUERETARO, QUERETARO, a 06 de Mayo de 2015\n\nSe ha procesado con éxito tu inscripción en el REC\nTipo de movimiento: Inscripción de Persona Física\n\nDatos del Contribuyente:\n\nCURP: COGC930409HDFRNSO7\n\nRFC: COGC9304098ZA\n\nNombre: CESAR ALEJANDRO\n\nApellido Paterno: CORONA\n\nApellido Materno: GONZALEZ\n\nNombre Comercial: CESAR ALEJANDRO CORONA GONZALEZ\n\n[Datos de Ubicación:\n\nTIPO DE VIALIDAD: CARRETERA (CARR.)\nNO. Y/O LETRA EXT: 50\nENTRE CALLE: CARRETERA A TLACOTE\nCOLONIA: LA TOSCANA\nLOCALIDAD: SANTIAGO DE QUERETARO\n\nCALLE: CARRETERA A TLACOTE 2015\nNO. Y/O LETRA INT:\n\nY CALLE: CARRETERA A TLACOTE\nMPIO O DEL: QUERETARO\n\nENT FED: QUERETARO\n\nCODIGO POSTAL: 76177\nCARACTERISTICAS DEL DOMICILIO: CASA DOS PISOS\nTIPO DE DOMICILIO: DOMICILIO FISCAL\n\nREFERENCIAS ADICIONALES: CASA DOS PISOS\n\nActividades Económicas:\n\nOrden Actividad Económica Porcentaje | Fecha Inicio Fecha Fin\n1 Asalariado 100% 02/05/2015\n\nRegímenes:\nRégimen Fecha Inicio Fecha Fin\nRégimen de Sueldos y Salarios e Ingresos Asimilados a Salarios 02/05/2015\n\nDeclaro bajo protesta de decir verdad y conocedor de las penas en que incurren las personas que declaran con falsedad en los términos de lo\ndispuesto por el artículo 247, fracción | del Código Penal Federal, en relación con el artículo 110 fracción II del Código Fiscal de la Federación,\nmanifiesto que todos los datos asentados en esta forma oficial son verídicos y exactos.\n\nSus datos personales son incorporados y protegidos en los sistemas del SAT, de conformidad con los Lineamientos de Protección de Datos\nPersonales y con diversas disposiciones fiscales y legales sobre confidencialidad y protección de datos, a fin de ejercer las facultades\nconferidas a la autoridad fiscal.\n\nSi desea modificar o corregir sus datos personales, puede acudir a cualquier Módulo de Servicios Tributarios y/o a través de la dirección\nhttp://sat.gob.mx\n\nPágina [1] de [2]\n\nFOLIO: RF201565347284\n\nCadena Original Sello:\n1106/05/2015|RF201565347284]Autoservicio|IPFI|COGC9304098ZA|2000001000007000112188]||\nSello Digital:\n\ndMBmWIk90FRdoIBP6+qFCz8bFIFBsBwJTeGFTDxg7zO0vFnHLryMb1gndhzpRLH5Y9jju4kospF3CFo7zwJ2Mp7BNS+gqr3do\narvxkdXePzuZfICOqe6KkDCNAHC1E47Fc4fCipIX70p0OlowViG1ag77+VZf9pmaTFawF2HPT6OA=\n\nPágina [2] de [2]\n\n",
+  "campos_faltantes_originales": [
+    "registro_patronal",
+    "periodo_imss",
+    "periodo_rcv",
+    "dias_cotizar",
+    "num_cotizantes",
+    "valor_uma"
+  ],
+  "datos_extraidos": {
+    "registro_patronal": "COGC9304098ZA"
+  }
+}
