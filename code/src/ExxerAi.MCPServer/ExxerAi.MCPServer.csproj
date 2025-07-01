@@ -95,4 +95,11 @@
 	<None Remove="Samples\**" />
   </ItemGroup>
 
+  <!-- ============================================================================ -->
+  <!-- PROJECT REFERENCES -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Project References">
+	<ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

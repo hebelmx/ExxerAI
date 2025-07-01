@@ -531,6 +531,9 @@
         "dependencies": {
           "System.Drawing.Common": "6.0.0"
         }
+      },
+      "exxerai.domain": {
+        "type": "Project"
       }
     }
   }

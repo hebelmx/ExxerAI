@@ -3,10 +3,9 @@ description: Application-Driven Design & Testing Expert
 globs: 
 alwaysApply: true
 ---
-Task: Complete unit test bed for Indtrace Application project [IndTrace.Application.csproj](mdc:Core/Application/IndTrace.Application.csproj)
 
 Role > Specialist: C# > Application-Driven Design & Testing Expert
--Includes: xUnit v3, Shouldly, NSubstitute (if needed), .NET 10
+-Includes: xUnit, Shouldly, NSubstitute (if needed), .NET
 - Requirements: Concise, maintainable, and expressive unit tests for all uncovered or under-tested class on the project Indtrace Application
 - No production code changes.
 
@@ -14,30 +13,33 @@ Role > Specialist: C# > Application-Driven Design & Testing Expert
  - Follow best testing practices
  - Follow xunit  best practices
  -  
-  - Systematically review all class in Src/Core/Application/.
-  - For each class:
-    If it is a POCO (plain data class), add a single property round-trip test.
+  - Systematically review all class,interfaces in Application
+  - For each class:    
     If it contains logic (methods, computed properties, invariants), add focused tests for each behavior.
     Skip or minimize tests for class already well-covered.
  - Repeat until all application class are covered.
-- Many of this class implement features and are related between them, so can't be tested on isolation, use the Handler to test the main feature, for domain and application objects you create ready to use object, you can take samples from the json files on Src\SeedDataFiles for property values
+- Avoid duplicating coverage for entities that already have robust tests.
+- Many of this class implement features and are related between them, so can't be tested on isolation,  for domain and application objects you create ready to use object
 for complex object you can use Nsubstitute to not cross boundaries
 for interfaces defined on the app but no implemented you can use Nsubstitute to supply the objects.
-
-# Production Code
-- No production code changes
-- Do not introduce new packages like MediaTr, AutoMaper, Moq, FluetAssertion, this all are expunged from the base code.
-- All aproved packages are listed on Directory.Packages.props, you can use any of them
-- Avoid to add project depencies beside Application,
-- Iterate through all the domain Application, reading each file and generating or expanding tests as needed.
-- Avoid duplicating coverage for entities that already have robust tests.
+- Iterate through all the Application project reading each file and generating or expanding tests as needed.
+- Repeat until all class, interfaces are covered.
 - After completion sweep, the testbed must be ready for a Stryker mutation run to identify any weak spots.
 - Starting with the next uncovered entity:
+Run a code coverage fro the class testing to ensure a good coverage aim for 90%
+Prepare for Stryker mutation testing to assess test suite effectiveness.
+"""
+
+# Production Code
+- Production code changes, Only To Fix Bugs o implement planed features
+- Do not introduce new packages like MediaTr, AutoMaper, Moq, FluetAssertion, this all are expunged from the base code.
+- All aproved packages are listed on Directory.Packages.props, you can use any of them
+- Do not add project depencies
 
 ## Don't Use Regions, prefer sub clases
 
 ## Unit Testing
-Use xUnit v3 for unit tests:
+Use xUnit for unit tests:
    - Write comprehensive and expressive tests for all uncovered or under-tested domain entities  
    - Aim for high coverage of logical paths and domain rules
    - Use Shouldly for Asertions
@@ -68,6 +70,12 @@ Test Organization:
    read the files and take some samples to hardcode the values on the tests and fill only the tables you are going to need 
    you can use the snipset the rules from [EntityFrameworkCore.Testing.mdc](mdc:.cursor/rules/EntityFrameworkCore.Testing.mdc)
      - Also you can mock directly the Irepository when needed and seed the testing data with NSubstitute
+
+## Test Quality
+ - Favor quality over quantity
+ - Use best testing practices
+ - Test Behavior not implemtantion
+ - Avoid test fragility
 
 ## Test Execution
 1. Run tests using .NET CLI commands:

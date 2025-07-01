@@ -2,6 +2,7 @@ using System.ComponentModel;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using ExxerAI.Domain;
 
 using ExxerAi.MCPServer.Application.Interfaces;
 using ModelContextProtocol.Server;
@@ -31,7 +32,7 @@ public class SystemTools : ISystemTools
     /// </summary>
     /// <returns>System information including OS, hardware, and runtime details</returns>
     [McpServerTool, Description("Gets comprehensive system information including OS, hardware, and runtime details")]
-    public Task<string> GetSystemInfoAsync()
+    public Task<Result<string>> GetSystemInfoAsync()
     {
         _logger.LogInformation("Getting system information");
 
@@ -53,12 +54,12 @@ public class SystemTools : ISystemTools
                             $"📂 Working Dir: {Environment.CurrentDirectory}";
 
             _logger.LogInformation("System information retrieved successfully");
-            return Task.FromResult(systemInfo);
+            return Task.FromResult(Result<string>.WithSuccess(systemInfo));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting system information");
-            return Task.FromResult($"❌ Error getting system information: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Error getting system information: {ex.Message}"));
         }
     }
 
@@ -69,7 +70,7 @@ public class SystemTools : ISystemTools
     /// <param name="timezone">Timezone for display (optional)</param>
     /// <returns>Current time in the specified format</returns>
     [McpServerTool, Description("Gets current date and time in various formats")]
-    public Task<string> GetCurrentTimeAsync(
+    public Task<Result<string>> GetCurrentTimeAsync(
         [Description("Time format: iso, readable, timestamp, utc")] string format = "readable",
         [Description("Timezone for display (optional)")] string timezone = "")
     {
@@ -106,12 +107,12 @@ public class SystemTools : ISystemTools
             }
 
             _logger.LogInformation("Current time retrieved in format {Format}", format);
-            return Task.FromResult(timeInfo);
+            return Task.FromResult(Result<string>.WithSuccess(timeInfo));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting current time");
-            return Task.FromResult($"❌ Error getting current time: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Error getting current time: {ex.Message}"));
         }
     }
 
@@ -123,7 +124,7 @@ public class SystemTools : ISystemTools
     /// <param name="maxItems">Maximum number of items to return</param>
     /// <returns>Directory listing with file information</returns>
     [McpServerTool, Description("Lists files and directories in a specified path")]
-    public Task<string> ListFilesAsync(
+    public Task<Result<string>> ListFilesAsync(
         [Description("Directory path to list")] string path = ".",
         [Description("Include hidden files and directories")] bool includeHidden = false,
         [Description("Maximum number of items to return")] int maxItems = 50)
@@ -134,7 +135,7 @@ public class SystemTools : ISystemTools
         {
             if (!Directory.Exists(path))
             {
-                return Task.FromResult($"❌ Directory not found: {path}");
+                return Task.FromResult(Result<string>.WithFailure($"Directory not found: {path}"));
             }
 
             var directoryInfo = new DirectoryInfo(path);
@@ -174,12 +175,12 @@ public class SystemTools : ISystemTools
             }
 
             _logger.LogInformation("Listed {Count} items in directory {Path}", entries.Count, path);
-            return Task.FromResult(result);
+            return Task.FromResult(Result<string>.WithSuccess(result));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error listing files in directory {Path}", path);
-            return Task.FromResult($"❌ Error listing files: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Error listing files: {ex.Message}"));
         }
     }
 
@@ -189,7 +190,7 @@ public class SystemTools : ISystemTools
     /// <param name="expression">Mathematical expression to evaluate</param>
     /// <returns>Calculation result</returns>
     [McpServerTool, Description("Performs safe mathematical calculations")]
-    public Task<string> CalculateAsync(
+    public Task<Result<string>> CalculateAsync(
         [Description("Mathematical expression to evaluate (supports +, -, *, /, %, parentheses)")] string expression)
     {
         _logger.LogInformation("Calculating expression: {Expression}", expression);
@@ -200,12 +201,12 @@ public class SystemTools : ISystemTools
             var allowedChars = "0123456789+-*/.()% ";
             if (!expression.All(c => allowedChars.Contains(c)))
             {
-                return Task.FromResult("❌ Expression contains invalid characters. Only numbers, +, -, *, /, %, (), and spaces are allowed.");
+                return Task.FromResult(Result<string>.WithFailure("Expression contains invalid characters. Only numbers, +, -, *, /, %, (), and spaces are allowed."));
             }
 
             if (string.IsNullOrWhiteSpace(expression))
             {
-                return Task.FromResult("❌ Expression cannot be empty");
+                return Task.FromResult(Result<string>.WithFailure("Expression cannot be empty"));
             }
 
             // Simple expression evaluation (production would use a proper parser)
@@ -216,12 +217,12 @@ public class SystemTools : ISystemTools
                              $"🔢 Result: {result}";
 
             _logger.LogInformation("Calculation completed: {Expression} = {Result}", expression, result);
-            return Task.FromResult(calculation);
+            return Task.FromResult(Result<string>.WithSuccess(calculation));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error calculating expression {Expression}", expression);
-            return Task.FromResult($"❌ Error calculating expression: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Error calculating expression: {ex.Message}"));
         }
     }
 
@@ -230,7 +231,7 @@ public class SystemTools : ISystemTools
     /// </summary>
     /// <returns>Memory usage statistics</returns>
     [McpServerTool, Description("Gets current memory usage information")]
-    public Task<string> GetMemoryUsageAsync()
+    public Task<Result<string>> GetMemoryUsageAsync()
     {
         _logger.LogInformation("Getting memory usage information");
 
@@ -250,12 +251,12 @@ public class SystemTools : ISystemTools
                             $"🗑️ GC Collections (Gen 2): {GC.CollectionCount(2)}";
 
             _logger.LogInformation("Memory usage information retrieved");
-            return Task.FromResult(memoryInfo);
+            return Task.FromResult(Result<string>.WithSuccess(memoryInfo));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error getting memory usage information");
-            return Task.FromResult($"❌ Error getting memory usage: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Error getting memory usage: {ex.Message}"));
         }
     }
 
@@ -264,7 +265,7 @@ public class SystemTools : ISystemTools
     /// </summary>
     /// <returns>Health status information</returns>
     [McpServerTool, Description("Checks the health status of the MCP server")]
-    public Task<string> CheckHealthAsync()
+    public Task<Result<string>> CheckHealthAsync()
     {
         _logger.LogInformation("Checking MCP server health");
 
@@ -285,12 +286,12 @@ public class SystemTools : ISystemTools
                               $"🌡️ Status: {(isHealthy ? "All systems operational" : "Performance degradation detected")}";
 
             _logger.LogInformation("Health check completed: {Status}", isHealthy ? "Healthy" : "Warning");
-            return Task.FromResult(healthStatus);
+            return Task.FromResult(Result<string>.WithSuccess(healthStatus));
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error checking server health");
-            return Task.FromResult($"❌ Error checking health: {ex.Message}");
+            return Task.FromResult(Result<string>.WithFailure($"Error checking health: {ex.Message}"));
         }
     }
 

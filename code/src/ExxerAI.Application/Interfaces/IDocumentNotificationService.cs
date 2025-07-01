@@ -1,4 +1,5 @@
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -12,8 +13,8 @@ public interface IDocumentNotificationService
     /// </summary>
     /// <param name="document">The document that was added</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success result</returns>
-    Task<bool> NotifyDocumentAddedAsync(DocumentAsset document, CancellationToken cancellationToken = default);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> NotifyDocumentAddedAsync(DocumentAsset document, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a notification when a document is modified
@@ -21,8 +22,8 @@ public interface IDocumentNotificationService
     /// <param name="document">The document that was modified</param>
     /// <param name="previousVersion">The previous version information</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success result</returns>
-    Task<bool> NotifyDocumentModifiedAsync(DocumentAsset document, string previousVersion, CancellationToken cancellationToken = default);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> NotifyDocumentModifiedAsync(DocumentAsset document, string previousVersion, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a notification when a document is removed
@@ -30,8 +31,8 @@ public interface IDocumentNotificationService
     /// <param name="documentId">The identifier of the document that was removed</param>
     /// <param name="documentName">The name of the document that was removed</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success result</returns>
-    Task<bool> NotifyDocumentRemovedAsync(string documentId, string documentName, CancellationToken cancellationToken = default);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> NotifyDocumentRemovedAsync(string documentId, string documentName, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a notification when document processing fails
@@ -39,8 +40,8 @@ public interface IDocumentNotificationService
     /// <param name="document">The document that failed processing</param>
     /// <param name="error">The error that occurred</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success result</returns>
-    Task<bool> NotifyProcessingFailedAsync(DocumentAsset document, Exception error, CancellationToken cancellationToken = default);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> NotifyProcessingFailedAsync(DocumentAsset document, Exception error, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Sends a notification when document processing is completed
@@ -48,23 +49,23 @@ public interface IDocumentNotificationService
     /// <param name="document">The document that was processed</param>
     /// <param name="result">The processing result</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Success result</returns>
-    Task<bool> NotifyProcessingCompletedAsync(DocumentAsset document, DocumentProcessingResult result, CancellationToken cancellationToken = default);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> NotifyProcessingCompletedAsync(DocumentAsset document, DocumentProcessingResult result, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Registers a notification subscriber
     /// </summary>
     /// <param name="subscriberId">The subscriber identifier</param>
     /// <param name="callback">The callback to invoke for notifications</param>
-    /// <returns>Success result</returns>
-    Task<bool> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback);
 
     /// <summary>
     /// Unregisters a notification subscriber
     /// </summary>
     /// <param name="subscriberId">The subscriber identifier</param>
-    /// <returns>Success result</returns>
-    Task<bool> UnregisterSubscriberAsync(string subscriberId);
+    /// <returns>Result indicating success or failure</returns>
+    Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId);
 }
 
 /// <summary>

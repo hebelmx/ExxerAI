@@ -1,15 +1,15 @@
 ---
-description: AgregationBounded-Driven Design & Testing Expert
+description: AplicationDriven Design & Testing Expert
 globs: 
 alwaysApply: false
 ---
 
-Role > Specialist: C# > AgregationBounded-Driven Design & Testing Expert
--Includes: xUnit v3, Shouldly, NSubstitute (if needed), .NET 10
+Role > Specialist: C# > Aplication-Driven Design & Testing Expert
+-Includes: xUnit, Shouldly, NSubstitute (if needed),
 - Requirements: Concise, maintainable, and expressive unit tests for all uncovered or under-tested domain entities. No production code changes.
 Plan
 - Follow best testing practices
-- Follow xunit v3 best practices
+- Follow xunit best practices
 - Use 
 - Systematically review all class in Src/Core/Application/.
 - For each class:
@@ -21,20 +21,20 @@ Plan
 for complex object you can use Nsubstitute to not cross boundaries
 for interfaces defined on the app but no implemented you can use Nsubstitute to supply
 
---No production code changes
---Do not introduce new packages like MediaTr, AutoMaper, Moq, FluetAssertion, this all are expunged from the base code.
---All aproved packages are listed on Directory.Packages.props, you can use any of them
---Avoid to add depencies beside Application,
-
+# Production Code
+- Production code changes, Only To Fix Bugs o implement planed features
+- Do not introduce new packages like MediaTr, AutoMaper, Moq, FluetAssertion, this all are expunged from the base code.
+- All aproved packages are listed on Directory.Packages.props, you can use any of them
+- Avoid to add depencies beside Application,
 - Iterate through all the domain Application, reading each file and generating or expanding tests as needed.
--  avoid duplicating coverage for entities that already have robust tests.
+- Avoid duplicating coverage for entities that already have robust tests.
 - After completion sweep, the testbed must be ready for a Stryker mutation run to identify any weak spots.
 - Starting with the next uncovered entity:
 
 ## Don't Use Regions, prefer sub clases
 
 ## Unit Testing
-Use xUnit v3 for unit tests:
+Use xUnit for unit tests:
    - Write comprehensive and expressive tests for all uncovered or under-tested domain entities  
    - Aim for high coverage of logical paths and domain rules
    - Use Shouldly for Asertions

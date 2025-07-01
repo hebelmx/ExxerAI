@@ -47,8 +47,8 @@ public interface IOrchestrationEngine
     /// <summary>
     /// Gets the current status of the orchestration engine
     /// </summary>
-    /// <returns>The orchestration status</returns>
-    OrchestrationStatus GetStatus();
+    /// <returns>Result containing the orchestration status</returns>
+    Result<OrchestrationStatus> GetStatus();
 
     /// <summary>
     /// Gets performance metrics for the orchestration engine

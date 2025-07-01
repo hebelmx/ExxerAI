@@ -1,3 +1,5 @@
+using ExxerAI.Domain;
+
 namespace ExxerAi.MCPServer.Application.Interfaces;
 
 /// <summary>
@@ -8,16 +10,16 @@ public interface ISystemTools
 	/// <summary>
 	/// Gets comprehensive system information
 	/// </summary>
-	/// <returns>System information including OS, hardware, and runtime details</returns>
-	Task<string> GetSystemInfoAsync();
+	/// <returns>Result containing system information including OS, hardware, and runtime details</returns>
+	Task<Result<string>> GetSystemInfoAsync();
 
 	/// <summary>
 	/// Gets the current date and time in various formats
 	/// </summary>
 	/// <param name="format">Time format (iso, readable, timestamp, utc)</param>
 	/// <param name="timezone">Timezone for display (optional)</param>
-	/// <returns>Current time in the specified format</returns>
-	Task<string> GetCurrentTimeAsync(string format = "readable", string timezone = "");
+	/// <returns>Result containing current time in the specified format</returns>
+	Task<Result<string>> GetCurrentTimeAsync(string format = "readable", string timezone = "");
 
 	/// <summary>
 	/// Lists files and directories in a specified path
@@ -25,25 +27,25 @@ public interface ISystemTools
 	/// <param name="path">Directory path to list</param>
 	/// <param name="includeHidden">Include hidden files and directories</param>
 	/// <param name="maxItems">Maximum number of items to return</param>
-	/// <returns>Directory listing with file information</returns>
-	Task<string> ListFilesAsync(string path = ".", bool includeHidden = false, int maxItems = 50);
+	/// <returns>Result containing directory listing with file information</returns>
+	Task<Result<string>> ListFilesAsync(string path = ".", bool includeHidden = false, int maxItems = 50);
 
 	/// <summary>
 	/// Performs a mathematical calculation safely
 	/// </summary>
 	/// <param name="expression">Mathematical expression to evaluate</param>
-	/// <returns>Calculation result</returns>
-	Task<string> CalculateAsync(string expression);
+	/// <returns>Result containing calculation result</returns>
+	Task<Result<string>> CalculateAsync(string expression);
 
 	/// <summary>
 	/// Gets memory usage information
 	/// </summary>
-	/// <returns>Memory usage statistics</returns>
-	Task<string> GetMemoryUsageAsync();
+	/// <returns>Result containing memory usage statistics</returns>
+	Task<Result<string>> GetMemoryUsageAsync();
 
 	/// <summary>
 	/// Checks the health status of the MCP server
 	/// </summary>
-	/// <returns>Health status information</returns>
-	Task<string> CheckHealthAsync();
+	/// <returns>Result containing health status information</returns>
+	Task<Result<string>> CheckHealthAsync();
 } 

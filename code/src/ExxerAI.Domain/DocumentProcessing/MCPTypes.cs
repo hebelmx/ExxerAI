@@ -270,5 +270,67 @@ public enum DocumentChangeType
     /// <summary>
     /// Document was renamed
     /// </summary>
-    Renamed
-} 
+    Renamed,
+
+    /// <summary>
+    /// Document was restored
+    /// </summary>
+    Restored
+}
+
+/// <summary>
+/// Represents an active MCP watch session
+/// </summary>
+public class MCPWatchSession
+{
+    /// <summary>
+    /// Gets or sets the watch session ID
+    /// </summary>
+    public string WatchId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the folder ID being watched
+    /// </summary>
+    public string FolderId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets when the watch was started
+    /// </summary>
+    public DateTime StartedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets the watch options
+    /// </summary>
+    public MCPWatchOptions Options { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets whether the watch is active
+    /// </summary>
+    public bool IsActive { get; set; } = true;
+}
+
+/// <summary>
+/// Represents an MCP document processing request
+/// </summary>
+public class MCPDocumentRequest
+{
+    /// <summary>
+    /// Gets or sets the document ID
+    /// </summary>
+    public string DocumentId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the processing options
+    /// </summary>
+    public ProcessingOptions ProcessingOptions { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the session ID
+    /// </summary>
+    public string SessionId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets additional request parameters
+    /// </summary>
+    public Dictionary<string, object> Parameters { get; init; } = new();
+}

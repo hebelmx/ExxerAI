@@ -14,9 +14,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     private readonly IPolymorphicDocumentProcessor _documentProcessor;
     private readonly IDocumentHashGenerator _hashGenerator;
     private readonly ILogger<DocumentIngestionService> _logger;
-    
+
     // Simulated watch sessions for demonstration (in real implementation this would be persistent storage)
     private readonly Dictionary<string, WatchSession> _activeSessions = new();
+
     private readonly List<DocumentChangeEvent> _pendingChanges = new();
 
     /// <summary>
@@ -33,6 +34,13 @@ public class DocumentIngestionService : IDocumentIngestionService
         _documentProcessor = documentProcessor ?? throw new ArgumentNullException(nameof(documentProcessor));
         _hashGenerator = hashGenerator ?? throw new ArgumentNullException(nameof(hashGenerator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public DocumentIngestionService(IDocumentWatchService watchService, IVersionDetectionEngine versionEngine, IDocumentHashGenerator hashGenerator, IPolymorphicDocumentProcessor documentProcessor, IPrimarySourceOfTruthSystem truthSystem, IDocumentNotificationService notificationService, ILogger<DocumentIngestionService> logger)
+    {
+        _hashGenerator = hashGenerator;
+        _documentProcessor = documentProcessor;
+        _logger = logger;
     }
 
     /// <summary>
@@ -97,7 +105,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             session.IsActive = false;
             session.StoppedAt = DateTime.UtcNow;
 
-            _logger.LogInformation("Stopped watching session {SessionId} for folder {FolderId}", 
+            _logger.LogInformation("Stopped watching session {SessionId} for folder {FolderId}",
                 watchId, session.FolderId);
 
             // In a real implementation, this would clean up the Google Drive API watch
@@ -121,7 +129,7 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         try
         {
-            _logger.LogDebug("Detecting document changes across {SessionCount} active sessions", 
+            _logger.LogDebug("Detecting document changes across {SessionCount} active sessions",
                 _activeSessions.Count(s => s.Value.IsActive));
 
             // In a real implementation, this would poll the Google Drive API for changes
@@ -147,17 +155,20 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The document processing result.</returns>
     public async Task<Result<DocumentProcessingResult>> ProcessDocumentChangeAsync(
-        DocumentChangeEvent changeEvent, 
+        DocumentChangeEvent changeEvent,
         CancellationToken cancellationToken = default)
     {
         try
         {
+            // Check for cancellation at the start of the method
+            cancellationToken.ThrowIfCancellationRequested();
+
             if (changeEvent == null)
             {
                 return Result<DocumentProcessingResult>.WithFailure("Change event cannot be null");
             }
 
-            _logger.LogInformation("Processing document change {EventId} for document {DocumentId} (Type: {ChangeType})", 
+            _logger.LogInformation("Processing document change {EventId} for document {DocumentId} (Type: {ChangeType})",
                 changeEvent.EventId, changeEvent.DocumentId, changeEvent.ChangeType);
 
             // Only process changes that require document processing
@@ -175,7 +186,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             }
 
             // For deleted documents, handle separately
-            if (changeEvent.ChangeType == ExxerAI.Application.Interfaces.DocumentChangeType.Deleted)
+            if (changeEvent.ChangeType == DocumentChangeType.Deleted)
             {
                 return await HandleDocumentDeletionAsync(changeEvent, cancellationToken);
             }
@@ -189,8 +200,8 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // Process through the polymorphic document processor
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
-                documentData.Data!, 
-                changeEvent.Metadata, 
+                documentData.Data!,
+                changeEvent.Metadata,
                 cancellationToken);
 
             if (processingResult.IsSuccess)
@@ -202,12 +213,12 @@ public class DocumentIngestionService : IDocumentIngestionService
                     session.LastProcessedAt = DateTime.UtcNow;
                 }
 
-                _logger.LogInformation("Successfully processed document {DocumentId} with confidence {Confidence:F2}", 
+                _logger.LogInformation("Successfully processed document {DocumentId} with confidence {Confidence:F2}",
                     changeEvent.DocumentId, processingResult.Data!.OverallConfidence);
             }
             else
             {
-                _logger.LogWarning("Failed to process document {DocumentId}: {Error}", 
+                _logger.LogWarning("Failed to process document {DocumentId}: {Error}",
                     changeEvent.DocumentId, processingResult.Error);
             }
 
@@ -228,8 +239,8 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The document processing result.</returns>
     public async Task<Result<DocumentProcessingResult>> IngestDocumentAsync(
-        string documentId, 
-        bool forceReprocess = false, 
+        string documentId,
+        bool forceReprocess = false,
         CancellationToken cancellationToken = default)
     {
         try
@@ -239,7 +250,7 @@ public class DocumentIngestionService : IDocumentIngestionService
                 return Result<DocumentProcessingResult>.WithFailure("Document ID cannot be empty");
             }
 
-            _logger.LogInformation("Ingesting document {DocumentId} (Force reprocess: {ForceReprocess})", 
+            _logger.LogInformation("Ingesting document {DocumentId} (Force reprocess: {ForceReprocess})",
                 documentId, forceReprocess);
 
             // Check if document was already processed (unless forcing reprocess)
@@ -268,11 +279,11 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // Process through the polymorphic document processor
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
-                documentData.Data!, 
-                metadataResult.Data!, 
+                documentData.Data!,
+                metadataResult.Data!,
                 cancellationToken);
 
-            _logger.LogInformation("Completed ingestion of document {DocumentId} with result: {IsSuccess}", 
+            _logger.LogInformation("Completed ingestion of document {DocumentId} with result: {IsSuccess}",
                 documentId, processingResult.IsSuccess);
 
             return processingResult;
@@ -292,8 +303,8 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>True if the document has been modified.</returns>
     public async Task<Result<bool>> IsDocumentModifiedAsync(
-        string documentId, 
-        DateTime lastProcessed, 
+        string documentId,
+        DateTime lastProcessed,
         CancellationToken cancellationToken = default)
     {
         try
@@ -307,8 +318,8 @@ public class DocumentIngestionService : IDocumentIngestionService
             }
 
             var isModified = metadataResult.Data!.ModifiedDate > lastProcessed;
-            
-            _logger.LogDebug("Document {DocumentId} modified check: {IsModified} (Last processed: {LastProcessed}, Modified: {ModifiedDate})", 
+
+            _logger.LogDebug("Document {DocumentId} modified check: {IsModified} (Last processed: {LastProcessed}, Modified: {ModifiedDate})",
                 documentId, isModified, lastProcessed, metadataResult.Data.ModifiedDate);
 
             return Result<bool>.WithSuccess(isModified);
@@ -342,8 +353,8 @@ public class DocumentIngestionService : IDocumentIngestionService
                 PendingChanges = _pendingChanges.Count,
                 AverageProcessingTimeMs = await GetAverageProcessingTimeAsync(cancellationToken),
                 SystemHealth = await DetermineSystemHealthAsync(cancellationToken),
-                LastProcessingTime = activeSessions.Any() ? 
-                    activeSessions.Max(s => s.LastProcessedAt ?? DateTime.MinValue) : 
+                LastProcessingTime = activeSessions.Any() ?
+                    activeSessions.Max(s => s.LastProcessedAt ?? DateTime.MinValue) :
                     DateTime.MinValue,
                 SystemMessages = await GetSystemMessagesAsync(cancellationToken),
                 Metrics = await GetDetailedMetricsAsync(cancellationToken)
@@ -364,7 +375,7 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         // Simulate API call delay
         await Task.Delay(100, cancellationToken);
-        
+
         // In a real implementation, this would set up Google Drive API push notifications
         _logger.LogDebug("Simulated Google Drive watch setup for folder {FolderId} session {SessionId}", folderId, sessionId);
     }
@@ -373,7 +384,7 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         // Simulate API call delay
         await Task.Delay(50, cancellationToken);
-        
+
         // In a real implementation, this would clean up Google Drive API push notifications
         _logger.LogDebug("Simulated Google Drive watch cleanup for session {SessionId}", sessionId);
     }
@@ -381,14 +392,14 @@ public class DocumentIngestionService : IDocumentIngestionService
     private async Task<Result<DocumentProcessingResult>> HandleDocumentDeletionAsync(DocumentChangeEvent changeEvent, CancellationToken cancellationToken)
     {
         _logger.LogInformation("Handling deletion of document {DocumentId}", changeEvent.DocumentId);
-        
+
         // In a real implementation, this would:
         // 1. Mark the document as deleted in the primary source of truth
         // 2. Preserve embeddings for audit purposes
         // 3. Update any related documents
-        
+
         await Task.Delay(10, cancellationToken); // Simulate processing
-        
+
         return Result<DocumentProcessingResult>.WithSuccess(new DocumentProcessingResult
         {
             DocumentId = changeEvent.DocumentId,
@@ -404,13 +415,13 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         // Simulate document download
         await Task.Delay(200, cancellationToken);
-        
+
         // In a real implementation, this would use Google Drive API to download the document
         // For demonstration, return simulated document content
         var simulatedContent = System.Text.Encoding.UTF8.GetBytes($"Simulated content for document {documentId}");
-        
+
         _logger.LogDebug("Simulated download of document {DocumentId} ({Size} bytes)", documentId, simulatedContent.Length);
-        
+
         return Result<byte[]>.WithSuccess(simulatedContent);
     }
 
@@ -418,7 +429,7 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         // Simulate metadata retrieval
         await Task.Delay(50, cancellationToken);
-        
+
         // In a real implementation, this would get metadata from Google Drive API
         var metadata = new DocumentMetadata
         {
@@ -431,7 +442,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             FileSize = Random.Shared.Next(1000, 100000),
             MimeType = "application/pdf"
         };
-        
+
         return Result<DocumentMetadata>.WithSuccess(metadata);
     }
 
@@ -439,7 +450,7 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         // Simulate checking existing document in primary source of truth
         await Task.Delay(20, cancellationToken);
-        
+
         // In a real implementation, this would query the document store
         // For demonstration, assume no existing document
         return Result<DocumentProcessingResult?>.WithSuccess(null);
@@ -470,7 +481,7 @@ public class DocumentIngestionService : IDocumentIngestionService
     {
         // Simulate health check
         await Task.Delay(10, cancellationToken);
-        
+
         // In a real implementation, this would check various system components
         var activeSessionCount = _activeSessions.Count(s => s.Value.IsActive);
         return activeSessionCount > 0 ? HealthStatus.Healthy : HealthStatus.Warning;
@@ -479,26 +490,26 @@ public class DocumentIngestionService : IDocumentIngestionService
     private async Task<List<string>> GetSystemMessagesAsync(CancellationToken cancellationToken)
     {
         await Task.Delay(10, cancellationToken);
-        
+
         var messages = new List<string>();
-        
+
         if (_activeSessions.Count == 0)
         {
             messages.Add("No active watch sessions");
         }
-        
+
         if (_pendingChanges.Count > 10)
         {
             messages.Add($"{_pendingChanges.Count} pending changes to process");
         }
-        
+
         return messages;
     }
 
     private async Task<Dictionary<string, object>> GetDetailedMetricsAsync(CancellationToken cancellationToken)
     {
         await Task.Delay(10, cancellationToken);
-        
+
         return new Dictionary<string, object>
         {
             ["total_sessions_created"] = _activeSessions.Count,
@@ -508,7 +519,7 @@ public class DocumentIngestionService : IDocumentIngestionService
         };
     }
 
-    #endregion
+    #endregion Private Implementation Methods
 }
 
 /// <summary>
@@ -555,4 +566,4 @@ internal class WatchSession
     /// Gets or sets when a document was last processed in this session.
     /// </summary>
     public DateTime? LastProcessedAt { get; set; }
-} 
+}

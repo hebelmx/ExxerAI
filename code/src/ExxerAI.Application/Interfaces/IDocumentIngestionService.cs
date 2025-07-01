@@ -16,7 +16,7 @@ public interface IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The watch session ID for tracking changes.</returns>
     Task<Result<string>> StartWatchingFolderAsync(
-        string folderId, 
+        string folderId,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -26,7 +26,7 @@ public interface IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The result of the stop operation.</returns>
     Task<Result<bool>> StopWatchingFolderAsync(
-        string watchId, 
+        string watchId,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -44,7 +44,7 @@ public interface IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The document processing result.</returns>
     Task<Result<DocumentProcessingResult>> ProcessDocumentChangeAsync(
-        DocumentChangeEvent changeEvent, 
+        DocumentChangeEvent changeEvent,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -55,8 +55,8 @@ public interface IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The document processing result.</returns>
     Task<Result<DocumentProcessingResult>> IngestDocumentAsync(
-        string documentId, 
-        bool forceReprocess = false, 
+        string documentId,
+        bool forceReprocess = false,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -67,8 +67,8 @@ public interface IDocumentIngestionService
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>True if the document has been modified.</returns>
     Task<Result<bool>> IsDocumentModifiedAsync(
-        string documentId, 
-        DateTime lastProcessed, 
+        string documentId,
+        DateTime lastProcessed,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -138,59 +138,60 @@ public class DocumentChangeEvent
     /// <summary>
     /// Gets whether this change represents a content modification.
     /// </summary>
-    public bool IsContentChange => ChangeType == DocumentChangeType.Modified && 
-                                   !string.IsNullOrEmpty(PreviousHash) && 
-                                   !string.IsNullOrEmpty(NewHash) && 
+    public bool IsContentChange => ChangeType == DocumentChangeType.Modified &&
+                                   !string.IsNullOrEmpty(PreviousHash) &&
+                                   !string.IsNullOrEmpty(NewHash) &&
                                    !PreviousHash.Equals(NewHash);
 
     /// <summary>
     /// Gets whether this change requires processing.
     /// </summary>
-    public bool RequiresProcessing => ChangeType == DocumentChangeType.Created || 
-                                      ChangeType == DocumentChangeType.Modified || 
+    public bool RequiresProcessing => ChangeType == DocumentChangeType.Created ||
+                                      ChangeType == DocumentChangeType.Modified ||
                                       ChangeType == DocumentChangeType.Restored;
 }
 
-/// <summary>
-/// Enumeration of document change types.
-/// </summary>
-public enum DocumentChangeType
-{
-    /// <summary>
-    /// Document was created.
-    /// </summary>
-    Created,
+//Duplicated code removed for brevity
+///// <summary>
+///// Enumeration of document change types.
+///// </summary>
+//public enum DocumentChangeType
+//{
+//    /// <summary>
+//    /// Document was created.
+//    /// </summary>
+//    Created,
 
-    /// <summary>
-    /// Document was modified.
-    /// </summary>
-    Modified,
+//    /// <summary>
+//    /// Document was modified.
+//    /// </summary>
+//    Modified,
 
-    /// <summary>
-    /// Document was deleted.
-    /// </summary>
-    Deleted,
+//    /// <summary>
+//    /// Document was deleted.
+//    /// </summary>
+//    Deleted,
 
-    /// <summary>
-    /// Document was moved.
-    /// </summary>
-    Moved,
+//    /// <summary>
+//    /// Document was moved.
+//    /// </summary>
+//    Moved,
 
-    /// <summary>
-    /// Document was renamed.
-    /// </summary>
-    Renamed,
+//    /// <summary>
+//    /// Document was renamed.
+//    /// </summary>
+//    Renamed,
 
-    /// <summary>
-    /// Document was restored from trash.
-    /// </summary>
-    Restored,
+//    /// <summary>
+//    /// Document was restored from trash.
+//    /// </summary>
+//    Restored,
 
-    /// <summary>
-    /// Document permissions were changed.
-    /// </summary>
-    PermissionsChanged
-}
+//    /// <summary>
+//    /// Document permissions were changed.
+//    /// </summary>
+//    PermissionsChanged
+//}
 
 /// <summary>
 /// Represents the status and statistics of the document ingestion system.
@@ -272,4 +273,4 @@ public enum HealthStatus
     /// System is not functional.
     /// </summary>
     Critical
-} 
+}
