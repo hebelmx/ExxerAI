@@ -47,6 +47,9 @@
     <!--== Document & Data Export ==-->
     <!--==============================================================-->
     <PackageVersion Include="PdfPig" Version="0.1.11-alpha-20250528-5b566" />
+    <PackageVersion Include="Tesseract" Version="5.2.0" />
+    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.6" />
+    <PackageVersion Include="Microsoft.ML" Version="4.0.0" />
     <!--================================================================-->
     <!--== Logging ==-->
     <!--==============================================================-->

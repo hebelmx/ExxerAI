@@ -304,7 +304,8 @@ public class AdaptivePatternEngine
 ```csharp
 public class DocumentIntelligenceAgent : Agent
 {
-    // Specialized agent for polymorphic document processing
+    // Specialized agent for polymorphic document processing - ENHANCED WITH LEARNING CAPABILITIES
+// This agent implements the advanced document processing pipeline discovered in KpiExxerpro project
     public async Task<ProcessingResult> ProcessDocumentAsync(DocumentInput input)
     {
         var documentType = await _analyzer.DetectDocumentTypeAsync(input.Content);
@@ -382,6 +383,568 @@ public interface IPythonMLBridge
 - **Audit Trail**: Maintains full processing history for compliance and debugging
 
 This polymorphic document intelligence framework positions ExxerAI as not just an agent orchestration platform, but as an **adaptive intelligence system** that learns and evolves with the documents it processes, creating unprecedented automation capabilities for enterprise document workflows.
+
+---
+
+## 2.5. Advanced Document Intelligence Pipeline (KpiExxerpro Integration) - IMPLEMENTATION PRIORITY
+
+### Polymorphic Document Processing System
+
+Based on the comprehensive KpiExxerpro implementation analysis (10,000+ financial documents processed), ExxerAI will implement an advanced document processing system that serves as the **primary source of truth** for all business intelligence data.
+
+#### Core Document Processing Pipeline
+
+```csharp
+/// <summary>
+/// Advanced polymorphic document processor that learns to adapt to any document type
+/// Implements multi-stage processing: Direct Read → OCR → LLM Verification → Grounding
+/// Based on proven KpiExxerpro patterns with 15+ years of financial document processing
+/// </summary>
+public interface IPolymorphicDocumentProcessor
+{
+    Task<DocumentProcessingResult> ProcessDocumentAsync(byte[] documentData, DocumentMetadata metadata);
+    Task<ExtractionResult> ExtractFieldsAsync(Document document, ExtractionSchema schema);
+    Task<ValidationResult> ValidateAndGroundDataAsync(ExtractedData data, GroundTruthContext context);
+    Task<LearningResult> AdaptProcessingRulesAsync(ProcessingHistory history);
+    Task<SchemaDefinition> LearnDocumentSchemaAsync(IEnumerable<Document> samples);
+}
+
+/// <summary>
+/// Multi-stage document processing with intelligent fallback
+/// Stage 1: Direct text extraction from digital documents
+/// Stage 2: OCR processing for scanned/image documents  
+/// Stage 3: LLM-assisted field identification and validation
+/// Stage 4: Data grounding against known patterns and dictionaries
+/// Stage 5: Primary source of truth validation and storage
+/// </summary>
+public class AdvancedDocumentProcessor : IPolymorphicDocumentProcessor
+{
+    private readonly IDirectTextExtractor _directTextExtractor;
+    private readonly IOCRService _ocrService;
+    private readonly ILLMGroundingService _llmGroundingService;
+    private readonly IDocumentSchemaLearningEngine _schemaLearner;
+    private readonly IFieldExtractionDictionary _extractionDictionary;
+    private readonly IPrimarySourceOfTruthSystem _truthSystem;
+    
+    public async Task<DocumentProcessingResult> ProcessDocumentAsync(byte[] documentData, DocumentMetadata metadata)
+    {
+        var result = new DocumentProcessingResult { DocumentId = Guid.NewGuid().ToString() };
+        
+        // Stage 1: Direct text extraction attempt
+        var directResult = await _directTextExtractor.ExtractTextAsync(documentData);
+        if (directResult.IsSuccessful && directResult.HasMeaningfulContent)
+        {
+            result.ExtractionMethod = ExtractionMethod.DirectText;
+            result.ExtractedText = directResult.Text;
+            result.Confidence = 0.95f;
+        }
+        else
+        {
+            // Stage 2: OCR fallback with region-specific processing
+            var ocrResult = await _ocrService.ProcessDocumentWithRegionsAsync(documentData, metadata.DocumentType);
+            if (ocrResult.IsSuccessful)
+            {
+                result.ExtractionMethod = ExtractionMethod.OCR;
+                result.ExtractedText = ocrResult.Text;
+                result.Confidence = ocrResult.Confidence;
+                result.OCRRegions = ocrResult.ProcessedRegions;
+            }
+            else
+            {
+                return DocumentProcessingResult.Failed("Unable to extract text through direct or OCR methods");
+            }
+        }
+        
+        // Stage 3: LLM-assisted field extraction and validation
+        var llmResult = await _llmGroundingService.ValidateAndExtractFieldsAsync(
+            result.ExtractedText, 
+            metadata.ExpectedSchema,
+            result.OCRRegions);
+            
+        result.ExtractedFields = llmResult.Fields;
+        result.ValidationResults = llmResult.ValidationResults;
+        result.LLMConfidence = llmResult.Confidence;
+        
+        // Stage 4: Data grounding against business dictionaries
+        var groundingResult = await GroundExtractedDataAsync(result, metadata);
+        result.GroundedData = groundingResult.GroundedFields;
+        result.GroundingConfidence = groundingResult.Confidence;
+        
+        // Stage 5: Store in primary source of truth system
+        if (result.IsSuccessful && result.OverallConfidence > 0.7f)
+        {
+            var truthRecord = await _truthSystem.StoreExtractedDataAsync(
+                result.GroundedData, 
+                new DataSource { Type = "Document", Id = result.DocumentId, Path = metadata.SourcePath });
+            result.TruthRecordId = truthRecord.Id;
+        }
+        
+        // Stage 6: Schema learning from successful extractions
+        if (result.IsSuccessful)
+        {
+            await _schemaLearner.UpdateSchemaFromFeedbackAsync(
+                metadata.ExpectedSchema, 
+                result.ToLearningFeedback());
+        }
+        
+        return result;
+    }
+}
+```
+
+#### Document Schema Learning Engine
+
+```csharp
+/// <summary>
+/// Machine learning component that adapts to new document types and field patterns
+/// Learns from successful extractions to improve future processing accuracy
+/// Based on KpiExxerpro's proven learning algorithms for financial documents
+/// </summary>
+public interface IDocumentSchemaLearningEngine
+{
+    Task<SchemaDefinition> AnalyzeDocumentPatternsAsync(IEnumerable<Document> trainingSet);
+    Task<FieldDefinition> IdentifyNewFieldPatternAsync(string fieldName, IEnumerable<string> examples);
+    Task<ProcessingRule> GenerateExtractionRuleAsync(string fieldType, IEnumerable<ExtractionExample> examples);
+    Task<PolymorphicSchema> CreateAdaptiveSchemaAsync(DocumentType documentType);
+    Task UpdateSchemaFromFeedbackAsync(SchemaDefinition schema, ExtractionFeedback feedback);
+}
+
+/// <summary>
+/// Polymorphic schema that adapts to different document variations
+/// Based on KpiExxerpro patterns: invoices, payment receipts, tax documents, insurance payments
+/// Supports 15+ years of document format evolution and regional variations
+/// </summary>
+public class PolymorphicDocumentSchema
+{
+    public DocumentType BaseType { get; set; }
+    public List<FieldDefinition> CoreFields { get; set; }
+    public List<FieldDefinition> OptionalFields { get; set; }
+    public List<VariationPattern> KnownVariations { get; set; }
+    public Dictionary<string, ExtractionPattern> FieldPatterns { get; set; }
+    public LearningConfiguration LearningSettings { get; set; }
+    public RegionalAdaptation RegionalSettings { get; set; }
+    public DateTime LastUpdated { get; set; }
+    public float AccuracyScore { get; set; }
+}
+
+/// <summary>
+/// Real-world field definitions based on KpiExxerpro processing experience
+/// </summary>
+public static class KnownDocumentSchemas
+{
+    public static readonly PolymorphicDocumentSchema IMSSPaymentReceipt = new()
+    {
+        BaseType = DocumentType.IMSSPayment,
+        CoreFields = new List<FieldDefinition>
+        {
+            new("registro_patronal", FieldType.AlphaNumeric, true, @"REGISTRO\s+PATRONAL:\s*([^\s\n]+)"),
+            new("periodo_imss", FieldType.Date_MMYYYY, true, @"PER[ÍI]ODO.*?([0-9]{2}-[0-9]{4})"),
+            new("dias_cotizar", FieldType.Integer, true, @"D[ÍI]AS\s*A\s*COTIZAR[:\s]*([0-9]{1,3})"),
+            new("valor_uma", FieldType.Decimal, true, @"VALOR\s+UMA[:\s]\$?\s*([\d,]+\.\d{2})"),
+            new("subtotal_imss", FieldType.Decimal, true, @"SUBTOTAL\s+SEGUROS\s+IMSS.*?\$\s*([\d,]+\.\d{2})"),
+        },
+        OptionalFields = new List<FieldDefinition>
+        {
+            new("periodo_rcv", FieldType.Date_MMYYYY, false, @"BIMESTRE.*?([0-9]{2}-[0-9]{4})"),
+            new("num_cotizantes", FieldType.Integer, false, @"No\.\s*DE\s*COTIZANTES:\s*([0-9]{1,5})"),
+        }
+    };
+}
+```
+
+#### Field Extraction Dictionary System
+
+```csharp
+/// <summary>
+/// Business intelligence dictionary system for field identification and validation
+/// Contains patterns learned from processing 10,000+ real business documents
+/// Supports multiple languages, formats, and business contexts
+/// </summary>
+public interface IFieldExtractionDictionary
+{
+    Task<FieldMatch> FindFieldAsync(string fieldName, DocumentContext context);
+    Task<List<ExtractionPattern>> GetPatternsForFieldAsync(string fieldType);
+    Task<ValidationRule> GetValidationRuleAsync(string fieldName, string documentType);
+    Task AddLearningPatternAsync(string fieldName, ExtractionPattern pattern, float confidence);
+    Task<Dictionary<string, string>> GetFieldAliasesAsync(string primaryFieldName);
+}
+
+/// <summary>
+/// Extraction patterns based on KpiExxerpro successful implementations
+/// Supports regex patterns, keyword searches, positional rules, OCR regions, and LLM prompts
+/// </summary>
+public class BusinessExtractionDictionary : IFieldExtractionDictionary
+{
+    // Patterns learned from KpiExxerpro processing 10,000+ documents across 15 years
+    private readonly Dictionary<string, List<ExtractionPattern>> _fieldPatterns = new()
+    {
+        ["registro_patronal"] = new List<ExtractionPattern>
+        {
+            new RegexPattern(@"REGISTRO\s+PATRONAL:\s*([^\s\n]+)", 0.95f),
+            new KeywordPattern("REGISTRO PATRONAL", PositionStrategy.NextToken, 0.90f),
+            new OCRRegionPattern("REGISTRO PATRONAL", SearchStrategy.SameLineOrNext, 0.85f),
+            new LLMPattern("Extract the employer registration number (registro patronal) from this document", 0.80f)
+        },
+        ["periodo_imss"] = new List<ExtractionPattern>
+        {
+            new RegexPattern(@"PER[ÍI]ODO\s+(QUE\s+)?COMPRENDE\s+EL\s+PAGO\s+DE\s+SEGUROS\s+IMSS[:\s]*([\w\s/]+)", 0.95f),
+            new OCRRegionPattern("PERÍODO QUE COMPRENDE", SearchStrategy.NextLineInRegion, 0.90f),
+            new ContextualPattern("periodo", "IMSS", DateFormat.MM_YYYY, 0.85f),
+            new LLMPattern("Find the IMSS payment period in MM-YYYY format from this document", 0.80f)
+        },
+        ["total_amount"] = new List<ExtractionPattern>
+        {
+            new RegexPattern(@"Total\s*\$\s*([\d,\.]+)", 0.95f),
+            new TableExtractionPattern("Total", ColumnStrategy.LastColumn, 0.90f),
+            new OCRRegionPattern("TOTAL", SearchStrategy.NumberInSameLine, 0.85f),
+            new LLMPattern("Extract the final total amount including currency symbol", 0.80f)
+        },
+        ["fecha_pago"] = new List<ExtractionPattern>
+        {
+            new RegexPattern(@"Fecha\s+(?:de\s+)?pago[:\s]*(\d{1,2}/\d{1,2}/\d{4})", 0.95f),
+            new RegexPattern(@"Fecha[:\s]*(\d{4}-\d{2}-\d{2})", 0.90f),
+            new ContextualPattern("fecha", "pago", DateFormat.Various, 0.85f),
+            new LLMPattern("Find the payment date in any common date format", 0.80f)
+        }
+    };
+}
+```
+
+### MCP (Model Context Protocol) Integration
+
+#### Modern Google Drive Integration via MCP
+
+```csharp
+/// <summary>
+/// Modern MCP-based Google Drive integration replacing legacy API calls
+/// Provides real-time document monitoring and change detection
+/// Integrates with existing Python MCP server for protocol compliance
+/// </summary>
+public interface IMCPGoogleDriveService
+{
+    Task<MCPResponse> WatchFolderAsync(string folderId, MCPWatchOptions options);
+    Task<IEnumerable<DocumentChange>> GetDocumentChangesAsync(string watchId);
+    Task<MCPDocumentMetadata> GetDocumentMetadataAsync(string documentId);
+    Task<byte[]> DownloadDocumentAsync(string documentId);
+    Task<MCPUploadResult> UploadProcessedDataAsync(string folderId, ProcessedDocument document);
+    Task<MCPHealthStatus> CheckMCPServerHealthAsync();
+}
+
+/// <summary>
+/// MCP Server integration for ExxerAI document processing
+/// Bridges with the existing Python MCP server (ExxerAI.McpServer)
+/// Provides protocol-compliant communication for document operations
+/// </summary>
+public class ExxerAIMCPDocumentService : IMCPGoogleDriveService
+{
+    private readonly HttpClient _mcpClient;
+    private readonly IPolymorphicDocumentProcessor _documentProcessor;
+    private readonly IDocumentSchemaLearningEngine _schemaLearner;
+    private readonly IPrimarySourceOfTruthSystem _truthSystem;
+    private readonly ILogger<ExxerAIMCPDocumentService> _logger;
+    
+    public async Task<DocumentProcessingResult> HandleMCPDocumentProcessingAsync(MCPDocumentRequest request)
+    {
+        try
+        {
+            // Download document via MCP protocol
+            var documentData = await DownloadDocumentAsync(request.DocumentId);
+            var metadata = await GetDocumentMetadataAsync(request.DocumentId);
+            
+            // Convert MCP metadata to internal format
+            var internalMetadata = ConvertMCPMetadata(metadata, request.ProcessingOptions);
+            
+            // Process document through polymorphic processor
+            var processingResult = await _documentProcessor.ProcessDocumentAsync(documentData, internalMetadata);
+            
+            // Learn from successful extractions
+            if (processingResult.IsSuccessful && processingResult.OverallConfidence > 0.8f)
+            {
+                await _schemaLearner.UpdateSchemaFromFeedbackAsync(
+                    internalMetadata.ExpectedSchema, 
+                    processingResult.ToLearningFeedback());
+            }
+            
+            // Store in primary source of truth
+            if (processingResult.IsSuccessful)
+            {
+                var truthRecord = await _truthSystem.StoreExtractedDataAsync(
+                    processingResult.GroundedData,
+                    new DataSource 
+                    { 
+                        Type = "GoogleDrive_MCP", 
+                        Id = request.DocumentId,
+                        Path = metadata.DriveFilePath,
+                        MCPSessionId = request.SessionId
+                    });
+                processingResult.TruthRecordId = truthRecord.Id;
+            }
+            
+            return processingResult;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing document via MCP: {DocumentId}", request.DocumentId);
+            return DocumentProcessingResult.Failed($"MCP processing error: {ex.Message}");
+        }
+    }
+}
+```
+
+#### Primary Source of Truth System
+
+```csharp
+/// <summary>
+/// Central system that maintains the definitive version of all business data
+/// All extracted and processed information flows through this system for validation
+/// Implements audit trail, conflict resolution, and data lineage tracking
+/// </summary>
+public interface IPrimarySourceOfTruthSystem
+{
+    Task<TruthRecord> StoreExtractedDataAsync(ExtractedData data, DataSource source);
+    Task<ValidationResult> ValidateAgainstTruthAsync(ExtractedData data);
+    Task<TruthRecord> GetAuthoritativeRecordAsync(string recordId);
+    Task<ConflictResolution> ResolveDataConflictAsync(IEnumerable<ExtractedData> conflictingData);
+    Task<DataLineage> GetDataLineageAsync(string recordId);
+    Task<GroundingReport> GenerateGroundingReportAsync(DateTime fromDate, DateTime toDate);
+    Task<List<TruthRecord>> FindSimilarRecordsAsync(ExtractedData data, float similarityThreshold = 0.85f);
+}
+
+/// <summary>
+/// Implementation that combines multiple validation strategies
+/// Maintains audit trail and conflict resolution for business intelligence data
+/// Provides the single source of truth for all business operations
+/// </summary>
+public class BusinessIntelligenceSourceOfTruth : IPrimarySourceOfTruthSystem
+{
+    private readonly IDocumentStore _documentStore;
+    private readonly IDataValidationEngine _validationEngine;
+    private readonly IConflictResolutionService _conflictResolver;
+    private readonly IAuditTrailService _auditTrail;
+    private readonly IDataLineageTracker _lineageTracker;
+    private readonly IVectorSearchService _vectorSearch;
+    
+    public async Task<TruthRecord> StoreExtractedDataAsync(ExtractedData data, DataSource source)
+    {
+        // Stage 1: Validate data integrity and business rules
+        var validationResult = await _validationEngine.ValidateAsync(data);
+        if (!validationResult.IsValid)
+        {
+            await _auditTrail.LogValidationFailureAsync(data, validationResult);
+            throw new DataValidationException($"Data validation failed: {string.Join(", ", validationResult.Errors)}");
+        }
+        
+        // Stage 2: Check for conflicts with existing data
+        var similarRecords = await FindSimilarRecordsAsync(data, 0.85f);
+        if (similarRecords.Any())
+        {
+            var resolution = await _conflictResolver.ResolveDataConflictAsync(
+                new[] { data }.Concat(similarRecords.Select(r => r.Data)));
+            
+            if (resolution.RequiresHumanIntervention)
+            {
+                await _auditTrail.LogConflictRequiringHumanReviewAsync(data, similarRecords);
+                // Queue for human review - don't block processing
+            }
+            
+            data = resolution.ResolvedData;
+        }
+        
+        // Stage 3: Generate data lineage
+        var lineageId = await _lineageTracker.CreateLineageAsync(data, source);
+        
+        // Stage 4: Store as authoritative record
+        var truthRecord = new TruthRecord
+        {
+            Id = Guid.NewGuid().ToString(),
+            Data = data,
+            Source = source,
+            ValidationResults = validationResult,
+            Timestamp = DateTime.UtcNow,
+            LineageId = lineageId,
+            DataHash = GenerateDataHash(data),
+            Status = TruthRecordStatus.Active,
+            Version = 1
+        };
+        
+        await _documentStore.StoreAsync(truthRecord);
+        await _auditTrail.LogDataIngestionAsync(truthRecord);
+        
+        // Stage 5: Update vector index for similarity searches
+        await _vectorSearch.IndexRecordAsync(truthRecord);
+        
+        return truthRecord;
+    }
+    
+    public async Task<ValidationResult> ValidateAgainstTruthAsync(ExtractedData data)
+    {
+        var validation = new ValidationResult { IsValid = true, Errors = new List<string>() };
+        
+        // Check business rules
+        var businessRuleResults = await _validationEngine.ValidateBusinessRulesAsync(data);
+        if (!businessRuleResults.IsValid)
+        {
+            validation.IsValid = false;
+            validation.Errors.AddRange(businessRuleResults.Errors);
+        }
+        
+        // Check data consistency against existing truth records
+        var consistencyResults = await ValidateDataConsistencyAsync(data);
+        if (!consistencyResults.IsValid)
+        {
+            validation.IsValid = false;
+            validation.Errors.AddRange(consistencyResults.Errors);
+        }
+        
+        return validation;
+    }
+}
+```
+
+### Integration with Existing ExxerAI Architecture
+
+#### Enhanced Document Intelligence Agent
+
+```csharp
+/// <summary>
+/// Enhanced DocumentIntelligenceAgent that integrates KpiExxerpro capabilities
+/// Provides seamless integration with existing agent orchestration system
+/// </summary>
+public class EnhancedDocumentIntelligenceAgent : IAgent
+{
+    private readonly IPolymorphicDocumentProcessor _documentProcessor;
+    private readonly IPrimarySourceOfTruthSystem _truthSystem;
+    private readonly IMCPGoogleDriveService _driveService;
+    private readonly IDocumentSchemaLearningEngine _schemaLearner;
+    private readonly ILogger<EnhancedDocumentIntelligenceAgent> _logger;
+    
+    public string AgentId => "DocumentIntelligence_Enhanced";
+    public string AgentType => "DocumentProcessing";
+    public List<string> Capabilities => new() { "document_processing", "data_extraction", "schema_learning", "mcp_integration" };
+    
+    public async Task<AgentResult> ExecuteAsync(AgentContext context)
+    {
+        try
+        {
+            var request = context.Input.ParseAs<DocumentProcessingRequest>();
+            
+            _logger.LogInformation("Processing document via Enhanced Document Intelligence Agent: {DocumentId}", request.DocumentId);
+            
+            // Stage 1: Retrieve document via MCP protocol
+            var documentData = await _driveService.DownloadDocumentAsync(request.DocumentId);
+            var metadata = await _driveService.GetDocumentMetadataAsync(request.DocumentId);
+            
+            // Stage 2: Process with polymorphic processor
+            var processingResult = await _documentProcessor.ProcessDocumentAsync(
+                documentData, 
+                ConvertMCPMetadata(metadata, request.ProcessingOptions));
+            
+            // Stage 3: Store in primary source of truth
+            if (processingResult.IsSuccessful)
+            {
+                var truthRecord = await _truthSystem.StoreExtractedDataAsync(
+                    processingResult.GroundedData, 
+                    new DataSource 
+                    { 
+                        Type = "GoogleDrive_MCP", 
+                        Id = request.DocumentId,
+                        Path = metadata.DriveFilePath,
+                        ProcessedBy = AgentId
+                    });
+                processingResult.TruthRecordId = truthRecord.Id;
+            }
+            
+            // Stage 4: Learn from processing results
+            if (processingResult.IsSuccessful && processingResult.OverallConfidence > 0.8f)
+            {
+                await _schemaLearner.UpdateSchemaFromFeedbackAsync(
+                    metadata.ExpectedSchema, 
+                    processingResult.ToLearningFeedback());
+            }
+            
+            // Stage 5: Return comprehensive results
+            return AgentResult.Success(new DocumentProcessingResponse
+            {
+                DocumentId = request.DocumentId,
+                TruthRecordId = processingResult.TruthRecordId,
+                ExtractedFields = processingResult.ExtractedFields,
+                ProcessingMethod = processingResult.ExtractionMethod,
+                ValidationResults = processingResult.ValidationResults,
+                LearningUpdate = processingResult.SchemaLearningResults,
+                OverallConfidence = processingResult.OverallConfidence,
+                ProcessingTimeMs = processingResult.ProcessingTimeMs,
+                DataLineageId = processingResult.DataLineageId
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error in Enhanced Document Intelligence Agent: {DocumentId}", context.Input);
+            return AgentResult.Error($"Document processing failed: {ex.Message}");
+        }
+    }
+    
+    private DocumentMetadata ConvertMCPMetadata(MCPDocumentMetadata mcpMetadata, ProcessingOptions options)
+    {
+        return new DocumentMetadata
+        {
+            DocumentId = mcpMetadata.Id,
+            FileName = mcpMetadata.Name,
+            DocumentType = DetermineDocumentType(mcpMetadata.Name, mcpMetadata.MimeType),
+            ExpectedSchema = GetSchemaForDocumentType(mcpMetadata.Name),
+            SourcePath = mcpMetadata.DriveFilePath,
+            ProcessingOptions = options,
+            CreatedDate = mcpMetadata.CreatedTime,
+            ModifiedDate = mcpMetadata.ModifiedTime,
+            FileSize = mcpMetadata.Size
+        };
+    }
+}
+```
+
+### Configuration and Setup
+
+#### Dependency Injection Configuration
+
+```csharp
+// Enhanced DI configuration for document processing capabilities
+public static class DocumentProcessingServiceCollectionExtensions
+{
+    public static IServiceCollection AddAdvancedDocumentProcessing(this IServiceCollection services, IConfiguration configuration)
+    {
+        // Core document processing services
+        services.AddSingleton<IPolymorphicDocumentProcessor, AdvancedDocumentProcessor>();
+        services.AddSingleton<IDocumentSchemaLearningEngine, MLNetSchemaLearningEngine>();
+        services.AddSingleton<IFieldExtractionDictionary, BusinessExtractionDictionary>();
+        services.AddSingleton<IPrimarySourceOfTruthSystem, BusinessIntelligenceSourceOfTruth>();
+        
+        // MCP integration services
+        services.AddSingleton<IMCPGoogleDriveService, ExxerAIMCPDocumentService>();
+        services.AddHttpClient<ExxerAIMCPDocumentService>(client =>
+        {
+            client.BaseAddress = new Uri(configuration["MCP:ServerUrl"]);
+            client.Timeout = TimeSpan.FromMinutes(5);
+        });
+        
+        // Text extraction services
+        services.AddSingleton<IDirectTextExtractor, PdfTextExtractor>();
+        services.AddSingleton<IOCRService, TesseractOCRService>();
+        services.AddSingleton<ILLMGroundingService, OllamaGroundingService>();
+        
+        // Data validation and storage
+        services.AddSingleton<IDataValidationEngine, FluentValidationEngine>();
+        services.AddSingleton<IConflictResolutionService, MLBasedConflictResolver>();
+        services.AddSingleton<IDocumentStore, PostgreSQLDocumentStore>();
+        services.AddSingleton<IVectorSearchService, QdrantVectorSearchService>();
+        
+        // Enhanced agent
+        services.AddSingleton<IAgent, EnhancedDocumentIntelligenceAgent>();
+        
+        return services;
+    }
+}
+```
+
+This comprehensive document processing system transforms ExxerAI from a simple agent orchestration platform into a **learning business intelligence system** that can automatically process, validate, and learn from any document type, providing unprecedented automation capabilities for enterprise document workflows.
 
 ---
 
