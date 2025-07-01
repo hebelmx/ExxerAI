@@ -17,28 +17,41 @@
 	<Description>ExxerAI UI Server</Description>
 	<Company>Exxerpro Solutions</Company>
 	<Product>ExxerAI Intelligence System</Product>
-	<Title>ExxerAi.MCPServer</Title>
+	<Title>ExxerAI.UI</Title>
   </PropertyGroup>
-
 
 	<!-- ============================================================================ -->
 	<!-- PACKAGE REFERENCES - ENTITY FRAMEWORK -->
 	<!-- ============================================================================ -->
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"  />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"  />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"  />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"  />
-
+  <ItemGroup Label="Entity Framework">
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
   </ItemGroup>
-
 
 	<!-- ============================================================================ -->
 	<!-- PACKAGE REFERENCES - UI FRAMEWORK -->
 	<!-- ============================================================================ -->
+	<ItemGroup Label="UI Framework">
+		<PackageReference Include="MudBlazor" />
+		<PackageReference Include="Extensions.MudBlazor.StaticInput" />
+	</ItemGroup>
 
-	<ItemGroup>
-	<PackageReference Include="MudBlazor" />
-	<PackageReference Include="Extensions.MudBlazor.StaticInput"  />
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - LOGGING -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Logging">
+		<PackageReference Include="Serilog" />
+		<PackageReference Include="Serilog.Extensions.Hosting" />
+		<PackageReference Include="Serilog.Sinks.Console" />
+		<PackageReference Include="Microsoft.Extensions.Logging" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Core Framework">
+		<PackageReference Include="FluentResults" />
 	</ItemGroup>
 </Project>

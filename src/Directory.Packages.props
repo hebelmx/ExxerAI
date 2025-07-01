@@ -7,22 +7,23 @@
     <!-- ASP.NET Core and Web -->
     <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0" />
     <!-- MCP Protocol -->
     <PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.1" />
     <PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.1" />
+    <PackageVersion Include="ModelContextProtocol.Core" Version="0.3.0-preview.1" />
     <!-- UI Framework -->
-    <PackageVersion Include="MudBlazor" Version="8.0.0" />
+    <PackageVersion Include="MudBlazor" Version="8.7.0" />
     <PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="2.0.0" />
     <!-- AI and Extensions -->
     <PackageVersion Include="Microsoft.Extensions.AI" Version="9.0.1-preview.1.24570.5" />
-    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
     <!-- Google APIs -->
     <PackageVersion Include="Google.Apis.Drive.v3" Version="1.68.0.3568" />
     <PackageVersion Include="Google.Apis.Auth" Version="1.68.0" />
     <PackageVersion Include="Google.Apis.Core" Version="1.68.0" />
+    <PackageVersion Include="OllamaSharp.ModelContextProtocol" Version="5.2.3" />
     <!-- Document Processing -->
     <PackageVersion Include="PdfPig" Version="0.1.8" />
     <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.6" />
@@ -35,7 +36,7 @@
     <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.5" />
     <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
     <!-- Utilities -->
-    <PackageVersion Include="FluentResults" Version="3.16.0" />
+    <PackageVersion Include="FluentResults" Version="4.0.0" />
     <PackageVersion Include="FluentValidation" Version="11.12.0" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.12.0" />
     <!-- Testing -->

@@ -97,11 +97,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.5"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.0.5",
-        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
-      },
       "Microsoft.Extensions.Options": {
         "type": "Transitive",
         "resolved": "9.0.5",
@@ -237,7 +232,7 @@
           "Google.Apis.Auth": "[1.68.0, )",
           "Google.Apis.Core": "[1.68.0, )",
           "Google.Apis.Drive.v3": "[1.68.0.3568, )",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "(, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.5, )",
           "Microsoft.Extensions.Logging.Abstractions": "[9.0.5, )",
           "PdfPig": "[0.1.8, )"
         }
@@ -281,6 +276,12 @@
           "Google.Apis": "1.68.0",
           "Google.Apis.Auth": "1.68.0"
         }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.5, )",
+        "resolved": "9.0.5",
+        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
       },
       "Microsoft.Extensions.Logging": {
         "type": "CentralTransitive",

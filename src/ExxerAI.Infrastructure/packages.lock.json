@@ -42,6 +42,12 @@
           "Google.Apis.Auth": "1.68.0"
         }
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "Direct",
+        "requested": "[9.0.5, )",
+        "resolved": "9.0.5",
+        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
+      },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Direct",
         "requested": "[9.0.5, )",
@@ -72,11 +78,6 @@
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.5"
         }
-      },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.0.5",
-        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
       },
       "Microsoft.Extensions.Options": {
         "type": "Transitive",

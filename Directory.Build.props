@@ -57,14 +57,5 @@
 		<!-- Enable code analyzers -->
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AnalysisLevel>latest</AnalysisLevel>
-		<CodeAnalysisRuleSet>$(MSBuildThisFileDirectory).editorconfig</CodeAnalysisRuleSet>
-	</PropertyGroup>
-
-	<PropertyGroup Label="Package Restore Configuration">
-		<!-- Required for transitive dependency resolution as per build rules -->
-		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-		<RestoreLockedMode>false</RestoreLockedMode>
-		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<DisablePackageRestore>false</DisablePackageRestore>
 	</PropertyGroup>
 </Project>

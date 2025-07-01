@@ -28,7 +28,7 @@ public class InMemoryAgentRepository : IAgentRepository
 
         var success = _agents.TryGetValue(id, out var agent);
         return success && agent != null
-            ? Task.FromResult(ExxerAI.Domain.Result<Agent>.Success(agent))
+            ? Task.FromResult(ExxerAI.Domain.Result<Agent>.WithSuccess(agent))
             : Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure($"Agent with ID '{id}' not found"));
     }
 
@@ -43,7 +43,7 @@ public class InMemoryAgentRepository : IAgentRepository
             return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.WithFailure("Operation was cancelled"));
 
         var agents = _agents.Values.ToList().AsEnumerable();
-        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.Success(agents));
+        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.WithSuccess(agents));
     }
 
     /// <summary>
@@ -73,7 +73,7 @@ public class InMemoryAgentRepository : IAgentRepository
 
         var success = _agents.TryAdd(entity.Id, entity);
         return success
-            ? Task.FromResult(ExxerAI.Domain.Result<Agent>.Success(entity))
+            ? Task.FromResult(ExxerAI.Domain.Result<Agent>.WithSuccess(entity))
             : Task.FromResult(ExxerAI.Domain.Result<Agent>.WithFailure("Failed to add agent"));
     }
 
@@ -101,7 +101,7 @@ public class InMemoryAgentRepository : IAgentRepository
         entity.UpdatedAt = DateTime.UtcNow;
 
         _agents[entity.Id] = entity;
-        return Task.FromResult(ExxerAI.Domain.Result<Agent>.Success(entity));
+        return Task.FromResult(ExxerAI.Domain.Result<Agent>.WithSuccess(entity));
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public class InMemoryAgentRepository : IAgentRepository
 
         var success = _agents.TryRemove(id, out _);
         return success
-            ? Task.FromResult(ExxerAI.Domain.Result<bool>.Success(true))
+            ? Task.FromResult(ExxerAI.Domain.Result<bool>.WithSuccess(true))
             : Task.FromResult(ExxerAI.Domain.Result<bool>.WithFailure($"Agent with ID '{id}' not found"));
     }
 
@@ -139,7 +139,7 @@ public class InMemoryAgentRepository : IAgentRepository
             return Task.FromResult(ExxerAI.Domain.Result<bool>.WithFailure("Agent ID cannot be empty"));
 
         var exists = _agents.ContainsKey(id);
-        return Task.FromResult(ExxerAI.Domain.Result<bool>.Success(exists));
+        return Task.FromResult(ExxerAI.Domain.Result<bool>.WithSuccess(exists));
     }
 
     /// <summary>
@@ -158,7 +158,7 @@ public class InMemoryAgentRepository : IAgentRepository
             .ToList()
             .AsEnumerable();
 
-        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.Success(agents));
+        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.WithSuccess(agents));
     }
 
     /// <summary>
@@ -180,7 +180,7 @@ public class InMemoryAgentRepository : IAgentRepository
             .ToList()
             .AsEnumerable();
 
-        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.Success(agents));
+        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<Agent>>.WithSuccess(agents));
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public class InMemoryAgentRepository : IAgentRepository
             .ToList()
             .AsEnumerable();
 
-        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<(Agent Agent, int TaskCount)>>.Success(agentsWithTaskCount));
+        return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<(Agent Agent, int TaskCount)>>.WithSuccess(agentsWithTaskCount));
     }
 
     /// <summary>

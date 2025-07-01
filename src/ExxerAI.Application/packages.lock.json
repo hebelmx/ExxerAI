@@ -30,11 +30,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.5"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.0.5",
-        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
-      },
       "Microsoft.Extensions.Options": {
         "type": "Transitive",
         "resolved": "9.0.5",
@@ -51,6 +46,12 @@
       },
       "exxerai.domain": {
         "type": "Project"
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.5, )",
+        "resolved": "9.0.5",
+        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
       }
     }
   }

@@ -71,12 +71,12 @@ public class AgentsController : ControllerBase
 
 			if (result.IsFailure)
 			{
-				_logger.LogWarning("Failed to create agent: {Errors}", string.Join(", ", result.Errors));
+				_logger.LogWarning("Failed to create agent: {Error}", result.Error);
 				return BadRequest(new ApiResponse<object>
 				{
 					Success = false,
 					Message = "Failed to create agent",
-					Errors = result.Errors.ToList()
+					Errors = [result.Error]
 				});
 			}
 
@@ -84,11 +84,11 @@ public class AgentsController : ControllerBase
 			{
 				Success = true,
 				Message = "Agent created successfully",
-				Data = result.Value!.ToResponse()
+				Data = result.Data!.ToResponse()
 			};
 
-			_logger.LogInformation("Successfully created agent with ID: {AgentId}", result.Value!.Id);
-			return CreatedAtAction(nameof(GetAgent), new { id = result.Value.Id }, response);
+			_logger.LogInformation("Successfully created agent with ID: {AgentId}", result.Data!.Id);
+			return CreatedAtAction(nameof(GetAgent), new { id = result.Data.Id }, response);
 		}
 		catch (Exception ex)
 		{
@@ -140,7 +140,7 @@ public class AgentsController : ControllerBase
 			{
 				Success = true,
 				Message = "Agent retrieved successfully",
-				Data = result.Value!.ToResponse()
+				Data = result.Data!.ToResponse()
 			};
 
 			return Ok(response);
@@ -190,8 +190,8 @@ public class AgentsController : ControllerBase
 			var response = new ApiResponse<IEnumerable<AgentResponse>>
 			{
 				Success = true,
-				Message = $"Retrieved {result.Value!.Count()} active agents",
-				Data = result.Value!.Select(a => a.ToResponse())
+				Message = $"Retrieved {result.Data!.Count()} active agents",
+				Data = result.Data!.Select(a => a.ToResponse())
 			};
 
 			return Ok(response);
@@ -480,7 +480,7 @@ public class AgentsController : ControllerBase
 			{
 				Success = true,
 				Message = "Best agent found",
-				Data = result.Value!.ToResponse()
+				Data = result.Data!.ToResponse()
 			};
 
 			return Ok(response);

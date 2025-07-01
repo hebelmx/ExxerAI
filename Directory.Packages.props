@@ -18,10 +18,10 @@
 		<!--================================================================-->
 		<!--== Core .NET & System Packages ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="System.Reflection.Metadata" Version="9.0.5" />
+		<PackageVersion Include="System.Reflection.Metadata" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.CSharp" Version="4.0.1" />
-		<PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.SemanticKernel" Version="1.58.0" />
 		<PackageVersion Include="Microsoft.SemanticKernel.Connectors.Qdrant" Version="1.58.0-preview" />
 		<PackageVersion Include="Microsoft.SemanticKernel.Core" Version="1.58.0" />
@@ -31,31 +31,34 @@
 		<PackageVersion Include="System.CommandLine" Version="2.0.0-beta5.25306.1" />
 		<PackageVersion Include="System.Linq.Async" Version="6.0.1" />
 		<PackageVersion Include="System.Reactive" Version="6.0.1" />
-		<PackageVersion Include="System.Text.Json" Version="9.0.5" />
+		<PackageVersion Include="System.Text.Json" Version="9.0.6" />
 		<!--================================================================-->
 		<!--== Data Access (EF Core) ==-->
 		<!--==============================================================-->
 		<PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.3.1" />
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.5" />
-		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0-preview.5" />
+		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
+		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
 		<!--================================================================-->
 		<!--== Document & Data Export ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="PdfPig" Version="0.1.11-alpha-20250528-5b566" />
+		<PackageVersion Include="PdfPig" Version="0.1.11-alpha-20250630-bf664" />
 		<PackageVersion Include="Tesseract" Version="5.2.0" />
+		<PackageVersion Include="UglyToad.PdfPig" Version="1.7.0-custom-5" />
+		<PackageVersion Include="Tesseract" Version="5.2.0" />
+		<PackageVersion Include="TesseractOCR" Version="5.5.1" />
 		<PackageVersion Include="SixLabors.ImageSharp" Version="3.1.6" />
 		<PackageVersion Include="Microsoft.ML" Version="4.0.0" />
 		<!--================================================================-->
 		<!--== Logging ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="Serilog" Version="4.3.1-dev-02373" />
+		<PackageVersion Include="Serilog" Version="4.3.0" />
 		<PackageVersion Include="Serilog.Exceptions" Version="8.4.0" />
 		<PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.1-dev-02307" />
 		<PackageVersion Include="Serilog.Extensions.Logging" Version="9.0.2" />
@@ -73,15 +76,15 @@
 		<!--================================================================-->
 		<!--== Microsoft Extensions ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
 
-		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.6" />
 		<!--================================================================-->
 		<!--== Aspire Packages (Keep all as requested) ==-->
 		<!--==============================================================-->
@@ -102,8 +105,8 @@
 		<!--================================================================-->
 		<!--== Data Storage ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="9.0.6" />
 		<!--================================================================-->
 		<!--== Testing & TDD ==-->
 		<!--==============================================================-->
@@ -119,7 +122,7 @@
 		<PackageVersion Include="xunit" Version="2.9.3" />
 		<PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
 		<PackageVersion Include="coverlet.collector" Version="6.0.4" />
-		<PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.6" />
 		<!--================================================================-->
 		<!--== Validation ==-->
 		<!--==============================================================-->
@@ -129,13 +132,13 @@
 		<!--================================================================-->
 		<!--== Web & SignalR (for future projects) ==-->
 		<!--==============================================================-->
-		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.5" />
-		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.6" />
 		<!--================================================================-->
 		<!--== UI (for future projects) ==-->
 		<!--==============================================================-->
 		<PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.1" />
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.5" />
+		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
 		<PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.0" />
 		<!--================================================================-->
 		<!--== UI (for future projects) ==-->
@@ -149,6 +152,7 @@
 		<!--==============================================================-->
 
 		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.1" />
+		<PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.1" />
 		<PackageVersion Include="Microsoft.Extensions.AI" Version="9.6.0" />
 	</ItemGroup>
 </Project>

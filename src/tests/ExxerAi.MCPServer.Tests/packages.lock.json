@@ -374,11 +374,6 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.5"
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.0.5",
-        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
-      },
       "Microsoft.Extensions.DependencyModel": {
         "type": "Transitive",
         "resolved": "9.0.0",
@@ -575,16 +570,6 @@
         "resolved": "6.0.0",
         "contentHash": "hqTM5628jSsQiv+HGpiq3WKBl2c8v1KZfby2J6Pr7pEPlK9waPdgEO6b8A/+/xn/yZ9ulv8HuqK71ONy2tg67A=="
       },
-      "ModelContextProtocol.Core": {
-        "type": "Transitive",
-        "resolved": "0.3.0-preview.1",
-        "contentHash": "KAMAog1SioXF2x22yfS6RltIykAs7J95qqidM8oW3cD8cSeYDdOVK1MbbWaTPsvMMcCi5uV4givwGyveubDErw==",
-        "dependencies": {
-          "Microsoft.Extensions.AI.Abstractions": "9.6.0",
-          "Microsoft.Extensions.Logging.Abstractions": "9.0.5",
-          "System.Net.ServerSentEvents": "10.0.0-preview.4.25258.110"
-        }
-      },
       "Mono.TextTemplating": {
         "type": "Transitive",
         "resolved": "3.0.0",
@@ -597,6 +582,14 @@
         "type": "Transitive",
         "resolved": "13.0.1",
         "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
+      },
+      "OllamaSharp": {
+        "type": "Transitive",
+        "resolved": "5.2.3",
+        "contentHash": "bFRAhOXSeigi0Qm9RHOStEDaXiV4bZKZxJNy1v1SOQ/W8X0OGctOmCRqe7ApbVGTAIyD7CPFWhum+eIDfOP75w==",
+        "dependencies": {
+          "Microsoft.Extensions.AI.Abstractions": "9.5.0"
+        }
       },
       "Serilog.Extensions.Logging": {
         "type": "Transitive",
@@ -914,8 +907,11 @@
           "Microsoft.EntityFrameworkCore.Tools": "[9.0.0, )",
           "Microsoft.Extensions.AI": "[9.0.1-preview.1.24570.5, )",
           "Microsoft.Extensions.Logging": "[9.0.5, )",
+          "ModelContextProtocol": "[0.3.0-preview.1, )",
           "ModelContextProtocol.AspNetCore": "[0.3.0-preview.1, )",
+          "ModelContextProtocol.Core": "[0.3.0-preview.1, )",
           "MudBlazor": "[8.0.0, )",
+          "OllamaSharp.ModelContextProtocol": "[5.2.3, )",
           "Serilog": "[4.2.0, )",
           "Serilog.Extensions.Hosting": "[8.0.0, )",
           "Serilog.Sinks.Console": "[6.0.0, )"
@@ -1000,6 +996,12 @@
           "System.Threading.Channels": "9.0.0"
         }
       },
+      "Microsoft.Extensions.DependencyInjection.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.5, )",
+        "resolved": "9.0.5",
+        "contentHash": "cjnRtsEAzU73aN6W7vkWy8Phj5t3Xm78HSqgrbh/O4Q9SK/yN73wZVa21QQY6amSLQRQ/M8N+koGnY6PuvKQsw=="
+      },
       "Microsoft.Extensions.Logging": {
         "type": "CentralTransitive",
         "requested": "[9.0.5, )",
@@ -1039,6 +1041,17 @@
           "ModelContextProtocol": "0.3.0-preview.1"
         }
       },
+      "ModelContextProtocol.Core": {
+        "type": "CentralTransitive",
+        "requested": "[0.3.0-preview.1, )",
+        "resolved": "0.3.0-preview.1",
+        "contentHash": "KAMAog1SioXF2x22yfS6RltIykAs7J95qqidM8oW3cD8cSeYDdOVK1MbbWaTPsvMMcCi5uV4givwGyveubDErw==",
+        "dependencies": {
+          "Microsoft.Extensions.AI.Abstractions": "9.6.0",
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.5",
+          "System.Net.ServerSentEvents": "10.0.0-preview.4.25258.110"
+        }
+      },
       "MudBlazor": {
         "type": "CentralTransitive",
         "requested": "[8.0.0, )",
@@ -1048,6 +1061,16 @@
           "Microsoft.AspNetCore.Components": "9.0.1",
           "Microsoft.AspNetCore.Components.Web": "9.0.1",
           "Microsoft.Extensions.Localization": "9.0.1"
+        }
+      },
+      "OllamaSharp.ModelContextProtocol": {
+        "type": "CentralTransitive",
+        "requested": "[5.2.3, )",
+        "resolved": "5.2.3",
+        "contentHash": "+vgNmmr4wpwfc5H3h7oWkEmhA9YzPA4DxKZCkIHimvHESiXTsCKG0gakMPg/qZavXO8n6/hRY/aCjpea8Bgigg==",
+        "dependencies": {
+          "ModelContextProtocol": "0.2.0-preview.3",
+          "OllamaSharp": "5.2.3"
         }
       },
       "Serilog": {

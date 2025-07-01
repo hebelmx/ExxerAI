@@ -80,23 +80,35 @@ public class GoogleDriveService : IDocumentWatchService, IDocumentIngestionServi
 		// TODO: Implement actual document ingestion
 		var asset = new DocumentAsset
 		{
-			Id = documentId,
-			Name = $"Document_{documentId}",
-			Source = source,
-			ContentType = "application/pdf",
+			Id = Guid.Parse(documentId), // Convert string to Guid
+			OriginalFileName = $"Document_{documentId}.pdf", // Use correct property name
+			SourcePath = source, // Use correct property name
+			MimeType = "application/pdf", // Use correct property name
 			Size = 1024,
-			CreatedDate = DateTime.UtcNow,
-			ModifiedDate = DateTime.UtcNow,
-			Metadata = new DocumentMetadata
+			ProcessedAt = DateTime.UtcNow,
+			Fingerprint = new DocumentFingerprint // Use Fingerprint for dates
 			{
-				DocumentId = documentId,
-				FileName = $"Document_{documentId}.pdf",
-				DocumentType = DocumentType.PDF,
-				Properties = new Dictionary<string, object>
-				{
-					["Source"] = "GoogleDrive",
-					["IngestionDate"] = DateTime.UtcNow
-				}
+				CreationDate = DateTime.UtcNow,
+				ModificationDate = DateTime.UtcNow,
+				FileSize = 1024
+			},
+			Metadata = new Dictionary<string, string> // Use correct metadata type
+			{
+				["Source"] = "GoogleDrive",
+				["IngestionDate"] = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")
+			}
+		};
+
+		// Create DocumentMetadata separately if needed
+		var metadata = new DocumentMetadata
+		{
+			DocumentId = documentId,
+			FileName = $"Document_{documentId}.pdf",
+			DocumentType = DocumentType.Unknown, // Use correct enum value instead of PDF
+			Properties = new Dictionary<string, object>
+			{
+				["Source"] = "GoogleDrive",
+				["IngestionDate"] = DateTime.UtcNow
 			}
 		};
 
