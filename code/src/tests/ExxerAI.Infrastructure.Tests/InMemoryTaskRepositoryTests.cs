@@ -36,7 +36,7 @@ public class InMemoryTaskRepositoryTests
 		};
 
 		// Act
-		var result = await _repository.AddAsync(task, TestContext.Current.CancellationToken);
+		var result = await _repository.AddAsync(task, CancellationToken.None);
 
 		// Assert
 		result.IsSuccess.ShouldBeTrue();
