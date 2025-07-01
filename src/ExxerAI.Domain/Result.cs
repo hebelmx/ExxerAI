@@ -391,6 +391,8 @@ public class Result<T>
         return new Result<T>(false, errors, value);
     }
 
+#pragma warning disable CS1570 // XML comment has badly formed XML
+
     /// <summary>
     /// Creates a failed result with the specified errors and optional value (overload for List<string>).
     /// </summary>
@@ -402,6 +404,8 @@ public class Result<T>
         errors ??= ["WithFailure to execute Request"];
         return new Result<T>(false, errors, value);
     }
+
+#pragma warning restore CS1570 // XML comment has badly formed XML
 
     /// <summary>
     /// Creates a successful result with warnings (non-fatal diagnostics).
@@ -441,7 +445,7 @@ public class Result<T>
     /// <param name="result">The result to convert.</param>
     public static implicit operator Result(Result<T> result)
     {
-        return result._isSuccess ? Result.Success() : Result.WithFailure(result.Errors);
+        return result._isSuccess ? Result.Success() : Result.WithFailure(result.Errors ?? ["Failure"]);
     }
 
     /// <summary>
@@ -454,7 +458,7 @@ public class Result<T>
     {
         succeeded = _isSuccess;
         data = Value;
-        errors = Errors;
+        errors = Errors ?? [];
     }
 
     /// <summary>
@@ -480,7 +484,14 @@ public class Result<T>
     {
         if (IsFailure)
         {
-            action(Errors);
+            if (Errors is not null)
+            {
+                action(Errors);
+            }
+            else
+            {
+                action(["WithFailure to execute Request"]);
+            }
         }
         return this;
     }
@@ -556,7 +567,7 @@ public class Result<T>
     /// <returns>The result of the executed function.</returns>
     public Result<TOut> Match<TOut>(Func<T, TOut> onSuccess, Func<IEnumerable<string>, TOut> onFailure)
     {
-        return _isSuccess ? onSuccess(Value!) : onFailure(Errors);
+        return _isSuccess ? onSuccess(Value!) : onFailure(Errors ?? ["With Failure to Execute Request"]);
     }
 
     /// <summary>

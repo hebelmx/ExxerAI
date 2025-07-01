@@ -402,8 +402,17 @@
         "type": "Project",
         "dependencies": {
           "ExxerAI.Domain": "[1.0.0, )",
+          "FluentResults": "[3.16.0, )",
+          "Google.Apis.Auth": "[1.68.0, )",
+          "Google.Apis.Core": "[1.68.0, )",
+          "Google.Apis.Drive.v3": "[1.68.0.3587, )",
+          "Microsoft.Extensions.DependencyInjection": "[9.0.5, )",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[9.0.5, )",
+          "Microsoft.Extensions.Hosting": "[9.0.5, )",
           "Microsoft.Extensions.Logging": "[9.0.5, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[9.0.5, )"
+          "Microsoft.Extensions.Logging.Abstractions": "[9.0.5, )",
+          "PdfPig": "[0.1.10, )",
+          "SixLabors.ImageSharp": "[3.1.6, )"
         }
       },
       "exxerai.cli": {

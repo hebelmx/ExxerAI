@@ -40,6 +40,27 @@
 	<ItemGroup Label="Core Framework">
 		<PackageReference Include="Microsoft.Extensions.Logging" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="FluentResults" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - GOOGLE APIS -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Google APIs">
+		<PackageReference Include="Google.Apis.Drive.v3" />
+		<PackageReference Include="Google.Apis.Auth" />
+		<PackageReference Include="Google.Apis.Core" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - DOCUMENT PROCESSING -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Document Processing">
+		<PackageReference Include="PdfPig" />
+		<PackageReference Include="SixLabors.ImageSharp" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
