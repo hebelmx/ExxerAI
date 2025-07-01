@@ -1,0 +1,73 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!-- ============================================================================ -->
+	<!-- CORE PROPERTIES -->
+	<!-- ============================================================================ -->
+	<PropertyGroup>
+		<!-- Target Framework -->
+		<TargetFramework>net9.0</TargetFramework>
+		
+		<!-- Language Features -->
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		
+		<!-- Package Management -->
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		<RestoreLockedMode>false</RestoreLockedMode>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<DisablePackageRestore>false</DisablePackageRestore>
+		
+		<!-- Application Information -->
+		<AssemblyTitle>ExxerAI Application Layer</AssemblyTitle>
+		<Description>ExxerAI Intelligence System Application Services and Handlers</Description>
+		<Company>Exxerpro Solutions</Company>
+		<Product>ExxerAI Intelligence System</Product>
+		<Title>ExxerAI.Application</Title>
+	</PropertyGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PUBLISHING PROPERTIES -->
+	<!-- ============================================================================ -->
+	<PropertyGroup>
+		<!-- Publishing Enhancements -->
+		<EnableDynamicPgo>true</EnableDynamicPgo>
+		<TieredCompilation>true</TieredCompilation>
+	</PropertyGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Core Framework">
+		<PackageReference Include="Microsoft.Extensions.Logging" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="FluentResults" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - GOOGLE APIS -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Google APIs">
+		<PackageReference Include="Google.Apis.Drive.v3" />
+		<PackageReference Include="Google.Apis.Auth" />
+		<PackageReference Include="Google.Apis.Core" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE REFERENCES - DOCUMENT PROCESSING -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Document Processing">
+		<PackageReference Include="PdfPig" />
+		<PackageReference Include="SixLabors.ImageSharp" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
+	<!-- PROJECT REFERENCES -->
+	<!-- ============================================================================ -->
+	<ItemGroup Label="Infrastructure References">
+		<ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	</ItemGroup>
+
+</Project>

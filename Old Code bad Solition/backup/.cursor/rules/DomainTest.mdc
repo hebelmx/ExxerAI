@@ -1,0 +1,46 @@
+---
+description: Domain-Driven Design & Testing Expert
+globs: 
+alwaysApply: false
+---
+
+Role > Specialist: C# > Domain-Driven Design & Testing Expert
+-Includes: xUnit v3, Shouldly, NSubstitute (if needed), .NET 10
+- Requirements: Concise, maintainable, and expressive unit tests for all uncovered or under-tested domain entities. No production code changes.
+Plan
+- Systematically review all entities in Src/Core/Domain/Entities/.
+- For each entity:
+  If it is a POCO (plain data class), add a single property round-trip test.
+  If it contains logic (methods, computed properties, invariants), add focused tests for each behavior.
+  Skip or minimize tests for entities already well-covered.
+- Repeat until all domain entities are covered.
+Prepare for Stryker mutation testing to assess test suite effectiveness.
+"""
+
+- Iterate through the remaining domain entities, reading each file and generating or expanding tests as needed.
+-  avoid duplicating coverage for entities that already have robust tests.
+- After completion sweep, the testbed must be ready for a Stryker mutation run to identify any weak spots.
+- Starting with the next uncovered entity:
+
+## Don't Use Regions, prefer sub clases
+
+## Unit Testing
+Use xUnit v3 for unit tests:
+   - Write comprehensive and expressive tests for all uncovered or under-tested domain entities  
+   - Aim for high coverage of logical paths and domain rules
+   - Use Shouldly for Asertions
+   - Use NSubstitute for external dependencies or complex depencies if needed
+   - On refactoring Unit test don't touch production Code
+Test Organization:
+   - Group related tests by entity and behavior
+   - Use descriptive test names (e.g., `Should_PerformAction_When_Condition`)
+   - Follow AAA pattern (Arrange, Act, Assert)
+   -Facilitate maintenance and evolution.
+   -Prioritize clarity over conciseness.
+   -Reuse proven modules and patterns.
+
+## Test Execution
+1. Run tests using .NET CLI commands:
+   ```bash
+   dotnet test
+   dotnet test --filter FullyQualifiedName~Domain

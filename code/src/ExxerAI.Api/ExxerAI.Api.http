@@ -1,0 +1,6 @@
+@ExxerAI.Api_HostAddress = http://localhost:5032
+
+GET {{ExxerAI.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

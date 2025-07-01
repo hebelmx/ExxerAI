@@ -1,0 +1,98 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <!-- ============================================================================ -->
+  <!-- CORE PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+	<!-- Target Framework -->
+	<TargetFramework>net9.0</TargetFramework>
+
+	<!-- Language Features -->
+	<Nullable>enable</Nullable>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<LangVersion>preview</LangVersion>
+
+
+	  <!-- Security & Configuration -->
+	<UserSecretsId>aspnet-ExxerAi.MCPServer-cd7dce24-2a4d-4281-a3a4-809456944085</UserSecretsId>
+
+	<!-- Application Information -->
+	<AssemblyTitle>ExxerAI MCP Server</AssemblyTitle>
+	<Description>ExxerAI Model Context Protocol Server</Description>
+	<Company>Exxerpro Solutions</Company>
+	<Product>ExxerAI Intelligence System</Product>
+	<Title>ExxerAi.MCPServer</Title>
+  </PropertyGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PUBLISHING PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+	<!-- Publishing Enhancements -->
+	<EnableDynamicPgo>true</EnableDynamicPgo>
+	<TieredCompilation>true</TieredCompilation>
+	<PublishSingleFile>false</PublishSingleFile>
+	<SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - ENTITY FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Entity Framework">
+	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+	<PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
+	  <PrivateAssets>all</PrivateAssets>
+	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	</PackageReference>
+	<PackageReference Include="ModelContextProtocol" />
+	<PackageReference Include="ModelContextProtocol.Core" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - UI FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="UI Framework">
+	<PackageReference Include="MudBlazor" />
+	<PackageReference Include="Extensions.MudBlazor.StaticInput" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - MCP PROTOCOL -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="MCP Protocol">
+	<PackageReference Include="ModelContextProtocol.AspNetCore" />
+	<PackageReference Include="Microsoft.Extensions.AI" />
+	<PackageReference Include="OllamaSharp.ModelContextProtocol" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - LOGGING -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Logging">
+	<PackageReference Include="Serilog" />
+	<PackageReference Include="Serilog.Extensions.Hosting" />
+	<PackageReference Include="Serilog.Sinks.Console" />
+	<PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Core Framework">
+	<PackageReference Include="FluentResults" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- EXCLUDED CONTENT -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Excluded Legacy Content">
+	<Compile Remove="Samples\**" />
+	<Content Remove="Samples\**" />
+	<EmbeddedResource Remove="Samples\**" />
+	<None Remove="Samples\**" />
+  </ItemGroup>
+
+</Project>
