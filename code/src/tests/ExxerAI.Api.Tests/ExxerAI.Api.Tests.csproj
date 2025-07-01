@@ -48,6 +48,7 @@
 	<ItemGroup Label="Testing Utilities">
 		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
+		<PackageReference Include="Meziantou.Extensions.Logging.Xunit" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->

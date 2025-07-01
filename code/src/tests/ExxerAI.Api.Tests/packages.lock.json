@@ -8,6 +8,16 @@
         "resolved": "6.0.4",
         "contentHash": "lkhqpF8Pu2Y7IiN7OntbsTtdbpR1syMsm2F3IgX6ootA4ffRqWL5jF7XipHuZQTdVuWG/gVAAcf8mjk8Tz0xPg=="
       },
+      "Meziantou.Extensions.Logging.Xunit": {
+        "type": "Direct",
+        "requested": "[1.0.13, )",
+        "resolved": "1.0.13",
+        "contentHash": "UjaZmcw9D89PlEYN0LiNGAM78o/gphZhF86G2ZVaFJJTkYHkp39cA1wW0jLchCg4pi4YIft+DAHx7dfR6ERt9w==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "9.0.6",
+          "xunit.abstractions": "2.0.3"
+        }
+      },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
         "requested": "[17.14.1, )",

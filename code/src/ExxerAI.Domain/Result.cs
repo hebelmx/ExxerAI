@@ -17,8 +17,8 @@ public class Result
     /// <param name="errors">A collection of error messages.</param>
     private Result(bool succeeded, IEnumerable<string> errors)
     {
-        IsSuccess = succeeded;
-        Errors = errors.ToArray();
+        IsSuccess = succeeded && (errors?.Any() != true);
+        Errors = errors?.ToArray() ?? Array.Empty<string>();
     }
 
     /// <summary>
@@ -68,9 +68,9 @@ public class Result
     public bool IsSuccess { get; private set; }
 
     /// <summary>
-    /// Gets or sets the collection of error messages associated with the result.
+    /// Gets the collection of error messages associated with the result.
     /// </summary>
-    public IEnumerable<string> Errors { get; set; }
+    public IEnumerable<string> Errors { get; private set; }
 
     /// <summary>
     /// Gets the first non-empty error message, or null if none exist.

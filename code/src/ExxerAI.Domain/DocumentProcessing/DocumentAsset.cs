@@ -148,8 +148,14 @@ public class DocumentAsset
     /// Sets the content hash for the document.
     /// </summary>
     /// <param name="hash">The SHA-256 content hash.</param>
+    /// <exception cref="ArgumentException">Thrown when hash is null, empty, or whitespace.</exception>
     public void SetContentHash(string hash)
     {
+        if (string.IsNullOrWhiteSpace(hash))
+        {
+            throw new ArgumentException("Content hash cannot be null, empty, or whitespace.", nameof(hash));
+        }
+
         ContentHash = hash;
         UpdatedAt = DateTime.UtcNow;
     }
@@ -160,7 +166,7 @@ public class DocumentAsset
     /// <param name="embeddings">The vector embeddings array.</param>
     public void SetEmbeddings(float[] embeddings)
     {
-        Embeddings = embeddings;
+        Embeddings = embeddings ?? Array.Empty<float>();
         UpdatedAt = DateTime.UtcNow;
     }
 
