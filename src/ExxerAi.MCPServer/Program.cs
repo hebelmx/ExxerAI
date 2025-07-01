@@ -1,76 +1,115 @@
 using ExxerAi.MCPServer.Components;
 using ExxerAi.MCPServer.Components.Account;
 using ExxerAi.MCPServer.Data;
+using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAi.MCPServer.Application.Tools;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
+using Serilog;
+using ModelContextProtocol.AspNetCore;
 
-namespace ExxerAi.MCPServer
+namespace ExxerAi.MCPServer;
+
+/// <summary>
+/// Main program entry point for the ExxerAI MCP Server.
+/// Configures MCP protocol integration with dependency injection and testable implementations.
+/// </summary>
+public class Program
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            var builder = WebApplication.CreateBuilder(args);
+	/// <summary>
+	/// Main entry point for the ExxerAI MCP Server application.
+	/// </summary>
+	/// <param name="args">Command line arguments</param>
+	public static void Main(string[] args)
+	{
+		var builder = WebApplication.CreateBuilder(args);
 
-            // Add MudBlazor services
-            builder.Services.AddMudServices();
+		// Configure Serilog
+		Log.Logger = new LoggerConfiguration()
+			.ReadFrom.Configuration(builder.Configuration)
+			.Enrich.FromLogContext()
+			.CreateLogger();
 
-            // Add services to the container.
-            builder.Services.AddRazorComponents()
-                .AddInteractiveServerComponents();
+		builder.Host.UseSerilog();
 
-            builder.Services.AddCascadingAuthenticationState();
-            builder.Services.AddScoped<IdentityUserAccessor>();
-            builder.Services.AddScoped<IdentityRedirectManager>();
-            builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+		// Add MudBlazor services
+		builder.Services.AddMudServices();
 
-            builder.Services.AddAuthentication(options =>
-                {
-                    options.DefaultScheme = IdentityConstants.ApplicationScheme;
-                    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-                })
-                .AddIdentityCookies();
+		// Add services to the container.
+		builder.Services.AddRazorComponents()
+			.AddInteractiveServerComponents();
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(connectionString));
-            builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+		// Add Identity services
+		builder.Services.AddCascadingAuthenticationState();
+		builder.Services.AddScoped<IdentityUserAccessor>();
+		builder.Services.AddScoped<IdentityRedirectManager>();
+		builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 
-            builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddSignInManager()
-                .AddDefaultTokenProviders();
+		builder.Services.AddAuthentication(options =>
+			{
+				options.DefaultScheme = IdentityConstants.ApplicationScheme;
+				options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+			})
+			.AddIdentityCookies();
 
-            builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+		// Configure Entity Framework
+		var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+			?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+		
+		builder.Services.AddDbContext<ApplicationDbContext>(options =>
+			options.UseSqlServer(connectionString));
+		builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            var app = builder.Build();
+		builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+			.AddEntityFrameworkStores<ApplicationDbContext>()
+			.AddSignInManager()
+			.AddDefaultTokenProviders();
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseMigrationsEndPoint();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+		builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-            app.UseHttpsRedirection();
+		// Register MCP Tool interfaces and implementations
+		builder.Services.AddScoped<IGoogleDriveTools, GoogleDriveTools>();
+		builder.Services.AddScoped<IDocumentProcessingTools, DocumentProcessingTools>();
+		builder.Services.AddScoped<ISystemTools, SystemTools>();
 
-            app.UseAntiforgery();
+		// Register MCP Server services with automatic tool discovery
+		builder.Services.AddMcpServer()
+			.WithHttpTransport()
+			.WithToolsFromAssembly();
 
-            app.MapStaticAssets();
-            app.MapRazorComponents<App>()
-                .AddInteractiveServerRenderMode();
+		var app = builder.Build();
 
-            // Add additional endpoints required by the Identity /Account Razor components.
-            app.MapAdditionalIdentityEndpoints();
+		// Configure the HTTP request pipeline.
+		if (app.Environment.IsDevelopment())
+		{
+			app.UseMigrationsEndPoint();
+		}
+		else
+		{
+			app.UseExceptionHandler("/Error");
+			// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+			app.UseHsts();
+		}
 
-            app.Run();
-        }
-    }
+		app.UseHttpsRedirection();
+		app.UseAntiforgery();
+
+		app.MapStaticAssets();
+		app.MapRazorComponents<App>()
+			.AddInteractiveServerRenderMode();
+
+		// Add additional endpoints required by the Identity /Account Razor components.
+		app.MapAdditionalIdentityEndpoints();
+
+		// Configure MCP endpoints
+		app.MapMcp();
+
+		Log.Information("🚀 ExxerAI MCP Server starting...");
+		Log.Information("📡 MCP tools registered: GoogleDrive, DocumentProcessing, System");
+		Log.Information("🏗️ MCP Server configured with dependency injection pattern");
+
+		app.Run();
+	}
 }

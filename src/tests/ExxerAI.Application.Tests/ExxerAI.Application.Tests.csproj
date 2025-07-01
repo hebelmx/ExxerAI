@@ -8,10 +8,10 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 
-		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		
 		<RestoreLockedMode>false</RestoreLockedMode>
 		
-		<DisablePackageRestore>true</DisablePackageRestore>
+		
 	</PropertyGroup>
 
 	<ItemGroup>

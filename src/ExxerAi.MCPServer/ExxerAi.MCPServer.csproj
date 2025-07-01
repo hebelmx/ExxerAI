@@ -7,25 +7,30 @@
     <UserSecretsId>aspnet-ExxerAi.MCPServer-cd7dce24-2a4d-4281-a3a4-809456944085</UserSecretsId>
   </PropertyGroup>
 
-	<PropertyGroup>
-		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-
-		<DisablePackageRestore>true</DisablePackageRestore>
-
-
-
-	</PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"  />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools"  />
-    <PackageReference Include="MudBlazor"  />
-    <PackageReference Include="Extensions.MudBlazor.StaticInput"  />
-
-    <PackageReference Include="ModelContextProtocol" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+    <PackageReference Include="MudBlazor" />
+    <PackageReference Include="Extensions.MudBlazor.StaticInput" />
+    <PackageReference Include="ModelContextProtocol.AspNetCore" />
     <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Serilog" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Sinks.Console" />
+    <PackageReference Include="FluentResults" />
+    <PackageReference Include="Microsoft.Extensions.Logging" />
+  </ItemGroup>
+
+  <!-- MCP Server is standalone - no project references needed for demonstration -->
+
+  <!-- Exclude legacy sample files that cause compilation errors -->
+  <ItemGroup>
+    <Compile Remove="Samples\**" />
+    <Content Remove="Samples\**" />
+    <EmbeddedResource Remove="Samples\**" />
+    <None Remove="Samples\**" />
   </ItemGroup>
 
 </Project>

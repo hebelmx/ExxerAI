@@ -1,27 +1,69 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
+  <!-- ============================================================================ -->
+  <!-- CORE PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+    <!-- Target Framework -->
+    <TargetFramework>net9.0</TargetFramework>
+    
+    <!-- Language Features -->
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    
+    <!-- Package Management -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <RestoreLockedMode>false</RestoreLockedMode>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DisablePackageRestore>false</DisablePackageRestore>
+    
+    <!-- Application Information -->
+    <AssemblyTitle>ExxerAI Infrastructure Layer</AssemblyTitle>
+    <Description>ExxerAI Intelligence System Infrastructure and External Services</Description>
+    <Company>Exxerpro Solutions</Company>
+    <Product>ExxerAI Intelligence System</Product>
+    <Title>ExxerAI.Infrastructure</Title>
+  </PropertyGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PUBLISHING PROPERTIES -->
+  <!-- ============================================================================ -->
+  <PropertyGroup>
+    <!-- Publishing Enhancements -->
+    <EnableDynamicPgo>true</EnableDynamicPgo>
+    <TieredCompilation>true</TieredCompilation>
+  </PropertyGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - GOOGLE APIS -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Google APIs">
     <PackageReference Include="Google.Apis.Auth" />
     <PackageReference Include="Google.Apis.Drive.v3" />
     <PackageReference Include="Google.Apis.Core" />
-    <PackageReference Include="UglyToad.PdfPig" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - DOCUMENT PROCESSING -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Document Processing">
+    <PackageReference Include="PdfPig" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Core Framework">
     <PackageReference Include="FluentResults" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
-  <ItemGroup>
+  <!-- ============================================================================ -->
+  <!-- PROJECT REFERENCES -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Infrastructure References">
     <ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
     <ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-
-
-
-
-  </PropertyGroup>
 
 </Project>

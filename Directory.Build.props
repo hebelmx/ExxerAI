@@ -17,7 +17,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Framework and Language Settings">
-		<!-- Target .NET 8 for stability and LTS support -->
+		<!-- Target .NET 9 for latest features -->
 		<TargetFramework>net9.0</TargetFramework>
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
@@ -34,6 +34,9 @@
 	</PropertyGroup>
 
 	<PropertyGroup Label="Assembly Information">
+		<!-- Disable automatic assembly info generation to prevent duplicates -->
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
 		<!-- Common assembly attributes -->
 		<Company>Exxerpro Solutions</Company>
 		<Product>ExxerAI Intelligence System</Product>
@@ -60,8 +63,8 @@
 	<PropertyGroup Label="Package Restore Configuration">
 		<!-- Required for transitive dependency resolution as per build rules -->
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-		<
-		
+		<RestoreLockedMode>false</RestoreLockedMode>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<DisablePackageRestore>false</DisablePackageRestore>
 	</PropertyGroup>
 </Project>
