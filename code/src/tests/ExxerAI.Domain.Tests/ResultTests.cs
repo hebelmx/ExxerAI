@@ -106,7 +106,7 @@ public class ResultTests
         successGenericResult.IsSuccess.ShouldBeTrue();
         successGenericResult.IsFailure.ShouldBeFalse();
         successGenericResult.Value.ShouldBe(42);
-        successGenericResult.Errors.ShouldBeNull(); // Success results have null Errors
+        successGenericResult.Errors.ShouldBeEmpty(); // Success results have empty collections (regression fix)
 
         // Assert - Generic failure result properties
         failureGenericResult.IsSuccess.ShouldBeFalse();
@@ -407,7 +407,7 @@ public class ResultTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldBeEquivalentTo(primaryErrors);
+        result.Errors.ShouldBeEquivalentTo(primaryErrors); // Content should match regardless of collection type
         result.Value.ShouldBeNull();
     }
 
@@ -480,7 +480,7 @@ public class ResultTests
         // Assert
         result.IsSuccess.ShouldBeTrue();
         result.IsFailure.ShouldBeFalse();
-        result.Errors.ShouldBeNull();
+        result.Errors.ShouldBeEmpty(); // Success results have empty collections (regression fix)
         result.Value.ShouldBe(4);
     }
 
@@ -627,4 +627,177 @@ public class ResultTests
         // Assert
         finalResult.IsSuccess.ShouldBeTrue();
     }
+
+    #region Collection Consistency Regression Tests
+
+    /// <summary>
+    /// Regression tests to ensure Result<T> collections are always consistent.
+    /// These tests prevent the bug where Success() returned null collections while 
+    /// WithFailure() returned empty collections, causing unpredictable behavior.
+    /// </summary>
+    [Fact]
+    public void Success_Methods_ShouldAlwaysReturnEmptyCollections_Never_Null()
+    {
+        // Arrange & Act - Test all success creation methods
+        var successResult = Result<string>.Success("test-data");
+        var withSuccessResult = Result<string>.WithSuccess("test-data");
+
+        // Assert - Both methods should return empty collections (never null)
+        successResult.Errors.ShouldNotBeNull();
+        successResult.Errors.ShouldBeEmpty();
+        
+        withSuccessResult.Errors.ShouldNotBeNull();
+        withSuccessResult.Errors.ShouldBeEmpty();
+
+        // Assert - Both should behave identically
+        successResult.IsSuccess.ShouldBe(withSuccessResult.IsSuccess);
+        successResult.IsFailure.ShouldBe(withSuccessResult.IsFailure);
+    }
+
+    [Fact]
+    public void Failure_Methods_ShouldAlwaysReturnNonNullCollections()
+    {
+        // Arrange & Act - Test all failure creation methods
+        var singleErrorResult = Result<string>.WithFailure("error message");
+        var multipleErrorsResult = Result<string>.WithFailure(new[] { "error1", "error2" });
+        var nullErrorsResult = Result<string>.WithFailure((IEnumerable<string>?)null);
+        var emptyErrorsResult = Result<string>.WithFailure(new List<string>());
+
+        // Assert - All failure results should have non-null collections
+        singleErrorResult.Errors.ShouldNotBeNull();
+        multipleErrorsResult.Errors.ShouldNotBeNull();
+        nullErrorsResult.Errors.ShouldNotBeNull();
+        emptyErrorsResult.Errors.ShouldNotBeNull();
+
+        // Assert - All should be failures
+        singleErrorResult.IsFailure.ShouldBeTrue();
+        multipleErrorsResult.IsFailure.ShouldBeTrue();
+        nullErrorsResult.IsFailure.ShouldBeTrue();
+        emptyErrorsResult.IsFailure.ShouldBeTrue();
+
+        // Assert - Content should be as expected
+        singleErrorResult.Errors.ShouldContain("error message");
+        multipleErrorsResult.Errors.ShouldContain("error1");
+        multipleErrorsResult.Errors.ShouldContain("error2");
+        nullErrorsResult.Errors.ShouldContain("WithFailure to execute Request"); // Default error
+        emptyErrorsResult.Errors.ShouldContain("WithFailure to execute Request"); // Default error
+    }
+
+    [Fact]
+    public void Constructor_Consistency_ShouldHandleNullsIdentically()
+    {
+        // Arrange & Act - Test both constructors with null errors
+        var jsonConstructorResult = new Result<string>(true, (IEnumerable<string>?)null, "test");
+        var regularConstructorResult = new Result<string>(true, (List<string>?)null, "test");
+
+        // Assert - Both constructors should handle nulls the same way
+        jsonConstructorResult.Errors.ShouldNotBeNull();
+        jsonConstructorResult.Errors.ShouldBeEmpty();
+        
+        regularConstructorResult.Errors.ShouldNotBeNull();
+        regularConstructorResult.Errors.ShouldBeEmpty();
+
+        // Assert - Both should have identical behavior
+        jsonConstructorResult.IsSuccess.ShouldBe(regularConstructorResult.IsSuccess);
+        jsonConstructorResult.IsFailure.ShouldBe(regularConstructorResult.IsFailure);
+        jsonConstructorResult.Value.ShouldBe(regularConstructorResult.Value);
+    }
+
+    [Fact]
+    public void All_Result_Operations_ShouldMaintainCollectionConsistency()
+    {
+        // Arrange - Create various result types
+        var successResult = Result<string>.Success("data");
+        var failureResult = Result<string>.WithFailure("error");
+
+        // Act - Test all transformation operations
+        var mappedSuccess = successResult.Map(x => x.ToUpper());
+        var mappedFailure = failureResult.Map(x => x.ToUpper());
+        var boundSuccess = successResult.Bind(x => Result<int>.Success(x.Length));
+        var boundFailure = failureResult.Bind(x => Result<int>.Success(x.Length));
+
+        // Assert - All results should maintain consistent collection behavior
+        // Test mappedSuccess
+        if (mappedSuccess.IsSuccess)
+        {
+            mappedSuccess.Errors.ShouldNotBeNull("Success results should never have null collections");
+            mappedSuccess.Errors.ShouldBeEmpty("Success results should have empty collections");
+        }
+        else
+        {
+            mappedSuccess.Errors.ShouldNotBeNull("Failure results should never have null collections");
+            mappedSuccess.Errors.ShouldNotBeEmpty("Failure results should contain error messages");
+        }
+
+        // Test boundSuccess
+        if (boundSuccess.IsSuccess)
+        {
+            boundSuccess.Errors.ShouldNotBeNull("Success results should never have null collections");
+            boundSuccess.Errors.ShouldBeEmpty("Success results should have empty collections");
+        }
+        else
+        {
+            boundSuccess.Errors.ShouldNotBeNull("Failure results should never have null collections");
+            boundSuccess.Errors.ShouldNotBeEmpty("Failure results should contain error messages");
+        }
+
+        // Assert - Failures should propagate errors correctly
+        mappedFailure.Errors.ShouldNotBeNull();
+        mappedFailure.Errors.ShouldContain("error");
+        boundFailure.Errors.ShouldNotBeNull();
+        boundFailure.Errors.ShouldContain("error");
+    }
+
+    [Fact]
+    public void Success_WithDifferentTypes_ShouldAlwaysHaveEmptyCollections()
+    {
+        // Arrange & Act - Test different types separately
+        var stringResult = Result<string>.Success("test-string");
+        var intResult = Result<int>.Success(42);
+        var boolResult = Result<bool>.Success(true);
+
+        // Assert - Regardless of type, success should always have empty collections
+        stringResult.Errors.ShouldNotBeNull();
+        stringResult.Errors.ShouldBeEmpty();
+        stringResult.IsSuccess.ShouldBeTrue();
+        stringResult.Value.ShouldBe("test-string");
+
+        intResult.Errors.ShouldNotBeNull();
+        intResult.Errors.ShouldBeEmpty();
+        intResult.IsSuccess.ShouldBeTrue();
+        intResult.Value.ShouldBe(42);
+
+        boolResult.Errors.ShouldNotBeNull();
+        boolResult.Errors.ShouldBeEmpty();
+        boolResult.IsSuccess.ShouldBeTrue();
+        boolResult.Value.ShouldBe(true);
+    }
+
+    [Fact]
+    public void Collection_Behavior_Documentation_Test()
+    {
+        // This test serves as living documentation for the expected collection behavior
+        
+        // ✅ SUCCESS BEHAVIOR: Always empty collections, never null
+        var success = Result<string>.Success("data");
+        success.Errors.ShouldNotBeNull("✅ Success results must have non-null collections");
+        success.Errors.ShouldBeEmpty("✅ Success results must have empty collections");
+
+        // ✅ FAILURE BEHAVIOR: Always non-null collections with content
+        var failure = Result<string>.WithFailure("error");
+        failure.Errors.ShouldNotBeNull("✅ Failure results must have non-null collections");
+        failure.Errors.ShouldNotBeEmpty("✅ Failure results must contain error messages");
+
+        // ✅ NULL INPUT HANDLING: Always converted to appropriate defaults
+        var nullInputResult = Result<string>.WithFailure((IEnumerable<string>?)null);
+        nullInputResult.Errors.ShouldNotBeNull("✅ Null inputs must be converted to non-null collections");
+        nullInputResult.Errors.ShouldNotBeEmpty("✅ Null inputs must result in default error messages");
+
+        // ✅ CONSISTENCY: All creation methods behave the same
+        var method1 = Result<string>.Success("test");
+        var method2 = Result<string>.WithSuccess("test");
+        method1.Errors.ShouldBeEquivalentTo(method2.Errors, "✅ All success methods must behave identically");
+    }
+
+    #endregion
 }

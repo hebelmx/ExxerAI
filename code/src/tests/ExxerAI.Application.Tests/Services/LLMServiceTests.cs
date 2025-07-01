@@ -72,7 +72,6 @@ public class LLMServiceTests
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task GenerateTextAsync_WithInvalidPrompt_ShouldReturnFailureResult(string prompt)

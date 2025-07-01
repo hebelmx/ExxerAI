@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="0c870a88-dbec-4921-8e96-8431459cc78f" name="Abel Briones@DESKTOP-FB2ES22 2025-07-01 15:59:19" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-01T15:59:19.2438938-06:00" queuing="2025-07-01T15:59:19.2438945-06:00" start="2025-07-01T15:59:17.7159578-06:00" finish="2025-07-01T15:59:19.2559315-06:00" />
+  <TestSettings name="default" id="3f131e50-23fe-417c-b1b2-05cb53e879c2">
+    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-01_15_59_19" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="3e3ebc68-7fde-47b1-8b86-f656c4c9cd24" testId="933a190d-0458-0c9d-282c-46d029a2f5f0" testName="ExxerAI.Orchestration.Tests.UnitTest1.Test1" computerName="DESKTOP-FB2ES22" duration="00:00:00.0048235" startTime="2025-07-01T15:59:18.8818396-06:00" endTime="2025-07-01T15:59:18.8981109-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e3ebc68-7fde-47b1-8b86-f656c4c9cd24" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ExxerAI.Orchestration.Tests.UnitTest1.Test1" storage="f:\dynamic\exxerai\exxerai\code\src\tests\exxerai.orchestration.tests\bin\debug\net9.0\exxerai.orchestration.tests.dll" id="933a190d-0458-0c9d-282c-46d029a2f5f0">
+      <Execution id="3e3ebc68-7fde-47b1-8b86-f656c4c9cd24" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\bin\Debug\net9.0\ExxerAI.Orchestration.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Orchestration.Tests.UnitTest1" name="Test1" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="933a190d-0458-0c9d-282c-46d029a2f5f0" executionId="3e3ebc68-7fde-47b1-8b86-f656c4c9cd24" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.1+bf6400fd51 (64-bit .NET 9.0.6)&#xD;
+[xUnit.net 00:00:00.18]   Discovering: ExxerAI.Orchestration.Tests&#xD;
+[xUnit.net 00:00:00.23]   Discovered:  ExxerAI.Orchestration.Tests&#xD;
+[xUnit.net 00:00:00.26]   Starting:    ExxerAI.Orchestration.Tests&#xD;
+[xUnit.net 00:00:00.33]   Finished:    ExxerAI.Orchestration.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

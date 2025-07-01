@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="9aa526fc-ed74-4e23-b2b8-e9465508b5f1" name="Abel Briones@DESKTOP-FB2ES22 2025-07-01 15:59:19" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-01T15:59:19.3851301-06:00" queuing="2025-07-01T15:59:19.3851309-06:00" start="2025-07-01T15:59:17.8118109-06:00" finish="2025-07-01T15:59:19.3948404-06:00" />
+  <TestSettings name="default" id="d116bcce-eeae-47f2-858a-c27de897dce2">
+    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-01_15_59_19" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="123b5a25-5d01-46b4-88d6-558054805bf6" testId="a30c29dc-8f62-7032-0270-7ba7b19f9d39" testName="ExxerAI.CLI.Tests.UnitTest1.Test1" computerName="DESKTOP-FB2ES22" duration="00:00:00.0032615" startTime="2025-07-01T15:59:19.0261573-06:00" endTime="2025-07-01T15:59:19.0409959-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="123b5a25-5d01-46b4-88d6-558054805bf6" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ExxerAI.CLI.Tests.UnitTest1.Test1" storage="f:\dynamic\exxerai\exxerai\code\src\tests\exxerai.cli.tests\bin\debug\net9.0\exxerai.cli.tests.dll" id="a30c29dc-8f62-7032-0270-7ba7b19f9d39">
+      <Execution id="123b5a25-5d01-46b4-88d6-558054805bf6" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\bin\Debug\net9.0\ExxerAI.CLI.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.CLI.Tests.UnitTest1" name="Test1" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="a30c29dc-8f62-7032-0270-7ba7b19f9d39" executionId="123b5a25-5d01-46b4-88d6-558054805bf6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.1+bf6400fd51 (64-bit .NET 9.0.6)&#xD;
+[xUnit.net 00:00:00.16]   Discovering: ExxerAI.CLI.Tests&#xD;
+[xUnit.net 00:00:00.22]   Discovered:  ExxerAI.CLI.Tests&#xD;
+[xUnit.net 00:00:00.30]   Starting:    ExxerAI.CLI.Tests&#xD;
+[xUnit.net 00:00:00.36]   Finished:    ExxerAI.CLI.Tests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

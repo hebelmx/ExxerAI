@@ -265,7 +265,7 @@ public class Result<T>
     public Result(bool isSuccess, List<string>? errors, T? value = default)
     {
         _isSuccess = (value is not null) ? isSuccess : false;
-        Errors = errors;
+        Errors = errors?.ToImmutableList() ?? ImmutableList<string>.Empty;
         _value = value;
     }
 
@@ -332,7 +332,7 @@ public class Result<T>
     /// <returns>A successful <see cref="Result{T}"/> instance.</returns>
     public static Result<T> Success(T data)
     {
-        return new Result<T>(true, default, data);
+        return new Result<T>(true, ImmutableList<string>.Empty, data);
     }
 
     /// <summary>
@@ -342,7 +342,7 @@ public class Result<T>
     /// <returns>A successful <see cref="Result{T}"/> instance.</returns>
     public static Result<T> WithSuccess(T data)
     {
-        return new Result<T>(true, default, data);
+        return new Result<T>(true, ImmutableList<string>.Empty, data);
     }
 
     /// <summary>

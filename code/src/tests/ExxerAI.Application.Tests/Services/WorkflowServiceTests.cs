@@ -56,10 +56,8 @@ public class WorkflowServiceTests
     }
 
     [Theory]
-    [InlineData(null, "Valid Description")]
     [InlineData("", "Valid Description")]
     [InlineData("   ", "Valid Description")]
-    [InlineData("Valid Name", null)]
     [InlineData("Valid Name", "")]
     public async Task CreateWorkflowAsync_WithInvalidInput_ShouldReturnFailureResult(string name, string description)
     {

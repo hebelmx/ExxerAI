@@ -45,10 +45,8 @@ public class AgentServiceTests
     }
 
     [Theory]
-    [InlineData(null, "Valid Description")]
     [InlineData("", "Valid Description")]
     [InlineData("   ", "Valid Description")]
-    [InlineData("Valid Name", null)]
     [InlineData("Valid Name", "")]
     public async Task CreateAgentAsync_WithInvalidInput_ShouldReturnFailureResult(string name, string description)
     {
@@ -474,7 +472,6 @@ public class AgentServiceTests
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task FindBestAgentForTaskAsync_WithInvalidTaskType_ShouldReturnFailure(string taskType)

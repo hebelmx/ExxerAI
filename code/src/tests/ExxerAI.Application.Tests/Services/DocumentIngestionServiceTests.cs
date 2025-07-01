@@ -385,12 +385,13 @@ public class DocumentIngestionServiceTests
         using var cts = new CancellationTokenSource();
         cts.Cancel(); // Cancel immediately
 
-        // Act & Assert - Following Result<T> pattern, cancellation should still throw
-        // This is the standard .NET behavior for cancellation tokens
-        await Should.ThrowAsync<OperationCanceledException>(async () =>
-        {
-            await _service.ProcessDocumentChangeAsync(changeEvent, cts.Token);
-        });
+        // Act
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cts.Token);
+
+        // Assert - With Result<T> pattern, cancellation is returned as a failure result
+        // This is the expected behavior since the service catches all exceptions and converts them to Result
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldContain("cancel", Case.Insensitive);
     }
 
     // Helper Methods

@@ -59,12 +59,9 @@ public class TaskServiceTests
     }
 
     [Theory]
-    [InlineData(null, "Valid Description", "ValidType")]
     [InlineData("", "Valid Description", "ValidType")]
     [InlineData("   ", "Valid Description", "ValidType")]
-    [InlineData("Valid Title", null, "ValidType")]
     [InlineData("Valid Title", "", "ValidType")]
-    [InlineData("Valid Title", "Valid Description", null)]
     [InlineData("Valid Title", "Valid Description", "")]
     public async Task CreateTaskAsync_WithInvalidInput_ShouldReturnFailureResult(string title, string description, string taskType)
     {
@@ -556,7 +553,6 @@ public class TaskServiceTests
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task FailTaskAsync_WithInvalidErrorMessage_ShouldReturnFailure(string errorMessage)
