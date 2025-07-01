@@ -345,7 +345,7 @@ public class AgentServiceTests
     [Theory]
     [InlineData(AgentStatus.Active)]
     [InlineData(AgentStatus.Inactive)]
-    [InlineData(AgentStatus.Maintenance)]
+    [InlineData(AgentStatus.Paused)]
     public async Task UpdateAgentStatusAsync_WithValidInput_ShouldReturnSuccess(AgentStatus status)
     {
         // Arrange

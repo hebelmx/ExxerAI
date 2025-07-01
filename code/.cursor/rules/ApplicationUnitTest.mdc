@@ -12,7 +12,7 @@ Role > Specialist: C# > Application-Driven Design & Testing Expert
 
 # Plan
  - Follow best testing practices
- - Follow xunit v3 best practices
+ - Follow xunit  best practices
  -  
   - Systematically review all class in Src/Core/Application/.
   - For each class:
