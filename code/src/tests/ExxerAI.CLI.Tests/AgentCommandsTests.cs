@@ -674,16 +674,16 @@ public class AgentCommandsTests
 		{
 			var testAgent = new Agent { Id = Guid.NewGuid(), Name = "TestAgent" };
 			_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
-				.Returns(Result<Agent>.Success(testAgent));
+				.Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
 		}
 		else if (alias == "remove" || alias == "rm")
 		{
-			_mockAgentRepository.DeleteAsync(Arg.Any<Guid>()).Returns(Result.Success());
+			_mockAgentRepository.DeleteAsync(Arg.Any<Guid>()).Returns(Task.FromResult(Result.Success()));
 		}
 		else if (alias == "info")
 		{
 			var testAgent = new Agent { Id = Guid.NewGuid(), Name = "TestAgent", Capabilities = new AgentCapabilities() };
-			_mockAgentRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(Result<Agent>.Success(testAgent));
+			_mockAgentRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
 		}
 
 		// Act
@@ -698,7 +698,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var args = new[] { "list" };
-		_mockAgentRepository.GetAllAsync().Throws(new InvalidOperationException("Test exception"));
+		_mockAgentRepository.When(x => x.GetAllAsync()).Do(x => throw new InvalidOperationException("Test exception"));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -724,19 +724,19 @@ public class AgentCommandsTests
 
 		if (shortFlag == "-s")
 		{
-			_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(new List<Agent>()));
+			_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.Success(new List<Agent>())));
 		}
 		else if (shortFlag == "-d")
 		{
 			var testAgent = new Agent { Id = Guid.NewGuid(), Name = "TestAgent" };
 			_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
-				.Returns(Result<Agent>.Success(testAgent));
+				.Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
 		}
 		else if (shortFlag == "-n")
 		{
 			var testAgent = new Agent { Id = Guid.Parse(args[1]), Name = "OldName" };
-			_mockAgentRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(Result<Agent>.Success(testAgent));
-			_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Result.Success());
+			_mockAgentRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
+			_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Task.FromResult(Result.Success()));
 		}
 
 		// Act
