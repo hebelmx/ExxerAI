@@ -63,6 +63,7 @@
 	<ItemGroup Label="Infrastructure References">
 		<ProjectReference Include="..\..\ExxerAI.CLI\ExxerAI.CLI.csproj" />
 		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
 	</ItemGroup>
 
 </Project>
