@@ -369,7 +369,8 @@ public class CommandRouterTests
 	{
 		// Arrange
 		var args = new[] { "agent", "list" };
-		_mockAgentCommands.ExecuteAsync(Arg.Any<string[]>()).Throws(new InvalidOperationException("Test exception"));
+		_mockAgentCommands.When(x => x.ExecuteAsync(Arg.Any<string[]>()))
+			.Do(x => throw new InvalidOperationException("Test exception"));
 
 		// Act
 		var exitCode = await _commandRouter.ExecuteAsync(args);
