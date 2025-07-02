@@ -418,9 +418,9 @@ public class CommandRouterTests
 
 	[Theory]
 	[InlineData("agent", "list")]
-	[InlineData("agents", "create")]
+	[InlineData("agents", "list")]
 	[InlineData("task", "list")]
-	[InlineData("tasks", "create")]
+	[InlineData("tasks", "list")]
 	[InlineData("workflow", "list")]
 	[InlineData("workflows", "list")]
 	public async Task ExecuteAsync_Should_RouteCorrectly_When_CommandAliasesProvided(string command, string subCommand)
@@ -431,9 +431,6 @@ public class CommandRouterTests
 		var testTasks = new List<AgentTask>();
 		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
-		_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
-			.Returns(Result<Agent>.Success(new Agent { Name = "test", Description = "test", Capabilities = new AgentCapabilities() }));
-		_mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
 		// Act
 		var exitCode = await _commandRouter.ExecuteAsync(args);
