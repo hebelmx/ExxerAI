@@ -300,7 +300,7 @@ public class AgentCommandsTests
 			new() { Id = Guid.NewGuid(), Name = "ActiveAgent", Status = AgentStatus.Active, CreatedAt = DateTime.UtcNow },
 			new() { Id = Guid.NewGuid(), Name = "InactiveAgent", Status = AgentStatus.Inactive, CreatedAt = DateTime.UtcNow }
 		};
-		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(agents));
+		_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.Success(agents)));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -314,7 +314,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var args = new[] { "list", "--status", "InvalidStatus" };
-		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(new List<Agent>()));
+		_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.Success(new List<Agent>())));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -328,7 +328,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var args = new[] { "list" };
-		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.WithFailure("Database error"));
+		_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.WithFailure("Database error")));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -357,7 +357,7 @@ public class AgentCommandsTests
 		var args = new[] { "create", "TestAgent", "--description", "Custom description" };
 		var testAgent = new Agent { Id = Guid.NewGuid(), Name = "TestAgent" };
 		_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
-			.Returns(Result<Agent>.Success(testAgent));
+			.Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -373,7 +373,7 @@ public class AgentCommandsTests
 		// Arrange
 		var args = new[] { "create", "TestAgent" };
 		_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
-			.Returns(Result<Agent>.WithFailure("Service error"));
+			.Returns(Task.FromResult(Result<Agent>.WithFailure("Service error")));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -414,7 +414,7 @@ public class AgentCommandsTests
 		// Arrange
 		var agentId = Guid.NewGuid();
 		var args = new[] { "delete", agentId.ToString() };
-		_mockAgentRepository.DeleteAsync(agentId).Returns(Result.WithFailure("Delete failed"));
+		_mockAgentRepository.DeleteAsync(agentId).Returns(Task.FromResult(Result.WithFailure("Delete failed")));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -455,7 +455,7 @@ public class AgentCommandsTests
 		// Arrange
 		var agentId = Guid.NewGuid();
 		var args = new[] { "status", agentId.ToString() };
-		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(null!));
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(null!)));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -470,7 +470,7 @@ public class AgentCommandsTests
 		// Arrange
 		var agentId = Guid.NewGuid();
 		var args = new[] { "status", agentId.ToString() };
-		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.WithFailure("Repository error"));
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.WithFailure("Repository error")));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
