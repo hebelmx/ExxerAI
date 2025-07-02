@@ -835,8 +835,8 @@ public class AgentsControllerTests
             // Arrange
             var agentId = Guid.NewGuid();
 
-            _mockAgentService.GetAgentAsync(agentId, Arg.Any<CancellationToken>())
-                .Throws(new InvalidOperationException("Database connection failed"));
+            _mockAgentService.When(x => x.GetAgentAsync(agentId, Arg.Any<CancellationToken>()))
+                .Do(x => throw new InvalidOperationException("Database connection failed"));
 
             // Act
             var result = await _controller.GetAgent(agentId);
