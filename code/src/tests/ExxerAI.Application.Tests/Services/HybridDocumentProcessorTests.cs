@@ -217,13 +217,13 @@ public class HybridDocumentProcessorTests
             var metadata = CreateSampleDocumentMetadata();
             var cts = new CancellationTokenSource();
             cts.Cancel(); // Cancel the token
-            
+
             // Don't mock the extractor - let the implementation handle cancellation naturally
             // The implementation checks cancellation token in multiple places
 
             // Act & Assert
             var result = await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token);
-            
+
             // Either the result should be a failure due to cancellation, or an exception should be thrown
             // Both are valid responses to cancellation
             if (result.IsSuccess)
@@ -337,11 +337,11 @@ public class HybridDocumentProcessorTests
             // Assert
             result.ShouldNotBeNull();
             result.TotalDocuments.ShouldBe(3);
-            
+
             // Progress should be reported at least once (when batch completes)
             // Note: Due to async nature, we may get 1 or more progress reports
             progressReports.Count.ShouldBeGreaterThanOrEqualTo(1);
-            
+
             // The final progress report should show completion
             var finalReport = progressReports.Last();
             finalReport.ProcessedCount.ShouldBe(3);
@@ -363,7 +363,7 @@ public class HybridDocumentProcessorTests
             try
             {
                 var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token);
-                
+
                 // If we get a result, validate it
                 result.ShouldNotBeNull();
                 result.TotalDocuments.ShouldBe(1);
@@ -521,7 +521,7 @@ public class HybridDocumentProcessorTests
     }
 
     // Helper methods for creating test data
-    private static byte[] CreateSampleDocumentData() => 
+    private static byte[] CreateSampleDocumentData() =>
         System.Text.Encoding.UTF8.GetBytes("Sample PDF document content for testing");
 
     private static DocumentMetadata CreateSampleDocumentMetadata() => new()
@@ -568,9 +568,9 @@ public class HybridDocumentProcessorTests
     private static Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>> CreateSamplePatterns()
     {
         var patterns = new Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>>();
-        
+
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "");
-        
+
         patterns["registro_patronal"] = new List<ExxerAI.Application.Interfaces.ExtractionPattern> { registroPattern };
         return patterns;
     }
@@ -578,10 +578,10 @@ public class HybridDocumentProcessorTests
     private static Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>> CreateSamplePatternsWithMockExtraction()
     {
         var patterns = new Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>>();
-        
+
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "TEST123456");
         var periodoPattern = new TestExtractionPattern("Regex", 0.90f, "ENERO 2024");
-        
+
         patterns["registro_patronal"] = new List<ExxerAI.Application.Interfaces.ExtractionPattern> { registroPattern };
         patterns["periodo_imss"] = new List<ExxerAI.Application.Interfaces.ExtractionPattern> { periodoPattern };
         return patterns;
@@ -643,13 +643,13 @@ public class HybridDocumentProcessorTests
             LLMConfidence = baseConfidence * 0.9f,
             GroundingConfidence = baseConfidence * 0.8f
         };
-        
+
         result.ExtractedFields["registro_patronal"] = "TEST123456";
         result.ExtractedFields["periodo_imss"] = "ENERO 2024";
         return result;
     }
 
-    private static DocumentProcessingResult CreateFailedProcessingResult() => 
+    private static DocumentProcessingResult CreateFailedProcessingResult() =>
         DocumentProcessingResult.Failed("Test processing failure");
 
     private static Dictionary<string, object> CreateValidExtractedFields() => new()
@@ -720,4 +720,4 @@ public class HybridDocumentProcessorTests
             }
         }
     };
-} 
+}
