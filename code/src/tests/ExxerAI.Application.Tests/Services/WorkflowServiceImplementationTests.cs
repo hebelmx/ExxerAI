@@ -5,7 +5,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace ExxerAI.Application.Tests.Unit.Services;
+namespace ExxerAI.Application.Tests.Services;
 
 /// <summary>
 /// Implementation tests for WorkflowService - targeting 286 lines of business logic
