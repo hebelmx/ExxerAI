@@ -2,13 +2,13 @@
   "stryker-config": {
     "project": "ExxerAI.sln",
     "test-projects": [
-      "tests/ExxerAI.Application.Tests/ExxerAI.Application.Tests.csproj",
-      "tests/ExxerAI.Domain.Tests/ExxerAI.Domain.Tests.csproj",
-      "tests/ExxerAI.Infrastructure.Tests/ExxerAI.Infrastructure.Tests.csproj",
-      "tests/ExxerAI.Api.Tests/ExxerAI.Api.Tests.csproj",
-      "tests/ExxerAI.CLI.Tests/ExxerAI.CLI.Tests.csproj",
-      "tests/ExxerAI.Orchestration.Tests/ExxerAI.Orchestration.Tests.csproj",
-      "tests/ExxerAi.MCPServer.Tests/ExxerAi.MCPServer.Tests.csproj"
+      "src/tests/ExxerAI.Application.Tests/ExxerAI.Application.Tests.csproj",
+      "src/tests/ExxerAI.Domain.Tests/ExxerAI.Domain.Tests.csproj",
+      "src/tests/ExxerAI.Infrastructure.Tests/ExxerAI.Infrastructure.Tests.csproj",
+      "src/tests/ExxerAI.Api.Tests/ExxerAI.Api.Tests.csproj",
+      "src/tests/ExxerAI.CLI.Tests/ExxerAI.CLI.Tests.csproj",
+      "src/tests/ExxerAI.Orchestration.Tests/ExxerAI.Orchestration.Tests.csproj",
+      "src/tests/ExxerAi.MCPServer.Tests/ExxerAi.MCPServer.Tests.csproj"
     ],
     "mutate": [
       "ExxerAI.Application/**/*.cs",
@@ -56,14 +56,11 @@
       "low": 70,
       "break": 60
     },
-         "reporters": ["html", "progress", "json"],
-     "verbosity": "info",
-     "concurrency": 6,
-     "disable-bail": false,
-     "break-on-initial-test-failure": false,
-     "report-file-name": "mutation-report",
-     "json": {
-       "enabled": true
-     }
+    "reporters": ["html", "progress", "json"],
+    "verbosity": "info",
+    "concurrency": 6,
+    "disable-bail": false,
+    "break-on-initial-test-failure": false,
+    "report-file-name": "mutation-report"
   }
 } 
