@@ -91,7 +91,6 @@ public class AgentConfigurationTests
     public void Should_Set_And_Get_CustomProperties_When_Valid_Dictionary_Provided()
     {
         // Arrange
-        var configuration = new AgentConfiguration();
         var customProperties = new Dictionary<string, object>
         {
             { "apiKey", "test-key-123" },
@@ -100,8 +99,11 @@ public class AgentConfigurationTests
             { "endpoint", "https://api.example.com" }
         };
 
-        // Act
-        configuration.CustomProperties = customProperties;
+        // Act - Use object initializer for init-only property
+        var configuration = new AgentConfiguration
+        {
+            CustomProperties = customProperties
+        };
 
         // Assert
         configuration.CustomProperties.ShouldBe(customProperties);

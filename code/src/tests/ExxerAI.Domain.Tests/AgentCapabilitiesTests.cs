@@ -145,11 +145,13 @@ public class AgentCapabilitiesTests
     public void Should_Set_And_Get_SupportedTaskTypes_When_List_Provided()
     {
         // Arrange
-        var capabilities = new AgentCapabilities();
         var taskTypes = new List<string> { "DataProcessing", "NLP", "CodeGeneration", "Analysis" };
 
-        // Act
-        capabilities.SupportedTaskTypes = taskTypes;
+        // Act - Use object initializer for init-only property
+        var capabilities = new AgentCapabilities
+        {
+            SupportedTaskTypes = taskTypes
+        };
 
         // Assert
         capabilities.SupportedTaskTypes.ShouldBe(taskTypes);
@@ -304,11 +306,13 @@ public class AgentCapabilitiesTests
     public void Should_Accept_Empty_SupportedTaskTypes_When_Empty_List_Provided()
     {
         // Arrange
-        var capabilities = new AgentCapabilities();
         var emptyList = new List<string>();
 
-        // Act
-        capabilities.SupportedTaskTypes = emptyList;
+        // Act - Use object initializer for init-only property
+        var capabilities = new AgentCapabilities
+        {
+            SupportedTaskTypes = emptyList
+        };
 
         // Assert
         capabilities.SupportedTaskTypes.ShouldBe(emptyList);
