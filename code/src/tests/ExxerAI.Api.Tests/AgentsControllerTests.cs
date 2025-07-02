@@ -812,8 +812,8 @@ public class AgentsControllerTests
                 Capabilities = new AgentCapabilitiesDto()
             };
 
-            _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>())
-                .Throws(new OutOfMemoryException("System out of memory"));
+            _mockAgentService.When(x => x.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>()))
+                .Do(x => throw new OutOfMemoryException("System out of memory"));
 
             // Act
             var result = await _controller.CreateAgent(request);
