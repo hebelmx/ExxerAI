@@ -70,7 +70,7 @@ public class WorkflowServiceImplementationTests
         };
 
         _mockRepository.AddAsync(Arg.Any<Workflow>(), Arg.Any<CancellationToken>())
-            .Returns(Result<bool>.WithSuccess(true));
+            .Returns(callInfo => Task.FromResult(Result<Workflow>.WithSuccess(callInfo.Arg<Workflow>())));
 
         // Act
         var result = await _service.CreateWorkflowAsync(name, description, steps);
