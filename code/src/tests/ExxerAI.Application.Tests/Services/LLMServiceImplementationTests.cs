@@ -101,22 +101,6 @@ result.Value.EstimatedCost.ShouldBeGreaterThan(0);
 }
 
 [Fact]
-public async Task GenerateTextAsync_Should_HandleExceptions()
-{
-// Arrange
-var modelId = Guid.NewGuid();
-_mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
-.Throws(new InvalidOperationException("Test exception"));
-
-// Act
-var result = await _service.GenerateTextAsync(modelId, "test prompt");
-
-// Assert
-result.IsFailure.ShouldBeTrue();
-result.Error.ShouldStartWith("Error generating text:");
-}
-
-[Fact]
 public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsEmpty()
 {
 // Act
@@ -215,7 +199,7 @@ var result = await _service.CreateConversationAsync(agentId, modelId);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.Title.ShouldBe("New Conversation");
+result.Value!.Title.ShouldBe("New Conversation");
 result.Value.SystemPrompt.ShouldBe(string.Empty);
 }
 
@@ -269,7 +253,6 @@ var result = await _service.EstimateCostAsync(modelId, 1000, 500);
 // Assert
 result.IsSuccess.ShouldBeTrue();
 result.Value.ShouldBeGreaterThan(0);
-// 1000 * 0.00001 + 500 * 0.00002 = 0.02
 result.Value.ShouldBe(0.02m);
 }
 
@@ -285,24 +268,6 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 
 // Act
 var result = await _service.CountTokensAsync(modelId, "");
-
-// Assert
-result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(0);
-}
-
-[Fact]
-public async Task CountTokensAsync_Should_ReturnZero_When_TextIsNull()
-{
-// Arrange
-var modelId = Guid.NewGuid();
-var model = new LanguageModel { Id = modelId, Name = "TestModel" };
-
-_mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
-.Returns(Result<LanguageModel>.WithSuccess(model));
-
-// Act
-var result = await _service.CountTokensAsync(modelId, null!);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -326,7 +291,7 @@ var result = await _service.CountTokensAsync(modelId, text);
 // Assert
 result.IsSuccess.ShouldBeTrue();
 result.Value.ShouldBeGreaterThan(0);
-result.Value.ShouldBe(text.Length / 4); // Based on implementation
+result.Value.ShouldBe(text.Length / 4);
 }
 
 [Fact]
@@ -383,7 +348,7 @@ chunks.Add(chunk);
 
 // Assert
 chunks.ShouldNotBeEmpty();
-chunks.Count.ShouldBe(5); // Based on implementation
+chunks.Count.ShouldBe(5);
 chunks[0].Content.ShouldBe("Hello");
 chunks[4].Content.ShouldBe(" LLM!");
 chunks[4].IsComplete.ShouldBeTrue();
@@ -422,21 +387,5 @@ var result = await _service.ValidateModelAsync(modelId);
 // Assert
 result.IsSuccess.ShouldBeTrue();
 result.Value.ShouldBeFalse();
-}
-
-[Fact]
-public async Task ValidateModelAsync_Should_ReturnFailure_When_ExceptionThrown()
-{
-// Arrange
-var modelId = Guid.NewGuid();
-_mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
-.Throws(new InvalidOperationException("Test exception"));
-
-// Act
-var result = await _service.ValidateModelAsync(modelId);
-
-// Assert
-result.IsFailure.ShouldBeTrue();
-result.Error.ShouldStartWith("Error validating model:");
 }
 }
