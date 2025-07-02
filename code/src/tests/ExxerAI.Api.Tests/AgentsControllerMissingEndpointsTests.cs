@@ -126,8 +126,8 @@ public class AgentsControllerMissingEndpointsTests
 			var taskId = Guid.NewGuid();
 			var request = new AssignTaskRequest { TaskId = taskId };
 
-			_mockAgentService.AssignTaskAsync(agentId, taskId, Arg.Any<CancellationToken>())
-				.Throws(new InvalidOperationException("Database connection failed"));
+			_mockAgentService.When(x => x.AssignTaskAsync(agentId, taskId, Arg.Any<CancellationToken>()))
+				.Do(x => throw new InvalidOperationException("Database connection failed"));
 
 			// Act
 			var result = await _controller.AssignTask(agentId, request);
