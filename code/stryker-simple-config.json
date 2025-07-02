@@ -22,6 +22,6 @@
     },
     "verbosity": "info",
     "concurrency": 4,
-    "report-file-name": "mutation-report-exxer-ai"
+    "report-file-name": "ExxerAI-Mutation-Report"
   }
-} 
+}
