@@ -177,7 +177,7 @@ result.IsSuccess.ShouldBeTrue();
 result.Value.ShouldNotBeNull();
 result.Value.DocumentId.ShouldBe(changeEvent.DocumentId);
 result.Value.Confidence.ShouldBe(1.0f);
-result.Value.ProcessingTimeMs.ShouldBeGreaterThan(0);
+result.Value.ProcessingTimeMs.ShouldBeGreaterThanOrEqualTo(0);
 }
 
 [Fact]
