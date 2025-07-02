@@ -852,8 +852,8 @@ public class AgentsControllerTests
         public async Task GetActiveAgents_Should_HandleServiceExceptionGracefully_When_NetworkFailure()
         {
             // Arrange
-            _mockAgentService.GetActiveAgentsAsync(Arg.Any<CancellationToken>())
-                .Throws(new HttpRequestException("Network unreachable"));
+            _mockAgentService.When(x => x.GetActiveAgentsAsync(Arg.Any<CancellationToken>()))
+                .Do(x => throw new HttpRequestException("Network unreachable"));
 
             // Act
             var result = await _controller.GetActiveAgents();
