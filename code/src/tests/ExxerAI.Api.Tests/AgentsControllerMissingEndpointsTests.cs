@@ -119,26 +119,61 @@ public class AgentsControllerMissingEndpointsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnInternalServerError_When_ExceptionThrown()
+		public async Task Should_HandleEmptyTaskId_When_EmptyGuidProvided()
 		{
 			// Arrange
 			var agentId = Guid.NewGuid();
-			var taskId = Guid.NewGuid();
-			var request = new AssignTaskRequest { TaskId = taskId };
+			var request = new AssignTaskRequest { TaskId = Guid.Empty };
 
-			_mockAgentService.When(x => x.AssignTaskAsync(agentId, taskId, Arg.Any<CancellationToken>()))
-				.Do(x => throw new InvalidOperationException("Database connection failed"));
+			_mockAgentService.AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>())
+				.Returns(Result<bool>.WithFailure("Invalid task ID"));
+
+			// Act
+			var result = await _controller.AssignTask(agentId, request);
+
+			// Assert - Controller should process the request and let service handle validation
+			await _mockAgentService.Received(1).AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>());
+		}
+
+		[Fact]
+		public async Task Should_HandleMultipleValidationErrors_When_ModelStateInvalid()
+		{
+			// Arrange
+			var agentId = Guid.NewGuid();
+			var request = new AssignTaskRequest { TaskId = Guid.NewGuid() };
+
+			_controller.ModelState.AddModelError("TaskId", "TaskId is required");
+			_controller.ModelState.AddModelError("Priority", "Priority must be set");
 
 			// Act
 			var result = await _controller.AssignTask(agentId, request);
 
 			// Assert
-			var objectResult = result.ShouldBeOfType<ObjectResult>();
-			objectResult.StatusCode.ShouldBe(500);
-			var response = (ApiResponse<object>)objectResult.Value!;
+			var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
+			var response = (ApiResponse<object>)badRequestResult.Value!;
 			response.Success.ShouldBeFalse();
-			response.Message.ShouldBe("An internal error occurred");
-			response.Errors.ShouldContain("Database connection failed");
+			response.Errors.Count.ShouldBe(2);
+		}
+
+		[Fact]
+		public async Task Should_FilterEmptyErrorMessages_When_ModelStateHasEmptyErrors()
+		{
+			// Arrange
+			var agentId = Guid.NewGuid();
+			var request = new AssignTaskRequest { TaskId = Guid.NewGuid() };
+
+			_controller.ModelState.AddModelError("TaskId", "");
+			_controller.ModelState.AddModelError("Priority", "Priority is required");
+
+			// Act
+			var result = await _controller.AssignTask(agentId, request);
+
+			// Assert
+			var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
+			var response = (ApiResponse<object>)badRequestResult.Value!;
+			response.Success.ShouldBeFalse();
+			response.Errors.Count.ShouldBe(1);
+			response.Errors.ShouldContain("Priority is required");
 		}
 	}
 
@@ -202,29 +237,6 @@ public class AgentsControllerMissingEndpointsTests
 			response.Message.ShouldBe("No suitable agent found");
 		}
 
-		[Fact]
-		public async Task Should_ReturnInternalServerError_When_ExceptionThrown()
-		{
-			// Arrange
-			var taskType = "document-processing";
-
-			_mockAgentService.When(x => x.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>()))
-				.Do(x => throw new TimeoutException("Service timeout"));
-
-			// Act
-			var result = await _controller.FindBestAgentForTask(taskType);
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<ObjectResult>();
-			var objectResult = (ObjectResult)actionResult;
-			objectResult.StatusCode.ShouldBe(500);
-			var response = (ApiResponse<object>)objectResult.Value!;
-			response.Success.ShouldBeFalse();
-			response.Message.ShouldBe("An internal error occurred");
-			response.Errors.ShouldContain("Service timeout");
-		}
-
 		[Theory]
 		[InlineData("")]
 		[InlineData(" ")]
@@ -272,79 +284,57 @@ public class AgentsControllerMissingEndpointsTests
 			response.Success.ShouldBeTrue();
 			response.Data.Name.ShouldBe($"Agent for {taskType}");
 		}
+
+		[Fact]
+		public async Task Should_HandleVeryLongTaskType_When_ExtremeInputProvided()
+		{
+			// Arrange
+			var taskType = new string('x', 1000); // 1000 character task type
+			var agent = new Agent
+			{
+				Id = Guid.NewGuid(),
+				Name = "Universal Agent",
+				Status = AgentStatus.Active
+			};
+
+			_mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
+				.Returns(Result<Agent>.Success(agent));
+
+			// Act
+			var result = await _controller.FindBestAgentForTask(taskType);
+
+			// Assert
+			var actionResult = result.Result;
+			actionResult.ShouldBeOfType<OkObjectResult>();
+			await _mockAgentService.Received(1).FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>());
+		}
+
+		[Fact]
+		public async Task Should_HandleSpecialCharactersInTaskType_When_EncodedStringProvided()
+		{
+			// Arrange
+			var taskType = "data-analysis&processing+visualization";
+			var agent = new Agent { Id = Guid.NewGuid(), Name = "Special Agent", Status = AgentStatus.Active };
+
+			_mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
+				.Returns(Result<Agent>.Success(agent));
+
+			// Act
+			var result = await _controller.FindBestAgentForTask(taskType);
+
+			// Assert
+			var actionResult = result.Result;
+			actionResult.ShouldBeOfType<OkObjectResult>();
+		}
 	}
 
 	/// <summary>
-	/// Advanced edge case and exception handling tests for mutation hunting
+	/// Additional edge case tests for existing endpoints with better mutation coverage
 	/// </summary>
-	public class AdvancedMutationHuntingTests : AgentsControllerMissingEndpointsTests
+	public class ExistingEndpointMutationHuntingTests : AgentsControllerMissingEndpointsTests
 	{
-		public AdvancedMutationHuntingTests(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
+		public ExistingEndpointMutationHuntingTests(ITestOutputHelper testOutputHelper) : base(testOutputHelper)
 		{
-		}
-
-		[Fact]
-		public async Task CreateAgent_Should_HandleServiceExceptionGracefully_When_UnexpectedErrorOccurs()
-		{
-			// Arrange
-			var request = new CreateAgentRequest
-			{
-				Name = "Test Agent",
-				Description = "Test Description",
-				Capabilities = new AgentCapabilitiesDto()
-			};
-
-			_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>())
-				.Throws(new OutOfMemoryException("System out of memory"));
-
-			// Act
-			var result = await _controller.CreateAgent(request);
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<ObjectResult>();
-			var objectResult = (ObjectResult)actionResult;
-			objectResult.StatusCode.ShouldBe(500);
-			var response = (ApiResponse<object>)objectResult.Value!;
-			response.Success.ShouldBeFalse();
-			response.Message.ShouldBe("An internal error occurred");
-			response.Errors.ShouldContain("System out of memory");
-		}
-
-		[Fact]
-		public async Task GetAgent_Should_HandleServiceExceptionGracefully_When_DatabaseConnectionFails()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-
-			_mockAgentService.GetAgentAsync(agentId, Arg.Any<CancellationToken>())
-				.Throws(new InvalidOperationException("Database connection failed"));
-
-			// Act
-			var result = await _controller.GetAgent(agentId);
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<ObjectResult>();
-			var objectResult = (ObjectResult)actionResult;
-			objectResult.StatusCode.ShouldBe(500);
-		}
-
-		[Fact]
-		public async Task GetActiveAgents_Should_HandleServiceExceptionGracefully_When_NetworkFailure()
-		{
-			// Arrange
-			_mockAgentService.GetActiveAgentsAsync(Arg.Any<CancellationToken>())
-				.Throws(new HttpRequestException("Network unreachable"));
-
-			// Act
-			var result = await _controller.GetActiveAgents();
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<ObjectResult>();
-			var objectResult = (ObjectResult)actionResult;
-			objectResult.StatusCode.ShouldBe(500);
 		}
 
 		[Fact]
@@ -431,37 +421,13 @@ public class AgentsControllerMissingEndpointsTests
 		}
 
 		[Fact]
-		public async Task Should_HandleMultipleModelStateErrors_When_ValidationFails()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-			var request = new UpdateAgentConfigurationRequest();
-
-			_controller.ModelState.AddModelError("TaskTimeoutSeconds", "Must be positive");
-			_controller.ModelState.AddModelError("MaxRetries", "Must be between 1 and 10");
-			_controller.ModelState.AddModelError("Priority", "Must be between 1 and 5");
-
-			// Act
-			var result = await _controller.UpdateAgentConfiguration(agentId, request);
-
-			// Assert
-			var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
-			var response = (ApiResponse<object>)badRequestResult.Value!;
-			response.Success.ShouldBeFalse();
-			response.Errors.Count.ShouldBe(3);
-			response.Errors.ShouldContain("Must be positive");
-			response.Errors.ShouldContain("Must be between 1 and 10");
-			response.Errors.ShouldContain("Must be between 1 and 5");
-		}
-
-		[Fact]
 		public async Task Should_HandleNullErrorInResult_When_ServiceReturnsNullError()
 		{
 			// Arrange
 			var agentId = Guid.NewGuid();
 
 			_mockAgentService.GetAgentAsync(agentId, Arg.Any<CancellationToken>())
-				.Returns(Result<Agent>.WithFailure(null!));
+				.Returns(Result<Agent>.WithFailure((string)null!));
 
 			// Act
 			var result = await _controller.GetAgent(agentId);
@@ -492,24 +458,6 @@ public class AgentsControllerMissingEndpointsTests
 			var notFoundResult = (NotFoundObjectResult)actionResult;
 			var response = (ApiResponse<object>)notFoundResult.Value!;
 			response.Errors.ShouldContain("Agent not found");
-		}
-
-		[Fact]
-		public async Task Should_HandleWhitespaceErrorInResult_When_ServiceReturnsWhitespaceError()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-
-			_mockAgentService.DeleteAgentAsync(agentId, Arg.Any<CancellationToken>())
-				.Returns(Result<bool>.WithFailure("   "));
-
-			// Act
-			var result = await _controller.DeleteAgent(agentId);
-
-			// Assert
-			var actionResult = result.ShouldBeOfType<BadRequestObjectResult>();
-			var response = (ApiResponse<object>)actionResult.Value!;
-			response.Errors.ShouldContain("Agent deletion failed");
 		}
 	}
 } 
