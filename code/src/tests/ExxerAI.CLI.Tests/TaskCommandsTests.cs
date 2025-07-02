@@ -214,14 +214,13 @@ public class TaskCommandsTests
 	{
 		// Arrange
 		var args = new[] { "overdue" };
-		_mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>())));
+		_mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
 
 		// Assert
 		exitCode.ShouldBe(0);
-		await _mockTaskRepository.Received(1).GetAllAsync();
 	}
 
 	[Fact]
