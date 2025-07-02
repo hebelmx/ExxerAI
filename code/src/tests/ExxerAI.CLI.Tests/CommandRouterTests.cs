@@ -377,7 +377,7 @@ public class CommandRouterTests
 	{
 		// Arrange
 		var args = new[] { "agent", "list" };
-		_mockAgentRepository.GetAllAsync().ThrowsAsync(new InvalidOperationException("Test exception"));
+		_mockAgentRepository.GetAllAsync().Returns(Task.FromException<Result<IEnumerable<Agent>>>(new InvalidOperationException("Test exception")));
 
 		// Act
 		var exitCode = await _commandRouter.ExecuteAsync(args);
