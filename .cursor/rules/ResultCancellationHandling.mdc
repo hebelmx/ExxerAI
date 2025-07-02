@@ -1,29 +1,30 @@
 ---
-description: HandlingCancellationInFunctionalNet
+attachmentType: agent
 globs: 
+description: HandlingCancellationInFunctionalNet
 alwaysApply: always
 ---
 
-# Handling Cancellation in Functional .NET Applications Using Result<T>
+
+# Handling Cancellation in Functional .NET Applications Using `Result<T>`
 
 ## Context
 
-This guidance is tailored for applications that:
-- Follow **hexagonal architecture** (ports & adapters)
-- Use **functional programming principles**
-- Enforce return of `Result<T>` instead of `void` or raw `Task`
-- Avoid exceptions for flow control, including `OperationCanceledException`
+This guideline applies to .NET applications that:
+- Implement **hexagonal architecture** (ports & adapters)
+- Embrace **functional programming principles**
+- Prefer returning `Result<T>` over `void` or raw `Task`
+- Reject use of exceptions for flow control (including `OperationCanceledException`)
 
 ## Problem
 
-.NET’s async pattern throws `OperationCanceledException` when `CancellationToken` is triggered. This behavior conflicts with a functional, exception-free model where results are encapsulated in `Result<T>`.
+The standard .NET async pattern raises `OperationCanceledException` when a `CancellationToken` is triggered. This contradicts a functional model that encapsulates outcomes in `Result<T>`, avoiding exceptions in normal control flow.
 
 ## Solution
 
-### 1. Add Cancellation Factory Method and Constants
+### 1. Extend Result Types with Cancellation Semantics
 
-Extend the result utility space with a standard cancellation error marker.
-Example of code Tailor  to your actual class
+**Define standardized cancellation markers:**
 
 ```csharp
 public static class ResultErrors
@@ -31,8 +32,8 @@ public static class ResultErrors
     public const string OperationCancelled = "Operation was cancelled by the user.";
 }
 ```
-Example of code Tailor  to your actual class
-Add factory helpers:
+
+**Provide factory helpers and predicates:**
 
 ```csharp
 public static class ResultExtensions
@@ -51,19 +52,23 @@ public static class ResultExtensions
 }
 ```
 
-### 2. Check `CancellationToken` Explicitly Before Async Work
-Example of code Tailor  to your actual class
+### 2. Proactively Check Cancellation Token
+
+Ensure early cancellation check before initiating async or compute-heavy operations:
+
 ```csharp
 public async Task<Result<MyDto>> HandleAsync(CancellationToken ct)
 {
     if (ct.IsCancellationRequested)
         return ResultExtensions.Cancelled<MyDto>();
 
-    // Continue with processing
+    // Continue processing...
 }
 ```
-Example of code Tailor  to your actual class
-### 3. Catch Cancellation Exceptions from Awaitable Calls
+
+### 3. Catch Cancellation Explicitly in Awaited Calls
+
+Encapsulate cancellation points within `try/catch`:
 
 ```csharp
 try
@@ -76,11 +81,15 @@ catch (OperationCanceledException)
     return ResultExtensions.Cancelled<string>();
 }
 ```
-Example of code Tailor  to your actual class
-### 4. Wrap Operations via a Generalized Wrapper
+
+### 4. Encapsulate Pattern in a Reusable Utility
+
+Abstract pattern via reusable method:
 
 ```csharp
-public static async Task<Result<T>> WrapCancellationAware<T>(Func<CancellationToken, Task<T>> operation, CancellationToken ct)
+public static async Task<Result<T>> WrapCancellationAware<T>(
+    Func<CancellationToken, Task<T>> operation, 
+    CancellationToken ct)
 {
     try
     {
@@ -96,10 +105,10 @@ public static async Task<Result<T>> WrapCancellationAware<T>(Func<CancellationTo
 
 ## Anti-Pattern
 
-Avoid letting `OperationCanceledException` propagate out of boundaries:
+Avoid unguarded operations that can throw `OperationCanceledException`:
 
 ```csharp
-// ❌ Avoid
+// ❌ Don't do this
 public async Task<Result<T>> UnsafeAsync(CancellationToken ct)
 {
     await Task.Delay(1000, ct); // may throw
@@ -107,23 +116,19 @@ public async Task<Result<T>> UnsafeAsync(CancellationToken ct)
 }
 ```
 
-## Testing
+## Testing Strategy
 
-When asserting, check for the known cancellation marker:
+Use semantic assertions over exception checks:
 
 ```csharp
 result.IsCancelled().ShouldBeTrue();
 ```
 
-## Summary
+## Summary Table
 
-| Concern                   | Best Practice                                  |
-|---------------------------|-----------------------------------------------|
-| Async throws on cancel    | Wrap with `try/catch OperationCanceledException` |
-| Void/Task methods         | Always return `Result<T>`                      |
-| Contracts disallow exceptions | Use `ResultExtensions.Cancelled<T>()`             |
-| Maintain functional purity | Use `ResultErrors` and encapsulated patterns   |
-
----
-
-#End of  rule.
+| Concern                         | Best Practice                                          |
+|----------------------------------|--------------------------------------------------------|
+| Async cancellation               | Wrap await in try/catch for `OperationCanceledException` |
+| Avoid raw Task or void          | Return `Result<T>` consistently                         |
+| Functional error contracts       | Use `ResultExtensions.Cancelled<T>()` for cancellation |
+| Maintain functional purity       | Centralize errors and patterns in `ResultErrors`       |

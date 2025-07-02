@@ -4,35 +4,151 @@ globs:
 alwaysApply: false
 ---
 
+# Project-Wide Engineering Principles
 
-ok, some basic rules, editor config, normal stuff, nothing fance i hate private values called _variableName, i prefer variableName, the only exception injected one, on this case i prefer use primary constructor, 
-seconde rule, test goin outside of soruce
-third rule prop directory to manage central version
-4 rule all buld artifact are outside the repo, so build props file, with the definition
-5 rule project file organized standirezde and commented
-6 rule strucured loggin on every calls
-7 rule xml documentation every where, no for us, for the manuals; because
-8 Our code is expresive, imperative, autodocumentaed, the variables and method are indicateive o what they are, the least surprise principle, they mean what they do
-9 Best pracitces everywhere
-10 Naming is 2/3 of the job, thinking is another 3, and programing is the other half, so the sume is 3/2, deployment is the oher half, and debuggin is the other job, we have 3 jobs in one, 
-Additional Rules That Complete The Picture:
-11. SOLID Principles Throughout
-Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion
-12. Fail Fast & Defensive Programming
-Validate early, throw meaningful exceptions, guard clauses at method entry
-13. Async All The Way
-No .Result or .Wait() - async/await from top to bottom
-ConfigureAwait(false) in library code
-14. Immutability By Default
-readonly fields, init properties, record types where appropriate
-Minimize mutable state
-15. Resource Management
-using statements for IDisposable, proper async disposal patterns
-16. Performance-Conscious Design
-Span<T>, Memory<T> for high-perf scenarios
-Avoid allocations in hot paths
-17. Exception Strategy
-Domain-specific exceptions, never catch Exception unless rethrowing
-Log before throwing (structured logging)
-18. Thread-Safe By Design
-Concurrent collections, proper locking patterns, avoid shared mutable state
+## Foundational Rules
+
+1. **Naming Conventions**
+   - Avoid `_camelCase` for private fields.
+   - Use `camelCase` for internal values.
+   - Exception: Injected dependencies should be named `camelCase` and passed via **primary constructors** only.
+
+2. **Test Code Location**
+   - All tests are located **outside** the main source directory.
+
+3. **Centralized Versioning**
+   - Use a `Directory.Packages.props` or `version.props` to manage **NuGet package versions** centrally.
+
+4. **Build Artifacts Isolation**
+   - All build outputs are directed **outside the repository**.
+   - Maintain a `build.props` file for controlling output paths.
+
+5. **Standardized Project File Structure**
+   - `.csproj` files are:
+     - Well-organized
+     - Commented for maintainability
+     - Use `Import` for shared settings
+
+6. **Structured Logging**
+   - Every external and domain call logs in a **structured** and **traceable** format.
+
+7. **Comprehensive XML Documentation**
+   - Required for every public type and method.
+   - Generates manuals automatically.
+
+8. **Expressive Code & Principle of Least Surprise**
+   - Variable and method names are **clear, purposeful**, and match their behavior.
+   - Code should be **imperative, descriptive, and self-documenting**.
+
+9. **Best Practices Everywhere**
+   - Apply accepted .NET best practices consistently.
+   - No shortcuts.
+
+10. **Naming is Craftsmanship**
+    - Naming = 2/3 of the job
+    - Thinking = another 3/3
+    - Programming = the remaining 1/2
+    - Deployment, debugging = “the other jobs”
+    - Summary: software is **3 jobs in one**.
+
+---
+
+## Advanced Engineering Practices
+
+11. **SOLID Principles**
+    - **S**ingle Responsibility
+    - **O**pen/Closed
+    - **L**iskov Substitution
+    - **I**nterface Segregation
+    - **D**ependency Inversion
+
+12. **Fail Fast / Defensive Programming**
+	- Always use Injectable factory Class
+    - Validate all input **early**
+    - Use **guard clauses** at method entry
+    - Throw **meaningful exceptions**
+
+13. **Asynchronous Patterns**
+    - Prefer `async/await` across the board.
+    - **Avoid** `.Result`, `.Wait()`
+    - Use `ConfigureAwait(false)` in libraries
+	- Always use try catch trowh finnaly on Async methods
+	- Always support proper cancelation 
+	- Always propagate cancelation token to async tasks
+	- Never use an async void (only allowed for event handlers)
+
+14. **Immutability by Default**
+    - Favor `readonly`, `init`, and `record` types
+    - Avoid mutable state unless justified
+	- Prefer the use on ReadOnly Collections
+
+15. **Resource Management**
+    - Use `using` for `IDisposable`
+    - Use `await using` for `IAsyncDisposable`
+
+16. **Performance-Oriented Design**
+    - Use `Span<T>`, `Memory<T>` for hot-path optimizations
+    - Avoid unnecessary allocations
+
+17. **Exception Management Strategy**
+    - Use **domain-specific Errors**
+	- Don't Trow Exceptions, return Result<T> .FailWithErrors(**domain-specific Errors**)
+    - Avoid catching base `Exception` unless rethrowing
+    - **Log before throwing** using structured logs
+
+18. **Thread-Safe by Design**
+    - Use `ConcurrentDictionary`, proper locking
+	- Use the new class Lock for locking only when needed avoid thread locking
+	- on Async method use semafore slim,
+    - Avoid shared mutable state
+
+19. **Separation of Concerns**
+   - Ensure each class/module has a distinct responsibility.
+   - Avoid mixing UI, domain logic, persistence, or infrastructure in a single layer.
+
+20. **Explicit Contracts**
+   - Define precise inputs/outputs for public methods.
+   - Avoid ambiguous interfaces—favor clear models and results (`Result<T>`).
+
+21. **Testability First**
+   - Structure code to be easily unit testable.
+   - Use dependency injection and interfaces to decouple.
+   - Every feature must include **behavioral tests**, not just happy paths.
+
+22. **Error Transparency**
+   - Propagate errors in a way that's diagnosable by logs or tests.
+   - Avoid silent failures or generic error returns.
+
+23. **Observability Built-In**
+   - All services and operations should support structured **logging**, **metrics**, and **tracing**.
+   - Use correlation IDs for distributed tracing.
+
+24. **Modularization and Bounded Contexts**
+   - Organize code by **domain** not by **technical type** (e.g., "UserModule" not "Services/Models").
+   - Ensure each module has high cohesion and low coupling.
+
+25. **Principle of Least Power**
+   - Use the simplest construct that does the job.
+   - Avoid over-engineering or overusing dynamic/reflection unless needed.
+
+26. **Documentation as Code**
+   - Maintain internal documentation alongside code.
+   - Use tools like DocFX to generate API documentation from XML comments.
+   - Architectural decisions and conventions should be committed with code.
+
+27. **Refactor Ruthlessly**
+   - Any time technical debt is touched, improve its readability and alignment to the rules.
+   - Never leave **“just one more hack”** behind.
+
+28. **Human-Centered Design**
+   - Code must be understandable by others, not just you.
+   - Consider readability as a core quality attribute.
+
+29. **No Tolerance for Magic**
+   - Avoid **magic strings**, **magic numbers**, and **implicit contracts**.
+   - Use named constants or enums for clarity and reuse.
+
+30. **Toolchain Enforcement**
+   - Use Roslyn analyzers, EditorConfig, and build rules to enforce these standards.
+   - Automate validation to reduce manual policing.
+

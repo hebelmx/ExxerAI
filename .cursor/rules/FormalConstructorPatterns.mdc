@@ -1,9 +1,8 @@
 ---
-description: Constructor-Patterns-in-Functional.NET-Applications
+description: Constructor Patterns For Functional.NET Systems
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
-
 
 # Formalized Constructor Patterns for Functional .NET Systems
 
@@ -11,7 +10,6 @@ alwaysApply: false
 
 To provide a transition path from traditional object construction to functional instantiation patterns using `Result<T>` in .NET applications. These rules ensure validation consistency, maintain functional integrity, and support extensibility via dependency injection (DI).
 
----
 
 ## Pattern 1: Static Validator Method (Non-Constructive)
 
@@ -24,7 +22,6 @@ Encapsulate validation logic within the target class while preserving the existi
 ```csharp
 public class CommandRouter
 {
-     public Lock locl 
     public static Result ValidateConstructorParameters(AgentCommands agentCommands, TaskCommands taskCommands, WorkflowCommands workflowCommands)
     {
         return ResultExtensions.ValidateNotNull(
