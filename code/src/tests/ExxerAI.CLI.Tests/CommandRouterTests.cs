@@ -1,3 +1,4 @@
+using ExxerAI.Application.Interfaces;
 using ExxerAI.CLI.Commands;
 using ExxerAI.Domain;
 using NSubstitute;
