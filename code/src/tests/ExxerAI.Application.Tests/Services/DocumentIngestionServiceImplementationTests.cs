@@ -138,13 +138,12 @@ result.Error.ShouldBe("Change event cannot be null");
 [Fact]
 public async Task ProcessDocumentChangeAsync_Should_ReturnSuccess_When_RequiresProcessingIsFalse()
 {
-// Arrange
+// Arrange - create a change event that does not require processing (Renamed or PermissionsChanged)
 var changeEvent = new DocumentChangeEvent
 {
 EventId = Guid.NewGuid().ToString(),
 DocumentId = "test-doc-id",
-ChangeType = DocumentChangeType.Created,
-RequiresProcessing = false,
+ChangeType = DocumentChangeType.Renamed, // Renamed does not require processing
 WatchSessionId = "test-session"
 };
 
@@ -167,7 +166,6 @@ var changeEvent = new DocumentChangeEvent
 EventId = Guid.NewGuid().ToString(),
 DocumentId = "deleted-doc-id",
 ChangeType = DocumentChangeType.Deleted,
-RequiresProcessing = true,
 WatchSessionId = "test-session"
 };
 
@@ -190,7 +188,6 @@ var changeEvent = new DocumentChangeEvent
 EventId = Guid.NewGuid().ToString(),
 DocumentId = "test-doc-id",
 ChangeType = DocumentChangeType.Modified,
-RequiresProcessing = true,
 WatchSessionId = "test-session",
 Metadata = new DocumentMetadata { DocumentId = "test-doc-id" }
 };
@@ -199,7 +196,8 @@ var expectedResult = new DocumentProcessingResult
 {
 DocumentId = "test-doc-id",
 Confidence = 0.95f,
-OverallConfidence = 0.95f
+LLMConfidence = 0.95f,
+GroundingConfidence = 0.95f
 };
 
 _mockDocumentProcessor.ProcessDocumentAsync(
@@ -247,7 +245,8 @@ var expectedResult = new DocumentProcessingResult
 {
 DocumentId = documentId,
 Confidence = 0.90f,
-OverallConfidence = 0.90f
+LLMConfidence = 0.90f,
+GroundingConfidence = 0.90f
 };
 
 _mockDocumentProcessor.ProcessDocumentAsync(
@@ -273,7 +272,8 @@ var expectedResult = new DocumentProcessingResult
 {
 DocumentId = documentId,
 Confidence = 0.85f,
-OverallConfidence = 0.85f
+LLMConfidence = 0.85f,
+GroundingConfidence = 0.85f
 };
 
 _mockDocumentProcessor.ProcessDocumentAsync(
@@ -315,7 +315,7 @@ var result = await _service.GetIngestionStatusAsync();
 // Assert
 result.IsSuccess.ShouldBeTrue();
 result.Value.ShouldNotBeNull();
-result.Value.DocumentsWatched.ShouldBeGreaterThanOrEqualTo(0);
+result.Value!.DocumentsWatched.ShouldBeGreaterThanOrEqualTo(0);
 result.Value.ActiveWatchSessions.ShouldBeGreaterThanOrEqualTo(0);
 result.Value.PendingChanges.ShouldBeGreaterThanOrEqualTo(0);
 }
@@ -332,7 +332,7 @@ var result = await _service.GetIngestionStatusAsync();
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ActiveWatchSessions.ShouldBe(1);
+result.Value!.ActiveWatchSessions.ShouldBe(1);
 }
 
 [Fact]
@@ -348,7 +348,7 @@ watchResult.IsSuccess.ShouldBeTrue();
 // Act 2: Get status
 var statusResult = await _service.GetIngestionStatusAsync();
 statusResult.IsSuccess.ShouldBeTrue();
-statusResult.Value.ActiveWatchSessions.ShouldBe(1);
+statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
 
 // Act 3: Stop watching
 var stopResult = await _service.StopWatchingFolderAsync(watchResult.Value!);
@@ -357,7 +357,7 @@ stopResult.IsSuccess.ShouldBeTrue();
 // Act 4: Verify status updated
 var finalStatusResult = await _service.GetIngestionStatusAsync();
 finalStatusResult.IsSuccess.ShouldBeTrue();
-finalStatusResult.Value.ActiveWatchSessions.ShouldBe(0);
+finalStatusResult.Value!.ActiveWatchSessions.ShouldBe(0);
 
 // Assert
 watchResult.IsSuccess.ShouldBeTrue();
@@ -373,7 +373,6 @@ var changeEvent = new DocumentChangeEvent
 EventId = Guid.NewGuid().ToString(),
 DocumentId = "test-doc-id",
 ChangeType = DocumentChangeType.Created,
-RequiresProcessing = true,
 WatchSessionId = "test-session",
 Metadata = new DocumentMetadata { DocumentId = "test-doc-id" }
 };
