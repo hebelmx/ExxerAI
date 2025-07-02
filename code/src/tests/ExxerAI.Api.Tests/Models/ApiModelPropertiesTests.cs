@@ -1,5 +1,6 @@
 using ExxerAI.Api.Models;
 using ExxerAI.Domain;
+using Shouldly;
 
 namespace ExxerAI.Api.Tests.Models;
 

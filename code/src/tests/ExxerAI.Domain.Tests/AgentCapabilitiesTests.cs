@@ -1,3 +1,5 @@
+using Shouldly;
+
 namespace ExxerAI.Domain.Tests;
 
 /// <summary>

@@ -545,45 +545,7 @@ public class ModelCapabilitiesTests
     }
 }
 
-/// <summary>
-/// Unit tests for AgentCapabilities value object
-/// </summary>
-public class AgentCapabilitiesTests
-{
-    [Fact]
-    public void Should_InitializeDefaults_When_Created()
-    {
-        // Arrange & Act
-        var capabilities = new AgentCapabilities();
 
-        // Assert
-        capabilities.CanProcessNaturalLanguage.ShouldBeTrue();
-        capabilities.CanGenerateCode.ShouldBeFalse();
-        capabilities.CanAnalyzeData.ShouldBeFalse();
-        capabilities.CanCallExternalAPIs.ShouldBeFalse();
-        capabilities.MaxConcurrentTasks.ShouldBe(1);
-        capabilities.SupportedTaskTypes.ShouldNotBeNull();
-        capabilities.SupportedTaskTypes.ShouldBeEmpty();
-    }
-
-    [Fact]
-    public void Should_AllowTaskTypeConfiguration_When_Added()
-    {
-        // Arrange
-        var capabilities = new AgentCapabilities();
-
-        // Act
-        capabilities.SupportedTaskTypes.Add("text-generation");
-        capabilities.SupportedTaskTypes.Add("code-review");
-        capabilities.MaxConcurrentTasks = 3;
-
-        // Assert
-        capabilities.SupportedTaskTypes.Count.ShouldBe(2);
-        capabilities.SupportedTaskTypes.ShouldContain("text-generation");
-        capabilities.SupportedTaskTypes.ShouldContain("code-review");
-        capabilities.MaxConcurrentTasks.ShouldBe(3);
-    }
-}
 
 /// <summary>
 /// Utility class for handling enum conversions in tests

@@ -1,4 +1,5 @@
 using ExxerAI.Domain.DocumentProcessing;
+using Shouldly;
 
 namespace ExxerAI.Domain.Tests.DocumentProcessing;
 
