@@ -822,4 +822,26 @@ public class TaskCommandsTests
 		await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => 
 			t.Status == ExxerAI.Domain.TaskStatus.Completed && t.CompletedAt.HasValue));
 	}
+
+	[Fact]
+	public async Task ListOverdueTasks_Should_FilterOverdueTasks_When_OverdueTasksExist()
+	{
+		// Arrange
+		var args = new[] { "overdue" };
+		var agentId = Guid.NewGuid();
+		var tasks = new List<AgentTask>
+		{
+			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow, AssignedAgentId = agentId },
+			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+		};
+		_mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+		// Mock agent lookup for assigned tasks
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
+
+		// Act
+		var exitCode = await _taskCommands.ExecuteAsync(args);
+
+		// Assert
+		exitCode.ShouldBe(0);
+	}
 } 
