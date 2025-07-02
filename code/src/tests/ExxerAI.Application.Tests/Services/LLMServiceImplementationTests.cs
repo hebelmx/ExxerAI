@@ -135,7 +135,7 @@ var result = await _service.ContinueConversationAsync(conversationId, "test mess
 
 // Assert
 result.IsFailure.ShouldBeTrue();
-result.Error.ShouldBe("Failed to add user message");
+result.Error.ShouldBe("Failed to add message");
 }
 
 [Fact]
