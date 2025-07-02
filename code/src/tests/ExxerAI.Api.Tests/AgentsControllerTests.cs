@@ -702,8 +702,8 @@ public class AgentsControllerTests
             // Arrange
             var taskType = "document-processing";
 
-            _mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
-                .Throws(new TimeoutException("Service timeout"));
+            _mockAgentService.When(x => x.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>()))
+                .Do(x => throw new TimeoutException("Service timeout"));
 
             // Act
             var result = await _controller.FindBestAgentForTask(taskType);
