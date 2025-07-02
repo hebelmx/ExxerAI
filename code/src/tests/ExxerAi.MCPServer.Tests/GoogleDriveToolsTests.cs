@@ -4,216 +4,461 @@ using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
 using Xunit;
+using ExxerAI.Domain;
+using ExxerAi.MCPServer.Application.Services;
 
 namespace ExxerAi.MCPServer.Tests;
 
 /// <summary>
-/// Unit tests for GoogleDriveTools demonstrating dependency injection and mocking capabilities
+/// Comprehensive unit tests for GoogleDriveTools MCP layer
+/// Tests all MCP tool methods and their integration with GoogleDriveService
 /// </summary>
 public class GoogleDriveToolsTests
 {
 	private readonly ILogger<GoogleDriveTools> _mockLogger;
-	private readonly IGoogleDriveTools _googleDriveTools;
+	private readonly IGoogleDriveService _mockGoogleDriveService;
+	private readonly GoogleDriveTools _sut;
 
 	/// <summary>
-	/// Initializes a new instance of the GoogleDriveToolsTests class
+	/// Initializes test fixtures with mocked dependencies
 	/// </summary>
 	public GoogleDriveToolsTests()
 	{
 		_mockLogger = Substitute.For<ILogger<GoogleDriveTools>>();
-		_googleDriveTools = new GoogleDriveTools(_mockLogger);
+		_mockGoogleDriveService = Substitute.For<IGoogleDriveService>();
+		
+		_sut = new GoogleDriveTools(_mockLogger, _mockGoogleDriveService);
 	}
 
 	/// <summary>
-	/// Tests that StartFolderWatchAsync returns a properly formatted response
+	/// Test class for GoogleDriveTools instantiation validation
 	/// </summary>
-	[Fact]
-	public async Task StartFolderWatchAsync_Should_ReturnFormattedResponse_When_ValidParameters()
+	public class Constructor : GoogleDriveToolsTests
 	{
-		// Arrange
-		const string folderId = "test-folder-123";
-		const bool includeSubdirectories = true;
-		const bool autoProcess = true;
-		const int pollingInterval = 30;
+		[Fact]
+		public void Should_CreateInstance_When_ValidDependenciesProvided()
+		{
+			// Arrange & Act & Assert
+			_sut.ShouldNotBeNull();
+			_sut.ShouldBeOfType<GoogleDriveTools>();
+		}
 
-		// Act
-		var result = await _googleDriveTools.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+		[Fact]
+		public void Should_ThrowArgumentNullException_When_LoggerIsNull()
+		{
+			// Arrange & Act & Assert
+			Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(null!, _mockGoogleDriveService))
+				.ParamName.ShouldBe("logger");
+		}
 
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain("✅ Started watching Google Drive folder");
-		result.ShouldContain(folderId);
-		result.ShouldContain("Include Subdirectories: True");
-		result.ShouldContain("Auto Process: True");
-		result.ShouldContain("Polling Interval: 30s");
-		result.ShouldContain("Watch ID: watch_");
+		[Fact]
+		public void Should_ThrowArgumentNullException_When_GoogleDriveServiceIsNull()
+		{
+			// Arrange & Act & Assert
+			Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(_mockLogger, null!))
+				.ParamName.ShouldBe("googleDriveService");
+		}
 	}
 
 	/// <summary>
-	/// Tests that StartFolderWatchAsync logs the correct information
+	/// Test class for StartFolderWatchAsync MCP tool
 	/// </summary>
-	[Fact]
-	public async Task StartFolderWatchAsync_Should_LogCorrectInformation_When_Called()
+	public class StartFolderWatchAsync : GoogleDriveToolsTests
 	{
-		// Arrange
-		const string folderId = "test-folder-456";
+		[Fact]
+		public async Task Should_CallGoogleDriveService_When_ValidParametersProvided()
+		{
+			// Arrange
+			var folderId = "test-folder-123";
+			var includeSubdirectories = true;
+			var autoProcess = true;
+			var pollingInterval = 60;
+			
+			_mockGoogleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval)
+				.Returns(Result<string>.WithSuccess("✅ Watch started successfully"));
 
-		// Act
-		await _googleDriveTools.StartFolderWatchAsync(folderId);
+			// Act
+			var result = await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
 
-		// Assert - Verify that logging methods were called the expected number of times
-		_mockLogger.Received(2).Log(
-			LogLevel.Information,
-			Arg.Any<EventId>(),
-			Arg.Any<object>(),
-			Arg.Any<Exception?>(),
-			Arg.Any<Func<object, Exception?, string>>());
+			// Assert
+			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+			result.IsSuccess.ShouldBeTrue();
+		}
+
+		[Fact]
+		public async Task Should_ReturnSuccess_When_GoogleDriveServiceSucceeds()
+		{
+			// Arrange
+			var folderId = "test-folder-123";
+			var expectedResult = "✅ Started watching Google Drive folder: Test Folder";
+			
+			_mockGoogleDriveService.StartFolderWatchAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<int>())
+				.Returns(Result<string>.WithSuccess(expectedResult));
+
+			// Act
+			var result = await _sut.StartFolderWatchAsync(folderId);
+
+			// Assert
+			result.IsSuccess.ShouldBeTrue();
+			result.Value.ShouldBe(expectedResult);
+		}
+
+		[Fact]
+		public async Task Should_ReturnFailure_When_GoogleDriveServiceFails()
+		{
+			// Arrange
+			var folderId = "invalid-folder";
+			var expectedError = "Folder not found or not accessible";
+			
+			_mockGoogleDriveService.StartFolderWatchAsync(Arg.Any<string>(), Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<int>())
+				.Returns(Result<string>.WithFailure(expectedError));
+
+			// Act
+			var result = await _sut.StartFolderWatchAsync(folderId);
+
+			// Assert
+			result.IsSuccess.ShouldBeFalse();
+			result.Error.ShouldContain(expectedError);
+		}
+
+		[Theory]
+		[InlineData(true, true, 30)]
+		[InlineData(false, false, 120)]
+		[InlineData(true, false, 60)]
+		[InlineData(false, true, 300)]
+		public async Task Should_PassCorrectParameters_When_StartingWatch(
+			bool includeSubdirectories, 
+			bool autoProcess, 
+			int pollingInterval)
+		{
+			// Arrange
+			var folderId = "test-folder-123";
+			
+			_mockGoogleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval)
+				.Returns(Result<string>.WithSuccess("Success"));
+
+			// Act
+			await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+
+			// Assert
+			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+		}
 	}
 
 	/// <summary>
-	/// Tests that GetDocumentChangesAsync returns properly formatted changes
+	/// Test class for DownloadDocumentAsync MCP tool
 	/// </summary>
-	[Fact]
-	public async Task GetDocumentChangesAsync_Should_ReturnFormattedChanges_When_ValidWatchId()
+	public class DownloadDocumentAsync : GoogleDriveToolsTests
 	{
-		// Arrange
-		const string watchId = "watch_12345678";
+		[Fact]
+		public async Task Should_CallGoogleDriveService_When_ValidDocumentIdProvided()
+		{
+			// Arrange
+			var documentId = "test-document-123";
+			var sampleMetadata = GoogleDriveTestData.CreateSampleFileMetadata(documentId);
+			var sampleFileData = System.Text.Encoding.UTF8.GetBytes("Sample PDF content");
+			
+			_mockGoogleDriveService.GetDocumentMetadataAsync(documentId)
+				.Returns(Result<GoogleDriveFileMetadata>.WithSuccess(sampleMetadata));
+			_mockGoogleDriveService.DownloadDocumentAsync(documentId)
+				.Returns(Result<byte[]>.WithSuccess(sampleFileData));
 
-		// Act
-		var result = await _googleDriveTools.GetDocumentChangesAsync(watchId);
+			// Act
+			var result = await _sut.DownloadDocumentAsync(documentId);
 
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain($"📋 Document Changes for Watch {watchId}:");
-		result.ShouldContain("Document 1: Updated contract.pdf");
-		result.ShouldContain("Document 2: New invoice_2024.pdf");
-		result.ShouldContain("Document 3: Modified report.docx");
-		result.ShouldContain("Total Changes: 3 documents");
+			// Assert
+			await _mockGoogleDriveService.Received(1).GetDocumentMetadataAsync(documentId);
+			await _mockGoogleDriveService.Received(1).DownloadDocumentAsync(documentId);
+			result.IsSuccess.ShouldBeTrue();
+		}
+
+		[Fact]
+		public async Task Should_ReturnSuccess_When_DocumentDownloadedSuccessfully()
+		{
+			// Arrange
+			var documentId = "test-document-123";
+			var sampleMetadata = GoogleDriveTestData.CreateSampleFileMetadata(documentId);
+			var sampleFileData = System.Text.Encoding.UTF8.GetBytes("Sample PDF content");
+			
+			_mockGoogleDriveService.GetDocumentMetadataAsync(documentId)
+				.Returns(Result<GoogleDriveFileMetadata>.WithSuccess(sampleMetadata));
+			_mockGoogleDriveService.DownloadDocumentAsync(documentId)
+				.Returns(Result<byte[]>.WithSuccess(sampleFileData));
+
+			// Act
+			var result = await _sut.DownloadDocumentAsync(documentId);
+
+			// Assert
+			result.IsSuccess.ShouldBeTrue();
+			result.Value.ShouldContain("✅ Downloaded:");
+			result.Value.ShouldContain(sampleMetadata.Name);
+			result.Value.ShouldContain($"{sampleFileData.Length:N0} bytes");
+		}
+
+		[Fact]
+		public async Task Should_ReturnFailure_When_MetadataRetrievalFails()
+		{
+			// Arrange
+			var documentId = "invalid-document";
+			var expectedError = "Document not found";
+			
+			_mockGoogleDriveService.GetDocumentMetadataAsync(documentId)
+				.Returns(Result<GoogleDriveFileMetadata>.WithFailure(expectedError));
+
+			// Act
+			var result = await _sut.DownloadDocumentAsync(documentId);
+
+			// Assert
+			result.IsSuccess.ShouldBeFalse();
+			result.Error.ShouldContain(expectedError);
+		}
 	}
 
 	/// <summary>
-	/// Tests that DownloadDocumentAsync returns download information
+	/// Test class for CheckHealthStatusAsync MCP tool
 	/// </summary>
-	[Fact]
-	public async Task DownloadDocumentAsync_Should_ReturnDownloadInfo_When_ValidDocumentId()
+	public class CheckHealthStatusAsync : GoogleDriveToolsTests
 	{
-		// Arrange
-		const string documentId = "doc_123456789";
+		[Fact]
+		public async Task Should_CallGoogleDriveServiceInitialize_When_CheckingHealth()
+		{
+			// Arrange
+			_mockGoogleDriveService.InitializeAsync()
+				.Returns(Result<bool>.WithSuccess(true));
+			_mockGoogleDriveService.GetActiveWatchesAsync()
+				.Returns(Result<string>.WithSuccess("No active watches"));
 
-		// Act
-		var result = await _googleDriveTools.DownloadDocumentAsync(documentId);
+			// Act
+			var result = await _sut.CheckHealthStatusAsync();
 
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain("✅ Downloaded: Document");
-		result.ShouldContain(documentId);
-		result.ShouldContain("📄 Name: Document_");
-		result.ShouldContain("📋 Type: application/pdf");
-		result.ShouldContain("📦 Size: 256 KB");
-		result.ShouldContain("✅ Status: Download completed successfully");
+			// Assert
+			await _mockGoogleDriveService.Received(1).InitializeAsync();
+			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync();
+			result.IsSuccess.ShouldBeTrue();
+		}
+
+		[Fact]
+		public async Task Should_ReturnHealthyStatus_When_InitializationSucceeds()
+		{
+			// Arrange
+			_mockGoogleDriveService.InitializeAsync()
+				.Returns(Result<bool>.WithSuccess(true));
+			_mockGoogleDriveService.GetActiveWatchesAsync()
+				.Returns(Result<string>.WithSuccess("No active watches"));
+
+			// Act
+			var result = await _sut.CheckHealthStatusAsync();
+
+			// Assert
+			result.IsSuccess.ShouldBeTrue();
+			result.Value.ShouldContain("✅ Status: Healthy");
+			result.Value.ShouldContain("🔗 API Connection: ✅ Connected");
+			result.Value.ShouldContain("🔑 Authentication: ✅ Valid");
+		}
+
+		[Fact]
+		public async Task Should_ReturnUnhealthyStatus_When_InitializationFails()
+		{
+			// Arrange
+			var expectedError = "OAuth credentials not configured";
+			_mockGoogleDriveService.InitializeAsync()
+				.Returns(Result<bool>.WithFailure(expectedError));
+			_mockGoogleDriveService.GetActiveWatchesAsync()
+				.Returns(Result<string>.WithSuccess("No active watches"));
+
+			// Act
+			var result = await _sut.CheckHealthStatusAsync();
+
+			// Assert
+			result.IsSuccess.ShouldBeTrue(); // Health check itself succeeds, but reports unhealthy status
+			result.Value.ShouldContain("✅ Status: Unhealthy");
+			result.Value.ShouldContain("🔗 API Connection: ❌ Failed");
+			result.Value.ShouldContain("🔑 Authentication: ❌ Invalid");
+			result.Value.ShouldContain(expectedError);
+		}
 	}
 
 	/// <summary>
-	/// Tests that GetDocumentMetadataAsync returns comprehensive metadata
+	/// Test class for GetActiveWatchesAsync MCP tool
 	/// </summary>
-	[Fact]
-	public async Task GetDocumentMetadataAsync_Should_ReturnMetadata_When_ValidDocumentId()
+	public class GetActiveWatchesAsync : GoogleDriveToolsTests
 	{
-		// Arrange
-		const string documentId = "meta_test_doc";
+		[Fact]
+		public async Task Should_CallGoogleDriveService_When_GettingActiveWatches()
+		{
+			// Arrange
+			var expectedResult = "👁️ Active Google Drive Watch Sessions:\n📊 Total Active Watches: 0";
+			
+			_mockGoogleDriveService.GetActiveWatchesAsync()
+				.Returns(Result<string>.WithSuccess(expectedResult));
 
-		// Act
-		var result = await _googleDriveTools.GetDocumentMetadataAsync(documentId);
+			// Act
+			var result = await _sut.GetActiveWatchesAsync();
 
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain("📄 Document Metadata:");
-		result.ShouldContain($"🆔 ID: {documentId}");
-		result.ShouldContain("🏷️ Name: Document_");
-		result.ShouldContain("📁 Path: /drive/documents/");
-		result.ShouldContain("📋 MIME Type: application/pdf");
-		result.ShouldContain("👤 Owner: user@example.com");
-		result.ShouldContain("🔒 Permissions: Read/Write");
+			// Assert
+			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync();
+			result.IsSuccess.ShouldBeTrue();
+		}
+
+		[Fact]
+		public async Task Should_ReturnSuccess_When_ActiveWatchesRetrievedSuccessfully()
+		{
+			// Arrange
+			var expectedResult = "👁️ Active Google Drive Watch Sessions:\n📊 Total Active Watches: 2";
+			
+			_mockGoogleDriveService.GetActiveWatchesAsync()
+				.Returns(Result<string>.WithSuccess(expectedResult));
+
+			// Act
+			var result = await _sut.GetActiveWatchesAsync();
+
+			// Assert
+			result.IsSuccess.ShouldBeTrue();
+			result.Value.ShouldBe(expectedResult);
+		}
+
+		[Fact]
+		public async Task Should_ReturnFailure_When_ActiveWatchesRetrievalFails()
+		{
+			// Arrange
+			var expectedError = "Failed to retrieve active watches";
+			
+			_mockGoogleDriveService.GetActiveWatchesAsync()
+				.Returns(Result<string>.WithFailure(expectedError));
+
+			// Act
+			var result = await _sut.GetActiveWatchesAsync();
+
+			// Assert
+			result.IsSuccess.ShouldBeFalse();
+			result.Error.ShouldContain(expectedError);
+		}
 	}
 
 	/// <summary>
-	/// Tests that CheckHealthStatusAsync returns health information
+	/// Test class for StopWatchingAsync MCP tool
 	/// </summary>
-	[Fact]
-	public async Task CheckHealthStatusAsync_Should_ReturnHealthStatus_When_Called()
+	public class StopWatchingAsync : GoogleDriveToolsTests
 	{
-		// Act
-		var result = await _googleDriveTools.CheckHealthStatusAsync();
+		[Fact]
+		public async Task Should_CallGoogleDriveService_When_ValidWatchIdProvided()
+		{
+			// Arrange
+			var watchId = "watch_12345678";
+			var expectedResult = "✅ Successfully stopped watching session";
+			
+			_mockGoogleDriveService.StopWatchingAsync(watchId)
+				.Returns(Result<string>.WithSuccess(expectedResult));
 
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain("🏥 Google Drive MCP Health Status:");
-		result.ShouldContain("✅ Status: Healthy");
-		result.ShouldContain("🔗 API Connection: Connected");
-		result.ShouldContain("🔑 Authentication: Valid");
-		result.ShouldContain("🔖 Version: 1.0.0");
-		result.ShouldContain("📊 Active Watches: 2");
-		result.ShouldContain("📈 Status: All systems operational");
+			// Act
+			var result = await _sut.StopWatchingAsync(watchId);
+
+			// Assert
+			await _mockGoogleDriveService.Received(1).StopWatchingAsync(watchId);
+			result.IsSuccess.ShouldBeTrue();
+		}
+
+		[Fact]
+		public async Task Should_ReturnSuccess_When_WatchStoppedSuccessfully()
+		{
+			// Arrange
+			var watchId = "watch_12345678";
+			var expectedResult = "✅ Successfully stopped watching session watch_12345678";
+			
+			_mockGoogleDriveService.StopWatchingAsync(watchId)
+				.Returns(Result<string>.WithSuccess(expectedResult));
+
+			// Act
+			var result = await _sut.StopWatchingAsync(watchId);
+
+			// Assert
+			result.IsSuccess.ShouldBeTrue();
+			result.Value.ShouldBe(expectedResult);
+		}
+
+		[Fact]
+		public async Task Should_ReturnFailure_When_WatchNotFound()
+		{
+			// Arrange
+			var watchId = "watch_nonexistent";
+			var expectedError = "Watch session not found";
+			
+			_mockGoogleDriveService.StopWatchingAsync(watchId)
+				.Returns(Result<string>.WithFailure(expectedError));
+
+			// Act
+			var result = await _sut.StopWatchingAsync(watchId);
+
+			// Assert
+			result.IsSuccess.ShouldBeFalse();
+			result.Error.ShouldContain(expectedError);
+		}
+	}
+}
+
+/// <summary>
+/// Test fixtures and data for Google Drive testing
+/// </summary>
+public static class GoogleDriveTestData
+{
+	/// <summary>
+	/// Sample Google Drive file metadata for testing
+	/// </summary>
+	public static GoogleDriveFileMetadata CreateSampleFileMetadata(string id = "test-file-123")
+	{
+		return new GoogleDriveFileMetadata
+		{
+			Id = id,
+			Name = $"TestDocument_{id}.pdf",
+			MimeType = "application/pdf",
+			Size = 256000, // 256 KB
+			CreatedTime = DateTime.UtcNow.AddDays(-30),
+			ModifiedTime = DateTime.UtcNow.AddDays(-1),
+			WebViewLink = $"https://drive.google.com/file/d/{id}/view",
+			DownloadUrl = $"https://drive.google.com/uc?id={id}"
+		};
 	}
 
 	/// <summary>
-	/// Tests that GetActiveWatchesAsync returns watch session information
+	/// Valid Google Drive folder IDs for testing
 	/// </summary>
-	[Fact]
-	public async Task GetActiveWatchesAsync_Should_ReturnWatchSessions_When_Called()
+	public static readonly List<string> ValidFolderIds = new()
 	{
-		// Act
-		var result = await _googleDriveTools.GetActiveWatchesAsync();
+		"1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms",
+		"1mGcks_2AB3De5Fg6HIjKLMnOpQrstu7vW",
+		"root"
+	};
 
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain("👁️ Active Google Drive Watch Sessions:");
-		result.ShouldContain("🔍 Watch ID: watch_12345678");
-		result.ShouldContain("📂 Folder: Documents (/drive/documents/)");
-		result.ShouldContain("🔍 Watch ID: watch_87654321");
-		result.ShouldContain("📂 Folder: Reports (/drive/reports/)");
-		result.ShouldContain("📊 Total Active Watches: 2");
+	/// <summary>
+	/// Valid Google Drive document IDs for testing
+	/// </summary>
+	public static readonly List<string> ValidDocumentIds = new()
+	{
+		"1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms",
+		"1234567890abcdefghijklmnopqrstuvwxyz",
+		"test-doc-id-12345"
+	};
+
+	/// <summary>
+	/// Sample MCP tool responses for testing
+	/// </summary>
+	public static class SampleResponses
+	{
+		public const string FolderWatchStarted = "✅ Started watching Google Drive folder: Test Folder\n📂 Folder ID: test-folder-123\n🔍 Include Subdirectories: true\n⚙️ Auto Process: true\n⏱️ Polling Interval: 60s\n🆔 Watch ID: watch_12345678\n🕐 Started: 2024-01-01 12:00:00 UTC";
+		
+		public const string NoActiveWatches = "📋 No active watch sessions found.";
+		
+		public const string HealthyStatus = "🏥 Google Drive MCP Health Status:\n✅ Status: Healthy\n🔗 API Connection: ✅ Connected\n🔑 Authentication: ✅ Valid\n🔖 Version: 1.0.0 (Native C# Implementation)\n📊 Active Watches: Available\n🕐 Last Check: 2024-01-01 12:00:00 UTC\n📈 Status: All systems operational\n🔧 Implementation: Native Google APIs for .NET";
 	}
 
 	/// <summary>
-	/// Tests that StopWatchingAsync returns stop confirmation
+	/// Sample error messages for testing
 	/// </summary>
-	[Fact]
-	public async Task StopWatchingAsync_Should_ReturnStopConfirmation_When_ValidWatchId()
+	public static class SampleErrors
 	{
-		// Arrange
-		const string watchId = "watch_to_stop";
-
-		// Act
-		var result = await _googleDriveTools.StopWatchingAsync(watchId);
-
-		// Assert
-		result.ShouldNotBeNull();
-		result.ShouldContain($"✅ Successfully stopped watching session {watchId}");
-		result.ShouldContain("🛑 Watch Status: Stopped");
-		result.ShouldContain("📊 Session Duration: 2h 15m 30s");
-		result.ShouldContain("📄 Documents Processed: 15");
-		result.ShouldContain("💾 Resources Released: Yes");
-	}
-
-	/// <summary>
-	/// Tests the interface contract - all methods should be implemented
-	/// </summary>
-	[Fact]
-	public void GoogleDriveTools_Should_ImplementAllInterfaceMethods()
-	{
-		// Assert - This test verifies that GoogleDriveTools properly implements IGoogleDriveTools
-		_googleDriveTools.ShouldBeAssignableTo<IGoogleDriveTools>();
-		_googleDriveTools.ShouldBeOfType<GoogleDriveTools>();
-	}
-
-	/// <summary>
-	/// Tests constructor with null logger should throw ArgumentNullException
-	/// </summary>
-	[Fact]
-	public void Constructor_Should_ThrowArgumentNullException_When_LoggerIsNull()
-	{
-		// Act & Assert
-		Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(null!));
+		public const string FolderNotFound = "Folder test-folder-123 not found or not accessible";
+		public const string DocumentNotFound = "File test-document-123 not found";
+		public const string WatchNotFound = "Watch session watch_12345678 not found";
+		public const string OAuthNotConfigured = "Google Drive OAuth credentials not configured. Set GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET environment variables.";
 	}
 } 
