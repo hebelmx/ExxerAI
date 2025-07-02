@@ -352,6 +352,8 @@ public class TaskCommandsTests
 			new() { Id = Guid.NewGuid(), Title = "UnassignedTask", AssignedAgentId = null, TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+		// Mock agent lookup for agent name display
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
