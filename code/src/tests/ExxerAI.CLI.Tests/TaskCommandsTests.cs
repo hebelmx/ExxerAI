@@ -214,7 +214,15 @@ public class TaskCommandsTests
 	{
 		// Arrange
 		var args = new[] { "overdue" };
-		_mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+		var agentId = Guid.NewGuid();
+		var tasks = new List<AgentTask>
+		{
+			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow, AssignedAgentId = agentId },
+			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+		};
+		_mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+		// Mock agent lookup for assigned tasks
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
@@ -773,25 +781,6 @@ public class TaskCommandsTests
 		// Assert
 		exitCode.ShouldBe(0);
 		await _mockAgentRepository.Received(1).GetByIdAsync(agentId);
-	}
-
-	[Fact]
-	public async Task ListOverdueTasks_Should_FilterOverdueTasks_When_OverdueTasksExist()
-	{
-		// Arrange
-		var args = new[] { "overdue" };
-		var tasks = new List<AgentTask>
-		{
-			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
-			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
-		};
-		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
-
-		// Act
-		var exitCode = await _taskCommands.ExecuteAsync(args);
-
-		// Assert
-		exitCode.ShouldBe(0);
 	}
 
 	[Fact]
