@@ -316,13 +316,18 @@ public class HybridDocumentProcessorTests
         public async Task ProcessDocumentBatchAsync_WithProgressReporting_ShouldReportProgress()
         {
             // Arrange
-            var documents = CreateSampleDocumentBatch(2);
+            var documents = CreateSampleDocumentBatch(3); // Use 3 documents for better progress visibility
             var options = CreateBatchProcessingOptions();
             var progressReports = new List<BatchProgressReport>();
             var progress = new Progress<BatchProgressReport>(report => progressReports.Add(report));
 
+            // Add small delays to make progress reporting more visible
             _directTextExtractor.ExtractTextAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
-                .Returns(CreateSuccessfulDirectTextResult());
+                .Returns(async callInfo =>
+                {
+                    await Task.Delay(10, callInfo.Arg<CancellationToken>()); // Small delay to ensure progress reporting
+                    return CreateSuccessfulDirectTextResult();
+                });
             _patternDictionary.GetPatternsForDocumentTypeAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(CreateSamplePatterns());
 
@@ -330,11 +335,17 @@ public class HybridDocumentProcessorTests
             var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress);
 
             // Assert
-            progressReports.ShouldNotBeEmpty();
-            // Note: Progress reporting frequency depends on implementation details
-            progressReports.Count.ShouldBeGreaterThan(0);
-            progressReports.Last().ProcessedCount.ShouldBe(2);
-            progressReports.Last().TotalCount.ShouldBe(2);
+            result.ShouldNotBeNull();
+            result.TotalDocuments.ShouldBe(3);
+            
+            // Progress should be reported at least once (when batch completes)
+            // Note: Due to async nature, we may get 1 or more progress reports
+            progressReports.Count.ShouldBeGreaterThanOrEqualTo(1);
+            
+            // The final progress report should show completion
+            var finalReport = progressReports.Last();
+            finalReport.ProcessedCount.ShouldBe(3);
+            finalReport.TotalCount.ShouldBe(3);
         }
 
         [Fact]
