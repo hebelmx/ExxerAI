@@ -1,12 +1,34 @@
 {
   "stryker-config": {
-    "project": "src/ExxerAI.Application/ExxerAI.Application.csproj",
-    "test-projects": ["src/tests/ExxerAI.Application.Tests/ExxerAI.Application.Tests.csproj"],
+    "project": "ExxerAI.sln",
+    "test-projects": [
+      "tests/ExxerAI.Application.Tests/ExxerAI.Application.Tests.csproj",
+      "tests/ExxerAI.Domain.Tests/ExxerAI.Domain.Tests.csproj",
+      "tests/ExxerAI.Infrastructure.Tests/ExxerAI.Infrastructure.Tests.csproj",
+      "tests/ExxerAI.Api.Tests/ExxerAI.Api.Tests.csproj",
+      "tests/ExxerAI.CLI.Tests/ExxerAI.CLI.Tests.csproj",
+      "tests/ExxerAI.Orchestration.Tests/ExxerAI.Orchestration.Tests.csproj",
+      "tests/ExxerAi.MCPServer.Tests/ExxerAi.MCPServer.Tests.csproj"
+    ],
     "mutate": [
-      "**/*.cs",
+      "ExxerAI.Application/**/*.cs",
+      "ExxerAI.Domain/**/*.cs", 
+      "ExxerAI.Infrastructure/**/*.cs",
+      "ExxerAI.Api/**/*.cs",
+      "ExxerAI.CLI/**/*.cs",
+      "ExxerAI.Orchestration/**/*.cs",
+      "ExxerAI.UI/**/*.cs",
+      "ExxerAi.MCPServer/**/*.cs",
       "!**/*Tests.cs",
+      "!**/*Test.cs", 
       "!**/bin/**",
-      "!**/obj/**"
+      "!**/obj/**",
+      "!**/*.Designer.cs",
+      "!**/*.g.cs",
+      "!**/*.g.i.cs",
+      "!**/AssemblyInfo.cs",
+      "!**/GlobalUsings.cs",
+      "!**/Program.cs"
     ],
     "ignore-methods": [
       "*Log*",
@@ -21,16 +43,18 @@
       "*ArgumentException*"
     ],
     "ignore-mutations": [
-      "String",
-      "StringMethod"
+      "String"
     ],
     "mutation-level": "Standard",
     "thresholds": {
-      "high": 80,
-      "low": 60,
-      "break": 40
+      "high": 85,
+      "low": 70,
+      "break": 60
     },
-    "reporters": ["html", "progress"],
-    "verbosity": "info"
+         "reporters": ["html", "progress", "json"],
+     "verbosity": "info",
+     "concurrency": 6,
+     "disable-bail": false,
+     "break-on-initial-test-failure": false
   }
 } 
