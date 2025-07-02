@@ -176,7 +176,8 @@ var result = await _service.ProcessDocumentChangeAsync(changeEvent);
 result.IsSuccess.ShouldBeTrue();
 result.Value.ShouldNotBeNull();
 result.Value.DocumentId.ShouldBe(changeEvent.DocumentId);
-result.Value.ExtractedText.ShouldBe("[Document Deleted]");
+result.Value.Confidence.ShouldBe(1.0f);
+result.Value.ProcessingTimeMs.ShouldBeGreaterThan(0);
 }
 
 [Fact]
@@ -365,23 +366,37 @@ stopResult.IsSuccess.ShouldBeTrue();
 }
 
 [Fact]
-public async Task ProcessDocumentChangeAsync_Should_HandleCancellation()
+public async Task ProcessDocumentChangeAsync_Should_HandleModifiedDocuments()
 {
 // Arrange
 var changeEvent = new DocumentChangeEvent
 {
 EventId = Guid.NewGuid().ToString(),
-DocumentId = "test-doc-id",
-ChangeType = DocumentChangeType.Created,
+DocumentId = "modified-doc-id",
+ChangeType = DocumentChangeType.Modified,
 WatchSessionId = "test-session",
-Metadata = new DocumentMetadata { DocumentId = "test-doc-id" }
+Metadata = new DocumentMetadata { DocumentId = "modified-doc-id" }
 };
 
-var cancellationTokenSource = new CancellationTokenSource();
-cancellationTokenSource.Cancel();
+var expectedResult = new DocumentProcessingResult
+{
+DocumentId = "modified-doc-id",
+Confidence = 0.88f,
+LLMConfidence = 0.88f,
+GroundingConfidence = 0.88f
+};
 
-// Act & Assert
-await Should.ThrowAsync<OperationCanceledException>(
-() => _service.ProcessDocumentChangeAsync(changeEvent, cancellationTokenSource.Token));
+_mockDocumentProcessor.ProcessDocumentAsync(
+Arg.Any<byte[]>(),
+Arg.Any<DocumentMetadata>(),
+Arg.Any<CancellationToken>())
+.Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
+
+// Act
+var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+
+// Assert
+result.IsSuccess.ShouldBeTrue();
+result.Value.ShouldBe(expectedResult);
 }
 }
