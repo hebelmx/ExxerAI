@@ -524,6 +524,6 @@ public class CommandRouterTests
 		var exitCode = await _commandRouter.ExecuteAsync(args);
 
 		// Assert
-		exitCode.ShouldBe(0); // WorkflowCommands handles unknown commands gracefully
+		exitCode.ShouldBe(1); // WorkflowCommands returns 1 for unknown commands
 	}
 } 
