@@ -1,0 +1,27 @@
+{
+  "stryker-config": {
+    "project": "ExxerAI.sln",
+    "mutate": [
+      "ExxerAI.Application/**/*.cs",
+      "ExxerAI.Domain/**/*.cs", 
+      "ExxerAI.Infrastructure/**/*.cs",
+      "ExxerAI.Api/**/*.cs",
+      "ExxerAI.CLI/**/*.cs",
+      "ExxerAI.Orchestration/**/*.cs",
+      "!**/*Tests.cs",
+      "!**/*Test.cs", 
+      "!**/bin/**",
+      "!**/obj/**"
+    ],
+    "mutation-level": "Standard",
+    "thresholds": {
+      "high": 80,
+      "low": 60,
+      "break": 40
+    },
+    "reporters": ["progress", "html"],
+    "verbosity": "info",
+    "concurrency": 4,
+    "disable-bail": false
+  }
+} 

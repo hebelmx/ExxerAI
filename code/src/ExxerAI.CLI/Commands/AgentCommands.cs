@@ -23,6 +23,20 @@ public class AgentCommands
 	}
 
 	/// <summary>
+	/// Validates constructor parameters and returns validation result
+	/// </summary>
+	/// <param name="agentService">Agent service for operations</param>
+	/// <param name="agentRepository">Agent repository for direct access</param>
+	/// <returns>Validation result indicating success or failure with parameter names</returns>
+	public static Result ValidateConstructorParameters(IAgentService agentService, IRepository<Agent> agentRepository)
+	{
+		return ResultExtensions.ValidateNotNull(
+			(agentService, nameof(agentService)),
+			(agentRepository, nameof(agentRepository))
+		);
+	}
+
+	/// <summary>
 	/// Executes agent commands based on provided arguments
 	/// </summary>
 	/// <param name="args">Command arguments</param>

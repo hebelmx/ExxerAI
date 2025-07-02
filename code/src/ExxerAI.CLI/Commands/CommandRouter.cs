@@ -1,5 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ExxerAI.Domain;
 
 namespace ExxerAI.CLI.Commands;
 
@@ -23,6 +24,22 @@ public class CommandRouter
 		_agentCommands = agentCommands;
 		_taskCommands = taskCommands;
 		_workflowCommands = workflowCommands;
+	}
+
+	/// <summary>
+	/// Validates constructor parameters and returns validation result
+	/// </summary>
+	/// <param name="agentCommands">Agent commands handler</param>
+	/// <param name="taskCommands">Task commands handler</param>
+	/// <param name="workflowCommands">Workflow commands handler</param>
+	/// <returns>Validation result indicating success or failure with parameter names</returns>
+	public static Result ValidateConstructorParameters(AgentCommands agentCommands, TaskCommands taskCommands, WorkflowCommands workflowCommands)
+	{
+		return ResultExtensions.ValidateNotNull(
+			(agentCommands, nameof(agentCommands)),
+			(taskCommands, nameof(taskCommands)),
+			(workflowCommands, nameof(workflowCommands))
+		);
 	}
 
 	/// <summary>

@@ -23,6 +23,20 @@ public class TaskCommands
 	}
 
 	/// <summary>
+	/// Validates constructor parameters and returns validation result
+	/// </summary>
+	/// <param name="taskRepository">Task repository for operations</param>
+	/// <param name="agentRepository">Agent repository for lookups</param>
+	/// <returns>Validation result indicating success or failure with parameter names</returns>
+	public static Result ValidateConstructorParameters(ITaskRepository taskRepository, IRepository<Agent> agentRepository)
+	{
+		return ResultExtensions.ValidateNotNull(
+			(taskRepository, nameof(taskRepository)),
+			(agentRepository, nameof(agentRepository))
+		);
+	}
+
+	/// <summary>
 	/// Executes task commands based on provided arguments
 	/// </summary>
 	/// <param name="args">Command arguments</param>
