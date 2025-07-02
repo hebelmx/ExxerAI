@@ -294,7 +294,7 @@ public class CommandRouterTests
         public async Task ExecuteAsync_WithAgentCommandThrowingException_ShouldReturnOneAndShowError()
         {
             // Arrange
-            _agentCommands.ExecuteAsync(Arg.Any<string[]>()).Throws(new InvalidOperationException("Test agent exception"));
+            _agentCommands.ExecuteAsync(Arg.Any<string[]>()).Returns(Task.FromException<int>(new InvalidOperationException("Test agent exception")));
 
             // Act
             var result = await _commandRouter.ExecuteAsync(["agent", "list"]);
@@ -309,7 +309,7 @@ public class CommandRouterTests
         public async Task ExecuteAsync_WithTaskCommandThrowingException_ShouldReturnOneAndShowError()
         {
             // Arrange
-            _taskCommands.ExecuteAsync(Arg.Any<string[]>()).Throws(new InvalidOperationException("Test task exception"));
+            _taskCommands.ExecuteAsync(Arg.Any<string[]>()).Returns(Task.FromException<int>(new InvalidOperationException("Test task exception")));
 
             // Act
             var result = await _commandRouter.ExecuteAsync(["task", "list"]);
@@ -324,7 +324,7 @@ public class CommandRouterTests
         public async Task ExecuteAsync_WithWorkflowCommandThrowingException_ShouldReturnOneAndShowError()
         {
             // Arrange
-            _workflowCommands.ExecuteAsync(Arg.Any<string[]>()).Throws(new InvalidOperationException("Test workflow exception"));
+            _workflowCommands.ExecuteAsync(Arg.Any<string[]>()).Returns(Task.FromException<int>(new InvalidOperationException("Test workflow exception")));
 
             // Act
             var result = await _commandRouter.ExecuteAsync(["workflow", "list"]);

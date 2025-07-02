@@ -12,13 +12,13 @@ namespace ExxerAI.CLI.Tests;
 /// </summary>
 public class TaskCommandsTests
 {
-    private readonly IRepository<AgentTask> _taskRepository;
+    private readonly ITaskRepository _taskRepository;
     private readonly IRepository<Agent> _agentRepository;
     private readonly TaskCommands _taskCommands;
 
     public TaskCommandsTests()
     {
-        _taskRepository = Substitute.For<IRepository<AgentTask>>();
+        _taskRepository = Substitute.For<ITaskRepository>();
         _agentRepository = Substitute.For<IRepository<Agent>>();
         _taskCommands = new TaskCommands(_taskRepository, _agentRepository);
     }
@@ -35,6 +35,13 @@ public class TaskCommandsTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new TaskCommands(null!, _agentRepository));
+    }
+
+    [Fact]
+    public void Constructor_WithNullAgentRepository_ShouldThrowArgumentNullException()
+    {
+        // Act & Assert
+        Should.Throw<ArgumentNullException>(() => new TaskCommands(_taskRepository, null!));
     }
 
     [Fact]
@@ -239,7 +246,7 @@ public class TaskCommandsTests
     public async Task ExecuteAsync_ListWithStatusFilter_ShouldWork()
     {
         // Arrange
-        var tasks = new[] { CreateTestTask("Task1", TaskStatus.InProgress) };
+        var tasks = new[] { CreateTestTask("Task1", ExxerAI.Domain.TaskStatus.InProgress) };
         _taskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.WithSuccess(tasks));
 
         // Act
@@ -312,7 +319,7 @@ public class TaskCommandsTests
     public async Task ExecuteAsync_WithException_ShouldReturnOne()
     {
         // Arrange
-        _taskRepository.GetAllAsync().Throws(new InvalidOperationException("Test exception"));
+        _taskRepository.GetAllAsync().Returns(Task.FromException<Result<IEnumerable<AgentTask>>>(new InvalidOperationException("Test exception")));
 
         // Act
         var result = await _taskCommands.ExecuteAsync(["list"]);
@@ -321,17 +328,17 @@ public class TaskCommandsTests
         result.ShouldBe(1);
     }
 
-    private static AgentTask CreateTestTask(string name = "TestTask", TaskStatus status = TaskStatus.Pending)
+    private static AgentTask CreateTestTask(string title = "TestTask", ExxerAI.Domain.TaskStatus status = ExxerAI.Domain.TaskStatus.Pending)
     {
         return new AgentTask
         {
             Id = Guid.NewGuid(),
-            Name = name,
+            Title = title,
             Status = status,
-            Description = $"Test task {name}",
+            Description = $"Test task {title}",
             CreatedAt = DateTime.UtcNow.AddDays(-1),
-            UpdatedAt = DateTime.UtcNow,
-            Priority = TaskPriority.Medium,
+            Priority = TaskPriority.Normal,
+            TaskType = "TestType",
             AssignedAgentId = null
         };
     }
