@@ -144,7 +144,7 @@ public class AgentCommandsTests
 		// Arrange
 		var agentId = Guid.NewGuid();
 		var args = new[] { "delete", agentId.ToString() };
-		_mockAgentRepository.DeleteAsync(agentId).Returns(Result.Success());
+		_mockAgentRepository.DeleteAsync(agentId).Returns(Task.FromResult(Result.Success()));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -166,7 +166,7 @@ public class AgentCommandsTests
 			Name = "TestAgent",
 			Capabilities = new AgentCapabilities()
 		};
-		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -183,8 +183,8 @@ public class AgentCommandsTests
 		var agentId = Guid.NewGuid();
 		var args = new[] { "update", agentId.ToString(), "--name", "NewName" };
 		var testAgent = new Agent { Id = agentId, Name = "OldName" };
-		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
-		_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Result.Success());
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
+		_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Task.FromResult(Result.Success()));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -202,8 +202,8 @@ public class AgentCommandsTests
 		var agentId = Guid.NewGuid();
 		var args = new[] { "activate", agentId.ToString() };
 		var testAgent = new Agent { Id = agentId, Name = "TestAgent", Status = AgentStatus.Inactive };
-		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
-		_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Result.Success());
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
+		_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Task.FromResult(Result.Success()));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -220,8 +220,8 @@ public class AgentCommandsTests
 		var agentId = Guid.NewGuid();
 		var args = new[] { "deactivate", agentId.ToString() };
 		var testAgent = new Agent { Id = agentId, Name = "TestAgent", Status = AgentStatus.Active };
-		_mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
-		_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Result.Success());
+		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(testAgent)));
+		_mockAgentRepository.UpdateAsync(Arg.Any<Agent>()).Returns(Task.FromResult(Result.Success()));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -262,7 +262,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var args = new[] { "list" };
-		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(new List<Agent>()));
+		_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.Success(new List<Agent>())));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -281,7 +281,7 @@ public class AgentCommandsTests
 			new() { Id = Guid.NewGuid(), Name = "Agent1", Status = AgentStatus.Active, CreatedAt = DateTime.UtcNow },
 			new() { Id = Guid.NewGuid(), Name = "Agent2", Status = AgentStatus.Inactive, CreatedAt = DateTime.UtcNow }
 		};
-		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(agents));
+		_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.Success(agents)));
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
