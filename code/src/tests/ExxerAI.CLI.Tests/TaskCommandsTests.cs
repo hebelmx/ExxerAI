@@ -182,7 +182,7 @@ public class TaskCommandsTests
 		// Arrange
 		var taskId = Guid.NewGuid();
 		var args = new[] { "delete", taskId.ToString() };
-		_mockTaskRepository.DeleteAsync(taskId).Returns(Result.Success());
+		_mockTaskRepository.DeleteAsync(taskId).Returns(Task.FromResult(Result.Success()));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
@@ -199,7 +199,7 @@ public class TaskCommandsTests
 		var taskId = Guid.NewGuid();
 		var args = new[] { "status", taskId.ToString() };
 		var testTask = new AgentTask { Id = taskId, Title = "TestTask" };
-		_mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
+		_mockTaskRepository.GetByIdAsync(taskId).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
@@ -214,7 +214,7 @@ public class TaskCommandsTests
 	{
 		// Arrange
 		var args = new[] { "overdue" };
-		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+		_mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>())));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
@@ -255,7 +255,7 @@ public class TaskCommandsTests
 	{
 		// Arrange
 		var args = new[] { "list" };
-		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+		_mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>())));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
@@ -274,7 +274,7 @@ public class TaskCommandsTests
 			new() { Id = Guid.NewGuid(), Title = "Task1", TaskType = "DataProcessing", Status = ExxerAI.Domain.TaskStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
 			new() { Id = Guid.NewGuid(), Title = "Task2", TaskType = "Analysis", Status = ExxerAI.Domain.TaskStatus.InProgress, Priority = TaskPriority.High, CreatedAt = DateTime.UtcNow }
 		};
-		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+		_mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(tasks)));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
