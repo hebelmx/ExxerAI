@@ -69,6 +69,15 @@
   </ItemGroup>
 
   <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - GOOGLE DRIVE INTEGRATION -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Google Drive Integration">
+	<PackageReference Include="Google.Apis.Drive.v3" />
+	<PackageReference Include="Google.Apis.Auth" />
+	<PackageReference Include="Google.Apis.Core" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
   <!-- PACKAGE REFERENCES - LOGGING -->
   <!-- ============================================================================ -->
   <ItemGroup Label="Logging">
@@ -100,6 +109,7 @@
   <!-- ============================================================================ -->
   <ItemGroup Label="Project References">
 	<ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	<ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
   </ItemGroup>
 
 </Project>

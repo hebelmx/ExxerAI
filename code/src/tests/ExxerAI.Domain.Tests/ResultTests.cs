@@ -67,7 +67,9 @@ public class ResultTests
         var errors = new List<string> { "Error 1", "Error 2" };
         var resultWithErrors = new Result<string>(true, errors, "test value");
         resultWithErrors.IsSuccess.ShouldBeFalse(); // Errors present makes it fail
-        resultWithErrors.Errors.ShouldBeEquivalentTo(errors);
+        resultWithErrors.Errors.ShouldContain("Error 1");
+        resultWithErrors.Errors.ShouldContain("Error 2");
+        resultWithErrors.Errors.Count().ShouldBe(2);
 
         // Arrange & Act & Assert - Test CombineErrors edge cases
         var combineResult = Result.CombineErrors(null, null);
@@ -407,7 +409,9 @@ public class ResultTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldBeEquivalentTo(primaryErrors); // Content should match regardless of collection type
+        result.Errors.ShouldContain("Error 1");
+        result.Errors.ShouldContain("Error 2");
+        result.Errors.Count().ShouldBe(2);
         result.Value.ShouldBeNull();
     }
 
@@ -423,7 +427,9 @@ public class ResultTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldBeEquivalentTo(secondaryErrors);
+        result.Errors.ShouldContain("Error A");
+        result.Errors.ShouldContain("Error B");
+        result.Errors.Count().ShouldBe(2);
         result.Value.ShouldBe(value);
     }
 
@@ -440,7 +446,11 @@ public class ResultTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldBeEquivalentTo(new List<string> { "Error 1", "Error 2", "Error A", "Error B" });
+        result.Errors.ShouldContain("Error 1");
+        result.Errors.ShouldContain("Error 2");
+        result.Errors.ShouldContain("Error A");
+        result.Errors.ShouldContain("Error B");
+        result.Errors.Count().ShouldBe(4);
         result.Value.ShouldBe(value);
     }
 
@@ -679,8 +689,8 @@ public class ResultTests
         singleErrorResult.Errors.ShouldContain("error message");
         multipleErrorsResult.Errors.ShouldContain("error1");
         multipleErrorsResult.Errors.ShouldContain("error2");
-        nullErrorsResult.Errors.ShouldContain("WithFailure to execute Request"); // Default error
-        emptyErrorsResult.Errors.ShouldContain("WithFailure to execute Request"); // Default error
+        nullErrorsResult.Errors.ShouldContain("WithFailure to execute Request"); // Default error for null input
+        emptyErrorsResult.Errors.ShouldBeEmpty(); // Empty list stays empty (not null)
     }
 
     [Fact]

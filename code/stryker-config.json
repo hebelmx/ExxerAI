@@ -1,0 +1,36 @@
+{
+  "stryker-config": {
+    "project": "src/ExxerAI.Application/ExxerAI.Application.csproj",
+    "test-projects": ["src/tests/ExxerAI.Application.Tests/ExxerAI.Application.Tests.csproj"],
+    "mutate": [
+      "**/*.cs",
+      "!**/*Tests.cs",
+      "!**/bin/**",
+      "!**/obj/**"
+    ],
+    "ignore-methods": [
+      "*Log*",
+      "*LogDebug*",
+      "*LogInformation*", 
+      "*LogWarning*",
+      "*LogError*",
+      "*LogCritical*",
+      "*LogTrace*",
+      "*Task.Delay*",
+      "*ArgumentNullException*",
+      "*ArgumentException*"
+    ],
+    "ignore-mutations": [
+      "String",
+      "StringMethod"
+    ],
+    "mutation-level": "Standard",
+    "thresholds": {
+      "high": 80,
+      "low": 60,
+      "break": 40
+    },
+    "reporters": ["html", "progress"],
+    "verbosity": "info"
+  }
+} 

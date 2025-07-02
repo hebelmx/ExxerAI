@@ -437,8 +437,6 @@ public class DocumentIngestionServiceTests
         };
     }
 
-
-
     private void SetupMockDownload(string documentId, byte[] documentData, DocumentMetadata metadata)
     {
         // Mock download operations - this would normally interact with Google Drive

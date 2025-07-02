@@ -1,6 +1,5 @@
 using System.ComponentModel;
 using ExxerAI.Domain;
-
 using ExxerAi.MCPServer.Application.Interfaces;
 using ModelContextProtocol.Server;
 
@@ -14,14 +13,17 @@ namespace ExxerAi.MCPServer.Application.Tools;
 public class GoogleDriveTools : IGoogleDriveTools
 {
     private readonly ILogger<GoogleDriveTools> _logger;
+    private readonly IGoogleDriveService _googleDriveService;
 
     /// <summary>
     /// Initializes a new instance of the GoogleDriveTools class
     /// </summary>
     /// <param name="logger">The logger instance</param>
-    public GoogleDriveTools(ILogger<GoogleDriveTools> logger)
+    /// <param name="googleDriveService">The Google Drive service for real API integration</param>
+    public GoogleDriveTools(ILogger<GoogleDriveTools> logger, IGoogleDriveService googleDriveService)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _googleDriveService = googleDriveService ?? throw new ArgumentNullException(nameof(googleDriveService));
     }
 
     /// <summary>
@@ -33,31 +35,33 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <param name="pollingIntervalSeconds">Polling interval in seconds</param>
     /// <returns>Watch session information</returns>
     [McpServerTool, Description("Starts watching a Google Drive folder for document changes and automatically processes new files")]
-    public Task<Result<string>> StartFolderWatchAsync(
+    public async Task<Result<string>> StartFolderWatchAsync(
         [Description("The Google Drive folder ID to monitor")] string folderId,
         [Description("Include subdirectories in monitoring")] bool includeSubdirectories = true,
         [Description("Automatically process detected files")] bool autoProcess = true,
         [Description("Polling interval in seconds")] int pollingIntervalSeconds = 60)
     {
-        _logger.LogInformation("Starting folder watch for folder {FolderId}", folderId);
+        _logger.LogInformation("🚀 Starting real Google Drive folder watch for folder {FolderId}", folderId);
 
         try
         {
-            var result = $"✅ Started watching Google Drive folder {folderId}\n" +
-                        $"📂 Folder ID: {folderId}\n" +
-                        $"🔍 Include Subdirectories: {includeSubdirectories}\n" +
-                        $"⚙️ Auto Process: {autoProcess}\n" +
-                        $"⏱️ Polling Interval: {pollingIntervalSeconds}s\n" +
-                        $"🆔 Watch ID: watch_{Guid.NewGuid().ToString()[..8]}\n" +
-                        $"🕐 Started: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC";
+            var result = await _googleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingIntervalSeconds);
+            
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("✅ Successfully started real Google Drive folder watch for {FolderId}", folderId);
+            }
+            else
+            {
+                _logger.LogError("❌ Failed to start Google Drive folder watch: {Error}", result.Error);
+            }
 
-            _logger.LogInformation("Successfully started watching folder {FolderId}", folderId);
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error starting folder watch for {FolderId}", folderId);
-            return Task.FromResult(Result<string>.WithFailure($"Error starting folder watch: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error starting Google Drive folder watch for {FolderId}", folderId);
+            return Result<string>.WithFailure($"Error starting folder watch: {ex.Message}");
         }
     }
 
@@ -67,27 +71,35 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <param name="watchId">The watch session identifier</param>
     /// <returns>Document changes detected</returns>
     [McpServerTool, Description("Retrieves document changes detected by an active watch session")]
-    public Task<Result<string>> GetDocumentChangesAsync(
+    public async Task<Result<string>> GetDocumentChangesAsync(
         [Description("The watch session ID")] string watchId)
     {
-        _logger.LogInformation("Getting document changes for watch {WatchId}", watchId);
+        _logger.LogInformation("📋 Getting document changes for watch {WatchId}", watchId);
 
         try
         {
-            var result = $"📋 Document Changes for Watch {watchId}:\n" +
-                        $"📄 Document 1: Updated contract.pdf (Size: 256 KB)\n" +
-                        $"📄 Document 2: New invoice_2024.pdf (Size: 128 KB)\n" +
-                        $"📄 Document 3: Modified report.docx (Size: 512 KB)\n" +
-                        $"🕐 Last Check: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"📊 Total Changes: 3 documents";
+            // Get active watches which includes detected changes
+            var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
+            
+            if (watchesResult.IsSuccess)
+            {
+                var result = $"📋 Document Changes for Watch {watchId}:\n" +
+                           $"ℹ️ Use GetActiveWatches to see detailed change information\n" +
+                           $"🕐 Last Check: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n\n" +
+                           $"{watchesResult.Value}";
 
-            _logger.LogInformation("Retrieved document changes for watch {WatchId}", watchId);
-            return Task.FromResult(Result<string>.WithSuccess(result));
+                _logger.LogInformation("✅ Retrieved document changes for watch {WatchId}", watchId);
+                return Result<string>.WithSuccess(result);
+            }
+            else
+            {
+                return Result<string>.WithFailure($"Failed to get document changes: {watchesResult.Error}");
+            }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting document changes for watch {WatchId}", watchId);
-            return Task.FromResult(Result<string>.WithFailure($"Error getting document changes: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error getting document changes for watch {WatchId}", watchId);
+            return Result<string>.WithFailure($"Error getting document changes: {ex.Message}");
         }
     }
 
@@ -97,28 +109,46 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <param name="documentId">The document identifier</param>
     /// <returns>Download result information</returns>
     [McpServerTool, Description("Downloads a document from Google Drive and returns file information")]
-    public Task<Result<string>> DownloadDocumentAsync(
+    public async Task<Result<string>> DownloadDocumentAsync(
         [Description("The Google Drive document ID")] string documentId)
     {
-        _logger.LogInformation("Downloading document {DocumentId}", documentId);
+        _logger.LogInformation("📥 Downloading document {DocumentId} from Google Drive", documentId);
 
         try
         {
-            var result = $"✅ Downloaded: Document {documentId}\n" +
-                        $"📄 Name: Document_{documentId}.pdf\n" +
-                        $"📋 Type: application/pdf\n" +
-                        $"📦 Size: 256 KB\n" +
-                        $"📅 Modified: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"💾 Local Path: /downloads/document_{documentId}.pdf\n" +
-                        $"✅ Status: Download completed successfully";
+            // Get metadata first
+            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId);
+            if (!metadataResult.IsSuccess)
+            {
+                return Result<string>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
+            }
 
-            _logger.LogInformation("Successfully downloaded document {DocumentId}", documentId);
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            // Download document
+            var downloadResult = await _googleDriveService.DownloadDocumentAsync(documentId);
+            if (!downloadResult.IsSuccess)
+            {
+                return Result<string>.WithFailure($"Failed to download document: {downloadResult.Error}");
+            }
+
+            var metadata = metadataResult.Value;
+            var fileSize = downloadResult.Value.Length;
+
+            var result = $"✅ Downloaded: {metadata.Name}\n" +
+                        $"📄 Document ID: {documentId}\n" +
+                        $"📋 Type: {metadata.MimeType}\n" +
+                        $"📦 Size: {fileSize:N0} bytes ({fileSize / 1024.0:F1} KB)\n" +
+                        $"📅 Modified: {metadata.ModifiedTime:yyyy-MM-dd HH:mm:ss} UTC\n" +
+                        $"🔗 View Link: {metadata.WebViewLink ?? "Not available"}\n" +
+                        $"✅ Status: Download completed successfully\n" +
+                        $"🔄 Ready for document processing pipeline";
+
+            _logger.LogInformation("✅ Successfully downloaded document {DocumentId} ({Size} bytes)", documentId, fileSize);
+            return Result<string>.WithSuccess(result);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error downloading document {DocumentId}", documentId);
-            return Task.FromResult(Result<string>.WithFailure($"Error downloading document: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error downloading document {DocumentId}", documentId);
+            return Result<string>.WithFailure($"Error downloading document: {ex.Message}");
         }
     }
 
@@ -128,31 +158,38 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <param name="documentId">The document identifier</param>
     /// <returns>Document metadata information</returns>
     [McpServerTool, Description("Retrieves detailed metadata for a Google Drive document")]
-    public Task<Result<string>> GetDocumentMetadataAsync(
+    public async Task<Result<string>> GetDocumentMetadataAsync(
         [Description("The Google Drive document ID")] string documentId)
     {
-        _logger.LogInformation("Getting metadata for document {DocumentId}", documentId);
+        _logger.LogInformation("📄 Getting metadata for document {DocumentId}", documentId);
 
         try
         {
-            var result = $"📄 Document Metadata:\n" +
-                        $"🏷️ Name: Document_{documentId}.pdf\n" +
-                        $"🆔 ID: {documentId}\n" +
-                        $"📁 Path: /drive/documents/\n" +
-                        $"📋 MIME Type: application/pdf\n" +
-                        $"📦 Size: 256 KB\n" +
-                        $"👤 Owner: user@example.com\n" +
-                        $"📅 Created: {DateTime.UtcNow.AddDays(-30):yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"🔄 Modified: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"🔒 Permissions: Read/Write";
+            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId);
+            
+            if (!metadataResult.IsSuccess)
+            {
+                return Result<string>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
+            }
 
-            _logger.LogInformation("Retrieved metadata for document {DocumentId}", documentId);
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            var metadata = metadataResult.Value;
+            var result = $"📄 Document Metadata:\n" +
+                        $"🏷️ Name: {metadata.Name}\n" +
+                        $"🆔 ID: {metadata.Id}\n" +
+                        $"📋 MIME Type: {metadata.MimeType}\n" +
+                        $"📦 Size: {metadata.Size:N0} bytes ({metadata.Size / 1024.0:F1} KB)\n" +
+                        $"📅 Created: {metadata.CreatedTime:yyyy-MM-dd HH:mm:ss} UTC\n" +
+                        $"🔄 Modified: {metadata.ModifiedTime:yyyy-MM-dd HH:mm:ss} UTC\n" +
+                        $"🔗 View Link: {metadata.WebViewLink ?? "Not available"}\n" +
+                        $"📥 Download URL: {(string.IsNullOrEmpty(metadata.DownloadUrl) ? "Direct API access required" : "Available")}";
+
+            _logger.LogInformation("✅ Retrieved real metadata for document {DocumentId}", documentId);
+            return Result<string>.WithSuccess(result);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting metadata for document {DocumentId}", documentId);
-            return Task.FromResult(Result<string>.WithFailure($"Error getting document metadata: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error getting metadata for document {DocumentId}", documentId);
+            return Result<string>.WithFailure($"Error getting document metadata: {ex.Message}");
         }
     }
 
@@ -161,29 +198,47 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// </summary>
     /// <returns>Health status information</returns>
     [McpServerTool, Description("Checks the health status of Google Drive MCP integration")]
-    public Task<Result<string>> CheckHealthStatusAsync()
+    public async Task<Result<string>> CheckHealthStatusAsync()
     {
-        _logger.LogInformation("Checking Google Drive health status");
+        _logger.LogInformation("🏥 Checking Google Drive health status");
 
         try
         {
-            var result = $"🏥 Google Drive MCP Health Status:\n" +
-                        $"✅ Status: Healthy\n" +
-                        $"🔗 API Connection: Connected\n" +
-                        $"🔑 Authentication: Valid\n" +
-                        $"🔖 Version: 1.0.0\n" +
-                        $"📊 Active Watches: 2\n" +
-                        $"🕐 Last Check: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"💯 Uptime: 99.9%\n" +
-                        $"📈 Status: All systems operational";
+            // Try to initialize the Google Drive service to check connectivity
+            var initResult = await _googleDriveService.InitializeAsync();
+            
+            var connectionStatus = initResult.IsSuccess ? "✅ Connected" : "❌ Failed";
+            var authStatus = initResult.IsSuccess ? "✅ Valid" : "❌ Invalid";
+            
+            // Get active watches
+            var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
+            var activeWatches = watchesResult.IsSuccess ? "Available" : "Error getting watch info";
 
-            _logger.LogInformation("Google Drive health check completed");
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            var result = $"🏥 Google Drive MCP Health Status:\n" +
+                        $"✅ Status: {(initResult.IsSuccess ? "Healthy" : "Unhealthy")}\n" +
+                        $"🔗 API Connection: {connectionStatus}\n" +
+                        $"🔑 Authentication: {authStatus}\n" +
+                        $"🔖 Version: 1.0.0 (Native C# Implementation)\n" +
+                        $"📊 Active Watches: {activeWatches}\n" +
+                        $"🕐 Last Check: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
+                        $"📈 Status: {(initResult.IsSuccess ? "All systems operational" : $"Error: {initResult.Error}")}\n" +
+                        $"🔧 Implementation: Native Google APIs for .NET";
+
+            if (!initResult.IsSuccess)
+            {
+                _logger.LogWarning("⚠️ Google Drive health check failed: {Error}", initResult.Error);
+            }
+            else
+            {
+                _logger.LogInformation("✅ Google Drive health check completed successfully");
+            }
+
+            return Result<string>.WithSuccess(result);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error checking Google Drive health status");
-            return Task.FromResult(Result<string>.WithFailure($"Error checking health status: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error checking Google Drive health status");
+            return Result<string>.WithFailure($"Error checking health status: {ex.Message}");
         }
     }
 
@@ -192,32 +247,29 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// </summary>
     /// <returns>Active watch sessions information</returns>
     [McpServerTool, Description("Lists all active Google Drive folder watch sessions")]
-    public Task<Result<string>> GetActiveWatchesAsync()
+    public async Task<Result<string>> GetActiveWatchesAsync()
     {
-        _logger.LogInformation("Getting active watch sessions");
+        _logger.LogInformation("👁️ Getting active Google Drive watch sessions");
 
         try
         {
-            var result = $"👁️ Active Google Drive Watch Sessions:\n" +
-                        $"🔍 Watch ID: watch_12345678\n" +
-                        $"  📂 Folder: Documents (/drive/documents/)\n" +
-                        $"  📅 Started: {DateTime.UtcNow.AddHours(-2):yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"  ⏱️ Interval: 60s\n" +
-                        $"  ✅ Status: Active\n\n" +
-                        $"🔍 Watch ID: watch_87654321\n" +
-                        $"  📂 Folder: Reports (/drive/reports/)\n" +
-                        $"  📅 Started: {DateTime.UtcNow.AddHours(-1):yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"  ⏱️ Interval: 120s\n" +
-                        $"  ✅ Status: Active\n\n" +
-                        $"📊 Total Active Watches: 2";
+            var result = await _googleDriveService.GetActiveWatchesAsync();
+            
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("✅ Retrieved active watch sessions");
+            }
+            else
+            {
+                _logger.LogError("❌ Failed to get active watch sessions: {Error}", result.Error);
+            }
 
-            _logger.LogInformation("Retrieved active watch sessions");
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting active watch sessions");
-            return Task.FromResult(Result<string>.WithFailure($"Error getting active watches: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error getting active watch sessions");
+            return Result<string>.WithFailure($"Error getting active watches: {ex.Message}");
         }
     }
 
@@ -227,27 +279,30 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <param name="watchId">The watch session identifier</param>
     /// <returns>Stop operation result</returns>
     [McpServerTool, Description("Stops watching a specific Google Drive folder")]
-    public Task<Result<string>> StopWatchingAsync(
+    public async Task<Result<string>> StopWatchingAsync(
         [Description("The watch session ID to stop")] string watchId)
     {
-        _logger.LogInformation("Stopping watch session {WatchId}", watchId);
+        _logger.LogInformation("🛑 Stopping Google Drive watch session {WatchId}", watchId);
 
         try
         {
-            var result = $"✅ Successfully stopped watching session {watchId}\n" +
-                        $"🛑 Watch Status: Stopped\n" +
-                        $"🕐 Stopped At: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"📊 Session Duration: 2h 15m 30s\n" +
-                        $"📄 Documents Processed: 15\n" +
-                        $"💾 Resources Released: Yes";
+            var result = await _googleDriveService.StopWatchingAsync(watchId);
+            
+            if (result.IsSuccess)
+            {
+                _logger.LogInformation("✅ Successfully stopped watch session {WatchId}", watchId);
+            }
+            else
+            {
+                _logger.LogError("❌ Failed to stop watch session {WatchId}: {Error}", watchId, result.Error);
+            }
 
-            _logger.LogInformation("Successfully stopped watch session {WatchId}", watchId);
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            return result;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error stopping watch session {WatchId}", watchId);
-            return Task.FromResult(Result<string>.WithFailure($"Error stopping watch session: {ex.Message}"));
+            _logger.LogError(ex, "❌ Error stopping watch session {WatchId}", watchId);
+            return Result<string>.WithFailure($"Error stopping watch session: {ex.Message}");
         }
     }
 }
