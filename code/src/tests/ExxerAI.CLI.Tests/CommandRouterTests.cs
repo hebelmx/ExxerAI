@@ -135,7 +135,7 @@ public class CommandRouterTests
 		var args = new[] { "agent", "list" };
 		var testAgents = new List<Agent>
 		{
-			new Agent("Test Agent", "Test Description", new AgentCapabilities())
+			new Agent { Name = "Test Agent", Description = "Test Description", Capabilities = new AgentCapabilities() }
 		};
 		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
@@ -152,7 +152,7 @@ public class CommandRouterTests
 	{
 		// Arrange
 		var args = new[] { "agents", "create", "TestAgent" };
-		var testAgent = new Agent("TestAgent", "Test Description", new AgentCapabilities());
+		var testAgent = new Agent { Name = "TestAgent", Description = "Test Description", Capabilities = new AgentCapabilities() };
 		_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
 			.Returns(Result<Agent>.Success(testAgent));
 
@@ -377,7 +377,7 @@ public class CommandRouterTests
 	{
 		// Arrange
 		var args = new[] { "agent", "list" };
-		_mockAgentRepository.GetAllAsync().Throws(new InvalidOperationException("Test exception"));
+		_mockAgentRepository.GetAllAsync().ThrowsAsync(new InvalidOperationException("Test exception"));
 
 		// Act
 		var exitCode = await _commandRouter.ExecuteAsync(args);
@@ -391,7 +391,7 @@ public class CommandRouterTests
 	{
 		// Arrange
 		var args = new[] { "agent", "create", "TestAgent", "--description", "Test description" };
-		var testAgent = new Agent("TestAgent", "Test description", new AgentCapabilities());
+		var testAgent = new Agent { Name = "TestAgent", Description = "Test description", Capabilities = new AgentCapabilities() };
 		_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
 			.Returns(Result<Agent>.Success(testAgent));
 
@@ -432,7 +432,7 @@ public class CommandRouterTests
 		_mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 		_mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
-			.Returns(Result<Agent>.Success(new Agent("test", "test", new AgentCapabilities())));
+			.Returns(Result<Agent>.Success(new Agent { Name = "test", Description = "test", Capabilities = new AgentCapabilities() }));
 		_mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
 		// Act
