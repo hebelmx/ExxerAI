@@ -721,7 +721,7 @@ public class TaskCommandsTests
 			"-s" => new[] { "list", shortFlag, "Pending" },
 			"-p" => new[] { "list", shortFlag, "High" },
 			"-t" => new[] { "list", shortFlag, "DataProcessing" },
-			"-a" => new[] { "list", shortFlag, Guid.NewGuid().ToString() },
+			"-a" => new[] { "list", shortFlag, "invalid-agent-id" },
 			"-d" => new[] { "create", "TestTask", "--type", "DataProcessing", shortFlag, "Test description" },
 			_ => Array.Empty<string>()
 		};
@@ -743,7 +743,7 @@ public class TaskCommandsTests
 		// For invalid agent GUID, it should return error (1), for others success (0)
 		if (shortFlag == "-a")
 		{
-			exitCode.ShouldBe(1); // Invalid GUID format
+			exitCode.ShouldBe(1); // Invalid GUID format should fail
 		}
 		else
 		{
