@@ -31,13 +31,18 @@
       "!**/Program.cs"
     ],
     "ignore-methods": [
-      "*Log*",
-      "*LogDebug*",
-      "*LogInformation*", 
-      "*LogWarning*",
-      "*LogError*",
-      "*LogCritical*",
-      "*LogTrace*",
+      "LogDebug",
+      "LogInformation", 
+      "LogWarning",
+      "LogError",
+      "LogCritical",
+      "LogTrace",
+      "*Log*Debug*",
+      "*Log*Information*", 
+      "*Log*Warning*",
+      "*Log*Error*",
+      "*Log*Critical*",
+      "*Log*Trace*",
       "*Task.Delay*",
       "*ArgumentNullException*",
       "*ArgumentException*"
@@ -55,6 +60,10 @@
      "verbosity": "info",
      "concurrency": 6,
      "disable-bail": false,
-     "break-on-initial-test-failure": false
+     "break-on-initial-test-failure": false,
+     "report-file-name": "mutation-report",
+     "json": {
+       "enabled": true
+     }
   }
 } 
