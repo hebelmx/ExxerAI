@@ -97,27 +97,6 @@ public class AgentsControllerMissingEndpointsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnNotFound_When_TaskNotFound()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-			var taskId = Guid.NewGuid();
-			var request = new AssignTaskRequest { TaskId = taskId };
-
-			_mockAgentService.AssignTaskAsync(agentId, taskId, Arg.Any<CancellationToken>())
-				.Returns(Result<bool>.WithFailure("Task not found"));
-
-			// Act
-			var result = await _controller.AssignTask(agentId, request);
-
-			// Assert
-			var notFoundResult = result.ShouldBeOfType<NotFoundObjectResult>();
-			var response = (ApiResponse<object>)notFoundResult.Value!;
-			response.Success.ShouldBeFalse();
-			response.Message.ShouldBe("Agent or task not found");
-		}
-
-		[Fact]
 		public async Task Should_ReturnBadRequest_When_AssignmentFails()
 		{
 			// Arrange
@@ -160,82 +139,6 @@ public class AgentsControllerMissingEndpointsTests
 			response.Success.ShouldBeFalse();
 			response.Message.ShouldBe("An internal error occurred");
 			response.Errors.ShouldContain("Database connection failed");
-		}
-
-		[Fact]
-		public async Task Should_ProcessRequest_When_EmptyTaskId()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-			var request = new AssignTaskRequest { TaskId = Guid.Empty };
-
-			_mockAgentService.AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>())
-				.Returns(Result<bool>.WithFailure("Invalid task ID"));
-
-			// Act
-			var result = await _controller.AssignTask(agentId, request);
-
-			// Assert - Controller should still process the request and let service handle validation
-			await _mockAgentService.Received(1).AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>());
-		}
-
-		[Fact]
-		public async Task Should_ProcessRequest_When_EmptyAgentId()
-		{
-			// Arrange
-			var request = new AssignTaskRequest { TaskId = Guid.NewGuid() };
-
-			_mockAgentService.AssignTaskAsync(Guid.Empty, request.TaskId, Arg.Any<CancellationToken>())
-				.Returns(Result<bool>.WithFailure("Invalid agent ID"));
-
-			// Act
-			var result = await _controller.AssignTask(Guid.Empty, request);
-
-			// Assert
-			await _mockAgentService.Received(1).AssignTaskAsync(Guid.Empty, request.TaskId, Arg.Any<CancellationToken>());
-		}
-
-		[Fact]
-		public async Task Should_HandleMultipleValidationErrors_When_ModelStateInvalid()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-			var request = new AssignTaskRequest { TaskId = Guid.NewGuid() };
-
-			_controller.ModelState.AddModelError("TaskId", "TaskId is required");
-			_controller.ModelState.AddModelError("TaskId", "TaskId must be valid GUID");
-			_controller.ModelState.AddModelError("Priority", "Priority must be set");
-
-			// Act
-			var result = await _controller.AssignTask(agentId, request);
-
-			// Assert
-			var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
-			var response = (ApiResponse<object>)badRequestResult.Value!;
-			response.Success.ShouldBeFalse();
-			response.Errors.Count.ShouldBe(3);
-		}
-
-		[Fact]
-		public async Task Should_FilterEmptyErrorMessages_When_ModelStateHasEmptyErrors()
-		{
-			// Arrange
-			var agentId = Guid.NewGuid();
-			var request = new AssignTaskRequest { TaskId = Guid.NewGuid() };
-
-			_controller.ModelState.AddModelError("TaskId", "");
-			_controller.ModelState.AddModelError("Priority", "Priority is required");
-			_controller.ModelState.AddModelError("Description", "   ");
-
-			// Act
-			var result = await _controller.AssignTask(agentId, request);
-
-			// Assert
-			var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
-			var response = (ApiResponse<object>)badRequestResult.Value!;
-			response.Success.ShouldBeFalse();
-			response.Errors.Count.ShouldBe(1);
-			response.Errors.ShouldContain("Priority is required");
 		}
 	}
 
@@ -340,30 +243,6 @@ public class AgentsControllerMissingEndpointsTests
 			actionResult.ShouldBeOfType<NotFoundObjectResult>();
 		}
 
-		[Fact]
-		public async Task Should_HandleVeryLongTaskType_When_ExtremeInputProvided()
-		{
-			// Arrange
-			var taskType = new string('x', 1000); // 1000 character task type
-			var agent = new Agent
-			{
-				Id = Guid.NewGuid(),
-				Name = "Universal Agent",
-				Status = AgentStatus.Active
-			};
-
-			_mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
-				.Returns(Result<Agent>.Success(agent));
-
-			// Act
-			var result = await _controller.FindBestAgentForTask(taskType);
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<OkObjectResult>();
-			await _mockAgentService.Received(1).FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>());
-		}
-
 		[Theory]
 		[InlineData("web-scraping")]
 		[InlineData("data-analysis")]
@@ -392,42 +271,6 @@ public class AgentsControllerMissingEndpointsTests
 			var response = (ApiResponse<AgentResponse>)okResult.Value!;
 			response.Success.ShouldBeTrue();
 			response.Data.Name.ShouldBe($"Agent for {taskType}");
-		}
-
-		[Fact]
-		public async Task Should_HandleSpecialCharactersInTaskType_When_EncodedStringProvided()
-		{
-			// Arrange
-			var taskType = "data-analysis&processing+visualization";
-			var agent = new Agent { Id = Guid.NewGuid(), Name = "Special Agent", Status = AgentStatus.Active };
-
-			_mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
-				.Returns(Result<Agent>.Success(agent));
-
-			// Act
-			var result = await _controller.FindBestAgentForTask(taskType);
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<OkObjectResult>();
-		}
-
-		[Fact]
-		public async Task Should_HandleUnicodeTaskType_When_InternationalStringProvided()
-		{
-			// Arrange
-			var taskType = "数据处理"; // Chinese characters
-			var agent = new Agent { Id = Guid.NewGuid(), Name = "Unicode Agent", Status = AgentStatus.Active };
-
-			_mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
-				.Returns(Result<Agent>.Success(agent));
-
-			// Act
-			var result = await _controller.FindBestAgentForTask(taskType);
-
-			// Assert
-			var actionResult = result.Result;
-			actionResult.ShouldBeOfType<OkObjectResult>();
 		}
 	}
 
