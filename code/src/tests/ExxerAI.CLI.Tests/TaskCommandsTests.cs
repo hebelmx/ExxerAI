@@ -182,7 +182,7 @@ public class TaskCommandsTests
 		// Arrange
 		var taskId = Guid.NewGuid();
 		var args = new[] { "delete", taskId.ToString() };
-		_mockTaskRepository.DeleteAsync(taskId).Returns(Task.FromResult(Result.Success()));
+		_mockTaskRepository.DeleteAsync(taskId).Returns(Task.FromResult(Result<bool>.Success(true)));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
@@ -674,11 +674,11 @@ public class TaskCommandsTests
 		if (alias == "new")
 		{
 			var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-			_mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+			_mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
 		}
 		else if (alias == "remove" || alias == "rm")
 		{
-			_mockTaskRepository.DeleteAsync(Arg.Any<Guid>()).Returns(Result.Success());
+			_mockTaskRepository.DeleteAsync(Arg.Any<Guid>()).Returns(Task.FromResult(Result<bool>.Success(true)));
 		}
 		else if (alias == "info")
 		{
@@ -698,7 +698,7 @@ public class TaskCommandsTests
 	{
 		// Arrange
 		var args = new[] { "list" };
-		_mockTaskRepository.GetAllAsync().Throws(new InvalidOperationException("Test exception"));
+		_mockTaskRepository.When(x => x.GetAllAsync()).Do(x => throw new InvalidOperationException("Test exception"));
 
 		// Act
 		var exitCode = await _taskCommands.ExecuteAsync(args);
