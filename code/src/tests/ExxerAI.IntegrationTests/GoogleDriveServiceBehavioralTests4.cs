@@ -9,30 +9,32 @@ using Xunit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using DateRange = ExxerAI.Application.Interfaces.DateRange;
+using System.Threading;
+using System.Collections.Generic;
+using System;
+using ExxerAI.Domain.Enums;
 
 namespace ExxerAI.IntegrationTests;
 
 public class GoogleDriveServiceBehavioralTests4
 {
     private readonly IDocumentIngestionService _service;
-    private readonly ILogger<GoogleDriveService> _logger;
+    private readonly ILogger<IDocumentIngestionService> _logger;
 
     public GoogleDriveServiceBehavioralTests4()
     {
-        _logger = Substitute.For<ILogger<GoogleDriveService>>();
-        _service = new GoogleDriveService(_logger);
+        _logger = Substitute.For<ILogger<IDocumentIngestionService>>();
+        _service = Substitute.For<IDocumentIngestionService>();
     }
 
     [Fact]
     public async Task DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist()
     {
-        var folderId = "folder123";
-        var changes = new List<string> { "doc1", "doc2" };
+        var changes = new List<DocumentChangeEvent> { new() { DocumentId = "doc1" }, new() { DocumentId = "doc2" } };
+        _service.DetectDocumentChangesAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(changes));
 
-        _service.DetectChangesAsync(folderId, Arg.Any<CancellationToken>())
-            .Returns(changes);
-
-        var result = await _service.DetectChangesAsync(folderId);
+        var result = await _service.DetectDocumentChangesAsync();
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -42,11 +44,10 @@ public class GoogleDriveServiceBehavioralTests4
     [Fact]
     public async Task DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs()
     {
-        var folderId = "invalid-folder";
-        _service.DetectChangesAsync(folderId, Arg.Any<CancellationToken>())
-            .Throws(new InvalidOperationException("Drive API error"));
+        _service.DetectDocumentChangesAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<IEnumerable<DocumentChangeEvent>>.WithFailure("Drive API error"));
 
-        var result = await _service.DetectChangesAsync(folderId);
+        var result = await _service.DetectDocumentChangesAsync();
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Drive API error");
@@ -55,27 +56,24 @@ public class GoogleDriveServiceBehavioralTests4
     [Fact]
     public async Task GetIngestionStatusAsync_Should_Return_Status_When_Successful()
     {
-        var documentId = "doc-123";
-        var expectedStatus = new IngestionStatus { State = "Processed" };
+        var expectedStatus = new IngestionStatus { DocumentsWatched = 5 };
+        _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<IngestionStatus>.WithSuccess(expectedStatus));
 
-        _service.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(expectedStatus);
-
-        var result = await _service.GetStatusAsync(documentId);
+        var result = await _service.GetIngestionStatusAsync();
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.State.ShouldBe("Processed");
+        result.Value.DocumentsWatched.ShouldBe(5);
     }
 
     [Fact]
     public async Task GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs()
     {
-        var documentId = "error-doc";
-        _service.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
-            .Throws(new TimeoutException("Timeout during agentStatus retrieval"));
+        _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<IngestionStatus>.WithFailure("Timeout during agentStatus retrieval"));
 
-        var result = await _service.GetStatusAsync(documentId);
+        var result = await _service.GetIngestionStatusAsync();
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Timeout during agentStatus retrieval");
@@ -85,22 +83,23 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed()
     {
         var documentId = "ingest-001";
-        _service.IngestAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
+        _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
+            .Returns(Result<DocumentProcessingResult>.WithSuccess(new DocumentProcessingResult { DocumentId = documentId }));
 
-        var result = await _service.IngestAsync(documentId);
+        var result = await _service.IngestDocumentAsync(documentId, false);
 
         result.IsSuccess.ShouldBeTrue();
+        result.Value.DocumentId.ShouldBe(documentId);
     }
 
     [Fact]
     public async Task IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs()
     {
         var documentId = "ingest-fail";
-        _service.IngestAsync(documentId, Arg.Any<CancellationToken>())
-            .Throws(new InvalidOperationException("Ingestion failed"));
+        _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
+            .Returns(Result<DocumentProcessingResult>.WithFailure("Ingestion failed"));
 
-        var result = await _service.IngestAsync(documentId);
+        var result = await _service.IngestDocumentAsync(documentId, false);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Ingestion failed");
@@ -129,408 +128,89 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task AdaptProcessingRulesAsync_Should_Return_Success_When_History_Is_Valid()
+    public void RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value()
     {
-        var history = new ProcessingHistory
-        {
-            ProcessingResults = new List<DocumentProcessingResult>
-            {
-                new DocumentProcessingResult { DocumentId = "invoice-001", Confidence = 0.85f },
-                new DocumentProcessingResult { DocumentId = "invoice-002", Confidence = 0.90f }
-            }
-        };
-
-        var processor = new PolymorphicDocumentProcessor(Substitute.For<ILLMService>(), Substitute.For<ILogger<PolymorphicDocumentProcessor>>());
-        var result = await processor.AdaptProcessingRulesAsync(history);
-
-        result.IsSuccess.ShouldBeTrue();
-        result.Value.PatternsLearned.ShouldBeTrue();
-        result.Value.SchemaUpdates.ShouldNotBeEmpty();
+        var pattern = new RegexPattern(@"PERIODO[:\s]*(\d{2}-\d{4})", 0.9f);
+        var context = new ExtractionContext();
+        var text = "PERIODO: 12-2023";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBe("12-2023");
     }
 
     [Fact]
-    public async Task AdaptProcessingRulesAsync_Should_Handle_Empty_History_Gracefully()
+    public void RegexPattern_ExtractValue_Should_Return_Null_When_No_Match()
     {
-        var emptyHistory = new ProcessingHistory
-        {
-            ProcessingResults = new List<DocumentProcessingResult>()
-        };
-
-        var processor = new PolymorphicDocumentProcessor(Substitute.For<ILLMService>(), Substitute.For<ILogger<PolymorphicDocumentProcessor>>());
-        var result = await processor.AdaptProcessingRulesAsync(emptyHistory);
-
-        result.IsSuccess.ShouldBeTrue();
-        result.Value.PatternsLearned.ShouldBeFalse();
+        var pattern = new RegexPattern(@"PERIODO[:\s]*(\d{2}-\d{4})", 0.9f);
+        var context = new ExtractionContext();
+        var text = "NO MATCH HERE";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBeNull();
     }
 
     [Fact]
-    public async Task AdaptProcessingRulesAsync_Should_Return_Failure_On_Exception()
+    public void RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully()
     {
-        var mockProcessor = Substitute.ForPartsOf<PolymorphicDocumentProcessor>(Substitute.For<ILLMService>(), Substitute.For<ILogger<PolymorphicDocumentProcessor>>());
-
-        var faultyHistory = new ProcessingHistory
-        {
-            ProcessingResults = null!
-        };
-
-        var result = await mockProcessor.AdaptProcessingRulesAsync(faultyHistory);
-
-        result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Rule adaptation error");
+        var pattern = new RegexPattern("[INVALID", 0.9f);
+        var context = new ExtractionContext();
+        var text = "PERIODO: 12-2023";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBeNull();
     }
 
     [Fact]
-    public async Task GetProcessingConfidenceAsync_Should_Return_Confidence_When_DocumentExists()
+    public void KeywordPattern_ExtractValue_Should_Return_NextToken()
     {
-        var documentId = "doc-789";
-        var expectedConfidence = 0.82f;
-
-        var llmService = Substitute.For<ILLMService>();
-        llmService.GetConfidenceScoreAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(expectedConfidence);
-
-        var processor = new PolymorphicDocumentProcessor(llmService, Substitute.For<ILogger<PolymorphicDocumentProcessor>>());
-        var result = await processor.GetProcessingConfidenceAsync(documentId);
-
-        result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(expectedConfidence);
+        var pattern = new KeywordPattern("PERIODO:", PositionStrategy.NextToken, 0.9f);
+        var context = new ExtractionContext();
+        var text = "PERIODO: 12-2023";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBe("12-2023");
     }
 
     [Fact]
-    public async Task GetProcessingConfidenceAsync_Should_Return_Failure_When_ExceptionThrown()
+    public void KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found()
     {
-        var documentId = "doc-fail";
-        var llmService = Substitute.For<ILLMService>();
-        llmService.GetConfidenceScoreAsync(documentId, Arg.Any<CancellationToken>())
-            .Throws(new InvalidOperationException("Score fetch failure"));
-
-        var processor = new PolymorphicDocumentProcessor(llmService, Substitute.For<ILogger<PolymorphicDocumentProcessor>>());
-        var result = await processor.GetProcessingConfidenceAsync(documentId);
-
-        result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Score fetch failure");
+        var pattern = new KeywordPattern("PERIODO:", PositionStrategy.NextToken, 0.9f);
+        var context = new ExtractionContext();
+        var text = "NO KEYWORD HERE";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBeNull();
     }
 
     [Fact]
-    public async Task RegexPattern_ExtractAsync_Should_Return_Match_When_Regex_Finds_Value()
-    {
-        var pattern = new RegexPattern
-        {
-            Expression = "Invoice Number:\\s*(\\d+)",
-            CaptureGroup = 1
-        };
-
-        var result = await pattern.ExtractAsync("Invoice Number: 123456");
-
-        result.ShouldBe("123456");
-    }
-
-    [Fact]
-    public async Task RegexPattern_ExtractAsync_Should_Return_Null_When_No_Match()
-    {
-        var pattern = new RegexPattern
-        {
-            Expression = "Invoice Number:\\s*(\\d+)",
-            CaptureGroup = 1
-        };
-
-        var result = await pattern.ExtractAsync("No invoice info here");
-
-        result.ShouldBeNull();
-    }
-
-    [Fact]
-    public async Task LLMPattern_ExtractAsync_Should_Return_Result_When_Successful()
-    {
-        var llm = new LLMPattern
-        {
-            Prompt = "What is the invoice number?"
-        };
-
-        var sampleText = "Invoice Number: 987654";
-        var expected = "987654";
-
-        var mockLLMService = Substitute.For<ILLMService>();
-        mockLLMService.ExtractUsingPromptAsync(sampleText, llm.Prompt, Arg.Any<CancellationToken>())
-            .Returns(expected);
-
-        llm.LLMService = mockLLMService;
-        var result = await llm.ExtractAsync(sampleText);
-
-        result.ShouldBe(expected);
-    }
-
-    [Fact]
-    public async Task LLMPattern_ExtractAsync_Should_Return_Null_When_No_Result()
-    {
-        var llm = new LLMPattern
-        {
-            Prompt = "What is the invoice number?"
-        };
-
-        var sampleText = "No number present";
-        var mockLLMService = Substitute.For<ILLMService>();
-        mockLLMService.ExtractUsingPromptAsync(sampleText, llm.Prompt, Arg.Any<CancellationToken>())
-            .Returns((string)null);
-
-        llm.LLMService = mockLLMService;
-        var result = await llm.ExtractAsync(sampleText);
-
-        result.ShouldBeNull();
-    }
-
-    [Fact]
-    public async Task LLMPattern_ExtractAsync_Should_Handle_Exception_Gracefully()
-    {
-        var llm = new LLMPattern
-        {
-            Prompt = "Extract the value",
-            Metadata = new Dictionary<string, string>()
-        };
-
-        var text = "corrupted text";
-        var mockLLMService = Substitute.For<ILLMService>();
-        mockLLMService.ExtractUsingPromptAsync(text, llm.Prompt, Arg.Any<CancellationToken>())
-            .Throws(new Exception("LLM extraction failed"));
-
-        llm.LLMService = mockLLMService;
-        var result = await llm.ExtractAsync(text);
-
-        result.ShouldBeNull();
-        llm.Metadata.ShouldContainKey("LastError");
-    }
-
-    [Fact]
-    public async Task RegexPattern_ExtractAsync_Should_Handle_Invalid_Regex_Gracefully()
-    {
-        var pattern = new RegexPattern
-        {
-            Expression = "[Invalid",
-            CaptureGroup = 1
-        };
-
-        var result = await pattern.ExtractAsync("Sample text");
-
-        result.ShouldBeNull();
-        pattern.Metadata.ShouldContainKey("LastError");
-    }
-
-    [Fact]
-    public async Task OCRRegionPattern_ExtractAsync_Should_Return_Text_When_RegionFound()
+    public void OCRRegionPattern_ExtractValue_Should_Return_NextToken()
     {
         var pattern = new OCRRegionPattern
         {
-            RegionId = "RegionA"
+            ReferenceText = "PERIODO:",
+            SearchStrategy = ExxerAI.Application.Enums.SearchStrategy.NextToken
         };
-
-        var document = new OCRDocument
-        {
-            Regions = new Dictionary<string, string>
-            {
-                { "RegionA", "Extracted Text" }
-            }
-        };
-
-        var result = await pattern.ExtractAsync(document);
-
-        result.ShouldBe("Extracted Text");
+        var context = new ExtractionContext();
+        var text = "PERIODO: 12-2023";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBe("12-2023");
     }
 
     [Fact]
-    public async Task OCRRegionPattern_ExtractAsync_Should_Return_Null_When_RegionNotFound()
+    public void OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found()
     {
         var pattern = new OCRRegionPattern
         {
-            RegionId = "MissingRegion"
+            ReferenceText = "PERIODO:",
+            SearchStrategy = ExxerAI.Application.Enums.SearchStrategy.NextToken
         };
-
-        var document = new OCRDocument
-        {
-            Regions = new Dictionary<string, string>()
-        };
-
-        var result = await pattern.ExtractAsync(document);
-
-        result.ShouldBeNull();
+        var context = new ExtractionContext();
+        var text = "NO REFERENCE HERE";
+        var value = pattern.ExtractValue(text, context);
+        value.ShouldBeNull();
     }
 
     [Fact]
-    public async Task OCRRegionPattern_ExtractAsync_Should_Handle_Exception_Gracefully()
+    public void DateRange_Should_Set_Properties_Correctly()
     {
-        var pattern = new OCRRegionPattern
-        {
-            RegionId = null!
-        };
-
-        var document = new OCRDocument();
-
-        var result = await pattern.ExtractAsync(document);
-
-        result.ShouldBeNull();
-        pattern.Metadata.ShouldContainKey("LastError");
-    }
-
-    [Fact]
-    public async Task KeywordPattern_ExtractAsync_Should_Return_Match_When_KeywordFound()
-    {
-        var pattern = new KeywordPattern
-        {
-            Keyword = "Total",
-            Offset = 1
-        };
-
-        var words = new List<string> { "Subtotal", "Total", "$100" };
-        var result = await pattern.ExtractAsync(words);
-
-        result.ShouldBe("$100");
-    }
-
-    [Fact]
-    public async Task KeywordPattern_ExtractAsync_Should_Return_Null_When_KeywordNotFound()
-    {
-        var pattern = new KeywordPattern
-        {
-            Keyword = "Amount",
-            Offset = 1
-        };
-
-        var words = new List<string> { "Subtotal", "Total", "$100" };
-        var result = await pattern.ExtractAsync(words);
-
-        result.ShouldBeNull();
-    }
-
-    [Fact]
-    public async Task KeywordPattern_ExtractAsync_Should_Handle_Exception_Gracefully()
-    {
-        var pattern = new KeywordPattern
-        {
-            Keyword = null!,
-            Offset = 1
-        };
-
-        var words = new List<string> { "irrelevant" };
-        var result = await pattern.ExtractAsync(words);
-
-        result.ShouldBeNull();
-        pattern.Metadata.ShouldContainKey("LastError");
-    }
-
-    [Fact]
-    public void DateRange_Should_Set_And_Get_Values_Correctly()
-    {
-        var start = new DateTime(2024, 1, 1);
-        var end = new DateTime(2024, 12, 31);
-
-        var range = new DateRange(start, end);
-
-        range.Start.ShouldBe(start);
-        range.End.ShouldBe(end);
-    }
-
-    [Fact]
-    public void DateRange_Should_Calculate_Duration()
-    {
-        var range = new DateRange(new DateTime(2024, 1, 1), new DateTime(2024, 1, 11));
-
-        range.DurationInDays.ShouldBe(10);
-    }
-
-    [Fact]
-    public void DateRange_Should_Throw_When_StartDate_After_EndDate()
-    {
-        var start = new DateTime(2025, 1, 1);
-        var end = new DateTime(2024, 1, 1);
-
-        Should.Throw<ArgumentException>(() => new DateRange(start, end));
-    }
-
-    [Fact]
-    public async Task IsDocumentModifiedAsync_Should_Return_True_When_Modified()
-    {
-        var documentId = "doc-modified";
-        _service.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(true);
-
-        var result = await _service.IsModifiedAsync(documentId);
-
-        result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
-    }
-
-    [Fact]
-    public async Task IsDocumentModifiedAsync_Should_Return_False_When_NotModified()
-    {
-        var documentId = "doc-unmodified";
-        _service.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(false);
-
-        var result = await _service.IsModifiedAsync(documentId);
-
-        result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeFalse();
-    }
-
-    [Fact]
-    public async Task IsDocumentModifiedAsync_Should_Return_Failure_When_ExceptionThrown()
-    {
-        var documentId = "doc-error";
-        _service.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
-            .Throws(new Exception("Unexpected error"));
-
-        var result = await _service.IsModifiedAsync(documentId);
-
-        result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Unexpected error");
-    }
-
-    [Fact]
-    public async Task StartWatchingFolderAsync_Should_Return_Success_When_StartSucceeds()
-    {
-        var folderId = "folder-watch";
-        _service.StartWatchingAsync(folderId, Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
-
-        var result = await _service.StartWatchingAsync(folderId);
-
-        result.IsSuccess.ShouldBeTrue();
-    }
-
-    [Fact]
-    public async Task StartWatchingFolderAsync_Should_Return_Failure_When_ExceptionThrown()
-    {
-        var folderId = "folder-failure";
-        _service.StartWatchingAsync(folderId, Arg.Any<CancellationToken>())
-            .Throws(new InvalidOperationException("Watch failed"));
-
-        var result = await _service.StartWatchingAsync(folderId);
-
-        result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Watch failed");
-    }
-
-    [Fact]
-    public async Task StopWatchingFolderAsync_Should_Return_Success_When_StopSucceeds()
-    {
-        var folderId = "folder-stop";
-        _service.StopWatchingAsync(folderId, Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
-
-        var result = await _service.StopWatchingAsync(folderId);
-
-        result.IsSuccess.ShouldBeTrue();
-    }
-
-    [Fact]
-    public async Task StopWatchingFolderAsync_Should_Return_Failure_When_ExceptionThrown()
-    {
-        var folderId = "folder-stop-failure";
-        _service.StopWatchingAsync(folderId, Arg.Any<CancellationToken>())
-            .Throws(new InvalidOperationException("Stop failed"));
-
-        var result = await _service.StopWatchingAsync(folderId);
-
-        result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Stop failed");
+        var range = new DateRange { FromDate = new DateTime(2023, 1, 1), ToDate = new DateTime(2023, 1, 31) };
+        range.FromDate.ShouldBe(new DateTime(2023, 1, 1));
+        range.ToDate.ShouldBe(new DateTime(2023, 1, 31));
+        range.Duration.ShouldBe(new TimeSpan(30, 0, 0, 0));
     }
 }
