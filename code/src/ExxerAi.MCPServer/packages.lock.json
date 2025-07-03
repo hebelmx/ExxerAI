@@ -336,11 +336,6 @@
           "Microsoft.EntityFrameworkCore": "9.0.6"
         }
       },
-      "Microsoft.Extensions.AI.Abstractions": {
-        "type": "Transitive",
-        "resolved": "9.6.0",
-        "contentHash": "xGO7rHg3qK8jRdriAxIrsH4voNemCf8GVmgdcPXI5gpZ6lZWqOEM4ZO8yfYxUmg7+URw2AY1h7Uc/H17g7X1Kw=="
-      },
       "Microsoft.Extensions.DependencyModel": {
         "type": "Transitive",
         "resolved": "9.0.6",
@@ -549,11 +544,6 @@
         "resolved": "1.0.2",
         "contentHash": "JGkzeqgBsiZwKJZ1IxPNsDFZDhUvuEdX8L8BDC8N3KOj+6zMcNU28CNN59TpZE/VJYy9cP+5M+sbxtWJx3/xtw=="
       },
-      "System.Net.ServerSentEvents": {
-        "type": "Transitive",
-        "resolved": "10.0.0-preview.4.25258.110",
-        "contentHash": "5SG8yFN0e6y3VVaCMWSRYdDW15Apzg2LQoYUtl+jFrGb/+RLSMYmIdU9hO1hbHqpU0JD/lfBlCox0FebdAGGOQ=="
-      },
       "System.Runtime.Caching": {
         "type": "Transitive",
         "resolved": "6.0.0",
@@ -598,6 +588,12 @@
       "exxerai.domain": {
         "type": "Project"
       },
+      "Microsoft.Extensions.AI.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[9.6.0, )",
+        "resolved": "9.6.0",
+        "contentHash": "xGO7rHg3qK8jRdriAxIrsH4voNemCf8GVmgdcPXI5gpZ6lZWqOEM4ZO8yfYxUmg7+URw2AY1h7Uc/H17g7X1Kw=="
+      },
       "PdfPig": {
         "type": "CentralTransitive",
         "requested": "[0.1.10, )",
@@ -609,6 +605,12 @@
         "requested": "[3.1.10, )",
         "resolved": "3.1.10",
         "contentHash": "R1HEPcqx3v+kvlOTPouP0g/Nzzud9pHtjlgGbFax3Ivaz8kkaGfS2EPfyDGpmfoTUQ3nQ5wxdhYyYa9fwYA9cw=="
+      },
+      "System.Net.ServerSentEvents": {
+        "type": "CentralTransitive",
+        "requested": "[9.0.6, )",
+        "resolved": "9.0.6",
+        "contentHash": "gLRGZulz4D11qb9tGKlgxdSIQ8kB//x7u1nPJ8NaDyf1MZM+nLbzefXOWR9MUR+yGT/eI2iYTyj6pxwvQ5AzeQ=="
       }
     }
   }
