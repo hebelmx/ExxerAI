@@ -1,7 +1,10 @@
 ---
-mode: 'agent'
-tools: ['changes', 'codebase', 'editFiles', 'problems', 'search']
-description: 'Get best practices for XUnit unit testing, including data-driven tests'
+description: Get best practices for Entity Framework Core
+globs: 
+alwaysApply: false
+---
+**mode**: 'agent'
+**Objective**: 'Get best practices for XUnit unit testing, including data-driven tests'
 ---
 
 # XUnit Best Practices
@@ -43,22 +46,62 @@ Your goal is to help me write effective unit tests with XUnit, covering both sta
 - Create custom data attributes by implementing `DataAttribute`
 - Use meaningful parameter names in data-driven tests
 
-## Assertions
+## Assertions with Shouldly
 
-- Use `Assert.Equal` for value equality
-- Use `Assert.Same` for reference equality
-- Use `Assert.True`/`Assert.False` for boolean conditions
-- Use `Assert.Contains`/`Assert.DoesNotContain` for collections
-- Use `Assert.Matches`/`Assert.DoesNotMatch` for regex pattern matching
-- Use `Assert.Throws<T>` or `await Assert.ThrowsAsync<T>` to test exceptions
-- Use fluent assertions library for more readable assertions
+- Prefer `Shouldly` over `Assert.*` for improved readability and diagnostics
+- Avoid mixing `Assert` and `Shouldly` in the same test method
+- Use fluent assertions that clearly express intent
 
-## Mocking and Isolation
+- Core Assertions
+	- `value.ShouldBe(expected)` for value equality
+	- `object.ShouldBeSameAs(expected)` for reference equality
+	- `object.ShouldNotBeSameAs(unexpected)` for reference inequality
+	- `condition.ShouldBeTrue()` / `condition.ShouldBeFalse()` for booleans
+	- `object.ShouldBeNull()` / `object.ShouldNotBeNull()` for null checks
+- Collection Assertions
+	- `collection.ShouldBeEmpty()` or `ShouldNotBeEmpty()`
+	- `collection.ShouldContain(item)` / `ShouldNotContain(item)`
+	- `collection.ShouldBeSubsetOf(superSet)`
+- String Assertions
+	- `text.ShouldContain("substring")` / `ShouldNotContain("substring")`
+	- `text.ShouldStartWith("prefix")` / `ShouldEndWith("suffix")`
+	- `text.ShouldBeNullOrEmpty()` / `ShouldBeNullOrWhiteSpace()`
 
-- Consider using Moq or NSubstitute alongside XUnit
-- Mock dependencies to isolate units under test
-- Use interfaces to facilitate mocking
+- Numeric Assertions
+	- `number.ShouldBeGreaterThan(value)` / `ShouldBeLessThan(value)`
+	- `number.ShouldBeInRange(min, max)`
+
+- DateTime Assertions
+
+	- `dateTime.ShouldBeInRange(start, end)`
+
+- Exception Assertions
+
+	- `Should.Throw<ExceptionType>(() => action())`
+	- `await Should.ThrowAsync<ExceptionType>(async () => await actionAsync())`
+
+
+## Mocking and Isolation with NSubstitute
+
+- Use `NSubstitute` for creating and configuring mocks
+- Prefer mocking via interfaces or virtual members
+- Create substitutes using `Substitute.For<T>()`
+- Use `Returns(...)` to define return values
+- Use `Received()` to assert calls were made
+- Use `DidNotReceive()` to assert calls were not made
+- Mock async methods with `Returns(Task.FromResult(...))` or `ReturnsAsync(...)`
 - Consider using a DI container for complex test setups
+
+- Basic Examples
+
+	```csharp
+	var service = Substitute.For<IMyService>();
+	service.DoWork().Returns("done");
+
+	var result = service.DoWork();
+
+	result.ShouldBe("done");
+	service.Received(1).DoWork();
 
 ## Test Organization
 

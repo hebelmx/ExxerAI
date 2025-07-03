@@ -1,5 +1,10 @@
 ---
-description: 'Documentation and content creation standards'
+description: Markdown Content Rules
+globs: 
+alwaysApply: false
+---
+
+###Objective:### 'Markdown Content Rules'
 applyTo: '**/*.md'
 ---
 

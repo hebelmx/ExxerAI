@@ -3,8 +3,8 @@ description: Guidelines for building C# applications
 globs: '**/*.cs'
 alwaysApply: false
 ---
----
-#Objective: 'Guidelines for building C# applications'
+
+###Objective: 'Guidelines for building C# applications'
 
 # C# Development We always prefer Functional C# S
 
