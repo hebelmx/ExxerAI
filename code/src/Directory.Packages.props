@@ -66,7 +66,7 @@
 		<PackageVersion Include="FakeClock" Version="1.1.1" />
 		<!-- System -->
 		<PackageVersion Include="System.Data.DataSetExtensions" Version="4.5.0" />
-		<PackageVersion Include="System.Net.ServerSentEvents" Version="9.0.6" />
+		<PackageVersion Include="System.Net.ServerSentEvents" Version="10.0.0-preview.4.25258.110" />
 		<PackageVersion Include="System.IO.Pipelines" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.Bcl.Memory" Version="4.5.5" />
 		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.6" />
