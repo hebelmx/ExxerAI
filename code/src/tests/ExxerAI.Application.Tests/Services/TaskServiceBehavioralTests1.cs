@@ -13,13 +13,13 @@ using Xunit;
 
 namespace ExxerAI.Application.Tests.Services
 {
-    public class TaskServiceBehavioralTests1
+    public class TaskRepositoryBehavioralTests1
     {
         private readonly ITaskRepository _taskRepository;
         private readonly ILogger<TaskService> _logger;
         private readonly TaskService _service;
 
-        public TaskServiceBehavioralTests1()
+        public TaskRepositoryBehavioralTests1()
         {
             _taskRepository = Substitute.For<ITaskRepository>();
             _logger = Substitute.For<ILogger<TaskService>>();
