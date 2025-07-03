@@ -1,4 +1,5 @@
 using ExxerAI.Application.Interfaces;
+using ExxerAI.Application.DTOs;
 
 namespace ExxerAI.Application.Data;
 

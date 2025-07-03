@@ -343,7 +343,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// </summary>
     private async Task<Dictionary<string, object>> ApplyPatternDictionaryAsync(
         string text, 
-        Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>> patterns,
+        Dictionary<string, List<ExtractionPattern>> patterns,
         CancellationToken cancellationToken = default)
     {
         var extractedFields = new Dictionary<string, object>();
@@ -435,7 +435,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// Updates pattern statistics based on successful extractions
     /// </summary>
     private async Task UpdatePatternStatisticsAsync(
-        Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>> patterns,
+        Dictionary<string, List<ExtractionPattern>> patterns,
         Dictionary<string, object> extractedFields,
         CancellationToken cancellationToken)
     {

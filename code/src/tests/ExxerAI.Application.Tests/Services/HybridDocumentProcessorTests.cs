@@ -566,32 +566,32 @@ public class HybridDocumentProcessorTests
         ProcessedRegions = new List<OCRRegion>()
     };
 
-    private static Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>> CreateSamplePatterns()
+    private static Dictionary<string, List<ExtractionPattern>> CreateSamplePatterns()
     {
-        var patterns = new Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>>();
+        var patterns = new Dictionary<string, List<ExtractionPattern>>();
 
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "");
 
-        patterns["registro_patronal"] = new List<ExxerAI.Application.Interfaces.ExtractionPattern> { registroPattern };
+        patterns["registro_patronal"] = new List<ExtractionPattern> { registroPattern };
         return patterns;
     }
 
-    private static Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>> CreateSamplePatternsWithMockExtraction()
+    private static Dictionary<string, List<ExtractionPattern>> CreateSamplePatternsWithMockExtraction()
     {
-        var patterns = new Dictionary<string, List<ExxerAI.Application.Interfaces.ExtractionPattern>>();
+        var patterns = new Dictionary<string, List<ExtractionPattern>>();
 
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "TEST123456");
         var periodoPattern = new TestExtractionPattern("Regex", 0.90f, "ENERO 2024");
 
-        patterns["registro_patronal"] = new List<ExxerAI.Application.Interfaces.ExtractionPattern> { registroPattern };
-        patterns["periodo_imss"] = new List<ExxerAI.Application.Interfaces.ExtractionPattern> { periodoPattern };
+        patterns["registro_patronal"] = new List<ExtractionPattern> { registroPattern };
+        patterns["periodo_imss"] = new List<ExtractionPattern> { periodoPattern };
         return patterns;
     }
 
     /// <summary>
     /// Test implementation of ExtractionPattern for unit testing
     /// </summary>
-    private class TestExtractionPattern : ExxerAI.Application.Interfaces.ExtractionPattern
+    private class TestExtractionPattern : ExtractionPattern
     {
         private readonly string _patternType;
         private readonly string _returnValue;
