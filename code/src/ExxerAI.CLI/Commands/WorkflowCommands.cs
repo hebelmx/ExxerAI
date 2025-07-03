@@ -33,7 +33,7 @@ public class WorkflowCommands
 			"list" or "ls" => await ListWorkflows(),
 			"create" or "new" => await CreateWorkflow(commandArgs),
 			"execute" or "run" => await ExecuteWorkflow(commandArgs),
-			"agentStatus" or "info" => await ShowWorkflowStatus(commandArgs),
+			"agentstatus" or "info" => await ShowWorkflowStatus(commandArgs),
 			"help" or "--help" or "-h" => ShowWorkflowHelp(),
 			_ => ShowUnknownWorkflowCommand(subCommand)
 		};

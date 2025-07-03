@@ -59,7 +59,7 @@ public class TaskCommands
 			"assign" => await AssignTask(commandArgs),
 			"update" => await UpdateTaskStatus(commandArgs),
 			"delete" or "remove" or "rm" => await DeleteTask(commandArgs),
-			"agentStatus" or "info" => await ShowTaskStatus(commandArgs),
+			"agentstatus" or "info" => await ShowTaskStatus(commandArgs),
 			"overdue" => await ListOverdueTasks(),
 			"help" or "--help" or "-h" => ShowTaskHelp(),
 			_ => ShowUnknownTaskCommand(subCommand)

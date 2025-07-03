@@ -57,7 +57,7 @@ public class AgentCommands
 			"list" or "ls" => await ListAgents(commandArgs),
 			"create" or "new" => await CreateAgent(commandArgs),
 			"delete" or "remove" or "rm" => await DeleteAgent(commandArgs),
-			"agentStatus" or "info" => await ShowAgentStatus(commandArgs),
+			"agentstatus" or "info" => await ShowAgentStatus(commandArgs),
 			"update" => await UpdateAgent(commandArgs),
 			"activate" => await ActivateAgent(commandArgs),
 			"deactivate" => await DeactivateAgent(commandArgs),
