@@ -32,10 +32,10 @@ namespace ExxerAI.Application.Tests.Services
             // Arrange
             var pendingTasks = new List<AgentTask>
             {
-                new() { Id = Guid.NewGuid(), AgentStatus = TaskStatus.Pending },
-                new() { Id = Guid.NewGuid(), AgentStatus = TaskStatus.Pending }
+                new() { Id = Guid.NewGuid(), AgentStatus = TaskAgentStatus.Pending },
+                new() { Id = Guid.NewGuid(), AgentStatus = TaskAgentStatus.Pending }
             };
-            _taskRepository.GetPendingTasksAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+            _taskRepository.GetByTypeAsync(Arg.Any<string>(), Arg.Any<TaskAgentStatus>(), Arg.Any<CancellationToken>())
                 .Returns(pendingTasks);
 
             // Act
@@ -44,15 +44,15 @@ namespace ExxerAI.Application.Tests.Services
             // Assert
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
-            result.Value.Count().ShouldBe(2);
-            result.Value.All(t => t.AgentStatus == TaskStatus.Pending).ShouldBeTrue();
+            result.Value!.Count().ShouldBe(2);
+            result.Value.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
         }
 
         [Fact]
         public async Task GetPendingTasksAsync_Should_Return_Empty_When_NoPendingTasks()
         {
             // Arrange
-            _taskRepository.GetPendingTasksAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
+            _taskRepository.GetByTypeAsync(Arg.Any<string>(), Arg.Any<TaskAgentStatus>(), Arg.Any<CancellationToken>())
                 .Returns(new List<AgentTask>());
 
             // Act
@@ -67,11 +67,21 @@ namespace ExxerAI.Application.Tests.Services
         [Fact]
         public async Task UpdateTaskStatusAsync_Should_Return_Success_When_UpdateSucceeds()
         {
-            // Arrange
             var taskId = Guid.NewGuid();
-            var newStatus = TaskStatus.Completed;
-            _taskRepository.UpdateStatusAsync(taskId, newStatus, Arg.Any<CancellationToken>())
-                .Returns(Result.Success());
+
+            var task = new AgentTask
+            {
+                Id = taskId,
+                AgentStatus = TaskAgentStatus.Pending
+            };
+            // Arrange
+            _taskRepository.GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
+                .Returns(task);
+            var newStatus = TaskAgentStatus.Completed;
+            task.AgentStatus = newStatus;
+
+            _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
+                .Returns(Result<AgentTask>.Success(task));
 
             // Act
             var result = await _service.UpdateTaskStatusAsync(taskId, newStatus);
@@ -85,11 +95,11 @@ namespace ExxerAI.Application.Tests.Services
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            _taskRepository.UpdateStatusAsync(taskId, Arg.Any<TaskStatus>(), Arg.Any<CancellationToken>())
-                .Returns(Result.Failure("Update failed"));
+            _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())
+                .Returns(Result<AgentTask>.WithFailure("Update failed"));
 
             // Act
-            var result = await _service.UpdateTaskStatusAsync(taskId, TaskStatus.Completed);
+            var result = await _service.UpdateTaskStatusAsync(taskId, TaskAgentStatus.Completed);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();

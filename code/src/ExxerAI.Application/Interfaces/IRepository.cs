@@ -69,7 +69,7 @@ public interface IAgentRepository : IRepository<Domain.Agent>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of agents with the specified agentStatus</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Agent>>> GetByStatusAsync(
-        Domain.AgentStatus status, 
+        Domain.AgentStatus status,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -79,7 +79,7 @@ public interface IAgentRepository : IRepository<Domain.Agent>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of agents that support the task type</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Agent>>> FindByTaskTypeAsync(
-        string taskType, 
+        string taskType,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -103,7 +103,7 @@ public interface ITaskRepository : IRepository<Domain.AgentTask>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of tasks with the specified agentStatus</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.AgentTask>>> GetByStatusAsync(
-        Domain.TaskAgentStatus agentStatus, 
+        Domain.TaskAgentStatus agentStatus,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -114,8 +114,8 @@ public interface ITaskRepository : IRepository<Domain.AgentTask>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of tasks assigned to the agent</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.AgentTask>>> GetByAgentAsync(
-        Guid agentId, 
-        Domain.TaskAgentStatus? status = null, 
+        Guid agentId,
+        Domain.TaskAgentStatus? status = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -134,8 +134,8 @@ public interface ITaskRepository : IRepository<Domain.AgentTask>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of tasks of the specified type</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.AgentTask>>> GetByTypeAsync(
-        string taskType, 
-        Domain.TaskAgentStatus? status = null, 
+        string taskType,
+        Domain.TaskAgentStatus? status = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -157,7 +157,7 @@ public interface IWorkflowRepository : IRepository<Domain.Workflow>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of workflows with the specified agentStatus</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Workflow>>> GetByStatusAsync(
-        Domain.WorkflowStatus status, 
+        Domain.WorkflowStatus status,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -168,8 +168,8 @@ public interface IWorkflowRepository : IRepository<Domain.Workflow>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of workflow executions</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.WorkflowExecution>>> GetExecutionsAsync(
-        Guid workflowId, 
-        Domain.WorkflowExecutionStatus? status = null, 
+        Guid workflowId,
+        Domain.WorkflowExecutionStatus? status = null,
         CancellationToken cancellationToken = default);
 }
 
@@ -193,7 +193,7 @@ public interface ILanguageModelRepository : IRepository<Domain.LanguageModel>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of language models from the specified provider</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.LanguageModel>>> GetByProviderAsync(
-        string provider, 
+        string provider,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -203,7 +203,7 @@ public interface ILanguageModelRepository : IRepository<Domain.LanguageModel>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The best model for the capability if found</returns>
     Task<ExxerAI.Domain.Result<Domain.LanguageModel>> FindBestModelForCapabilityAsync(
-        string capability, 
+        string capability,
         CancellationToken cancellationToken = default);
 }
 
@@ -220,8 +220,8 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of conversations for the agent</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Conversation>>> GetByAgentAsync(
-        Guid agentId, 
-        Domain.ConversationStatus? status = null, 
+        Guid agentId,
+        Domain.ConversationStatus? status = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -231,7 +231,7 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of conversations using the model</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Conversation>>> GetByLanguageModelAsync(
-        Guid modelId, 
+        Guid modelId,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -241,7 +241,7 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of messages in the conversation</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.ConversationMessage>>> GetMessagesAsync(
-        Guid conversationId, 
+        Guid conversationId,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -251,6 +251,6 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The added message</returns>
     Task<ExxerAI.Domain.Result<Domain.ConversationMessage>> AddMessageAsync(
-        Domain.ConversationMessage message, 
+        Domain.ConversationMessage message,
         CancellationToken cancellationToken = default);
-} 
+}

@@ -35,7 +35,7 @@ public class WorkflowServiceBehavioralTests5
         // Arrange
         var workflowId = Guid.NewGuid();
         _workflowRepository.CancelAsync(workflowId, Arg.Any<CancellationToken>())
-            .Returns(Result.Failure("Cancellation failed"));
+            .Returns(Result.WithFailure("Cancellation failed"));
 
         // Act
         var result = await _service.CancelWorkflowExecutionAsync(workflowId);
