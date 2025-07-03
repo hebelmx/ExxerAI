@@ -212,7 +212,7 @@ public class GoogleDriveServiceBehavioralTests4
     {
         var pattern = new RegexPattern
         {
-            Expression = "Invoice Number:\s*(\d+)",
+            Expression = "Invoice Number:\\s*(\\d+)",
             CaptureGroup = 1
         };
 
@@ -226,7 +226,7 @@ public class GoogleDriveServiceBehavioralTests4
     {
         var pattern = new RegexPattern
         {
-            Expression = "Invoice Number:\s*(\d+)",
+            Expression = "Invoice Number:\\s*(\\d+)",
             CaptureGroup = 1
         };
 
