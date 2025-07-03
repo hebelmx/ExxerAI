@@ -1,7 +1,10 @@
 ---
-mode: 'agent'
-tools: ['changes', 'codebase', 'editFiles', 'problems']
-description: 'Get best practices for C# async programming'
+description: Async Programming Best Practices
+globs: 
+alwaysApply: false
+---
+
+#Objective: 'Get best practices for C# async programming'
 ---
 
 # C# Async Programming Best Practices
@@ -18,7 +21,8 @@ Your goal is to help me follow best practices for asynchronous programming in C#
 - Return `Task<T>` when the method returns a value
 - Return `Task` when the method doesn't return a value
 - Consider `ValueTask<T>` for high-performance scenarios to reduce allocations
-- Avoid returning `void` for async methods except for event handlers
+- Consider `ValueTask<T>` for caching scenarios when only the first task is really async.
+- Never returning `void` or `void` for async methods void only allowed for event handlers
 
 ## Exception Handling
 

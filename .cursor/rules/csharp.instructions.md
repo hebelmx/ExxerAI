@@ -1,14 +1,12 @@
 ---
 description: Guidelines for building C# applications
-globs: 
+globs: '**/*.cs'
 alwaysApply: false
 ---
 ---
-description: 'Guidelines for building C# applications'
-applyTo: '**/*.cs'
----
+#Objective: 'Guidelines for building C# applications'
 
-# C# Development
+# C# Development We always prefer Functional C# S
 
 ## C# Instructions
 - Always use the latest version C#, currently C# 13 features.
@@ -48,7 +46,9 @@ applyTo: '**/*.cs'
 
 - Declare variables non-nullable, and check for `null` at entry points.
 - Always use `is null` or `is not null` instead of `== null` or `!= null`.
-- Dont't trust the C# null annotations and don't add null checks when the type system says a value cannot be null.
+- Dont't trust the C# null annotations and do due dilligence checks when the type system says a value cannot be null.
+- Never throw NullReferenceException, use the partern builder and return a Result<T>.WithFailures and a list of null objects as Result
+- 
 
 ## Data Access Patterns
 

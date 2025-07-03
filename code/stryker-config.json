@@ -60,7 +60,6 @@
     "coverage-analysis": "perTestInIsolation",
     "reporters": ["html", "progress", "json"],
     "verbosity": "info",
-    log-to-file: 
     "concurrency": 8,
     "disable-bail": false,
     "break-on-initial-test-failure": false,

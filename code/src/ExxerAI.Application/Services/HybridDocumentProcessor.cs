@@ -1,4 +1,5 @@
 using ExxerAI.Application.Interfaces;
+using ExxerAI.Application.DTOs;
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
@@ -508,95 +509,4 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         
         return TimeSpan.FromMilliseconds(averageTimePerDocument * remaining);
     }
-}
-
-/// <summary>
-/// Learning feedback structure for schema updates
-/// </summary>
-public class LearningFeedback
-{
-    /// <summary>
-    /// Gets or sets the document type
-    /// </summary>
-    public string DocumentType { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the extracted fields
-    /// </summary>
-    public Dictionary<string, object> ExtractedFields { get; set; } = new();
-
-    /// <summary>
-    /// Gets or sets the overall confidence score
-    /// </summary>
-    public float OverallConfidence { get; set; }
-
-    /// <summary>
-    /// Gets or sets the validation results
-    /// </summary>
-    public ValidationResult? ValidationResults { get; set; }
-}
-
-/// <summary>
-/// Placeholder interfaces that would be implemented in infrastructure layer
-/// </summary>
-public interface IDirectTextExtractor
-{
-    Task<DirectTextResult> ExtractTextAsync(byte[] documentData, CancellationToken cancellationToken = default);
-}
-
-/// <summary>
-/// OCR processor interface
-/// </summary>
-public interface IOCRProcessor
-{
-    Task<OCRResult> ProcessDocumentWithOCRAsync(byte[] documentData, string language, CancellationToken cancellationToken = default);
-}
-
-/// <summary>
-/// Region-specific OCR interface
-/// </summary>
-public interface IRegionSpecificOCR
-{
-    Task<List<RegionExtractionResult>> ExtractKeyFieldsByRegionAsync(byte[] documentData, List<string> fieldNames, CancellationToken cancellationToken = default);
-}
-
-/// <summary>
-/// Document schema learning engine interface
-/// </summary>
-public interface IDocumentSchemaLearningEngine
-{
-    Task UpdateSchemaFromFeedbackAsync(SchemaDefinition schema, LearningFeedback feedback, CancellationToken cancellationToken = default);
-}
-
-/// <summary>
-/// Direct text extraction result
-/// </summary>
-public class DirectTextResult
-{
-    public bool IsSuccessful { get; set; }
-    public string Text { get; set; } = string.Empty;
-    public float Confidence { get; set; }
-    public bool HasMeaningfulContent => !string.IsNullOrWhiteSpace(Text) && Text.Length > 50;
-}
-
-/// <summary>
-/// OCR processing result
-/// </summary>
-public class OCRResult
-{
-    public bool IsSuccessful { get; set; }
-    public string Text { get; set; } = string.Empty;
-    public float Confidence { get; set; }
-    public List<OCRRegion> ProcessedRegions { get; set; } = new();
-}
-
-/// <summary>
-/// Region extraction result
-/// </summary>
-public class RegionExtractionResult
-{
-    public string FieldName { get; set; } = string.Empty;
-    public string ExtractedValue { get; set; } = string.Empty;
-    public float Confidence { get; set; }
-    public BoundingBox Region { get; set; } = new();
 } 

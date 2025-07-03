@@ -14,6 +14,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     private readonly IPolymorphicDocumentProcessor _documentProcessor;
     private readonly IDocumentHashGenerator _hashGenerator;
     private readonly ILogger<DocumentIngestionService> _logger;
+    private readonly GoogleDriveEngine _googleDriveEngine;
+    private readonly DocumentProcessingEngine _processingEngine;
+    private readonly MetricsEngine _metricsEngine;
+    private readonly HealthMonitoringEngine _healthEngine;
 
     // Simulated watch sessions for demonstration (in real implementation this would be persistent storage)
     private readonly Dictionary<string, WatchSession> _activeSessions = new();
@@ -34,6 +38,13 @@ public class DocumentIngestionService : IDocumentIngestionService
         _documentProcessor = documentProcessor ?? throw new ArgumentNullException(nameof(documentProcessor));
         _hashGenerator = hashGenerator ?? throw new ArgumentNullException(nameof(hashGenerator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
+        // Initialize focused engine components
+        var loggerFactory = Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance;
+        _googleDriveEngine = new GoogleDriveEngine(loggerFactory.CreateLogger<GoogleDriveEngine>());
+        _processingEngine = new DocumentProcessingEngine(loggerFactory.CreateLogger<DocumentProcessingEngine>());
+        _metricsEngine = new MetricsEngine(loggerFactory.CreateLogger<MetricsEngine>());
+        _healthEngine = new HealthMonitoringEngine(loggerFactory.CreateLogger<HealthMonitoringEngine>());
     }
 
     public DocumentIngestionService(IDocumentWatchService watchService, IVersionDetectionEngine versionEngine, IDocumentHashGenerator hashGenerator, IPolymorphicDocumentProcessor documentProcessor, IPrimarySourceOfTruthSystem truthSystem, IDocumentNotificationService notificationService, ILogger<DocumentIngestionService> logger)
@@ -76,7 +87,7 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // In a real implementation, this would set up the Google Drive API watch
             // For now, we'll simulate this with a placeholder
-            await SimulateGoogleDriveWatchSetupAsync(folderId, sessionId, cancellationToken);
+            await _googleDriveEngine.SimulateGoogleDriveWatchSetupAsync(folderId, sessionId, cancellationToken);
 
             return Result<string>.WithSuccess(sessionId);
         }
@@ -109,7 +120,7 @@ public class DocumentIngestionService : IDocumentIngestionService
                 watchId, session.FolderId);
 
             // In a real implementation, this would clean up the Google Drive API watch
-            await SimulateGoogleDriveWatchCleanupAsync(watchId, cancellationToken);
+            await _googleDriveEngine.SimulateGoogleDriveWatchCleanupAsync(watchId, cancellationToken);
 
             return Result<bool>.WithSuccess(true);
         }
@@ -188,11 +199,11 @@ public class DocumentIngestionService : IDocumentIngestionService
             // For deleted documents, handle separately
             if (changeEvent.ChangeType == DocumentChangeType.Deleted)
             {
-                return await HandleDocumentDeletionAsync(changeEvent, cancellationToken);
+                return await _processingEngine.HandleDocumentDeletionAsync(changeEvent, cancellationToken);
             }
 
             // Download and process the document
-            var documentData = await DownloadDocumentAsync(changeEvent.DocumentId, cancellationToken);
+            var documentData = await _googleDriveEngine.DownloadDocumentAsync(changeEvent.DocumentId, cancellationToken);
             if (!documentData.IsSuccess)
             {
                 return Result<DocumentProcessingResult>.WithFailure($"Failed to download document: {documentData.Error}");
@@ -256,7 +267,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             // Check if document was already processed (unless forcing reprocess)
             if (!forceReprocess)
             {
-                var existingResult = await CheckExistingDocumentAsync(documentId, cancellationToken);
+                var existingResult = await _processingEngine.CheckExistingDocumentAsync(documentId, cancellationToken);
                 if (existingResult.IsSuccess && existingResult.Data != null)
                 {
                     _logger.LogDebug("Document {DocumentId} already processed, returning existing result", documentId);
@@ -265,13 +276,13 @@ public class DocumentIngestionService : IDocumentIngestionService
             }
 
             // Download document metadata and content
-            var metadataResult = await GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _googleDriveEngine.GetDocumentMetadataAsync(documentId, cancellationToken);
             if (!metadataResult.IsSuccess)
             {
                 return Result<DocumentProcessingResult>.WithFailure($"Failed to get metadata: {metadataResult.Error}");
             }
 
-            var documentData = await DownloadDocumentAsync(documentId, cancellationToken);
+            var documentData = await _googleDriveEngine.DownloadDocumentAsync(documentId, cancellationToken);
             if (!documentData.IsSuccess)
             {
                 return Result<DocumentProcessingResult>.WithFailure($"Failed to download document: {documentData.Error}");
@@ -311,7 +322,7 @@ public class DocumentIngestionService : IDocumentIngestionService
         {
             // In a real implementation, this would check the Google Drive API for modification time
             // For demonstration, we'll simulate this check
-            var metadataResult = await GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _googleDriveEngine.GetDocumentMetadataAsync(documentId, cancellationToken);
             if (!metadataResult.IsSuccess)
             {
                 return Result<bool>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
@@ -347,17 +358,17 @@ public class DocumentIngestionService : IDocumentIngestionService
             var status = new IngestionStatus
             {
                 DocumentsWatched = totalDocumentsWatched,
-                DocumentsProcessedToday = await GetDocumentsProcessedTodayAsync(cancellationToken),
-                DocumentsProcessedThisWeek = await GetDocumentsProcessedThisWeekAsync(cancellationToken),
+                DocumentsProcessedToday = await _metricsEngine.GetDocumentsProcessedTodayAsync(cancellationToken),
+                DocumentsProcessedThisWeek = await _metricsEngine.GetDocumentsProcessedThisWeekAsync(cancellationToken),
                 ActiveWatchSessions = activeSessions.Count,
                 PendingChanges = _pendingChanges.Count,
-                AverageProcessingTimeMs = await GetAverageProcessingTimeAsync(cancellationToken),
-                SystemHealth = await DetermineSystemHealthAsync(cancellationToken),
+                AverageProcessingTimeMs = await _metricsEngine.GetAverageProcessingTimeAsync(cancellationToken),
+                SystemHealth = await _healthEngine.DetermineSystemHealthAsync(activeSessions.Count, cancellationToken),
                 LastProcessingTime = activeSessions.Any() ?
                     activeSessions.Max(s => s.LastProcessedAt ?? DateTime.MinValue) :
                     DateTime.MinValue,
-                SystemMessages = await GetSystemMessagesAsync(cancellationToken),
-                Metrics = await GetDetailedMetricsAsync(cancellationToken)
+                SystemMessages = await _healthEngine.GetSystemMessagesAsync(_activeSessions.Count, _pendingChanges.Count, cancellationToken),
+                Metrics = await _metricsEngine.GetDetailedMetricsAsync(_activeSessions.Count, _pendingChanges.Count, cancellationToken)
             };
 
             return Result<IngestionStatus>.WithSuccess(status);
@@ -369,157 +380,7 @@ public class DocumentIngestionService : IDocumentIngestionService
         }
     }
 
-    #region Private Implementation Methods
 
-    private async Task SimulateGoogleDriveWatchSetupAsync(string folderId, string sessionId, CancellationToken cancellationToken)
-    {
-        // Simulate API call delay
-        await Task.Delay(100, cancellationToken);
-
-        // In a real implementation, this would set up Google Drive API push notifications
-        _logger.LogDebug("Simulated Google Drive watch setup for folder {FolderId} session {SessionId}", folderId, sessionId);
-    }
-
-    private async Task SimulateGoogleDriveWatchCleanupAsync(string sessionId, CancellationToken cancellationToken)
-    {
-        // Simulate API call delay
-        await Task.Delay(50, cancellationToken);
-
-        // In a real implementation, this would clean up Google Drive API push notifications
-        _logger.LogDebug("Simulated Google Drive watch cleanup for session {SessionId}", sessionId);
-    }
-
-    private async Task<Result<DocumentProcessingResult>> HandleDocumentDeletionAsync(DocumentChangeEvent changeEvent, CancellationToken cancellationToken)
-    {
-        _logger.LogInformation("Handling deletion of document {DocumentId}", changeEvent.DocumentId);
-
-        // In a real implementation, this would:
-        // 1. Mark the document as deleted in the primary source of truth
-        // 2. Preserve embeddings for audit purposes
-        // 3. Update any related documents
-
-        await Task.Delay(10, cancellationToken); // Simulate processing
-
-        return Result<DocumentProcessingResult>.WithSuccess(new DocumentProcessingResult
-        {
-            DocumentId = changeEvent.DocumentId,
-            Confidence = 1.0f,
-            LLMConfidence = 1.0f,
-            GroundingConfidence = 1.0f,
-            ProcessingTimeMs = 10,
-            ExtractedText = "[Document Deleted]"
-        });
-    }
-
-    private async Task<Result<byte[]>> DownloadDocumentAsync(string documentId, CancellationToken cancellationToken)
-    {
-        // Simulate document download
-        await Task.Delay(200, cancellationToken);
-
-        // In a real implementation, this would use Google Drive API to download the document
-        // For demonstration, return simulated document content
-        var simulatedContent = System.Text.Encoding.UTF8.GetBytes($"Simulated content for document {documentId}");
-
-        _logger.LogDebug("Simulated download of document {DocumentId} ({Size} bytes)", documentId, simulatedContent.Length);
-
-        return Result<byte[]>.WithSuccess(simulatedContent);
-    }
-
-    private async Task<Result<DocumentMetadata>> GetDocumentMetadataAsync(string documentId, CancellationToken cancellationToken)
-    {
-        // Simulate metadata retrieval
-        await Task.Delay(50, cancellationToken);
-
-        // In a real implementation, this would get metadata from Google Drive API
-        var metadata = new DocumentMetadata
-        {
-            DocumentId = documentId,
-            FileName = $"Document_{documentId}.pdf",
-            DocumentType = DocumentType.Unknown,
-            SourcePath = $"/drive/documents/{documentId}",
-            CreatedDate = DateTime.UtcNow.AddDays(-Random.Shared.Next(1, 30)),
-            ModifiedDate = DateTime.UtcNow.AddHours(-Random.Shared.Next(1, 24)),
-            FileSize = Random.Shared.Next(1000, 100000),
-            MimeType = "application/pdf"
-        };
-
-        return Result<DocumentMetadata>.WithSuccess(metadata);
-    }
-
-    private async Task<Result<DocumentProcessingResult?>> CheckExistingDocumentAsync(string documentId, CancellationToken cancellationToken)
-    {
-        // Simulate checking existing document in primary source of truth
-        await Task.Delay(20, cancellationToken);
-
-        // In a real implementation, this would query the document store
-        // For demonstration, assume no existing document
-        return Result<DocumentProcessingResult?>.WithSuccess(null);
-    }
-
-    private async Task<int> GetDocumentsProcessedTodayAsync(CancellationToken cancellationToken)
-    {
-        // Simulate metric calculation
-        await Task.Delay(10, cancellationToken);
-        return Random.Shared.Next(0, 50);
-    }
-
-    private async Task<int> GetDocumentsProcessedThisWeekAsync(CancellationToken cancellationToken)
-    {
-        // Simulate metric calculation
-        await Task.Delay(10, cancellationToken);
-        return Random.Shared.Next(0, 300);
-    }
-
-    private async Task<double> GetAverageProcessingTimeAsync(CancellationToken cancellationToken)
-    {
-        // Simulate metric calculation
-        await Task.Delay(10, cancellationToken);
-        return Random.Shared.NextDouble() * 5000 + 1000; // 1-6 seconds
-    }
-
-    private async Task<HealthStatus> DetermineSystemHealthAsync(CancellationToken cancellationToken)
-    {
-        // Simulate health check
-        await Task.Delay(10, cancellationToken);
-
-        // In a real implementation, this would check various system components
-        var activeSessionCount = _activeSessions.Count(s => s.Value.IsActive);
-        return activeSessionCount > 0 ? HealthStatus.Healthy : HealthStatus.Warning;
-    }
-
-    private async Task<List<string>> GetSystemMessagesAsync(CancellationToken cancellationToken)
-    {
-        await Task.Delay(10, cancellationToken);
-
-        var messages = new List<string>();
-
-        if (_activeSessions.Count == 0)
-        {
-            messages.Add("No active watch sessions");
-        }
-
-        if (_pendingChanges.Count > 10)
-        {
-            messages.Add($"{_pendingChanges.Count} pending changes to process");
-        }
-
-        return messages;
-    }
-
-    private async Task<Dictionary<string, object>> GetDetailedMetricsAsync(CancellationToken cancellationToken)
-    {
-        await Task.Delay(10, cancellationToken);
-
-        return new Dictionary<string, object>
-        {
-            ["total_sessions_created"] = _activeSessions.Count,
-            ["active_sessions"] = _activeSessions.Count(s => s.Value.IsActive),
-            ["pending_changes"] = _pendingChanges.Count,
-            ["last_health_check"] = DateTime.UtcNow
-        };
-    }
-
-    #endregion Private Implementation Methods
 }
 
 /// <summary>

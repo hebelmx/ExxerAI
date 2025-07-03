@@ -25,6 +25,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     private readonly ILLMService _llmService;
     private readonly ILogger<PolymorphicDocumentProcessor> _logger;
     private readonly Dictionary<DocumentType, SchemaDefinition> _schemas;
+    private readonly TextExtractionEngine _textExtractor;
+    private readonly FieldExtractionEngine _fieldExtractor;
+    private readonly ValidationEngine _validator;
+    private readonly SchemaLearningEngine _learner;
 
     /// <summary>
     /// Initializes a new instance of the PolymorphicDocumentProcessor class
@@ -37,7 +41,15 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     {
         _llmService = llmService;
         _logger = logger;
-        _schemas = InitializeKnownSchemas();
+        
+        // Initialize focused engine components
+        var loggerFactory = Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance;
+        _textExtractor = new TextExtractionEngine(loggerFactory.CreateLogger<TextExtractionEngine>());
+        _fieldExtractor = new FieldExtractionEngine(loggerFactory.CreateLogger<FieldExtractionEngine>());
+        _validator = new ValidationEngine(loggerFactory.CreateLogger<ValidationEngine>());
+        _learner = new SchemaLearningEngine(loggerFactory.CreateLogger<SchemaLearningEngine>());
+        
+        _schemas = _learner.InitializeKnownSchemas();
     }
 
     /// <summary>
@@ -67,7 +79,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             };
 
             // Stage 1: Direct Text Extraction
-            var textExtractionResult = await ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
+            var textExtractionResult = await _textExtractor.ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
             if (textExtractionResult.IsSuccess)
             {
                 result.ExtractedText = textExtractionResult.Value!;
@@ -81,7 +93,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 _logger.LogInformation("Direct text extraction failed, falling back to OCR");
                 result.ExtractionMethod = ExtractionMethod.OCR;
 
-                var ocrResult = await ExtractTextViaOCRAsync(documentData, metadata, cancellationToken);
+                var ocrResult = await _textExtractor.ExtractTextViaOCRAsync(documentData, metadata, cancellationToken);
                 if (ocrResult.IsSuccess)
                 {
                     result.ExtractedText = ocrResult.Value!;
@@ -94,8 +106,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             }
 
             // Stage 3: Field Extraction using schema
-            var schema = GetOrCreateSchema(metadata.DocumentType, result.ExtractedText);
-            var extractionResult = await ExtractFieldsUsingSchemaAsync(result.ExtractedText, schema, cancellationToken);
+            var schema = _learner.GetOrCreateSchema(metadata.DocumentType, result.ExtractedText, _schemas);
+            var extractionResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(result.ExtractedText, schema, cancellationToken);
             if (extractionResult.IsSuccess)
             {
                 // Cannot assign to init-only ExtractedFields, but can assign to regular GroundedData property
@@ -107,7 +119,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             // Stage 4: LLM Verification (if enabled and confidence is low)
             if (metadata.ProcessingOptions.UseLLMExtraction && result.Confidence < 0.8f)
             {
-                var llmResult = await VerifyWithLLMAsync(result, schema, cancellationToken);
+                var llmResult = await _validator.VerifyWithLLMAsync(result, schema, cancellationToken);
                 if (llmResult.IsSuccess)
                 {
                     result.LLMConfidence = llmResult.Value!;
@@ -120,7 +132,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             }
 
             // Stage 5: Value Validation and Grounding
-            var validationResult = await ValidateExtractedDataAsync(result.GroundedData, metadata, cancellationToken);
+            var validationResult = await _validator.ValidateExtractedDataAsync(result.GroundedData, metadata, cancellationToken);
             if (validationResult.IsSuccess)
             {
                 result.ValidationResults = validationResult.Value!;
@@ -164,7 +176,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 FileName = document.FileName
             };
             
-            var textResult = await ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
+            var textResult = await _textExtractor.ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
             if (!textResult.IsSuccess)
             {
                 return Result<ExtractionResult>.WithFailure($"Text extraction failed: {textResult.Error}");
@@ -178,7 +190,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 Fields = schema.Fields.ToList() // ExtractionSchema.Fields is already List<FieldDefinition>
             };
 
-            var extractedDataResult = await ExtractFieldsUsingSchemaAsync(textResult.Value!, schemaDefinition, cancellationToken);
+            var extractedDataResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(textResult.Value!, schemaDefinition, cancellationToken);
             if (!extractedDataResult.IsSuccess)
             {
                 return Result<ExtractionResult>.WithFailure(extractedDataResult.Error);
@@ -218,7 +230,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         GroundTruthContext context,
         CancellationToken cancellationToken = default)
     {
-        return await ValidateExtractedDataAsync(data,
+        return await _validator.ValidateExtractedDataAsync(data,
             new DocumentMetadata { Properties = context.Properties },
             cancellationToken);
     }
@@ -246,7 +258,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             if (successfulResults.Any())
             {
                 // Group by document type and analyze patterns
-                var groupedByType = successfulResults.GroupBy(r => ExtractDocumentTypeFromId(r.DocumentId));
+                var groupedByType = successfulResults.GroupBy(r => SchemaLearningEngine.ExtractDocumentTypeFromId(r.DocumentId));
 
                 foreach (var group in groupedByType)
                 {
@@ -262,7 +274,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 PatternsLearned = successfulResults.Any(),
                 NewPatterns = patterns,
                 SchemaUpdates = schemaUpdates,
-                ConfidenceImprovement = successfulResults.Any() ? CalculateConfidenceImprovement(successfulResults) : 0.0f
+                ConfidenceImprovement = successfulResults.Any() ? SchemaLearningEngine.CalculateConfidenceImprovement(successfulResults) : 0.0f
             };
 
             _logger.LogInformation("Rule adaptation completed, learned {PatternCount} new patterns",
@@ -302,7 +314,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                     DocumentType = sample.Type,
                     FileName = sample.FileName
                 };
-                var textResult = await ExtractTextDirectlyAsync(sample.Content, metadata, cancellationToken);
+                var textResult = await _textExtractor.ExtractTextDirectlyAsync(sample.Content, metadata, cancellationToken);
                 if (textResult.IsSuccess)
                 {
                     extractedTexts.Add(textResult.Value!);
@@ -315,7 +327,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 Name = $"Learned_{documentType}_{DateTime.UtcNow:yyyyMMdd}",
                 DocumentType = documentType,
                 CreatedAt = DateTime.UtcNow,
-                Fields = AnalyzeFieldPatterns(extractedTexts, documentType)
+                Fields = SchemaLearningEngine.AnalyzeFieldPatterns(extractedTexts, documentType)
             };
 
             _logger.LogInformation("Schema learning completed, discovered {FieldCount} fields",
@@ -352,253 +364,5 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         return Task.FromResult(Result<float>.WithSuccess(confidence));
     }
 
-    #region Private Implementation Methods
 
-    private Task<Result<string>> ExtractTextDirectlyAsync(
-        byte[] documentData,
-        DocumentMetadata metadata,
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            if (metadata.FileName.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase))
-            {
-                // TODO: Implement PDF text extraction when PdfPig is properly resolved
-                // For now, return placeholder text
-                var placeholderText = $"PDF text extraction placeholder for {metadata.FileName}";
-                return Task.FromResult(Result<string>.WithSuccess(placeholderText));
-            }
-            else
-            {
-                // For non-PDF files, attempt to read as text
-                var text = Encoding.UTF8.GetString(documentData);
-                return Task.FromResult(Result<string>.WithSuccess(text));
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "Direct text extraction failed for {FileName}", metadata.FileName);
-            return Task.FromResult(Result<string>.WithFailure($"Direct text extraction failed: {ex.Message}"));
-        }
-    }
-
-    private async Task<Result<string>> ExtractTextViaOCRAsync(
-        byte[] documentData,
-        DocumentMetadata metadata,
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            // OCR implementation would go here using Tesseract
-            // For now, return a placeholder
-            await Task.Delay(100, cancellationToken); // Simulate OCR processing time
-
-            _logger.LogInformation("OCR processing completed for {FileName}", metadata.FileName);
-            return Result<string>.WithSuccess("OCR extracted text placeholder");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "OCR extraction failed for {FileName}", metadata.FileName);
-            return Result<string>.WithFailure($"OCR extraction failed: {ex.Message}");
-        }
-    }
-
-    private Task<Result<ExtractedData>> ExtractFieldsUsingSchemaAsync(
-        string text,
-        SchemaDefinition schema,
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            var extractedData = new ExtractedData();
-
-            foreach (var field in schema.Fields)
-            {
-                var value = ExtractFieldValue(text, field);
-                if (value != null)
-                {
-                    extractedData.Fields[field.Name] = value;
-                    extractedData.FieldConfidences[field.Name] = field.ConfidenceThreshold;
-                    extractedData.FieldSources[field.Name] = "Schema extraction";
-                }
-            }
-
-            _logger.LogDebug("Extracted {FieldCount} fields using schema {SchemaName}",
-                extractedData.Fields.Count, schema.Name);
-
-            return Task.FromResult(Result<ExtractedData>.WithSuccess(extractedData));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error extracting fields using schema");
-            return Task.FromResult(Result<ExtractedData>.WithFailure($"Field extraction error: {ex.Message}"));
-        }
-    }
-
-    private static string? ExtractFieldValue(string text, FieldDefinition field)
-    {
-        try
-        {
-            if (!string.IsNullOrEmpty(field.PrimaryPattern))
-            {
-                var regex = new Regex(field.PrimaryPattern, RegexOptions.IgnoreCase | RegexOptions.Multiline);
-                var match = regex.Match(text);
-                if (match.Success)
-                {
-                    return match.Groups.Count > 1 ? match.Groups[1].Value.Trim() : match.Value.Trim();
-                }
-            }
-
-            return null;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    private async Task<Result<float>> VerifyWithLLMAsync(
-        DocumentProcessingResult result,
-        SchemaDefinition schema,
-        CancellationToken cancellationToken)
-    {
-        try
-        {
-            // LLM verification would analyze the extracted data for consistency
-            // This is a placeholder implementation
-            var llmConfidence = Math.Min(result.Confidence + 0.1f, 1.0f);
-
-            _logger.LogDebug("LLM verification completed with confidence {Confidence:F2}", llmConfidence);
-            return Result<float>.WithSuccess(llmConfidence);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogWarning(ex, "LLM verification failed");
-            return Result<float>.WithSuccess(result.Confidence); // Fallback to original confidence
-        }
-    }
-
-    private Task<Result<ValidationResult>> ValidateExtractedDataAsync(
-        ExtractedData data,
-        DocumentMetadata metadata,
-        CancellationToken cancellationToken)
-    {
-        var validation = new ValidationResult
-        {
-            IsValid = true,
-            Confidence = 1.0f
-        };
-
-        // Perform basic validation on extracted fields
-        foreach (var field in data.Fields)
-        {
-            var fieldValidation = ValidateField(field.Key, field.Value);
-            validation.FieldResults[field.Key] = fieldValidation;
-
-            if (!fieldValidation.IsValid)
-            {
-                validation.IsValid = false;
-                validation.Errors.Add($"Field {field.Key}: {fieldValidation.ErrorMessage}");
-                validation.Confidence *= 0.9f; // Reduce confidence for validation errors
-            }
-        }
-
-        return Task.FromResult(Result<ValidationResult>.WithSuccess(validation));
-    }
-
-    private static FieldValidationResult ValidateField(string fieldName, object value)
-    {
-        var result = new FieldValidationResult { IsValid = true, Confidence = 1.0f };
-
-        // Basic validation rules
-        if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
-        {
-            result.IsValid = false;
-            result.ErrorMessage = "Field value is empty";
-            result.Confidence = 0.0f;
-        }
-
-        return result;
-    }
-
-    private Dictionary<DocumentType, SchemaDefinition> InitializeKnownSchemas()
-    {
-        var schemas = new Dictionary<DocumentType, SchemaDefinition>();
-
-        // IMSS Payment Schema (based on KpiExxerpro patterns)
-        var imssSchema = new SchemaDefinition
-        {
-            Name = "IMSS_Payment_Schema",
-            DocumentType = DocumentType.IMSSPayment,
-            Fields = new List<FieldDefinition>
-            {
-                new("PaymentPeriod", FieldType.Date_MMYYYY, true, @"(?:PERIODO|PERIOD)[:\s]*(\d{2}-\d{4})"),
-                new("Amount", FieldType.Currency, true, @"(?:IMPORTE|TOTAL)[:\s]*\$?([0-9,]+\.?\d*)"),
-                new("EmployerNumber", FieldType.AlphaNumeric, true, @"(?:REGISTRO PATRONAL|REG\.?\s*PAT)[:\s]*([A-Z0-9\-]+)"),
-                new("PaymentDate", FieldType.Date, false, @"(?:FECHA)[:\s]*(\d{1,2}\/\d{1,2}\/\d{4})")
-            }
-        };
-        schemas[DocumentType.IMSSPayment] = imssSchema;
-
-        return schemas;
-    }
-
-    private SchemaDefinition GetOrCreateSchema(DocumentType documentType, string extractedText)
-    {
-        if (_schemas.TryGetValue(documentType, out var schema))
-        {
-            return schema;
-        }
-
-        // Create a dynamic schema based on document type
-        return new SchemaDefinition
-        {
-            Name = $"Dynamic_{documentType}_Schema",
-            DocumentType = documentType,
-            Fields = AnalyzeFieldPatterns(new[] { extractedText }, documentType)
-        };
-    }
-
-    private static List<FieldDefinition> AnalyzeFieldPatterns(IEnumerable<string> texts, DocumentType documentType)
-    {
-        var fields = new List<FieldDefinition>();
-
-        // Common patterns based on document type
-        switch (documentType)
-        {
-            case DocumentType.Invoice:
-                fields.Add(new FieldDefinition("InvoiceNumber", FieldType.AlphaNumeric, true, @"(?:INVOICE|FACTURA)[:\s#]*([A-Z0-9\-]+)"));
-                fields.Add(new FieldDefinition("Total", FieldType.Currency, true, @"(?:TOTAL)[:\s]*\$?([0-9,]+\.?\d*)"));
-                break;
-
-            case DocumentType.TaxDocument:
-                fields.Add(new FieldDefinition("TaxId", FieldType.AlphaNumeric, true, @"(?:RFC)[:\s]*([A-Z0-9]+)"));
-                fields.Add(new FieldDefinition("TaxAmount", FieldType.Currency, false, @"(?:IMPUESTO)[:\s]*\$?([0-9,]+\.?\d*)"));
-                break;
-        }
-
-        return fields;
-    }
-
-    private static DocumentType ExtractDocumentTypeFromId(string documentId)
-    {
-        // Extract document type from document ID patterns
-        return documentId.ToLowerInvariant() switch
-        {
-            var id when id.Contains("imss") => DocumentType.IMSSPayment,
-            var id when id.Contains("invoice") => DocumentType.Invoice,
-            var id when id.Contains("tax") => DocumentType.TaxDocument,
-            _ => DocumentType.Unknown
-        };
-    }
-
-    private static float CalculateConfidenceImprovement(List<DocumentProcessingResult> results)
-    {
-        if (!results.Any()) return 0.0f;
-
-        var averageConfidence = results.Average(r => r.OverallConfidence);
-        return Math.Min(averageConfidence * 0.1f, 0.2f); // Cap improvement at 20%
-    }
-
-    #endregion Private Implementation Methods
 }
