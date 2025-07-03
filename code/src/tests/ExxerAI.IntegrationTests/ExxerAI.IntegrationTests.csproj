@@ -64,6 +64,7 @@
 		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
 		<ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
 		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+		<ProjectReference Include="..\..\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
 	</ItemGroup>
 
 </Project>

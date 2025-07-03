@@ -5,7 +5,6 @@ namespace ExxerAI.Application.Tests.Services;
 public class WorkflowServiceBehavioralTests5
 {
     private readonly IWorkflowRepository _workflowRepository;
-
     private readonly WorkflowService _service;
 
     public WorkflowServiceBehavioralTests5()
@@ -15,33 +14,35 @@ public class WorkflowServiceBehavioralTests5
     }
 
     [Fact]
-    public async Task CancelWorkflowExecutionAsync_Should_Return_Success_When_CancellationCompletes()
+    public async Task GetWorkflowAsync_Should_Return_Success_When_WorkflowExists()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        _workflowRepository.CancelAsync(workflowId, Arg.Any<CancellationToken>())
-            .Returns(Result.Success());
+        var expectedWorkflow = new Domain.Workflow { Id = workflowId, Name = "Test Workflow" };
+        _workflowRepository.GetByIdAsync(workflowId, Arg.Any<CancellationToken>())
+            .Returns(ExxerAI.Domain.Result<Domain.Workflow>.WithSuccess(expectedWorkflow));
 
         // Act
-        var result = await _service.CancelWorkflowExecutionAsync(workflowId);
+        var result = await _service.GetWorkflowAsync(workflowId);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
+        result.Value.Name.ShouldBe("Test Workflow");
     }
 
     [Fact]
-    public async Task CancelWorkflowExecutionAsync_Should_Return_Failure_When_RepositoryFails()
+    public async Task GetWorkflowAsync_Should_Return_Failure_When_WorkflowNotFound()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        _workflowRepository.CancelAsync(workflowId, Arg.Any<CancellationToken>())
-            .Returns(Result.WithFailure("Cancellation failed"));
+        _workflowRepository.GetByIdAsync(workflowId, Arg.Any<CancellationToken>())
+            .Returns(ExxerAI.Domain.Result<Domain.Workflow>.WithFailure("Workflow not found"));
 
         // Act
-        var result = await _service.CancelWorkflowExecutionAsync(workflowId);
+        var result = await _service.GetWorkflowAsync(workflowId);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldBe("Cancellation failed");
+        result.Error.ShouldBe("Workflow not found");
     }
 }

@@ -1,5 +1,8 @@
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Configuration;
+using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAi.MCPServer.Application.Services;
 using DateRange = ExxerAI.Application.Interfaces.DateRange;
 using KeywordPattern = ExxerAI.Application.Interfaces.KeywordPattern;
 using RegexPattern = ExxerAI.Application.Interfaces.RegexPattern;
@@ -8,15 +11,15 @@ namespace ExxerAI.Application.Tests.Services;
 
 public class GoogleDriveServiceBehavioralTests4
 {
-    private readonly IGoogleDriveClient _driveClient;
+    private readonly IGoogleDriveService _driveClient;
     private readonly ILogger<GoogleDriveService> _logger;
     private readonly GoogleDriveService _service;
 
     public GoogleDriveServiceBehavioralTests4()
     {
-        _driveClient = Substitute.For<IGoogleDriveClient>();
+        _driveClient = Substitute.For<IGoogleDriveService>();
         _logger = Substitute.For<ILogger<GoogleDriveService>>();
-        _service = new GoogleDriveService(_driveClient, _logger);
+        _service = new GoogleDriveService(_logger, Substitute.For<IConfiguration>());
     }
 
     [Fact]
