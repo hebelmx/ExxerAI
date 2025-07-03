@@ -359,21 +359,21 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             {
                 try
                 {
-                    var extractedValue = await pattern.ExtractAsync(text);
+                    var extractedValue = pattern.ExtractValue(text, new ExtractionContext());
                     
                     if (!string.IsNullOrWhiteSpace(extractedValue))
                     {
                         extractedFields[fieldName] = extractedValue;
                         
-                        _logger.LogDebug("Field '{FieldName}' extracted using {PatternType} pattern: '{Value}'", 
-                            fieldName, pattern.PatternType, extractedValue);
+                        _logger.LogDebug("Field '{FieldName}' extracted using pattern '{PatternId}': '{Value}'", 
+                            fieldName, pattern.Id, extractedValue);
                         break; // Move to next field once we have a successful extraction
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, "Pattern extraction failed for field '{FieldName}' with pattern type '{PatternType}': {ErrorMessage}", 
-                        fieldName, pattern.PatternType, ex.Message);
+                    _logger.LogWarning(ex, "Pattern extraction failed for field '{FieldName}' with pattern '{PatternId}': {ErrorMessage}", 
+                        fieldName, pattern.Id, ex.Message);
                 }
             }
         }
@@ -448,7 +448,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                 {
                     try
                     {
-                        var testResult = await pattern.ExtractAsync(value.ToString() ?? "");
+                        var testResult = pattern.ExtractValue(value.ToString() ?? "", new ExtractionContext());
                         if (!string.IsNullOrWhiteSpace(testResult))
                         {
                             var learningResult = new PatternLearningResult

@@ -8,10 +8,7 @@ namespace ExxerAI.Domain.DocumentProcessing;
 /// </summary>
 public class LLMPattern : ExtractionPattern
 {
-    /// <summary>
-    /// Gets the pattern type identifier
-    /// </summary>
-    public override string PatternType => "LLM";
+
 
     /// <summary>
     /// Gets or sets the LLM prompt for field extraction
@@ -30,11 +27,10 @@ public class LLMPattern : ExtractionPattern
     /// <param name="text">Text to extract from</param>
     /// <param name="context">Processing context with LLM access</param>
     /// <returns>Extracted value or null if not found</returns>
-    public override async Task<string?> ExtractAsync(string text, ExtractionContext? context = null)
+    public override string? ExtractValue(string text, ExtractionContext context)
     {
         // Placeholder for LLM integration
         // In real implementation, this would call the LLM service
-        await Task.CompletedTask;
         return null; // LLM integration would be implemented in the concrete service
     }
 } 

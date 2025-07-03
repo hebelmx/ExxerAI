@@ -1,8 +1,7 @@
 using System.Reflection;
-using Shouldly;
 using NetArchTest.Rules;
 
-namespace Architecture.Tests.Enumeration;
+namespace ExxerAI.Architecture.Tests;
 
 public class ClassDuplicationTests
 {

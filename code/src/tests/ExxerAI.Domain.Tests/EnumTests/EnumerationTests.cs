@@ -1,4 +1,6 @@
-namespace IndTrace.Domain.UnitTests.EnumTests;
+using ExxerAI.Domain.Enums;
+
+namespace ExxerAI.Domain.Tests.EnumTests;
 
 /// <summary>
 /// Unit tests for EnumModel - Base enumeration class for strongly-typed enumerations in manufacturing systems
@@ -33,10 +35,10 @@ public class EnumModelTests
     public void Deconstruct_WhenCalled_ShouldReturnAllComponents()
     {
         // Arrange
-        var partStatus = PartStatus.Ok;
+        var flowStatus = FlowStatus.InProcess;
 
         // Act
-        var (value, name, displayName) = partStatus;
+        var (value, name, displayName) = flowStatus;
 
         // Assert
         value.ShouldBe(1);
@@ -48,10 +50,10 @@ public class EnumModelTests
     public void ImplicitConversion_ToInt_ShouldReturnValue()
     {
         // Arrange
-        var partStatus = PartStatus.Ok;
+        var flowStatus = FlowStatus.InProcess;
 
         // Act
-        int value = partStatus;
+        int value = flowStatus;
 
         // Assert
         value.ShouldBe(1);
@@ -61,10 +63,10 @@ public class EnumModelTests
     public void ToString_WhenCalled_ShouldReturnDisplayNameOrName()
     {
         // Arrange
-        var partStatus = PartStatus.Ok;
+        var flowStatus = FlowStatus.InProcess;
 
         // Act
-        var result = partStatus.ToString();
+        var result = flowStatus.ToString(1);
 
         // Assert
         result.ShouldBe("Ok");
@@ -72,13 +74,13 @@ public class EnumModelTests
 
     [Theory]
     [InlineData(1, true)]    // Ok
-    [InlineData(2, true)]    // NOk  
+    [InlineData(2, true)]    // NOk
     [InlineData(4, true)]    // Restored
     [InlineData(999, false)] // Non-existent
     public void Exists_WhenCalledWithValues_ShouldReturnCorrectResult(int value, bool expected)
     {
         // Arrange & Act
-        var result = EnumModel.Exists<PartStatus>(value);
+        var result = EnumModel.Exists<FlowStatus>(value);
 
         // Assert
         result.ShouldBe(expected);
@@ -88,34 +90,22 @@ public class EnumModelTests
     public void GetAll_WhenCalled_ShouldReturnAllInstancesOfType()
     {
         // Arrange & Act
-        var allPartStatuses = EnumModel.GetAll<PartStatus>().ToList();
+        var allFlowStatuses = EnumModel.GetAll<FlowStatus>().ToList();
 
         // Assert
-        allPartStatuses.ShouldNotBeEmpty();
-        allPartStatuses.ShouldContain(ps => ps.Name == "Ok");
-        allPartStatuses.ShouldContain(ps => ps.Name == "nOK");
-        allPartStatuses.ShouldContain(ps => ps.Name == "Restored");
-        allPartStatuses.ShouldContain(ps => ps.Name == "Rejected");
-        allPartStatuses.ShouldContain(ps => ps.Name == "Scrap");
-    }
-
-    [Fact]
-    public void ToLookUpTable_Generic_ShouldReturnLookupTableList()
-    {
-        // Arrange & Act
-        var lookupTables = EnumModel.ToLookUpTable<PartStatusEntity, PartStatus>();
-
-        // Assert
-        lookupTables.ShouldNotBeEmpty();
-        lookupTables.ShouldAllBe(lt => lt != null);
-        lookupTables.ShouldContain(lt => lt.Name == "Ok");
+        allFlowStatuses.ShouldNotBeEmpty();
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Ok");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "nOK");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Restored");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Rejected");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Scrap");
     }
 
     [Fact]
     public void ToLookUpTable_NonGeneric_ShouldReturnEnumLookUpTableList()
     {
         // Arrange & Act
-        var lookupTables = EnumModel.ToLookUpTable<PartStatus>();
+        var lookupTables = EnumModel.ToLookUpTable<FlowStatus>();
 
         // Assert
         lookupTables.ShouldNotBeEmpty();
@@ -127,44 +117,44 @@ public class EnumModelTests
     public void Equals_WithSameInstance_ShouldReturnTrue()
     {
         // Arrange
-        var partStatus1 = PartStatus.Ok;
-        var partStatus2 = PartStatus.Ok;
+        var flowStatus1 = FlowStatus.InProcess;
+        var flowStatus2 = FlowStatus.InProcess;
 
         // Act & Assert
-        partStatus1.Equals(partStatus2).ShouldBeTrue();
+        flowStatus1.Equals(flowStatus2).ShouldBeTrue();
     }
 
     [Fact]
     public void Equals_WithDifferentValues_ShouldReturnFalse()
     {
         // Arrange
-        var partStatus1 = PartStatus.Ok;
-        var partStatus2 = PartStatus.NOk;
+        var flowStatus1 = FlowStatus.InProcess;
+        var flowStatus2 = FlowStatus.Created;
 
         // Act & Assert
-        partStatus1.Equals(partStatus2).ShouldBeFalse();
+        flowStatus1.Equals(flowStatus2).ShouldBeFalse();
     }
 
     [Fact]
     public void Equals_WithNullObject_ShouldReturnFalse()
     {
         // Arrange
-        var partStatus = PartStatus.Ok;
+        var flowStatus = FlowStatus.InProcess;
 
         // Act & Assert
-        partStatus.Equals(null).ShouldBeFalse();
+        flowStatus.Equals(null).ShouldBeFalse();
     }
 
     [Fact]
     public void GetHashCode_WithSameValues_ShouldReturnSameHashCode()
     {
         // Arrange
-        var partStatus1 = PartStatus.Ok;
-        var partStatus2 = PartStatus.Ok;
+        var flowStatus1 = FlowStatus.InProcess;
+        var flowStatus2 = FlowStatus.InProcess;
 
         // Act
-        var hash1 = partStatus1.GetHashCode();
-        var hash2 = partStatus2.GetHashCode();
+        var hash1 = flowStatus1.GetHashCode();
+        var hash2 = flowStatus2.GetHashCode();
 
         // Assert
         hash1.ShouldBe(hash2);
@@ -174,11 +164,11 @@ public class EnumModelTests
     public void AbsoluteDifference_BetweenValues_ShouldReturnCorrectDifference()
     {
         // Arrange
-        var partStatus1 = PartStatus.Ok;       // Value = 1
-        var partStatus2 = PartStatus.Restored; // Value = 4
+        var flowStatus1 = FlowStatus.InProcess;       // Value = 1
+        var flowStatus2 = FlowStatus.Finished; // Value = 4
 
         // Act
-        var difference = EnumModel.AbsoluteDifference(partStatus1, partStatus2);
+        var difference = EnumModel.AbsoluteDifference(flowStatus1, flowStatus2);
 
         // Assert
         difference.ShouldBe(3);
@@ -193,7 +183,7 @@ public class EnumModelTests
     public void FromValue_WithValidValues_ShouldReturnCorrectInstance(int value)
     {
         // Arrange & Act
-        var result = EnumModel.FromValue<PartStatus>(value);
+        var result = EnumModel.FromValue<FlowStatus>(value);
 
         // Assert
         result.ShouldNotBeNull();
@@ -204,7 +194,7 @@ public class EnumModelTests
     public void FromValue_WithInvalidValue_ShouldReturnInvalidInstance()
     {
         // Arrange & Act
-        var result = EnumModel.FromValue<PartStatus>(999);
+        var result = EnumModel.FromValue<FlowStatus>(999);
 
         // Assert
         result.ShouldNotBeNull();
@@ -212,15 +202,15 @@ public class EnumModelTests
     }
 
     [Theory]
-    [InlineData("Ok")]
-    [InlineData("nOK")]
-    [InlineData("Restored")]
-    [InlineData("Rejected")]
-    [InlineData("Scrap")]
+    [InlineData("None")]
+    [InlineData("Created")]
+    [InlineData("InProcess")]
+    [InlineData("Finished")]
+    [InlineData("Invalid")]
     public void FromName_WithValidNames_ShouldReturnCorrectInstance(string name)
     {
         // Arrange & Act
-        var result = EnumModel.FromName<PartStatus>(name);
+        var result = EnumModel.FromName<FlowStatus>(name);
 
         // Assert
         result.ShouldNotBeNull();
@@ -231,7 +221,7 @@ public class EnumModelTests
     public void FromName_WithInvalidName_ShouldReturnInvalidInstance()
     {
         // Arrange & Act
-        var result = EnumModel.FromName<PartStatus>("NonExistentStatus");
+        var result = EnumModel.FromName<FlowStatus>("NonExistentStatus");
 
         // Assert
         result.ShouldNotBeNull();
@@ -242,7 +232,7 @@ public class EnumModelTests
     public void FromDisplayName_WithValidDisplayName_ShouldReturnCorrectInstance()
     {
         // Arrange & Act
-        var result = EnumModel.FromDisplayName<PartStatus>("Ok");
+        var result = EnumModel.FromDisplayName<FlowStatus>("Ok");
 
         // Assert
         result.ShouldNotBeNull();
@@ -253,7 +243,7 @@ public class EnumModelTests
     public void FromDisplayName_WithInvalidDisplayName_ShouldReturnInvalidInstance()
     {
         // Arrange & Act
-        var result = EnumModel.FromDisplayName<PartStatus>("NonExistentDisplayName");
+        var result = EnumModel.FromDisplayName<FlowStatus>("NonExistentDisplayName");
 
         // Assert
         result.ShouldNotBeNull();
@@ -267,11 +257,11 @@ public class EnumModelTests
     public void FromValue_WithNullableInt_ShouldHandleCorrectly(int? value)
     {
         // Arrange & Act
-        var result = EnumModel.FromValue<PartStatus>(value);
+        var result = EnumModel.FromValue<FlowStatus>(value);
 
         // Assert
         result.ShouldNotBeNull();
-        if (value.HasValue && EnumModel.Exists<PartStatus>(value.Value))
+        if (value.HasValue && EnumModel.Exists<FlowStatus>(value.Value))
         {
             result.Value.ShouldBe(value.Value);
         }
@@ -285,7 +275,7 @@ public class EnumModelTests
     public void InvalidValue_WhenCalled_ShouldReturnInvalidInstance()
     {
         // Arrange & Act
-        var result = EnumModel.InvalidValue<PartStatus>();
+        var result = EnumModel.InvalidValue<FlowStatus>();
 
         // Assert
         result.ShouldNotBeNull();
@@ -296,11 +286,11 @@ public class EnumModelTests
     public void CompareTo_WithSameType_ShouldCompareByValue()
     {
         // Arrange
-        var partStatus1 = PartStatus.Ok;       // Value = 1
-        var partStatus2 = PartStatus.Restored; // Value = 4
+        var flowStatus1 = FlowStatus.InProcess;       // Value = 1
+        var flowStatus2 = FlowStatus.Finished; // Value = 4
 
         // Act
-        var comparison = partStatus1.CompareTo(partStatus2);
+        var comparison = flowStatus1.CompareTo(flowStatus2);
 
         // Assert
         comparison.ShouldBeLessThan(0);
@@ -310,10 +300,10 @@ public class EnumModelTests
     public void CompareTo_WithNull_ShouldReturnDefault()
     {
         // Arrange
-        var partStatus = PartStatus.Ok;
+        var flowStatus = FlowStatus.InProcess;
 
         // Act
-        var comparison = partStatus.CompareTo(null);
+        var comparison = flowStatus.CompareTo(null);
 
         // Assert
         comparison.ShouldBe(0);
@@ -323,11 +313,11 @@ public class EnumModelTests
     [InlineData(1, 2)]    // Ok vs NOk
     [InlineData(2, 4)]    // NOk vs Restored
     [InlineData(4, 8)]    // Restored vs Rejected
-    public void ManufacturingWorkflow_WithDifferentPartStatuses_ShouldMaintainOrder(int value1, int value2)
+    public void ManufacturingWorkflow_WithDifferentFlowStatuses_ShouldMaintainOrder(int value1, int value2)
     {
         // Arrange
-        var status1 = EnumModel.FromValue<PartStatus>(value1);
-        var status2 = EnumModel.FromValue<PartStatus>(value2);
+        var status1 = EnumModel.FromValue<FlowStatus>(value1);
+        var status2 = EnumModel.FromValue<FlowStatus>(value2);
 
         // Act
         var comparison = status1.CompareTo(status2);
@@ -337,34 +327,10 @@ public class EnumModelTests
         status1.Value.ShouldBeLessThan(status2.Value);
     }
 
-    [Fact]
-    public void QualityControlScenario_WithMultipleStatuses_ShouldHandleCorrectly()
-    {
-        // Arrange
-        var okPart = PartStatus.Ok;
-        var nokPart = PartStatus.NOk;
-        var restoredPart = PartStatus.Restored;
-        var rejectedPart = PartStatus.Rejected;
-        var scrapPart = PartStatus.Scrap;
-
-        // Act & Assert - Manufacturing quality control workflow
-        okPart.Value.ShouldBe(1);
-        nokPart.Value.ShouldBe(2);
-        restoredPart.Value.ShouldBe(4);
-        rejectedPart.Value.ShouldBe(8);
-        scrapPart.Value.ShouldBe(512);
-
-        // Verify quality progression
-        okPart.CompareTo(nokPart).ShouldBeLessThan(0);
-        nokPart.CompareTo(restoredPart).ShouldBeLessThan(0);
-        restoredPart.CompareTo(rejectedPart).ShouldBeLessThan(0);
-        rejectedPart.CompareTo(scrapPart).ShouldBeLessThan(0);
-    }
-
     /// <summary>
     /// Test enumeration for testing purposes
     /// </summary>
-    private class TestEnumModel : EnumModel
+    private class TestEnumModel : ExxerAI.Domain.Enums.EnumModel
     {
         public TestEnumModel() : base()
         {

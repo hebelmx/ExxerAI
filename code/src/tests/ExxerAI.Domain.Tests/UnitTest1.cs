@@ -39,7 +39,7 @@ public class AgentTests
     {
         // Arrange
         var agent = new Agent { Name = "StatusTestAgent" };
-        var expectedStatus = EnumModel.FromName<AgentStatus>(statusName);
+        var expectedStatus = EnumModelHelper.FromName<AgentStatus>(statusName);
 
         // Act
         agent.Status = expectedStatus;
@@ -171,7 +171,7 @@ public class WorkflowTests
     {
         // Arrange
         var workflow = new Workflow { Name = "AgentStatus Test" };
-        var expectedStatus = EnumModel.FromName<WorkflowStatus>(statusName);
+        var expectedStatus = EnumModelHelper.FromName<WorkflowStatus>(statusName);
 
         // Act
         workflow.Status = expectedStatus;
@@ -228,7 +228,7 @@ public class WorkflowExecutionTests
     {
         // Arrange
         var execution = new WorkflowExecution();
-        var expectedStatus = EnumModel.FromName<WorkflowExecutionStatus>(statusName);
+        var expectedStatus = EnumModelHelper.FromName<WorkflowExecutionStatus>(statusName);
 
         // Act
         execution.Status = expectedStatus;
@@ -275,7 +275,7 @@ public class ConversationTests
     {
         // Arrange
         var conversation = new Conversation();
-        var expectedStatus = EnumModel.FromName<ConversationStatus>(statusName);
+        var expectedStatus = EnumModelHelper.FromName<ConversationStatus>(statusName);
 
         // Act
         conversation.Status = expectedStatus;
@@ -321,7 +321,7 @@ public class ConversationMessageTests
     {
         // Arrange
         var message = new ConversationMessage();
-        var expectedRole = EnumModel.FromName<MessageRole>(roleName);
+        var expectedRole = EnumModelHelper.FromName<MessageRole>(roleName);
 
         // Act
         message.Role = expectedRole;
@@ -373,12 +373,10 @@ public class ModelCapabilitiesTests
     }
 }
 
-
-
 /// <summary>
 /// Utility class for handling enum conversions in tests
 /// </summary>
-public static class EnumModel
+public static class EnumModelHelper
 {
     /// <summary>
     /// Converts a string name to an enum value

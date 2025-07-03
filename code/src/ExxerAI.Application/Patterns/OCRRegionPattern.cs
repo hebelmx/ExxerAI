@@ -11,10 +11,7 @@ namespace ExxerAI.Domain.DocumentProcessing;
 /// </summary>
 public class OCRRegionPattern : ExtractionPattern
 {
-    /// <summary>
-    /// Gets the pattern type identifier
-    /// </summary>
-    public override string PatternType => "OCRRegion";
+
 
     /// <summary>
     /// Gets or sets the reference text to locate the region

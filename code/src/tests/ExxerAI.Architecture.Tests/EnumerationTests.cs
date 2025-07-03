@@ -1,13 +1,8 @@
-using NetArchTest.Rules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Shouldly;
+using ExxerAI.Domain.Enums;
+using NetArchTest.Rules;
 
-namespace Architecture.Tests.Enumeration;
+namespace ExxerAI.Architecture.Tests;
 
 public class EnumModelTests
 {
@@ -18,7 +13,7 @@ public class EnumModelTests
             .That()
             .ResideInNamespace("IndTrace.Domain.Enum")
             .And()
-            .Inherit(typeof(IndTrace.Domain.Enum.EnumModel))
+            .Inherit(typeof(EnumModel))
             .GetTypes();
 
         foreach (var type in types)
@@ -26,7 +21,7 @@ public class EnumModelTests
             var instances = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(f => f.FieldType == type)
                 .Select(f => f.GetValue(null))
-                .Cast<IndTrace.Domain.Enum.EnumModel>()
+                .Cast<EnumModel>()
                 .ToList();
 
             var ids = instances.Select(e => e.Value).ToList();
@@ -41,7 +36,7 @@ public class EnumModelTests
             .That()
             .ResideInNamespace("IndTrace.Domain.Enum")
             .And()
-            .Inherit(typeof(IndTrace.Domain.Enum.EnumModel))
+            .Inherit(typeof(EnumModel))
             .GetTypes();
 
         foreach (var type in types)
@@ -49,7 +44,7 @@ public class EnumModelTests
             var instances = type.GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
                 .Where(f => f.FieldType == type)
                 .Select(f => f.GetValue(null))
-                .Cast<IndTrace.Domain.Enum.EnumModel>()
+                .Cast<EnumModel>()
                 .ToList();
 
             var names = instances.Select(e => e.Name).ToList();

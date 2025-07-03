@@ -1,4 +1,4 @@
-using ExxerAI.Application.Patterns;
+using ExxerAI.Domain.DocumentProcessing;
 
 namespace ExxerAI.Application.DTOs;
 
