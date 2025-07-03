@@ -65,7 +65,7 @@ public interface IMCPGoogleDriveService
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Checks the health status of the MCP server
+    /// Checks the health agentStatus of the MCP server
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the health check operation</returns>

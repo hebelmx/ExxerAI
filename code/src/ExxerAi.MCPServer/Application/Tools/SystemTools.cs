@@ -261,10 +261,10 @@ public class SystemTools : ISystemTools
     }
 
     /// <summary>
-    /// Checks the health status of the MCP server
+    /// Checks the health agentStatus of the MCP server
     /// </summary>
-    /// <returns>Health status information</returns>
-    [McpServerTool, Description("Checks the health status of the MCP server")]
+    /// <returns>Health agentStatus information</returns>
+    [McpServerTool, Description("Checks the health agentStatus of the MCP server")]
     public Task<Result<string>> CheckHealthAsync()
     {
         _logger.LogInformation("Checking MCP server health");
@@ -277,15 +277,15 @@ public class SystemTools : ISystemTools
 
             var isHealthy = uptime.TotalMinutes > 0 && memoryUsage < 1000; // Basic health checks
 
-            var healthStatus = $"🏥 MCP Server Health Status:\n" +
-                              $"✅ Status: {(isHealthy ? "Healthy" : "Warning")}\n" +
+            var healthStatus = $"🏥 MCP Server Health AgentStatus:\n" +
+                              $"✅ AgentStatus: {(isHealthy ? "Healthy" : "Warning")}\n" +
                               $"⏰ Uptime: {uptime:dd\\.hh\\:mm\\:ss}\n" +
                               $"🧠 Memory: {memoryUsage:F2} MB\n" +
                               $"🔖 Version: 1.0.0\n" +
                               $"🕐 Check Time: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                              $"🌡️ Status: {(isHealthy ? "All systems operational" : "Performance degradation detected")}";
+                              $"🌡️ AgentStatus: {(isHealthy ? "All systems operational" : "Performance degradation detected")}";
 
-            _logger.LogInformation("Health check completed: {Status}", isHealthy ? "Healthy" : "Warning");
+            _logger.LogInformation("Health check completed: {AgentStatus}", isHealthy ? "Healthy" : "Warning");
             return Task.FromResult(Result<string>.WithSuccess(healthStatus));
         }
         catch (Exception ex)

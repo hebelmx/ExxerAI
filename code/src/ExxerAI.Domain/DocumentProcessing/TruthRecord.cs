@@ -44,7 +44,7 @@ public class TruthRecord
     public string DataHash { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the status of this truth record
+    /// Gets or sets the agentStatus of this truth record
     /// </summary>
     public TruthRecordStatus Status { get; set; } = TruthRecordStatus.Active;
 

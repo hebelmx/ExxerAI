@@ -139,7 +139,7 @@ public class GoogleDriveTools : IGoogleDriveTools
                         $"📦 Size: {fileSize:N0} bytes ({fileSize / 1024.0:F1} KB)\n" +
                         $"📅 Modified: {metadata.ModifiedTime:yyyy-MM-dd HH:mm:ss} UTC\n" +
                         $"🔗 View Link: {metadata.WebViewLink ?? "Not available"}\n" +
-                        $"✅ Status: Download completed successfully\n" +
+                        $"✅ AgentStatus: Download completed successfully\n" +
                         $"🔄 Ready for document processing pipeline";
 
             _logger.LogInformation("✅ Successfully downloaded document {DocumentId} ({Size} bytes)", documentId, fileSize);
@@ -194,13 +194,13 @@ public class GoogleDriveTools : IGoogleDriveTools
     }
 
     /// <summary>
-    /// Checks the health status of the MCP server and Google Drive integration
+    /// Checks the health agentStatus of the MCP server and Google Drive integration
     /// </summary>
-    /// <returns>Health status information</returns>
-    [McpServerTool, Description("Checks the health status of Google Drive MCP integration")]
+    /// <returns>Health agentStatus information</returns>
+    [McpServerTool, Description("Checks the health agentStatus of Google Drive MCP integration")]
     public async Task<Result<string>> CheckHealthStatusAsync()
     {
-        _logger.LogInformation("🏥 Checking Google Drive health status");
+        _logger.LogInformation("🏥 Checking Google Drive health agentStatus");
 
         try
         {
@@ -214,14 +214,14 @@ public class GoogleDriveTools : IGoogleDriveTools
             var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
             var activeWatches = watchesResult.IsSuccess ? "Available" : "Error getting watch info";
 
-            var result = $"🏥 Google Drive MCP Health Status:\n" +
-                        $"✅ Status: {(initResult.IsSuccess ? "Healthy" : "Unhealthy")}\n" +
+            var result = $"🏥 Google Drive MCP Health AgentStatus:\n" +
+                        $"✅ AgentStatus: {(initResult.IsSuccess ? "Healthy" : "Unhealthy")}\n" +
                         $"🔗 API Connection: {connectionStatus}\n" +
                         $"🔑 Authentication: {authStatus}\n" +
                         $"🔖 Version: 1.0.0 (Native C# Implementation)\n" +
                         $"📊 Active Watches: {activeWatches}\n" +
                         $"🕐 Last Check: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
-                        $"📈 Status: {(initResult.IsSuccess ? "All systems operational" : $"Error: {initResult.Error}")}\n" +
+                        $"📈 AgentStatus: {(initResult.IsSuccess ? "All systems operational" : $"Error: {initResult.Error}")}\n" +
                         $"🔧 Implementation: Native Google APIs for .NET";
 
             if (!initResult.IsSuccess)
@@ -237,8 +237,8 @@ public class GoogleDriveTools : IGoogleDriveTools
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "❌ Error checking Google Drive health status");
-            return Result<string>.WithFailure($"Error checking health status: {ex.Message}");
+            _logger.LogError(ex, "❌ Error checking Google Drive health agentStatus");
+            return Result<string>.WithFailure($"Error checking health agentStatus: {ex.Message}");
         }
     }
 

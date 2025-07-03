@@ -44,8 +44,8 @@ public interface ISystemTools
 	Task<Result<string>> GetMemoryUsageAsync();
 
 	/// <summary>
-	/// Checks the health status of the MCP server
+	/// Checks the health agentStatus of the MCP server
 	/// </summary>
-	/// <returns>Result containing health status information</returns>
+	/// <returns>Result containing health agentStatus information</returns>
 	Task<Result<string>> CheckHealthAsync();
 } 

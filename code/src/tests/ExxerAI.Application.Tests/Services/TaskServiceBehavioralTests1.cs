@@ -16,14 +16,14 @@ namespace ExxerAI.Application.Tests.Services
     public class TaskRepositoryBehavioralTests1
     {
         private readonly ITaskRepository _taskRepository;
-        private readonly ILogger<TaskService> _logger;
+        private readonly IAgentRepository _agentRepository;
         private readonly TaskService _service;
 
         public TaskRepositoryBehavioralTests1()
         {
             _taskRepository = Substitute.For<ITaskRepository>();
-            _logger = Substitute.For<ILogger<TaskService>>();
-            _service = new TaskService(_taskRepository, _logger);
+
+            _service = new TaskService(_taskRepository, _agentRepository);
         }
 
         [Fact]
@@ -32,8 +32,8 @@ namespace ExxerAI.Application.Tests.Services
             // Arrange
             var pendingTasks = new List<AgentTask>
             {
-                new() { Id = Guid.NewGuid(), Status = TaskStatus.Pending },
-                new() { Id = Guid.NewGuid(), Status = TaskStatus.Pending }
+                new() { Id = Guid.NewGuid(), AgentStatus = TaskStatus.Pending },
+                new() { Id = Guid.NewGuid(), AgentStatus = TaskStatus.Pending }
             };
             _taskRepository.GetPendingTasksAsync(Arg.Any<int>(), Arg.Any<CancellationToken>())
                 .Returns(pendingTasks);
@@ -45,7 +45,7 @@ namespace ExxerAI.Application.Tests.Services
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
             result.Value.Count().ShouldBe(2);
-            result.Value.All(t => t.Status == TaskStatus.Pending).ShouldBeTrue();
+            result.Value.All(t => t.AgentStatus == TaskStatus.Pending).ShouldBeTrue();
         }
 
         [Fact]

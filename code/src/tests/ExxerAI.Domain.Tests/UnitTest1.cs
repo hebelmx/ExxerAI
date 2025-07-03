@@ -89,7 +89,7 @@ public class AgentTaskTests
             Description = "A test task for development",
             TaskType = "TestType",
             Priority = TaskPriority.High,
-            Status = TaskStatus.Pending
+            AgentStatus = TaskAgentStatus.Pending
         };
 
         // Assert
@@ -98,7 +98,7 @@ public class AgentTaskTests
         task.Description.ShouldBe("A test task for development");
         task.TaskType.ShouldBe("TestType");
         task.Priority.ShouldBe(TaskPriority.High);
-        task.Status.ShouldBe(TaskStatus.Pending);
+        task.AgentStatus.ShouldBe(TaskAgentStatus.Pending);
         task.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
     }
 
@@ -170,7 +170,7 @@ public class AgentTaskTests
         { 
             Title = "Overdue Test",
             Deadline = DateTime.UtcNow.AddDays(-1),
-            Status = TaskStatus.Pending
+            AgentStatus = TaskAgentStatus.Pending
         };
 
         // Act & Assert
@@ -272,7 +272,7 @@ public class WorkflowTests
     public void Should_HandleWorkflowStatuses_When_DifferentStatesProvided(string statusName)
     {
         // Arrange
-        var workflow = new Workflow { Name = "Status Test" };
+        var workflow = new Workflow { Name = "AgentStatus Test" };
         var expectedStatus = EnumModel.FromName<WorkflowStatus>(statusName);
 
         // Act

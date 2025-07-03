@@ -332,10 +332,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     }
 
     /// <summary>
-    /// Gets the ingestion status and statistics.
+    /// Gets the ingestion agentStatus and statistics.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
-    /// <returns>The ingestion status information.</returns>
+    /// <returns>The ingestion agentStatus information.</returns>
     public async Task<Result<IngestionStatus>> GetIngestionStatusAsync(CancellationToken cancellationToken = default)
     {
         try
@@ -364,8 +364,8 @@ public class DocumentIngestionService : IDocumentIngestionService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting ingestion status");
-            return Result<IngestionStatus>.WithFailure($"Status check error: {ex.Message}");
+            _logger.LogError(ex, "Error getting ingestion agentStatus");
+            return Result<IngestionStatus>.WithFailure($"AgentStatus check error: {ex.Message}");
         }
     }
 

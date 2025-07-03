@@ -185,7 +185,7 @@ public class WorkflowService : IWorkflowService
 	/// Gets all executions for a specific workflow
 	/// </summary>
 	/// <param name="workflowId">The workflow identifier</param>
-	/// <param name="status">Optional status filter</param>
+	/// <param name="status">Optional agentStatus filter</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation containing the list of executions</returns>
 	public async Task<ExxerAI.Domain.Result<IEnumerable<WorkflowExecution>>> GetWorkflowExecutionsAsync(

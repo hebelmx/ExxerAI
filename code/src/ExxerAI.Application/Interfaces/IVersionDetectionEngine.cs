@@ -80,7 +80,7 @@ public enum VersionComparisonResult
 }
 
 /// <summary>
-/// Version status for document processing decisions
+/// Version agentStatus for document processing decisions
 /// </summary>
 public enum VersionStatus
 {

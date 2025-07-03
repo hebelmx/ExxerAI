@@ -28,7 +28,7 @@ public class Document
     public string? ExtractedText { get; set; }
 
     /// <summary>
-    /// Gets or sets the document processing status
+    /// Gets or sets the document processing agentStatus
     /// </summary>
     public DocumentStatus Status { get; set; } = DocumentStatus.Processing;
 
@@ -95,9 +95,9 @@ public class Document
     }
 
     /// <summary>
-    /// Updates the document status
+    /// Updates the document agentStatus
     /// </summary>
-    /// <param name="status">The new status</param>
+    /// <param name="status">The new agentStatus</param>
     public void UpdateStatus(DocumentStatus status)
     {
         Status = status;

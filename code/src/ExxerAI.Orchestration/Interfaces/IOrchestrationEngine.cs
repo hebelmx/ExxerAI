@@ -45,9 +45,9 @@ public interface IOrchestrationEngine
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the current status of the orchestration engine
+    /// Gets the current agentStatus of the orchestration engine
     /// </summary>
-    /// <returns>Result containing the orchestration status</returns>
+    /// <returns>Result containing the orchestration agentStatus</returns>
     Result<OrchestrationStatus> GetStatus();
 
     /// <summary>
@@ -59,7 +59,7 @@ public interface IOrchestrationEngine
 }
 
 /// <summary>
-/// Represents the status of the orchestration engine
+/// Represents the agentStatus of the orchestration engine
 /// </summary>
 public enum OrchestrationStatus
 {

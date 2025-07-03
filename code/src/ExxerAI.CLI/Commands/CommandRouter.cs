@@ -88,7 +88,7 @@ public class CommandRouter
         Console.WriteLine("Usage: exxerai <command> [options]");
         Console.WriteLine();
         Console.WriteLine("Commands:");
-        Console.WriteLine("  agent    Manage AI agents (list, create, delete, status)");
+        Console.WriteLine("  agent    Manage AI agents (list, create, delete, agentStatus)");
         Console.WriteLine("  task     Manage tasks (list, create, assign, update)");
         Console.WriteLine("  workflow Manage workflows (list, create, execute)");
         Console.WriteLine("  help     Show this help information");
@@ -97,7 +97,7 @@ public class CommandRouter
         Console.WriteLine("Examples:");
         Console.WriteLine("  exxerai agent list");
         Console.WriteLine("  exxerai agent create \"Value Processor\" --description \"Processes data\"");
-        Console.WriteLine("  exxerai task list --status pending");
+        Console.WriteLine("  exxerai task list --agentStatus pending");
         Console.WriteLine("  exxerai task assign 123 456");
         Console.WriteLine();
         Console.WriteLine("Use 'exxerai <command> --help' for more information about a command.");

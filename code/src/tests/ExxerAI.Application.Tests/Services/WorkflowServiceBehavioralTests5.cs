@@ -5,14 +5,13 @@ namespace ExxerAI.Application.Tests.Services;
 public class WorkflowServiceBehavioralTests5
 {
     private readonly IWorkflowRepository _workflowRepository;
-    private readonly ILogger<WorkflowService> _logger;
+
     private readonly WorkflowService _service;
 
     public WorkflowServiceBehavioralTests5()
     {
         _workflowRepository = Substitute.For<IWorkflowRepository>();
-        _logger = Substitute.For<ILogger<WorkflowService>>();
-        _service = new WorkflowService(_workflowRepository, _logger);
+        _service = new WorkflowService(_workflowRepository);
     }
 
     [Fact]

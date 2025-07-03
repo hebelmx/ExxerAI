@@ -6,7 +6,7 @@ namespace ExxerAI.Domain.Tests.DocumentProcessing;
 
 /// <summary>
 /// Comprehensive unit tests for TruthRecord domain entity
-/// Tests audit trail, status transitions, and truth system business rules
+/// Tests audit trail, agentStatus transitions, and truth system business rules
 /// </summary>
 public class TruthRecordTests
 {

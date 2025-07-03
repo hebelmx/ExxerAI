@@ -53,7 +53,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
                         $"🧠 Learning Mode: {(learningMode ? "Enabled" : "Disabled")}\n" +
                         $"📊 Overall Confidence: {confidence:P1}\n" +
                         $"🕐 Processing Time: 2.3 seconds\n" +
-                        $"✅ Status: Successfully processed\n\n" +
+                        $"✅ AgentStatus: Successfully processed\n\n" +
                         $"📈 Extracted Fields:\n" +
                         $"  • Document Number: DOC-2024-001234\n" +
                         $"  • Date: {DateTime.UtcNow.AddDays(-5):yyyy-MM-dd}\n" +
@@ -105,7 +105,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
                         $"  • Vendor Name: Global Solutions LLC (Confidence: 92%)\n" +
                         $"  • Tax Amount: $285.08 (Confidence: 88%)\n\n" +
                         $"📊 Overall Extraction Confidence: 92%\n" +
-                        $"✅ Status: Extraction successful";
+                        $"✅ AgentStatus: Extraction successful";
 
             _logger.LogInformation("Successfully extracted fields from document {DocumentPath} using schema {SchemaName}", documentPath, schemaName);
             return Task.FromResult(Result<string>.WithSuccess(result));
@@ -147,7 +147,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
 
             if (isValid)
             {
-                result += $"✅ Status: VALID\n" +
+                result += $"✅ AgentStatus: VALID\n" +
                          $"📈 Validation Results:\n" +
                          $"  • Data Format: ✅ Valid\n" +
                          $"  • Business Rules: ✅ Compliant\n" +
@@ -157,7 +157,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
             }
             else
             {
-                result += $"⚠️ Status: VALIDATION ISSUES\n" +
+                result += $"⚠️ AgentStatus: VALIDATION ISSUES\n" +
                          $"📈 Validation Results:\n" +
                          $"  • Data Format: ✅ Valid\n" +
                          $"  • Business Rules: ⚠️ Minor violations\n" +
@@ -169,7 +169,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
                          $"  • Missing required tax information";
             }
 
-            _logger.LogInformation("Validation completed for extraction {ExtractionId} with status {Status}", extractionId, isValid ? "Valid" : "Issues Found");
+            _logger.LogInformation("Validation completed for extraction {ExtractionId} with agentStatus {AgentStatus}", extractionId, isValid ? "Valid" : "Issues Found");
             return Task.FromResult(Result<string>.WithSuccess(result));
         }
         catch (Exception ex)
@@ -217,7 +217,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
                         $"  • Enhanced vendor name extraction\n" +
                         $"  • Improved table structure recognition\n" +
                         $"  • Advanced currency handling\n\n" +
-                        $"✅ Status: Schema successfully updated";
+                        $"✅ AgentStatus: Schema successfully updated";
 
             _logger.LogInformation("Schema learning completed for document type {DocumentType} with confidence {Confidence:P1}", documentType, confidence);
             return Task.FromResult(Result<string>.WithSuccess(result));

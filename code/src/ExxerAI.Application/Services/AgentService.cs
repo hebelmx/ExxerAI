@@ -205,10 +205,10 @@ public class AgentService : IAgentService
 	}
 
 	/// <summary>
-	/// Updates an agent's status
+	/// Updates an agent's agentStatus
 	/// </summary>
 	/// <param name="agentId">The agent identifier</param>
-	/// <param name="status">The new status</param>
+	/// <param name="status">The new agentStatus</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation</returns>
 	public async Task<ExxerAI.Domain.Result<bool>> UpdateAgentStatusAsync(
@@ -242,7 +242,7 @@ public class AgentService : IAgentService
 		}
 		catch (Exception ex)
 		{
-			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while updating agent status: {ex.Message}");
+			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while updating agent agentStatus: {ex.Message}");
 		}
 	}
 
@@ -289,9 +289,9 @@ public class AgentService : IAgentService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task not found with ID: {taskId}");
 			}
 
-			if (taskResult.Value!.Status != Domain.TaskStatus.Pending)
+			if (taskResult.Value!.AgentStatus != Domain.TaskAgentStatus.Pending)
 			{
-				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment (Status: {taskResult.Value.Status})");
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment (AgentStatus: {taskResult.Value.AgentStatus})");
 			}
 
 			// Assign the task
@@ -408,7 +408,7 @@ public class AgentService : IAgentService
 			}
 
 			// Check for active tasks before deletion
-			var activeTasksResult = await _taskRepository.GetByAgentAsync(agentId, Domain.TaskStatus.InProgress, cancellationToken).ConfigureAwait(false);
+			var activeTasksResult = await _taskRepository.GetByAgentAsync(agentId, Domain.TaskAgentStatus.InProgress, cancellationToken).ConfigureAwait(false);
 			if (activeTasksResult.IsSuccess && activeTasksResult.Value!.Any())
 			{
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Cannot delete agent {agentId} as it has active tasks in progress");

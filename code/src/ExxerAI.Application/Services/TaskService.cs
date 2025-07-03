@@ -57,7 +57,7 @@ public class TaskService : ITaskService
 				TaskType = taskType,
 				Input = new TaskData(),
 				Priority = priority,
-				Status = Domain.TaskStatus.Pending,
+				AgentStatus = Domain.TaskAgentStatus.Pending,
 				Deadline = deadline,
 				CreatedAt = DateTime.UtcNow
 			};
@@ -102,7 +102,7 @@ public class TaskService : ITaskService
 	{
 		try
 		{
-			var result = await _taskRepository.GetByStatusAsync(Domain.TaskStatus.Pending, cancellationToken).ConfigureAwait(false);
+			var result = await _taskRepository.GetByStatusAsync(Domain.TaskAgentStatus.Pending, cancellationToken).ConfigureAwait(false);
 			if (result.IsFailure) 
 				return ExxerAI.Domain.Result<IEnumerable<AgentTask>>.WithFailure(result.Error ?? "Failed to retrieve pending tasks");
 
@@ -121,12 +121,12 @@ public class TaskService : ITaskService
 	/// Gets tasks assigned to a specific agent
 	/// </summary>
 	/// <param name="agentId">The agent identifier</param>
-	/// <param name="status">Optional status filter</param>
+	/// <param name="status">Optional agentStatus filter</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation containing the list of agent tasks</returns>
 	public async Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(
 		Guid agentId,
-		ExxerAI.Domain.TaskStatus? status = null,
+		ExxerAI.Domain.TaskAgentStatus? status = null,
 		CancellationToken cancellationToken = default)
 	{
 		try
@@ -141,15 +141,15 @@ public class TaskService : ITaskService
 	}
 
 	/// <summary>
-	/// Updates a task's status
+	/// Updates a task's agentStatus
 	/// </summary>
 	/// <param name="taskId">The task identifier</param>
-	/// <param name="status">The new status</param>
+	/// <param name="agentStatus">The new agentStatus</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The result of the operation</returns>
 	public async Task<ExxerAI.Domain.Result<bool>> UpdateTaskStatusAsync(
 		Guid taskId, 
-		ExxerAI.Domain.TaskStatus status, 
+		ExxerAI.Domain.TaskAgentStatus agentStatus, 
 		CancellationToken cancellationToken = default)
 	{
 		try
@@ -159,14 +159,14 @@ public class TaskService : ITaskService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
 			var task = taskResult.Value!;
-			task.Status = status;
+			task.AgentStatus = agentStatus;
 
 			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
 			return updateResult.IsFailure ? ExxerAI.Domain.Result<bool>.WithFailure(updateResult.Error ?? "Failed to update task") : ExxerAI.Domain.Result<bool>.WithSuccess(true);
 		}
 		catch (Exception ex)
 		{
-			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while updating task status: {ex.Message}");
+			return ExxerAI.Domain.Result<bool>.WithFailure($"An error occurred while updating task agentStatus: {ex.Message}");
 		}
 	}
 
@@ -189,8 +189,8 @@ public class TaskService : ITaskService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
 			var task = taskResult.Value!;
-			if (task.Status != Domain.TaskStatus.Pending)
-				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment. Current status: {task.Status}");
+			if (task.AgentStatus != Domain.TaskAgentStatus.Pending)
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not available for assignment. Current agentStatus: {task.AgentStatus}");
 
 			task.AssignedAgentId = agentId;
 
@@ -222,10 +222,10 @@ public class TaskService : ITaskService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
 			var task = taskResult.Value!;
-			if (task.Status != Domain.TaskStatus.InProgress)
-				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not in InProgress status. Current status: {task.Status}");
+			if (task.AgentStatus != Domain.TaskAgentStatus.InProgress)
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not in InProgress agentStatus. Current agentStatus: {task.AgentStatus}");
 
-			task.Status = Domain.TaskStatus.Completed;
+			task.AgentStatus = Domain.TaskAgentStatus.Completed;
 			task.CompletedAt = DateTime.UtcNow;
 			task.Output = outputData ?? new TaskData();
 
@@ -257,10 +257,10 @@ public class TaskService : ITaskService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
 			var task = taskResult.Value!;
-			if (task.Status != Domain.TaskStatus.InProgress)
-				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not in InProgress status. Current status: {task.Status}");
+			if (task.AgentStatus != Domain.TaskAgentStatus.InProgress)
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} is not in InProgress agentStatus. Current agentStatus: {task.AgentStatus}");
 
-			task.Status = Domain.TaskStatus.Failed;
+			task.AgentStatus = Domain.TaskAgentStatus.Failed;
 			task.CompletedAt = DateTime.UtcNow;
 			task.ErrorMessage = errorMessage ?? "Task failed without specific error message";
 
@@ -288,10 +288,10 @@ public class TaskService : ITaskService
 				return ExxerAI.Domain.Result<bool>.WithFailure($"Task with ID {taskId} not found");
 
 			var task = taskResult.Value!;
-			if (task.Status == Domain.TaskStatus.Completed || task.Status == Domain.TaskStatus.Cancelled)
-				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} cannot be cancelled. Current status: {task.Status}");
+			if (task.AgentStatus == Domain.TaskAgentStatus.Completed || task.AgentStatus == Domain.TaskAgentStatus.Cancelled)
+				return ExxerAI.Domain.Result<bool>.WithFailure($"Task {taskId} cannot be cancelled. Current agentStatus: {task.AgentStatus}");
 
-			task.Status = Domain.TaskStatus.Cancelled;
+			task.AgentStatus = Domain.TaskAgentStatus.Cancelled;
 			task.CompletedAt = DateTime.UtcNow;
 
 			var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);

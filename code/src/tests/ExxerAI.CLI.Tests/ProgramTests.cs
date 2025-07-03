@@ -184,7 +184,7 @@ public class ProgramTests
 	public async Task Main_Should_HandleMultipleArguments_When_ComplexCommandProvided()
 	{
 		// Arrange
-		var args = new[] { "agent", "list", "--status", "active" };
+		var args = new[] { "agent", "list", "--agentStatus", "active" };
 
 		// Act
 		var exitCode = await CallMainMethod(args);

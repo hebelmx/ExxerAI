@@ -104,7 +104,7 @@ public class ComprehensiveUnitTestExample
         }
 
         /// <summary>
-        /// Theory Test: Agent should handle all valid status transitions
+        /// Theory Test: Agent should handle all valid agentStatus transitions
         /// Uses nameof() pattern to avoid enum compilation errors in InlineData
         /// </summary>
         [Theory]
@@ -445,7 +445,7 @@ public class ComprehensiveUnitTestExample
         }
 
         /// <summary>
-        /// Performance Test: GetIngestionStatusAsync should return comprehensive status
+        /// Performance Test: GetIngestionStatusAsync should return comprehensive agentStatus
         /// </summary>
         [Fact]
         public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_SystemActive()
@@ -741,7 +741,7 @@ public class ComprehensiveUnitTestExample
     public class TestOrganizationExamples
     {
         /// <summary>
-        /// Test data fixture for Agent Status scenarios
+        /// Test data fixture for Agent AgentStatus scenarios
         /// </summary>
         public static IEnumerable<object[]> AgentStatusTransitionData =>
             new List<object[]>
@@ -756,7 +756,7 @@ public class ComprehensiveUnitTestExample
             };
 
         /// <summary>
-        /// Theory test using fixture data for agent status transitions
+        /// Theory test using fixture data for agent agentStatus transitions
         /// </summary>
         [Theory]
         [MemberData(nameof(AgentStatusTransitionData))]
@@ -785,7 +785,7 @@ public class ComprehensiveUnitTestExample
         }
 
         /// <summary>
-        /// Helper method for status transition validation
+        /// Helper method for agentStatus transition validation
         /// </summary>
         private static bool IsValidStatusTransition(AgentStatus from, AgentStatus to)
         {

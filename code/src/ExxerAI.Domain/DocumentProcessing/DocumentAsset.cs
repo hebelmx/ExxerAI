@@ -43,7 +43,7 @@ public class DocumentAsset
     public float[] Embeddings { get; private set; } = Array.Empty<float>();
 
     /// <summary>
-    /// Gets or sets the current status of the document.
+    /// Gets or sets the current agentStatus of the document.
     /// </summary>
     public DocumentStatus Status { get; private set; } = DocumentStatus.Processing;
 

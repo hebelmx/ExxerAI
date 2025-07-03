@@ -208,24 +208,24 @@ public class GoogleDriveService : IDocumentIngestionService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to check modification status for document {DocumentId}", documentId);
+            _logger.LogError(ex, "Failed to check modification agentStatus for document {DocumentId}", documentId);
             return Result<bool>.WithFailure($"Failed to check modification: {ex.Message}");
         }
     }
 
     /// <summary>
-    /// Gets the ingestion status and statistics.
+    /// Gets the ingestion agentStatus and statistics.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
-    /// <returns>The ingestion status information.</returns>
+    /// <returns>The ingestion agentStatus information.</returns>
     public async Task<Result<IngestionStatus>> GetIngestionStatusAsync(
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Getting ingestion status");
+        _logger.LogInformation("Getting ingestion agentStatus");
 
         try
         {
-            // TODO: Implement actual status retrieval
+            // TODO: Implement actual agentStatus retrieval
             var status = new IngestionStatus
             {
                 DocumentsWatched = 0,
@@ -250,8 +250,8 @@ public class GoogleDriveService : IDocumentIngestionService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Failed to get ingestion status");
-            return Result<IngestionStatus>.WithFailure($"Failed to get status: {ex.Message}");
+            _logger.LogError(ex, "Failed to get ingestion agentStatus");
+            return Result<IngestionStatus>.WithFailure($"Failed to get agentStatus: {ex.Message}");
         }
     }
 }

@@ -140,7 +140,7 @@ public class MCPUploadResult
 }
 
 /// <summary>
-/// Represents MCP server health status
+/// Represents MCP server health agentStatus
 /// </summary>
 public class MCPHealthStatus
 {

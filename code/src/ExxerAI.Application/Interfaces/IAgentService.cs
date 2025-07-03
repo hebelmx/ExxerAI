@@ -56,10 +56,10 @@ public interface IAgentService
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates an agent's status
+    /// Updates an agent's agentStatus
     /// </summary>
     /// <param name="agentId">The agent identifier</param>
-    /// <param name="status">The new status</param>
+    /// <param name="status">The new agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<ExxerAI.Domain.Result<bool>> UpdateAgentStatusAsync(

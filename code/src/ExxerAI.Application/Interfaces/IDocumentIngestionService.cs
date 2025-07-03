@@ -72,10 +72,10 @@ public interface IDocumentIngestionService
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the ingestion status and statistics.
+    /// Gets the ingestion agentStatus and statistics.
     /// </summary>
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
-    /// <returns>The ingestion status information.</returns>
+    /// <returns>The ingestion agentStatus information.</returns>
     Task<Result<IngestionStatus>> GetIngestionStatusAsync(
         CancellationToken cancellationToken = default);
 }
@@ -194,7 +194,7 @@ public class DocumentChangeEvent
 //}
 
 /// <summary>
-/// Represents the status and statistics of the document ingestion system.
+/// Represents the agentStatus and statistics of the document ingestion system.
 /// </summary>
 public class IngestionStatus
 {
@@ -229,7 +229,7 @@ public class IngestionStatus
     public double AverageProcessingTimeMs { get; set; }
 
     /// <summary>
-    /// Gets or sets the overall system health status.
+    /// Gets or sets the overall system health agentStatus.
     /// </summary>
     public HealthStatus SystemHealth { get; set; } = HealthStatus.Healthy;
 

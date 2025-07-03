@@ -39,9 +39,9 @@ public interface IGoogleDriveTools
 	Task<Result<string>> GetDocumentMetadataAsync(string documentId);
 
 	/// <summary>
-	/// Checks the health status of the MCP server and Google Drive integration
+	/// Checks the health agentStatus of the MCP server and Google Drive integration
 	/// </summary>
-	/// <returns>Result containing health status information</returns>
+	/// <returns>Result containing health agentStatus information</returns>
 	Task<Result<string>> CheckHealthStatusAsync();
 
 	/// <summary>

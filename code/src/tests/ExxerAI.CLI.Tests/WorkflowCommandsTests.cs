@@ -136,7 +136,7 @@ public class WorkflowCommandsTests
 	}
 
     [Theory]
-    [InlineData("status")]
+    [InlineData("agentStatus")]
     [InlineData("info")]
     public async Task ExecuteAsync_WithStatusCommands_ShouldReturnZero(string command)
     {
@@ -150,8 +150,8 @@ public class WorkflowCommandsTests
     	[Fact]
 	public async Task ExecuteAsync_StatusWithInvalidId_ShouldReturnZero()
 	{
-		// Act - Status command shows message but doesn't validate ID (under development)
-		var result = await _workflowCommands.ExecuteAsync(["status", "invalid-id"]);
+		// Act - AgentStatus command shows message but doesn't validate ID (under development)
+		var result = await _workflowCommands.ExecuteAsync(["agentStatus", "invalid-id"]);
 
 		// Assert - Returns 0 (shows placeholder message)
 		result.ShouldBe(0);
@@ -245,7 +245,7 @@ public class WorkflowCommandsTests
     public async Task ExecuteAsync_ListWithStatusFilter_ShouldReturnZero()
     {
         // Act
-        var result = await _workflowCommands.ExecuteAsync(["list", "--status", "Running"]);
+        var result = await _workflowCommands.ExecuteAsync(["list", "--agentStatus", "Running"]);
 
         // Assert
         result.ShouldBe(0);
@@ -253,7 +253,7 @@ public class WorkflowCommandsTests
 
     [Theory]
     [InlineData("-s")]
-    [InlineData("--status")]
+    [InlineData("--agentStatus")]
     public async Task ExecuteAsync_ListWithStatusFilterVariants_ShouldReturnZero(string statusFlag)
     {
         // Act
@@ -269,7 +269,7 @@ public class WorkflowCommandsTests
         // Act
         var result1 = await _workflowCommands.ExecuteAsync(["delete"]);
         var result2 = await _workflowCommands.ExecuteAsync(["execute"]);
-        var result3 = await _workflowCommands.ExecuteAsync(["status"]);
+        var result3 = await _workflowCommands.ExecuteAsync(["agentStatus"]);
         var result4 = await _workflowCommands.ExecuteAsync(["stop"]);
         var result5 = await _workflowCommands.ExecuteAsync(["pause"]);
         var result6 = await _workflowCommands.ExecuteAsync(["resume"]);

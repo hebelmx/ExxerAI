@@ -373,7 +373,7 @@ public class AgentsControllerTests
     }
 
     /// <summary>
-    /// Test class for PUT /api/agents/{id}/status endpoint
+    /// Test class for PUT /api/agents/{id}/agentStatus endpoint
     /// </summary>
     public class UpdateAgentStatusTests : AgentsControllerTests
     {
@@ -409,7 +409,7 @@ public class AgentsControllerTests
             var request = new UpdateAgentStatusRequest { Status = AgentStatus.Active };
 
             _mockAgentService.UpdateAgentStatusAsync(agentId, request.Status, Arg.Any<CancellationToken>())
-                .Returns(Result<bool>.WithFailure("Status update failed"));
+                .Returns(Result<bool>.WithFailure("AgentStatus update failed"));
 
             // Act
             var result = await _controller.UpdateAgentStatus(agentId, request);

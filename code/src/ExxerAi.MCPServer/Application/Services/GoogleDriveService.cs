@@ -381,7 +381,7 @@ public class GoogleDriveService : IGoogleDriveService
                          $"  ⏱️ Interval: {session.PollingInterval.TotalSeconds}s\n" +
                          $"  📄 Changes Detected: {session.DetectedChanges.Count}\n" +
                          $"  🕐 Duration: {duration.TotalHours:F1}h\n" +
-                         $"  ✅ Status: {(session.IsActive ? "Active" : "Stopped")}\n\n";
+                         $"  ✅ AgentStatus: {(session.IsActive ? "Active" : "Stopped")}\n\n";
             }
 
             result += $"📊 Total Active Watches: {_activeSessions.Count(s => s.Value.IsActive)}";
@@ -411,7 +411,7 @@ public class GoogleDriveService : IGoogleDriveService
             var duration = DateTime.UtcNow - session.StartTime;
 
             var result = $"✅ Successfully stopped watching session {watchId}\n" +
-                        $"🛑 Watch Status: Stopped\n" +
+                        $"🛑 Watch AgentStatus: Stopped\n" +
                         $"🕐 Stopped At: {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss} UTC\n" +
                         $"📊 Session Duration: {duration.TotalHours:F1}h\n" +
                         $"📄 Documents Processed: {session.DetectedChanges.Count}\n" +

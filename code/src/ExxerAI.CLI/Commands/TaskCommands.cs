@@ -59,7 +59,7 @@ public class TaskCommands
 			"assign" => await AssignTask(commandArgs),
 			"update" => await UpdateTaskStatus(commandArgs),
 			"delete" or "remove" or "rm" => await DeleteTask(commandArgs),
-			"status" or "info" => await ShowTaskStatus(commandArgs),
+			"agentStatus" or "info" => await ShowTaskStatus(commandArgs),
 			"overdue" => await ListOverdueTasks(),
 			"help" or "--help" or "-h" => ShowTaskHelp(),
 			_ => ShowUnknownTaskCommand(subCommand)
@@ -92,7 +92,7 @@ public class TaskCommands
 			
 			for (int i = 0; i < args.Length - 1; i++)
 			{
-				if (args[i] == "--status" || args[i] == "-s")
+				if (args[i] == "--agentStatus" || args[i] == "-s")
 					statusFilter = args[i + 1];
 				else if (args[i] == "--priority" || args[i] == "-p")
 					priorityFilter = args[i + 1];
@@ -105,11 +105,11 @@ public class TaskCommands
 			// Apply filters
 			if (!string.IsNullOrEmpty(statusFilter))
 			{
-				if (Enum.TryParse<ExxerAI.Domain.TaskStatus>(statusFilter, true, out var status))
-					tasks = tasks.Where(t => t.Status == status);
+				if (Enum.TryParse<ExxerAI.Domain.TaskAgentStatus>(statusFilter, true, out var status))
+					tasks = tasks.Where(t => t.AgentStatus == status);
 				else
 				{
-					Console.WriteLine($"Invalid status filter: {statusFilter}");
+					Console.WriteLine($"Invalid agentStatus filter: {statusFilter}");
 					return 1;
 				}
 			}
@@ -150,7 +150,7 @@ public class TaskCommands
 			}
 
 			Console.WriteLine("Tasks:");
-			Console.WriteLine($"{"ID",-10} {"Title",-30} {"Type",-15} {"Status",-12} {"Priority",-8} {"Agent",-25} {"Deadline",-12}");
+			Console.WriteLine($"{"ID",-10} {"Title",-30} {"Type",-15} {"AgentStatus",-12} {"Priority",-8} {"Agent",-25} {"Deadline",-12}");
 			Console.WriteLine(new string('-', 125));
 
 			foreach (var task in taskList)
@@ -165,7 +165,7 @@ public class TaskCommands
 
 				var deadlineStr = task.Deadline?.ToString("yyyy-MM-dd") ?? "None";
 				
-				Console.WriteLine($"{task.Id.ToString()[..8],-10} {task.Title,-30} {task.TaskType,-15} {task.Status,-12} {task.Priority,-8} {agentName,-25} {deadlineStr,-12}");
+				Console.WriteLine($"{task.Id.ToString()[..8],-10} {task.Title,-30} {task.TaskType,-15} {task.AgentStatus,-12} {task.Priority,-8} {agentName,-25} {deadlineStr,-12}");
 			}
 
 			Console.WriteLine($"\nTotal: {taskList.Count} task(s)");
@@ -248,7 +248,7 @@ public class TaskCommands
 				TaskType = typeStr,
 				Priority = priority,
 				Description = description ?? $"Auto-generated {typeStr} task",
-				Status = ExxerAI.Domain.TaskStatus.Pending,
+				AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending,
 				CreatedAt = DateTime.UtcNow,
 				Deadline = deadline
 			};
@@ -316,7 +316,7 @@ public class TaskCommands
 
 			var task = taskResult.Value;
 			task.AssignedAgentId = agentId;
-			task.Status = ExxerAI.Domain.TaskStatus.InProgress;
+			task.AgentStatus = ExxerAI.Domain.TaskAgentStatus.InProgress;
 			task.StartedAt = DateTime.UtcNow;
 
 			var updateResult = await _taskRepository.UpdateAsync(task);
@@ -337,7 +337,7 @@ public class TaskCommands
 	}
 
 	/// <summary>
-	/// Updates task status
+	/// Updates task agentStatus
 	/// </summary>
 	/// <param name="args">Command arguments</param>
 	/// <returns>Exit code</returns>
@@ -345,8 +345,8 @@ public class TaskCommands
 	{
 		if (args.Length < 2)
 		{
-			Console.WriteLine("Error: Task ID and status are required.");
-			Console.WriteLine("Usage: exxerai task update <task-id> --status <status>");
+			Console.WriteLine("Error: Task ID and agentStatus are required.");
+			Console.WriteLine("Usage: exxerai task update <task-id> --agentStatus <agentStatus>");
 			Console.WriteLine("Valid statuses: Pending, InProgress, Completed, Failed, Cancelled, Paused");
 			return 1;
 		}
@@ -360,20 +360,20 @@ public class TaskCommands
 		string? statusStr = null;
 		for (int i = 1; i < args.Length - 1; i++)
 		{
-			if (args[i] == "--status" || args[i] == "-s")
+			if (args[i] == "--agentStatus" || args[i] == "-s")
 				statusStr = args[i + 1];
 		}
 
 		if (string.IsNullOrEmpty(statusStr))
 		{
-			Console.WriteLine("Error: Status is required.");
+			Console.WriteLine("Error: AgentStatus is required.");
 			Console.WriteLine("Valid statuses: Pending, InProgress, Completed, Failed, Cancelled, Paused");
 			return 1;
 		}
 
-		if (!Enum.TryParse<ExxerAI.Domain.TaskStatus>(statusStr, true, out var newStatus))
+		if (!Enum.TryParse<ExxerAI.Domain.TaskAgentStatus>(statusStr, true, out var newStatus))
 		{
-			Console.WriteLine($"Error: Invalid status '{statusStr}'.");
+			Console.WriteLine($"Error: Invalid agentStatus '{statusStr}'.");
 			Console.WriteLine("Valid statuses: Pending, InProgress, Completed, Failed, Cancelled, Paused");
 			return 1;
 		}
@@ -388,27 +388,27 @@ public class TaskCommands
 			}
 
 			var task = taskResult.Value;
-			task.Status = newStatus;
+			task.AgentStatus = newStatus;
 
-			// Update timestamps based on status
-			if (newStatus == ExxerAI.Domain.TaskStatus.InProgress && !task.StartedAt.HasValue)
+			// Update timestamps based on agentStatus
+			if (newStatus == ExxerAI.Domain.TaskAgentStatus.InProgress && !task.StartedAt.HasValue)
 				task.StartedAt = DateTime.UtcNow;
-			else if (newStatus == ExxerAI.Domain.TaskStatus.Completed)
+			else if (newStatus == ExxerAI.Domain.TaskAgentStatus.Completed)
 				task.CompletedAt = DateTime.UtcNow;
 
 			var updateResult = await _taskRepository.UpdateAsync(task);
 			if (!updateResult.IsSuccess)
 			{
-				Console.WriteLine($"Error updating task status: {string.Join(", ", updateResult.Errors)}");
+				Console.WriteLine($"Error updating task agentStatus: {string.Join(", ", updateResult.Errors)}");
 				return 1;
 			}
 
-			Console.WriteLine($"Task {taskId} status updated to {newStatus} successfully.");
+			Console.WriteLine($"Task {taskId} agentStatus updated to {newStatus} successfully.");
 			return 0;
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"Error updating task status: {ex.Message}");
+			Console.WriteLine($"Error updating task agentStatus: {ex.Message}");
 			return 1;
 		}
 	}
@@ -453,7 +453,7 @@ public class TaskCommands
 	}
 
 	/// <summary>
-	/// Shows detailed task status information
+	/// Shows detailed task agentStatus information
 	/// </summary>
 	/// <param name="args">Command arguments</param>
 	/// <returns>Exit code</returns>
@@ -462,7 +462,7 @@ public class TaskCommands
 		if (args.Length == 0)
 		{
 			Console.WriteLine("Error: Task ID is required.");
-			Console.WriteLine("Usage: exxerai task status <task-id>");
+			Console.WriteLine("Usage: exxerai task agentStatus <task-id>");
 			return 1;
 		}
 
@@ -487,7 +487,7 @@ public class TaskCommands
 			Console.WriteLine($"  ID:          {task.Id}");
 			Console.WriteLine($"  Title:       {task.Title}");
 			Console.WriteLine($"  Type:        {task.TaskType}");
-			Console.WriteLine($"  Status:      {task.Status}");
+			Console.WriteLine($"  AgentStatus:      {task.AgentStatus}");
 			Console.WriteLine($"  Priority:    {task.Priority}");
 			Console.WriteLine($"  Description: {task.Description ?? "None"}");
 			Console.WriteLine($"  Created:     {task.CreatedAt:yyyy-MM-dd HH:mm:ss} UTC");
@@ -526,7 +526,7 @@ public class TaskCommands
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"Error showing task status: {ex.Message}");
+			Console.WriteLine($"Error showing task agentStatus: {ex.Message}");
 			return 1;
 		}
 	}
@@ -597,17 +597,17 @@ public class TaskCommands
 		Console.WriteLine("  list      List all tasks");
 		Console.WriteLine("  create    Create a new task");
 		Console.WriteLine("  assign    Assign a task to an agent");
-		Console.WriteLine("  update    Update task status");
+		Console.WriteLine("  update    Update task agentStatus");
 		Console.WriteLine("  delete    Delete a task");
-		Console.WriteLine("  status    Show detailed task information");
+		Console.WriteLine("  agentStatus    Show detailed task information");
 		Console.WriteLine("  overdue   List overdue tasks");
 		Console.WriteLine();
 		Console.WriteLine("Examples:");
 		Console.WriteLine("  exxerai task list");
-		Console.WriteLine("  exxerai task list --status pending");
+		Console.WriteLine("  exxerai task list --agentStatus pending");
 		Console.WriteLine("  exxerai task create \"Process Value\" --type DataProcessing --priority High");
 		Console.WriteLine("  exxerai task assign 12345678-1234-1234-1234-123456789012 87654321-4321-4321-4321-210987654321");
-		Console.WriteLine("  exxerai task update 12345678-1234-1234-1234-123456789012 --status Completed");
+		Console.WriteLine("  exxerai task update 12345678-1234-1234-1234-123456789012 --agentStatus Completed");
 		Console.WriteLine();
 		return 0;
 	}

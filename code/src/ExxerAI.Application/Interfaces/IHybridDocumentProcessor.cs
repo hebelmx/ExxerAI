@@ -70,7 +70,7 @@ public interface IHybridDocumentProcessor
 public class ProcessingStage
 {
     /// <summary>
-    /// Initializes a new processing stage with completion status and confidence
+    /// Initializes a new processing stage with completion agentStatus and confidence
     /// </summary>
     /// <param name="stageName">Name of the processing stage</param>
     /// <param name="isSuccessful">Whether the stage completed successfully</param>

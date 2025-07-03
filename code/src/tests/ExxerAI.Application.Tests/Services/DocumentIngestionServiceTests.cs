@@ -232,7 +232,7 @@ public class DocumentIngestionServiceTests
     }
 
     /// <summary>
-    /// Contract Test: GetIngestionStatusAsync should return status information
+    /// Contract Test: GetIngestionStatusAsync should return agentStatus information
     /// </summary>
     [Fact]
     public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_Requested()
@@ -244,7 +244,7 @@ public class DocumentIngestionServiceTests
         // Act
         var result = await _service.GetIngestionStatusAsync();
 
-        // Assert - Verify Result<T> pattern and status data
+        // Assert - Verify Result<T> pattern and agentStatus data
         result.IsSuccess.ShouldBeTrue();
         var status = result.Data!;
         status.ShouldNotBeNull();

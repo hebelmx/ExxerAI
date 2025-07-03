@@ -24,7 +24,7 @@ public class AgentTaskDomainTests
 			task.Title.ShouldBe(string.Empty);
 			task.Description.ShouldBe(string.Empty);
 			task.TaskType.ShouldBe(string.Empty);
-			task.Status.ShouldBe(TaskStatus.Pending);
+			task.AgentStatus.ShouldBe(TaskAgentStatus.Pending);
 			task.Priority.ShouldBe(TaskPriority.Normal);
 			task.AssignedAgentId.ShouldBeNull();
 			task.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddSeconds(-1), DateTime.UtcNow.AddSeconds(1));
@@ -53,7 +53,7 @@ public class AgentTaskDomainTests
 				Title = "Test Task",
 				Description = "A comprehensive test task",
 				TaskType = "DataAnalysis",
-				Status = TaskStatus.InProgress,
+				AgentStatus = TaskAgentStatus.InProgress,
 				Priority = TaskPriority.High,
 				AssignedAgentId = agentId,
 				Deadline = deadline,
@@ -65,7 +65,7 @@ public class AgentTaskDomainTests
 			task.Title.ShouldBe("Test Task");
 			task.Description.ShouldBe("A comprehensive test task");
 			task.TaskType.ShouldBe("DataAnalysis");
-			task.Status.ShouldBe(TaskStatus.InProgress);
+			task.AgentStatus.ShouldBe(TaskAgentStatus.InProgress);
 			task.Priority.ShouldBe(TaskPriority.High);
 			task.AssignedAgentId.ShouldBe(agentId);
 			task.Deadline.ShouldBe(deadline);
@@ -74,43 +74,43 @@ public class AgentTaskDomainTests
 	}
 
 	/// <summary>
-	/// Test fixture for AgentTask status transitions
+	/// Test fixture for AgentTask agentStatus transitions
 	/// </summary>
 	public class StatusTransitionTests
 	{
 		[Theory]
-		[InlineData(TaskStatus.Pending)]
-		[InlineData(TaskStatus.InProgress)]
-		[InlineData(TaskStatus.Completed)]
-		[InlineData(TaskStatus.Failed)]
-		[InlineData(TaskStatus.Cancelled)]
-		[InlineData(TaskStatus.Paused)]
-		public void Should_AllowStatusChange_When_ValidStatusProvided(TaskStatus newStatus)
+		[InlineData(TaskAgentStatus.Pending)]
+		[InlineData(TaskAgentStatus.InProgress)]
+		[InlineData(TaskAgentStatus.Completed)]
+		[InlineData(TaskAgentStatus.Failed)]
+		[InlineData(TaskAgentStatus.Cancelled)]
+		[InlineData(TaskAgentStatus.Paused)]
+		public void Should_AllowStatusChange_When_ValidStatusProvided(TaskAgentStatus newAgentStatus)
 		{
 			// Arrange
-			var task = new AgentTask { Title = "Status Test" };
+			var task = new AgentTask { Title = "AgentStatus Test" };
 
 			// Act
-			task.Status = newStatus;
+			task.AgentStatus = newAgentStatus;
 
 			// Assert
-			task.Status.ShouldBe(newStatus);
+			task.AgentStatus.ShouldBe(newAgentStatus);
 		}
 
 		[Fact]
 		public void Should_TrackStatusHistory_When_StatusChangesMultipleTimes()
 		{
 			// Arrange
-			var task = new AgentTask { Title = "Status History Test" };
-			var statuses = new[] { TaskStatus.InProgress, TaskStatus.Paused, TaskStatus.InProgress, TaskStatus.Completed };
+			var task = new AgentTask { Title = "AgentStatus History Test" };
+			var statuses = new[] { TaskAgentStatus.InProgress, TaskAgentStatus.Paused, TaskAgentStatus.InProgress, TaskAgentStatus.Completed };
 
 			// Act & Assert
-			task.Status.ShouldBe(TaskStatus.Pending); // Initial
+			task.AgentStatus.ShouldBe(TaskAgentStatus.Pending); // Initial
 			
 			foreach (var status in statuses)
 			{
-				task.Status = status;
-				task.Status.ShouldBe(status);
+				task.AgentStatus = status;
+				task.AgentStatus.ShouldBe(status);
 			}
 		}
 	}
@@ -226,7 +226,7 @@ public class AgentTaskDomainTests
 			{
 				Title = "Overdue Test",
 				Deadline = DateTime.UtcNow.AddHours(-2),
-				Status = TaskStatus.InProgress
+				AgentStatus = TaskAgentStatus.InProgress
 			};
 
 			// Act & Assert
@@ -240,7 +240,7 @@ public class AgentTaskDomainTests
 			var task = new AgentTask
 			{
 				Title = "No Deadline Test",
-				Status = TaskStatus.InProgress
+				AgentStatus = TaskAgentStatus.InProgress
 			};
 
 			// Act & Assert
@@ -255,7 +255,7 @@ public class AgentTaskDomainTests
 			{
 				Title = "Completed Test",
 				Deadline = DateTime.UtcNow.AddHours(-2),
-				Status = TaskStatus.Completed
+				AgentStatus = TaskAgentStatus.Completed
 			};
 
 			// Act & Assert
@@ -263,22 +263,22 @@ public class AgentTaskDomainTests
 		}
 
 		[Theory]
-		[InlineData(TaskStatus.Pending)]
-		[InlineData(TaskStatus.InProgress)]
-		[InlineData(TaskStatus.Paused)]
-		[InlineData(TaskStatus.Failed)]
-		public void Should_DetectOverdue_When_NonCompletedStatusAndPastDeadline(TaskStatus status)
+		[InlineData(TaskAgentStatus.Pending)]
+		[InlineData(TaskAgentStatus.InProgress)]
+		[InlineData(TaskAgentStatus.Paused)]
+		[InlineData(TaskAgentStatus.Failed)]
+		public void Should_DetectOverdue_When_NonCompletedStatusAndPastDeadline(TaskAgentStatus agentStatus)
 		{
 			// Arrange
 			var task = new AgentTask
 			{
-				Title = "Status Overdue Test",
+				Title = "AgentStatus Overdue Test",
 				Deadline = DateTime.UtcNow.AddMinutes(-30),
-				Status = status
+				AgentStatus = agentStatus
 			};
 
 			// Act & Assert
-			if (status == TaskStatus.Completed)
+			if (agentStatus == TaskAgentStatus.Completed)
 				task.IsOverdue.ShouldBeFalse();
 			else
 				task.IsOverdue.ShouldBeTrue();

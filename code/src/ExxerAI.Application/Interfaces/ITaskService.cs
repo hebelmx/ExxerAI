@@ -47,24 +47,24 @@ public interface ITaskService
     /// Gets tasks assigned to a specific agent
     /// </summary>
     /// <param name="agentId">The agent identifier</param>
-    /// <param name="status">Optional status filter</param>
+    /// <param name="status">Optional agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of agent tasks</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(
         Guid agentId, 
-        ExxerAI.Domain.TaskStatus? status = null, 
+        ExxerAI.Domain.TaskAgentStatus? status = null, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Updates a task's status
+    /// Updates a task's agentStatus
     /// </summary>
     /// <param name="taskId">The task identifier</param>
-    /// <param name="status">The new status</param>
+    /// <param name="agentStatus">The new agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<ExxerAI.Domain.Result<bool>> UpdateTaskStatusAsync(
         Guid taskId, 
-        ExxerAI.Domain.TaskStatus status, 
+        ExxerAI.Domain.TaskAgentStatus agentStatus, 
         CancellationToken cancellationToken = default);
 
     /// <summary>

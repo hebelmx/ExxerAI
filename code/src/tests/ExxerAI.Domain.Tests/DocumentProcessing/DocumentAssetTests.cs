@@ -6,7 +6,7 @@ namespace ExxerAI.Domain.Tests.DocumentProcessing;
 
 /// <summary>
 /// Comprehensive unit tests for DocumentAsset domain entity
-/// Tests document lifecycle, status transitions, and business rules
+/// Tests document lifecycle, agentStatus transitions, and business rules
 /// </summary>
 public class DocumentAssetTests
 {
@@ -195,7 +195,7 @@ public class DocumentAssetTests
         var status = Enum.Parse<DocumentStatus>(statusName);
 
         // Act
-        // Cannot directly set Status as it's private set, use methods instead
+        // Cannot directly set AgentStatus as it's private set, use methods instead
         if (status == DocumentStatus.Active)
             document.MarkAsActive();
         else if (status == DocumentStatus.Archived)

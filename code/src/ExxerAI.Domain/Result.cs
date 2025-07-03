@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace ExxerAI.Domain;
 
 /// <summary>
-/// Represents the result of an operation, including success status and error messages.
+/// Represents the result of an operation, including success agentStatus and error messages.
 /// Use this class for operations that do not return a value but need to indicate success or failure.
 /// </summary>
 public class Result
@@ -237,7 +237,7 @@ public class Result
 }
 
 /// <summary>
-/// Represents the result of an operation that returns a value, including success status, value, and error messages.
+/// Represents the result of an operation that returns a value, including success agentStatus, value, and error messages.
 /// Use this class for operations that return a value and need to indicate success, failure, or warnings.
 /// </summary>
 public class Result<T>

@@ -33,7 +33,7 @@ public class WorkflowCommands
 			"list" or "ls" => await ListWorkflows(),
 			"create" or "new" => await CreateWorkflow(commandArgs),
 			"execute" or "run" => await ExecuteWorkflow(commandArgs),
-			"status" or "info" => await ShowWorkflowStatus(commandArgs),
+			"agentStatus" or "info" => await ShowWorkflowStatus(commandArgs),
 			"help" or "--help" or "-h" => ShowWorkflowHelp(),
 			_ => ShowUnknownWorkflowCommand(subCommand)
 		};
@@ -119,7 +119,7 @@ public class WorkflowCommands
 		Console.WriteLine("Future versions will support:");
 		Console.WriteLine();
 		Console.WriteLine("  - Real-time workflow execution");
-		Console.WriteLine("  - Progress monitoring and status updates");
+		Console.WriteLine("  - Progress monitoring and agentStatus updates");
 		Console.WriteLine("  - Error handling and recovery");
 		Console.WriteLine("  - Parallel and sequential task execution");
 		Console.WriteLine("  - Dynamic agent assignment");
@@ -130,7 +130,7 @@ public class WorkflowCommands
 	}
 
 	/// <summary>
-	/// Shows workflow status information
+	/// Shows workflow agentStatus information
 	/// </summary>
 	/// <param name="args">Command arguments</param>
 	/// <returns>Exit code</returns>
@@ -141,15 +141,15 @@ public class WorkflowCommands
 		if (args.Length == 0)
 		{
 			Console.WriteLine("Error: Workflow ID or name is required.");
-			Console.WriteLine("Usage: exxerai workflow status <id-or-name>");
+			Console.WriteLine("Usage: exxerai workflow agentStatus <id-or-name>");
 			return 1;
 		}
 
 		var workflowIdentifier = args[0];
 		
-		Console.WriteLine($"Workflow Status for '{workflowIdentifier}':");
+		Console.WriteLine($"Workflow AgentStatus for '{workflowIdentifier}':");
 		Console.WriteLine();
-		Console.WriteLine("Note: Workflow status tracking is currently under development.");
+		Console.WriteLine("Note: Workflow agentStatus tracking is currently under development.");
 		Console.WriteLine("Future versions will display:");
 		Console.WriteLine();
 		Console.WriteLine("  - Current execution state");
@@ -177,7 +177,7 @@ public class WorkflowCommands
 		Console.WriteLine("  list      List available workflows");
 		Console.WriteLine("  create    Create a new workflow");
 		Console.WriteLine("  execute   Execute a workflow");
-		Console.WriteLine("  status    Show workflow execution status");
+		Console.WriteLine("  agentStatus    Show workflow execution agentStatus");
 		Console.WriteLine();
 		Console.WriteLine("Note: Workflow management is currently under development.");
 		Console.WriteLine("      These commands provide a preview of upcoming functionality.");
@@ -186,7 +186,7 @@ public class WorkflowCommands
 		Console.WriteLine("  exxerai workflow list");
 		Console.WriteLine("  exxerai workflow create \"Value Pipeline\" --template processing");
 		Console.WriteLine("  exxerai workflow execute \"Value Pipeline\" --parameters input.json");
-		Console.WriteLine("  exxerai workflow status \"Value Pipeline\"");
+		Console.WriteLine("  exxerai workflow agentStatus \"Value Pipeline\"");
 		Console.WriteLine();
 		Console.WriteLine("Stay tuned for full workflow orchestration capabilities!");
 		Console.WriteLine();

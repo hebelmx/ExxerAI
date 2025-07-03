@@ -143,11 +143,11 @@ public class InMemoryAgentRepository : IAgentRepository
     }
 
     /// <summary>
-    /// Gets agents by status
+    /// Gets agents by agentStatus
     /// </summary>
-    /// <param name="status">The agent status</param>
+    /// <param name="status">The agent agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Collection of agents with the specified status</returns>
+    /// <returns>Collection of agents with the specified agentStatus</returns>
     public Task<ExxerAI.Domain.Result<IEnumerable<Agent>>> GetByStatusAsync(AgentStatus status, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)

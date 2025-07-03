@@ -63,11 +63,11 @@ public interface IRepository<T> where T : class
 public interface IAgentRepository : IRepository<Domain.Agent>
 {
     /// <summary>
-    /// Gets agents by status
+    /// Gets agents by agentStatus
     /// </summary>
-    /// <param name="status">The agent status</param>
+    /// <param name="status">The agent agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Collection of agents with the specified status</returns>
+    /// <returns>Collection of agents with the specified agentStatus</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Agent>>> GetByStatusAsync(
         Domain.AgentStatus status, 
         CancellationToken cancellationToken = default);
@@ -97,25 +97,25 @@ public interface IAgentRepository : IRepository<Domain.Agent>
 public interface ITaskRepository : IRepository<Domain.AgentTask>
 {
     /// <summary>
-    /// Gets tasks by status
+    /// Gets tasks by agentStatus
     /// </summary>
-    /// <param name="status">The task status</param>
+    /// <param name="agentStatus">The task agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Collection of tasks with the specified status</returns>
+    /// <returns>Collection of tasks with the specified agentStatus</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.AgentTask>>> GetByStatusAsync(
-        Domain.TaskStatus status, 
+        Domain.TaskAgentStatus agentStatus, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets tasks assigned to a specific agent
     /// </summary>
     /// <param name="agentId">The agent identifier</param>
-    /// <param name="status">Optional status filter</param>
+    /// <param name="status">Optional agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of tasks assigned to the agent</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.AgentTask>>> GetByAgentAsync(
         Guid agentId, 
-        Domain.TaskStatus? status = null, 
+        Domain.TaskAgentStatus? status = null, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -130,12 +130,12 @@ public interface ITaskRepository : IRepository<Domain.AgentTask>
     /// Gets tasks by type
     /// </summary>
     /// <param name="taskType">The task type</param>
-    /// <param name="status">Optional status filter</param>
+    /// <param name="status">Optional agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of tasks of the specified type</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.AgentTask>>> GetByTypeAsync(
         string taskType, 
-        Domain.TaskStatus? status = null, 
+        Domain.TaskAgentStatus? status = null, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -151,11 +151,11 @@ public interface ITaskRepository : IRepository<Domain.AgentTask>
 public interface IWorkflowRepository : IRepository<Domain.Workflow>
 {
     /// <summary>
-    /// Gets workflows by status
+    /// Gets workflows by agentStatus
     /// </summary>
-    /// <param name="status">The workflow status</param>
+    /// <param name="status">The workflow agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Collection of workflows with the specified status</returns>
+    /// <returns>Collection of workflows with the specified agentStatus</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Workflow>>> GetByStatusAsync(
         Domain.WorkflowStatus status, 
         CancellationToken cancellationToken = default);
@@ -164,7 +164,7 @@ public interface IWorkflowRepository : IRepository<Domain.Workflow>
     /// Gets workflow executions for a specific workflow
     /// </summary>
     /// <param name="workflowId">The workflow identifier</param>
-    /// <param name="status">Optional execution status filter</param>
+    /// <param name="status">Optional execution agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of workflow executions</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.WorkflowExecution>>> GetExecutionsAsync(
@@ -216,7 +216,7 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// Gets conversations for a specific agent
     /// </summary>
     /// <param name="agentId">The agent identifier</param>
-    /// <param name="status">Optional status filter</param>
+    /// <param name="status">Optional agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of conversations for the agent</returns>
     Task<ExxerAI.Domain.Result<IEnumerable<Domain.Conversation>>> GetByAgentAsync(

@@ -492,7 +492,7 @@ public class CommandRouterTests
 	public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_AgentCommandThrows()
 	{
 		// Arrange
-		var args = new[] { "agent", "status", "invalid-guid" };
+		var args = new[] { "agent", "agentStatus", "invalid-guid" };
 
 		// Act
 		var exitCode = await _commandRouter.ExecuteAsync(args);
@@ -505,7 +505,7 @@ public class CommandRouterTests
 	public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_TaskCommandThrows()
 	{
 		// Arrange
-		var args = new[] { "task", "status", "invalid-guid" };
+		var args = new[] { "task", "agentStatus", "invalid-guid" };
 
 		// Act
 		var exitCode = await _commandRouter.ExecuteAsync(args);

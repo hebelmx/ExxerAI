@@ -58,12 +58,12 @@ public class UpdateAgentConfigurationRequest
 }
 
 /// <summary>
-/// Request model for updating agent status
+/// Request model for updating agent agentStatus
 /// </summary>
 public class UpdateAgentStatusRequest
 {
 	/// <summary>
-	/// Gets or sets the new status for the agent
+	/// Gets or sets the new agentStatus for the agent
 	/// </summary>
 	[Required]
 	public AgentStatus Status { get; set; }
@@ -102,7 +102,7 @@ public class AgentResponse
 	public string Description { get; set; } = string.Empty;
 
 	/// <summary>
-	/// Gets or sets the agent status
+	/// Gets or sets the agent agentStatus
 	/// </summary>
 	public AgentStatus Status { get; set; }
 

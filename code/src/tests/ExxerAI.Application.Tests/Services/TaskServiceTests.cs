@@ -189,9 +189,9 @@ public class TaskServiceTests
         var maxCount = 50;
         var pendingTasks = new List<AgentTask>
         {
-            new() { Id = Guid.NewGuid(), Title = "Task1", Status = ExxerAI.Domain.TaskStatus.Pending },
-            new() { Id = Guid.NewGuid(), Title = "Task2", Status = ExxerAI.Domain.TaskStatus.Pending },
-            new() { Id = Guid.NewGuid(), Title = "Task3", Status = ExxerAI.Domain.TaskStatus.Pending }
+            new() { Id = Guid.NewGuid(), Title = "Task1", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending },
+            new() { Id = Guid.NewGuid(), Title = "Task2", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending },
+            new() { Id = Guid.NewGuid(), Title = "Task3", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending }
         };
         var expectedResult = Result<IEnumerable<AgentTask>>.WithSuccess(pendingTasks);
 
@@ -206,7 +206,7 @@ public class TaskServiceTests
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
         result.Data.Count().ShouldBe(3);
-        result.Data.All(t => t.Status == ExxerAI.Domain.TaskStatus.Pending).ShouldBeTrue();
+        result.Data.All(t => t.AgentStatus == ExxerAI.Domain.TaskAgentStatus.Pending).ShouldBeTrue();
     }
 
     [Fact]
@@ -241,7 +241,7 @@ public class TaskServiceTests
         var tasks = new List<AgentTask>();
         for (int i = 0; i < Math.Min(maxCount, 5); i++)
         {
-            tasks.Add(new AgentTask { Id = Guid.NewGuid(), Title = $"Task{i}", Status = ExxerAI.Domain.TaskStatus.Pending });
+            tasks.Add(new AgentTask { Id = Guid.NewGuid(), Title = $"Task{i}", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending });
         }
         var expectedResult = Result<IEnumerable<AgentTask>>.WithSuccess(tasks);
 
@@ -288,31 +288,31 @@ public class TaskServiceTests
     }
 
     [Theory]
-    [InlineData(ExxerAI.Domain.TaskStatus.Pending)]
-    [InlineData(ExxerAI.Domain.TaskStatus.InProgress)]
-    [InlineData(ExxerAI.Domain.TaskStatus.Completed)]
-    [InlineData(ExxerAI.Domain.TaskStatus.Failed)]
-    public async Task GetAgentTasksAsync_WithStatusFilter_ShouldReturnFilteredTasks(ExxerAI.Domain.TaskStatus status)
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Pending)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.InProgress)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Completed)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Failed)]
+    public async Task GetAgentTasksAsync_WithStatusFilter_ShouldReturnFilteredTasks(ExxerAI.Domain.TaskAgentStatus agentStatus)
     {
         // Arrange
         var agentId = Guid.NewGuid();
         var filteredTasks = new List<AgentTask>
         {
-            new() { Id = Guid.NewGuid(), Title = "Task1", AssignedAgentId = agentId, Status = status }
+            new() { Id = Guid.NewGuid(), Title = "Task1", AssignedAgentId = agentId, AgentStatus = agentStatus }
         };
         var expectedResult = Result<IEnumerable<AgentTask>>.WithSuccess(filteredTasks);
 
-        _taskService.GetAgentTasksAsync(agentId, status, Arg.Any<CancellationToken>())
+        _taskService.GetAgentTasksAsync(agentId, agentStatus, Arg.Any<CancellationToken>())
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetAgentTasksAsync(agentId, status);
+        var result = await _taskService.GetAgentTasksAsync(agentId, agentStatus);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.All(t => t.Status == status).ShouldBeTrue();
+        result.Data.All(t => t.AgentStatus == agentStatus).ShouldBeTrue();
     }
 
     [Fact]
@@ -339,22 +339,22 @@ public class TaskServiceTests
     #region UpdateTaskStatusAsync Tests
 
     [Theory]
-    [InlineData(ExxerAI.Domain.TaskStatus.Pending)]
-    [InlineData(ExxerAI.Domain.TaskStatus.InProgress)]
-    [InlineData(ExxerAI.Domain.TaskStatus.Completed)]
-    [InlineData(ExxerAI.Domain.TaskStatus.Failed)]
-    [InlineData(ExxerAI.Domain.TaskStatus.Cancelled)]
-    public async Task UpdateTaskStatusAsync_WithValidInput_ShouldReturnSuccess(ExxerAI.Domain.TaskStatus status)
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Pending)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.InProgress)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Completed)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Failed)]
+    [InlineData(ExxerAI.Domain.TaskAgentStatus.Cancelled)]
+    public async Task UpdateTaskStatusAsync_WithValidInput_ShouldReturnSuccess(ExxerAI.Domain.TaskAgentStatus agentStatus)
     {
         // Arrange
         var taskId = Guid.NewGuid();
         var expectedResult = Result<bool>.WithSuccess(true);
 
-        _taskService.UpdateTaskStatusAsync(taskId, status, Arg.Any<CancellationToken>())
+        _taskService.UpdateTaskStatusAsync(taskId, agentStatus, Arg.Any<CancellationToken>())
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.UpdateTaskStatusAsync(taskId, status);
+        var result = await _taskService.UpdateTaskStatusAsync(taskId, agentStatus);
 
         // Assert
         result.ShouldNotBeNull();
@@ -367,7 +367,7 @@ public class TaskServiceTests
     {
         // Arrange
         var taskId = Guid.Empty;
-        var status = ExxerAI.Domain.TaskStatus.Completed;
+        var status = ExxerAI.Domain.TaskAgentStatus.Completed;
         var expectedResult = Result<bool>.WithFailure("Task ID cannot be empty");
 
         _taskService.UpdateTaskStatusAsync(taskId, status, Arg.Any<CancellationToken>())
@@ -387,7 +387,7 @@ public class TaskServiceTests
     {
         // Arrange
         var taskId = Guid.NewGuid();
-        var status = ExxerAI.Domain.TaskStatus.Completed;
+        var status = ExxerAI.Domain.TaskAgentStatus.Completed;
         var expectedResult = Result<bool>.WithFailure("Task not found");
 
         _taskService.UpdateTaskStatusAsync(taskId, status, Arg.Any<CancellationToken>())
@@ -701,7 +701,7 @@ public class TaskServiceTests
             await _taskService.GetTaskAsync(Guid.NewGuid(), cts.Token);
             await _taskService.GetPendingTasksAsync(100, cts.Token);
             await _taskService.GetAgentTasksAsync(Guid.NewGuid(), null, cts.Token);
-            await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), ExxerAI.Domain.TaskStatus.Completed, cts.Token);
+            await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), ExxerAI.Domain.TaskAgentStatus.Completed, cts.Token);
             await _taskService.AssignTaskToAgentAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
             await _taskService.CompleteTaskAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.FailTaskAsync(Guid.NewGuid(), "error", cts.Token);

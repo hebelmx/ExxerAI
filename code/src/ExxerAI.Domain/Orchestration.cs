@@ -26,7 +26,7 @@ public class Workflow
     public string Description { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the current status of the workflow
+    /// Gets or sets the current agentStatus of the workflow
     /// </summary>
     public WorkflowStatus Status { get; set; } = WorkflowStatus.Draft;
 
@@ -262,7 +262,7 @@ public class WorkflowExecution
     public Workflow? Workflow { get; set; }
 
     /// <summary>
-    /// Gets or sets the execution status
+    /// Gets or sets the execution agentStatus
     /// </summary>
     public WorkflowExecutionStatus Status { get; set; } = WorkflowExecutionStatus.Starting;
 
@@ -364,7 +364,7 @@ public class StepExecution
     public Guid StepId { get; set; }
 
     /// <summary>
-    /// Gets or sets the execution status
+    /// Gets or sets the execution agentStatus
     /// </summary>
     public StepExecutionStatus Status { get; set; } = StepExecutionStatus.Pending;
 

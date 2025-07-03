@@ -69,12 +69,12 @@ public class GoogleDriveServiceBehavioralTests4
     {
         var documentId = "error-doc";
         _driveClient.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
-            .Throws(new TimeoutException("Timeout during status retrieval"));
+            .Throws(new TimeoutException("Timeout during agentStatus retrieval"));
 
         var result = await _service.GetIngestionStatusAsync(documentId);
 
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Timeout during status retrieval");
+        result.Error.ShouldContain("Timeout during agentStatus retrieval");
     }
 
     [Fact]

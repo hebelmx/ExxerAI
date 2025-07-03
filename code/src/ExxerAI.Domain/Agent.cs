@@ -26,7 +26,7 @@ public class Agent
     public string Description { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the agent's current status
+    /// Gets or sets the agent's current agentStatus
     /// </summary>
     public AgentStatus Status { get; set; } = AgentStatus.Inactive;
 

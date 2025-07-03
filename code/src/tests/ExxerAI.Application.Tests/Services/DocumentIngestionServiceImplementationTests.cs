@@ -346,7 +346,7 @@ var folderId = "integration-test-folder";
 var watchResult = await _service.StartWatchingFolderAsync(folderId);
 watchResult.IsSuccess.ShouldBeTrue();
 
-// Act 2: Get status
+// Act 2: Get agentStatus
 var statusResult = await _service.GetIngestionStatusAsync();
 statusResult.IsSuccess.ShouldBeTrue();
 statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
@@ -355,7 +355,7 @@ statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
 var stopResult = await _service.StopWatchingFolderAsync(watchResult.Value!);
 stopResult.IsSuccess.ShouldBeTrue();
 
-// Act 4: Verify status updated
+// Act 4: Verify agentStatus updated
 var finalStatusResult = await _service.GetIngestionStatusAsync();
 finalStatusResult.IsSuccess.ShouldBeTrue();
 finalStatusResult.Value!.ActiveWatchSessions.ShouldBe(0);

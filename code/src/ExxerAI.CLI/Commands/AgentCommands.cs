@@ -57,7 +57,7 @@ public class AgentCommands
 			"list" or "ls" => await ListAgents(commandArgs),
 			"create" or "new" => await CreateAgent(commandArgs),
 			"delete" or "remove" or "rm" => await DeleteAgent(commandArgs),
-			"status" or "info" => await ShowAgentStatus(commandArgs),
+			"agentStatus" or "info" => await ShowAgentStatus(commandArgs),
 			"update" => await UpdateAgent(commandArgs),
 			"activate" => await ActivateAgent(commandArgs),
 			"deactivate" => await DeactivateAgent(commandArgs),
@@ -89,7 +89,7 @@ public class AgentCommands
 			
 			for (int i = 0; i < args.Length - 1; i++)
 			{
-				if (args[i] == "--status" || args[i] == "-s")
+				if (args[i] == "--agentStatus" || args[i] == "-s")
 					statusFilter = args[i + 1];
 			}
 
@@ -100,7 +100,7 @@ public class AgentCommands
 					agents = agents.Where(a => a.Status == status);
 				else
 				{
-					Console.WriteLine($"Invalid status filter: {statusFilter}");
+					Console.WriteLine($"Invalid agentStatus filter: {statusFilter}");
 					return 1;
 				}
 			}
@@ -114,7 +114,7 @@ public class AgentCommands
 			}
 
 			Console.WriteLine("Agents:");
-			Console.WriteLine($"{"ID",-10} {"Name",-25} {"Status",-15} {"Created",-20}");
+			Console.WriteLine($"{"ID",-10} {"Name",-25} {"AgentStatus",-15} {"Created",-20}");
 			Console.WriteLine(new string('-', 70));
 
 			foreach (var agent in agentList)
@@ -226,7 +226,7 @@ public class AgentCommands
 	}
 
 	/// <summary>
-	/// Shows detailed agent status information
+	/// Shows detailed agent agentStatus information
 	/// </summary>
 	/// <param name="args">Command arguments</param>
 	/// <returns>Exit code</returns>
@@ -235,7 +235,7 @@ public class AgentCommands
 		if (args.Length == 0)
 		{
 			Console.WriteLine("Error: Agent ID is required.");
-			Console.WriteLine("Usage: exxerai agent status <id>");
+			Console.WriteLine("Usage: exxerai agent agentStatus <id>");
 			return 1;
 		}
 
@@ -264,7 +264,7 @@ public class AgentCommands
 			Console.WriteLine($"Agent Details:");
 			Console.WriteLine($"  ID:          {agent.Id}");
 			Console.WriteLine($"  Name:        {agent.Name}");
-			Console.WriteLine($"  Status:      {agent.Status}");
+			Console.WriteLine($"  AgentStatus:      {agent.Status}");
 			Console.WriteLine($"  Description: {agent.Description ?? "None"}");
 			Console.WriteLine($"  Created:     {agent.CreatedAt:yyyy-MM-dd HH:mm:ss} UTC");
 			Console.WriteLine($"  Updated:     {agent.UpdatedAt:yyyy-MM-dd HH:mm:ss} UTC");
@@ -282,7 +282,7 @@ public class AgentCommands
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"Error showing agent status: {ex.Message}");
+			Console.WriteLine($"Error showing agent agentStatus: {ex.Message}");
 			return 1;
 		}
 	}
@@ -367,10 +367,10 @@ public class AgentCommands
 	}
 
 	/// <summary>
-	/// Changes agent status
+	/// Changes agent agentStatus
 	/// </summary>
 	/// <param name="args">Command arguments</param>
-	/// <param name="newStatus">New status</param>
+	/// <param name="newStatus">New agentStatus</param>
 	/// <param name="action">Action description</param>
 	/// <returns>Exit code</returns>
 	private async Task<int> ChangeAgentStatus(string[] args, AgentStatus newStatus, string action)
@@ -404,7 +404,7 @@ public class AgentCommands
 			var updateResult = await _agentRepository.UpdateAsync(agent);
 			if (updateResult.IsFailure)
 			{
-				Console.WriteLine($"Error changing agent status: {updateResult.Error}");
+				Console.WriteLine($"Error changing agent agentStatus: {updateResult.Error}");
 				return 1;
 			}
 
@@ -413,7 +413,7 @@ public class AgentCommands
 		}
 		catch (Exception ex)
 		{
-			Console.WriteLine($"Error changing agent status: {ex.Message}");
+			Console.WriteLine($"Error changing agent agentStatus: {ex.Message}");
 			return 1;
 		}
 	}
@@ -432,16 +432,16 @@ public class AgentCommands
 		Console.WriteLine("  list      List all agents");
 		Console.WriteLine("  create    Create a new agent");
 		Console.WriteLine("  delete    Delete an agent");
-		Console.WriteLine("  status    Show detailed agent information");
+		Console.WriteLine("  agentStatus    Show detailed agent information");
 		Console.WriteLine("  update    Update agent properties");
 		Console.WriteLine("  activate  Activate an agent");
 		Console.WriteLine("  deactivate Deactivate an agent");
 		Console.WriteLine();
 		Console.WriteLine("Examples:");
 		Console.WriteLine("  exxerai agent list");
-		Console.WriteLine("  exxerai agent list --status active");
+		Console.WriteLine("  exxerai agent list --agentStatus active");
 		Console.WriteLine("  exxerai agent create \"Value Processor\" --description \"Processes data files\"");
-		Console.WriteLine("  exxerai agent status 12345678-1234-1234-1234-123456789012");
+		Console.WriteLine("  exxerai agent agentStatus 12345678-1234-1234-1234-123456789012");
 		Console.WriteLine("  exxerai agent update 12345678-1234-1234-1234-123456789012 --name \"New Name\"");
 		Console.WriteLine();
 		return 0;

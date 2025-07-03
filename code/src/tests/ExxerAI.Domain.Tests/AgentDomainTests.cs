@@ -63,7 +63,7 @@ public class AgentDomainTests
 	}
 
 	/// <summary>
-	/// Test fixture for Agent status management
+	/// Test fixture for Agent agentStatus management
 	/// </summary>
 	public class StatusManagementTests
 	{
@@ -76,7 +76,7 @@ public class AgentDomainTests
 		public void Should_AllowStatusChange_When_ValidStatusProvided(AgentStatus newStatus)
 		{
 			// Arrange
-			var agent = new Agent { Name = "Status Test Agent" };
+			var agent = new Agent { Name = "AgentStatus Test Agent" };
 
 			// Act
 			agent.Status = newStatus;

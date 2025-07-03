@@ -159,7 +159,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var agentId = Guid.NewGuid();
-		var args = new[] { "status", agentId.ToString() };
+		var args = new[] { "agentStatus", agentId.ToString() };
 		var testAgent = new Agent 
 		{ 
 			Id = agentId, 
@@ -297,7 +297,7 @@ public class AgentCommandsTests
 	public async Task ListAgents_Should_FilterByStatus_When_StatusFilterProvided()
 	{
 		// Arrange
-		var args = new[] { "list", "--status", "Active" };
+		var args = new[] { "list", "--agentStatus", "Active" };
 		var agents = new List<Agent>
 		{
 			new() { Id = Guid.NewGuid(), Name = "ActiveAgent", Status = AgentStatus.Active, CreatedAt = DateTime.UtcNow },
@@ -316,7 +316,7 @@ public class AgentCommandsTests
 	public async Task ListAgents_Should_ReturnError_When_InvalidStatusFilter()
 	{
 		// Arrange
-		var args = new[] { "list", "--status", "InvalidStatus" };
+		var args = new[] { "list", "--agentStatus", "InvalidStatus" };
 		_mockAgentRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<Agent>>.Success(new List<Agent>())));
 
 		// Act
@@ -430,7 +430,7 @@ public class AgentCommandsTests
 	public async Task ShowAgentStatus_Should_ReturnError_When_NoIdProvided()
 	{
 		// Arrange
-		var args = new[] { "status" };
+		var args = new[] { "agentStatus" };
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -443,7 +443,7 @@ public class AgentCommandsTests
 	public async Task ShowAgentStatus_Should_ReturnError_When_InvalidIdFormat()
 	{
 		// Arrange
-		var args = new[] { "status", "invalid-id" };
+		var args = new[] { "agentStatus", "invalid-id" };
 
 		// Act
 		var exitCode = await _agentCommands.ExecuteAsync(args);
@@ -457,7 +457,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var agentId = Guid.NewGuid();
-		var args = new[] { "status", agentId.ToString() };
+		var args = new[] { "agentStatus", agentId.ToString() };
 		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(null!)));
 
 		// Act
@@ -472,7 +472,7 @@ public class AgentCommandsTests
 	{
 		// Arrange
 		var agentId = Guid.NewGuid();
-		var args = new[] { "status", agentId.ToString() };
+		var args = new[] { "agentStatus", agentId.ToString() };
 		_mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.WithFailure("Repository error")));
 
 		// Act

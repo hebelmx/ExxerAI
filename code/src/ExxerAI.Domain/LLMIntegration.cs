@@ -187,7 +187,7 @@ public class Conversation
     public LanguageModel? LanguageModel { get; set; }
 
     /// <summary>
-    /// Gets or sets the conversation status
+    /// Gets or sets the conversation agentStatus
     /// </summary>
     public ConversationStatus Status { get; set; } = ConversationStatus.Active;
 

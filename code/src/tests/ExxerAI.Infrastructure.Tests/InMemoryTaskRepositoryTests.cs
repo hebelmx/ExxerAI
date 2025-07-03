@@ -1,7 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Infrastructure.Repositories;
 using Shouldly;
-using TaskStatus = ExxerAI.Domain.TaskStatus;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -32,7 +31,7 @@ public class InMemoryTaskRepositoryTests
 			Description = "Test Description",
 			TaskType = "Analysis",
 			Priority = TaskPriority.High,
-			Status = TaskStatus.Pending
+			AgentStatus = TaskAgentStatus.Pending
 		};
 
 		// Act
@@ -151,7 +150,7 @@ public class InMemoryTaskRepositoryTests
 				Title = "Original Task",
 				Description = "Original Description",
 				TaskType = "UpdateTest",
-				Status = TaskStatus.Pending
+				AgentStatus = TaskAgentStatus.Pending
 			};
 
 			var addResult = await _repository.AddAsync(task);
@@ -159,7 +158,7 @@ public class InMemoryTaskRepositoryTests
 
 			addedTask.Title = "Updated Task";
 			addedTask.Description = "Updated Description";
-			addedTask.Status = TaskStatus.InProgress;
+			addedTask.AgentStatus = TaskAgentStatus.InProgress;
 
 			// Act
 			var result = await _repository.UpdateAsync(addedTask);
@@ -169,7 +168,7 @@ public class InMemoryTaskRepositoryTests
 			result.Data.ShouldNotBeNull();
 			result.Data.Title.ShouldBe("Updated Task");
 			result.Data.Description.ShouldBe("Updated Description");
-			result.Data.Status.ShouldBe(TaskStatus.InProgress);
+			result.Data.AgentStatus.ShouldBe(TaskAgentStatus.InProgress);
 		}
 
 		[Fact]
@@ -233,11 +232,11 @@ public class InMemoryTaskRepositoryTests
 			// Arrange
 			var pendingTasks = new[]
 			{
-				new AgentTask { Title = "Pending 1", Status = TaskStatus.Pending, TaskType = "StatusTest" },
-				new AgentTask { Title = "Pending 2", Status = TaskStatus.Pending, TaskType = "StatusTest" }
+				new AgentTask { Title = "Pending 1", AgentStatus = TaskAgentStatus.Pending, TaskType = "StatusTest" },
+				new AgentTask { Title = "Pending 2", AgentStatus = TaskAgentStatus.Pending, TaskType = "StatusTest" }
 			};
-			var inProgressTask = new AgentTask { Title = "In Progress", Status = TaskStatus.InProgress, TaskType = "StatusTest" };
-			var completedTask = new AgentTask { Title = "Completed", Status = TaskStatus.Completed, TaskType = "StatusTest" };
+			var inProgressTask = new AgentTask { Title = "In Progress", AgentStatus = TaskAgentStatus.InProgress, TaskType = "StatusTest" };
+			var completedTask = new AgentTask { Title = "Completed", AgentStatus = TaskAgentStatus.Completed, TaskType = "StatusTest" };
 
 			foreach (var task in pendingTasks.Concat(new[] { inProgressTask, completedTask }))
 			{
@@ -245,13 +244,13 @@ public class InMemoryTaskRepositoryTests
 			}
 
 			// Act
-			var result = await _repository.GetByStatusAsync(TaskStatus.Pending);
+			var result = await _repository.GetByStatusAsync(TaskAgentStatus.Pending);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
 			result.Data.ShouldNotBeNull();
 			result.Data.Count().ShouldBeGreaterThanOrEqualTo(2);
-			result.Data.All(t => t.Status == TaskStatus.Pending).ShouldBeTrue();
+			result.Data.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
 		}
 
 		[Fact]
@@ -292,9 +291,9 @@ public class InMemoryTaskRepositoryTests
 
 			var tasks = new[]
 			{
-				new AgentTask { Title = "Agent Pending", AssignedAgentId = agentId, Status = TaskStatus.Pending, TaskType = "FilterTest" },
-				new AgentTask { Title = "Agent InProgress", AssignedAgentId = agentId, Status = TaskStatus.InProgress, TaskType = "FilterTest" },
-				new AgentTask { Title = "Agent Completed", AssignedAgentId = agentId, Status = TaskStatus.Completed, TaskType = "FilterTest" }
+				new AgentTask { Title = "Agent Pending", AssignedAgentId = agentId, AgentStatus = TaskAgentStatus.Pending, TaskType = "FilterTest" },
+				new AgentTask { Title = "Agent InProgress", AssignedAgentId = agentId, AgentStatus = TaskAgentStatus.InProgress, TaskType = "FilterTest" },
+				new AgentTask { Title = "Agent Completed", AssignedAgentId = agentId, AgentStatus = TaskAgentStatus.Completed, TaskType = "FilterTest" }
 			};
 
 			foreach (var task in tasks)
@@ -303,13 +302,13 @@ public class InMemoryTaskRepositoryTests
 			}
 
 			// Act
-			var result = await _repository.GetByAgentAsync(agentId, TaskStatus.InProgress);
+			var result = await _repository.GetByAgentAsync(agentId, TaskAgentStatus.InProgress);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
 			result.Data.ShouldNotBeNull();
 			result.Data.Count().ShouldBe(1);
-			result.Data.First().Status.ShouldBe(TaskStatus.InProgress);
+			result.Data.First().AgentStatus.ShouldBe(TaskAgentStatus.InProgress);
 			result.Data.First().AssignedAgentId.ShouldBe(agentId);
 		}
 
@@ -351,14 +350,14 @@ public class InMemoryTaskRepositoryTests
 				{ 
 					Title = "Overdue 1", 
 					Deadline = now.AddHours(-2), 
-					Status = TaskStatus.Pending,
+					AgentStatus = TaskAgentStatus.Pending,
 					TaskType = "OverdueTest"
 				},
 				new AgentTask 
 				{ 
 					Title = "Overdue 2", 
 					Deadline = now.AddHours(-1), 
-					Status = TaskStatus.InProgress,
+					AgentStatus = TaskAgentStatus.InProgress,
 					TaskType = "OverdueTest"
 				}
 			};
@@ -366,14 +365,14 @@ public class InMemoryTaskRepositoryTests
 			{ 
 				Title = "Future", 
 				Deadline = now.AddHours(2), 
-				Status = TaskStatus.Pending,
+				AgentStatus = TaskAgentStatus.Pending,
 				TaskType = "OverdueTest"
 			};
 			var overdueButCompletedTask = new AgentTask 
 			{ 
 				Title = "Overdue Completed", 
 				Deadline = now.AddHours(-3), 
-				Status = TaskStatus.Completed,
+				AgentStatus = TaskAgentStatus.Completed,
 				TaskType = "OverdueTest"
 			};
 
@@ -390,7 +389,7 @@ public class InMemoryTaskRepositoryTests
 			result.Data.ShouldNotBeNull();
 			result.Data.Count().ShouldBe(2);
 			result.Data.All(t => t.Deadline < now).ShouldBeTrue();
-			result.Data.All(t => t.Status != TaskStatus.Completed).ShouldBeTrue();
+			result.Data.All(t => t.AgentStatus != TaskAgentStatus.Completed).ShouldBeTrue();
 		}
 	}
 
@@ -627,7 +626,7 @@ public class InMemoryTaskRepositoryTests
 						Id = taskToUpdate.Id,
 						Title = $"Updated Title {i}",
 						TaskType = taskToUpdate.TaskType,
-						Status = TaskStatus.InProgress,
+						AgentStatus = TaskAgentStatus.InProgress,
 						CreatedAt = taskToUpdate.CreatedAt
 					};
 					return _repository.UpdateAsync(updatedTask);
@@ -656,7 +655,7 @@ public class InMemoryTaskRepositoryTests
 					Title = $"Performance Task {i}",
 					TaskType = $"Type{i % 10}", // 10 different types
 					Priority = (TaskPriority)(i % 4 + 1),
-					Status = (TaskStatus)(i % 6)
+					AgentStatus = (TaskAgentStatus)(i % 6)
 				})
 				.ToArray();
 
@@ -692,7 +691,7 @@ public class InMemoryTaskRepositoryTests
 					Title = $"Query Test Task {i}",
 					TaskType = $"QueryType{i % 20}",
 					AssignedAgentId = agentIds[i % agentIds.Length],
-					Status = (TaskStatus)(i % 6),
+					AgentStatus = (TaskAgentStatus)(i % 6),
 					Priority = (TaskPriority)(i % 4 + 1),
 					Deadline = i % 10 == 0 ? DateTime.UtcNow.AddHours(-1) : DateTime.UtcNow.AddHours(1)
 				});
@@ -706,7 +705,7 @@ public class InMemoryTaskRepositoryTests
 			// Act & Assert - Complex queries should complete quickly
 			var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
-			var statusQuery = await _repository.GetByStatusAsync(TaskStatus.InProgress);
+			var statusQuery = await _repository.GetByStatusAsync(TaskAgentStatus.InProgress);
 			var agentQuery = await _repository.GetByAgentAsync(agentIds[0]);
 			var typeQuery = await _repository.GetByTypeAsync("QueryType5");
 			var overdueQuery = await _repository.GetOverdueTasksAsync();
@@ -732,7 +731,7 @@ public class InMemoryTaskRepositoryTests
 		{
 			// Act
 			var allTasks = await _repository.GetAllAsync();
-			var statusTasks = await _repository.GetByStatusAsync(TaskStatus.Pending);
+			var statusTasks = await _repository.GetByStatusAsync(TaskAgentStatus.Pending);
 			var agentTasks = await _repository.GetByAgentAsync(Guid.NewGuid());
 			var typeTasks = await _repository.GetByTypeAsync("NonExistent");
 			var overdueTasks = await _repository.GetOverdueTasksAsync();
@@ -760,8 +759,8 @@ public class InMemoryTaskRepositoryTests
 			// Arrange
 			var tasksWithoutDeadline = new[]
 			{
-				new AgentTask { Title = "No Deadline 1", Status = TaskStatus.Pending, TaskType = "EdgeTest" },
-				new AgentTask { Title = "No Deadline 2", Status = TaskStatus.InProgress, TaskType = "EdgeTest" }
+				new AgentTask { Title = "No Deadline 1", AgentStatus = TaskAgentStatus.Pending, TaskType = "EdgeTest" },
+				new AgentTask { Title = "No Deadline 2", AgentStatus = TaskAgentStatus.InProgress, TaskType = "EdgeTest" }
 			};
 
 			foreach (var task in tasksWithoutDeadline)

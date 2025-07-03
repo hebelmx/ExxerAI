@@ -33,9 +33,9 @@ public class AgentTask
     public string TaskType { get; set; } = string.Empty;
 
     /// <summary>
-    /// Gets or sets the current status of the task
+    /// Gets or sets the current agentStatus of the task
     /// </summary>
-    public TaskStatus Status { get; set; } = TaskStatus.Pending;
+    public TaskAgentStatus AgentStatus { get; set; } = TaskAgentStatus.Pending;
 
     /// <summary>
     /// Gets or sets the task priority
@@ -109,39 +109,39 @@ public class AgentTask
     /// Gets whether the task is overdue
     /// </summary>
     public bool IsOverdue =>
-        Deadline.HasValue && DateTime.UtcNow > Deadline.Value && Status != TaskStatus.Completed;
+        Deadline.HasValue && DateTime.UtcNow > Deadline.Value && AgentStatus != TaskAgentStatus.Completed;
 }
 
 /// <summary>
 /// Represents the possible states of a task
 /// </summary>
-public enum TaskStatus
+public enum TaskAgentStatus
 {
     /// <summary>
     /// Task is created but not yet started
     /// </summary>
     Pending,
-    
+
     /// <summary>
     /// Task is being processed by an agent
     /// </summary>
     InProgress,
-    
+
     /// <summary>
     /// Task has been completed successfully
     /// </summary>
     Completed,
-    
+
     /// <summary>
     /// Task failed during execution
     /// </summary>
     Failed,
-    
+
     /// <summary>
     /// Task was cancelled before completion
     /// </summary>
     Cancelled,
-    
+
     /// <summary>
     /// Task is paused and waiting to be resumed
     /// </summary>
@@ -157,17 +157,17 @@ public enum TaskPriority
     /// Low priority task
     /// </summary>
     Low = 1,
-    
+
     /// <summary>
     /// Normal priority task
     /// </summary>
     Normal = 2,
-    
+
     /// <summary>
     /// High priority task
     /// </summary>
     High = 3,
-    
+
     /// <summary>
     /// Critical priority task
     /// </summary>
@@ -214,4 +214,4 @@ public class TaskMetadata
     /// Gets or sets performance metrics
     /// </summary>
     public Dictionary<string, double> Metrics { get; init; } = new();
-} 
+}

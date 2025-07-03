@@ -299,17 +299,17 @@ public class AgentsController : ControllerBase
 	}
 
 	/// <summary>
-	/// Updates an agent's status
+	/// Updates an agent's agentStatus
 	/// </summary>
 	/// <param name="id">The agent identifier</param>
-	/// <param name="request">The status update request</param>
+	/// <param name="request">The agentStatus update request</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>The update result</returns>
-	/// <response code="204">Status updated successfully</response>
+	/// <response code="204">AgentStatus updated successfully</response>
 	/// <response code="400">Invalid request data</response>
 	/// <response code="404">Agent not found</response>
 	/// <response code="500">Internal server error</response>
-	[HttpPut("{id:guid}/status")]
+	[HttpPut("{id:guid}/agentStatus")]
 	[ProducesResponseType(StatusCodes.Status204NoContent)]
 	[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
 	[ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
@@ -321,7 +321,7 @@ public class AgentsController : ControllerBase
 	{
 		try
 		{
-			_logger.LogInformation("Updating status for agent: {AgentId} to {Status}", id, request.Status);
+			_logger.LogInformation("Updating agentStatus for agent: {AgentId} to {AgentStatus}", id, request.Status);
 
 			if (!ModelState.IsValid)
 			{
@@ -357,17 +357,17 @@ public class AgentsController : ControllerBase
 				return BadRequest(new ApiResponse<object>
 				{
 					Success = false,
-					Message = "Failed to update agent status",
-					Errors = new List<string> { result.Error ?? "Status update failed" }
+					Message = "Failed to update agent agentStatus",
+					Errors = new List<string> { result.Error ?? "AgentStatus update failed" }
 				});
 			}
 
-			_logger.LogInformation("Successfully updated status for agent: {AgentId} to {Status}", id, request.Status);
+			_logger.LogInformation("Successfully updated agentStatus for agent: {AgentId} to {AgentStatus}", id, request.Status);
 			return NoContent();
 		}
 		catch (Exception ex)
 		{
-			_logger.LogError(ex, "Error updating status for agent: {AgentId}", id);
+			_logger.LogError(ex, "Error updating agentStatus for agent: {AgentId}", id);
 			return StatusCode(StatusCodes.Status500InternalServerError, new ApiResponse<object>
 			{
 				Success = false,

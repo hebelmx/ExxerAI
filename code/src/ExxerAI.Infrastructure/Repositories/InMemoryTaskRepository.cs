@@ -65,7 +65,7 @@ public class InMemoryTaskRepository : ITaskRepository
 			Description = entity.Description,
 			TaskType = entity.TaskType,
 			Priority = entity.Priority,
-			Status = entity.Status,
+			AgentStatus = entity.AgentStatus,
 			AssignedAgentId = entity.AssignedAgentId,
 			Deadline = entity.Deadline,
 			CreatedAt = DateTime.UtcNow
@@ -151,16 +151,16 @@ public class InMemoryTaskRepository : ITaskRepository
 	}
 
 	/// <summary>
-	/// Gets tasks by status
+	/// Gets tasks by agentStatus
 	/// </summary>
-	/// <param name="status">The task status</param>
+	/// <param name="agentStatus">The task agentStatus</param>
 	/// <param name="cancellationToken">Cancellation token</param>
-	/// <returns>Collection of tasks with the specified status</returns>
+	/// <returns>Collection of tasks with the specified agentStatus</returns>
 	public Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetByStatusAsync(
-		Domain.TaskStatus status, 
+		Domain.TaskAgentStatus agentStatus, 
 		CancellationToken cancellationToken = default)
 	{
-		var tasks = _tasks.Values.Where(t => t.Status == status);
+		var tasks = _tasks.Values.Where(t => t.AgentStatus == agentStatus);
 		return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<AgentTask>>.WithSuccess(tasks));
 	}
 
@@ -168,12 +168,12 @@ public class InMemoryTaskRepository : ITaskRepository
 	/// Gets tasks assigned to a specific agent
 	/// </summary>
 	/// <param name="agentId">The agent identifier</param>
-	/// <param name="status">Optional status filter</param>
+	/// <param name="status">Optional agentStatus filter</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>Collection of tasks assigned to the agent</returns>
 	public Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetByAgentAsync(
 		Guid agentId, 
-		Domain.TaskStatus? status = null, 
+		Domain.TaskAgentStatus? status = null, 
 		CancellationToken cancellationToken = default)
 	{
 		if (agentId == Guid.Empty)
@@ -185,7 +185,7 @@ public class InMemoryTaskRepository : ITaskRepository
 
 		if (status.HasValue)
 		{
-			query = query.Where(t => t.Status == status.Value);
+			query = query.Where(t => t.AgentStatus == status.Value);
 		}
 
 		var tasks = query.ToList();
@@ -202,7 +202,7 @@ public class InMemoryTaskRepository : ITaskRepository
 		var now = DateTime.UtcNow;
 		var overdueTasks = _tasks.Values
 			.Where(t => t.Deadline.HasValue && t.Deadline.Value < now && 
-			           (t.Status == Domain.TaskStatus.Pending || t.Status == Domain.TaskStatus.InProgress))
+			           (t.AgentStatus == Domain.TaskAgentStatus.Pending || t.AgentStatus == Domain.TaskAgentStatus.InProgress))
 			.ToList();
 
 		return Task.FromResult(ExxerAI.Domain.Result<IEnumerable<AgentTask>>.WithSuccess(overdueTasks));
@@ -212,12 +212,12 @@ public class InMemoryTaskRepository : ITaskRepository
 	/// Gets tasks by type
 	/// </summary>
 	/// <param name="taskType">The task type</param>
-	/// <param name="status">Optional status filter</param>
+	/// <param name="status">Optional agentStatus filter</param>
 	/// <param name="cancellationToken">Cancellation token</param>
 	/// <returns>Collection of tasks of the specified type</returns>
 	public Task<ExxerAI.Domain.Result<IEnumerable<AgentTask>>> GetByTypeAsync(
 		string taskType, 
-		Domain.TaskStatus? status = null, 
+		Domain.TaskAgentStatus? status = null, 
 		CancellationToken cancellationToken = default)
 	{
 		if (string.IsNullOrWhiteSpace(taskType))
@@ -229,7 +229,7 @@ public class InMemoryTaskRepository : ITaskRepository
 
 		if (status.HasValue)
 		{
-			query = query.Where(t => t.Status == status.Value);
+			query = query.Where(t => t.AgentStatus == status.Value);
 		}
 
 		var tasks = query.ToList();
@@ -251,7 +251,7 @@ public class InMemoryTaskRepository : ITaskRepository
 				Description = "Process and respond to a natural language query from user",
 				TaskType = "natural-language",
 				Priority = TaskPriority.Normal,
-				Status = Domain.TaskStatus.Pending,
+				AgentStatus = Domain.TaskAgentStatus.Pending,
 				CreatedAt = DateTime.UtcNow.AddHours(-2),
 				Deadline = DateTime.UtcNow.AddHours(24)
 			},
@@ -262,7 +262,7 @@ public class InMemoryTaskRepository : ITaskRepository
 				Description = "Analyze incoming data for patterns and anomalies",
 				TaskType = "analysis",
 				Priority = TaskPriority.High,
-				Status = Domain.TaskStatus.Pending,
+				AgentStatus = Domain.TaskAgentStatus.Pending,
 				CreatedAt = DateTime.UtcNow.AddHours(-1),
 				Deadline = DateTime.UtcNow.AddHours(12)
 			},
@@ -273,7 +273,7 @@ public class InMemoryTaskRepository : ITaskRepository
 				Description = "Generate comprehensive documentation for the codebase",
 				TaskType = "code-generation",
 				Priority = TaskPriority.Low,
-				Status = Domain.TaskStatus.Pending,
+				AgentStatus = Domain.TaskAgentStatus.Pending,
 				CreatedAt = DateTime.UtcNow.AddMinutes(-30),
 				Deadline = DateTime.UtcNow.AddDays(3)
 			}
