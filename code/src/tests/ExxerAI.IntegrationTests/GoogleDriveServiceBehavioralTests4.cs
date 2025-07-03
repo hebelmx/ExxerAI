@@ -1,7 +1,11 @@
-using ExxerAI.Application.Patterns;
+using ExxerAI.Infrastructure.External;
+using ExxerAI.Application.Interfaces;
+using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
-using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.Application.Patterns;
+using NSubstitute;
+using Shouldly;
+using Xunit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using DateRange = ExxerAI.Application.Interfaces.DateRange;
@@ -10,15 +14,13 @@ namespace ExxerAI.IntegrationTests;
 
 public class GoogleDriveServiceBehavioralTests4
 {
-    private readonly IGoogleDriveService _driveClient;
+    private readonly IDocumentIngestionService _service;
     private readonly ILogger<GoogleDriveService> _logger;
-    private readonly GoogleDriveService _service;
 
     public GoogleDriveServiceBehavioralTests4()
     {
-        _driveClient = Substitute.For<IGoogleDriveService>();
         _logger = Substitute.For<ILogger<GoogleDriveService>>();
-        _service = new GoogleDriveService(_logger, Substitute.For<IConfiguration>());
+        _service = new GoogleDriveService(_logger);
     }
 
     [Fact]
@@ -27,10 +29,10 @@ public class GoogleDriveServiceBehavioralTests4
         var folderId = "folder123";
         var changes = new List<string> { "doc1", "doc2" };
 
-        _driveClient.DetectChangesAsync(folderId, Arg.Any<CancellationToken>())
+        _service.DetectChangesAsync(folderId, Arg.Any<CancellationToken>())
             .Returns(changes);
 
-        var result = await _service.DetectDocumentChangesAsync(folderId);
+        var result = await _service.DetectChangesAsync(folderId);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -41,10 +43,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs()
     {
         var folderId = "invalid-folder";
-        _driveClient.DetectChangesAsync(folderId, Arg.Any<CancellationToken>())
+        _service.DetectChangesAsync(folderId, Arg.Any<CancellationToken>())
             .Throws(new InvalidOperationException("Drive API error"));
 
-        var result = await _service.DetectDocumentChangesAsync(folderId);
+        var result = await _service.DetectChangesAsync(folderId);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Drive API error");
@@ -56,10 +58,10 @@ public class GoogleDriveServiceBehavioralTests4
         var documentId = "doc-123";
         var expectedStatus = new IngestionStatus { State = "Processed" };
 
-        _driveClient.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
+        _service.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
             .Returns(expectedStatus);
 
-        var result = await _service.GetIngestionStatusAsync(documentId);
+        var result = await _service.GetStatusAsync(documentId);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -70,10 +72,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs()
     {
         var documentId = "error-doc";
-        _driveClient.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
+        _service.GetStatusAsync(documentId, Arg.Any<CancellationToken>())
             .Throws(new TimeoutException("Timeout during agentStatus retrieval"));
 
-        var result = await _service.GetIngestionStatusAsync(documentId);
+        var result = await _service.GetStatusAsync(documentId);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Timeout during agentStatus retrieval");
@@ -83,10 +85,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed()
     {
         var documentId = "ingest-001";
-        _driveClient.IngestAsync(documentId, Arg.Any<CancellationToken>())
+        _service.IngestAsync(documentId, Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
-        var result = await _service.IngestDocumentAsync(documentId);
+        var result = await _service.IngestAsync(documentId);
 
         result.IsSuccess.ShouldBeTrue();
     }
@@ -95,10 +97,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs()
     {
         var documentId = "ingest-fail";
-        _driveClient.IngestAsync(documentId, Arg.Any<CancellationToken>())
+        _service.IngestAsync(documentId, Arg.Any<CancellationToken>())
             .Throws(new InvalidOperationException("Ingestion failed"));
 
-        var result = await _service.IngestDocumentAsync(documentId);
+        var result = await _service.IngestAsync(documentId);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Ingestion failed");
@@ -447,10 +449,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task IsDocumentModifiedAsync_Should_Return_True_When_Modified()
     {
         var documentId = "doc-modified";
-        _driveClient.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
+        _service.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
             .Returns(true);
 
-        var result = await _service.IsDocumentModifiedAsync(documentId);
+        var result = await _service.IsModifiedAsync(documentId);
 
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldBeTrue();
@@ -460,10 +462,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task IsDocumentModifiedAsync_Should_Return_False_When_NotModified()
     {
         var documentId = "doc-unmodified";
-        _driveClient.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
+        _service.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
             .Returns(false);
 
-        var result = await _service.IsDocumentModifiedAsync(documentId);
+        var result = await _service.IsModifiedAsync(documentId);
 
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldBeFalse();
@@ -473,10 +475,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task IsDocumentModifiedAsync_Should_Return_Failure_When_ExceptionThrown()
     {
         var documentId = "doc-error";
-        _driveClient.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
+        _service.IsModifiedAsync(documentId, Arg.Any<CancellationToken>())
             .Throws(new Exception("Unexpected error"));
 
-        var result = await _service.IsDocumentModifiedAsync(documentId);
+        var result = await _service.IsModifiedAsync(documentId);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Unexpected error");
@@ -486,10 +488,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task StartWatchingFolderAsync_Should_Return_Success_When_StartSucceeds()
     {
         var folderId = "folder-watch";
-        _driveClient.StartWatchingAsync(folderId, Arg.Any<CancellationToken>())
+        _service.StartWatchingAsync(folderId, Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
-        var result = await _service.StartWatchingFolderAsync(folderId);
+        var result = await _service.StartWatchingAsync(folderId);
 
         result.IsSuccess.ShouldBeTrue();
     }
@@ -498,10 +500,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task StartWatchingFolderAsync_Should_Return_Failure_When_ExceptionThrown()
     {
         var folderId = "folder-failure";
-        _driveClient.StartWatchingAsync(folderId, Arg.Any<CancellationToken>())
+        _service.StartWatchingAsync(folderId, Arg.Any<CancellationToken>())
             .Throws(new InvalidOperationException("Watch failed"));
 
-        var result = await _service.StartWatchingFolderAsync(folderId);
+        var result = await _service.StartWatchingAsync(folderId);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Watch failed");
@@ -511,10 +513,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task StopWatchingFolderAsync_Should_Return_Success_When_StopSucceeds()
     {
         var folderId = "folder-stop";
-        _driveClient.StopWatchingAsync(folderId, Arg.Any<CancellationToken>())
+        _service.StopWatchingAsync(folderId, Arg.Any<CancellationToken>())
             .Returns(Result.Success());
 
-        var result = await _service.StopWatchingFolderAsync(folderId);
+        var result = await _service.StopWatchingAsync(folderId);
 
         result.IsSuccess.ShouldBeTrue();
     }
@@ -523,10 +525,10 @@ public class GoogleDriveServiceBehavioralTests4
     public async Task StopWatchingFolderAsync_Should_Return_Failure_When_ExceptionThrown()
     {
         var folderId = "folder-stop-failure";
-        _driveClient.StopWatchingAsync(folderId, Arg.Any<CancellationToken>())
+        _service.StopWatchingAsync(folderId, Arg.Any<CancellationToken>())
             .Throws(new InvalidOperationException("Stop failed"));
 
-        var result = await _service.StopWatchingFolderAsync(folderId);
+        var result = await _service.StopWatchingAsync(folderId);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Stop failed");
