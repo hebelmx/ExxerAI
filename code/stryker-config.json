@@ -31,6 +31,7 @@
       "!**/Program.cs"
     ],
     "ignore-methods": [
+      "Console.Write*", 
       "LogDebug",
       "LogInformation", 
       "LogWarning",
@@ -56,9 +57,11 @@
       "low": 70,
       "break": 60
     },
+    "coverage-analysis": "perTestInIsolation",
     "reporters": ["html", "progress", "json"],
     "verbosity": "info",
-    "concurrency": 6,
+    log-to-file: 
+    "concurrency": 8,
     "disable-bail": false,
     "break-on-initial-test-failure": false,
     "report-file-name": "mutation-report"
