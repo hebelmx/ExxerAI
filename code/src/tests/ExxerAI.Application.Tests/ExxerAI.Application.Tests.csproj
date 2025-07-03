@@ -33,7 +33,6 @@
 		<!-- Publishing Enhancements -->
 		<EnableDynamicPgo>true</EnableDynamicPgo>
 		<TieredCompilation>true</TieredCompilation>
-		<RunSettingsFilePath>F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\bin\Debug\net9.0\fine-code-coverage\coverage-tool-output\ExxerAI.Application.Tests-fcc-mscodecoverage-generated.runsettings</RunSettingsFilePath>
 	</PropertyGroup>
 
 	<!-- ============================================================================ -->
