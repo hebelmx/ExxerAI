@@ -191,12 +191,12 @@ public class RegexPattern : ExtractionPattern
     public override async Task<string?> ExtractAsync(string text, ExtractionContext? context = null)
     {
         await Task.CompletedTask; // For async consistency
-        
+
         try
         {
             var regex = new System.Text.RegularExpressions.Regex(Expression, Options);
             var match = regex.Match(text);
-            
+
             if (match.Success && match.Groups.Count > CaptureGroup)
             {
                 return match.Groups[CaptureGroup].Value.Trim();
@@ -208,7 +208,7 @@ public class RegexPattern : ExtractionPattern
             Metadata["LastError"] = ex.Message;
             Metadata["LastErrorTime"] = DateTime.UtcNow;
         }
-        
+
         return null;
     }
 }
@@ -251,7 +251,7 @@ public class OCRRegionPattern : ExtractionPattern
         // This would typically integrate with OCR services in the infrastructure layer
         // For now, implement as text-based search as fallback
         var lines = text.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        
+
         for (int i = 0; i < lines.Length; i++)
         {
             if (lines[i].Contains(ReferenceText, StringComparison.OrdinalIgnoreCase))
@@ -265,7 +265,7 @@ public class OCRRegionPattern : ExtractionPattern
                 };
             }
         }
-        
+
         return null;
     }
 
@@ -318,12 +318,12 @@ public class KeywordPattern : ExtractionPattern
     public override async Task<string?> ExtractAsync(string text, ExtractionContext? context = null)
     {
         await Task.CompletedTask;
-        
+
         var tokens = text.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
         var keywordIndex = Array.FindIndex(tokens, t => t.Contains(Keyword, StringComparison.OrdinalIgnoreCase));
-        
+
         if (keywordIndex < 0) return null;
-        
+
         var targetIndex = PositionStrategy switch
         {
             PositionStrategy.NextToken => keywordIndex + TokenOffset,
@@ -331,7 +331,7 @@ public class KeywordPattern : ExtractionPattern
             PositionStrategy.SameToken => keywordIndex,
             _ => -1
         };
-        
+
         return targetIndex >= 0 && targetIndex < tokens.Length ? tokens[targetIndex] : null;
     }
 }
@@ -711,4 +711,4 @@ public class PatternDictionaryExport
     /// Gets or sets the export version
     /// </summary>
     public string Version { get; set; } = "1.0";
-} 
+}

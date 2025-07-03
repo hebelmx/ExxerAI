@@ -458,14 +458,3 @@ public class DocumentIngestionServiceTests
             .Returns(Task.FromResult(Result<TruthRecord>.WithSuccess(new TruthRecord())));
     }
 }
-
-/// <summary>
-/// Test data classes for version decision (local enum for testing purposes)
-/// </summary>
-public enum VersionDecision
-{
-    Process,
-    Update,
-    Skip,
-    Notify
-}
