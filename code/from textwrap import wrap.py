@@ -43,7 +43,7 @@ blocks = [
 
 # Begin SVG
 svg = '''<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1500mm" height="2000mm" viewBox="0 0 1500 2000"
+<svg width="4000mm" height="1000mm" viewBox="0 0 1500 2000"
      xmlns="http://www.w3.org/2000/svg" version="1.1">
   <rect width="100%" height="100%" fill="white"/>
 '''

@@ -24,8 +24,7 @@ public class SchemaEvolutionTests
 		evolution.Changes.ShouldBeEmpty();
 		evolution.Reason.ShouldBe(string.Empty);
 		evolution.AccuracyImprovement.ShouldBe(0.0f);
-		(DateTime.UtcNow - evolution.CreatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
-		(DateTime.UtcNow - evolution.UpdatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
+		(DateTime.UtcNow - evolution.EvolvedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
 	}
 
 	[Fact]

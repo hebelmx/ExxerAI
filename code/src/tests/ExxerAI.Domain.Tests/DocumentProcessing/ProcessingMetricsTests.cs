@@ -21,11 +21,11 @@ public class ProcessingMetricsTests
 		metrics.FailedDocuments.ShouldBe(0);
 		metrics.SuccessRate.ShouldBe(0.0f);
 		metrics.AverageConfidence.ShouldBe(0.0f);
-		metrics.AverageProcessingTimeMs.ShouldBe(0.0f);
+		metrics.AverageProcessingTime.ShouldBe(0.0);
 		metrics.ConfidenceDistribution.ShouldNotBeNull();
 		metrics.ConfidenceDistribution.ShouldBeEmpty();
-		(DateTime.UtcNow - metrics.CreatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
-		(DateTime.UtcNow - metrics.UpdatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
+		metrics.AdditionalMetrics.ShouldNotBeNull();
+		metrics.AdditionalMetrics.ShouldBeEmpty();
 	}
 
 	[Fact]
@@ -40,7 +40,7 @@ public class ProcessingMetricsTests
 		metrics.FailedDocuments = 15;
 		metrics.SuccessRate = 0.85f;
 		metrics.AverageConfidence = 0.75f;
-		metrics.AverageProcessingTimeMs = 2500.0f;
+		metrics.AverageProcessingTime = 2500.0;
 
 		// Assert
 		metrics.TotalDocuments.ShouldBe(100);
@@ -48,6 +48,6 @@ public class ProcessingMetricsTests
 		metrics.FailedDocuments.ShouldBe(15);
 		metrics.SuccessRate.ShouldBe(0.85f);
 		metrics.AverageConfidence.ShouldBe(0.75f);
-		metrics.AverageProcessingTimeMs.ShouldBe(2500.0f);
+		metrics.AverageProcessingTime.ShouldBe(2500.0);
 	}
 } 

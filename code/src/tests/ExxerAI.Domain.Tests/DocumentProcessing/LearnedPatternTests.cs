@@ -23,8 +23,8 @@ public class LearnedPatternTests
 		pattern.SuccessCount.ShouldBe(0);
 		pattern.FailureCount.ShouldBe(0);
 		pattern.Confidence.ShouldBe(0.0f);
-		(DateTime.UtcNow - pattern.CreatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
-		(DateTime.UtcNow - pattern.UpdatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
+		(DateTime.UtcNow - pattern.LearnedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
+		(DateTime.UtcNow - pattern.LastUsedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
 	}
 
 	[Theory]

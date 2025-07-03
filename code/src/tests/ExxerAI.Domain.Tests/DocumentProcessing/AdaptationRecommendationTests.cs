@@ -23,9 +23,9 @@ public class AdaptationRecommendationTests
 		recommendation.Confidence.ShouldBe(0.0f);
 		recommendation.ExpectedImpact.ShouldBe(string.Empty);
 		recommendation.IsImplemented.ShouldBeFalse();
-		recommendation.ImplementationNotes.ShouldBe(string.Empty);
-		(DateTime.UtcNow - recommendation.CreatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
-		(DateTime.UtcNow - recommendation.UpdatedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
+		(DateTime.UtcNow - recommendation.GeneratedAt).ShouldBeLessThan(TimeSpan.FromSeconds(5));
+		recommendation.IsImplemented.ShouldBe(false);
+		recommendation.ImplementedAt.ShouldBeNull();
 	}
 
 	[Theory]
@@ -73,11 +73,11 @@ public class AdaptationRecommendationTests
 
 		// Act
 		recommendation.IsImplemented = true;
-		recommendation.ImplementationNotes = "Successfully implemented with 15% improvement";
+		recommendation.ImplementedAt = DateTime.UtcNow;
 
 		// Assert
 		recommendation.IsImplemented.ShouldBeTrue();
-		recommendation.ImplementationNotes.ShouldBe("Successfully implemented with 15% improvement");
+		recommendation.ImplementedAt.ShouldNotBeNull();
 	}
 
 	[Fact]
@@ -93,7 +93,6 @@ public class AdaptationRecommendationTests
 		recommendation.Confidence = 0.85f;
 		recommendation.ExpectedImpact = "30% faster processing";
 		recommendation.IsImplemented = false;
-		recommendation.ImplementationNotes = "Pending approval";
 
 		// Assert
 		recommendation.Type.ShouldBe(RecommendationType.PerformanceOptimization);
@@ -102,6 +101,5 @@ public class AdaptationRecommendationTests
 		recommendation.Confidence.ShouldBe(0.85f);
 		recommendation.ExpectedImpact.ShouldBe("30% faster processing");
 		recommendation.IsImplemented.ShouldBeFalse();
-		recommendation.ImplementationNotes.ShouldBe("Pending approval");
 	}
 } 

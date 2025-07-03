@@ -52,9 +52,9 @@ public class RecommendationEnumTests
 		public void Should_HaveCorrectOrderingValues_When_ComparingPriorities()
 		{
 			// Assert
-			RecommendationPriority.Low.ShouldBeLessThan(RecommendationPriority.Medium);
-			RecommendationPriority.Medium.ShouldBeLessThan(RecommendationPriority.High);
-			RecommendationPriority.High.ShouldBeLessThan(RecommendationPriority.Critical);
+			((int)RecommendationPriority.Low).ShouldBeLessThan((int)RecommendationPriority.Medium);
+			((int)RecommendationPriority.Medium).ShouldBeLessThan((int)RecommendationPriority.High);
+			((int)RecommendationPriority.High).ShouldBeLessThan((int)RecommendationPriority.Critical);
 		}
 	}
 } 

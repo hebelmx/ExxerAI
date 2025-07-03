@@ -2,24 +2,31 @@
 <svg width="1500mm" height="2000mm" viewBox="0 0 1500 2000"
      xmlns="http://www.w3.org/2000/svg" version="1.1">
   <rect width="100%" height="100%" fill="white"/>
-<text x="100" y="150" font-family="Calibri" font-size="75" fill="#000" font-weight="bold">Política de Calidad</text>
-<text x="100" y="322.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">Exxerpro Solutions, empresa dedicada a Industria 5.0, mediante el Diseño y desarrollo de</text>
-<text x="100" y="379.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">soluciones, y proyectos a la medida, enfocándonos en la optimización, sustentabilidad y</text>
-<text x="100" y="436.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">automatización para la industria de manufactura comprometidos con la calidad de sus productos y</text>
-<text x="100" y="493.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">servicios y tiene como parte de su misión ser la mejor opción para sus clientes por lo que</text>
-<text x="100" y="550.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">establece su compromiso por medio de la siguiente política basada en la norma ISO 9001:2015:</text>
-<text x="100" y="657.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">Como director estratégico de Exxerpro Solutions enfoco el sistema de gestión de la calidad como</text>
-<text x="100" y="714.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">una herramienta para determinar, satisfacer y exceder las necesidades y expectativas de</text>
-<text x="100" y="771.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">nuestros clientes, partes interesadas y los requisitos legales y reglamentarios aplicables a</text>
-<text x="100" y="828.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">nuestros procesos, a través de la mejora continua del sistema de gestión de la calidad y el</text>
-<text x="100" y="885.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">desarrollo de nuevas soluciones, productos y servicios; incorporando para tal fin tecnologías</text>
-<text x="100" y="942.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">novedosas y de vanguardia, apoyándonos de nuestras actividades de investigación, desarrollo e</text>
-<text x="100" y="999.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">innovación, convirtiéndonos así en la mejor opción para nuestros clientes.</text>
-<text x="100" y="1106.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">En Exxerpro Solutions todos los colaboradores y directivos compartimos la responsabilidad de</text>
-<text x="100" y="1163.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">aplicar esta política a todas las actividades, programas, y proyectos abriendo una comunicación</text>
-<text x="100" y="1220.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">bidireccional de manera horizontal y vertical asegurando la calidad de nuestras soluciones.</text>
-<text x="100" y="1357.5" font-family="Calibri" font-size="38" fill="#000" font-weight="normal">Director de planeación estratégica</text>
-<text x="100" y="1464.5" font-family="Calibri" font-size="38" fill="#000" font-weight="normal">Santiago de Querétaro a 11 de Marzo del 2025</text>
-<text x="100" y="1561.5" font-family="Arial" font-size="27" fill="#555" font-weight="normal">Creación: 06-Sep-2022</text>
-<text x="100" y="1602.0" font-family="Arial" font-size="27" fill="#555" font-weight="normal">Revisión: 11-Mar-2025   REV. 01</text>
+<text x="750.0" y="250" font-family="Calibri" font-size="75" fill="#000" font-weight="bold" text-anchor="middle">Política de Calidad</text>
+<text x="100" y="377.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">Exxerpro Solutions, empresa dedicada a Industria 5.0, mediante el Diseño y</text>
+<text x="100" y="426.9" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">desarrollo de soluciones, y proyectos a la medida, enfocándonos en la</text>
+<text x="100" y="476.29999999999995" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">optimización, sustentabilidad y automatización para la industria de</text>
+<text x="100" y="525.6999999999999" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">manufactura comprometidos con la calidad de sus productos y servicios y</text>
+<text x="100" y="575.0999999999999" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">tiene como parte de su misión ser la mejor opción para sus clientes por lo</text>
+<text x="100" y="624.4999999999999" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">que establece su compromiso por medio de la siguiente política basada en la</text>
+<text x="100" y="673.8999999999999" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">norma ISO 9001:2015:</text>
+<text x="100" y="743.2999999999998" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">Como director estratégico de Exxerpro Solutions enfoco el sistema de</text>
+<text x="100" y="792.6999999999998" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">gestión de la calidad como una herramienta para determinar, satisfacer y</text>
+<text x="100" y="842.0999999999998" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">exceder las necesidades y expectativas de nuestros clientes, partes</text>
+<text x="100" y="891.4999999999998" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">interesadas y los requisitos legales y reglamentarios aplicables a nuestros</text>
+<text x="100" y="940.8999999999997" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">procesos, a través de la mejora continua del sistema de gestión de la</text>
+<text x="100" y="990.2999999999997" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">calidad y el desarrollo de nuevas soluciones, productos y servicios;</text>
+<text x="100" y="1039.6999999999998" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">incorporando para tal fin tecnologías novedosas y de vanguardia,</text>
+<text x="100" y="1089.1" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">apoyándonos de nuestras actividades de investigación, desarrollo e</text>
+<text x="100" y="1138.5" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">innovación, convirtiéndonos así en la mejor opción para nuestros clientes.</text>
+<text x="100" y="1207.9" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">En Exxerpro Solutions todos los colaboradores y directivos compartimos la</text>
+<text x="100" y="1257.3000000000002" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">responsabilidad de aplicar esta política a todas las actividades,</text>
+<text x="100" y="1306.7000000000003" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">programas, y proyectos abriendo una comunicación bidireccional de manera</text>
+<text x="100" y="1356.1000000000004" font-family="Helvetica" font-size="38" fill="#000" font-weight="normal">horizontal y vertical asegurando la calidad de nuestras soluciones.</text>
+<text x="750.0" y="1445.5000000000005" font-family="Calibri" font-size="38" fill="#000" font-weight="normal" text-anchor="middle">Director de planeación</text>
+<text x="750.0" y="1494.9000000000005" font-family="Calibri" font-size="38" fill="#000" font-weight="normal" text-anchor="middle">estratégica</text>
+<text x="750.0" y="1644.3000000000006" font-family="Calibri" font-size="38" fill="#000" font-weight="normal" text-anchor="middle">Santiago de Querétaro a 11 de Marzo del 2025</text>
+<text x="100" y="1713.7000000000007" font-family="Arial" font-size="27" fill="#555" font-weight="normal">Creación: 06-Sep-2022</text>
+<text x="100" y="1748.8000000000006" font-family="Arial" font-size="27" fill="#555" font-weight="normal">Revisión: 11-Mar-2025</text>
+<text x="750.0" y="1783.9000000000005" font-family="Arial" font-size="27" fill="#555" font-weight="normal" text-anchor="middle">REV. 01</text>
 </svg>
