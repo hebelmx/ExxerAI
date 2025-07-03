@@ -6,6 +6,7 @@ using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
+using ExxerAI.Application.Patterns;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -603,11 +604,10 @@ public class HybridDocumentProcessorTests
             _returnValue = returnValue;
         }
 
-        public override string PatternType => _patternType;
+        public string PatternType => _patternType;
 
-        public override async Task<string?> ExtractAsync(string text, ExxerAI.Application.Interfaces.ExtractionContext? context = null)
+        public override string? ExtractValue(string text, ExtractionContext context)
         {
-            await Task.CompletedTask;
             return string.IsNullOrEmpty(_returnValue) ? null : _returnValue;
         }
     }

@@ -13,9 +13,9 @@
     <IsAotCompatible>true</IsAotCompatible>
   </PropertyGroup>
 
-  <ItemGroup>
+  <!-- <ItemGroup>
     <Compile Include="..\Common\Throw.cs" Link="Throw.cs" />
-  </ItemGroup>
+  </ItemGroup> -->
 
   <!-- Dependencies only needed by netstandard2.0 -->
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">

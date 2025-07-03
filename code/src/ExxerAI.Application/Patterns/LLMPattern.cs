@@ -1,7 +1,6 @@
-using ExxerAI.Application.DTOs;
 using ExxerAI.Domain.DocumentProcessing;
 
-namespace ExxerAI.Domain.DocumentProcessing;
+namespace ExxerAI.Application.Patterns;
 
 /// <summary>
 /// LLM-powered extraction pattern for complex or unstructured data

@@ -1,13 +1,12 @@
+using ExxerAI.Application.Patterns;
 using ExxerAI.Domain.DocumentProcessing;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
 using ExxerAi.MCPServer.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using DateRange = ExxerAI.Application.Interfaces.DateRange;
-using KeywordPattern = ExxerAI.Application.Interfaces.KeywordPattern;
-using RegexPattern = ExxerAI.Application.Interfaces.RegexPattern;
 
-namespace ExxerAI.Application.Tests.Services;
+namespace ExxerAI.IntegrationTests;
 
 public class GoogleDriveServiceBehavioralTests4
 {

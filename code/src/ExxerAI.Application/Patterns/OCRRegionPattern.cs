@@ -1,9 +1,9 @@
+using System.Text.RegularExpressions;
 using ExxerAI.Application.DTOs;
 using ExxerAI.Application.Enums;
 using ExxerAI.Domain.DocumentProcessing;
-using System.Text.RegularExpressions;
 
-namespace ExxerAI.Domain.DocumentProcessing;
+namespace ExxerAI.Application.Patterns;
 
 /// <summary>
 /// OCR region-specific extraction pattern

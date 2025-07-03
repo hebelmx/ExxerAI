@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-using System;
+﻿#nullable disable
 
-#nullable disable
+using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ExxerAi.MCPServer.Migrations
+namespace ExxerAi.MCPServer.Data.Migrations
 {
     /// <inheritdoc />
     public partial class CreateIdentitySchema : Migration

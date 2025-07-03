@@ -1,10 +1,9 @@
-using ExxerAI.Api.Controllers;
 using ExxerAI.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
 
-namespace ExxerAI.Api.Tests.Controllers.Agents;
+namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
 /// <summary>
 /// Unit tests for AgentsController constructor validation
@@ -16,10 +15,10 @@ public class AgentsControllerConstructorTests
     {
         // Arrange
         var service = Substitute.For<IAgentService>();
-        var logger = Substitute.For<ILogger<AgentsController>>();
+        var logger = Substitute.For<ILogger<Api.Controllers.AgentsController>>();
 
         // Act
-        var controller = new AgentsController(service, logger);
+        var controller = new Api.Controllers.AgentsController(service, logger);
 
         // Assert
         controller.ShouldNotBeNull();
@@ -29,10 +28,10 @@ public class AgentsControllerConstructorTests
     public void Should_ThrowArgumentNullException_When_ServiceIsNull()
     {
         // Arrange
-        var logger = Substitute.For<ILogger<AgentsController>>();
+        var logger = Substitute.For<ILogger<Api.Controllers.AgentsController>>();
 
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new AgentsController(null!, logger))
+        Should.Throw<ArgumentNullException>(() => new Api.Controllers.AgentsController(null!, logger))
             .ParamName.ShouldBe("agentService");
     }
 
@@ -43,7 +42,7 @@ public class AgentsControllerConstructorTests
         var service = Substitute.For<IAgentService>();
 
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new AgentsController(service, null!))
+        Should.Throw<ArgumentNullException>(() => new Api.Controllers.AgentsController(service, null!))
             .ParamName.ShouldBe("logger");
     }
 } 

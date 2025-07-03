@@ -1,16 +1,14 @@
-using ExxerAI.Api.Controllers;
 using ExxerAI.Api.Models;
-using ExxerAI.Application;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
+using Meziantou.Extensions.Logging.Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Meziantou.Extensions.Logging.Xunit;
 using NSubstitute;
 using Shouldly;
 using Xunit.Abstractions;
 
-namespace ExxerAI.Api.Tests.Controllers.Agents;
+namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
 /// <summary>
 /// Unit tests for GET /api/agents/{id} endpoint
@@ -18,14 +16,14 @@ namespace ExxerAI.Api.Tests.Controllers.Agents;
 public class GetAgentByIdEndpointTests
 {
     private readonly IAgentService _mockAgentService;
-    private readonly ILogger<AgentsController> _logger;
-    private readonly AgentsController _controller;
+    private readonly ILogger<Api.Controllers.AgentsController> _logger;
+    private readonly Api.Controllers.AgentsController _controller;
 
     public GetAgentByIdEndpointTests(ITestOutputHelper testOutputHelper)
     {
         _mockAgentService = Substitute.For<IAgentService>();
-        _logger = XUnitLogger.CreateLogger<AgentsController>(testOutputHelper);
-        _controller = new AgentsController(_mockAgentService, _logger);
+        _logger = XUnitLogger.CreateLogger<Api.Controllers.AgentsController>(testOutputHelper);
+        _controller = new Api.Controllers.AgentsController(_mockAgentService, _logger);
     }
 
     [Fact]
