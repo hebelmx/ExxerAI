@@ -166,9 +166,15 @@ public class ProcessingHistory
     {
         Recommendations.Clear();
 
+        // Only generate recommendations if there's data to analyze
+        if (!ProcessingResults.Any())
+        {
+            UpdatedAt = DateTime.UtcNow;
+            return;
+        }
+
         // Analyze success rates
-        var successRate = ProcessingResults.Any() ? 
-            (float)SuccessfulResults.Count() / ProcessingResults.Count : 0f;
+        var successRate = (float)SuccessfulResults.Count() / ProcessingResults.Count;
 
         if (successRate < 0.8f)
         {
@@ -185,7 +191,7 @@ public class ProcessingHistory
         var avgConfidence = SuccessfulResults.Any() ? 
             SuccessfulResults.Average(r => r.OverallConfidence) : 0f;
 
-        if (avgConfidence < 0.7f)
+        if (SuccessfulResults.Any() && avgConfidence < 0.7f)
         {
             Recommendations.Add(new AdaptationRecommendation
             {
@@ -197,8 +203,7 @@ public class ProcessingHistory
         }
 
         // Analyze processing time trends
-        var avgProcessingTime = ProcessingResults.Any() ? 
-            ProcessingResults.Average(r => r.ProcessingTimeMs) : 0;
+        var avgProcessingTime = ProcessingResults.Average(r => r.ProcessingTimeMs);
 
         if (avgProcessingTime > 10000) // More than 10 seconds
         {
