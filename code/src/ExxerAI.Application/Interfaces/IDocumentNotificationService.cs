@@ -67,13 +67,3 @@ public interface IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId);
 }
-
-/// <summary>
-/// Document notification information
-/// </summary>
-public record DocumentNotification(
-    string Type,
-    string DocumentId,
-    string DocumentName,
-    DateTime Timestamp,
-    Dictionary<string, object> Properties); 

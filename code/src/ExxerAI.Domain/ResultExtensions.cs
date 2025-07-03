@@ -3,11 +3,6 @@
 
 namespace ExxerAI.Domain
 {
-    public static class ResultErrors
-    {
-        public const string OperationCancelled = "Operation was cancelled by the user.";
-    }
-
     /// <summary>
     /// Extension methods for Result<T> following Open/Closed Principle
     /// </summary>
