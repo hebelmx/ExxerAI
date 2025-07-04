@@ -6,15 +6,15 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<TargetFramework>net9.0</TargetFramework>
-		
+
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		
+
 		<!-- Test Configuration -->
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		
+
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI Domain Tests</AssemblyTitle>
 		<Description>Unit Tests for ExxerAI Domain Entities and Business Logic</Description>
@@ -31,6 +31,24 @@
 		<EnableDynamicPgo>true</EnableDynamicPgo>
 		<TieredCompilation>true</TieredCompilation>
 	</PropertyGroup>
+	<!-- Directory.Build.props or project file -->
+	<ItemGroup>
+		<PackageReference Include="DiffEngine" PrivateAssets="all" />
+	</ItemGroup>
+	<PropertyGroup>
+		<!-- Ensures all assemblies from NuGet are copied to output -->
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+	<Target Name="ForceCopyDiffEngine" AfterTargets="Build">
+		<ItemGroup>
+			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net9.0\DiffEngine.dll" />
+		</ItemGroup>
+		<Copy
+			SourceFiles="@(DiffEngineDll)"
+			DestinationFolder="$(OutDir)"
+			SkipUnchangedFiles="false"
+			OverwriteReadOnlyFiles="true" />
+	</Target>
 
 	<!-- ============================================================================ -->
 	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK -->
