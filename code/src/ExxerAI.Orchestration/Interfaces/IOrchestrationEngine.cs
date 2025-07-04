@@ -1,5 +1,8 @@
 using ExxerAI.Application;
-using ExxerAI.Domain;
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.Orchestration.Interfaces;
 
