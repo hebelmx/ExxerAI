@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <!-- Redirect all build outputs to artifacts/bin and artifacts/obj -->
+    <BaseOutputPath>$(SolutionDir)artifacts\bin\</BaseOutputPath>
+    <BaseIntermediateOutputPath>$(SolutionDir)artifacts\obj\</BaseIntermediateOutputPath>
+    <!-- Redirect all test results to artifacts/TestResults -->
+    <TestResultsDirectory>$(SolutionDir)artifacts\TestResults\</TestResultsDirectory>
+  </PropertyGroup>
+</Project> 
