@@ -43,11 +43,7 @@
 		<ItemGroup>
 			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net9.0\DiffEngine.dll" />
 		</ItemGroup>
-		<Copy
-			SourceFiles="@(DiffEngineDll)"
-			DestinationFolder="$(OutDir)"
-			SkipUnchangedFiles="false"
-			OverwriteReadOnlyFiles="true" />
+		<Copy SourceFiles="@(DiffEngineDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
 	</Target>
 
 	<!-- ============================================================================ -->
