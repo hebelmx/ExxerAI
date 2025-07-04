@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Entities;
+namespace ExxerAI.Domain.DomainEntities;
 
 /// <summary>
 /// Represents the execution of a specific workflow step

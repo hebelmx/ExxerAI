@@ -1,4 +1,6 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.DomainEntities;
+using ExxerAI.Domain.Configurations;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -15,7 +17,7 @@ public interface IAgentService
     /// <param name="capabilities">The agent capabilities</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the created agent</returns>
-    Task<ExxerAI.Domain.Result<Agent>> CreateAgentAsync(
+    Task<Result<Agent>> CreateAgentAsync(
         string name, 
         string description, 
         AgentCapabilities capabilities, 
@@ -27,21 +29,21 @@ public interface IAgentService
     /// <param name="agentId">The agent identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the agent if found</returns>
-    Task<ExxerAI.Domain.Result<Agent>> GetAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
+    Task<Result<Agent>> GetAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all agents
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing all agents</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default);
+    Task<Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all active agents
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of active agents</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Agent>>> GetActiveAgentsAsync(CancellationToken cancellationToken = default);
+    Task<Result<IEnumerable<Agent>>> GetActiveAgentsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an agent's configuration
@@ -50,7 +52,7 @@ public interface IAgentService
     /// <param name="configuration">The new configuration</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> UpdateAgentConfigurationAsync(
+    Task<Result<bool>> UpdateAgentConfigurationAsync(
         Guid agentId, 
         AgentConfiguration configuration, 
         CancellationToken cancellationToken = default);
@@ -62,7 +64,7 @@ public interface IAgentService
     /// <param name="status">The new agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> UpdateAgentStatusAsync(
+    Task<Result<bool>> UpdateAgentStatusAsync(
         Guid agentId, 
         AgentStatus status, 
         CancellationToken cancellationToken = default);
@@ -74,7 +76,7 @@ public interface IAgentService
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> AssignTaskAsync(
+    Task<Result<bool>> AssignTaskAsync(
         Guid agentId, 
         Guid taskId, 
         CancellationToken cancellationToken = default);
@@ -86,7 +88,7 @@ public interface IAgentService
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> AssignTaskToAgentAsync(
+    Task<Result<bool>> AssignTaskToAgentAsync(
         Guid agentId, 
         Guid taskId, 
         CancellationToken cancellationToken = default);
@@ -97,7 +99,7 @@ public interface IAgentService
     /// <param name="taskType">The task type</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the best agent if found</returns>
-    Task<ExxerAI.Domain.Result<Agent>> FindBestAgentForTaskAsync(
+    Task<Result<Agent>> FindBestAgentForTaskAsync(
         string taskType, 
         CancellationToken cancellationToken = default);
 
@@ -107,5 +109,5 @@ public interface IAgentService
     /// <param name="agentId">The agent identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> DeleteAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
+    Task<Result<bool>> DeleteAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
 } 

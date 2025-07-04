@@ -1,3 +1,7 @@
+using ExxerAI.Domain.DomainEntities;
+using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.Entities; // For AgentTask, TaskAgentStatus
+
 namespace ExxerAI.Application.Interfaces;
 
 /// <summary>

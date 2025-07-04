@@ -1,5 +1,5 @@
 using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.DomainEntities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;

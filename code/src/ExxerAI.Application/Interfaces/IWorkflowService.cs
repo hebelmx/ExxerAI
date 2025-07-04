@@ -1,4 +1,6 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.DomainEntities;
+using ExxerAI.Domain.Configurations;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -15,7 +17,7 @@ public interface IWorkflowService
     /// <param name="steps">The workflow steps</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the created workflow</returns>
-    Task<ExxerAI.Domain.Result<Workflow>> CreateWorkflowAsync(
+    Task<Result<Workflow>> CreateWorkflowAsync(
         string name,
         string description,
         IEnumerable<WorkflowStep> steps,
@@ -27,14 +29,14 @@ public interface IWorkflowService
     /// <param name="workflowId">The workflow identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the workflow if found</returns>
-    Task<ExxerAI.Domain.Result<Workflow>> GetWorkflowAsync(Guid workflowId, CancellationToken cancellationToken = default);
+    Task<Result<Workflow>> GetWorkflowAsync(Guid workflowId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Gets all active workflows
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of active workflows</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Workflow>>> GetActiveWorkflowsAsync(CancellationToken cancellationToken = default);
+    Task<Result<IEnumerable<Workflow>>> GetActiveWorkflowsAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates a workflow's configuration
@@ -43,7 +45,7 @@ public interface IWorkflowService
     /// <param name="configuration">The new configuration</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> UpdateWorkflowConfigurationAsync(
+    Task<Result<bool>> UpdateWorkflowConfigurationAsync(
         Guid workflowId,
         WorkflowConfiguration configuration,
         CancellationToken cancellationToken = default);
@@ -55,7 +57,7 @@ public interface IWorkflowService
     /// <param name="input">The input data for the workflow</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the workflow execution</returns>
-    Task<ExxerAI.Domain.Result<WorkflowExecution>> ExecuteWorkflowAsync(
+    Task<Result<WorkflowExecution>> ExecuteWorkflowAsync(
         Guid workflowId,
         Dictionary<string, object> input,
         CancellationToken cancellationToken = default);
@@ -66,7 +68,7 @@ public interface IWorkflowService
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the execution if found</returns>
-    Task<ExxerAI.Domain.Result<WorkflowExecution>> GetWorkflowExecutionAsync(
+    Task<Result<WorkflowExecution>> GetWorkflowExecutionAsync(
         Guid executionId,
         CancellationToken cancellationToken = default);
 
@@ -77,7 +79,7 @@ public interface IWorkflowService
     /// <param name="status">Optional agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the list of executions</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<WorkflowExecution>>> GetWorkflowExecutionsAsync(
+    Task<Result<IEnumerable<WorkflowExecution>>> GetWorkflowExecutionsAsync(
         Guid workflowId,
         WorkflowExecutionStatus? status = null,
         CancellationToken cancellationToken = default);
@@ -88,7 +90,7 @@ public interface IWorkflowService
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> PauseWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
+    Task<Result<bool>> PauseWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Resumes a paused workflow execution
@@ -96,7 +98,7 @@ public interface IWorkflowService
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> ResumeWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
+    Task<Result<bool>> ResumeWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Cancels a workflow execution
@@ -104,7 +106,7 @@ public interface IWorkflowService
     /// <param name="executionId">The execution identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> CancelWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
+    Task<Result<bool>> CancelWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes a workflow
@@ -112,5 +114,5 @@ public interface IWorkflowService
     /// <param name="workflowId">The workflow identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> DeleteWorkflowAsync(Guid workflowId, CancellationToken cancellationToken = default);
+    Task<Result<bool>> DeleteWorkflowAsync(Guid workflowId, CancellationToken cancellationToken = default);
 } 

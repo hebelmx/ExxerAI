@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Enums;
+namespace ExxerAI.Domain.DomainEnums;
 
 /// <summary>
 /// Represents task priority levels with rich domain modeling capabilities.

@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Enums;
+namespace ExxerAI.Domain.DomainEnums;
 
 /// <summary>
 /// Represents a lookup table interface for entities with ID, name, and display name.

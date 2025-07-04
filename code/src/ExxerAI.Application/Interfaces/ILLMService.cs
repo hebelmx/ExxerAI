@@ -1,4 +1,5 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.Entities;
 
 namespace ExxerAI.Application.Interfaces;
 

@@ -1,10 +1,10 @@
 using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.DomainEntities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services.Task;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Service implementation for managing tasks in the ExxerAI system

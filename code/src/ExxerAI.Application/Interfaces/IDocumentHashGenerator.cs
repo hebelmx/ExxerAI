@@ -1,4 +1,4 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
 
 namespace ExxerAI.Application.Interfaces;

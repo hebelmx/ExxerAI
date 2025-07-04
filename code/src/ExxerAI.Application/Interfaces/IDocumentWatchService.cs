@@ -1,5 +1,5 @@
 using ExxerAI.Domain.DocumentProcessing;
-using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers; // For Result<>
 
 namespace ExxerAI.Application.Interfaces;
 
