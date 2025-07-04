@@ -17,11 +17,10 @@
     <ArtifactsPackagesDir>$([MSBuild]::NormalizeDirectory('$(ArtifactsDir)', 'packages', '$(Configuration)'))</ArtifactsPackagesDir>
     <OutDirName>$(MSBuildProjectName)</OutDirName>
 
-    <BaseIntermediateOutputPath>$([System.IO.Path]::GetFullPath('$(ArtifactsObjDir)$(OutDirName)\'))</BaseIntermediateOutputPath>
+    <!-- Preserve default OutputPath behavior to support dotnet test -->
+    <BaseIntermediateOutputPath>$([System.IO.Path]::GetFullPath('$(ArtifactsObjDir)$(OutDirName)'))</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\</IntermediateOutputPath>
-
-    <BaseOutputPath>$([System.IO.Path]::GetFullPath('$(ArtifactsBinDir)$(OutDirName)\'))</BaseOutputPath>
-    <OutputPath>$(BaseOutputPath)$(Configuration)\</OutputPath>
+    <BaseOutputPath>$([System.IO.Path]::GetFullPath('$(ArtifactsBinDir)$(OutDirName)'))</BaseOutputPath>
 
     <PackageOutputPath>$(ArtifactsPackagesDir)</PackageOutputPath>
   </PropertyGroup>
