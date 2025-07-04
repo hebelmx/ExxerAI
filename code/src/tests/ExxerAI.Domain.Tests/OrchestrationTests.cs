@@ -4,7 +4,7 @@ namespace ExxerAI.Domain.Tests;
 
 /// <summary>
 /// Comprehensive tests for Workflow orchestration domain classes
-/// Targets: Workflow, WorkflowDefinition, WorkflowStep, StepConditions, 
+/// Targets: Workflow, WorkflowDefinition, WorkflowStep, StepConditions,
 /// WorkflowConfiguration, NotificationSettings, WorkflowExecution, StepExecution
 /// </summary>
 public class OrchestrationTests
@@ -779,4 +779,4 @@ public class OrchestrationTests
             statusCount.ShouldBe(6);
         }
     }
-} 
+}

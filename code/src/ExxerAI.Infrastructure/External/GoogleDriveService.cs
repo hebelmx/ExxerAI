@@ -123,7 +123,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 Confidence = 0.9f,
                 ProcessingTimeMs = 100,
                 ExtractedFields = new Dictionary<string, object>(),
-                ValidationResults = new ValidationResult { IsValid = true, Confidence = 0.9f }
+                ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 0.9f }
             };
 
             await Task.Delay(100, cancellationToken); // Simulate processing
@@ -167,7 +167,7 @@ public class GoogleDriveService : IDocumentIngestionService
                     ["filename"] = $"Document_{documentId}.pdf",
                     ["source"] = "GoogleDrive"
                 },
-                ValidationResults = new ValidationResult { IsValid = true, Confidence = 0.9f }
+                ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 0.9f }
             };
 
             await Task.Delay(150, cancellationToken); // Simulate processing

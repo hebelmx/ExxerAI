@@ -16,14 +16,14 @@ public interface IOrchestrationEngine
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> StartAsync(CancellationToken cancellationToken = default);
+    Task<Result<bool>> StartAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Stops the orchestration engine
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> StopAsync(CancellationToken cancellationToken = default);
+    Task<Result<bool>> StopAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Schedules a workflow for execution
@@ -32,7 +32,7 @@ public interface IOrchestrationEngine
     /// <param name="input">The input data for the workflow</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result containing the workflow execution</returns>
-    Task<ExxerAI.Domain.Result<WorkflowExecution>> ScheduleWorkflowAsync(
+    Task<Result<WorkflowExecution>> ScheduleWorkflowAsync(
         Guid workflowId,
         Dictionary<string, object> input,
         CancellationToken cancellationToken = default);
@@ -43,7 +43,7 @@ public interface IOrchestrationEngine
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result containing the assigned agent</returns>
-    Task<ExxerAI.Domain.Result<Agent>> AssignTaskToAgentAsync(
+    Task<Result<Agent>> AssignTaskToAgentAsync(
         Guid taskId,
         CancellationToken cancellationToken = default);
 
@@ -58,5 +58,5 @@ public interface IOrchestrationEngine
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The orchestration metrics</returns>
-    Task<ExxerAI.Domain.Result<OrchestrationMetrics>> GetMetricsAsync(CancellationToken cancellationToken = default);
+    Task<Result<OrchestrationMetrics>> GetMetricsAsync(CancellationToken cancellationToken = default);
 }

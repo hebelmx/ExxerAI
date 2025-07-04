@@ -1,7 +1,3 @@
-using ExxerAI.Application.Data;
-using ExxerAI.Application.Interfaces;
-using Shouldly;
-
 namespace ExxerAI.Application.Tests.Data;
 
 /// <summary>

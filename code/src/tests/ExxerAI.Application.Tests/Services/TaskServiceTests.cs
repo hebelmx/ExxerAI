@@ -1,7 +1,4 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -115,7 +112,7 @@ public class TaskServiceTests
         result.Data.Priority.ShouldBe(priority);
     }
 
-    #endregion
+    #endregion CreateTaskAsync Tests
 
     #region GetTaskAsync Tests
 
@@ -178,7 +175,7 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion GetTaskAsync Tests
 
     #region GetPendingTasksAsync Tests
 
@@ -189,9 +186,9 @@ public class TaskServiceTests
         var maxCount = 50;
         var pendingTasks = new List<AgentTask>
         {
-            new() { Id = Guid.NewGuid(), Title = "Task1", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending },
-            new() { Id = Guid.NewGuid(), Title = "Task2", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending },
-            new() { Id = Guid.NewGuid(), Title = "Task3", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending }
+            new() { Id = Guid.NewGuid(), Title = "Task1", AgentStatus =TaskAgentStatus.Pending },
+            new() { Id = Guid.NewGuid(), Title = "Task2", AgentStatus =TaskAgentStatus.Pending },
+            new() { Id = Guid.NewGuid(), Title = "Task3", AgentStatus =TaskAgentStatus.Pending }
         };
         var expectedResult = Result<IEnumerable<AgentTask>>.WithSuccess(pendingTasks);
 
@@ -206,7 +203,7 @@ public class TaskServiceTests
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
         result.Data.Count().ShouldBe(3);
-        result.Data.All(t => t.AgentStatus == ExxerAI.Domain.TaskAgentStatus.Pending).ShouldBeTrue();
+        result.Data.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
     }
 
     [Fact]
@@ -241,7 +238,7 @@ public class TaskServiceTests
         var tasks = new List<AgentTask>();
         for (int i = 0; i < Math.Min(maxCount, 5); i++)
         {
-            tasks.Add(new AgentTask { Id = Guid.NewGuid(), Title = $"Task{i}", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending });
+            tasks.Add(new AgentTask { Id = Guid.NewGuid(), Title = $"Task{i}", AgentStatus = TaskAgentStatus.Pending });
         }
         var expectedResult = Result<IEnumerable<AgentTask>>.WithSuccess(tasks);
 
@@ -257,7 +254,7 @@ public class TaskServiceTests
         result.Data.Count().ShouldBeLessThanOrEqualTo(maxCount);
     }
 
-    #endregion
+    #endregion GetPendingTasksAsync Tests
 
     #region GetAgentTasksAsync Tests
 
@@ -288,11 +285,11 @@ public class TaskServiceTests
     }
 
     [Theory]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Pending)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.InProgress)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Completed)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Failed)]
-    public async Task GetAgentTasksAsync_WithStatusFilter_ShouldReturnFilteredTasks(ExxerAI.Domain.TaskAgentStatus agentStatus)
+    [InlineData(TaskAgentStatus.Pending)]
+    [InlineData(TaskAgentStatus.InProgress)]
+    [InlineData(TaskAgentStatus.Completed)]
+    [InlineData(TaskAgentStatus.Failed)]
+    public async Task GetAgentTasksAsync_WithStatusFilter_ShouldReturnFilteredTasks(TaskAgentStatus agentStatus)
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -334,17 +331,17 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion GetAgentTasksAsync Tests
 
     #region UpdateTaskStatusAsync Tests
 
     [Theory]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Pending)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.InProgress)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Completed)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Failed)]
-    [InlineData(ExxerAI.Domain.TaskAgentStatus.Cancelled)]
-    public async Task UpdateTaskStatusAsync_WithValidInput_ShouldReturnSuccess(ExxerAI.Domain.TaskAgentStatus agentStatus)
+    [InlineData(TaskAgentStatus.Pending)]
+    [InlineData(TaskAgentStatus.InProgress)]
+    [InlineData(TaskAgentStatus.Completed)]
+    [InlineData(TaskAgentStatus.Failed)]
+    [InlineData(TaskAgentStatus.Cancelled)]
+    public async Task UpdateTaskStatusAsync_WithValidInput_ShouldReturnSuccess(TaskAgentStatus agentStatus)
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -367,7 +364,7 @@ public class TaskServiceTests
     {
         // Arrange
         var taskId = Guid.Empty;
-        var status = ExxerAI.Domain.TaskAgentStatus.Completed;
+        var status = TaskAgentStatus.Completed;
         var expectedResult = Result<bool>.WithFailure("Task ID cannot be empty");
 
         _taskService.UpdateTaskStatusAsync(taskId, status, Arg.Any<CancellationToken>())
@@ -387,7 +384,7 @@ public class TaskServiceTests
     {
         // Arrange
         var taskId = Guid.NewGuid();
-        var status = ExxerAI.Domain.TaskAgentStatus.Completed;
+        var status = TaskAgentStatus.Completed;
         var expectedResult = Result<bool>.WithFailure("Task not found");
 
         _taskService.UpdateTaskStatusAsync(taskId, status, Arg.Any<CancellationToken>())
@@ -402,7 +399,7 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion UpdateTaskStatusAsync Tests
 
     #region AssignTaskToAgentAsync Tests
 
@@ -466,7 +463,7 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion AssignTaskToAgentAsync Tests
 
     #region CompleteTaskAsync Tests
 
@@ -528,7 +525,7 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion CompleteTaskAsync Tests
 
     #region FailTaskAsync Tests
 
@@ -573,7 +570,7 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion FailTaskAsync Tests
 
     #region GetOverdueTasksAsync Tests
 
@@ -622,7 +619,7 @@ public class TaskServiceTests
         result.Data.ShouldBeEmpty();
     }
 
-    #endregion
+    #endregion GetOverdueTasksAsync Tests
 
     #region DeleteTaskAsync Tests
 
@@ -683,7 +680,7 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion DeleteTaskAsync Tests
 
     #region Interface Contract Tests
 
@@ -701,7 +698,7 @@ public class TaskServiceTests
             await _taskService.GetTaskAsync(Guid.NewGuid(), cts.Token);
             await _taskService.GetPendingTasksAsync(100, cts.Token);
             await _taskService.GetAgentTasksAsync(Guid.NewGuid(), null, cts.Token);
-            await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), ExxerAI.Domain.TaskAgentStatus.Completed, cts.Token);
+            await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), TaskAgentStatus.Completed, cts.Token);
             await _taskService.AssignTaskToAgentAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
             await _taskService.CompleteTaskAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.FailTaskAsync(Guid.NewGuid(), "error", cts.Token);
@@ -721,16 +718,16 @@ public class TaskServiceTests
         foreach (var method in methods.Where(m => !m.IsSpecialName))
         {
             var returnType = method.ReturnType;
-            
+
             // Should be Task<Result<T>>
             returnType.IsGenericType.ShouldBeTrue($"Method {method.Name} should return a generic type");
             returnType.GetGenericTypeDefinition().ShouldBe(typeof(Task<>), $"Method {method.Name} should return Task");
-            
+
             var taskInnerType = returnType.GetGenericArguments()[0];
             taskInnerType.IsGenericType.ShouldBeTrue($"Method {method.Name} should return Task<Result<T>>");
             taskInnerType.GetGenericTypeDefinition().ShouldBe(typeof(Result<>), $"Method {method.Name} should return Task<Result<T>>");
         }
     }
 
-    #endregion
-} 
+    #endregion Interface Contract Tests
+}

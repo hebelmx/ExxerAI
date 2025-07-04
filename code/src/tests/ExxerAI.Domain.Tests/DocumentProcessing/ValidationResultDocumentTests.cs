@@ -1,17 +1,15 @@
-using ExxerAI.Domain.DocumentProcessing;
-
 namespace ExxerAI.Domain.Tests.DocumentProcessing;
 
 /// <summary>
-/// Unit tests for ValidationResult domain entity
+/// Unit tests for ValidationResultDocument domain entity
 /// </summary>
-public class ValidationResultTests
+public class ValidationResultDocumentTests
 {
     [Fact]
     public void Should_InitializeWithValidState_When_ValidationResultCreated()
     {
         // Act
-        var validation = new ValidationResult();
+        var validation = new ValidationResultDocument();
 
         // Assert
         validation.IsValid.ShouldBeTrue();
@@ -28,7 +26,7 @@ public class ValidationResultTests
     public void Should_HandleValidationErrors_When_ErrorsAdded()
     {
         // Arrange
-        var validation = new ValidationResult();
+        var validation = new ValidationResultDocument();
 
         // Act
         validation.IsValid = false;
@@ -48,7 +46,7 @@ public class ValidationResultTests
     public void Should_HandleFieldValidationResults_When_FieldResultsAdded()
     {
         // Arrange
-        var validation = new ValidationResult();
+        var validation = new ValidationResultDocument();
 
         // Act
         validation.FieldResults["PaymentPeriod"] = new FieldValidationResult

@@ -1,4 +1,4 @@
-﻿namespace ExxerAI.Domain.DomainEntities;
+﻿namespace ExxerAI.Domain.Entities;
 
 /// <summary>
 /// Represents an intelligent agent in the ExxerAI system

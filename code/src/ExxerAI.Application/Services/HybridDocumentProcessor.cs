@@ -1,15 +1,11 @@
-using ExxerAI.Application.Interfaces;
-using ExxerAI.Application.DTOs;
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
-using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
+using ExxerAI.Application.DTOs;
+using ExxerAI.Application.Interfaces;
+using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services.DocumentProcessing;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Advanced document processor based on proven KpiExxerpro OCRV5 and FromXcel_V3 algorithms
@@ -54,18 +50,18 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// Stage 6: Schema learning and pattern evolution
     /// </summary>
     public async Task<Result<DocumentProcessingResult>> ProcessDocumentAsync(
-        byte[] documentData, 
-        DocumentMetadata metadata, 
+        byte[] documentData,
+        DocumentMetadata metadata,
         CancellationToken cancellationToken = default)
     {
         var stopwatch = Stopwatch.StartNew();
         var documentId = Guid.NewGuid().ToString();
-        
-        _logger.LogInformation("Starting document processing for {DocumentType} document: {FileName}", 
+
+        _logger.LogInformation("Starting document processing for {DocumentType} document: {FileName}",
             metadata.DocumentType, metadata.FileName);
 
-        var result = new DocumentProcessingResult 
-        { 
+        var result = new DocumentProcessingResult
+        {
             DocumentId = documentId
         };
 
@@ -73,8 +69,8 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         {
             // Stage 1: Direct text extraction (port from OCRV5.py extract_data_from_pdf)
             var directResult = await _directTextExtractor.ExtractTextAsync(documentData, cancellationToken);
-            
-            _logger.LogDebug("Stage 1 - Direct text extraction: {Success}, Confidence: {Confidence}", 
+
+            _logger.LogDebug("Stage 1 - Direct text extraction: {Success}, Confidence: {Confidence}",
                 directResult.IsSuccessful, directResult.Confidence);
 
             if (directResult.IsSuccessful && directResult.HasMeaningfulContent)
@@ -82,20 +78,20 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                 result.ExtractionMethod = ExtractionMethod.DirectText;
                 result.ExtractedText = directResult.Text;
                 result.Confidence = 0.95f;
-                
+
                 _logger.LogInformation("Direct text extraction successful with {Length} characters", directResult.Text.Length);
             }
             else
             {
                 // Stage 2: OCR fallback (port from OCRV5.py OCR logic)
                 _logger.LogInformation("Direct text extraction failed or insufficient, attempting OCR processing");
-                
+
                 var ocrResult = await _ocrProcessor.ProcessDocumentWithOCRAsync(
-                    documentData, 
+                    documentData,
                     "spa", // Default to Spanish based on KpiExxerpro patterns
                     cancellationToken);
-                
-                _logger.LogDebug("Stage 2 - OCR processing: {Success}, Confidence: {Confidence}", 
+
+                _logger.LogDebug("Stage 2 - OCR processing: {Success}, Confidence: {Confidence}",
                     ocrResult.IsSuccessful, ocrResult.Confidence);
 
                 if (ocrResult.IsSuccessful)
@@ -104,7 +100,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                     result.ExtractedText = ocrResult.Text;
                     result.Confidence = ocrResult.Confidence;
                     // OCR regions are already initialized in the domain object
-                    
+
                     _logger.LogInformation("OCR processing successful with {Length} characters extracted", ocrResult.Text.Length);
                 }
                 else
@@ -116,23 +112,23 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
 
             // Stage 3: Pattern matching using persistent dictionary (enhanced from Python regex patterns)
             _logger.LogDebug("Starting pattern matching for document type: {DocumentType}", metadata.DocumentType);
-            
+
             var patterns = await _patternDictionary.GetPatternsForDocumentTypeAsync(metadata.DocumentType.ToString(), cancellationToken);
             var extractedFields = await ApplyPatternDictionaryAsync(result.ExtractedText, patterns, cancellationToken);
-            
+
             // Update the ExtractedFields dictionary with the extracted values
             foreach (var (fieldName, value) in extractedFields)
             {
                 result.ExtractedFields[fieldName] = value;
             }
-                
-            _logger.LogInformation("Pattern matching completed: {FieldCount} fields extracted using {PatternCount} patterns", 
+
+            _logger.LogInformation("Pattern matching completed: {FieldCount} fields extracted using {PatternCount} patterns",
                 extractedFields.Count, patterns.Count);
 
             // Stage 4: Confidence scoring and validation
             result.ProcessingTimeMs = stopwatch.ElapsedMilliseconds;
-            
-            _logger.LogInformation("Document processing completed for {DocumentId} in {ElapsedMs}ms with confidence {Confidence}", 
+
+            _logger.LogInformation("Document processing completed for {DocumentId} in {ElapsedMs}ms with confidence {Confidence}",
                 documentId, stopwatch.ElapsedMilliseconds, result.OverallConfidence);
 
             return Result<DocumentProcessingResult>.WithSuccess(result);
@@ -140,7 +136,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error processing document {DocumentId}: {ErrorMessage}", documentId, ex.Message);
-            
+
             return Result<DocumentProcessingResult>.WithFailure($"Processing error: {ex.Message}");
         }
     }
@@ -150,7 +146,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// Implements parallel processing with resource management and progress reporting
     /// </summary>
     public async Task<BatchProcessingResult> ProcessDocumentBatchAsync(
-        IEnumerable<DocumentBatchItem> documents, 
+        IEnumerable<DocumentBatchItem> documents,
         BatchProcessingOptions options,
         IProgress<BatchProgressReport> progress = null,
         CancellationToken cancellationToken = default)
@@ -158,8 +154,8 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         var documentsList = documents.ToList();
         var startTime = DateTime.UtcNow;
         var concurrencyLimit = options.MaxConcurrency ?? Environment.ProcessorCount;
-        
-        _logger.LogInformation("Starting batch processing of {DocumentCount} documents with concurrency limit {ConcurrencyLimit}", 
+
+        _logger.LogInformation("Starting batch processing of {DocumentCount} documents with concurrency limit {ConcurrencyLimit}",
             documentsList.Count, concurrencyLimit);
 
         using var semaphore = new SemaphoreSlim(concurrencyLimit);
@@ -206,9 +202,9 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error processing document {FileName} in batch: {ErrorMessage}", 
+                _logger.LogError(ex, "Error processing document {FileName} in batch: {ErrorMessage}",
                     doc.Metadata.FileName, ex.Message);
-                
+
                 var errorResult = DocumentProcessingResult.Failed($"Batch processing error: {ex.Message}");
                 results.Add(errorResult);
                 return errorResult;
@@ -231,8 +227,8 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             Results = results.ToList()
         };
 
-        _logger.LogInformation("Batch processing completed: {SuccessCount}/{TotalCount} successful in {ElapsedMs}ms", 
-            batchResult.SuccessfullyProcessed, batchResult.TotalDocuments, 
+        _logger.LogInformation("Batch processing completed: {SuccessCount}/{TotalCount} successful in {ElapsedMs}ms",
+            batchResult.SuccessfullyProcessed, batchResult.TotalDocuments,
             batchResult.TotalProcessingTime.TotalMilliseconds);
 
         return batchResult;
@@ -243,7 +239,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// Implements continuous learning to improve future processing accuracy
     /// </summary>
     public async Task UpdatePatternsFromSuccessfulProcessingAsync(
-        DocumentProcessingResult processingResult, 
+        DocumentProcessingResult processingResult,
         CancellationToken cancellationToken = default)
     {
         if (!processingResult.IsSuccessful || processingResult.OverallConfidence < 0.8f)
@@ -252,7 +248,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             return;
         }
 
-        _logger.LogDebug("Updating patterns from successful processing with confidence {Confidence}", 
+        _logger.LogDebug("Updating patterns from successful processing with confidence {Confidence}",
             processingResult.OverallConfidence);
 
         try
@@ -272,7 +268,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                 }
             }
 
-            _logger.LogInformation("Pattern learning completed for {FieldCount} fields", 
+            _logger.LogInformation("Pattern learning completed for {FieldCount} fields",
                 processingResult.ExtractedFields.Count);
         }
         catch (Exception ex)
@@ -285,21 +281,21 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// Validates extracted document fields against business rules and confidence thresholds
     /// Provides detailed validation results for quality assurance
     /// </summary>
-    public async Task<Result<ValidationResult>> ValidateExtractedFieldsAsync(
-        Dictionary<string, object> extractedFields, 
-        DocumentValidationRules validationRules, 
+    public async Task<Result<ValidationResultDocument>> ValidateExtractedFieldsAsync(
+        Dictionary<string, object> extractedFields,
+        DocumentValidationRules validationRules,
         CancellationToken cancellationToken = default)
     {
         await Task.CompletedTask; // For async consistency
-        
-        var validation = new ValidationResult { IsValid = true };
+
+        var validation = new ValidationResultDocument() { IsValid = true };
 
         try
         {
             // Check required fields
             foreach (var requiredField in validationRules.RequiredFields)
             {
-                if (!extractedFields.ContainsKey(requiredField) || 
+                if (!extractedFields.ContainsKey(requiredField) ||
                     string.IsNullOrWhiteSpace(extractedFields[requiredField]?.ToString()))
                 {
                     validation.IsValid = false;
@@ -313,7 +309,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                 if (extractedFields.TryGetValue(fieldName, out var fieldValue) && fieldValue != null)
                 {
                     var fieldValueStr = fieldValue.ToString();
-                    
+
                     foreach (var rule in rules)
                     {
                         if (!ValidateFieldWithRule(fieldValueStr, rule))
@@ -325,17 +321,17 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                 }
             }
 
-            _logger.LogDebug("Field validation completed: {IsValid}, Errors: {ErrorCount}", 
+            _logger.LogDebug("Field validation completed: {IsValid}, Errors: {ErrorCount}",
                 validation.IsValid, validation.Errors.Count);
 
-            return Result<ValidationResult>.WithSuccess(validation);
+            return Result<ValidationResultDocument>.WithSuccess(validation);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during field validation: {ErrorMessage}", ex.Message);
             validation.IsValid = false;
             validation.Errors.Add($"Validation error: {ex.Message}");
-            return Result<ValidationResult>.WithFailure($"Validation error: {ex.Message}");
+            return Result<ValidationResultDocument>.WithFailure($"Validation error: {ex.Message}");
         }
     }
 
@@ -344,7 +340,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     /// Implements the core pattern matching logic from KpiExxerpro algorithms
     /// </summary>
     private async Task<Dictionary<string, object>> ApplyPatternDictionaryAsync(
-        string text, 
+        string text,
         Dictionary<string, List<ExtractionPattern>> patterns,
         CancellationToken cancellationToken = default)
     {
@@ -356,25 +352,25 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
 
             // Try patterns in order of confidence (highest first)
             var orderedPatterns = fieldPatterns.OrderByDescending(p => p.Confidence);
-            
+
             foreach (var pattern in orderedPatterns)
             {
                 try
                 {
                     var extractedValue = pattern.ExtractValue(text, new ExtractionContext());
-                    
+
                     if (!string.IsNullOrWhiteSpace(extractedValue))
                     {
                         extractedFields[fieldName] = extractedValue;
-                        
-                        _logger.LogDebug("Field '{FieldName}' extracted using pattern '{PatternId}': '{Value}'", 
+
+                        _logger.LogDebug("Field '{FieldName}' extracted using pattern '{PatternId}': '{Value}'",
                             fieldName, pattern.Id, extractedValue);
                         break; // Move to next field once we have a successful extraction
                     }
                 }
                 catch (Exception ex)
                 {
-                    _logger.LogWarning(ex, "Pattern extraction failed for field '{FieldName}' with pattern '{PatternId}': {ErrorMessage}", 
+                    _logger.LogWarning(ex, "Pattern extraction failed for field '{FieldName}' with pattern '{PatternId}': {ErrorMessage}",
                         fieldName, pattern.Id, ex.Message);
                 }
             }
@@ -415,7 +411,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
 
         // Boost confidence based on number of fields extracted
         var fieldBonus = Math.Min(extractedFields.Count * 0.05f, 0.2f);
-        
+
         return Math.Min(baseConfidence + fieldBonus, 1.0f);
     }
 
@@ -429,7 +425,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             DocumentType = metadata.DocumentType.ToString(),
             ExtractedFields = result.ExtractedFields,
             OverallConfidence = result.OverallConfidence,
-            ValidationResults = result.ValidationResults
+            ValidationResultDocument = result.ValidationResultDocument
         };
     }
 
@@ -504,11 +500,16 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     private TimeSpan? CalculateETA(int processed, int total, DateTime startTime)
     {
         if (processed <= 0) return null;
-        
+
         var elapsed = DateTime.UtcNow - startTime;
         var averageTimePerDocument = elapsed.TotalMilliseconds / processed;
         var remaining = total - processed;
-        
+
         return TimeSpan.FromMilliseconds(averageTimePerDocument * remaining);
     }
-} 
+
+    Task<Result<ValidationResultDocument>> IHybridDocumentProcessor.ValidateExtractedFieldsAsync(Dictionary<string, object> extractedFields, DocumentValidationRules validationRules, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+}

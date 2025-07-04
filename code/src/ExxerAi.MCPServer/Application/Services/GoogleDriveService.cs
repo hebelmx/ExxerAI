@@ -6,6 +6,7 @@ using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAi.MCPServer.Application.Services;
 
@@ -29,7 +30,7 @@ public class GoogleDriveService : IGoogleDriveService
     /// <param name="configuration">Configuration for API credentials</param>
     /// <param name="documentProcessor">Document processing pipeline (optional)</param>
     public GoogleDriveService(
-        ILogger<GoogleDriveService> logger, 
+        ILogger<GoogleDriveService> logger,
         IConfiguration configuration,
         IHybridDocumentProcessor? documentProcessor = null)
     {
@@ -48,9 +49,9 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogInformation("Initializing Google Drive service...");
 
             // Get OAuth credentials from configuration
-            var clientId = _configuration["GoogleDrive:ClientId"] ?? 
+            var clientId = _configuration["GoogleDrive:ClientId"] ??
                           Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
-            var clientSecret = _configuration["GoogleDrive:ClientSecret"] ?? 
+            var clientSecret = _configuration["GoogleDrive:ClientSecret"] ??
                               Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET");
 
             if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
@@ -95,9 +96,9 @@ public class GoogleDriveService : IGoogleDriveService
     /// <param name="pollingIntervalSeconds">Polling interval in seconds</param>
     /// <returns>Watch session information</returns>
     public async Task<Result<string>> StartFolderWatchAsync(
-        string folderId, 
-        bool includeSubdirectories = true, 
-        bool autoProcess = true, 
+        string folderId,
+        bool includeSubdirectories = true,
+        bool autoProcess = true,
         int pollingIntervalSeconds = 60)
     {
         if (_driveService == null)
@@ -187,7 +188,7 @@ public class GoogleDriveService : IGoogleDriveService
             await request.DownloadAsync(stream);
 
             var fileData = stream.ToArray();
-            
+
             _logger.LogInformation("✅ Successfully downloaded {FileName} ({Size} bytes)", file.Name, fileData.Length);
             return Result<byte[]>.WithSuccess(fileData);
         }
@@ -261,11 +262,11 @@ public class GoogleDriveService : IGoogleDriveService
                 listRequest.Fields = "files(id,name,mimeType,modifiedTime,size)";
 
                 var files = await listRequest.ExecuteAsync();
-                
+
                 if (files.Files?.Count > 0)
                 {
                     _logger.LogInformation("📄 Detected {Count} file changes in folder {FolderId}", files.Files.Count, session.FolderId);
-                    
+
                     foreach (var file in files.Files)
                     {
                         session.DetectedChanges.Add(new DocumentChange
@@ -336,10 +337,10 @@ public class GoogleDriveService : IGoogleDriveService
             if (_documentProcessor != null)
             {
                 var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value, metadata);
-                
+
                 if (processingResult.IsSuccess)
                 {
-                    _logger.LogInformation("✅ Successfully processed {FileName} - Confidence: {Confidence:P}", 
+                    _logger.LogInformation("✅ Successfully processed {FileName} - Confidence: {Confidence:P}",
                         file.Name, processingResult.Value.OverallConfidence);
                 }
                 else
@@ -371,7 +372,7 @@ public class GoogleDriveService : IGoogleDriveService
             }
 
             var result = "👁️ Active Google Drive Watch Sessions:\n\n";
-            
+
             foreach (var session in _activeSessions.Values)
             {
                 var duration = DateTime.UtcNow - session.StartTime;

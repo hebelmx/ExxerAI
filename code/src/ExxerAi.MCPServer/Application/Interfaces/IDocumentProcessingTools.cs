@@ -1,4 +1,5 @@
 using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAi.MCPServer.Application.Interfaces;
 
@@ -7,48 +8,48 @@ namespace ExxerAi.MCPServer.Application.Interfaces;
 /// </summary>
 public interface IDocumentProcessingTools
 {
-	/// <summary>
-	/// Processes a document with adaptive polymorphic intelligence
-	/// </summary>
-	/// <param name="documentPath">Path to the document to process</param>
-	/// <param name="documentType">Document type (invoice, contract, report, etc.)</param>
-	/// <param name="extractionLevel">Level of extraction detail (basic, detailed, comprehensive)</param>
-	/// <param name="learningMode">Whether to enable adaptive learning</param>
-	/// <returns>Result containing document processing result with extracted data and confidence scores</returns>
-	Task<Result<string>> ProcessDocumentAsync(string documentPath, string documentType = "auto", string extractionLevel = "detailed", bool learningMode = true);
+    /// <summary>
+    /// Processes a document with adaptive polymorphic intelligence
+    /// </summary>
+    /// <param name="documentPath">Path to the document to process</param>
+    /// <param name="documentType">Document type (invoice, contract, report, etc.)</param>
+    /// <param name="extractionLevel">Level of extraction detail (basic, detailed, comprehensive)</param>
+    /// <param name="learningMode">Whether to enable adaptive learning</param>
+    /// <returns>Result containing document processing result with extracted data and confidence scores</returns>
+    Task<Result<string>> ProcessDocumentAsync(string documentPath, string documentType = "auto", string extractionLevel = "detailed", bool learningMode = true);
 
-	/// <summary>
-	/// Extracts specific fields from a document using a predefined schema
-	/// </summary>
-	/// <param name="documentPath">Path to the document</param>
-	/// <param name="schemaName">Name of the extraction schema to use</param>
-	/// <param name="fieldNames">Comma-separated list of specific fields to extract</param>
-	/// <returns>Result containing extracted field data with confidence scores</returns>
-	Task<Result<string>> ExtractFieldsAsync(string documentPath, string schemaName, string fieldNames = "");
+    /// <summary>
+    /// Extracts specific fields from a document using a predefined schema
+    /// </summary>
+    /// <param name="documentPath">Path to the document</param>
+    /// <param name="schemaName">Name of the extraction schema to use</param>
+    /// <param name="fieldNames">Comma-separated list of specific fields to extract</param>
+    /// <returns>Result containing extracted field data with confidence scores</returns>
+    Task<Result<string>> ExtractFieldsAsync(string documentPath, string schemaName, string fieldNames = "");
 
-	/// <summary>
-	/// Validates and grounds extracted data against business rules and context
-	/// </summary>
-	/// <param name="extractionId">ID of the extraction to validate</param>
-	/// <param name="businessRules">Business rules to apply during validation</param>
-	/// <param name="contextData">Additional context data for grounding</param>
-	/// <returns>Result containing validation results with confidence and error details</returns>
-	Task<Result<string>> ValidateExtractedDataAsync(string extractionId, string businessRules = "moderate", string contextData = "");
+    /// <summary>
+    /// Validates and grounds extracted data against business rules and context
+    /// </summary>
+    /// <param name="extractionId">ID of the extraction to validate</param>
+    /// <param name="businessRules">Business rules to apply during validation</param>
+    /// <param name="contextData">Additional context data for grounding</param>
+    /// <returns>Result containing validation results with confidence and error details</returns>
+    Task<Result<string>> ValidateExtractedDataAsync(string extractionId, string businessRules = "moderate", string contextData = "");
 
-	/// <summary>
-	/// Learns and adapts document processing schemas from sample documents
-	/// </summary>
-	/// <param name="sampleDocuments">Paths to sample documents for learning</param>
-	/// <param name="documentType">Type of documents for schema learning</param>
-	/// <param name="learningMode">Learning mode: incremental, full_retrain, adaptive</param>
-	/// <returns>Result containing schema learning results and confidence improvements</returns>
-	Task<Result<string>> LearnDocumentSchemaAsync(string sampleDocuments, string documentType, string learningMode = "adaptive");
+    /// <summary>
+    /// Learns and adapts document processing schemas from sample documents
+    /// </summary>
+    /// <param name="sampleDocuments">Paths to sample documents for learning</param>
+    /// <param name="documentType">Type of documents for schema learning</param>
+    /// <param name="learningMode">Learning mode: incremental, full_retrain, adaptive</param>
+    /// <returns>Result containing schema learning results and confidence improvements</returns>
+    Task<Result<string>> LearnDocumentSchemaAsync(string sampleDocuments, string documentType, string learningMode = "adaptive");
 
-	/// <summary>
-	/// Gets processing confidence for a specific document type
-	/// </summary>
-	/// <param name="documentType">Document type to assess</param>
-	/// <param name="complexityLevel">Document complexity: simple, medium, complex</param>
-	/// <returns>Result containing confidence assessment and processing capabilities</returns>
-	Task<Result<string>> GetProcessingConfidenceAsync(string documentType, string complexityLevel = "medium");
-} 
+    /// <summary>
+    /// Gets processing confidence for a specific document type
+    /// </summary>
+    /// <param name="documentType">Document type to assess</param>
+    /// <param name="complexityLevel">Document complexity: simple, medium, complex</param>
+    /// <returns>Result containing confidence assessment and processing capabilities</returns>
+    Task<Result<string>> GetProcessingConfidenceAsync(string documentType, string complexityLevel = "medium");
+}

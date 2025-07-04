@@ -1,9 +1,12 @@
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.Helpers;
+
 namespace ExxerAI.Application.Interfaces;
 
 /// <summary>
 /// Repository interface for conversation entities
 /// </summary>
-public interface IConversationRepository : IRepository<Domain.Conversation>
+public interface IConversationRepository : IRepository<Conversation>
 {
     /// <summary>
     /// Gets conversations for a specific agent
@@ -12,9 +15,9 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="status">Optional agentStatus filter</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of conversations for the agent</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Domain.Conversation>>> GetByAgentAsync(
+    Task<Result<IEnumerable<Conversation>>> GetByAgentAsync(
         Guid agentId,
-        Domain.ConversationStatus? status = null,
+        ConversationStatus? status = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -23,7 +26,7 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="modelId">The language model identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of conversations using the model</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Domain.Conversation>>> GetByLanguageModelAsync(
+    Task<Result<IEnumerable<Conversation>>> GetByLanguageModelAsync(
         Guid modelId,
         CancellationToken cancellationToken = default);
 
@@ -33,7 +36,7 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="conversationId">The conversation identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of messages in the conversation</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Domain.ConversationMessage>>> GetMessagesAsync(
+    Task<Result<IEnumerable<ConversationMessage>>> GetMessagesAsync(
         Guid conversationId,
         CancellationToken cancellationToken = default);
 
@@ -43,7 +46,7 @@ public interface IConversationRepository : IRepository<Domain.Conversation>
     /// <param name="message">The message to add</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The added message</returns>
-    Task<ExxerAI.Domain.Result<Domain.ConversationMessage>> AddMessageAsync(
-        Domain.ConversationMessage message,
+    Task<Result<ConversationMessage>> AddMessageAsync(
+        ConversationMessage message,
         CancellationToken cancellationToken = default);
 }

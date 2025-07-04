@@ -1,11 +1,8 @@
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 using Microsoft.Extensions.Logging;
 
-namespace ExxerAI.Application.Services.GoogleDrive;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Engine responsible for handling Google Drive API interactions and document operations
@@ -100,4 +97,4 @@ internal class GoogleDriveEngine
 
         return Result<DocumentMetadata>.WithSuccess(metadata);
     }
-} 
+}

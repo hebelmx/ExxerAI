@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEnums;
+namespace ExxerAI.Domain.Enums;
 
 /// <summary>
 /// Provides extension methods for converting enumeration values to strings.

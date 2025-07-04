@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers.Result;
+namespace ExxerAI.Domain.Helpers;
 
 /// <summary>
 /// Represents multiple null argument validation errors

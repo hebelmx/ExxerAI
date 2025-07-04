@@ -6,17 +6,12 @@
   <PropertyGroup>
     <!-- Target Framework -->
     <TargetFramework>net9.0</TargetFramework>
-    
+
     <!-- Language Features -->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    
-    <!-- Application Information -->
-    <AssemblyTitle>ExxerAI Domain Layer</AssemblyTitle>
-    <Description>ExxerAI Intelligence System Domain Entities and Business Logic</Description>
-    <Company>Exxerpro Solutions</Company>
-    <Product>ExxerAI Intelligence System</Product>
-    <Title>ExxerAI.Domain</Title>
+
+
   </PropertyGroup>
 
   <!-- ============================================================================ -->

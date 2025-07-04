@@ -62,7 +62,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="metadata">Document metadata including type and schema information</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the document processing operation</returns>
-    public async Task<ExxerAI.Domain.Result<DocumentProcessingResult>> ProcessDocumentAsync(
+    public async Task<Result<DocumentProcessingResult>> ProcessDocumentAsync(
         byte[] documentData,
         DocumentMetadata metadata,
         CancellationToken cancellationToken = default)
@@ -78,7 +78,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 DocumentId = metadata.FileName ?? "Unknown",
                 ExtractionMethod = ExtractionMethod.DirectText,
                 ExtractedFields = new Dictionary<string, object>(),
-                ValidationResults = new ValidationResult { IsValid = true, Confidence = 1.0f }
+                ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 1.0f }
             };
 
             // Stage 1: Direct Text Extraction
@@ -104,7 +104,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 }
                 else
                 {
-                    return ExxerAI.Domain.Result<DocumentProcessingResult>.WithFailure($"Both direct text and OCR extraction failed: {ocrResult.Error}");
+                    return Result<DocumentProcessingResult>.WithFailure($"Both direct text and OCR extraction failed: {ocrResult.Error}");
                 }
             }
 
@@ -138,7 +138,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             var validationResult = await _validator.ValidateExtractedDataAsync(result.GroundedData, metadata, cancellationToken);
             if (validationResult.IsSuccess)
             {
-                result.ValidationResults = validationResult.Value!;
+                result.ValidationResultDocument = validationResult.Value!;
                 result.GroundingConfidence = validationResult.Value.Confidence;
             }
 
@@ -228,7 +228,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
     /// <param name="context">The ground truth context for validation.</param>
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The validation result with grounded data.</returns>
-    public async Task<Result<ValidationResult>> ValidateAndGroundDataAsync(
+    public async Task<Result<ValidationResultDocument>> ValidateAndGroundDataAsync(
         ExtractedData data,
         GroundTruthContext context,
         CancellationToken cancellationToken = default)

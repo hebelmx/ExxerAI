@@ -6,15 +6,15 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<TargetFramework>net9.0</TargetFramework>
-		
+
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		
+
 		<!-- Test Configuration -->
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		
+
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI API Tests</AssemblyTitle>
 		<Description>Unit and Integration Tests for ExxerAI REST API</Description>
@@ -63,6 +63,7 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Infrastructure References">
 		<ProjectReference Include="..\..\ExxerAI.Api\ExxerAI.Api.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
 		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
 	</ItemGroup>
 

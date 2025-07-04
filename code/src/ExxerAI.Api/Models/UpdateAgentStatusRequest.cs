@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using ExxerAI.Domain;
+using ExxerAI.Domain.ValueObjects;
 
 namespace ExxerAI.Api.Models;
 

@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEnums;
+namespace ExxerAI.Domain.Enums;
 
 /// <summary>
 /// Represents task agent status with rich domain modeling and state transition validation.

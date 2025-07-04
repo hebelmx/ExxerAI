@@ -1,15 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
-using ExxerAI.Application.Services;
 using ExxerAI.Domain;
-using ExxerAI.Domain.DocumentProcessing;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
 namespace ExxerAI.Application.Tests.Services
 {
@@ -23,7 +14,7 @@ namespace ExxerAI.Application.Tests.Services
         {
             _taskRepository = Substitute.For<ITaskRepository>();
             _agentRepository = Substitute.For<IAgentRepository>();
-            
+
             _service = new TaskService(_taskRepository, _agentRepository);
         }
 
@@ -101,7 +92,7 @@ namespace ExxerAI.Application.Tests.Services
                 Id = taskId,
                 AgentStatus = TaskAgentStatus.Pending
             };
-            
+
             _taskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>())
                 .Returns(Result<AgentTask>.Success(task));
             _taskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>())

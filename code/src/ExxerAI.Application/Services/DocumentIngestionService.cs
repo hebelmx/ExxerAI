@@ -1,12 +1,8 @@
-using Microsoft.Extensions.Logging;
 using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services.DocumentProcessing;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Service for intelligent document ingestion from Google Drive with version management and deduplication.
@@ -41,7 +37,7 @@ public class DocumentIngestionService : IDocumentIngestionService
         _documentProcessor = documentProcessor ?? throw new ArgumentNullException(nameof(documentProcessor));
         _hashGenerator = hashGenerator ?? throw new ArgumentNullException(nameof(hashGenerator));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        
+
         // Initialize focused engine components
         var loggerFactory = Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance;
         _googleDriveEngine = new GoogleDriveEngine(loggerFactory.CreateLogger<GoogleDriveEngine>());
@@ -382,6 +378,4 @@ public class DocumentIngestionService : IDocumentIngestionService
             return Result<IngestionStatus>.WithFailure($"AgentStatus check error: {ex.Message}");
         }
     }
-
-
 }

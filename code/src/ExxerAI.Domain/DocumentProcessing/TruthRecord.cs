@@ -23,7 +23,7 @@ public class TruthRecord
     /// <summary>
     /// Gets or sets the validation results for this truth record
     /// </summary>
-    public ValidationResult ValidationResults { get; set; } = new();
+    public ValidationResultDocument ValidationResultsDocument { get; set; } = new();
 
     /// <summary>
     /// Gets or sets when this truth record was created

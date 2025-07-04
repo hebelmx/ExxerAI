@@ -1,7 +1,4 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
 
 namespace ExxerAI.Application.Tests.Services;
 

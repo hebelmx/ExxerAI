@@ -1,9 +1,4 @@
-using ExxerAI.Application.Interfaces;
-using ExxerAI.Application.Services;
 using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 

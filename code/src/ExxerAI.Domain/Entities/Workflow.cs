@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEntities;
+namespace ExxerAI.Domain.Entities;
 
 /// <summary>
 /// Represents a workflow that orchestrates multiple agents and tasks

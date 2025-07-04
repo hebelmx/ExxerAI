@@ -1,13 +1,8 @@
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
-using ExxerAI.Domain.DocumentProcessing;
-using ExxerAI.Application.DTOs;
 using ExxerAI.Application.Interfaces;
-using Microsoft.Extensions.Logging;
+using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services.DocumentProcessing;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Engine responsible for coordinating document processing operations and managing processing state

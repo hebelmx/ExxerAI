@@ -1,5 +1,7 @@
 using ExxerAI.Domain.DocumentProcessing;
-using ExxerAI.Domain.Helpers; // For Result<>
+using ExxerAI.Domain.Helpers;
+
+// For Result<>
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -18,8 +20,8 @@ public interface IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The complete processing result with extracted data and confidence scores.</returns>
     Task<Result<DocumentProcessingResult>> ProcessDocumentAsync(
-        byte[] documentData, 
-        DocumentMetadata metadata, 
+        byte[] documentData,
+        DocumentMetadata metadata,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -30,8 +32,8 @@ public interface IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The field extraction results with confidence scores.</returns>
     Task<Result<ExtractionResult>> ExtractFieldsAsync(
-        Document document, 
-        ExtractionSchema schema, 
+        Document document,
+        ExtractionSchema schema,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -41,9 +43,9 @@ public interface IPolymorphicDocumentProcessor
     /// <param name="context">The ground truth context for validation.</param>
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The validation result with grounded data.</returns>
-    Task<Result<ValidationResult>> ValidateAndGroundDataAsync(
-        ExtractedData data, 
-        GroundTruthContext context, 
+    Task<Result<ValidationResultDocument>> ValidateAndGroundDataAsync(
+        ExtractedData data,
+        GroundTruthContext context,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -53,7 +55,7 @@ public interface IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The learning result with updated processing rules.</returns>
     Task<Result<LearningResult>> AdaptProcessingRulesAsync(
-        ProcessingHistory history, 
+        ProcessingHistory history,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -63,7 +65,7 @@ public interface IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token for operation control.</param>
     /// <returns>The learned schema definition.</returns>
     Task<Result<SchemaDefinition>> LearnDocumentSchemaAsync(
-        IEnumerable<Document> samples, 
+        IEnumerable<Document> samples,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -73,6 +75,6 @@ public interface IPolymorphicDocumentProcessor
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The confidence score for processing this document type</returns>
     Task<Result<float>> GetProcessingConfidenceAsync(
-        DocumentType documentType, 
+        DocumentType documentType,
         CancellationToken cancellationToken = default);
 }

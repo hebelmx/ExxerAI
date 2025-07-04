@@ -1,4 +1,4 @@
-﻿namespace ExxerAI.Infrastructure;
+﻿namespace ExxerAI.Infrastructure.Interfaces;
 
 /// <summary>
 /// Marker interface for infrastructure layer

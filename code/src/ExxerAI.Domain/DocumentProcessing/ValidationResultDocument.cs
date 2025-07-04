@@ -3,7 +3,7 @@ namespace ExxerAI.Domain.DocumentProcessing;
 /// <summary>
 /// Represents validation results for extracted data
 /// </summary>
-public class ValidationResult
+public class ValidationResultDocument
 {
     /// <summary>
     /// Gets or sets whether the data passed validation

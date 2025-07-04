@@ -1,7 +1,4 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -27,8 +24,8 @@ public class LLMServiceTests
         var modelId = Guid.NewGuid();
         var prompt = "Test prompt";
         var parameters = new LLMParameters { Temperature = 0.7, MaxTokens = 100 };
-        var expectedResponse = new LLMResponse 
-        { 
+        var expectedResponse = new LLMResponse
+        {
             Content = "Generated text",
             InputTokens = 5,
             OutputTokens = 10,
@@ -92,7 +89,7 @@ public class LLMServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion GenerateTextAsync Tests
 
     #region ContinueConversationAsync Tests
 
@@ -102,8 +99,8 @@ public class LLMServiceTests
         // Arrange
         var conversationId = Guid.NewGuid();
         var message = "Hello";
-        var expectedMessage = new ConversationMessage 
-        { 
+        var expectedMessage = new ConversationMessage
+        {
             Id = Guid.NewGuid(),
             Content = "Hello there!",
             Role = MessageRole.Assistant,
@@ -125,7 +122,7 @@ public class LLMServiceTests
         result.Data.Role.ShouldBe(MessageRole.Assistant);
     }
 
-    #endregion
+    #endregion ContinueConversationAsync Tests
 
     #region CreateConversationAsync Tests
 
@@ -137,8 +134,8 @@ public class LLMServiceTests
         var modelId = Guid.NewGuid();
         var title = "Test Conversation";
         var systemPrompt = "You are a helpful assistant";
-        var expectedConversation = new Conversation 
-        { 
+        var expectedConversation = new Conversation
+        {
             Id = Guid.NewGuid(),
             AgentId = agentId,
             LanguageModelId = modelId,
@@ -163,7 +160,7 @@ public class LLMServiceTests
         result.Data.Title.ShouldBe(title);
     }
 
-    #endregion
+    #endregion CreateConversationAsync Tests
 
     #region Contract Validation Tests
 
@@ -212,5 +209,5 @@ public class LLMServiceTests
         validateTask.ShouldBeOfType<Task<Result<bool>>>();
     }
 
-    #endregion
+    #endregion Contract Validation Tests
 }

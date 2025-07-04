@@ -6,23 +6,18 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<TargetFramework>net9.0</TargetFramework>
-		
+
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		
+
 		<!-- Package Management -->
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 		<RestoreLockedMode>false</RestoreLockedMode>
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 		<DisablePackageRestore>false</DisablePackageRestore>
-		
-		<!-- Application Information -->
-		<AssemblyTitle>ExxerAI Application Layer</AssemblyTitle>
-		<Description>ExxerAI Intelligence System Application Services and Handlers</Description>
-		<Company>Exxerpro Solutions</Company>
-		<Product>ExxerAI Intelligence System</Product>
-		<Title>ExxerAI.Application</Title>
+
+
 	</PropertyGroup>
 
 	<!-- ============================================================================ -->

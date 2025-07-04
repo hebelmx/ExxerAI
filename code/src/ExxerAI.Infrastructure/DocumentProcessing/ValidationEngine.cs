@@ -30,12 +30,12 @@ internal class ValidationEngine
     /// <param name="metadata">Document metadata for validation context</param>
     /// <param name="cancellationToken">Cancellation token for operation control</param>
     /// <returns>Validation result with confidence score and error details</returns>
-    public Task<Result<ValidationResult>> ValidateExtractedDataAsync(
+    public Task<Result<ValidationResultDocument>> ValidateExtractedDataAsync(
         ExtractedData data,
         DocumentMetadata metadata,
         CancellationToken cancellationToken)
     {
-        var validation = new ValidationResult
+        var validation = new ValidationResultDocument
         {
             IsValid = true,
             Confidence = 1.0f
@@ -55,7 +55,7 @@ internal class ValidationEngine
             }
         }
 
-        return Task.FromResult(Result<ValidationResult>.WithSuccess(validation));
+        return Task.FromResult(Result<ValidationResultDocument>.WithSuccess(validation));
     }
 
     /// <summary>

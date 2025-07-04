@@ -11,19 +11,19 @@ public class LearningFeedback
     /// Gets or sets the document type that was processed
     /// </summary>
     public string DocumentType { get; set; } = string.Empty;
-    
+
     /// <summary>
     /// Gets or sets the dictionary of extracted fields and their values
     /// </summary>
     public Dictionary<string, object> ExtractedFields { get; set; } = new();
-    
+
     /// <summary>
     /// Gets or sets the overall confidence score of the processing
     /// </summary>
     public float OverallConfidence { get; set; }
-    
-    /// <summary>
+
+    /// <summary>|
     /// Gets or sets the validation results from the processing
     /// </summary>
-    public ValidationResult? ValidationResults { get; set; }
-} 
+    public ValidationResultDocument? ValidationResultDocument { get; set; }
+}

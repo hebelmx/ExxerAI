@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers.Result;
+namespace ExxerAI.Domain.Helpers;
 
 /// <summary>
 /// Represents the result of an operation, including success agentStatus and error messages.

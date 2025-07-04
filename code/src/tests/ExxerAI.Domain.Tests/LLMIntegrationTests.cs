@@ -4,7 +4,7 @@ namespace ExxerAI.Domain.Tests;
 
 /// <summary>
 /// Comprehensive tests for LLM Integration domain classes
-/// Targets: LanguageModel, ModelCapabilities, ModelConfiguration, Conversation, 
+/// Targets: LanguageModel, ModelCapabilities, ModelConfiguration, Conversation,
 /// ConversationMessage, ConversationMetadata, MessageMetadata, and enums
 /// </summary>
 public class LLMIntegrationTests
@@ -718,4 +718,4 @@ public class LLMIntegrationTests
             roleCount.ShouldBe(4);
         }
     }
-} 
+}

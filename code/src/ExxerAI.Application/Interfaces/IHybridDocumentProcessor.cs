@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -35,7 +36,7 @@ public interface IHybridDocumentProcessor
     /// <param name="cancellationToken">Cancellation token for batch operation</param>
     /// <returns>Batch processing results with individual document outcomes</returns>
     Task<BatchProcessingResult> ProcessDocumentBatchAsync(
-        IEnumerable<DocumentBatchItem> documents, 
+        IEnumerable<DocumentBatchItem> documents,
         BatchProcessingOptions options,
         IProgress<BatchProgressReport> progress = null,
         CancellationToken cancellationToken = default);
@@ -57,8 +58,8 @@ public interface IHybridDocumentProcessor
     /// <param name="validationRules">Business validation rules to apply</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Comprehensive validation results</returns>
-    Task<Result<ValidationResult>> ValidateExtractedFieldsAsync(
-        Dictionary<string, object> extractedFields, 
-        DocumentValidationRules validationRules, 
+    Task<Result<Domain.DocumentProcessing.ValidationResultDocument>> ValidateExtractedFieldsAsync(
+        Dictionary<string, object> extractedFields,
+        DocumentValidationRules validationRules,
         CancellationToken cancellationToken = default);
 }

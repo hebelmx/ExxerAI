@@ -1,9 +1,4 @@
-using ExxerAI.Application.Interfaces;
-using ExxerAI.Application.Services;
 using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -127,7 +122,7 @@ public async Task AssignTaskAsync_Should_ReturnSuccess_When_ValidParameters()
 var agentId = Guid.NewGuid();
 var taskId = Guid.NewGuid();
 var agent = new Agent { Id = agentId, Status = AgentStatus.Active };
-var task = new AgentTask { Id = taskId, AgentStatus = Domain.TaskAgentStatus.Pending };
+var task = new AgentTask { Id = taskId, AgentStatus = TaskAgentStatus.Pending };
 
 _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
 .Returns(Result<Agent>.WithSuccess(agent));
@@ -165,7 +160,7 @@ var agent = new Agent { Id = agentId };
 
 _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>())
 .Returns(Result<Agent>.WithSuccess(agent));
-_mockTaskRepository.GetByAgentAsync(agentId, Domain.TaskAgentStatus.InProgress, Arg.Any<CancellationToken>())
+_mockTaskRepository.GetByAgentAsync(agentId, TaskAgentStatus.InProgress, Arg.Any<CancellationToken>())
 .Returns(Result<IEnumerable<AgentTask>>.WithSuccess(new List<AgentTask>()));
 _mockAgentRepository.DeleteAsync(agentId, Arg.Any<CancellationToken>())
 .Returns(Result<bool>.WithSuccess(true));

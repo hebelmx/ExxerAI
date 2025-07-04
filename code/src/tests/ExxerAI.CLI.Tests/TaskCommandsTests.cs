@@ -163,7 +163,7 @@ public class TaskCommandsTests
 		// Arrange
 		var taskId = Guid.NewGuid();
 		var args = new[] { "update", taskId.ToString(), "--agentStatus", "Completed" };
-		var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus = ExxerAI.Domain.TaskAgentStatus.InProgress };
+		var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus =TaskAgentStatus.InProgress };
 		
 		_mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
 		_mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
@@ -173,7 +173,7 @@ public class TaskCommandsTests
 
 		// Assert
 		exitCode.ShouldBe(0);
-		await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => t.AgentStatus == ExxerAI.Domain.TaskAgentStatus.Completed));
+		await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => t.AgentStatus ==TaskAgentStatus.Completed));
 	}
 
 	[Fact]
@@ -217,8 +217,8 @@ public class TaskCommandsTests
 		var agentId = Guid.NewGuid();
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow, AssignedAgentId = agentId },
-			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow, AssignedAgentId = agentId },
+			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 		// Mock agent lookup for assigned tasks
@@ -278,8 +278,8 @@ public class TaskCommandsTests
 		var args = new[] { "list" };
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "Task1", TaskType = "DataProcessing", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
-			new() { Id = Guid.NewGuid(), Title = "Task2", TaskType = "Analysis", AgentStatus = ExxerAI.Domain.TaskAgentStatus.InProgress, Priority = TaskPriority.High, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "Task1", TaskType = "DataProcessing", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
+			new() { Id = Guid.NewGuid(), Title = "Task2", TaskType = "Analysis", AgentStatus =TaskAgentStatus.InProgress, Priority = TaskPriority.High, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(tasks)));
 
@@ -297,8 +297,8 @@ public class TaskCommandsTests
 		var args = new[] { "list", "--agentStatus", "Pending" };
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "PendingTask", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, TaskType = "Test", Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
-			new() { Id = Guid.NewGuid(), Title = "CompletedTask", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Completed, TaskType = "Test", Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "PendingTask", AgentStatus =TaskAgentStatus.Pending, TaskType = "Test", Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
+			new() { Id = Guid.NewGuid(), Title = "CompletedTask", AgentStatus =TaskAgentStatus.Completed, TaskType = "Test", Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
@@ -316,8 +316,8 @@ public class TaskCommandsTests
 		var args = new[] { "list", "--priority", "High" };
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "HighPriorityTask", Priority = TaskPriority.High, TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, CreatedAt = DateTime.UtcNow },
-			new() { Id = Guid.NewGuid(), Title = "NormalPriorityTask", Priority = TaskPriority.Normal, TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "HighPriorityTask", Priority = TaskPriority.High, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, CreatedAt = DateTime.UtcNow },
+			new() { Id = Guid.NewGuid(), Title = "NormalPriorityTask", Priority = TaskPriority.Normal, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
@@ -335,8 +335,8 @@ public class TaskCommandsTests
 		var args = new[] { "list", "--type", "DataProcessing" };
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "DataTask", TaskType = "DataProcessing", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
-			new() { Id = Guid.NewGuid(), Title = "AnalysisTask", TaskType = "Analysis", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "DataTask", TaskType = "DataProcessing", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
+			new() { Id = Guid.NewGuid(), Title = "AnalysisTask", TaskType = "Analysis", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
@@ -355,8 +355,8 @@ public class TaskCommandsTests
 		var args = new[] { "list", "--agent", agentId.ToString() };
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "AssignedTask", AssignedAgentId = agentId, TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
-			new() { Id = Guid.NewGuid(), Title = "UnassignedTask", AssignedAgentId = null, TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "AssignedTask", AssignedAgentId = agentId, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
+			new() { Id = Guid.NewGuid(), Title = "UnassignedTask", AssignedAgentId = null, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 		// Mock agent lookup for agent name display
@@ -768,7 +768,7 @@ public class TaskCommandsTests
 		var args = new[] { "list" };
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "AssignedTask", AssignedAgentId = agentId, TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "AssignedTask", AssignedAgentId = agentId, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		var testAgent = new Agent { Id = agentId, Name = "TestAgent" };
 		
@@ -789,7 +789,7 @@ public class TaskCommandsTests
 		// Arrange
 		var taskId = Guid.NewGuid();
 		var args = new[] { "update", taskId.ToString(), "--agentStatus", "InProgress" };
-		var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, StartedAt = null };
+		var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus =TaskAgentStatus.Pending, StartedAt = null };
 		
 		_mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
 		_mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
@@ -800,7 +800,7 @@ public class TaskCommandsTests
 		// Assert
 		exitCode.ShouldBe(0);
 		await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => 
-			t.AgentStatus == ExxerAI.Domain.TaskAgentStatus.InProgress && t.StartedAt.HasValue));
+			t.AgentStatus ==TaskAgentStatus.InProgress && t.StartedAt.HasValue));
 	}
 
 	[Fact]
@@ -809,7 +809,7 @@ public class TaskCommandsTests
 		// Arrange
 		var taskId = Guid.NewGuid();
 		var args = new[] { "update", taskId.ToString(), "--agentStatus", "Completed" };
-		var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus = ExxerAI.Domain.TaskAgentStatus.InProgress, CompletedAt = null };
+		var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus =TaskAgentStatus.InProgress, CompletedAt = null };
 		
 		_mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
 		_mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
@@ -820,7 +820,7 @@ public class TaskCommandsTests
 		// Assert
 		exitCode.ShouldBe(0);
 		await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => 
-			t.AgentStatus == ExxerAI.Domain.TaskAgentStatus.Completed && t.CompletedAt.HasValue));
+			t.AgentStatus ==TaskAgentStatus.Completed && t.CompletedAt.HasValue));
 	}
 
 	[Fact]
@@ -831,8 +831,8 @@ public class TaskCommandsTests
 		var agentId = Guid.NewGuid();
 		var tasks = new List<AgentTask>
 		{
-			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow, AssignedAgentId = agentId },
-			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
+			new() { Id = Guid.NewGuid(), Title = "OverdueTask", Deadline = DateTime.UtcNow.AddDays(-1), TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow, AssignedAgentId = agentId },
+			new() { Id = Guid.NewGuid(), Title = "FutureTask", Deadline = DateTime.UtcNow.AddDays(1), TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
 		};
 		_mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 		// Mock agent lookup for assigned tasks

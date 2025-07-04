@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEntities;
+namespace ExxerAI.Domain.Entities;
 
 /// <summary>
 /// Represents a Large Language Model in the ExxerAI system

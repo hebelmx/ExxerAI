@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -18,8 +19,8 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the storage operation containing the truth record</returns>
     Task<Result<TruthRecord>> StoreExtractedDataAsync(
-        ExtractedData data, 
-        DataSource source, 
+        ExtractedData data,
+        DataSource source,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -29,7 +30,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the validation operation</returns>
     Task<Result<ValidationResult>> ValidateAgainstTruthAsync(
-        ExtractedData data, 
+        ExtractedData data,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -39,7 +40,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the retrieval operation containing the truth record</returns>
     Task<Result<TruthRecord>> GetAuthoritativeRecordAsync(
-        string recordId, 
+        string recordId,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -49,7 +50,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the conflict resolution operation</returns>
     Task<Result<ConflictResolution>> ResolveDataConflictAsync(
-        IEnumerable<ExtractedData> conflictingData, 
+        IEnumerable<ExtractedData> conflictingData,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -59,7 +60,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the data lineage</returns>
     Task<Result<DataLineage>> GetDataLineageAsync(
-        string recordId, 
+        string recordId,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -70,8 +71,8 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the grounding report</returns>
     Task<Result<GroundingReport>> GenerateGroundingReportAsync(
-        DateTime fromDate, 
-        DateTime toDate, 
+        DateTime fromDate,
+        DateTime toDate,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -82,8 +83,8 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing similar truth records</returns>
     Task<Result<IEnumerable<TruthRecord>>> FindSimilarRecordsAsync(
-        ExtractedData data, 
-        float similarityThreshold = 0.85f, 
+        ExtractedData data,
+        float similarityThreshold = 0.85f,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -95,9 +96,9 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the update operation</returns>
     Task<Result<TruthRecord>> UpdateTruthRecordAsync(
-        string recordId, 
-        ExtractedData updatedData, 
-        string updatedBy, 
+        string recordId,
+        ExtractedData updatedData,
+        string updatedBy,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -107,9 +108,9 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="reason">The reason for requiring review</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> RequireHumanReviewAsync(
-        string recordId, 
-        string reason, 
+    Task<Result<bool>> RequireHumanReviewAsync(
+        string recordId,
+        string reason,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -128,7 +129,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing quality metrics</returns>
     Task<Result<DataQualityMetrics>> GetDataQualityMetricsAsync(
-        DateTime fromDate, 
-        DateTime toDate, 
+        DateTime fromDate,
+        DateTime toDate,
         CancellationToken cancellationToken = default);
 }

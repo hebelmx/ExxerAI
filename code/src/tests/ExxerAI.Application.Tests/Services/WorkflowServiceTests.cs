@@ -1,7 +1,4 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -31,8 +28,8 @@ public class WorkflowServiceTests
             new() { Name = "Step1", StepType = "Action", Order = 1 },
             new() { Name = "Step2", StepType = "Condition", Order = 2 }
         };
-        var expectedWorkflow = new Workflow 
-        { 
+        var expectedWorkflow = new Workflow
+        {
             Id = Guid.NewGuid(),
             Name = name,
             Description = description,
@@ -98,7 +95,7 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion CreateWorkflowAsync Tests
 
     #region GetWorkflowAsync Tests
 
@@ -107,9 +104,9 @@ public class WorkflowServiceTests
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var expectedWorkflow = new Workflow 
-        { 
-            Id = workflowId, 
+        var expectedWorkflow = new Workflow
+        {
+            Id = workflowId,
             Name = "Test Workflow",
             Status = WorkflowStatus.Active
         };
@@ -166,7 +163,7 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion GetWorkflowAsync Tests
 
     #region GetActiveWorkflowsAsync Tests
 
@@ -216,7 +213,7 @@ public class WorkflowServiceTests
         result.Data.ShouldBeEmpty();
     }
 
-    #endregion
+    #endregion GetActiveWorkflowsAsync Tests
 
     #region ExecuteWorkflowAsync Tests
 
@@ -226,8 +223,8 @@ public class WorkflowServiceTests
         // Arrange
         var workflowId = Guid.NewGuid();
         var input = new Dictionary<string, object> { ["param1"] = "value1", ["param2"] = 42 };
-        var expectedExecution = new WorkflowExecution 
-        { 
+        var expectedExecution = new WorkflowExecution
+        {
             Id = Guid.NewGuid(),
             WorkflowId = workflowId,
             Status = WorkflowExecutionStatus.Starting,
@@ -289,7 +286,7 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion ExecuteWorkflowAsync Tests
 
     #region GetWorkflowExecutionsAsync Tests
 
@@ -343,7 +340,7 @@ public class WorkflowServiceTests
         result.Data.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
     }
 
-    #endregion
+    #endregion GetWorkflowExecutionsAsync Tests
 
     #region Execution Control Tests
 
@@ -363,10 +360,12 @@ public class WorkflowServiceTests
                 _workflowService.PauseWorkflowExecutionAsync(executionId, Arg.Any<CancellationToken>())
                     .Returns(expectedResult);
                 break;
+
             case nameof(IWorkflowService.ResumeWorkflowExecutionAsync):
                 _workflowService.ResumeWorkflowExecutionAsync(executionId, Arg.Any<CancellationToken>())
                     .Returns(expectedResult);
                 break;
+
             case nameof(IWorkflowService.CancelWorkflowExecutionAsync):
                 _workflowService.CancelWorkflowExecutionAsync(executionId, Arg.Any<CancellationToken>())
                     .Returns(expectedResult);
@@ -404,10 +403,12 @@ public class WorkflowServiceTests
                 _workflowService.PauseWorkflowExecutionAsync(executionId, Arg.Any<CancellationToken>())
                     .Returns(expectedResult);
                 break;
+
             case nameof(IWorkflowService.ResumeWorkflowExecutionAsync):
                 _workflowService.ResumeWorkflowExecutionAsync(executionId, Arg.Any<CancellationToken>())
                     .Returns(expectedResult);
                 break;
+
             case nameof(IWorkflowService.CancelWorkflowExecutionAsync):
                 _workflowService.CancelWorkflowExecutionAsync(executionId, Arg.Any<CancellationToken>())
                     .Returns(expectedResult);
@@ -429,7 +430,7 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion Execution Control Tests
 
     #region UpdateWorkflowConfigurationAsync Tests
 
@@ -438,8 +439,8 @@ public class WorkflowServiceTests
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var configuration = new WorkflowConfiguration 
-        { 
+        var configuration = new WorkflowConfiguration
+        {
             MaxExecutionTimeSeconds = 7200,
             AllowParallelExecution = false
         };
@@ -477,7 +478,7 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion UpdateWorkflowConfigurationAsync Tests
 
     #region DeleteWorkflowAsync Tests
 
@@ -519,7 +520,7 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion DeleteWorkflowAsync Tests
 
     #region Contract Validation Tests
 
@@ -587,5 +588,5 @@ public class WorkflowServiceTests
         deleteTask.ShouldBeOfType<Task<Result<bool>>>();
     }
 
-    #endregion
+    #endregion Contract Validation Tests
 }

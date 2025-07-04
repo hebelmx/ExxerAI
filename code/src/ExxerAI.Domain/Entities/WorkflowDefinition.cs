@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEntities;
+namespace ExxerAI.Domain.Entities;
 
 /// <summary>
 /// Represents the definition of a workflow

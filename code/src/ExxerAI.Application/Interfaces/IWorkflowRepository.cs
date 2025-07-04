@@ -1,5 +1,7 @@
+using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.Helpers;
-using ExxerAI.Domain.DomainEntities; // For Workflow, WorkflowStatus, WorkflowExecution, WorkflowExecutionStatus
+
+// For Workflow, WorkflowStatus, WorkflowExecution, WorkflowExecutionStatus
 
 namespace ExxerAI.Application.Interfaces;
 

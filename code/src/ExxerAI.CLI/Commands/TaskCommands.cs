@@ -1,9 +1,9 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.ValueObjects;
 
-namespace ExxerAI.CLI.Commands.Task;
+namespace ExxerAI.CLI.Commands;
 
 /// <summary>
 /// Handles task-related CLI commands
@@ -107,7 +107,7 @@ public class TaskCommands
 			// Apply filters
 			if (!string.IsNullOrEmpty(statusFilter))
 			{
-				if (Enum.TryParse<ExxerAI.Domain.TaskAgentStatus>(statusFilter, true, out var status))
+				if (Enum.TryParse<TaskAgentStatus>(statusFilter, true, out var status))
 					tasks = tasks.Where(t => t.AgentStatus == status);
 				else
 				{
@@ -250,7 +250,7 @@ public class TaskCommands
 				TaskType = typeStr,
 				Priority = priority,
 				Description = description ?? $"Auto-generated {typeStr} task",
-				AgentStatus = ExxerAI.Domain.TaskAgentStatus.Pending,
+				AgentStatus =TaskAgentStatus.Pending,
 				CreatedAt = DateTime.UtcNow,
 				Deadline = deadline
 			};
@@ -318,7 +318,7 @@ public class TaskCommands
 
 			var task = taskResult.Value;
 			task.AssignedAgentId = agentId;
-			task.AgentStatus = ExxerAI.Domain.TaskAgentStatus.InProgress;
+			task.AgentStatus =TaskAgentStatus.InProgress;
 			task.StartedAt = DateTime.UtcNow;
 
 			var updateResult = await _taskRepository.UpdateAsync(task);
@@ -373,7 +373,7 @@ public class TaskCommands
 			return 1;
 		}
 
-		if (!Enum.TryParse<ExxerAI.Domain.TaskAgentStatus>(statusStr, true, out var newStatus))
+		if (!Enum.TryParse<TaskAgentStatus>(statusStr, true, out var newStatus))
 		{
 			Console.WriteLine($"Error: Invalid agentStatus '{statusStr}'.");
 			Console.WriteLine("Valid statuses: Pending, InProgress, Completed, Failed, Cancelled, Paused");
@@ -393,9 +393,9 @@ public class TaskCommands
 			task.AgentStatus = newStatus;
 
 			// Update timestamps based on agentStatus
-			if (newStatus == ExxerAI.Domain.TaskAgentStatus.InProgress && !task.StartedAt.HasValue)
+			if (newStatus ==TaskAgentStatus.InProgress && !task.StartedAt.HasValue)
 				task.StartedAt = DateTime.UtcNow;
-			else if (newStatus == ExxerAI.Domain.TaskAgentStatus.Completed)
+			else if (newStatus ==TaskAgentStatus.Completed)
 				task.CompletedAt = DateTime.UtcNow;
 
 			var updateResult = await _taskRepository.UpdateAsync(task);

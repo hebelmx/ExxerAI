@@ -1,4 +1,3 @@
-using ExxerAI.Domain.DocumentProcessing;
 using Shouldly;
 using Xunit;
 
@@ -23,7 +22,7 @@ public class DocumentProcessingResultTests
         result.ExtractedFields.ShouldNotBeNull();
         result.ExtractedFields.ShouldBeEmpty();
         result.GroundedData.ShouldNotBeNull();
-        result.ValidationResults.ShouldNotBeNull();
+        result.ValidationResultDocument.ShouldNotBeNull();
         result.OCRRegions.ShouldNotBeNull();
         result.OCRRegions.ShouldBeEmpty();
         result.Confidence.ShouldBe(0.0f);
@@ -112,7 +111,7 @@ public class DocumentProcessingResultTests
                 ["EmployerNumber"] = "REG123456"
             },
             ProcessingTimeMs = 1500,
-            ValidationResults = new ValidationResult { IsValid = true }
+            ValidationResultDocument = new ValidationResultDocument { IsValid = true }
         };
 
         // Set confidence scores to get a specific overall confidence

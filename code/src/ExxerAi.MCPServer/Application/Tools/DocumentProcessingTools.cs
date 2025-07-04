@@ -1,10 +1,8 @@
 using System.ComponentModel;
-using Microsoft.Extensions.Logging;
-using ExxerAI.Domain;
 using ExxerAi.MCPServer.Application.Interfaces;
 using ModelContextProtocol.Server;
 
-namespace ExxerAi.MCPServer.Application.Tools.DocumentProcessing;
+namespace ExxerAi.MCPServer.Application.Tools;
 
 /// <summary>
 /// MCP tools for advanced document processing with polymorphic intelligence

@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -17,7 +18,7 @@ public interface IMCPGoogleDriveService
     /// <param name="options">Watch configuration options</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the watch operation containing the MCP response</returns>
-    Task<ExxerAI.Domain.Result<MCPResponse>> WatchFolderAsync(
+    Task<Result<MCPResponse>> WatchFolderAsync(
         string folderId,
         MCPWatchOptions options,
         CancellationToken cancellationToken = default);
@@ -28,7 +29,7 @@ public interface IMCPGoogleDriveService
     /// <param name="watchId">The watch session identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing document changes</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<DocumentChange>>> GetDocumentChangesAsync(
+    Task<Result<IEnumerable<DocumentChange>>> GetDocumentChangesAsync(
         string watchId,
         CancellationToken cancellationToken = default);
 
@@ -38,7 +39,7 @@ public interface IMCPGoogleDriveService
     /// <param name="documentId">The document identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing document metadata</returns>
-    Task<ExxerAI.Domain.Result<MCPDocumentMetadata>> GetDocumentMetadataAsync(
+    Task<Result<MCPDocumentMetadata>> GetDocumentMetadataAsync(
         string documentId,
         CancellationToken cancellationToken = default);
 
@@ -48,7 +49,7 @@ public interface IMCPGoogleDriveService
     /// <param name="documentId">The document identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the document data</returns>
-    Task<ExxerAI.Domain.Result<byte[]>> DownloadDocumentAsync(
+    Task<Result<byte[]>> DownloadDocumentAsync(
         string documentId,
         CancellationToken cancellationToken = default);
 
@@ -59,7 +60,7 @@ public interface IMCPGoogleDriveService
     /// <param name="document">The processed document to upload</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the upload operation</returns>
-    Task<ExxerAI.Domain.Result<MCPUploadResult>> UploadProcessedDataAsync(
+    Task<Result<MCPUploadResult>> UploadProcessedDataAsync(
         string folderId,
         ProcessedDocument document,
         CancellationToken cancellationToken = default);
@@ -69,7 +70,7 @@ public interface IMCPGoogleDriveService
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the health check operation</returns>
-    Task<ExxerAI.Domain.Result<MCPHealthStatus>> CheckMCPServerHealthAsync(
+    Task<Result<MCPHealthStatus>> CheckMCPServerHealthAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -78,7 +79,7 @@ public interface IMCPGoogleDriveService
     /// <param name="watchId">The watch session identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the stop operation</returns>
-    Task<ExxerAI.Domain.Result<bool>> StopWatchingAsync(
+    Task<Result<bool>> StopWatchingAsync(
         string watchId,
         CancellationToken cancellationToken = default);
 
@@ -87,7 +88,7 @@ public interface IMCPGoogleDriveService
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing active watches</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<MCPWatchSession>>> GetActiveWatchesAsync(
+    Task<Result<IEnumerable<MCPWatchSession>>> GetActiveWatchesAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -96,7 +97,7 @@ public interface IMCPGoogleDriveService
     /// <param name="request">The MCP document processing request</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the processing operation</returns>
-    Task<ExxerAI.Domain.Result<DocumentProcessingResult>> HandleMCPDocumentProcessingAsync(
+    Task<Result<DocumentProcessingResult>> HandleMCPDocumentProcessingAsync(
         MCPDocumentRequest request,
         CancellationToken cancellationToken = default);
 }

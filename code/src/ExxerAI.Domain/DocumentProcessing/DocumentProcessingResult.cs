@@ -33,7 +33,7 @@ public class DocumentProcessingResult
     /// <summary>
     /// Gets or sets the validation results for the extracted data
     /// </summary>
-    public ValidationResult ValidationResults { get; set; } = new();
+    public ValidationResultDocument ValidationResultDocument { get; set; } = new();
 
     /// <summary>
     /// Gets or sets the OCR regions that were processed
@@ -58,7 +58,7 @@ public class DocumentProcessingResult
     /// <summary>
     /// Gets the overall confidence score (weighted average)
     /// </summary>
-    public float OverallConfidence => 
+    public float OverallConfidence =>
         (Confidence * 0.4f + LLMConfidence * 0.4f + GroundingConfidence * 0.2f);
 
     /// <summary>
@@ -121,7 +121,7 @@ public class DocumentProcessingResult
             FailedFields = ExtractedFields.Where(kvp => kvp.Value == null).Select(kvp => kvp.Key).ToList(),
             OverallConfidence = OverallConfidence,
             ProcessingTimeMs = ProcessingTimeMs,
-            ValidationPassed = ValidationResults.IsValid
+            ValidationPassed = ValidationResultDocument.IsValid
         };
     }
 }

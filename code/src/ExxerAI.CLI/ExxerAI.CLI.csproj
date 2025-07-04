@@ -7,17 +7,12 @@
     <!-- Target Framework -->
     <TargetFramework>net9.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    
+
     <!-- Language Features -->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    
-    <!-- Application Information -->
-    <AssemblyTitle>ExxerAI Command Line Interface</AssemblyTitle>
-    <Description>ExxerAI Intelligence System CLI Tool</Description>
-    <Company>Exxerpro Solutions</Company>
-    <Product>ExxerAI Intelligence System</Product>
-    <Title>ExxerAI.CLI</Title>
+
+
   </PropertyGroup>
 
   <!-- ============================================================================ -->

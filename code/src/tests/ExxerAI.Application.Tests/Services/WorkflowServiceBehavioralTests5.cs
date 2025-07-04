@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Logging;
-
 namespace ExxerAI.Application.Tests.Services;
 
 public class WorkflowServiceBehavioralTests5
@@ -18,9 +16,9 @@ public class WorkflowServiceBehavioralTests5
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var expectedWorkflow = new Domain.Workflow { Id = workflowId, Name = "Test Workflow" };
+        var expectedWorkflow = new Workflow { Id = workflowId, Name = "Test Workflow" };
         _workflowRepository.GetByIdAsync(workflowId, Arg.Any<CancellationToken>())
-            .Returns(ExxerAI.Domain.Result<Domain.Workflow>.WithSuccess(expectedWorkflow));
+            .Returns(Result<Workflow>.WithSuccess(expectedWorkflow));
 
         // Act
         var result = await _service.GetWorkflowAsync(workflowId);
@@ -36,7 +34,7 @@ public class WorkflowServiceBehavioralTests5
         // Arrange
         var workflowId = Guid.NewGuid();
         _workflowRepository.GetByIdAsync(workflowId, Arg.Any<CancellationToken>())
-            .Returns(ExxerAI.Domain.Result<Domain.Workflow>.WithFailure("Workflow not found"));
+            .Returns(Result<Workflow>.WithFailure("Workflow not found"));
 
         // Act
         var result = await _service.GetWorkflowAsync(workflowId);

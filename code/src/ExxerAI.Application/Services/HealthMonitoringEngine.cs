@@ -1,13 +1,6 @@
-using ExxerAI.Domain.DocumentProcessing;
-using ExxerAI.Application.DTOs;
 using ExxerAI.Application.Interfaces;
-using Microsoft.Extensions.Logging;
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services.Health;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Engine responsible for monitoring system health and providing status information
@@ -65,4 +58,4 @@ internal class HealthMonitoringEngine
 
         return messages;
     }
-} 
+}

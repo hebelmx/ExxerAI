@@ -1,13 +1,15 @@
-using ExxerAI.Domain.DomainEntities;
+using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.Helpers;
-using ExxerAI.Domain.Entities; // For Agent, AgentStatus
+using ExxerAI.Domain.ValueObjects;
+
+// For Agent, AgentStatus
 
 namespace ExxerAI.Application.Interfaces;
 
 /// <summary>
 /// Repository interface for agent entities
 /// </summary>
-public interface IAgentRepository : IRepository<Domain.Agent>
+public interface IAgentRepository : IRepository<Agent>
 {
     /// <summary>
     /// Gets agents by agentStatus
@@ -15,8 +17,8 @@ public interface IAgentRepository : IRepository<Domain.Agent>
     /// <param name="status">The agent agentStatus</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of agents with the specified agentStatus</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Domain.Agent>>> GetByStatusAsync(
-        Domain.AgentStatus status,
+    Task<Result<IEnumerable<Agent>>> GetByStatusAsync(
+        AgentStatus status,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -25,7 +27,7 @@ public interface IAgentRepository : IRepository<Domain.Agent>
     /// <param name="taskType">The task type</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of agents that support the task type</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<Domain.Agent>>> FindByTaskTypeAsync(
+    Task<Result<IEnumerable<Agent>>> FindByTaskTypeAsync(
         string taskType,
         CancellationToken cancellationToken = default);
 
@@ -34,6 +36,6 @@ public interface IAgentRepository : IRepository<Domain.Agent>
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Collection of agents with task count information</returns>
-    Task<ExxerAI.Domain.Result<IEnumerable<(Domain.Agent Agent, int TaskCount)>>> GetAgentsWithTaskCountAsync(
+    Task<Result<IEnumerable<(Agent Agent, int TaskCount)>>> GetAgentsWithTaskCountAsync(
         CancellationToken cancellationToken = default);
 }

@@ -27,7 +27,7 @@ namespace ExxerAI.Api.Tests;
 /// - xUnit v3 for test framework
 /// - Shouldly for assertions (NOT FluentAssertions)
 /// - NSubstitute for mocking (NOT Moq)
-/// - ExxerAI.Domain.Result<T> for functional error handling
+/// - Result<T> for functional error handling
 /// - Microsoft.Extensions.Logging for structured logging
 /// 
 /// Follows ExxerAI Coding Standards:
@@ -518,7 +518,7 @@ public class ComprehensiveUnitTestExample
                     ["date_created"] = DateTime.UtcNow.AddDays(-1),
                     ["page_count"] = 5
                 },
-                ValidationResults = new ValidationResult 
+                ValidationResultDocument = new ValidationResultDocument 
                 { 
                     IsValid = true, 
                     Confidence = 0.95f,

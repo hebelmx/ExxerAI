@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEnums;
+namespace ExxerAI.Domain.Enums;
 
 /// <summary>
 /// Provides a base class for creating strongly-typed enumerations.

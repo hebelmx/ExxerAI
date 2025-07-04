@@ -1,9 +1,3 @@
-using ExxerAI.Application.Data;
-using ExxerAI.Application.Interfaces;
-using Shouldly;
-using System.Linq;
-using Xunit;
-
 namespace ExxerAI.Application.Tests.Services;
 
 /// <summary>

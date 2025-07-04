@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.DomainEnums;
+namespace ExxerAI.Domain.Enums;
 
 /// <summary>
 /// Represents a base interface for enumerations with value, name, and display name.

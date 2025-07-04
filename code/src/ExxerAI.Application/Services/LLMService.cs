@@ -1,11 +1,9 @@
+using System.Runtime.CompilerServices;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
-using System.Runtime.CompilerServices;
 
-namespace ExxerAI.Application.Services.LLM;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Service for managing language model operations and conversations
@@ -35,15 +33,15 @@ _conversationRepository = conversationRepository ?? throw new ArgumentNullExcept
 /// <param name="parameters">Optional parameters for generation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the generated LLM response</returns>
-public async Task<ExxerAI.Domain.Result<LLMResponse>> GenerateTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, CancellationToken cancellationToken = default)
+public async Task<Result<LLMResponse>> GenerateTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, CancellationToken cancellationToken = default)
 {
 try
 {
 if (string.IsNullOrWhiteSpace(prompt))
-return ExxerAI.Domain.Result<LLMResponse>.WithFailure("Prompt cannot be null or empty");
+return Result<LLMResponse>.WithFailure("Prompt cannot be null or empty");
 
 var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
-if (modelResult.IsFailure) return ExxerAI.Domain.Result<LLMResponse>.WithFailure($"Model {modelId} not found");
+if (modelResult.IsFailure) return Result<LLMResponse>.WithFailure($"Model {modelId} not found");
 
 var response = new LLMResponse
 {
@@ -55,11 +53,11 @@ ResponseTimeMs = 500,
 FinishReason = "completed"
 };
 
-return ExxerAI.Domain.Result<LLMResponse>.WithSuccess(response);
+return Result<LLMResponse>.WithSuccess(response);
 }
 catch (Exception ex)
 {
-return ExxerAI.Domain.Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
+return Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
 }
 }
 
@@ -70,12 +68,12 @@ return ExxerAI.Domain.Result<LLMResponse>.WithFailure($"Error generating text: {
 /// <param name="message">The message to add to the conversation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the assistant's response message</returns>
-public async Task<ExxerAI.Domain.Result<ConversationMessage>> ContinueConversationAsync(Guid conversationId, string message, CancellationToken cancellationToken = default)
+public async Task<Result<ConversationMessage>> ContinueConversationAsync(Guid conversationId, string message, CancellationToken cancellationToken = default)
 {
 try
 {
 if (string.IsNullOrWhiteSpace(message))
-return ExxerAI.Domain.Result<ConversationMessage>.WithFailure("Message cannot be null or empty");
+return Result<ConversationMessage>.WithFailure("Message cannot be null or empty");
 
 var userMessage = new ConversationMessage
 {
@@ -86,7 +84,7 @@ Timestamp = DateTime.UtcNow
 };
 
 var addResult = await _conversationRepository.AddMessageAsync(userMessage, cancellationToken);
-if (addResult.IsFailure) return ExxerAI.Domain.Result<ConversationMessage>.WithFailure(addResult.Error ?? "Failed to add user message");
+if (addResult.IsFailure) return Result<ConversationMessage>.WithFailure(addResult.Error ?? "Failed to add user message");
 
 var assistantMessage = new ConversationMessage
 {
@@ -97,11 +95,11 @@ Timestamp = DateTime.UtcNow
 };
 
 var assistantResult = await _conversationRepository.AddMessageAsync(assistantMessage, cancellationToken);
-return assistantResult.IsFailure ? ExxerAI.Domain.Result<ConversationMessage>.WithFailure(assistantResult.Error ?? "Failed to add assistant message") : ExxerAI.Domain.Result<ConversationMessage>.WithSuccess(assistantMessage);
+return assistantResult.IsFailure ? Result<ConversationMessage>.WithFailure(assistantResult.Error ?? "Failed to add assistant message") : Result<ConversationMessage>.WithSuccess(assistantMessage);
 }
 catch (Exception ex)
 {
-return ExxerAI.Domain.Result<ConversationMessage>.WithFailure($"Error continuing conversation: {ex.Message}");
+return Result<ConversationMessage>.WithFailure($"Error continuing conversation: {ex.Message}");
 }
 }
 
@@ -114,7 +112,7 @@ return ExxerAI.Domain.Result<ConversationMessage>.WithFailure($"Error continuing
 /// <param name="systemPrompt">Optional system prompt for the conversation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the newly created conversation</returns>
-public async Task<ExxerAI.Domain.Result<Conversation>> CreateConversationAsync(Guid agentId, Guid modelId, string? title = null, string? systemPrompt = null, CancellationToken cancellationToken = default)
+public async Task<Result<Conversation>> CreateConversationAsync(Guid agentId, Guid modelId, string? title = null, string? systemPrompt = null, CancellationToken cancellationToken = default)
 {
 try
 {
@@ -129,11 +127,11 @@ CreatedAt = DateTime.UtcNow
 };
 
 var result = await _conversationRepository.AddAsync(conversation, cancellationToken);
-return result.IsFailure ? ExxerAI.Domain.Result<Conversation>.WithFailure(result.Error ?? "Failed to add conversation") : ExxerAI.Domain.Result<Conversation>.WithSuccess(conversation);
+return result.IsFailure ? Result<Conversation>.WithFailure(result.Error ?? "Failed to add conversation") : Result<Conversation>.WithSuccess(conversation);
 }
 catch (Exception ex)
 {
-return ExxerAI.Domain.Result<Conversation>.WithFailure($"Error creating conversation: {ex.Message}");
+return Result<Conversation>.WithFailure($"Error creating conversation: {ex.Message}");
 }
 }
 
@@ -145,20 +143,20 @@ return ExxerAI.Domain.Result<Conversation>.WithFailure($"Error creating conversa
 /// <param name="outputTokens">The number of output tokens</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the estimated cost in decimal format</returns>
-public async Task<ExxerAI.Domain.Result<decimal>> EstimateCostAsync(Guid modelId, int inputTokens, int outputTokens, CancellationToken cancellationToken = default)
+public async Task<Result<decimal>> EstimateCostAsync(Guid modelId, int inputTokens, int outputTokens, CancellationToken cancellationToken = default)
 {
 try
 {
 var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
-if (modelResult.IsFailure) return ExxerAI.Domain.Result<decimal>.WithFailure($"Model {modelId} not found");
+if (modelResult.IsFailure) return Result<decimal>.WithFailure($"Model {modelId} not found");
 
 // Basic cost estimation (would use real pricing from model)
 decimal cost = (inputTokens * 0.00001m) + (outputTokens * 0.00002m);
-return ExxerAI.Domain.Result<decimal>.WithSuccess(cost);
+return Result<decimal>.WithSuccess(cost);
 }
 catch (Exception ex)
 {
-return ExxerAI.Domain.Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
+return Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
 }
 }
 
@@ -169,23 +167,23 @@ return ExxerAI.Domain.Result<decimal>.WithFailure($"Error estimating cost: {ex.M
 /// <param name="text">The text to tokenize and count</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the token count</returns>
-public async Task<ExxerAI.Domain.Result<int>> CountTokensAsync(Guid modelId, string text, CancellationToken cancellationToken = default)
+public async Task<Result<int>> CountTokensAsync(Guid modelId, string text, CancellationToken cancellationToken = default)
 {
 try
 {
 if (string.IsNullOrEmpty(text))
-return ExxerAI.Domain.Result<int>.WithSuccess(0);
+return Result<int>.WithSuccess(0);
 
 var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
-if (modelResult.IsFailure) return ExxerAI.Domain.Result<int>.WithFailure($"Model {modelId} not found");
+if (modelResult.IsFailure) return Result<int>.WithFailure($"Model {modelId} not found");
 
 // Basic token counting (would use real tokenizer)
 int tokenCount = text.Length / 4; // Rough estimation
-return ExxerAI.Domain.Result<int>.WithSuccess(tokenCount);
+return Result<int>.WithSuccess(tokenCount);
 }
 catch (Exception ex)
 {
-return ExxerAI.Domain.Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
+return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
 }
 }
 
@@ -224,16 +222,16 @@ await Task.Delay(100, cancellationToken); // Simulate processing delay
 /// <param name="modelId">The unique identifier of the language model to validate</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing true if the model is valid, false otherwise</returns>
-public async Task<ExxerAI.Domain.Result<bool>> ValidateModelAsync(Guid modelId, CancellationToken cancellationToken = default)
+public async Task<Result<bool>> ValidateModelAsync(Guid modelId, CancellationToken cancellationToken = default)
 {
 try
 {
 var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
-return ExxerAI.Domain.Result<bool>.WithSuccess(modelResult.IsSuccess);
+return Result<bool>.WithSuccess(modelResult.IsSuccess);
 }
 catch (Exception ex)
 {
-return ExxerAI.Domain.Result<bool>.WithFailure($"Error validating model: {ex.Message}");
+return Result<bool>.WithFailure($"Error validating model: {ex.Message}");
 }
 }
 }

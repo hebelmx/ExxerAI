@@ -1,9 +1,9 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.ValueObjects;
 
-namespace ExxerAI.CLI.Commands.Agent;
+namespace ExxerAI.CLI.Commands;
 
 /// <summary>
 /// Handles agent-related CLI commands

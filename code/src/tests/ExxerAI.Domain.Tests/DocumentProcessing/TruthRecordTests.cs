@@ -1,4 +1,3 @@
-using ExxerAI.Domain.DocumentProcessing;
 using Shouldly;
 using Xunit;
 
@@ -20,7 +19,7 @@ public class TruthRecordTests
         truthRecord.Id.ShouldNotBeNullOrEmpty();
         truthRecord.Data.ShouldNotBeNull();
         truthRecord.Source.ShouldNotBeNull();
-        truthRecord.ValidationResults.ShouldNotBeNull();
+        truthRecord.ValidationResultsDocument.ShouldNotBeNull();
         truthRecord.Timestamp.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
         truthRecord.LineageId.ShouldBe(string.Empty);
         truthRecord.DataHash.ShouldBe(string.Empty);
@@ -119,7 +118,7 @@ public class TruthRecordTests
             ProcessedAt = DateTime.UtcNow
         };
 
-        var validationResults = new ValidationResult
+        var validationResults = new ValidationResultDocument
         {
             IsValid = true,
             Confidence = 0.93f
@@ -130,7 +129,7 @@ public class TruthRecordTests
         {
             Data = extractedData,
             Source = dataSource,
-            ValidationResults = validationResults,
+            ValidationResultsDocument = validationResults,
             LineageId = "lineage-001",
             DataHash = "sha256hash123",
             ConfidenceScore = 0.92f,
@@ -140,7 +139,7 @@ public class TruthRecordTests
         // Assert
         truthRecord.Data.ShouldBe(extractedData);
         truthRecord.Source.ShouldBe(dataSource);
-        truthRecord.ValidationResults.ShouldBe(validationResults);
+        truthRecord.ValidationResultsDocument.ShouldBe(validationResults);
         truthRecord.LineageId.ShouldBe("lineage-001");
         truthRecord.DataHash.ShouldBe("sha256hash123");
         truthRecord.ConfidenceScore.ShouldBe(0.92f);

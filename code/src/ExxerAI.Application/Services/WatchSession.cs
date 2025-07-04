@@ -1,8 +1,4 @@
-namespace ExxerAI.Application.Services.Watch;
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
+namespace ExxerAI.Application.Services;
 
 /// <summary>
 /// Represents an active watch session for a Google Drive folder.

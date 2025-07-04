@@ -1,10 +1,4 @@
-using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Domain;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -98,4 +92,4 @@ public class DocumentIngestionServiceBehavioralTests
         result.IsSuccess.ShouldBeFalse();
         result.Error.ShouldContain("Ingestion failed");
     }
-} 
+}

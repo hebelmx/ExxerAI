@@ -1,9 +1,8 @@
 using System.ComponentModel;
-using ExxerAI.Domain;
 using ExxerAi.MCPServer.Application.Interfaces;
 using ModelContextProtocol.Server;
 
-namespace ExxerAi.MCPServer.Application.Tools.GoogleDrive;
+namespace ExxerAi.MCPServer.Application.Tools;
 
 /// <summary>
 /// MCP tools for Google Drive integration implementing advanced document intelligence pipeline
@@ -46,7 +45,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             var result = await _googleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingIntervalSeconds);
-            
+
             if (result.IsSuccess)
             {
                 _logger.LogInformation("✅ Successfully started real Google Drive folder watch for {FolderId}", folderId);
@@ -80,7 +79,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         {
             // Get active watches which includes detected changes
             var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
-            
+
             if (watchesResult.IsSuccess)
             {
                 var result = $"📋 Document Changes for Watch {watchId}:\n" +
@@ -166,7 +165,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId);
-            
+
             if (!metadataResult.IsSuccess)
             {
                 return Result<string>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
@@ -206,10 +205,10 @@ public class GoogleDriveTools : IGoogleDriveTools
         {
             // Try to initialize the Google Drive service to check connectivity
             var initResult = await _googleDriveService.InitializeAsync();
-            
+
             var connectionStatus = initResult.IsSuccess ? "✅ Connected" : "❌ Failed";
             var authStatus = initResult.IsSuccess ? "✅ Valid" : "❌ Invalid";
-            
+
             // Get active watches
             var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
             var activeWatches = watchesResult.IsSuccess ? "Available" : "Error getting watch info";
@@ -254,7 +253,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             var result = await _googleDriveService.GetActiveWatchesAsync();
-            
+
             if (result.IsSuccess)
             {
                 _logger.LogInformation("✅ Retrieved active watch sessions");
@@ -287,7 +286,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             var result = await _googleDriveService.StopWatchingAsync(watchId);
-            
+
             if (result.IsSuccess)
             {
                 _logger.LogInformation("✅ Successfully stopped watch session {WatchId}", watchId);

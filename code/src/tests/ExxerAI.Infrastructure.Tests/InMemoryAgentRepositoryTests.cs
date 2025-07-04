@@ -1,4 +1,5 @@
 using ExxerAI.Domain;
+using ExxerAI.Domain.Entities;
 using ExxerAI.Infrastructure.Repositories;
 using Shouldly;
 
