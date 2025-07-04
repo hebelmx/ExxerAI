@@ -1,5 +1,4 @@
 using System.Reflection;
-using ExxerAI.Domain.Enums;
 
 namespace ExxerAI.Architecture.Tests;
 
@@ -15,6 +14,6 @@ public class ValidationTests
 
         var names = flowStatusFields.Select(fs => fs.Name).ToList();
 
-        names.Distinct().Count().ShouldBe(names.Count(), "because Names should be unique in FlowStatus");
+        Assert.Equal(names.Count(), names.Distinct().Count());
     }
 }

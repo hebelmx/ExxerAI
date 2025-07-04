@@ -46,7 +46,6 @@
 	<!-- PACKAGE REFERENCES - TESTING UTILITIES -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Utilities">
-		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
 	</ItemGroup>
 

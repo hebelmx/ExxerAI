@@ -5,28 +5,28 @@
 		<!-- ============================================================================ -->
 		
 		<!-- Redirect all build outputs to artifacts/bin and artifacts/obj -->
-		<BaseOutputPath>$(SolutionDir)artifacts\bin\</BaseOutputPath>
-		<BaseIntermediateOutputPath>$(SolutionDir)artifacts\obj\</BaseIntermediateOutputPath>
+		<BaseOutputPath>$(SolutionDir)..\..\artifacts\bin\</BaseOutputPath>
+		<BaseIntermediateOutputPath>$(SolutionDir)..\..\artifacts\obj\</BaseIntermediateOutputPath>
 		
 		<!-- Redirect all test results and coverage reports -->
-		<TestResultsDirectory>$(SolutionDir)artifacts\TestResults\</TestResultsDirectory>
+		<TestResultsDirectory>$(SolutionDir)..\..\artifacts\TestResults\</TestResultsDirectory>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
-		<CoverletOutput>$(SolutionDir)artifacts\Coverage\</CoverletOutput>
+		<CoverletOutput>$(SolutionDir)..\..\artifacts\Coverage\</CoverletOutput>
 		
 		<!-- Redirect package restore outputs -->
-		<RestorePackagesPath>$(SolutionDir)artifacts\packages\</RestorePackagesPath>
-		<NuGetPackageRoot>$(SolutionDir)artifacts\packages\</NuGetPackageRoot>
-		<PackageOutputPath>$(SolutionDir)artifacts\packages\</PackageOutputPath>
+		<RestorePackagesPath>$(SolutionDir)..\..\artifacts\packages\</RestorePackagesPath>
+		<NuGetPackageRoot>$(SolutionDir)..\..\artifacts\packages\</NuGetPackageRoot>
+		<PackageOutputPath>$(SolutionDir)..\..\artifacts\packages\</PackageOutputPath>
 		
 		<!-- Redirect MSBuild logs and other build artifacts -->
-		<MSBuildProjectExtensionsPath>$(SolutionDir)artifacts\obj\$(MSBuildProjectName)\</MSBuildProjectExtensionsPath>
-		<DefaultItemExcludes>$(DefaultItemExcludes);$(SolutionDir)artifacts/**</DefaultItemExcludes>
+		<MSBuildProjectExtensionsPath>$(SolutionDir)..\..\artifacts\obj\$(MSBuildProjectName)\</MSBuildProjectExtensionsPath>
+		<DefaultItemExcludes>$(DefaultItemExcludes);$(SolutionDir)..\..\artifacts/**</DefaultItemExcludes>
 		
 		<!-- Redirect publish outputs -->
-		<PublishDir>$(SolutionDir)artifacts\publish\$(MSBuildProjectName)\</PublishDir>
+		<PublishDir>$(SolutionDir)..\..\artifacts\publish\$(MSBuildProjectName)\</PublishDir>
 		
 		<!-- Redirect documentation outputs -->
-		<DocumentationFile>$(SolutionDir)artifacts\docs\$(MSBuildProjectName).xml</DocumentationFile>
+		<DocumentationFile>$(SolutionDir)..\..\artifacts\docs\$(MSBuildProjectName).xml</DocumentationFile>
 		
 		<!-- ============================================================================ -->
 		<!-- ASSEMBLY GENERATION CONTROL -->

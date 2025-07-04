@@ -1,0 +1,738 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Domain.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Domain.Tests.AgentCapabilitiesTests">
+            <summary>
+            Unit tests for AgentCapabilities domain model
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests that default constructor initializes all properties with expected default values
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_And_Get_CanProcessNaturalLanguage_When_Value_Provided(System.Boolean)">
+            <summary>
+            Tests property round-trip for CanProcessNaturalLanguage
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_And_Get_CanGenerateCode_When_Value_Provided(System.Boolean)">
+            <summary>
+            Tests property round-trip for CanGenerateCode
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_And_Get_CanAnalyzeData_When_Value_Provided(System.Boolean)">
+            <summary>
+            Tests property round-trip for CanAnalyzeData
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_And_Get_CanCallExternalAPIs_When_Value_Provided(System.Boolean)">
+            <summary>
+            Tests property round-trip for CanCallExternalAPIs
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_And_Get_MaxConcurrentTasks_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests property round-trip for MaxConcurrentTasks
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Accept_Any_MaxConcurrentTasks_Value_When_No_Validation_Applied(System.Int32)">
+            <summary>
+            Tests boundary values for MaxConcurrentTasks
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_And_Get_SupportedTaskTypes_When_List_Provided">
+            <summary>
+            Tests property round-trip for SupportedTaskTypes with list
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Allow_SupportedTaskTypes_Modification_When_Already_Initialized">
+            <summary>
+            Tests that SupportedTaskTypes can be modified after initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Initialize_SupportedTaskTypes_With_Init_Syntax_When_Creating_Object">
+            <summary>
+            Tests that SupportedTaskTypes collection initialization with init works correctly
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Set_All_Properties_When_Creating_Complete_Capabilities">
+            <summary>
+            Tests all properties can be set together
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Enable_All_Capabilities_When_Setting_All_To_True">
+            <summary>
+            Tests enabling all capabilities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Disable_All_Capabilities_When_Setting_All_To_False">
+            <summary>
+            Tests disabling all capabilities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Support_Adding_Multiple_TaskTypes_When_Adding_One_By_One">
+            <summary>
+            Tests adding multiple task types one by one
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Accept_Empty_SupportedTaskTypes_When_Empty_List_Provided">
+            <summary>
+            Tests SupportedTaskTypes with empty list
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentCapabilitiesTests.Should_Allow_Duplicate_TaskTypes_When_Adding_Same_Type_Multiple_Times">
+            <summary>
+            Tests SupportedTaskTypes with duplicate values
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentConfigurationTests">
+            <summary>
+            Unit tests for AgentConfiguration domain model
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests that default constructor initializes all properties with expected default values
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Set_And_Get_TaskTimeoutSeconds_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests property round-trip for TaskTimeoutSeconds
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Set_And_Get_MaxRetries_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests property round-trip for MaxRetries
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Set_And_Get_Priority_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests property round-trip for Priority
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Set_And_Get_CustomProperties_When_Valid_Dictionary_Provided">
+            <summary>
+            Tests property round-trip for CustomProperties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Allow_CustomProperties_Modification_When_Already_Initialized">
+            <summary>
+            Tests that CustomProperties can be modified after initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Initialize_CustomProperties_With_Init_Syntax_When_Creating_Object">
+            <summary>
+            Tests that CustomProperties collection initialization with init works correctly
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Set_All_Properties_When_Creating_Complete_Configuration">
+            <summary>
+            Tests all properties can be set together
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Accept_Any_TaskTimeoutSeconds_Value_When_No_Validation_Applied(System.Int32)">
+            <summary>
+            Tests boundary values for TaskTimeoutSeconds
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Accept_Any_MaxRetries_Value_When_No_Validation_Applied(System.Int32)">
+            <summary>
+            Tests boundary values for MaxRetries
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentConfigurationTests.Should_Accept_Any_Priority_Value_When_No_Validation_Applied(System.Int32)">
+            <summary>
+            Tests boundary values for Priority
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests">
+            <summary>
+            Comprehensive unit tests for Agent domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.CreationTests">
+            <summary>
+            Test fixture for Agent creation and initialization
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.StatusManagementTests">
+            <summary>
+            Test fixture for Agent agentStatus management
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.CapabilitiesTests">
+            <summary>
+            Test fixture for Agent capabilities
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.ConfigurationTests">
+            <summary>
+            Test fixture for Agent configuration
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.TaskManagementTests">
+            <summary>
+            Test fixture for Agent task management
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.BusinessRulesTests">
+            <summary>
+            Test fixture for Agent business rules and validation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.EdgeCaseTests">
+            <summary>
+            Test fixture for Agent edge cases and extreme scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.RelationshipTests">
+            <summary>
+            Test fixture for Agent collections and relationships
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentDomainTests.EqualityTests">
+            <summary>
+            Test fixture for Agent comparison and equality
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests">
+            <summary>
+            Comprehensive unit tests for AgentTask domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.CreationTests">
+            <summary>
+            Test fixture for AgentTask creation scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.StatusTransitionTests">
+            <summary>
+            Test fixture for AgentTask agentStatus transitions
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.PriorityTests">
+            <summary>
+            Test fixture for AgentTask priority handling
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.TimingTests">
+            <summary>
+            Test fixture for AgentTask timing calculations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.OverdueDetectionTests">
+            <summary>
+            Test fixture for AgentTask overdue detection
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.DataHandlingTests">
+            <summary>
+            Test fixture for AgentTask data handling
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.MetadataTests">
+            <summary>
+            Test fixture for AgentTask metadata handling
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.ValidationTests">
+            <summary>
+            Test fixture for AgentTask validation scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.EdgeCaseTests">
+            <summary>
+            Test fixture for AgentTask edge cases
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskDomainTests.AssignmentTests">
+            <summary>
+            Test fixture for AgentTask assignment scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTaskEntityTests">
+            <summary>
+            Comprehensive unit tests for AgentTask entity
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.AgentTaskEntityTests.CreateValidAgentTask">
+            <summary>
+            Creates a valid AgentTask for testing purposes
+            </summary>
+            <returns>A properly initialized AgentTask instance</returns>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.AgentTests">
+            <summary>
+            Unit tests for Agent domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.ConversationMessageTests">
+            <summary>
+            Unit tests for ConversationMessage domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.ConversationTests">
+            <summary>
+            Unit tests for Conversation domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.AdaptationRecommendationTests">
+            <summary>
+            Unit tests for AdaptationRecommendation entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.BoundingBoxTests">
+            <summary>
+            Unit tests for BoundingBox domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportDtoTests">
+            <summary>
+            Unit tests for BusinessIntelligenceReport and related DTO classes
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportDtoTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests BusinessIntelligenceReport default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportDtoTests.Should_Set_And_Get_GeneratedBy_When_Valid_String_Provided(System.String)">
+            <summary>
+            Tests property round-trip for GeneratedBy
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportDtoTests.Should_Add_And_Retrieve_Insights_When_Adding_Multiple_Items">
+            <summary>
+            Tests Insights collection manipulation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportDtoTests.Should_Add_And_Retrieve_RecommendedActions_When_Adding_Multiple_Items">
+            <summary>
+            Tests RecommendedActions collection manipulation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests">
+            <summary>
+            Unit tests for BusinessIntelligenceReport and related classes
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests BusinessIntelligenceReport default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Set_And_Get_ReportPeriod_When_Valid_DateRange_Provided">
+            <summary>
+            Tests property round-trip for ReportPeriod
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Set_And_Get_GroundingReport_When_Valid_Report_Provided">
+            <summary>
+            Tests property round-trip for GroundingReport
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Set_And_Get_QualityMetrics_When_Valid_Metrics_Provided">
+            <summary>
+            Tests property round-trip for QualityMetrics
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Set_And_Get_GeneratedAt_When_Valid_DateTime_Provided">
+            <summary>
+            Tests property round-trip for GeneratedAt
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Set_And_Get_GeneratedBy_When_Valid_String_Provided(System.String)">
+            <summary>
+            Tests property round-trip for GeneratedBy
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Add_And_Retrieve_Insights_When_Adding_Multiple_Items">
+            <summary>
+            Tests Insights collection manipulation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Add_And_Retrieve_RecommendedActions_When_Adding_Multiple_Items">
+            <summary>
+            Tests RecommendedActions collection manipulation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.BusinessIntelligenceReportTests.Should_Set_All_Properties_When_Creating_Complete_Report">
+            <summary>
+            Tests complete report creation with all properties
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ConflictResolutionTests">
+            <summary>
+            Unit tests for ConflictResolution domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DataLineageTests">
+            <summary>
+            Unit tests for DataLineage domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsDtoTests">
+            <summary>
+            Unit tests for DataQualityMetrics class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsDtoTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests DataQualityMetrics default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsDtoTests.Should_Set_And_Get_OverallQualityScore_When_Valid_Value_Provided(System.Double)">
+            <summary>
+            Tests property round-trip for OverallQualityScore
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsDtoTests.Should_Set_All_Properties_When_Creating_Complete_DataQualityMetrics">
+            <summary>
+            Tests all properties can be set together
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsDtoTests.Should_Accept_Any_Score_Values_When_No_Validation_Applied(System.Double)">
+            <summary>
+            Tests boundary values for all score properties
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsTests">
+            <summary>
+            Unit tests for DataQualityMetrics class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests DataQualityMetrics default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsTests.Should_Set_And_Get_OverallQualityScore_When_Valid_Value_Provided(System.Double)">
+            <summary>
+            Tests property round-trip for OverallQualityScore
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsTests.Should_Set_All_Properties_When_Creating_Complete_DataQualityMetrics">
+            <summary>
+            Tests all properties can be set together
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DataQualityMetricsTests.Should_Accept_Any_Score_Values_When_No_Validation_Applied(System.Double)">
+            <summary>
+            Tests boundary values for all score properties
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DataSourceTests">
+            <summary>
+            Unit tests for DataSource domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeDtoTests">
+            <summary>
+            Unit tests for DateRange class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeDtoTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests DateRange default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeDtoTests.Should_Set_And_Get_FromDate_When_Valid_DateTime_Provided(System.String)">
+            <summary>
+            Tests property round-trip for FromDate
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeDtoTests.Should_Set_And_Get_ToDate_When_Valid_DateTime_Provided(System.String)">
+            <summary>
+            Tests property round-trip for ToDate
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeDtoTests.Should_Set_Both_Dates_When_Creating_Complete_DateRange">
+            <summary>
+            Tests both properties can be set together
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeTests">
+            <summary>
+            Unit tests for DateRange class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests DateRange default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeTests.Should_Set_And_Get_FromDate_When_Valid_DateTime_Provided(System.String)">
+            <summary>
+            Tests property round-trip for FromDate
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeTests.Should_Set_And_Get_ToDate_When_Valid_DateTime_Provided(System.String)">
+            <summary>
+            Tests property round-trip for ToDate
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.DateRangeTests.Should_Set_Both_Dates_When_Creating_Complete_DateRange">
+            <summary>
+            Tests both properties can be set together
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DocumentAssetTests">
+            <summary>
+            Comprehensive unit tests for DocumentAsset domain entity
+            Tests document lifecycle, agentStatus transitions, and business rules
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DocumentFingerprintTests">
+            <summary>
+            Unit tests for DocumentFingerprint class
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DocumentMetadataTests">
+            <summary>
+            Comprehensive unit tests for DocumentMetadata domain entity
+            Tests document classification, processing options, and metadata handling
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DocumentProcessingResultTests">
+            <summary>
+            Comprehensive unit tests for DocumentProcessingResult domain entity
+            Tests confidence scoring, validation logic, and learning feedback generation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.DocumentVersionTests">
+            <summary>
+            Unit tests for DocumentVersion class
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ExtractedDataTests">
+            <summary>
+            Unit tests for ExtractedData domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ExtractionFeedbackTests">
+            <summary>
+            Unit tests for ExtractionFeedback domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.FieldDefinitionTests">
+            <summary>
+            Unit tests for FieldDefinition domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportDtoTests">
+            <summary>
+            Unit tests for GroundingReport class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportDtoTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests GroundingReport default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportDtoTests.Should_Set_And_Get_TotalRecordsProcessed_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests property round-trip for TotalRecordsProcessed
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportDtoTests.Should_Set_And_Get_SuccessRate_When_Valid_Value_Provided(System.Double)">
+            <summary>
+            Tests property round-trip for SuccessRate
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportDtoTests.Should_Set_All_Properties_When_Creating_Complete_GroundingReport">
+            <summary>
+            Tests all properties can be set together
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportTests">
+            <summary>
+            Unit tests for GroundingReport class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportTests.Should_Initialize_With_Default_Values_When_Using_Default_Constructor">
+            <summary>
+            Tests GroundingReport default constructor initialization
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportTests.Should_Set_And_Get_TotalRecordsProcessed_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests property round-trip for TotalRecordsProcessed
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportTests.Should_Set_And_Get_SuccessRate_When_Valid_Value_Provided(System.Double)">
+            <summary>
+            Tests property round-trip for SuccessRate
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.DocumentProcessing.GroundingReportTests.Should_Set_All_Properties_When_Creating_Complete_GroundingReport">
+            <summary>
+            Tests all properties can be set together
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.KeywordPatternTests">
+            <summary>
+            Unit tests for KeywordPattern extraction pattern
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.LearnedPatternTests">
+            <summary>
+            Unit tests for LearnedPattern entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.LearningResultTests">
+            <summary>
+            Unit tests for LearningResult domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.MCPTypesTests">
+            <summary>
+            Comprehensive unit tests for MCP types and classes
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.OCRRegionTests">
+            <summary>
+            Unit tests for OCRRegion domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ProcessingHistoryEntityTests">
+            <summary>
+            Unit tests for ProcessingHistory entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ProcessingMetricsTests">
+            <summary>
+            Unit tests for ProcessingMetrics entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ProcessingOptionsTests">
+            <summary>
+            Unit tests for ProcessingOptions domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ProcessingStepTests">
+            <summary>
+            Unit tests for ProcessingStep domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.RecommendationEnumTests">
+            <summary>
+            Unit tests for recommendation-related enums
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.RegexPatternTests">
+            <summary>
+            Unit tests for RegexPattern extraction pattern
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.SchemaDefinitionTests">
+            <summary>
+            Unit tests for SchemaDefinition domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.SchemaEvolutionTests">
+            <summary>
+            Unit tests for SchemaEvolution entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.TruthRecordTests">
+            <summary>
+            Comprehensive unit tests for TruthRecord domain entity
+            Tests audit trail, agentStatus transitions, and truth system business rules
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ValidationResultDocumentTests">
+            <summary>
+            Unit tests for ValidationResultDocument domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.DocumentProcessing.ValidationRuleTests">
+            <summary>
+            Unit tests for ValidationRule domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.EnumModelHelper">
+            <summary>
+            Utility class for handling enum conversions in tests
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Domain.Tests.EnumModelHelper.FromName``1(System.String)">
+            <summary>
+            Converts a string name to an enum value
+            </summary>
+            <typeparam name="T">The enum type</typeparam>
+            <param name="name">The enum name</param>
+            <returns>The enum value</returns>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.EnumTests.EnumModelTests">
+            <summary>
+            Unit tests for EnumModel - Base enumeration class for strongly-typed enumerations in manufacturing systems
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.EnumTests.EnumModelTests.TestEnumModel">
+            <summary>
+            Test enumeration for testing purposes
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.LanguageModelTests">
+            <summary>
+            Unit tests for LanguageModel domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.LLMIntegrationTests">
+            <summary>
+            Comprehensive tests for LLM Integration domain classes
+            Targets: LanguageModel, ModelCapabilities, ModelConfiguration, Conversation,
+            ConversationMessage, ConversationMetadata, MessageMetadata, and enums
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.ModelCapabilitiesTests">
+            <summary>
+            Unit tests for ModelCapabilities value object
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.OrchestrationTests">
+            <summary>
+            Comprehensive tests for Workflow orchestration domain classes
+            Targets: Workflow, WorkflowDefinition, WorkflowStep, StepConditions,
+            WorkflowConfiguration, NotificationSettings, WorkflowExecution, StepExecution
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Domain.Tests.ResultTests.Success_Methods_ShouldAlwaysReturnEmptyCollections_Never_Null" -->
+        <member name="T:ExxerAI.Domain.Tests.TaskDataTests">
+            <summary>
+            Unit tests for TaskData class
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.TaskMetadataTests">
+            <summary>
+            Unit tests for TaskMetadata class
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ExxerAI.Domain.Tests.ValidationErrorsTests" -->
+        <member name="T:ExxerAI.Domain.Tests.ValidationErrorsTests.NullArgumentErrorTests">
+            <summary>
+            Tests for NullArgumentError functionality
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.ValidationErrorsTests.MultipleNullArgumentsErrorTests">
+            <summary>
+            Tests for MultipleNullArgumentsError functionality
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ExxerAI.Domain.Tests.ValidationErrorsTests.ResultExtensionsTests" -->
+        <member name="T:ExxerAI.Domain.Tests.WorkflowExecutionTests">
+            <summary>
+            Unit tests for WorkflowExecution domain entity
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Domain.Tests.WorkflowTests">
+            <summary>
+            Unit tests for Workflow domain entity
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,400 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Api.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Api.Tests.AgentsControllerMissingEndpointsTests">
+            <summary>
+            Unit tests for missing AgentsController endpoints - Phase 2 mutation hunting
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.AgentsControllerMissingEndpointsTests.AssignTaskTests">
+            <summary>
+            Test class for POST /api/agents/{id}/tasks endpoint
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.AgentsControllerMissingEndpointsTests.FindBestAgentForTaskTests">
+            <summary>
+            Test class for GET /api/agents/best-for-task/{taskType} endpoint
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.AgentsControllerMissingEndpointsTests.ExistingEndpointMutationHuntingTests">
+            <summary>
+            Additional edge case tests for existing endpoints with better mutation coverage
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample" -->
+        <member name="T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.AgentDomainEntityTests">
+            <summary>
+            Example of comprehensive domain entity testing using the Agent class.
+            Demonstrates property testing, validation, business rules, and edge cases.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.AgentDomainEntityTests.Constructor_ShouldInitializeWithDefaults_When_AgentCreated">
+            <summary>
+            Contract Test: Agent should initialize with proper defaults when created
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.AgentDomainEntityTests.Properties_ShouldBeSettable_When_ValidValuesProvided">
+            <summary>
+            Business Rule Test: Agent should accept valid property assignments
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.AgentDomainEntityTests.Status_ShouldAcceptAllValidValues_When_StatusAssigned(System.String,System.String)">
+            <summary>
+            Theory Test: Agent should handle all valid agentStatus transitions
+            Uses nameof() pattern to avoid enum compilation errors in InlineData
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.AgentDomainEntityTests.Tasks_ShouldNotBeNull_When_AgentInitialized">
+            <summary>
+            Edge Case Test: Agent should handle null collections gracefully
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.AgentDomainEntityTests.Tasks_ShouldSupportAddingTasks_When_TasksAssigned">
+            <summary>
+            Behavior Test: Agent should support task assignment
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests" -->
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests.Success_ShouldCreateSuccessfulResult_When_DataProvided" -->
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests.WithFailure_ShouldCreateFailedResult_When_ErrorsProvided" -->
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests.OnSuccess_ShouldExecuteAction_When_ResultIsSuccessful" -->
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests.OnFailure_ShouldExecuteAction_When_ResultIsFailed" -->
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests.Success_ShouldHandleDifferentTypes_When_VariousDataTypesProvided``1(``0)" -->
+        <!-- Badly formed XML comment ignored for member "M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.ResultPatternTests.Success_ShouldBeFailed_When_NullValueProvided" -->
+        <member name="T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests">
+            <summary>
+            Example of comprehensive service layer testing with mocking.
+            Demonstrates testing complex business logic, async operations, and external dependencies.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.StartWatchingFolderAsync_ShouldReturnWatchSessionId_When_ValidFolderIdProvided">
+            <summary>
+            Contract Test: StartWatchingFolderAsync should return success with valid folder ID
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvided(System.String)">
+            <summary>
+            Validation Test: StartWatchingFolderAsync should fail with null or empty folder ID
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.IngestDocumentAsync_ShouldProcessThroughPipeline_When_ValidDocumentProvided">
+            <summary>
+            Business Logic Test: IngestDocumentAsync should process document through complete pipeline
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.IngestDocumentAsync_ShouldReturnFailure_When_ProcessingFails">
+            <summary>
+            Error Handling Test: IngestDocumentAsync should handle processing failures gracefully
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.IngestDocumentAsync_ShouldHandleCancellation_When_CancellationRequested">
+            <summary>
+            Cancellation Test: IngestDocumentAsync should respect cancellation tokens
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.GetIngestionStatusAsync_ShouldReturnStatus_When_SystemActive">
+            <summary>
+            Performance Test: GetIngestionStatusAsync should return comprehensive agentStatus
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.CompleteWorkflow_ShouldProcessDocumentEndToEnd_When_AllComponentsWorking">
+            <summary>
+            Integration Test: Complete document processing workflow
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceTests.CreateSuccessfulProcessingResult(System.String)">
+            <summary>
+            Helper method to create realistic test data
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceInterfaceTests">
+            <summary>
+            Example of interface contract testing.
+            Ensures interfaces behave correctly and can be properly mocked.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceInterfaceTests.Interface_ShouldDefineCorrectMethods_When_Examined">
+            <summary>
+            Contract Test: Interface should define correct method signatures
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.DocumentIngestionServiceInterfaceTests.MockedInterface_ShouldWorkCorrectly_When_SetupWithNSubstitute">
+            <summary>
+            Mock Test: Interface should support proper mocking for testing
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests">
+            <summary>
+            Example of complex business logic testing and edge case handling.
+            Demonstrates testing business rules, validation logic, and error scenarios.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.DocumentValidation_ShouldFollowBusinessRules_When_DocumentClassified(System.String,System.Boolean)">
+            <summary>
+            Business Rule Test: Document processing should validate business rules
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.DocumentProcessing_ShouldHandleLargeDocuments_When_SizeExceedsThreshold">
+            <summary>
+            Edge Case Test: Large document handling
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.ConcurrentProcessing_ShouldRespectLimits_When_MultipleRequestsReceived">
+            <summary>
+            Error Handling Test: Concurrent processing limits
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.ValidateDocumentForProcessing(ExxerAI.Domain.DocumentProcessing.DocumentMetadata)">
+            <summary>
+            Helper method for business rule validation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.GetExpectedProcessingMethod(ExxerAI.Domain.DocumentProcessing.DocumentMetadata)">
+            <summary>
+            Helper method for determining processing method
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.SimulateDocumentProcessing(System.Threading.SemaphoreSlim,System.Int32)">
+            <summary>
+            Helper method for simulating document processing with concurrency control
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.BusinessLogicAndEdgeCaseTests.CanProcessDocument(ExxerAI.Domain.DocumentProcessing.DocumentMetadata)">
+            <summary>
+            Helper method to check if document can be processed
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.TestOrganizationExamples">
+            <summary>
+            Example of organizing tests using test fixtures and data sources.
+            Demonstrates xUnit best practices for test data management.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.TestOrganizationExamples.AgentStatusTransitionData">
+            <summary>
+            Test data fixture for Agent AgentStatus scenarios
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.TestOrganizationExamples.AgentStatus_ShouldHandleTransitions_When_ValidStateChangesRequested(ExxerAI.Domain.ValueObjects.AgentStatus,ExxerAI.Domain.ValueObjects.AgentStatus,System.Boolean,System.String)">
+            <summary>
+            Theory test using fixture data for agent agentStatus transitions
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.ComprehensiveUnitTestExample.TestOrganizationExamples.IsValidStatusTransition(ExxerAI.Domain.ValueObjects.AgentStatus,ExxerAI.Domain.ValueObjects.AgentStatus)">
+            <summary>
+            Helper method for agentStatus transition validation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Controllers.AgentsController.AgentsControllerConstructorTests">
+            <summary>
+            Unit tests for AgentsController constructor validation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Controllers.AgentsController.CreateAgentEndpointTests">
+            <summary>
+            Unit tests for POST /api/agents endpoint
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Controllers.AgentsController.DeleteAgentEndpointTests">
+            <summary>
+            Unit tests for DELETE /api/agents/{id} endpoint
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Controllers.AgentsController.GetActiveAgentsEndpointTests">
+            <summary>
+            Unit tests for GET /api/agents endpoint
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Controllers.AgentsController.GetAgentByIdEndpointTests">
+            <summary>
+            Unit tests for GET /api/agents/{id} endpoint
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests">
+            <summary>
+            Comprehensive tests for mapping between domain models and DTOs
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests.AgentMappingTests">
+            <summary>
+            Test fixture for Agent to DTO mapping scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests.CapabilitiesMappingTests">
+            <summary>
+            Test fixture for Capabilities DTO mapping scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests.ConfigurationMappingTests">
+            <summary>
+            Test fixture for Configuration DTO mapping scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests.RoundTripMappingTests">
+            <summary>
+            Test fixture for round-trip mapping scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests.EdgeCaseMappingTests">
+            <summary>
+            Test fixture for edge cases and boundary conditions in mapping
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.MappingTests.MappingPerformanceTests">
+            <summary>
+            Test fixture for performance of mapping operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests">
+            <summary>
+            Unit tests for API Model properties to boost mutation score
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_CreateAgentRequest_Properties_When_Valid_Values_Provided">
+            <summary>
+            Tests CreateAgentRequest property round-trips
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_UpdateAgentConfigurationRequest_Properties_When_Valid_Values_Provided">
+            <summary>
+            Tests UpdateAgentConfigurationRequest property round-trips
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_UpdateAgentStatusRequest_Status_When_Valid_Status_Provided(ExxerAI.Domain.ValueObjects.AgentStatus)">
+            <summary>
+            Tests UpdateAgentStatusRequest property round-trip
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_AssignTaskRequest_TaskId_When_Valid_Guid_Provided">
+            <summary>
+            Tests AssignTaskRequest property round-trip
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_AgentResponse_Properties_When_Valid_Values_Provided">
+            <summary>
+            Tests AgentResponse all properties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_AgentCapabilitiesDto_Boolean_Properties_When_Values_Provided(System.Boolean)">
+            <summary>
+            Tests AgentCapabilitiesDto boolean properties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_AgentCapabilitiesDto_MaxConcurrentTasks_When_Valid_Value_Provided(System.Int32)">
+            <summary>
+            Tests AgentCapabilitiesDto MaxConcurrentTasks property
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_AgentCapabilitiesDto_SupportedTaskTypes_When_Collection_Provided">
+            <summary>
+            Tests AgentCapabilitiesDto SupportedTaskTypes collection
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_AgentConfigurationDto_Properties_When_Valid_Values_Provided">
+            <summary>
+            Tests AgentConfigurationDto properties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Set_And_Get_ApiResponse_Properties_When_Valid_Values_Provided">
+            <summary>
+            Tests ApiResponse generic properties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Work_With_Different_Data_Types_When_Using_ApiResponse_Generic">
+            <summary>
+            Tests ApiResponse with different data types
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.ApiModelPropertiesTests.Should_Have_Expected_Default_Values_When_Using_Default_Constructors">
+            <summary>
+            Tests default values for all models
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.Models.MappingExtensionTests">
+            <summary>
+            Unit tests for mapping extension methods
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Map_Agent_To_AgentResponse_When_ToResponse_Called">
+            <summary>
+            Tests ToResponse extension method mapping logic
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Map_AgentCapabilities_To_Dto_When_ToDto_Called">
+            <summary>
+            Tests ToDto extension method for AgentCapabilities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Handle_Null_SupportedTaskTypes_When_Mapping_AgentCapabilities_ToDto">
+            <summary>
+            Tests ToDto extension method for AgentCapabilities with null SupportedTaskTypes
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Map_AgentConfiguration_To_Dto_When_ToDto_Called">
+            <summary>
+            Tests ToDto extension method for AgentConfiguration
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Handle_Null_CustomProperties_When_Mapping_AgentConfiguration_ToDto">
+            <summary>
+            Tests ToDto extension method for AgentConfiguration with null CustomProperties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Map_AgentCapabilitiesDto_To_Domain_When_ToDomain_Called">
+            <summary>
+            Tests ToDomain extension method for AgentCapabilitiesDto
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Handle_Null_SupportedTaskTypes_When_Mapping_AgentCapabilitiesDto_ToDomain">
+            <summary>
+            Tests ToDomain extension method for AgentCapabilitiesDto with null SupportedTaskTypes
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Map_UpdateAgentConfigurationRequest_To_Domain_When_ToDomain_Called">
+            <summary>
+            Tests ToDomain extension method for UpdateAgentConfigurationRequest
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Handle_Null_CustomProperties_When_Mapping_UpdateAgentConfigurationRequest_ToDomain">
+            <summary>
+            Tests ToDomain extension method for UpdateAgentConfigurationRequest with null CustomProperties
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Preserve_Boolean_Values_When_Mapping_AgentCapabilities_Bidirectionally(System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Tests boolean value preservation in bidirectional mapping
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Create_New_Collection_Instances_When_Mapping_Collections">
+            <summary>
+            Tests that mapping creates new collection instances
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.Models.MappingExtensionTests.Should_Create_New_Dictionary_Instances_When_Mapping_Dictionaries">
+            <summary>
+            Tests that mapping creates new dictionary instances
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Tests.UnitTest1">
+            <summary>
+            Unit tests for the ExxerAI API project
+            </summary>
+            <remarks>
+            Contains tests for API controllers, models, and related functionality.
+            This is a placeholder test class that will be expanded with comprehensive API tests.
+            </remarks>
+        </member>
+        <member name="M:ExxerAI.Api.Tests.UnitTest1.Test1">
+            <summary>
+            Placeholder test method for API functionality
+            </summary>
+            <remarks>
+            This test method is a placeholder that will be replaced with actual API tests
+            covering controller actions, model validation, and API response handling.
+            </remarks>
+        </member>
+    </members>
+</doc>

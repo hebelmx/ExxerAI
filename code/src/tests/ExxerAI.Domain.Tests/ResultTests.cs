@@ -572,13 +572,14 @@ public class ResultTests
     {
         // Arrange
         var result = Result.Success();
-        var action = Substitute.For<Action>();
+        var actionCalled = false;
+        Action action = () => actionCalled = true;
 
         // Act
         result.OnSuccess(action);
 
         // Assert
-        action.Received(1).Invoke();
+        actionCalled.ShouldBeTrue();
     }
 
     [Fact]
@@ -587,13 +588,15 @@ public class ResultTests
         // Arrange
         var errors = new List<string> { "Error1", "Error2" };
         var result = Result.WithFailure(errors);
-        var action = Substitute.For<Action<IEnumerable<string>>>();
+        IEnumerable<string>? receivedErrors = null;
+        Action<IEnumerable<string>> action = e => receivedErrors = e;
 
         // Act
         result.OnFailure(action);
 
         // Assert
-        action.Received(1).Invoke(Arg.Is<IEnumerable<string>>(e => e.SequenceEqual(errors)));
+        receivedErrors.ShouldNotBeNull();
+        receivedErrors.ShouldBeEquivalentTo(errors);
     }
 
     [Fact]
@@ -615,13 +618,14 @@ public class ResultTests
     {
         // Arrange
         var result = Result.Success();
-        var action = Substitute.For<Action>();
+        var actionCalled = false;
+        Action action = () => actionCalled = true;
 
         // Act
         result.Tap(action);
 
         // Assert
-        action.Received(1).Invoke();
+        actionCalled.ShouldBeTrue();
     }
 
     [Fact]

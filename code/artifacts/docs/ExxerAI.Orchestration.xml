@@ -1,0 +1,237 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Orchestration</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Orchestration.Interfaces.AgentWorkload">
+            <summary>
+            Represents the current workload of an agent
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.AgentWorkload.AgentId">
+            <summary>
+            Gets or sets the agent identifier
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.AgentWorkload.AssignedTasks">
+            <summary>
+            Gets or sets the number of assigned tasks
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.AgentWorkload.RunningTasks">
+            <summary>
+            Gets or sets the number of running tasks
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.AgentWorkload.UtilizationPercentage">
+            <summary>
+            Gets or sets the utilization percentage (0-100)
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.AgentWorkload.EstimatedCompletionTime">
+            <summary>
+            Gets or sets the estimated completion time for current tasks
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Orchestration.Interfaces.IAgentScheduler">
+            <summary>
+            Interface for scheduling and managing agents
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IAgentScheduler.FindBestAgentAsync(ExxerAI.Domain.Entities.AgentTask,System.Threading.CancellationToken)">
+            <summary>
+            Finds the best available agent for a specific task
+            </summary>
+            <param name="task">The task to assign</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The best agent for the task if found</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IAgentScheduler.RegisterAgentAsync(ExxerAI.Domain.Entities.Agent,System.Threading.CancellationToken)">
+            <summary>
+            Registers an agent with the scheduler
+            </summary>
+            <param name="agent">The agent to register</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IAgentScheduler.UnregisterAgentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Unregisters an agent from the scheduler
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IAgentScheduler.GetAgentWorkloadAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets the current workload for an agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The agent's current workload</returns>
+        </member>
+        <member name="T:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine">
+            <summary>
+            Main orchestration engine for coordinating agents and workflows
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            Starts the orchestration engine
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine.StopAsync(System.Threading.CancellationToken)">
+            <summary>
+            Stops the orchestration engine
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine.ScheduleWorkflowAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Schedules a workflow for execution
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="input">The input data for the workflow</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result containing the workflow execution</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine.AssignTaskToAgentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to the most suitable agent
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result containing the assigned agent</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine.GetStatus">
+            <summary>
+            Gets the current agentStatus of the orchestration engine
+            </summary>
+            <returns>Result containing the orchestration agentStatus</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IOrchestrationEngine.GetMetricsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets performance metrics for the orchestration engine
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The orchestration metrics</returns>
+        </member>
+        <member name="T:ExxerAI.Orchestration.Interfaces.IOrchestrationMarker">
+            <summary>
+            Marker interface for orchestration layer
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Orchestration.Interfaces.IWorkflowExecutor">
+            <summary>
+            Interface for executing workflow steps
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IWorkflowExecutor.ExecuteAsync(ExxerAI.Domain.Entities.Workflow,System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Executes a workflow
+            </summary>
+            <param name="workflow">The workflow to execute</param>
+            <param name="input">The input data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The workflow execution result</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IWorkflowExecutor.PauseExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Pauses a running workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IWorkflowExecutor.ResumeExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Resumes a paused workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Orchestration.Interfaces.IWorkflowExecutor.CancelExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="T:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics">
+            <summary>
+            Represents performance metrics for the orchestration engine
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.ActiveAgents">
+            <summary>
+            Gets or sets the number of active agents
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.PendingTasks">
+            <summary>
+            Gets or sets the number of pending tasks
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.RunningWorkflows">
+            <summary>
+            Gets or sets the number of running workflows
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.CompletedTasksLastHour">
+            <summary>
+            Gets or sets the number of completed tasks in the last hour
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.AverageTaskExecutionTimeMs">
+            <summary>
+            Gets or sets the average task execution time in milliseconds
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.Uptime">
+            <summary>
+            Gets or sets the engine uptime
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Orchestration.Interfaces.OrchestrationMetrics.CustomMetrics">
+            <summary>
+            Gets or sets custom metrics
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Orchestration.Interfaces.OrchestrationStatus">
+            <summary>
+            Represents the agentStatus of the orchestration engine
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Orchestration.Interfaces.OrchestrationStatus.Stopped">
+            <summary>
+            Engine is stopped
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Orchestration.Interfaces.OrchestrationStatus.Starting">
+            <summary>
+            Engine is starting
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Orchestration.Interfaces.OrchestrationStatus.Running">
+            <summary>
+            Engine is running
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Orchestration.Interfaces.OrchestrationStatus.Stopping">
+            <summary>
+            Engine is stopping
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Orchestration.Interfaces.OrchestrationStatus.Error">
+            <summary>
+            Engine encountered an error
+            </summary>
+        </member>
+    </members>
+</doc>

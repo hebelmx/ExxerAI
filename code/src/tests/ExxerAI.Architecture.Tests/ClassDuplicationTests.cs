@@ -9,7 +9,7 @@ public class ClassDuplicationTests
     public void All_Classes_Should_Not_Have_Duplicate_Names_In_Different_Namespaces()
     {
         // Load the assembly to be tested
-        var assembly = Assembly.Load("IndTrace.Domain"); // Replace with your specific assembly name
+        var assembly = Assembly.Load("ExxerAI.Domain"); // Replace with your specific assembly name
 
         // Find all types in the assembly
         var types = Types.InAssembly(assembly)
@@ -25,6 +25,6 @@ public class ClassDuplicationTests
             .ToList();
 
         // Assert that there are no duplicated class names across different namespaces
-        duplicates.ShouldBeEmpty("because no class should have the same name in different namespaces");
+        Assert.Empty(duplicates);
     }
 }

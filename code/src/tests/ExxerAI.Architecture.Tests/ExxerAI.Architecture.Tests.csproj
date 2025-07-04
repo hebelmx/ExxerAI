@@ -36,10 +36,7 @@
 	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="xunit" />
-		<PackageReference Include="xunit.runner.visualstudio" />
-		<PackageReference Include="coverlet.collector" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
@@ -47,8 +44,6 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Utilities">
 		<PackageReference Include="NetArchTest.Rules" />
-		<PackageReference Include="NSubstitute" />
-		<PackageReference Include="Shouldly" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
@@ -61,11 +56,8 @@
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
 	<!-- ============================================================================ -->
-	<ItemGroup Label="Infrastructure References">
-		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+	<ItemGroup Label="Core References">
 		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-		<ProjectReference Include="..\..\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
 	</ItemGroup>
 
 </Project>

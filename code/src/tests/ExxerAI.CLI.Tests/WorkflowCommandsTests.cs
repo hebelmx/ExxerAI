@@ -1,6 +1,3 @@
-using ExxerAI.CLI.Commands;
-using Shouldly;
-
 namespace ExxerAI.CLI.Tests;
 
 /// <summary>

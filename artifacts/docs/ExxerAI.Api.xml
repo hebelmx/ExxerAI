@@ -1,0 +1,364 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Api</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Api.Controllers.AgentsController">
+            <summary>
+            Controller for managing AI agents
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.#ctor(ExxerAI.Application.Interfaces.IAgentService,Microsoft.Extensions.Logging.ILogger{ExxerAI.Api.Controllers.AgentsController})">
+            <summary>
+            Initializes a new instance of the AgentsController
+            </summary>
+            <param name="agentService">The agent service</param>
+            <param name="logger">The logger</param>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.CreateAgent(ExxerAI.Api.Models.CreateAgentRequest,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new agent
+            </summary>
+            <param name="request">The agent creation request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The created agent</returns>
+            <response code="201">Agent created successfully</response>
+            <response code="400">Invalid request data</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.GetAgent(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets an agent by ID
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The agent</returns>
+            <response code="200">Agent found</response>
+            <response code="404">Agent not found</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.GetActiveAgents(System.Threading.CancellationToken)">
+            <summary>
+            Gets all active agents
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The list of active agents</returns>
+            <response code="200">Agents retrieved successfully</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.UpdateAgentConfiguration(System.Guid,ExxerAI.Api.Models.UpdateAgentConfigurationRequest,System.Threading.CancellationToken)">
+            <summary>
+            Updates an agent's configuration
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="request">The configuration update request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The update result</returns>
+            <response code="204">Configuration updated successfully</response>
+            <response code="400">Invalid request data</response>
+            <response code="404">Agent not found</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.UpdateAgentStatus(System.Guid,ExxerAI.Api.Models.UpdateAgentStatusRequest,System.Threading.CancellationToken)">
+            <summary>
+            Updates an agent's agentStatus
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="request">The agentStatus update request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The update result</returns>
+            <response code="204">AgentStatus updated successfully</response>
+            <response code="400">Invalid request data</response>
+            <response code="404">Agent not found</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.AssignTask(System.Guid,ExxerAI.Api.Models.AssignTaskRequest,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="request">The task assignment request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The assignment result</returns>
+            <response code="204">Task assigned successfully</response>
+            <response code="400">Invalid request data or assignment failed</response>
+            <response code="404">Agent not found</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.FindBestAgentForTask(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds the best available agent for a specific task type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The best agent for the task type</returns>
+            <response code="200">Best agent found</response>
+            <response code="404">No suitable agent found</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="M:ExxerAI.Api.Controllers.AgentsController.DeleteAgent(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an agent
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The deletion result</returns>
+            <response code="204">Agent deleted successfully</response>
+            <response code="400">Cannot delete agent with active tasks</response>
+            <response code="404">Agent not found</response>
+            <response code="500">Internal server error</response>
+        </member>
+        <member name="T:ExxerAI.Api.Models.AgentCapabilitiesDto">
+            <summary>
+            DTO for agent capabilities
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentCapabilitiesDto.CanProcessNaturalLanguage">
+            <summary>
+            Gets or sets whether the agent can process natural language
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentCapabilitiesDto.CanGenerateCode">
+            <summary>
+            Gets or sets whether the agent can generate code
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentCapabilitiesDto.CanAnalyzeData">
+            <summary>
+            Gets or sets whether the agent can analyze data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentCapabilitiesDto.CanCallExternalAPIs">
+            <summary>
+            Gets or sets whether the agent can interact with external APIs
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentCapabilitiesDto.MaxConcurrentTasks">
+            <summary>
+            Gets or sets the maximum concurrent tasks the agent can handle
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentCapabilitiesDto.SupportedTaskTypes">
+            <summary>
+            Gets or sets the supported task types for this agent
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.AgentConfigurationDto">
+            <summary>
+            DTO for agent configuration
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentConfigurationDto.TaskTimeoutSeconds">
+            <summary>
+            Gets or sets the timeout for task execution in seconds
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentConfigurationDto.MaxRetries">
+            <summary>
+            Gets or sets the maximum retries for failed tasks
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentConfigurationDto.Priority">
+            <summary>
+            Gets or sets the agent's priority level
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentConfigurationDto.CustomProperties">
+            <summary>
+            Gets or sets custom configuration properties
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.AgentMappingExtensions">
+            <summary>
+            Extension methods for converting between domain models and DTOs
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Api.Models.AgentMappingExtensions.ToResponse(ExxerAI.Domain.Entities.Agent)">
+            <summary>
+            Converts an Agent domain model to AgentResponse DTO
+            </summary>
+            <param name="agent">The agent domain model</param>
+            <returns>The agent response DTO</returns>
+        </member>
+        <member name="M:ExxerAI.Api.Models.AgentMappingExtensions.ToDto(ExxerAI.Domain.ValueObjects.AgentCapabilities)">
+            <summary>
+            Converts AgentCapabilities domain model to DTO
+            </summary>
+            <param name="capabilities">The capabilities domain model</param>
+            <returns>The capabilities DTO</returns>
+        </member>
+        <member name="M:ExxerAI.Api.Models.AgentMappingExtensions.ToDto(ExxerAI.Domain.Configurations.AgentConfiguration)">
+            <summary>
+            Converts AgentConfiguration domain model to DTO
+            </summary>
+            <param name="configuration">The configuration domain model</param>
+            <returns>The configuration DTO</returns>
+        </member>
+        <member name="M:ExxerAI.Api.Models.AgentMappingExtensions.ToDomain(ExxerAI.Api.Models.AgentCapabilitiesDto)">
+            <summary>
+            Converts AgentCapabilitiesDto to domain model
+            </summary>
+            <param name="dto">The capabilities DTO</param>
+            <returns>The capabilities domain model</returns>
+        </member>
+        <member name="M:ExxerAI.Api.Models.AgentMappingExtensions.ToDomain(ExxerAI.Api.Models.UpdateAgentConfigurationRequest)">
+            <summary>
+            Converts UpdateAgentConfigurationRequest to domain model
+            </summary>
+            <param name="request">The configuration request</param>
+            <returns>The configuration domain model</returns>
+        </member>
+        <member name="T:ExxerAI.Api.Models.AgentResponse">
+            <summary>
+            Response model for agent operations
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.Id">
+            <summary>
+            Gets or sets the agent identifier
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.Name">
+            <summary>
+            Gets or sets the agent name
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.Description">
+            <summary>
+            Gets or sets the agent description
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.Status">
+            <summary>
+            Gets or sets the agent agentStatus
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.Capabilities">
+            <summary>
+            Gets or sets the agent capabilities
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.Configuration">
+            <summary>
+            Gets or sets the agent configuration
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.CreatedAt">
+            <summary>
+            Gets or sets when the agent was created
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AgentResponse.UpdatedAt">
+            <summary>
+            Gets or sets when the agent was last updated
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.ApiResponse`1">
+            <summary>
+            Generic API response wrapper
+            </summary>
+            <typeparam name="T">The type of data in the response</typeparam>
+        </member>
+        <member name="P:ExxerAI.Api.Models.ApiResponse`1.Success">
+            <summary>
+            Gets or sets whether the operation was successful
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.ApiResponse`1.Data">
+            <summary>
+            Gets or sets the response data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.ApiResponse`1.Errors">
+            <summary>
+            Gets or sets error messages if the operation failed
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.ApiResponse`1.Message">
+            <summary>
+            Gets or sets a message describing the result
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.AssignTaskRequest">
+            <summary>
+            Request model for assigning a task to an agent
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.AssignTaskRequest.TaskId">
+            <summary>
+            Gets or sets the task identifier to assign
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.CreateAgentRequest">
+            <summary>
+            Request model for creating a new agent
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.CreateAgentRequest.Name">
+            <summary>
+            Gets or sets the agent name
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.CreateAgentRequest.Description">
+            <summary>
+            Gets or sets the agent description
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.CreateAgentRequest.Capabilities">
+            <summary>
+            Gets or sets the agent capabilities
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.UpdateAgentConfigurationRequest">
+            <summary>
+            Request model for updating agent configuration
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.UpdateAgentConfigurationRequest.TaskTimeoutSeconds">
+            <summary>
+            Gets or sets the timeout for task execution in seconds
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.UpdateAgentConfigurationRequest.MaxRetries">
+            <summary>
+            Gets or sets the maximum retries for failed tasks
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.UpdateAgentConfigurationRequest.Priority">
+            <summary>
+            Gets or sets the agent's priority level
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.UpdateAgentConfigurationRequest.CustomProperties">
+            <summary>
+            Gets or sets custom configuration properties
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Models.UpdateAgentStatusRequest">
+            <summary>
+            Request model for updating agent agentStatus
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Api.Models.UpdateAgentStatusRequest.Status">
+            <summary>
+            Gets or sets the new agentStatus for the agent
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Api.Program">
+            <summary>
+            Main entry point for the ExxerAI Web API application
+            </summary>
+            <remarks>
+            Configures the web application with dependency injection, CORS policies, and middleware pipeline.
+            Sets up services for agent management, task processing, and repository implementations.
+            </remarks>
+        </member>
+        <member name="M:ExxerAI.Api.Program.Main(System.String[])">
+            <summary>
+            Main entry point for the API application
+            </summary>
+            <param name="args">Command line arguments</param>
+        </member>
+    </members>
+</doc>

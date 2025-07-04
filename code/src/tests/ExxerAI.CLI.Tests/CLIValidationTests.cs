@@ -1,10 +1,3 @@
-using ExxerAI.Application.Interfaces;
-using ExxerAI.CLI.Commands;
-using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
-using Xunit;
-
 namespace ExxerAI.CLI.Tests;
 
 /// <summary>

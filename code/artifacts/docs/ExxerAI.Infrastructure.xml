@@ -1,0 +1,462 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Infrastructure</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Infrastructure.DocumentProcessing.FieldExtractionEngine">
+            <summary>
+            Engine responsible for extracting specific fields from documents using schema definitions
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.FieldExtractionEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Infrastructure.DocumentProcessing.FieldExtractionEngine})">
+            <summary>
+            Initializes a new instance of the FieldExtractionEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.FieldExtractionEngine.ExtractFieldsUsingSchemaAsync(System.String,ExxerAI.Domain.DocumentProcessing.SchemaDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Extracts fields from text using a schema definition
+            </summary>
+            <param name="text">The extracted text to analyze</param>
+            <param name="schema">Schema definition with field extraction patterns</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>Extracted data with field values and confidence scores</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.FieldExtractionEngine.ExtractFieldValue(System.String,ExxerAI.Domain.DocumentProcessing.FieldDefinition)">
+            <summary>
+            Extracts a specific field value from text using field definition patterns
+            </summary>
+            <param name="text">The text to search for field values</param>
+            <param name="field">Field definition with extraction patterns</param>
+            <returns>Extracted field value or null if not found</returns>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor">
+            <summary>
+            Implementation of polymorphic document processor that adapts to any document type
+            Uses multi-stage processing: Direct Text → OCR → LLM Verification → Grounding
+            Implements KpiExxerpro patterns for financial document processing
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.#ctor(ExxerAI.Application.Interfaces.ILLMService,Microsoft.Extensions.Logging.ILogger{ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor})">
+            <summary>
+            Initializes a new instance of the PolymorphicDocumentProcessor class
+            </summary>
+            <param name="llmService">The LLM service for advanced processing</param>
+            <param name="logger">The logger</param>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.ProcessDocumentAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Processes a document through the complete extraction pipeline
+            </summary>
+            <param name="documentData">The raw document data as byte array</param>
+            <param name="metadata">Document metadata including type and schema information</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the document processing operation</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.ExtractFieldsAsync(ExxerAI.Domain.DocumentProcessing.Document,ExxerAI.Domain.DocumentProcessing.ExtractionSchema,System.Threading.CancellationToken)">
+            <summary>
+            Extracts specific fields from a document using adaptive patterns.
+            </summary>
+            <param name="document">The document to extract fields from.</param>
+            <param name="schema">The extraction schema defining expected fields.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The field extraction results with confidence scores.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.ValidateAndGroundDataAsync(ExxerAI.Domain.DocumentProcessing.ExtractedData,ExxerAI.Domain.DocumentProcessing.GroundTruthContext,System.Threading.CancellationToken)">
+            <summary>
+            Validates and grounds extracted data against known patterns and business rules.
+            </summary>
+            <param name="data">The extracted data to validate.</param>
+            <param name="context">The ground truth context for validation.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The validation result with grounded data.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.AdaptProcessingRulesAsync(ExxerAI.Domain.DocumentProcessing.ProcessingHistory,System.Threading.CancellationToken)">
+            <summary>
+            Adapts processing rules based on processing history and feedback.
+            </summary>
+            <param name="history">The processing history to learn from.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The learning result with updated processing rules.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.LearnDocumentSchemaAsync(System.Collections.Generic.IEnumerable{ExxerAI.Domain.DocumentProcessing.Document},System.Threading.CancellationToken)">
+            <summary>
+            Learns document schema from sample documents to improve future processing.
+            </summary>
+            <param name="samples">Sample documents to learn from.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The learned schema definition.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor.GetProcessingConfidenceAsync(ExxerAI.Domain.DocumentProcessing.DocumentType,System.Threading.CancellationToken)">
+            <summary>
+            Gets the confidence score for processing a specific document type
+            </summary>
+            <param name="documentType">The document type to check</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The confidence score for processing this document type</returns>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine">
+            <summary>
+            Engine responsible for learning document schemas and analyzing field patterns
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine})">
+            <summary>
+            Initializes a new instance of the SchemaLearningEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine.InitializeKnownSchemas">
+            <summary>
+            Initializes known schema definitions for common document types
+            </summary>
+            <returns>Dictionary of document types mapped to their schema definitions</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine.GetOrCreateSchema(ExxerAI.Domain.DocumentProcessing.DocumentType,System.String,System.Collections.Generic.Dictionary{ExxerAI.Domain.DocumentProcessing.DocumentType,ExxerAI.Domain.DocumentProcessing.SchemaDefinition})">
+            <summary>
+            Gets an existing schema or creates a dynamic schema for the document type
+            </summary>
+            <param name="documentType">The document type to get schema for</param>
+            <param name="extractedText">Sample extracted text for dynamic schema creation</param>
+            <param name="knownSchemas">Dictionary of known schemas</param>
+            <returns>Schema definition for the document type</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine.AnalyzeFieldPatterns(System.Collections.Generic.IEnumerable{System.String},ExxerAI.Domain.DocumentProcessing.DocumentType)">
+            <summary>
+            Analyzes text patterns to identify common fields for a document type
+            </summary>
+            <param name="texts">Collection of text samples to analyze</param>
+            <param name="documentType">The document type being analyzed</param>
+            <returns>List of field definitions identified from the patterns</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine.ExtractDocumentTypeFromId(System.String)">
+            <summary>
+            Extracts document type from document ID patterns
+            </summary>
+            <param name="documentId">The document identifier to analyze</param>
+            <returns>Inferred document type based on ID patterns</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.SchemaLearningEngine.CalculateConfidenceImprovement(System.Collections.Generic.List{ExxerAI.Domain.DocumentProcessing.DocumentProcessingResult})">
+            <summary>
+            Calculates confidence improvement based on historical processing results
+            </summary>
+            <param name="results">List of successful processing results to analyze</param>
+            <returns>Calculated confidence improvement percentage</returns>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.DocumentProcessing.TextExtractionEngine">
+            <summary>
+            Engine responsible for extracting text from documents using various methods (direct text, OCR)
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.TextExtractionEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Infrastructure.DocumentProcessing.TextExtractionEngine})">
+            <summary>
+            Initializes a new instance of the TextExtractionEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.TextExtractionEngine.ExtractTextDirectlyAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Extracts text directly from digital documents without OCR
+            </summary>
+            <param name="documentData">The document byte data</param>
+            <param name="metadata">Document metadata for processing context</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>Direct text extraction result</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.TextExtractionEngine.ExtractTextViaOCRAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Extracts text from documents using OCR technology
+            </summary>
+            <param name="documentData">The document byte data</param>
+            <param name="metadata">Document metadata for processing context</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>OCR text extraction result</returns>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.DocumentProcessing.ValidationEngine">
+            <summary>
+            Engine responsible for validating extracted data and calculating confidence scores
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.ValidationEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Infrastructure.DocumentProcessing.ValidationEngine})">
+            <summary>
+            Initializes a new instance of the ValidationEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.ValidationEngine.ValidateExtractedDataAsync(ExxerAI.Domain.DocumentProcessing.ExtractedData,ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Validates extracted data against business rules and metadata constraints
+            </summary>
+            <param name="data">The extracted data to validate</param>
+            <param name="metadata">Document metadata for validation context</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>Validation result with confidence score and error details</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.ValidationEngine.ValidateField(System.String,System.Object)">
+            <summary>
+            Validates a specific field value against field-specific rules
+            </summary>
+            <param name="fieldName">The name of the field being validated</param>
+            <param name="value">The field value to validate</param>
+            <returns>Field validation result with confidence and error information</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.DocumentProcessing.ValidationEngine.VerifyWithLLMAsync(ExxerAI.Domain.DocumentProcessing.DocumentProcessingResult,ExxerAI.Domain.DocumentProcessing.SchemaDefinition,System.Threading.CancellationToken)">
+            <summary>
+            Performs LLM verification of extracted data when confidence is low
+            </summary>
+            <param name="result">The document processing result to verify</param>
+            <param name="schema">The schema definition used for extraction</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>LLM confidence score for the extraction</returns>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.External.GoogleDriveService">
+            <summary>
+            Google Drive service implementation for document watching and ingestion
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Infrastructure.External.GoogleDriveService})">
+            <summary>
+            Initializes a new instance of GoogleDriveService
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.StartWatchingFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Starts watching a Google Drive folder for document changes.
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The watch session ID for tracking changes.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.StopWatchingFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Stops watching a Google Drive folder.
+            </summary>
+            <param name="watchId">The watch session ID to stop.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The result of the stop operation.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.DetectDocumentChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Detects and processes document changes from watched folders.
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The list of detected document changes.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.ProcessDocumentChangeAsync(ExxerAI.Application.Interfaces.DocumentChangeEvent,System.Threading.CancellationToken)">
+            <summary>
+            Processes a document change event through the complete pipeline.
+            </summary>
+            <param name="changeEvent">The document change event to process.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document processing result.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.IngestDocumentAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Ingests a document directly by ID through the complete processing pipeline.
+            </summary>
+            <param name="documentId">The Google Drive document ID.</param>
+            <param name="forceReprocess">Whether to force reprocessing even if document exists.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document processing result.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.IsDocumentModifiedAsync(System.String,System.DateTime,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a document has been modified since last processing.
+            </summary>
+            <param name="documentId">The document ID to check.</param>
+            <param name="lastProcessed">When the document was last processed.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>True if the document has been modified.</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.External.GoogleDriveService.GetIngestionStatusAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the ingestion agentStatus and statistics.
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The ingestion agentStatus information.</returns>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Interfaces.IInfrastructureMarker">
+            <summary>
+            Marker interface for infrastructure layer
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository">
+            <summary>
+            In-memory implementation of agent repository for development and testing
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.GetByIdAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets an agent by its identifier
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The agent if found</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.GetAllAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all agents
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of all agents</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.AddAsync(ExxerAI.Domain.Entities.Agent,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new agent
+            </summary>
+            <param name="entity">The agent to add</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The added agent</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.UpdateAsync(ExxerAI.Domain.Entities.Agent,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing agent
+            </summary>
+            <param name="entity">The agent to update</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The updated agent</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an agent by its identifier
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.ExistsAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Checks if an agent exists by its identifier
+            </summary>
+            <param name="id">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if the agent exists, false otherwise</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.GetByStatusAsync(ExxerAI.Domain.ValueObjects.AgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Gets agents by agentStatus
+            </summary>
+            <param name="status">The agent agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of agents with the specified agentStatus</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.FindByTaskTypeAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds agents that support a specific task type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of agents that support the task type</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.GetAgentsWithTaskCountAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets agents with their current task count
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of agents with task count information</returns>
+        </member>
+        <member name="P:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.Count">
+            <summary>
+            Gets the current number of agents in the repository
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryAgentRepository.Clear">
+            <summary>
+            Clears all agents from the repository (useful for testing)
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository">
+            <summary>
+            In-memory implementation of task repository for development and testing
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.GetByIdAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a task by its identifier
+            </summary>
+            <param name="id">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The task if found</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.GetAllAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all tasks
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of all tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.AddAsync(ExxerAI.Domain.Entities.AgentTask,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new task
+            </summary>
+            <param name="entity">The task to add</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The added task</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.UpdateAsync(ExxerAI.Domain.Entities.AgentTask,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing task
+            </summary>
+            <param name="entity">The task to update</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The updated task</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a task by its identifier
+            </summary>
+            <param name="id">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.ExistsAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a task exists by its identifier
+            </summary>
+            <param name="id">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if the task exists, false otherwise</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.GetByStatusAsync(ExxerAI.Domain.ValueObjects.TaskAgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks by agentStatus
+            </summary>
+            <param name="agentStatus">The task agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of tasks with the specified agentStatus</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.GetByAgentAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.TaskAgentStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks assigned to a specific agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of tasks assigned to the agent</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.GetOverdueTasksAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets overdue tasks
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of overdue tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.GetByTypeAsync(System.String,System.Nullable{ExxerAI.Domain.ValueObjects.TaskAgentStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks by type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of tasks of the specified type</returns>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Repositories.InMemoryTaskRepository.SeedAsync">
+            <summary>
+            Seeds the repository with sample tasks for development/testing
+            </summary>
+            <returns>The result of the seeding operation</returns>
+        </member>
+    </members>
+</doc>

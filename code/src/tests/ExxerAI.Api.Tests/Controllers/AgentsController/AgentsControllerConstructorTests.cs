@@ -1,8 +1,3 @@
-using ExxerAI.Application.Interfaces;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Shouldly;
-
 namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
 /// <summary>

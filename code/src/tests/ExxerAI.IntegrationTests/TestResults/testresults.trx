@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e8cbcbca-7fb9-4a64-ab17-51f7b3d1da49" name="Abel Briones@DESKTOP-FB2ES22 2025-07-04 09:02:00" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-04T09:02:00.4680369-06:00" queuing="2025-07-04T09:02:00.4680374-06:00" start="2025-07-04T09:01:59.5076950-06:00" finish="2025-07-04T09:02:00.5127779-06:00" />
+  <TestSettings name="default" id="5aa9819e-5e74-473a-a9d0-9d23990cdfda">
+    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-04_09_02_00" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="501db25a-d693-4ba3-b896-152392333832" testId="e2e98a4b-5493-ccb0-b1b3-bc8b4278d404" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" computerName="DESKTOP-FB2ES22" duration="00:00:00.0002804" startTime="2025-07-04T09:02:00.4313747-06:00" endTime="2025-07-04T09:02:00.4314163-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="501db25a-d693-4ba3-b896-152392333832" />
+    <UnitTestResult executionId="281e2b03-4cf0-4dfa-8c14-cd97ea5dd352" testId="213efc28-bd80-2476-c728-55c51bfa1c52" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" computerName="DESKTOP-FB2ES22" duration="00:00:00.0174752" startTime="2025-07-04T09:02:00.3698210-06:00" endTime="2025-07-04T09:02:00.3786082-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="281e2b03-4cf0-4dfa-8c14-cd97ea5dd352" />
+    <UnitTestResult executionId="5b997aa9-7a2d-4766-8ff8-e6aa1e7e9a12" testId="e4ae3f75-7c8c-2bfb-fed7-a602219de718" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" computerName="DESKTOP-FB2ES22" duration="00:00:00.0008642" startTime="2025-07-04T09:02:00.3826091-06:00" endTime="2025-07-04T09:02:00.3833807-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5b997aa9-7a2d-4766-8ff8-e6aa1e7e9a12" />
+    <UnitTestResult executionId="7fa12e99-a3ad-469c-afca-24b448c3954b" testId="9f999cb1-6509-9b25-732c-1e199f2771b7" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DateRange_Should_Set_Properties_Correctly" computerName="DESKTOP-FB2ES22" duration="00:00:00.0023804" startTime="2025-07-04T09:02:00.3835272-06:00" endTime="2025-07-04T09:02:00.3858241-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7fa12e99-a3ad-469c-afca-24b448c3954b" />
+    <UnitTestResult executionId="3b01116e-aa16-4e7d-b164-0632ce63a917" testId="adecc26f-7311-d29c-efc0-1431095f585c" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Status_When_Successful" computerName="DESKTOP-FB2ES22" duration="00:00:00.0020973" startTime="2025-07-04T09:02:00.4307676-06:00" endTime="2025-07-04T09:02:00.4308223-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3b01116e-aa16-4e7d-b164-0632ce63a917" />
+    <UnitTestResult executionId="8608a570-439d-4018-87c4-1ca48a98e132" testId="7fc7d6dd-d407-d1d4-ea1d-56d423a0d7ce" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" computerName="DESKTOP-FB2ES22" duration="00:00:00.0096110" startTime="2025-07-04T09:02:00.3866271-06:00" endTime="2025-07-04T09:02:00.3962163-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8608a570-439d-4018-87c4-1ca48a98e132" />
+    <UnitTestResult executionId="aab85851-437e-483f-b863-5d849909380b" testId="6016f213-a55d-8193-1173-f41e72f411e8" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" computerName="DESKTOP-FB2ES22" duration="00:00:00.0037945" startTime="2025-07-04T09:02:00.3792405-06:00" endTime="2025-07-04T09:02:00.3824516-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aab85851-437e-483f-b863-5d849909380b" />
+    <UnitTestResult executionId="0765e4c1-1968-485b-9494-3e3774c0e0cb" testId="d3c27bca-260b-4758-f12d-60ebe5cd2b46" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" computerName="DESKTOP-FB2ES22" duration="00:00:00.0005766" startTime="2025-07-04T09:02:00.3859828-06:00" endTime="2025-07-04T09:02:00.3864758-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0765e4c1-1968-485b-9494-3e3774c0e0cb" />
+    <UnitTestResult executionId="731fc91e-e16a-42e7-9a96-78d78c62b001" testId="20ac6855-0cc5-7302-01c9-cb9983963908" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Handle_Empty_List" computerName="DESKTOP-FB2ES22" duration="00:00:00.0003850" startTime="2025-07-04T09:02:00.3972804-06:00" endTime="2025-07-04T09:02:00.3976362-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="731fc91e-e16a-42e7-9a96-78d78c62b001" />
+    <UnitTestResult executionId="9a6d704f-4a9f-4571-95a6-671f2d500fad" testId="fe3a8bfd-bfa5-14bb-17a0-99041fa1f609" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_NextToken" computerName="DESKTOP-FB2ES22" duration="00:00:00.0003134" startTime="2025-07-04T09:02:00.4315092-06:00" endTime="2025-07-04T09:02:00.4315500-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a6d704f-4a9f-4571-95a6-671f2d500fad" />
+    <UnitTestResult executionId="2cf7228c-bfe1-42d2-a6cb-afbd8038e543" testId="ccdf71f0-0cb1-4602-703a-92bfab999b69" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" computerName="DESKTOP-FB2ES22" duration="00:00:00.0664220" startTime="2025-07-04T09:02:00.2881614-06:00" endTime="2025-07-04T09:02:00.3611427-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2cf7228c-bfe1-42d2-a6cb-afbd8038e543" />
+    <UnitTestResult executionId="026ee3bc-f484-4355-8c5e-df62de0e1fbe" testId="d7ff42dd-cbf6-d657-c52e-1664be1d8a8a" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" computerName="DESKTOP-FB2ES22" duration="00:00:00.0006930" startTime="2025-07-04T09:02:00.4312304-06:00" endTime="2025-07-04T09:02:00.4312773-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="026ee3bc-f484-4355-8c5e-df62de0e1fbe" />
+    <UnitTestResult executionId="bee2c910-299e-4c10-86d1-7445b66b8edb" testId="e44fb0a5-feec-b96a-15f1-84c008934a59" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" computerName="DESKTOP-FB2ES22" duration="00:00:00.0008497" startTime="2025-07-04T09:02:00.4310819-06:00" endTime="2025-07-04T09:02:00.4311235-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bee2c910-299e-4c10-86d1-7445b66b8edb" />
+    <UnitTestResult executionId="1ae3291d-8609-45e1-ae80-1eaa3a123712" testId="a0243f94-5b71-b283-4a72-d03f822d02f7" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_NextToken" computerName="DESKTOP-FB2ES22" duration="00:00:00.0004393" startTime="2025-07-04T09:02:00.4303967-06:00" endTime="2025-07-04T09:02:00.4304731-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ae3291d-8609-45e1-ae80-1eaa3a123712" />
+    <UnitTestResult executionId="b36e9626-be60-476a-99be-f58189eb9b8d" testId="320c2467-b16e-4f41-207a-3071a12c7919" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" computerName="DESKTOP-FB2ES22" duration="00:00:00.0008987" startTime="2025-07-04T09:02:00.3964029-06:00" endTime="2025-07-04T09:02:00.3971510-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b36e9626-be60-476a-99be-f58189eb9b8d" />
+    <UnitTestResult executionId="26fed813-ffbf-4d12-9a54-68072a5d2597" testId="65d0e738-bb51-235f-e6db-9891a507e29d" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" computerName="DESKTOP-FB2ES22" duration="00:00:00.0005610" startTime="2025-07-04T09:02:00.4309319-06:00" endTime="2025-07-04T09:02:00.4309794-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="26fed813-ffbf-4d12-9a54-68072a5d2597" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_NextToken" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="fe3a8bfd-bfa5-14bb-17a0-99041fa1f609">
+      <Execution id="9a6d704f-4a9f-4571-95a6-671f2d500fad" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="KeywordPattern_ExtractValue_Should_Return_NextToken" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="7fc7d6dd-d407-d1d4-ea1d-56d423a0d7ce">
+      <Execution id="8608a570-439d-4018-87c4-1ca48a98e132" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="d7ff42dd-cbf6-d657-c52e-1664be1d8a8a">
+      <Execution id="026ee3bc-f484-4355-8c5e-df62de0e1fbe" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="65d0e738-bb51-235f-e6db-9891a507e29d">
+      <Execution id="26fed813-ffbf-4d12-9a54-68072a5d2597" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Handle_Empty_List" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="20ac6855-0cc5-7302-01c9-cb9983963908">
+      <Execution id="731fc91e-e16a-42e7-9a96-78d78c62b001" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="EnumerableExtensions_ForEach_Should_Handle_Empty_List" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="320c2467-b16e-4f41-207a-3071a12c7919">
+      <Execution id="b36e9626-be60-476a-99be-f58189eb9b8d" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="ccdf71f0-0cb1-4602-703a-92bfab999b69">
+      <Execution id="2cf7228c-bfe1-42d2-a6cb-afbd8038e543" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="d3c27bca-260b-4758-f12d-60ebe5cd2b46">
+      <Execution id="0765e4c1-1968-485b-9494-3e3774c0e0cb" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="e4ae3f75-7c8c-2bfb-fed7-a602219de718">
+      <Execution id="5b997aa9-7a2d-4766-8ff8-e6aa1e7e9a12" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_NextToken" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="a0243f94-5b71-b283-4a72-d03f822d02f7">
+      <Execution id="1ae3291d-8609-45e1-ae80-1eaa3a123712" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="OCRRegionPattern_ExtractValue_Should_Return_NextToken" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="e44fb0a5-feec-b96a-15f1-84c008934a59">
+      <Execution id="bee2c910-299e-4c10-86d1-7445b66b8edb" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Status_When_Successful" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="adecc26f-7311-d29c-efc0-1431095f585c">
+      <Execution id="3b01116e-aa16-4e7d-b164-0632ce63a917" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="GetIngestionStatusAsync_Should_Return_Status_When_Successful" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="e2e98a4b-5493-ccb0-b1b3-bc8b4278d404">
+      <Execution id="501db25a-d693-4ba3-b896-152392333832" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DateRange_Should_Set_Properties_Correctly" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="9f999cb1-6509-9b25-732c-1e199f2771b7">
+      <Execution id="7fa12e99-a3ad-469c-afca-24b448c3954b" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DateRange_Should_Set_Properties_Correctly" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="6016f213-a55d-8193-1173-f41e72f411e8">
+      <Execution id="aab85851-437e-483f-b863-5d849909380b" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" />
+    </UnitTest>
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="213efc28-bd80-2476-c728-55c51bfa1c52">
+      <Execution id="281e2b03-4cf0-4dfa-8c14-cd97ea5dd352" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e2e98a4b-5493-ccb0-b1b3-bc8b4278d404" executionId="501db25a-d693-4ba3-b896-152392333832" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="213efc28-bd80-2476-c728-55c51bfa1c52" executionId="281e2b03-4cf0-4dfa-8c14-cd97ea5dd352" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e4ae3f75-7c8c-2bfb-fed7-a602219de718" executionId="5b997aa9-7a2d-4766-8ff8-e6aa1e7e9a12" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9f999cb1-6509-9b25-732c-1e199f2771b7" executionId="7fa12e99-a3ad-469c-afca-24b448c3954b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="adecc26f-7311-d29c-efc0-1431095f585c" executionId="3b01116e-aa16-4e7d-b164-0632ce63a917" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7fc7d6dd-d407-d1d4-ea1d-56d423a0d7ce" executionId="8608a570-439d-4018-87c4-1ca48a98e132" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6016f213-a55d-8193-1173-f41e72f411e8" executionId="aab85851-437e-483f-b863-5d849909380b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3c27bca-260b-4758-f12d-60ebe5cd2b46" executionId="0765e4c1-1968-485b-9494-3e3774c0e0cb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20ac6855-0cc5-7302-01c9-cb9983963908" executionId="731fc91e-e16a-42e7-9a96-78d78c62b001" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fe3a8bfd-bfa5-14bb-17a0-99041fa1f609" executionId="9a6d704f-4a9f-4571-95a6-671f2d500fad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ccdf71f0-0cb1-4602-703a-92bfab999b69" executionId="2cf7228c-bfe1-42d2-a6cb-afbd8038e543" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d7ff42dd-cbf6-d657-c52e-1664be1d8a8a" executionId="026ee3bc-f484-4355-8c5e-df62de0e1fbe" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e44fb0a5-feec-b96a-15f1-84c008934a59" executionId="bee2c910-299e-4c10-86d1-7445b66b8edb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a0243f94-5b71-b283-4a72-d03f822d02f7" executionId="1ae3291d-8609-45e1-ae80-1eaa3a123712" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="320c2467-b16e-4f41-207a-3071a12c7919" executionId="b36e9626-be60-476a-99be-f58189eb9b8d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65d0e738-bb51-235f-e6db-9891a507e29d" executionId="26fed813-ffbf-4d12-9a54-68072a5d2597" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="16" executed="16" passed="16" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.1+bf6400fd51 (64-bit .NET 9.0.6)&#xD;
+[xUnit.net 00:00:00.11]   Discovering: ExxerAI.IntegrationTests&#xD;
+[xUnit.net 00:00:00.15]   Discovered:  ExxerAI.IntegrationTests&#xD;
+[xUnit.net 00:00:00.17]   Starting:    ExxerAI.IntegrationTests&#xD;
+[xUnit.net 00:00:00.34]   Finished:    ExxerAI.IntegrationTests&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

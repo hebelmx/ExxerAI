@@ -1,10 +1,5 @@
-using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain;
 using Meziantou.Extensions.Logging.Xunit;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Shouldly;
 using Xunit.Abstractions;
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsController;

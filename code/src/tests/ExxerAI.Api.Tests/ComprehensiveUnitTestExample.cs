@@ -1,35 +1,29 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Application.Services;
-using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
 namespace ExxerAI.Api.Tests;
 
 /// <summary>
 /// 🎯 COMPREHENSIVE UNIT TEST EXAMPLE FOR EXXERAI PROJECT
-/// 
+///
 /// This file demonstrates ALL testing patterns used in the ExxerAI project:
 /// - Domain Entity Testing (Agent)
 /// - Value Object Testing (Result<T>)
-/// - Service Testing (DocumentIngestionService)  
+/// - Service Testing (DocumentIngestionService)
 /// - Interface Testing (IDocumentIngestionService)
 /// - Error Handling Testing
 /// - Cancellation Token Testing
 /// - Complex Business Logic Testing
 /// - Theory and InlineData Testing
 /// - Mock Setup and Verification
-/// 
+///
 /// Technology Stack:
 /// - xUnit v3 for test framework
 /// - Shouldly for assertions (NOT FluentAssertions)
 /// - NSubstitute for mocking (NOT Moq)
 /// - Result<T> for functional error handling
 /// - Microsoft.Extensions.Logging for structured logging
-/// 
+///
 /// Follows ExxerAI Coding Standards:
 /// - Descriptive test names: Should_Action_When_Condition
 /// - AAA Pattern: Arrange, Act, Assert
@@ -167,7 +161,7 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion
+    #endregion Domain Entity Testing - Agent Class
 
     #region Result<T> Pattern Testing
 
@@ -305,7 +299,7 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion
+    #endregion Result<T> Pattern Testing
 
     #region Service Layer Testing - DocumentIngestionService
 
@@ -339,7 +333,7 @@ public class ComprehensiveUnitTestExample
         {
             // Arrange
             const string folderId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
-            
+
             // Act
             var result = await _service.StartWatchingFolderAsync(folderId);
 
@@ -375,11 +369,11 @@ public class ComprehensiveUnitTestExample
             // Arrange
             const string documentId = "doc123-business-report";
             var expectedProcessingResult = CreateSuccessfulProcessingResult(documentId);
-            
+
             // Setup mock to return successful processing
             _documentProcessor.ProcessDocumentAsync(
-                Arg.Any<byte[]>(), 
-                Arg.Any<DocumentMetadata>(), 
+                Arg.Any<byte[]>(),
+                Arg.Any<DocumentMetadata>(),
                 Arg.Any<CancellationToken>())
                 .Returns(Result<DocumentProcessingResult>.Success(expectedProcessingResult));
 
@@ -390,11 +384,11 @@ public class ComprehensiveUnitTestExample
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
             result.Data.DocumentId.ShouldBe(documentId);
-            
+
             // Verify dependencies were called
             await _documentProcessor.Received(1).ProcessDocumentAsync(
-                Arg.Any<byte[]>(), 
-                Arg.Any<DocumentMetadata>(), 
+                Arg.Any<byte[]>(),
+                Arg.Any<DocumentMetadata>(),
                 Arg.Any<CancellationToken>());
         }
 
@@ -407,11 +401,11 @@ public class ComprehensiveUnitTestExample
             // Arrange
             const string documentId = "doc456-corrupted";
             var processingErrors = new[] { "Document download failed", "Document corrupted", "OCR failed" };
-            
+
             // Setup mock to return processing failure
             _documentProcessor.ProcessDocumentAsync(
-                Arg.Any<byte[]>(), 
-                Arg.Any<DocumentMetadata>(), 
+                Arg.Any<byte[]>(),
+                Arg.Any<DocumentMetadata>(),
                 Arg.Any<CancellationToken>())
                 .Returns(Result<DocumentProcessingResult>.WithFailure(processingErrors));
 
@@ -474,11 +468,11 @@ public class ComprehensiveUnitTestExample
             // Arrange
             const string folderId = "integration-folder";
             const string documentId = "integration-doc";
-            
+
             var processingResult = CreateSuccessfulProcessingResult(documentId);
             _documentProcessor.ProcessDocumentAsync(
-                Arg.Any<byte[]>(), 
-                Arg.Any<DocumentMetadata>(), 
+                Arg.Any<byte[]>(),
+                Arg.Any<DocumentMetadata>(),
                 Arg.Any<CancellationToken>())
                 .Returns(Result<DocumentProcessingResult>.Success(processingResult));
 
@@ -491,7 +485,7 @@ public class ComprehensiveUnitTestExample
             watchResult.IsSuccess.ShouldBeTrue();
             ingestResult.IsSuccess.ShouldBeTrue();
             statusResult.IsSuccess.ShouldBeTrue();
-            
+
             // Verify end-to-end state
             statusResult.Data.ActiveWatchSessions.ShouldBe(1);
             ingestResult.Data.DocumentId.ShouldBe(documentId);
@@ -518,9 +512,9 @@ public class ComprehensiveUnitTestExample
                     ["date_created"] = DateTime.UtcNow.AddDays(-1),
                     ["page_count"] = 5
                 },
-                ValidationResultDocument = new ValidationResultDocument 
-                { 
-                    IsValid = true, 
+                ValidationResultDocument = new ValidationResultDocument
+                {
+                    IsValid = true,
                     Confidence = 0.95f,
                     Errors = new List<string>()
                 }
@@ -528,7 +522,7 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion
+    #endregion Service Layer Testing - DocumentIngestionService
 
     #region Interface Testing
 
@@ -559,9 +553,9 @@ public class ComprehensiveUnitTestExample
             methods.ShouldContain(m => m.Name == "StartWatchingFolderAsync");
             methods.ShouldContain(m => m.Name == "IngestDocumentAsync");
             methods.ShouldContain(m => m.Name == "GetIngestionStatusAsync");
-            
+
             // All methods should return Task<Result<T>> for consistency
-            methods.All(m => m.ReturnType.IsGenericType && 
+            methods.All(m => m.ReturnType.IsGenericType &&
                            m.ReturnType.GetGenericTypeDefinition() == typeof(Task<>) &&
                            m.ReturnType.GetGenericArguments()[0].IsGenericType &&
                            m.ReturnType.GetGenericArguments()[0].GetGenericTypeDefinition() == typeof(Result<>))
@@ -577,7 +571,7 @@ public class ComprehensiveUnitTestExample
             // Arrange
             const string folderId = "mock-folder";
             const string expectedSessionId = "mock-session-123";
-            
+
             _service.StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>())
                 .Returns(Result<string>.Success(expectedSessionId));
 
@@ -587,13 +581,13 @@ public class ComprehensiveUnitTestExample
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldBe(expectedSessionId);
-            
+
             // Verify mock was called
             await _service.Received(1).StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>());
         }
     }
 
-    #endregion
+    #endregion Interface Testing
 
     #region Business Logic and Edge Cases
 
@@ -612,14 +606,14 @@ public class ComprehensiveUnitTestExample
         [InlineData("Contract", true)]
         [InlineData("UnknownType", false)]
         public void DocumentValidation_ShouldFollowBusinessRules_When_DocumentClassified(
-            string documentType, 
+            string documentType,
             bool expectedValid)
         {
             // Arrange
             var documentMetadata = new DocumentMetadata
             {
-                DocumentType = Enum.TryParse<DocumentType>(documentType, out var parsedType) 
-                    ? parsedType 
+                DocumentType = Enum.TryParse<DocumentType>(documentType, out var parsedType)
+                    ? parsedType
                     : DocumentType.Unknown,
                 FileName = $"test-{documentType}.pdf"
             };
@@ -730,7 +724,7 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion
+    #endregion Business Logic and Edge Cases
 
     #region Test Organization Examples
 
@@ -803,62 +797,62 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion
+    #endregion Test Organization Examples
 }
 
 /// <summary>
 /// 📝 TESTING PATTERNS SUMMARY FOR EXXERAI PROJECT
-/// 
+///
 /// This file demonstrates the following key patterns that should be used throughout the ExxerAI test suite:
-/// 
+///
 /// 1. **Test Class Organization**
 ///    - Group related tests in nested classes
 ///    - Use descriptive class names ending with "Tests"
 ///    - Include comprehensive XML documentation
-/// 
+///
 /// 2. **Test Method Naming**
 ///    - Pattern: Should_Action_When_Condition
 ///    - Clear, descriptive names that explain the test purpose
 ///    - Include test type in XML documentation (Contract, Behavior, Edge Case, etc.)
-/// 
+///
 /// 3. **Assert Library Usage**
 ///    - Use Shouldly assertions exclusively (NOT FluentAssertions)
 ///    - Use descriptive assertion methods: ShouldBe, ShouldNotBeNull, ShouldContain
 ///    - Include custom error messages when helpful
-/// 
+///
 /// 4. **Mocking Framework**
 ///    - Use NSubstitute exclusively (NOT Moq)
 ///    - Setup mocks with Substitute.For<IInterface>()
 ///    - Verify calls with Received() method
 ///    - Return Result<T> from mocked methods
-/// 
+///
 /// 5. **Result<T> Pattern Testing**
 ///    - Always test both IsSuccess and IsFailure paths
 ///    - Verify Data/Value and Errors properties
 ///    - Test method chaining with OnSuccess/OnFailure
 ///    - Use proper Result<T> creation methods
-/// 
+///
 /// 6. **Theory Tests and Data**
 ///    - Use [Theory] with [InlineData] for multiple test cases
 ///    - Use nameof() for enum values to avoid compilation errors
 ///    - Create test fixtures with MemberData for complex scenarios
 ///    - Include descriptive parameters to document test cases
-/// 
+///
 /// 7. **Async and Cancellation Testing**
 ///    - Test async methods with proper await usage
 ///    - Include cancellation token testing for long-running operations
 ///    - Test timeout scenarios and cancellation handling
-/// 
+///
 /// 8. **Error Handling Testing**
 ///    - Test all error paths and exception scenarios
 ///    - Verify proper error messages and Result<T> failure handling
 ///    - Test validation logic and business rule enforcement
-/// 
+///
 /// 9. **Integration and Workflow Testing**
 ///    - Test complete workflows end-to-end
 ///    - Verify component interactions and state changes
 ///    - Test real-world scenarios with multiple operations
-/// 
+///
 /// 10. **Performance and Edge Case Testing**
 ///     - Test large data handling and performance limits
 ///     - Test concurrent operations and resource management

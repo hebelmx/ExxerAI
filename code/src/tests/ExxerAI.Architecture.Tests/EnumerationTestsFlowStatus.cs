@@ -1,5 +1,3 @@
-using ExxerAI.Domain.Enums;
-
 namespace ExxerAI.Architecture.Tests;
 
 public class EnumerationTestsFlowStatus
@@ -11,8 +9,8 @@ public class EnumerationTestsFlowStatus
         var statusCicloEnums = EnumModel.FromValue<FlowStatus>(-1);
 
         // Assert
-        statusCicloEnums.ShouldNotBeNull();
-        statusCicloEnums.Name.ShouldBe("Invalid");
+        Assert.NotNull(statusCicloEnums);
+        Assert.Equal("Invalid", statusCicloEnums.Name);
     }
 
     [Fact]
@@ -22,7 +20,7 @@ public class EnumerationTestsFlowStatus
         var statusCicloEnums = EnumModel.FromValue<FlowStatus>(-10);
 
         // Assert
-        statusCicloEnums.ShouldNotBeNull();
-        statusCicloEnums.Name.ShouldBe("Invalid");
+        Assert.NotNull(statusCicloEnums);
+        Assert.Equal("Invalid", statusCicloEnums.Name);
     }
 }

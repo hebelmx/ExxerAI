@@ -13,6 +13,7 @@ using System.Threading;
 using System.Collections.Generic;
 using System;
 using ExxerAI.Domain.Enums;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.IntegrationTests;
 

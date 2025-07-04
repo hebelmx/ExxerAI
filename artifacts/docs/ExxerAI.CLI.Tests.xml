@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.CLI.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.CLI.Tests.AgentCommandsTests">
+            <summary>
+            Tests for AgentCommands CLI functionality
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ExxerAI.CLI.Tests.CLIValidationTests" -->
+        <member name="T:ExxerAI.CLI.Tests.CLIValidationTests.AgentCommandsValidationTests">
+            <summary>
+            Tests for AgentCommands validation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.CLI.Tests.CLIValidationTests.TaskCommandsValidationTests">
+            <summary>
+            Tests for TaskCommands validation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.CLI.Tests.CLIValidationTests.CommandRouterValidationTests">
+            <summary>
+            Tests for CommandRouter validation
+            </summary>
+        </member>
+        <member name="T:ExxerAI.CLI.Tests.CLIValidationTests.WorkflowCommandsValidationTests">
+            <summary>
+            Tests for WorkflowCommands (parameterless constructor)
+            </summary>
+        </member>
+        <member name="T:ExxerAI.CLI.Tests.CommandRouterTests">
+            <summary>
+            Tests for CommandRouter CLI functionality
+            </summary>
+        </member>
+        <member name="T:ExxerAI.CLI.Tests.ProgramTests">
+            <summary>
+            Tests for Program main entry point
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Tests.ProgramTests.CallMainMethod(System.String[])">
+            <summary>
+            Helper method to call the private Main method via reflection
+            </summary>
+            <param name="args">Arguments to pass to Main</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="T:ExxerAI.CLI.Tests.TaskCommandsTests">
+            <summary>
+            Tests for TaskCommands CLI functionality
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:ExxerAI.CLI.Tests.ValidationRuleDocumentation" -->
+        <member name="T:ExxerAI.CLI.Tests.WorkflowCommandsTests">
+            <summary>
+            Comprehensive unit tests for WorkflowCommands CLI functionality
+            Tests all workflow management operations, validation, error handling, and edge cases
+            </summary>
+        </member>
+    </members>
+</doc>

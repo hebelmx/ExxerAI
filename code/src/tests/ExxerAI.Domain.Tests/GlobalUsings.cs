@@ -12,7 +12,6 @@ global using ExxerAI.Domain.DocumentProcessing;
 global using ExxerAI.Domain;
 global using ExxerAI.Domain.Entities;
 global using ExxerAI.Domain.Enums;
-global using NSubstitute;
 global using Shouldly;
 global using Xunit;
 global using ExxerAI.Domain.Helpers;

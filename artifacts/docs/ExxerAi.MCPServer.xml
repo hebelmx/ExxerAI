@@ -1,0 +1,516 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAi.MCPServer</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAi.MCPServer.Application.Interfaces.IDocumentProcessingTools">
+            <summary>
+            Interface for document processing MCP tools providing adaptive document intelligence capabilities
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IDocumentProcessingTools.ProcessDocumentAsync(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Processes a document with adaptive polymorphic intelligence
+            </summary>
+            <param name="documentPath">Path to the document to process</param>
+            <param name="documentType">Document type (invoice, contract, report, etc.)</param>
+            <param name="extractionLevel">Level of extraction detail (basic, detailed, comprehensive)</param>
+            <param name="learningMode">Whether to enable adaptive learning</param>
+            <returns>Result containing document processing result with extracted data and confidence scores</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IDocumentProcessingTools.ExtractFieldsAsync(System.String,System.String,System.String)">
+            <summary>
+            Extracts specific fields from a document using a predefined schema
+            </summary>
+            <param name="documentPath">Path to the document</param>
+            <param name="schemaName">Name of the extraction schema to use</param>
+            <param name="fieldNames">Comma-separated list of specific fields to extract</param>
+            <returns>Result containing extracted field data with confidence scores</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IDocumentProcessingTools.ValidateExtractedDataAsync(System.String,System.String,System.String)">
+            <summary>
+            Validates and grounds extracted data against business rules and context
+            </summary>
+            <param name="extractionId">ID of the extraction to validate</param>
+            <param name="businessRules">Business rules to apply during validation</param>
+            <param name="contextData">Additional context data for grounding</param>
+            <returns>Result containing validation results with confidence and error details</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IDocumentProcessingTools.LearnDocumentSchemaAsync(System.String,System.String,System.String)">
+            <summary>
+            Learns and adapts document processing schemas from sample documents
+            </summary>
+            <param name="sampleDocuments">Paths to sample documents for learning</param>
+            <param name="documentType">Type of documents for schema learning</param>
+            <param name="learningMode">Learning mode: incremental, full_retrain, adaptive</param>
+            <returns>Result containing schema learning results and confidence improvements</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IDocumentProcessingTools.GetProcessingConfidenceAsync(System.String,System.String)">
+            <summary>
+            Gets processing confidence for a specific document type
+            </summary>
+            <param name="documentType">Document type to assess</param>
+            <param name="complexityLevel">Document complexity: simple, medium, complex</param>
+            <returns>Result containing confidence assessment and processing capabilities</returns>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService">
+            <summary>
+            Interface for Google Drive service providing real API integration
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService.InitializeAsync">
+            <summary>
+            Initializes Google Drive service with OAuth authentication
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService.StartFolderWatchAsync(System.String,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Starts monitoring a Google Drive folder for changes
+            </summary>
+            <param name="folderId">The folder ID to monitor</param>
+            <param name="includeSubdirectories">Include subdirectories in monitoring</param>
+            <param name="autoProcess">Automatically process detected files</param>
+            <param name="pollingIntervalSeconds">Polling interval in seconds</param>
+            <returns>Watch session information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService.DownloadDocumentAsync(System.String)">
+            <summary>
+            Downloads a document from Google Drive
+            </summary>
+            <param name="documentId">The document ID to download</param>
+            <returns>Downloaded document data</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService.GetDocumentMetadataAsync(System.String)">
+            <summary>
+            Gets metadata for a Google Drive document
+            </summary>
+            <param name="documentId">The document ID</param>
+            <returns>Document metadata</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService.GetActiveWatchesAsync">
+            <summary>
+            Gets active watch sessions
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService.StopWatchingAsync(System.String)">
+            <summary>
+            Stops a watch session
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools">
+            <summary>
+            Interface for Google Drive MCP tools providing document monitoring and processing capabilities
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.StartFolderWatchAsync(System.String,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Starts watching a Google Drive folder for document changes
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch</param>
+            <param name="includeSubdirectories">Whether to include subdirectories</param>
+            <param name="autoProcess">Whether to automatically process detected files</param>
+            <param name="pollingIntervalSeconds">Polling interval in seconds</param>
+            <returns>Result containing watch session information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.GetDocumentChangesAsync(System.String)">
+            <summary>
+            Gets document changes for a specific watch session
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <returns>Result containing document changes detected</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.DownloadDocumentAsync(System.String)">
+            <summary>
+            Downloads a document from Google Drive
+            </summary>
+            <param name="documentId">The document identifier</param>
+            <returns>Result containing download result information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.GetDocumentMetadataAsync(System.String)">
+            <summary>
+            Gets metadata for a specific document
+            </summary>
+            <param name="documentId">The document identifier</param>
+            <returns>Result containing document metadata information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.CheckHealthStatusAsync">
+            <summary>
+            Checks the health agentStatus of the MCP server and Google Drive integration
+            </summary>
+            <returns>Result containing health agentStatus information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.GetActiveWatchesAsync">
+            <summary>
+            Lists all active watch sessions
+            </summary>
+            <returns>Result containing active watch sessions information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveTools.StopWatchingAsync(System.String)">
+            <summary>
+            Stops watching a specific folder
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <returns>Result containing stop operation result</returns>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Interfaces.ISystemTools">
+            <summary>
+            Interface for system operations and health monitoring MCP tools
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.ISystemTools.GetSystemInfoAsync">
+            <summary>
+            Gets comprehensive system information
+            </summary>
+            <returns>Result containing system information including OS, hardware, and runtime details</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.ISystemTools.GetCurrentTimeAsync(System.String,System.String)">
+            <summary>
+            Gets the current date and time in various formats
+            </summary>
+            <param name="format">Time format (iso, readable, timestamp, utc)</param>
+            <param name="timezone">Timezone for display (optional)</param>
+            <returns>Result containing current time in the specified format</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.ISystemTools.ListFilesAsync(System.String,System.Boolean,System.Int32)">
+            <summary>
+            Lists files and directories in a specified path
+            </summary>
+            <param name="path">Directory path to list</param>
+            <param name="includeHidden">Include hidden files and directories</param>
+            <param name="maxItems">Maximum number of items to return</param>
+            <returns>Result containing directory listing with file information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.ISystemTools.CalculateAsync(System.String)">
+            <summary>
+            Performs a mathematical calculation safely
+            </summary>
+            <param name="expression">Mathematical expression to evaluate</param>
+            <returns>Result containing calculation result</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.ISystemTools.GetMemoryUsageAsync">
+            <summary>
+            Gets memory usage information
+            </summary>
+            <returns>Result containing memory usage statistics</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Interfaces.ISystemTools.CheckHealthAsync">
+            <summary>
+            Checks the health agentStatus of the MCP server
+            </summary>
+            <returns>Result containing health agentStatus information</returns>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Services.DocumentChange">
+            <summary>
+            Document change information
+            </summary>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Services.GoogleDriveFileMetadata">
+            <summary>
+            Google Drive file metadata
+            </summary>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Services.GoogleDriveService">
+            <summary>
+            Google Drive service implementation providing real API integration
+            Supports OAuth authentication, file operations, and real-time monitoring
+            Integrates with ExxerAI document processing pipeline
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAi.MCPServer.Application.Services.GoogleDriveService},Microsoft.Extensions.Configuration.IConfiguration,ExxerAI.Application.Interfaces.IHybridDocumentProcessor)">
+            <summary>
+            Initializes a new instance of the GoogleDriveService
+            </summary>
+            <param name="logger">Logger instance</param>
+            <param name="configuration">Configuration for API credentials</param>
+            <param name="documentProcessor">Document processing pipeline (optional)</param>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.InitializeAsync">
+            <summary>
+            Initializes Google Drive service with OAuth authentication
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.StartFolderWatchAsync(System.String,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Starts monitoring a Google Drive folder for changes
+            </summary>
+            <param name="folderId">The folder ID to monitor</param>
+            <param name="includeSubdirectories">Include subdirectories in monitoring</param>
+            <param name="autoProcess">Automatically process detected files</param>
+            <param name="pollingIntervalSeconds">Polling interval in seconds</param>
+            <returns>Watch session information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.DownloadDocumentAsync(System.String)">
+            <summary>
+            Downloads a document from Google Drive
+            </summary>
+            <param name="documentId">The document ID to download</param>
+            <returns>Downloaded document data</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.GetDocumentMetadataAsync(System.String)">
+            <summary>
+            Gets metadata for a Google Drive document
+            </summary>
+            <param name="documentId">The document ID</param>
+            <returns>Document metadata</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.MonitorFolderAsync(ExxerAi.MCPServer.Application.Services.WatchSession)">
+            <summary>
+            Background folder monitoring implementation
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.ProcessDetectedDocumentAsync(Google.Apis.Drive.v3.Data.File,System.String)">
+            <summary>
+            Processes a detected document through the ExxerAI pipeline
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.GetActiveWatchesAsync">
+            <summary>
+            Gets active watch sessions
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Services.GoogleDriveService.StopWatchingAsync(System.String)">
+            <summary>
+            Stops a watch session
+            </summary>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Services.WatchSession">
+            <summary>
+            Watch session data structure
+            </summary>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools">
+            <summary>
+            MCP tools for advanced document processing with polymorphic intelligence
+            Provides adaptive document processing, schema learning, and confidence assessment
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools})">
+            <summary>
+            Initializes a new instance of the DocumentProcessingTools class
+            </summary>
+            <param name="logger">The logger instance</param>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.ProcessDocumentAsync(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Processes a document with adaptive polymorphic intelligence
+            </summary>
+            <param name="documentPath">Path to the document to process</param>
+            <param name="documentType">Document type (invoice, contract, report, etc.)</param>
+            <param name="extractionLevel">Level of extraction detail (basic, detailed, comprehensive)</param>
+            <param name="learningMode">Whether to enable adaptive learning</param>
+            <returns>Document processing result with extracted data and confidence scores</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.ExtractFieldsAsync(System.String,System.String,System.String)">
+            <summary>
+            Extracts specific fields from a document using a predefined schema
+            </summary>
+            <param name="documentPath">Path to the document</param>
+            <param name="schemaName">Name of the extraction schema to use</param>
+            <param name="fieldNames">Comma-separated list of specific fields to extract</param>
+            <returns>Extracted field data with confidence scores</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.ValidateExtractedDataAsync(System.String,System.String,System.String)">
+            <summary>
+            Validates and grounds extracted data against business rules and context
+            </summary>
+            <param name="extractionId">ID of the extraction to validate</param>
+            <param name="businessRules">Business rules to apply during validation</param>
+            <param name="contextData">Additional context data for grounding</param>
+            <returns>Validation results with confidence and error details</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.LearnDocumentSchemaAsync(System.String,System.String,System.String)">
+            <summary>
+            Learns and adapts document processing schemas from sample documents
+            </summary>
+            <param name="sampleDocuments">Paths to sample documents for learning</param>
+            <param name="documentType">Type of documents for schema learning</param>
+            <param name="learningMode">Learning mode: incremental, full_retrain, adaptive</param>
+            <returns>Schema learning results and confidence improvements</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.GetProcessingConfidenceAsync(System.String,System.String)">
+            <summary>
+            Gets processing confidence for a specific document type
+            </summary>
+            <param name="documentType">Document type to assess</param>
+            <param name="complexityLevel">Document complexity: simple, medium, complex</param>
+            <returns>Confidence assessment and processing capabilities</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.DocumentProcessingTools.GetRecommendations(System.String,System.String,System.Single)">
+            <summary>
+            Gets processing recommendations based on document type and confidence
+            </summary>
+            <param name="documentType">The document type</param>
+            <param name="complexityLevel">The complexity level</param>
+            <param name="confidence">The confidence score</param>
+            <returns>Formatted recommendations</returns>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools">
+            <summary>
+            MCP tools for Google Drive integration implementing advanced document intelligence pipeline
+            Provides real-time document monitoring, processing, and change detection
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAi.MCPServer.Application.Tools.GoogleDriveTools},ExxerAi.MCPServer.Application.Interfaces.IGoogleDriveService)">
+            <summary>
+            Initializes a new instance of the GoogleDriveTools class
+            </summary>
+            <param name="logger">The logger instance</param>
+            <param name="googleDriveService">The Google Drive service for real API integration</param>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.StartFolderWatchAsync(System.String,System.Boolean,System.Boolean,System.Int32)">
+            <summary>
+            Starts watching a Google Drive folder for document changes
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch</param>
+            <param name="includeSubdirectories">Whether to include subdirectories</param>
+            <param name="autoProcess">Whether to automatically process detected files</param>
+            <param name="pollingIntervalSeconds">Polling interval in seconds</param>
+            <returns>Watch session information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.GetDocumentChangesAsync(System.String)">
+            <summary>
+            Gets document changes for a specific watch session
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <returns>Document changes detected</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.DownloadDocumentAsync(System.String)">
+            <summary>
+            Downloads a document from Google Drive
+            </summary>
+            <param name="documentId">The document identifier</param>
+            <returns>Download result information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.GetDocumentMetadataAsync(System.String)">
+            <summary>
+            Gets metadata for a specific document
+            </summary>
+            <param name="documentId">The document identifier</param>
+            <returns>Document metadata information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.CheckHealthStatusAsync">
+            <summary>
+            Checks the health agentStatus of the MCP server and Google Drive integration
+            </summary>
+            <returns>Health agentStatus information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.GetActiveWatchesAsync">
+            <summary>
+            Lists all active watch sessions
+            </summary>
+            <returns>Active watch sessions information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.GoogleDriveTools.StopWatchingAsync(System.String)">
+            <summary>
+            Stops watching a specific folder
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <returns>Stop operation result</returns>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Application.Tools.SystemTools">
+            <summary>
+            MCP tools for system utilities and health monitoring
+            Provides basic system information, time, and file operations
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAi.MCPServer.Application.Tools.SystemTools})">
+            <summary>
+            Initializes a new instance of the SystemTools class
+            </summary>
+            <param name="logger">The logger instance</param>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.GetSystemInfoAsync">
+            <summary>
+            Gets comprehensive system information
+            </summary>
+            <returns>System information including OS, hardware, and runtime details</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.GetCurrentTimeAsync(System.String,System.String)">
+            <summary>
+            Gets the current date and time in various formats
+            </summary>
+            <param name="format">Time format (iso, readable, timestamp, utc)</param>
+            <param name="timezone">Timezone for display (optional)</param>
+            <returns>Current time in the specified format</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.ListFilesAsync(System.String,System.Boolean,System.Int32)">
+            <summary>
+            Lists files and directories in a specified path
+            </summary>
+            <param name="path">Directory path to list</param>
+            <param name="includeHidden">Include hidden files and directories</param>
+            <param name="maxItems">Maximum number of items to return</param>
+            <returns>Directory listing with file information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.CalculateAsync(System.String)">
+            <summary>
+            Performs a mathematical calculation safely
+            </summary>
+            <param name="expression">Mathematical expression to evaluate</param>
+            <returns>Calculation result</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.GetMemoryUsageAsync">
+            <summary>
+            Gets memory usage information
+            </summary>
+            <returns>Memory usage statistics</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.CheckHealthAsync">
+            <summary>
+            Checks the health agentStatus of the MCP server
+            </summary>
+            <returns>Health agentStatus information</returns>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Application.Tools.SystemTools.EvaluateExpression(System.String)">
+            <summary>
+            Simple expression evaluator (basic implementation)
+            </summary>
+            <param name="expression">The expression to evaluate</param>
+            <returns>The evaluation result</returns>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Data.ApplicationDbContext">
+            <summary>
+            Application database context for Identity and MCP server data
+            </summary>
+            <param name="options">The database context options</param>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Data.ApplicationDbContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{ExxerAi.MCPServer.Data.ApplicationDbContext})">
+            <summary>
+            Application database context for Identity and MCP server data
+            </summary>
+            <param name="options">The database context options</param>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Data.ApplicationUser">
+            <summary>
+            Application user entity extending IdentityUser for MCP server authentication
+            Add profile data for application users by adding properties to the ApplicationUser class
+            </summary>
+        </member>
+        <member name="T:ExxerAi.MCPServer.Data.Migrations.CreateIdentitySchema">
+            <inheritdoc />
+        </member>
+        <member name="M:ExxerAi.MCPServer.Data.Migrations.CreateIdentitySchema.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ExxerAi.MCPServer.Data.Migrations.CreateIdentitySchema.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:ExxerAi.MCPServer.Data.Migrations.CreateIdentitySchema.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:ExxerAi.MCPServer.Program">
+            <summary>
+            Main program entry point for the ExxerAI MCP Server.
+            Configures MCP protocol integration with dependency injection and testable implementations.
+            </summary>
+        </member>
+        <member name="M:ExxerAi.MCPServer.Program.Main(System.String[])">
+            <summary>
+            Main entry point for the ExxerAI MCP Server application.
+            </summary>
+            <param name="args">Command line arguments</param>
+        </member>
+    </members>
+</doc>

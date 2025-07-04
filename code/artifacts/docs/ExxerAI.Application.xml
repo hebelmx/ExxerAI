@@ -1,0 +1,3287 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Application</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Application.Data.KpiExxerproPatternSeed">
+            <summary>
+            Initial pattern dictionary seeded from KpiExxerpro proven patterns
+            Includes 15+ field types with 95%+ accuracy based on 10,000+ document processing
+            Patterns ported from Pagos_de_seguros_OCRV5.py and Pagos_de_seguro_FromXcel_V3.py
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Data.KpiExxerproPatternSeed.InitialPatterns">
+            <summary>
+            Gets the collection of proven extraction patterns from KpiExxerpro research
+            These patterns have been validated against 10,000+ real-world documents
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Data.KpiExxerproPatternSeed.GetPatternsForDocumentType(System.String)">
+            <summary>
+            Gets patterns filtered by document type for efficient lookup
+            </summary>
+            <param name="documentType">Document type to filter by</param>
+            <returns>Patterns for the specified document type</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Data.KpiExxerproPatternSeed.GetPatternsForField(System.String)">
+            <summary>
+            Gets patterns filtered by field name for specific field extraction
+            </summary>
+            <param name="fieldName">Field name to filter by</param>
+            <returns>Patterns for the specified field</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Data.KpiExxerproPatternSeed.GetBestPatternForField(System.String,System.String)">
+            <summary>
+            Gets the highest confidence pattern for a specific field and document type
+            </summary>
+            <param name="fieldName">Field name</param>
+            <param name="documentType">Document type</param>
+            <returns>Highest confidence pattern or null if not found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Data.KpiExxerproPatternSeed.GetStatistics">
+            <summary>
+            Gets summary statistics for the pattern seed data
+            </summary>
+            <returns>Pattern statistics</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Data.PatternSeedStatistics">
+            <summary>
+            Statistics for pattern seed data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.TotalPatterns">
+            <summary>
+            Gets or sets the total number of patterns
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.UniqueFields">
+            <summary>
+            Gets or sets the number of unique fields covered
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.UniqueDocumentTypes">
+            <summary>
+            Gets or sets the number of unique document types
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.AverageConfidence">
+            <summary>
+            Gets or sets the average confidence score across all patterns
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.TotalSuccessfulExtractions">
+            <summary>
+            Gets or sets the total number of successful extractions
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.TotalAttempts">
+            <summary>
+            Gets or sets the total number of extraction attempts
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Data.PatternSeedStatistics.OverallSuccessRate">
+            <summary>
+            Gets or sets the overall success rate across all patterns
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.DirectTextResult">
+            <summary>
+            Result of direct text extraction from digital documents
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.DirectTextResult.IsSuccessful">
+            <summary>
+            Gets or sets whether the extraction was successful
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.DirectTextResult.Text">
+            <summary>
+            Gets or sets the extracted text content
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.DirectTextResult.Confidence">
+            <summary>
+            Gets or sets the confidence score of the extraction
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.DirectTextResult.HasMeaningfulContent">
+            <summary>
+            Gets whether the extracted text has meaningful content
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.LearningFeedback">
+            <summary>
+            Feedback data for machine learning improvements in document processing
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.LearningFeedback.DocumentType">
+            <summary>
+            Gets or sets the document type that was processed
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.LearningFeedback.ExtractedFields">
+            <summary>
+            Gets or sets the dictionary of extracted fields and their values
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.LearningFeedback.OverallConfidence">
+            <summary>
+            Gets or sets the overall confidence score of the processing
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.LearningFeedback.ValidationResultDocument">
+            <summary>|
+            Gets or sets the validation results from the processing
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.OCRResult">
+            <summary>
+            Result of OCR processing on document data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.OCRResult.IsSuccessful">
+            <summary>
+            Gets or sets whether the OCR processing was successful
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.OCRResult.Text">
+            <summary>
+            Gets or sets the extracted text content
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.OCRResult.Confidence">
+            <summary>
+            Gets or sets the confidence score of the OCR result
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.OCRResult.ProcessedRegions">
+            <summary>
+            Gets or sets the processed OCR regions
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.PatternDictionaryEntity">
+            <summary>
+            Entity representing a pattern in the pattern dictionary database
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.Id">
+            <summary>
+            Gets or sets the unique identifier
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.FieldName">
+            <summary>
+            Gets or sets the field name this pattern extracts
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.DocumentType">
+            <summary>
+            Gets or sets the document type this pattern applies to
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.PatternType">
+            <summary>
+            Gets or sets the type of pattern (Regex, OCRRegion, Keyword, LLM)
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.PatternExpression">
+            <summary>
+            Gets or sets the pattern expression or configuration
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.ConfidenceScore">
+            <summary>
+            Gets or sets the current confidence score
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.SuccessCount">
+            <summary>
+            Gets or sets the number of successful extractions
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.TotalAttempts">
+            <summary>
+            Gets or sets the total number of extraction attempts
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.CreatedAt">
+            <summary>
+            Gets or sets the creation timestamp
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.LastUsedAt">
+            <summary>
+            Gets or sets the last used timestamp
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.LastUpdatedAt">
+            <summary>
+            Gets or sets the last updated timestamp
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.CreatedBy">
+            <summary>
+            Gets or sets the creator identifier
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.IsActive">
+            <summary>
+            Gets or sets whether the pattern is currently active
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.Notes">
+            <summary>
+            Gets or sets additional notes about the pattern
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.Metadata">
+            <summary>
+            Gets or sets additional metadata for the pattern
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryEntity.SuccessRate">
+            <summary>
+            Gets the calculated success rate
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.PatternDictionaryExport">
+            <summary>
+            Export format for pattern dictionary data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryExport.ExportedAt">
+            <summary>
+            Gets or sets the export timestamp
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryExport.Patterns">
+            <summary>
+            Gets or sets the collection of exported patterns
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryExport.Metadata">
+            <summary>
+            Gets or sets export metadata
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternDictionaryExport.Version">
+            <summary>
+            Gets or sets the export format version
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.PatternEvolutionHistory">
+            <summary>
+            Evolution history of patterns for a specific field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternEvolutionHistory.FieldName">
+            <summary>
+            Gets or sets the field name
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternEvolutionHistory.DocumentType">
+            <summary>
+            Gets or sets the document type
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternEvolutionHistory.History">
+            <summary>
+            Gets or sets the history entries
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.PatternHistoryEntry">
+            <summary>
+            Single entry in pattern evolution history
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternHistoryEntry.PatternId">
+            <summary>
+            Gets or sets the pattern identifier
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternHistoryEntry.Timestamp">
+            <summary>
+            Gets or sets the timestamp of this history entry
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternHistoryEntry.ConfidenceScore">
+            <summary>
+            Gets or sets the confidence score at this point in time
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternHistoryEntry.SuccessCount">
+            <summary>
+            Gets or sets the success count at this point in time
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternHistoryEntry.TotalAttempts">
+            <summary>
+            Gets or sets the total attempts at this point in time
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternHistoryEntry.EventType">
+            <summary>
+            Gets or sets the type of event that triggered this history entry
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.PatternLearningResult">
+            <summary>
+            Result of pattern learning analysis for continuous improvement
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.Pattern">
+            <summary>
+            Gets or sets the pattern that was used for extraction
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.WasSuccessful">
+            <summary>
+            Gets or sets whether the extraction was successful
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.ExtractedValue">
+            <summary>
+            Gets or sets the value that was extracted
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.ExpectedValue">
+            <summary>
+            Gets or sets the expected value for validation
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.Confidence">
+            <summary>
+            Gets or sets the confidence score of the extraction
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.ProcessingTime">
+            <summary>
+            Gets or sets the time taken to process the extraction
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternLearningResult.Feedback">
+            <summary>
+            Gets or sets optional feedback about the extraction quality
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.PatternUsageStatistics">
+            <summary>
+            Pattern usage statistics for continuous learning
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternUsageStatistics.SuccessCount">
+            <summary>
+            Gets or sets the number of successful extractions
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternUsageStatistics.TotalAttempts">
+            <summary>
+            Gets or sets the total number of extraction attempts
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternUsageStatistics.LastSuccessAt">
+            <summary>
+            Gets or sets the timestamp of last successful use
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternUsageStatistics.LastUsedAt">
+            <summary>
+            Gets or sets the timestamp of last use (successful or failed)
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.PatternUsageStatistics.SuccessRate">
+            <summary>
+            Gets the calculated success rate (0.0 to 1.0)
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.RegionBounds">
+            <summary>
+            Region bounds for OCR region patterns
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionBounds.XOffset">
+            <summary>
+            Gets or sets the X offset from reference point
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionBounds.YOffset">
+            <summary>
+            Gets or sets the Y offset from reference point
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionBounds.Width">
+            <summary>
+            Gets or sets the width of the region
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionBounds.Height">
+            <summary>
+            Gets or sets the height of the region
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.DTOs.RegionExtractionResult">
+            <summary>
+            Result of extracting data from a specific document region
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionExtractionResult.FieldName">
+            <summary>
+            Gets or sets the name of the field that was extracted
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionExtractionResult.ExtractedValue">
+            <summary>
+            Gets or sets the extracted value from the region
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionExtractionResult.Confidence">
+            <summary>
+            Gets or sets the confidence score of the extraction
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.DTOs.RegionExtractionResult.Region">
+            <summary>
+            Gets or sets the bounding box of the extracted region
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Enums.SearchStrategy">
+            <summary>
+            Search strategies for OCR region patterns
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Enums.SearchStrategy.NextToken">
+            <summary>
+            Extract the next token after reference text
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Enums.SearchStrategy.NextLineInRegion">
+            <summary>
+            Extract from the next line within the same region
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Enums.SearchStrategy.SameLineOrNext">
+            <summary>
+            Extract from the same line, or next line if not found
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Enums.SearchStrategy.NumberInSameLine">
+            <summary>
+            Extract using number pattern in same line
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.BatchProcessingOptions">
+            <summary>
+            Batch processing configuration options
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingOptions.MaxConcurrency">
+            <summary>
+            Gets or sets the maximum number of concurrent processing operations
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingOptions.ContinueOnError">
+            <summary>
+            Gets or sets whether to continue processing if individual documents fail
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingOptions.BatchSize">
+            <summary>
+            Gets or sets the batch size for database operations
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingOptions.ProcessingTimeout">
+            <summary>
+            Gets or sets timeout for individual document processing
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.BatchProcessingResult">
+            <summary>
+            Batch processing result summary
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.TotalDocuments">
+            <summary>
+            Gets or sets the total number of documents in the batch
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.SuccessfullyProcessed">
+            <summary>
+            Gets or sets the number of successfully processed documents
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.FailedDocuments">
+            <summary>
+            Gets or sets the number of failed documents
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.AverageConfidence">
+            <summary>
+            Gets or sets the average confidence score for successful documents
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.TotalProcessingTime">
+            <summary>
+            Gets or sets the total processing time for the batch
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.Results">
+            <summary>
+            Gets or sets individual document processing results
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProcessingResult.SuccessRate">
+            <summary>
+            Gets the success rate for the batch (0.0 to 1.0)
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.BatchProgressReport">
+            <summary>
+            Batch processing progress report
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProgressReport.ProcessedCount">
+            <summary>
+            Gets or sets the number of documents processed
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProgressReport.TotalCount">
+            <summary>
+            Gets or sets the total number of documents to process
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProgressReport.SuccessCount">
+            <summary>
+            Gets or sets the number of successfully processed documents
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProgressReport.CurrentDocument">
+            <summary>
+            Gets or sets the currently processing document name
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProgressReport.EstimatedTimeRemaining">
+            <summary>
+            Gets or sets the estimated time remaining for batch completion
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.BatchProgressReport.CompletionPercentage">
+            <summary>
+            Gets the completion percentage (0.0 to 1.0)
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DataQualityMetrics">
+            <summary>
+            Represents data quality metrics for the truth system
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.OverallQualityScore">
+            <summary>
+            Gets or sets the overall data quality score (0.0 - 1.0)
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.CompletenessPercentage">
+            <summary>
+            Gets or sets the data completeness percentage
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.AccuracyPercentage">
+            <summary>
+            Gets or sets the data accuracy percentage
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.ConsistencyPercentage">
+            <summary>
+            Gets or sets the data consistency percentage
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.DuplicateRecords">
+            <summary>
+            Gets or sets the number of duplicate records detected
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.ValidationErrors">
+            <summary>
+            Gets or sets the number of validation errors
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DataQualityMetrics.FieldMetrics">
+            <summary>
+            Gets or sets quality metrics by field
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DateRange">
+            <summary>
+            Represents a date range for reports and queries
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DateRange.FromDate">
+            <summary>
+            Gets or sets the start date
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DateRange.ToDate">
+            <summary>
+            Gets or sets the end date
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DateRange.Duration">
+            <summary>
+            Gets the duration of the date range
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentBatchItem">
+            <summary>
+            Individual document item for batch processing
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentBatchItem.DocumentData">
+            <summary>
+            Gets or sets the document binary data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentBatchItem.Metadata">
+            <summary>
+            Gets or sets the document metadata
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentBatchItem.ItemId">
+            <summary>
+            Gets or sets the batch item identifier
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentChangeEvent">
+            <summary>
+            Represents a document change event detected during folder watching.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.EventId">
+            <summary>
+            Gets or sets the unique event identifier.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.DocumentId">
+            <summary>
+            Gets or sets the document ID that changed.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.ChangeType">
+            <summary>
+            Gets or sets the type of change that occurred.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.DetectedAt">
+            <summary>
+            Gets or sets when the change was detected.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.ChangedAt">
+            <summary>
+            Gets or sets when the change actually occurred.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.Metadata">
+            <summary>
+            Gets or sets the document metadata at time of change.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.PreviousHash">
+            <summary>
+            Gets or sets the previous document hash for change detection.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.NewHash">
+            <summary>
+            Gets or sets the new document hash.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.WatchSessionId">
+            <summary>
+            Gets or sets the watch session that detected this change.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.Properties">
+            <summary>
+            Gets or sets additional change metadata.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.IsContentChange">
+            <summary>
+            Gets whether this change represents a content modification.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentChangeEvent.RequiresProcessing">
+            <summary>
+            Gets whether this change requires processing.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentHash">
+            <summary>
+            Represents a complete document hash with content and metadata components.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentHash.ContentHash">
+            <summary>
+            Gets or sets the SHA-256 hash of the document content.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentHash.MetadataHash">
+            <summary>
+            Gets or sets the hash of the metadata fingerprint.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentHash.GeneratedAt">
+            <summary>
+            Gets or sets when this hash was generated.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentHash.Algorithm">
+            <summary>
+            Gets or sets the algorithm used for hashing.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentHash.Properties">
+            <summary>
+            Gets or sets additional hash metadata.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentHash.CombinedHash">
+            <summary>
+            Gets the combined hash representing both content and metadata.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.DocumentHash.#ctor">
+            <summary>
+            Initializes a new instance of the DocumentHash class.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.DocumentHash.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the DocumentHash class with hash values.
+            </summary>
+            <param name="contentHash">The content hash.</param>
+            <param name="metadataHash">The metadata hash.</param>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.DocumentHash.IsEquivalentTo(ExxerAI.Application.Interfaces.DocumentHash)">
+            <summary>
+            Checks if this hash is equivalent to another hash.
+            </summary>
+            <param name="other">The other hash to compare.</param>
+            <returns>True if the hashes are equivalent.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.DocumentHash.ToString">
+            <summary>
+            Returns a string representation of the document hash.
+            </summary>
+            <returns>A formatted string with hash information.</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentNotification">
+            <summary>
+            Document notification information
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.DocumentNotification.#ctor(System.String,System.String,System.String,System.DateTime,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Document notification information
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentValidationRule">
+            <summary>
+            Individual validation rule for field validation
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentValidationRule.RuleType">
+            <summary>
+            Gets or sets the rule type
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentValidationRule.Expression">
+            <summary>
+            Gets or sets the rule expression or pattern
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentValidationRule.ErrorMessage">
+            <summary>
+            Gets or sets the error message if validation fails
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentValidationRules">
+            <summary>
+            Enhanced document validation rules for KpiExxerpro pattern processing
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentValidationRules.FieldRules">
+            <summary>
+            Gets or sets field-specific validation rules
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentValidationRules.MinimumConfidence">
+            <summary>
+            Gets or sets minimum confidence threshold
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.DocumentValidationRules.RequiredFields">
+            <summary>
+            Gets or sets required fields that must be present
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.DocumentVersionInfo">
+            <summary>
+            Document version information
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.DocumentVersionInfo.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.Int64,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Document version information
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.FieldQualityMetrics">
+            <summary>
+            Represents quality metrics for a specific field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldQualityMetrics.FieldName">
+            <summary>
+            Gets or sets the field name
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldQualityMetrics.CompletenessRate">
+            <summary>
+            Gets or sets the completeness rate for this field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldQualityMetrics.AccuracyRate">
+            <summary>
+            Gets or sets the accuracy rate for this field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldQualityMetrics.ValidationErrors">
+            <summary>
+            Gets or sets the number of validation errors for this field
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.FieldStatistics">
+            <summary>
+            Represents extraction statistics for a specific field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldStatistics.FieldName">
+            <summary>
+            Gets or sets the field name
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldStatistics.SuccessRate">
+            <summary>
+            Gets or sets the extraction success rate for this field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldStatistics.AverageConfidence">
+            <summary>
+            Gets or sets the average confidence score for this field
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.FieldStatistics.CommonPatterns">
+            <summary>
+            Gets or sets the most common extraction patterns used
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.GroundingReport">
+            <summary>
+            Represents a grounding report for data quality assessment
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.Id">
+            <summary>
+            Gets or sets the report identifier
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.DateRange">
+            <summary>
+            Gets or sets the date range for the report
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.TotalRecordsProcessed">
+            <summary>
+            Gets or sets the total number of records processed
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.SuccessfulGroundings">
+            <summary>
+            Gets or sets the number of successful groundings
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.FailedGroundings">
+            <summary>
+            Gets or sets the number of failed groundings
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.AverageConfidenceScore">
+            <summary>
+            Gets or sets the average confidence score
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.ConflictsResolved">
+            <summary>
+            Gets or sets the number of conflicts resolved
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.RecordsRequiringReview">
+            <summary>
+            Gets or sets the number of records requiring human review
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.StatsByDocumentType">
+            <summary>
+            Gets or sets detailed grounding statistics by document type
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.GeneratedAt">
+            <summary>
+            Gets or sets when the report was generated
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingReport.SuccessRate">
+            <summary>
+            Gets the overall success rate for groundings
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.GroundingStatistics">
+            <summary>
+            Represents grounding statistics for a specific document type
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingStatistics.DocumentType">
+            <summary>
+            Gets or sets the document type
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingStatistics.TotalProcessed">
+            <summary>
+            Gets or sets the total number of documents processed
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingStatistics.SuccessfulExtractions">
+            <summary>
+            Gets or sets the number of successful extractions
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingStatistics.AverageProcessingTimeMs">
+            <summary>
+            Gets or sets the average processing time in milliseconds
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingStatistics.AverageConfidence">
+            <summary>
+            Gets or sets the average confidence score
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.GroundingStatistics.FieldStats">
+            <summary>
+            Gets or sets field-specific extraction statistics
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.HealthStatus">
+            <summary>
+            Enumeration of system health statuses.
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.HealthStatus.Healthy">
+            <summary>
+            System is operating normally.
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.HealthStatus.Warning">
+            <summary>
+            System has minor issues but is functional.
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.HealthStatus.Degraded">
+            <summary>
+            System has significant issues affecting functionality.
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.HealthStatus.Critical">
+            <summary>
+            System is not functional.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IAgentRepository">
+            <summary>
+            Repository interface for agent entities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentRepository.GetByStatusAsync(ExxerAI.Domain.ValueObjects.AgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Gets agents by agentStatus
+            </summary>
+            <param name="status">The agent agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of agents with the specified agentStatus</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentRepository.FindByTaskTypeAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds agents that support a specific task type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of agents that support the task type</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentRepository.GetAgentsWithTaskCountAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets agents with their current task count
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of agents with task count information</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IAgentService">
+            <summary>
+            Service interface for managing agents in the ExxerAI system
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.CreateAgentAsync(System.String,System.String,ExxerAI.Domain.ValueObjects.AgentCapabilities,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new agent
+            </summary>
+            <param name="name">The agent name</param>
+            <param name="description">The agent description</param>
+            <param name="capabilities">The agent capabilities</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the created agent</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.GetAgentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets an agent by its identifier
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the agent if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.GetAllAgentsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all agents
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing all agents</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.GetActiveAgentsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all active agents
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of active agents</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.UpdateAgentConfigurationAsync(System.Guid,ExxerAI.Domain.Configurations.AgentConfiguration,System.Threading.CancellationToken)">
+            <summary>
+            Updates an agent's configuration
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="configuration">The new configuration</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.UpdateAgentStatusAsync(System.Guid,ExxerAI.Domain.ValueObjects.AgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Updates an agent's agentStatus
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">The new agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.AssignTaskAsync(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.AssignTaskToAgentAsync(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent (alias for compatibility)
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.FindBestAgentForTaskAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds the best available agent for a specific task type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the best agent if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IAgentService.DeleteAgentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IConversationRepository">
+            <summary>
+            Repository interface for conversation entities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IConversationRepository.GetByAgentAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.ConversationStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets conversations for a specific agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of conversations for the agent</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IConversationRepository.GetByLanguageModelAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets conversations using a specific language model
+            </summary>
+            <param name="modelId">The language model identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of conversations using the model</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IConversationRepository.GetMessagesAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets messages for a specific conversation
+            </summary>
+            <param name="conversationId">The conversation identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of messages in the conversation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IConversationRepository.AddMessageAsync(ExxerAI.Domain.Entities.ConversationMessage,System.Threading.CancellationToken)">
+            <summary>
+            Adds a message to a conversation
+            </summary>
+            <param name="message">The message to add</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The added message</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IDirectTextExtractor">
+            <summary>
+            Extracts text directly from digital documents without OCR
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDirectTextExtractor.ExtractTextAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            Extracts text directly from digital document data
+            </summary>
+            <param name="documentData">The document byte data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Direct text extraction result</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IDocumentHashGenerator">
+            <summary>
+            Service for generating and comparing document hashes for deduplication and integrity verification.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentHashGenerator.GenerateHashAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Generates a comprehensive hash for a document including content and metadata.
+            </summary>
+            <param name="content">The raw document content.</param>
+            <param name="metadata">Document metadata for fingerprinting.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The complete document hash with content and metadata fingerprints.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentHashGenerator.CompareHashesAsync(ExxerAI.Application.Interfaces.DocumentHash,ExxerAI.Application.Interfaces.DocumentHash,System.Threading.CancellationToken)">
+            <summary>
+            Compares two document hashes for equality and similarity.
+            </summary>
+            <param name="hash1">The first hash to compare.</param>
+            <param name="hash2">The second hash to compare.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>True if the hashes indicate the same or equivalent content.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentHashGenerator.CreateFingerprintAsync(ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Creates a document fingerprint for similarity detection.
+            </summary>
+            <param name="metadata">Document metadata to fingerprint.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document fingerprint for similarity analysis.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentHashGenerator.GenerateContentHashAsync(System.Byte[],System.Threading.CancellationToken)">
+            <summary>
+            Generates a SHA-256 content hash for the raw document data.
+            </summary>
+            <param name="content">The document content to hash.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The SHA-256 hash of the content.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentHashGenerator.VerifyIntegrityAsync(System.Byte[],System.String,System.Threading.CancellationToken)">
+            <summary>
+            Validates the integrity of a document by comparing its current hash with a stored hash.
+            </summary>
+            <param name="content">The current document content.</param>
+            <param name="storedHash">The previously stored hash to compare against.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>True if the document integrity is verified.</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IDocumentIngestionService">
+            <summary>
+            Service for intelligent document ingestion from Google Drive with version management and deduplication.
+            Implements the complete document processing pipeline from the design specification.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.StartWatchingFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Starts watching a Google Drive folder for document changes.
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The watch session ID for tracking changes.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.StopWatchingFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Stops watching a Google Drive folder.
+            </summary>
+            <param name="watchId">The watch session ID to stop.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The result of the stop operation.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.DetectDocumentChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Detects and processes document changes from watched folders.
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The list of detected document changes.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.ProcessDocumentChangeAsync(ExxerAI.Application.Interfaces.DocumentChangeEvent,System.Threading.CancellationToken)">
+            <summary>
+            Processes a document change event through the complete pipeline.
+            </summary>
+            <param name="changeEvent">The document change event to process.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document processing result.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.IngestDocumentAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Ingests a document directly by ID through the complete processing pipeline.
+            </summary>
+            <param name="documentId">The Google Drive document ID.</param>
+            <param name="forceReprocess">Whether to force reprocessing even if document exists.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document processing result.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.IsDocumentModifiedAsync(System.String,System.DateTime,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a document has been modified since last processing.
+            </summary>
+            <param name="documentId">The document ID to check.</param>
+            <param name="lastProcessed">When the document was last processed.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>True if the document has been modified.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentIngestionService.GetIngestionStatusAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the ingestion agentStatus and statistics.
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The ingestion agentStatus information.</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IDocumentNotificationService">
+            <summary>
+            Service for sending notifications about document events
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.NotifyDocumentAddedAsync(ExxerAI.Domain.DocumentProcessing.DocumentAsset,System.Threading.CancellationToken)">
+            <summary>
+            Sends a notification when a document is added
+            </summary>
+            <param name="document">The document that was added</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.NotifyDocumentModifiedAsync(ExxerAI.Domain.DocumentProcessing.DocumentAsset,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends a notification when a document is modified
+            </summary>
+            <param name="document">The document that was modified</param>
+            <param name="previousVersion">The previous version information</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.NotifyDocumentRemovedAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Sends a notification when a document is removed
+            </summary>
+            <param name="documentId">The identifier of the document that was removed</param>
+            <param name="documentName">The name of the document that was removed</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.NotifyProcessingFailedAsync(ExxerAI.Domain.DocumentProcessing.DocumentAsset,System.Exception,System.Threading.CancellationToken)">
+            <summary>
+            Sends a notification when document processing fails
+            </summary>
+            <param name="document">The document that failed processing</param>
+            <param name="error">The error that occurred</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.NotifyProcessingCompletedAsync(ExxerAI.Domain.DocumentProcessing.DocumentAsset,ExxerAI.Domain.DocumentProcessing.DocumentProcessingResult,System.Threading.CancellationToken)">
+            <summary>
+            Sends a notification when document processing is completed
+            </summary>
+            <param name="document">The document that was processed</param>
+            <param name="result">The processing result</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.RegisterSubscriberAsync(System.String,System.Func{ExxerAI.Application.Interfaces.DocumentNotification,System.Threading.Tasks.Task})">
+            <summary>
+            Registers a notification subscriber
+            </summary>
+            <param name="subscriberId">The subscriber identifier</param>
+            <param name="callback">The callback to invoke for notifications</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentNotificationService.UnregisterSubscriberAsync(System.String)">
+            <summary>
+            Unregisters a notification subscriber
+            </summary>
+            <param name="subscriberId">The subscriber identifier</param>
+            <returns>Result indicating success or failure</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IDocumentSchemaLearningEngine">
+            <summary>
+            Engine for learning and evolving document schemas based on processing feedback
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentSchemaLearningEngine.UpdateSchemaFromFeedbackAsync(ExxerAI.Domain.DocumentProcessing.SchemaDefinition,ExxerAI.Application.DTOs.LearningFeedback,System.Threading.CancellationToken)">
+            <summary>
+            Updates document schema based on learning feedback
+            </summary>
+            <param name="schema">The schema definition to update</param>
+            <param name="feedback">Learning feedback from processing</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Async task</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IDocumentWatchService">
+            <summary>
+            Service for watching and monitoring document changes
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentWatchService.StartWatchingAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Starts watching a folder for document changes
+            </summary>
+            <param name="folderId">The folder identifier to watch</param>
+            <param name="includeSubdirectories">Whether to include subdirectories</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Watch session identifier wrapped in Result</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentWatchService.StopWatchingAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Stops watching a folder
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Success result wrapped in Result</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IDocumentWatchService.GetActiveWatchesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the list of active watch sessions
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of active watch sessions wrapped in Result</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IHybridDocumentProcessor">
+            <summary>
+            Advanced document processor based on proven KpiExxerpro OCRV5 and FromXcel_V3 algorithms
+            Implements sophisticated multi-stage extraction with confidence scoring and fallback mechanisms
+            Processes 15+ field types with 95%+ accuracy based on production validation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IHybridDocumentProcessor.ProcessDocumentAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Multi-stage processing pipeline based on KpiExxerpro proven methodology
+            Stage 1: Direct text extraction from digital documents
+            Stage 2: OCR processing with Tesseract for scanned documents
+            Stage 3: Region-specific OCR using OpenCV contour detection
+            Stage 4: Pattern matching using persistent dictionary database
+            Stage 5: Confidence scoring and validation
+            Stage 6: Schema learning and pattern evolution
+            </summary>
+            <param name="documentData">Binary document data to process</param>
+            <param name="metadata">Document metadata including type, language, and processing options</param>
+            <param name="cancellationToken">Cancellation token for long-running operations</param>
+            <returns>Comprehensive processing result with extracted fields and confidence scores</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IHybridDocumentProcessor.ProcessDocumentBatchAsync(System.Collections.Generic.IEnumerable{ExxerAI.Application.Interfaces.DocumentBatchItem},ExxerAI.Application.Interfaces.BatchProcessingOptions,System.IProgress{ExxerAI.Application.Interfaces.BatchProgressReport},System.Threading.CancellationToken)">
+            <summary>
+            Processes multiple documents in an optimized batch operation
+            Implements parallel processing with resource management and progress reporting
+            </summary>
+            <param name="documents">Collection of documents to process</param>
+            <param name="options">Batch processing configuration options</param>
+            <param name="progress">Optional progress reporting callback</param>
+            <param name="cancellationToken">Cancellation token for batch operation</param>
+            <returns>Batch processing results with individual document outcomes</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IHybridDocumentProcessor.UpdatePatternsFromSuccessfulProcessingAsync(ExxerAI.Domain.DocumentProcessing.DocumentProcessingResult,System.Threading.CancellationToken)">
+            <summary>
+            Updates pattern dictionary based on successful extraction results
+            Implements continuous learning to improve future processing accuracy
+            </summary>
+            <param name="processingResult">Successful processing result to learn from</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Task representing the learning operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IHybridDocumentProcessor.ValidateExtractedFieldsAsync(System.Collections.Generic.Dictionary{System.String,System.Object},ExxerAI.Application.Interfaces.DocumentValidationRules,System.Threading.CancellationToken)">
+            <summary>
+            Validates extracted document fields against business rules and confidence thresholds
+            Provides detailed validation results for quality assurance
+            </summary>
+            <param name="extractedFields">Fields extracted from document processing</param>
+            <param name="validationRules">Business validation rules to apply</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Comprehensive validation results</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.ILanguageModelRepository">
+            <summary>
+            Repository interface for language model entities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILanguageModelRepository.GetAvailableModelsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets available language models
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of available language models</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILanguageModelRepository.GetByProviderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets language models by provider
+            </summary>
+            <param name="provider">The provider name</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of language models from the specified provider</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILanguageModelRepository.FindBestModelForCapabilityAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds the best model for a specific capability
+            </summary>
+            <param name="capability">The required capability</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The best model for the capability if found</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.ILLMService">
+            <summary>
+            Service interface for interacting with Large Language Models
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.GenerateTextAsync(System.Guid,System.String,ExxerAI.Application.Interfaces.LLMParameters,System.Threading.CancellationToken)">
+            <summary>
+            Generates a text response using the specified language model
+            </summary>
+            <param name="modelId">The language model identifier</param>
+            <param name="prompt">The input prompt</param>
+            <param name="parameters">Optional generation parameters</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The generated response</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.ContinueConversationAsync(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Continues a conversation with a language model
+            </summary>
+            <param name="conversationId">The conversation identifier</param>
+            <param name="message">The new message</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The model's response</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.CreateConversationAsync(System.Guid,System.Guid,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new conversation with a language model
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="modelId">The language model identifier</param>
+            <param name="title">Optional conversation title</param>
+            <param name="systemPrompt">Optional system prompt</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The created conversation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.EstimateCostAsync(System.Guid,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Estimates the cost of a language model request
+            </summary>
+            <param name="modelId">The language model identifier</param>
+            <param name="inputTokens">The number of input tokens</param>
+            <param name="outputTokens">The estimated number of output tokens</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The estimated cost</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.CountTokensAsync(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Counts the number of tokens in a text string for a specific model
+            </summary>
+            <param name="modelId">The language model identifier</param>
+            <param name="text">The text to count tokens for</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The token count</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.StreamTextAsync(System.Guid,System.String,ExxerAI.Application.Interfaces.LLMParameters,System.Threading.CancellationToken)">
+            <summary>
+            Streams a text response using the specified language model
+            </summary>
+            <param name="modelId">The language model identifier</param>
+            <param name="prompt">The input prompt</param>
+            <param name="parameters">Optional generation parameters</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>An async enumerable of response chunks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ILLMService.ValidateModelAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Validates whether a language model is available and accessible
+            </summary>
+            <param name="modelId">The language model identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The validation result</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IMCPGoogleDriveService">
+            <summary>
+            Interface for modern MCP-based Google Drive integration replacing legacy API calls
+            Provides real-time document monitoring and change detection
+            Integrates with existing Python MCP server for protocol compliance
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.WatchFolderAsync(System.String,ExxerAI.Domain.DocumentProcessing.MCPWatchOptions,System.Threading.CancellationToken)">
+            <summary>
+            Starts watching a Google Drive folder for changes
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch</param>
+            <param name="options">Watch configuration options</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the watch operation containing the MCP response</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.GetDocumentChangesAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets document changes for a specific watch session
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing document changes</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.GetDocumentMetadataAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets metadata for a specific document
+            </summary>
+            <param name="documentId">The document identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing document metadata</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.DownloadDocumentAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Downloads a document from Google Drive
+            </summary>
+            <param name="documentId">The document identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the document data</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.UploadProcessedDataAsync(System.String,ExxerAI.Domain.DocumentProcessing.ProcessedDocument,System.Threading.CancellationToken)">
+            <summary>
+            Uploads processed data back to Google Drive
+            </summary>
+            <param name="folderId">The target folder ID</param>
+            <param name="document">The processed document to upload</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the upload operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.CheckMCPServerHealthAsync(System.Threading.CancellationToken)">
+            <summary>
+            Checks the health agentStatus of the MCP server
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the health check operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.StopWatchingAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Stops watching a specific folder
+            </summary>
+            <param name="watchId">The watch session identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the stop operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.GetActiveWatchesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all active watch sessions
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing active watches</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IMCPGoogleDriveService.HandleMCPDocumentProcessingAsync(ExxerAI.Domain.DocumentProcessing.MCPDocumentRequest,System.Threading.CancellationToken)">
+            <summary>
+            Handles document processing requests through MCP protocol
+            </summary>
+            <param name="request">The MCP document processing request</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the processing operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IngestionStatus">
+            <summary>
+            Represents the agentStatus and statistics of the document ingestion system.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.DocumentsWatched">
+            <summary>
+            Gets or sets the total number of documents being watched.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.DocumentsProcessedToday">
+            <summary>
+            Gets or sets the number of documents processed today.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.DocumentsProcessedThisWeek">
+            <summary>
+            Gets or sets the number of documents processed this week.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.ActiveWatchSessions">
+            <summary>
+            Gets or sets the number of active watch sessions.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.PendingChanges">
+            <summary>
+            Gets or sets the number of pending changes to process.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.AverageProcessingTimeMs">
+            <summary>
+            Gets or sets the average processing time in milliseconds.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.SystemHealth">
+            <summary>
+            Gets or sets the overall system health agentStatus.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.LastProcessingTime">
+            <summary>
+            Gets or sets the last time the system processed changes.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.SystemMessages">
+            <summary>
+            Gets or sets any current system errors or warnings.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.IngestionStatus.Metrics">
+            <summary>
+            Gets or sets performance metrics for the ingestion system.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IOCRProcessor">
+            <summary>
+            Processes documents using OCR technology
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IOCRProcessor.ProcessDocumentWithOCRAsync(System.Byte[],System.String,System.Threading.CancellationToken)">
+            <summary>
+            Processes document data using OCR with specified language
+            </summary>
+            <param name="documentData">The document byte data</param>
+            <param name="language">OCR language code</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>OCR processing result</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IPersistentPatternDictionary">
+            <summary>
+            Database-persisted pattern dictionary system based on KpiExxerpro field extraction patterns
+            Supports continuous learning and pattern evolution based on successful extractions
+            Maintains audit trail and confidence scoring for all pattern variations
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.GetPatternsForFieldAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves extraction patterns for a specific field and document type
+            Returns patterns ordered by confidence score (highest first)
+            </summary>
+            <param name="fieldName">Name of the field to extract (e.g., "registro_patronal")</param>
+            <param name="documentType">Type of document (e.g., "IMSSPayment")</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>List of extraction patterns ordered by confidence</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.GetPatternsForDocumentTypeAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves all extraction patterns for a specific document type
+            Groups patterns by field name for efficient batch processing
+            </summary>
+            <param name="documentType">Type of document to get patterns for</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Dictionary mapping field names to their extraction patterns</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.UpdatePatternFromSuccessfulExtractionAsync(ExxerAI.Application.DTOs.PatternLearningResult,System.Threading.CancellationToken)">
+            <summary>
+            Updates pattern success statistics based on successful field extraction
+            Implements continuous learning to improve pattern confidence scores
+            </summary>
+            <param name="learningResult">Result of pattern learning analysis</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Task representing the update operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.GetPatternEvolutionHistoryAsync(System.String,System.DateTime,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves the evolution history of patterns for a specific field
+            Useful for analyzing pattern effectiveness over time
+            </summary>
+            <param name="fieldName">Field name to get history for</param>
+            <param name="fromDate">Start date for history retrieval</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Pattern evolution history with confidence changes</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.GetPatternConfidenceScoreAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets the current confidence score for a specific pattern
+            Based on success rate and usage statistics
+            </summary>
+            <param name="patternId">Unique identifier of the pattern</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Current confidence score (0.0 to 1.0)</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.PersistNewPatternAsync(ExxerAI.Domain.DocumentProcessing.ExtractionPattern,System.Single,System.Threading.CancellationToken)">
+            <summary>
+            Persists a new extraction pattern discovered through learning
+            Validates pattern before adding to prevent duplicates and conflicts
+            </summary>
+            <param name="pattern">New extraction pattern to persist</param>
+            <param name="initialConfidence">Initial confidence score for the pattern</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Unique identifier of the persisted pattern</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.DeactivateUnderperformingPatternsAsync(System.String,System.String,System.Single,System.Threading.CancellationToken)">
+            <summary>
+            Deactivates patterns that consistently fail to extract correct data
+            Implements pattern quality management to maintain system accuracy
+            </summary>
+            <param name="fieldName">Field name to analyze</param>
+            <param name="documentType">Document type to analyze</param>
+            <param name="minimumSuccessRate">Minimum success rate to keep pattern active</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Number of patterns deactivated</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.SeedKpiExxerproPatternsAsync(System.Collections.Generic.IEnumerable{ExxerAI.Application.DTOs.PatternDictionaryEntity},System.Threading.CancellationToken)">
+            <summary>
+            Seeds the pattern dictionary with proven KpiExxerpro patterns
+            Used for initial system setup with battle-tested extraction patterns
+            </summary>
+            <param name="seedPatterns">Collection of proven patterns to seed</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Number of patterns successfully seeded</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPersistentPatternDictionary.ExportPatternDictionaryAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Exports pattern dictionary for backup or transfer to other systems
+            Includes full pattern metadata and usage statistics
+            </summary>
+            <param name="documentType">Optional document type filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Serializable pattern dictionary export</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor">
+            <summary>
+            Advanced polymorphic document processor that learns to adapt to any document type.
+            Implements multi-stage processing: Direct Read → OCR → LLM Verification → Grounding.
+            Based on proven KpiExxerpro patterns with 15+ years of financial document processing.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor.ProcessDocumentAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Processes a document through the complete polymorphic pipeline.
+            </summary>
+            <param name="documentData">The raw document byte data.</param>
+            <param name="metadata">Document metadata and processing options.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The complete processing result with extracted data and confidence scores.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor.ExtractFieldsAsync(ExxerAI.Domain.DocumentProcessing.Document,ExxerAI.Domain.DocumentProcessing.ExtractionSchema,System.Threading.CancellationToken)">
+            <summary>
+            Extracts specific fields from a document using adaptive patterns.
+            </summary>
+            <param name="document">The document to extract fields from.</param>
+            <param name="schema">The extraction schema defining expected fields.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The field extraction results with confidence scores.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor.ValidateAndGroundDataAsync(ExxerAI.Domain.DocumentProcessing.ExtractedData,ExxerAI.Domain.DocumentProcessing.GroundTruthContext,System.Threading.CancellationToken)">
+            <summary>
+            Validates and grounds extracted data against known patterns and business rules.
+            </summary>
+            <param name="data">The extracted data to validate.</param>
+            <param name="context">The ground truth context for validation.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The validation result with grounded data.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor.AdaptProcessingRulesAsync(ExxerAI.Domain.DocumentProcessing.ProcessingHistory,System.Threading.CancellationToken)">
+            <summary>
+            Adapts processing rules based on processing history and feedback.
+            </summary>
+            <param name="history">The processing history to learn from.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The learning result with updated processing rules.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor.LearnDocumentSchemaAsync(System.Collections.Generic.IEnumerable{ExxerAI.Domain.DocumentProcessing.Document},System.Threading.CancellationToken)">
+            <summary>
+            Learns document schema from sample documents to improve future processing.
+            </summary>
+            <param name="samples">Sample documents to learn from.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The learned schema definition.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor.GetProcessingConfidenceAsync(ExxerAI.Domain.DocumentProcessing.DocumentType,System.Threading.CancellationToken)">
+            <summary>
+            Gets the confidence score for processing a specific document type
+            </summary>
+            <param name="documentType">The document type to check</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The confidence score for processing this document type</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem">
+            <summary>
+            Interface for the central system that maintains the definitive version of all business data
+            All extracted and processed information flows through this system for validation
+            Implements audit trail, conflict resolution, and data lineage tracking
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.StoreExtractedDataAsync(ExxerAI.Domain.DocumentProcessing.ExtractedData,ExxerAI.Domain.DocumentProcessing.DataSource,System.Threading.CancellationToken)">
+            <summary>
+            Stores extracted data as an authoritative truth record
+            </summary>
+            <param name="data">The extracted data to store</param>
+            <param name="source">Information about the data source</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the storage operation containing the truth record</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.ValidateAgainstTruthAsync(ExxerAI.Domain.DocumentProcessing.ExtractedData,System.Threading.CancellationToken)">
+            <summary>
+            Validates extracted data against existing truth records
+            </summary>
+            <param name="data">The data to validate</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the validation operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.GetAuthoritativeRecordAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets an authoritative truth record by its identifier
+            </summary>
+            <param name="recordId">The truth record identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the retrieval operation containing the truth record</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.ResolveDataConflictAsync(System.Collections.Generic.IEnumerable{ExxerAI.Domain.DocumentProcessing.ExtractedData},System.Threading.CancellationToken)">
+            <summary>
+            Resolves conflicts when multiple data sources provide conflicting information
+            </summary>
+            <param name="conflictingData">The conflicting data from multiple sources</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the conflict resolution operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.GetDataLineageAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets the data lineage for a specific truth record
+            </summary>
+            <param name="recordId">The truth record identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the data lineage</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.GenerateGroundingReportAsync(System.DateTime,System.DateTime,System.Threading.CancellationToken)">
+            <summary>
+            Generates a grounding report for data quality assessment
+            </summary>
+            <param name="fromDate">The start date for the report</param>
+            <param name="toDate">The end date for the report</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the grounding report</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.FindSimilarRecordsAsync(ExxerAI.Domain.DocumentProcessing.ExtractedData,System.Single,System.Threading.CancellationToken)">
+            <summary>
+            Finds similar truth records based on data content
+            </summary>
+            <param name="data">The data to compare against</param>
+            <param name="similarityThreshold">The minimum similarity threshold (0.0 - 1.0)</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing similar truth records</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.UpdateTruthRecordAsync(System.String,ExxerAI.Domain.DocumentProcessing.ExtractedData,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing truth record with new information
+            </summary>
+            <param name="recordId">The truth record identifier</param>
+            <param name="updatedData">The updated data</param>
+            <param name="updatedBy">Who is updating the record</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the update operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.RequireHumanReviewAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Marks a truth record as requiring human review
+            </summary>
+            <param name="recordId">The truth record identifier</param>
+            <param name="reason">The reason for requiring review</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.GetRecordsRequiringReviewAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all truth records that require human review
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing truth records requiring review</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IPrimarySourceOfTruthSystem.GetDataQualityMetricsAsync(System.DateTime,System.DateTime,System.Threading.CancellationToken)">
+            <summary>
+            Gets data quality metrics for the truth system
+            </summary>
+            <param name="fromDate">The start date for metrics</param>
+            <param name="toDate">The end date for metrics</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing quality metrics</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IRegionSpecificOCR">
+            <summary>
+            Extracts specific fields from document regions using OCR
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRegionSpecificOCR.ExtractKeyFieldsByRegionAsync(System.Byte[],System.Collections.Generic.List{System.String},System.Threading.CancellationToken)">
+            <summary>
+            Extracts key fields from specific document regions
+            </summary>
+            <param name="documentData">The document byte data</param>
+            <param name="fieldNames">List of field names to extract</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Region-specific extraction results</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IRepository`1">
+            <summary>
+            Generic repository interface for data access operations
+            </summary>
+            <typeparam name="T">The entity type</typeparam>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRepository`1.GetByIdAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets an entity by its identifier
+            </summary>
+            <param name="id">The entity identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The entity if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRepository`1.GetAllAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all entities
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of all entities</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRepository`1.AddAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Adds a new entity
+            </summary>
+            <param name="entity">The entity to add</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The added entity</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRepository`1.UpdateAsync(`0,System.Threading.CancellationToken)">
+            <summary>
+            Updates an existing entity
+            </summary>
+            <param name="entity">The entity to update</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The updated entity</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRepository`1.DeleteAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an entity by its identifier
+            </summary>
+            <param name="id">The entity identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IRepository`1.ExistsAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Checks if an entity exists by its identifier
+            </summary>
+            <param name="id">The entity identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>True if the entity exists, false otherwise</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.ITaskRepository">
+            <summary>
+            Repository interface for task entities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskRepository.GetByStatusAsync(ExxerAI.Domain.ValueObjects.TaskAgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks by agentStatus
+            </summary>
+            <param name="agentStatus">The task agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of tasks with the specified agentStatus</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskRepository.GetByAgentAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.TaskAgentStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks assigned to a specific agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of tasks assigned to the agent</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskRepository.GetOverdueTasksAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets overdue tasks
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of overdue tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskRepository.GetByTypeAsync(System.String,System.Nullable{ExxerAI.Domain.ValueObjects.TaskAgentStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks by type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of tasks of the specified type</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskRepository.SeedAsync">
+            <summary>
+            Seeds the repository with sample tasks for development/testing
+            </summary>
+            <returns>The result of the seeding operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.ITaskService">
+            <summary>
+            Service interface for managing tasks in the ExxerAI system
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.CreateTaskAsync(System.String,System.String,System.String,ExxerAI.Domain.ValueObjects.TaskPriority,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <summary>
+            Creates a new task
+            </summary>
+            <param name="title">The task title</param>
+            <param name="description">The task description</param>
+            <param name="taskType">The task type</param>
+            <param name="priority">The task priority</param>
+            <param name="deadline">Optional deadline for the task</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the created task</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.GetTaskAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a task by its identifier
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the task if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.GetPendingTasksAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all pending tasks
+            </summary>
+            <param name="maxCount">Maximum number of tasks to return</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of pending tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.GetAgentTasksAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.TaskAgentStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks assigned to a specific agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of agent tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.UpdateTaskStatusAsync(System.Guid,ExxerAI.Domain.ValueObjects.TaskAgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Updates a task's agentStatus
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="agentStatus">The new agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.AssignTaskToAgentAsync(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.CompleteTaskAsync(System.Guid,ExxerAI.Domain.ValueObjects.TaskData,System.Threading.CancellationToken)">
+            <summary>
+            Completes a task with optional output data
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="outputData">Optional output data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.FailTaskAsync(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Fails a task with an error message
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="errorMessage">The error message</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.CancelTaskAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a task
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.GetOverdueTasksAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets overdue tasks
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of overdue tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ITaskService.DeleteTaskAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a task
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IVersionDetectionEngine">
+            <summary>
+            Service for detecting and managing document versions
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IVersionDetectionEngine.DetectVersionAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Detects the version of a document based on its content and metadata
+            </summary>
+            <param name="content">The document content</param>
+            <param name="metadata">The document metadata</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Result containing the detected version information</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IVersionDetectionEngine.CompareVersions(ExxerAI.Application.Interfaces.DocumentVersionInfo,ExxerAI.Application.Interfaces.DocumentVersionInfo)">
+            <summary>
+            Compares two document versions to determine their relationship
+            </summary>
+            <param name="version1">The first version</param>
+            <param name="version2">The second version</param>
+            <returns>Result containing version comparison result</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IVersionDetectionEngine.GetLatestVersion(System.Collections.Generic.IEnumerable{ExxerAI.Application.Interfaces.DocumentVersionInfo})">
+            <summary>
+            Gets the latest version from a collection of document versions
+            </summary>
+            <param name="versions">Collection of document versions</param>
+            <returns>Result containing the latest version</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IVersionDetectionEngine.IsModified(ExxerAI.Application.Interfaces.DocumentVersionInfo,ExxerAI.Application.Interfaces.DocumentVersionInfo)">
+            <summary>
+            Determines if a document has been modified based on version comparison
+            </summary>
+            <param name="currentVersion">The current version</param>
+            <param name="previousVersion">The previous version</param>
+            <returns>Result indicating if document has been modified</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IWorkflowRepository">
+            <summary>
+            Repository interface for workflow entities
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowRepository.GetByStatusAsync(ExxerAI.Domain.ValueObjects.WorkflowStatus,System.Threading.CancellationToken)">
+            <summary>
+            Gets workflows by agentStatus
+            </summary>
+            <param name="status">The workflow agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of workflows with the specified agentStatus</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowRepository.GetExecutionsAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.WorkflowExecutionStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets workflow executions for a specific workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="status">Optional execution agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>Collection of workflow executions</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.IWorkflowService">
+            <summary>
+            Service interface for managing workflows in the ExxerAI system
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.CreateWorkflowAsync(System.String,System.String,System.Collections.Generic.IEnumerable{ExxerAI.Domain.Entities.WorkflowStep},System.Threading.CancellationToken)">
+            <summary>
+            Creates a new workflow
+            </summary>
+            <param name="name">The workflow name</param>
+            <param name="description">The workflow description</param>
+            <param name="steps">The workflow steps</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the created workflow</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.GetWorkflowAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a workflow by its identifier
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the workflow if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.GetActiveWorkflowsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all active workflows
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of active workflows</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.UpdateWorkflowConfigurationAsync(System.Guid,ExxerAI.Domain.Configurations.WorkflowConfiguration,System.Threading.CancellationToken)">
+            <summary>
+            Updates a workflow's configuration
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="configuration">The new configuration</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.ExecuteWorkflowAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Starts execution of a workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="input">The input data for the workflow</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the workflow execution</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.GetWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a workflow execution by its identifier
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the execution if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.GetWorkflowExecutionsAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.WorkflowExecutionStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets all executions for a specific workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of executions</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.PauseWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Pauses a running workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.ResumeWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Resumes a paused workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.CancelWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.IWorkflowService.DeleteWorkflowAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.LLMParameters">
+            <summary>
+            Represents parameters for language model generation
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.Temperature">
+            <summary>
+            Gets or sets the temperature for generation (0.0-2.0)
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.MaxTokens">
+            <summary>
+            Gets or sets the maximum number of tokens to generate
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.TopP">
+            <summary>
+            Gets or sets the top-p value for nucleus sampling
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.FrequencyPenalty">
+            <summary>
+            Gets or sets the frequency penalty
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.PresencePenalty">
+            <summary>
+            Gets or sets the presence penalty
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.StopSequences">
+            <summary>
+            Gets or sets stop sequences
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMParameters.CustomParameters">
+            <summary>
+            Gets or sets custom parameters
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.LLMResponse">
+            <summary>
+            Represents a response from a language model
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.Content">
+            <summary>
+            Gets or sets the generated content
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.InputTokens">
+            <summary>
+            Gets or sets the number of tokens in the input
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.OutputTokens">
+            <summary>
+            Gets or sets the number of tokens in the output
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.TotalTokens">
+            <summary>
+            Gets or sets the total tokens used
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.EstimatedCost">
+            <summary>
+            Gets or sets the estimated cost of the request
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.ResponseTimeMs">
+            <summary>
+            Gets or sets the response time in milliseconds
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.FinishReason">
+            <summary>
+            Gets or sets the reason the generation finished
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponse.Metadata">
+            <summary>
+            Gets or sets response metadata
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.LLMResponseChunk">
+            <summary>
+            Represents a chunk of streamed response from a language model
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponseChunk.Content">
+            <summary>
+            Gets or sets the content chunk
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponseChunk.IsComplete">
+            <summary>
+            Gets or sets whether this is the final chunk
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponseChunk.ChunkIndex">
+            <summary>
+            Gets or sets the chunk index
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.LLMResponseChunk.Metadata">
+            <summary>
+            Gets or sets chunk metadata
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.ProcessingStage">
+            <summary>
+            Document processing stages for detailed pipeline tracking
+            Based on KpiExxerpro multi-stage methodology
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Interfaces.ProcessingStage.#ctor(System.String,System.Boolean,System.Single)">
+            <summary>
+            Initializes a new processing stage with completion agentStatus and confidence
+            </summary>
+            <param name="stageName">Name of the processing stage</param>
+            <param name="isSuccessful">Whether the stage completed successfully</param>
+            <param name="confidence">Confidence score for this stage (0.0 to 1.0)</param>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.ProcessingStage.StageName">
+            <summary>
+            Gets the name of the processing stage
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.ProcessingStage.IsSuccessful">
+            <summary>
+            Gets whether the stage completed successfully
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.ProcessingStage.Confidence">
+            <summary>
+            Gets the confidence score for this stage (0.0 to 1.0)
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.ProcessingStage.ProcessedAt">
+            <summary>
+            Gets the timestamp when this stage was processed
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.ProcessingStage.Metadata">
+            <summary>
+            Gets or sets additional stage-specific metadata
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Interfaces.ProcessingStage.ErrorMessage">
+            <summary>
+            Gets or sets error information if the stage failed
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.VersionComparisonResult">
+            <summary>
+            Version comparison result
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionComparisonResult.Identical">
+            <summary>
+            Versions are identical
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionComparisonResult.FirstNewer">
+            <summary>
+            First version is newer
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionComparisonResult.SecondNewer">
+            <summary>
+            Second version is newer
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionComparisonResult.Incomparable">
+            <summary>
+            Versions are incomparable
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Interfaces.VersionStatus">
+            <summary>
+            Version agentStatus for document processing decisions
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionStatus.New">
+            <summary>
+            Document is new and should be processed
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionStatus.Update">
+            <summary>
+            Document has been updated and should be reprocessed
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionStatus.Skip">
+            <summary>
+            Document is unchanged and can be skipped
+            </summary>
+        </member>
+        <member name="F:ExxerAI.Application.Interfaces.VersionStatus.Uncertain">
+            <summary>
+            Version determination failed or is uncertain
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Patterns.LLMPattern">
+            <summary>
+            LLM-powered extraction pattern for complex or unstructured data
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Patterns.LLMPattern.Prompt">
+            <summary>
+            Gets or sets the LLM prompt for field extraction
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Patterns.LLMPattern.ExpectedFormat">
+            <summary>
+            Gets or sets the expected response format
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Patterns.LLMPattern.ExtractValue(System.String,ExxerAI.Domain.DocumentProcessing.ExtractionContext)">
+            <summary>
+            Extracts field value using LLM processing
+            This would integrate with the LLM service in a real implementation
+            </summary>
+            <param name="text">Text to extract from</param>
+            <param name="context">Processing context with LLM access</param>
+            <returns>Extracted value or null if not found</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Patterns.OCRRegionPattern">
+            <summary>
+            OCR region-specific extraction pattern
+            Based on KpiExxerpro region extraction with OpenCV contour detection
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Patterns.OCRRegionPattern.ReferenceText">
+            <summary>
+            Gets or sets the reference text to locate the region
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Patterns.OCRRegionPattern.SearchStrategy">
+            <summary>
+            Gets or sets the search strategy for finding the target text
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Patterns.OCRRegionPattern.RegionBounds">
+            <summary>
+            Gets or sets the region bounds relative to reference text
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Patterns.OCRRegionPattern.ExtractValue(System.String,ExxerAI.Domain.DocumentProcessing.ExtractionContext)">
+            <summary>
+            Extracts field value using OCR region-specific processing
+            This is a simplified implementation - full OCR integration would be in infrastructure layer
+            </summary>
+            <param name="text">Text to extract from (or OCR input)</param>
+            <param name="context">Processing context with OCR capabilities</param>
+            <returns>Extracted value or null if not found</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.AgentService">
+            <summary>
+            Service implementation for managing agents in the ExxerAI system
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.#ctor(ExxerAI.Application.Interfaces.IAgentRepository,ExxerAI.Application.Interfaces.ITaskRepository)">
+            <summary>
+            Initializes a new instance of the AgentService class
+            </summary>
+            <param name="agentRepository">The agent repository</param>
+            <param name="taskRepository">The task repository</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.CreateAgentAsync(System.String,System.String,ExxerAI.Domain.ValueObjects.AgentCapabilities,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new agent
+            </summary>
+            <param name="name">The agent name</param>
+            <param name="description">The agent description</param>
+            <param name="capabilities">The agent capabilities</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the created agent</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.GetAgentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets an agent by its identifier
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the agent if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.GetAllAgentsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all agents
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing all agents</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.GetActiveAgentsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all active agents
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of active agents</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.UpdateAgentConfigurationAsync(System.Guid,ExxerAI.Domain.Configurations.AgentConfiguration,System.Threading.CancellationToken)">
+            <summary>
+            Updates an agent's configuration
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="configuration">The new configuration</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.UpdateAgentStatusAsync(System.Guid,ExxerAI.Domain.ValueObjects.AgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Updates an agent's agentStatus
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">The new agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.AssignTaskAsync(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.AssignTaskToAgentAsync(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent (alias for AssignTaskAsync)
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.FindBestAgentForTaskAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Finds the best available agent for a specific task type
+            </summary>
+            <param name="taskType">The task type</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the best agent if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.AgentService.DeleteAgentAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes an agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.DocumentIngestionService">
+            <summary>
+            Service for intelligent document ingestion from Google Drive with version management and deduplication.
+            Orchestrates the complete document processing pipeline from source to primary source of truth.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.#ctor(ExxerAI.Application.Interfaces.IPolymorphicDocumentProcessor,ExxerAI.Application.Interfaces.IDocumentHashGenerator,Microsoft.Extensions.Logging.ILogger{ExxerAI.Application.Services.DocumentIngestionService})">
+            <summary>
+            Initializes a new instance of the DocumentIngestionService class.
+            </summary>
+            <param name="documentProcessor">The polymorphic document processor.</param>
+            <param name="hashGenerator">The document hash generator.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.StartWatchingFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Starts watching a Google Drive folder for document changes.
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The watch session ID for tracking changes.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.StopWatchingFolderAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Stops watching a Google Drive folder.
+            </summary>
+            <param name="watchId">The watch session ID to stop.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The result of the stop operation.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.DetectDocumentChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Detects and processes document changes from watched folders.
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The list of detected document changes.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.ProcessDocumentChangeAsync(ExxerAI.Application.Interfaces.DocumentChangeEvent,System.Threading.CancellationToken)">
+            <summary>
+            Processes a document change event through the complete pipeline.
+            </summary>
+            <param name="changeEvent">The document change event to process.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document processing result.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.IngestDocumentAsync(System.String,System.Boolean,System.Threading.CancellationToken)">
+            <summary>
+            Ingests a document directly by ID through the complete processing pipeline.
+            </summary>
+            <param name="documentId">The Google Drive document ID.</param>
+            <param name="forceReprocess">Whether to force reprocessing even if document exists.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The document processing result.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.IsDocumentModifiedAsync(System.String,System.DateTime,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a document has been modified since last processing.
+            </summary>
+            <param name="documentId">The document ID to check.</param>
+            <param name="lastProcessed">When the document was last processed.</param>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>True if the document has been modified.</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentIngestionService.GetIngestionStatusAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets the ingestion agentStatus and statistics.
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control.</param>
+            <returns>The ingestion agentStatus information.</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.DocumentProcessingEngine">
+            <summary>
+            Engine responsible for coordinating document processing operations and managing processing state
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentProcessingEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Application.Services.DocumentProcessingEngine})">
+            <summary>
+            Initializes a new instance of the DocumentProcessingEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentProcessingEngine.HandleDocumentDeletionAsync(ExxerAI.Application.Interfaces.DocumentChangeEvent,System.Threading.CancellationToken)">
+            <summary>
+            Handles the deletion of a document by updating related systems and preserving audit information
+            </summary>
+            <param name="changeEvent">The document deletion change event</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The document processing result for the deletion</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.DocumentProcessingEngine.CheckExistingDocumentAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Checks if a document already exists in the system and returns cached processing results
+            </summary>
+            <param name="documentId">The document ID to check for existing processing results</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The existing document processing result if found, null otherwise</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.GoogleDriveEngine">
+            <summary>
+            Engine responsible for handling Google Drive API interactions and document operations
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.GoogleDriveEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Application.Services.GoogleDriveEngine})">
+            <summary>
+            Initializes a new instance of the GoogleDriveEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.GoogleDriveEngine.SimulateGoogleDriveWatchSetupAsync(System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Simulates setting up Google Drive API watch for a folder
+            </summary>
+            <param name="folderId">The Google Drive folder ID to watch</param>
+            <param name="sessionId">The watch session identifier</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>Async task representing the setup operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.GoogleDriveEngine.SimulateGoogleDriveWatchCleanupAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Simulates cleaning up Google Drive API watch for a session
+            </summary>
+            <param name="sessionId">The watch session identifier to cleanup</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>Async task representing the cleanup operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.GoogleDriveEngine.DownloadDocumentAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Downloads document content from Google Drive
+            </summary>
+            <param name="documentId">The Google Drive document ID to download</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The downloaded document content as byte array</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.GoogleDriveEngine.GetDocumentMetadataAsync(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves document metadata from Google Drive
+            </summary>
+            <param name="documentId">The Google Drive document ID to get metadata for</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The document metadata</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.HealthMonitoringEngine">
+            <summary>
+            Engine responsible for monitoring system health and providing status information
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HealthMonitoringEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Application.Services.HealthMonitoringEngine})">
+            <summary>
+            Initializes a new instance of the HealthMonitoringEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HealthMonitoringEngine.DetermineSystemHealthAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Determines the overall system health status based on current system state
+            </summary>
+            <param name="activeSessionCount">Number of currently active watch sessions</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The current system health status</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HealthMonitoringEngine.GetSystemMessagesAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Generates system status messages based on current operational state
+            </summary>
+            <param name="activeSessionCount">Number of currently active watch sessions</param>
+            <param name="pendingChangesCount">Number of pending document changes</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>List of system status messages</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.HybridDocumentProcessor">
+            <summary>
+            Advanced document processor based on proven KpiExxerpro OCRV5 and FromXcel_V3 algorithms
+            Implements sophisticated multi-stage extraction with confidence scoring and fallback mechanisms
+            Processes 15+ field types with 95%+ accuracy based on production validation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.#ctor(ExxerAI.Application.Interfaces.IDirectTextExtractor,ExxerAI.Application.Interfaces.IOCRProcessor,ExxerAI.Application.Interfaces.IRegionSpecificOCR,ExxerAI.Application.Interfaces.IPersistentPatternDictionary,ExxerAI.Application.Interfaces.IDocumentSchemaLearningEngine,Microsoft.Extensions.Logging.ILogger{ExxerAI.Application.Services.HybridDocumentProcessor})">
+            <summary>
+            Initializes a new instance of the HybridDocumentProcessor
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.ProcessDocumentAsync(System.Byte[],ExxerAI.Domain.DocumentProcessing.DocumentMetadata,System.Threading.CancellationToken)">
+            <summary>
+            Multi-stage processing pipeline based on KpiExxerpro proven methodology
+            Stage 1: Direct text extraction from digital documents
+            Stage 2: OCR processing with Tesseract for scanned documents
+            Stage 3: Region-specific OCR using OpenCV contour detection
+            Stage 4: Pattern matching using persistent dictionary database
+            Stage 5: Confidence scoring and validation
+            Stage 6: Schema learning and pattern evolution
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.ProcessDocumentBatchAsync(System.Collections.Generic.IEnumerable{ExxerAI.Application.Interfaces.DocumentBatchItem},ExxerAI.Application.Interfaces.BatchProcessingOptions,System.IProgress{ExxerAI.Application.Interfaces.BatchProgressReport},System.Threading.CancellationToken)">
+            <summary>
+            Processes multiple documents in an optimized batch operation
+            Implements parallel processing with resource management and progress reporting
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.UpdatePatternsFromSuccessfulProcessingAsync(ExxerAI.Domain.DocumentProcessing.DocumentProcessingResult,System.Threading.CancellationToken)">
+            <summary>
+            Updates pattern dictionary based on successful extraction results
+            Implements continuous learning to improve future processing accuracy
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.ValidateExtractedFieldsAsync(System.Collections.Generic.Dictionary{System.String,System.Object},ExxerAI.Application.Interfaces.DocumentValidationRules,System.Threading.CancellationToken)">
+            <summary>
+            Validates extracted document fields against business rules and confidence thresholds
+            Provides detailed validation results for quality assurance
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.ApplyPatternDictionaryAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{ExxerAI.Domain.DocumentProcessing.ExtractionPattern}},System.Threading.CancellationToken)">
+            <summary>
+            Applies pattern dictionary to extract fields from text
+            Implements the core pattern matching logic from KpiExxerpro algorithms
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.CalculateOverallConfidence(System.Collections.Generic.List{ExxerAI.Application.Interfaces.ProcessingStage},System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Calculates overall confidence score based on processing stages and extracted fields
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.CreateLearningFeedback(ExxerAI.Domain.DocumentProcessing.DocumentProcessingResult,ExxerAI.Domain.DocumentProcessing.DocumentMetadata)">
+            <summary>
+            Creates learning feedback from processing results
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.UpdatePatternStatisticsAsync(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{ExxerAI.Domain.DocumentProcessing.ExtractionPattern}},System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Updates pattern statistics based on successful extractions
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.ValidateFieldWithRule(System.String,ExxerAI.Application.Interfaces.DocumentValidationRule)">
+            <summary>
+            Validates a field value against a specific validation rule
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.HybridDocumentProcessor.CalculateETA(System.Int32,System.Int32,System.DateTime)">
+            <summary>
+            Calculates estimated time of arrival for batch processing
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Services.LLMService">
+            <summary>
+            Service for managing language model operations and conversations
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.#ctor(ExxerAI.Application.Interfaces.ILanguageModelRepository,ExxerAI.Application.Interfaces.IConversationRepository)">
+            <summary>
+            Initializes a new instance of the LLMService
+            </summary>
+            <param name="modelRepository">Repository for language model operations</param>
+            <param name="conversationRepository">Repository for conversation operations</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when any parameter is null</exception>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.GenerateTextAsync(System.Guid,System.String,ExxerAI.Application.Interfaces.LLMParameters,System.Threading.CancellationToken)">
+            <summary>
+            Generates text using the specified language model
+            </summary>
+            <param name="modelId">The unique identifier of the language model</param>
+            <param name="prompt">The input prompt for text generation</param>
+            <param name="parameters">Optional parameters for generation</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>A result containing the generated LLM response</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.ContinueConversationAsync(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Continues an existing conversation with a new message
+            </summary>
+            <param name="conversationId">The unique identifier of the conversation</param>
+            <param name="message">The message to add to the conversation</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>A result containing the assistant's response message</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.CreateConversationAsync(System.Guid,System.Guid,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Creates a new conversation with the specified agent and model
+            </summary>
+            <param name="agentId">The unique identifier of the agent</param>
+            <param name="modelId">The unique identifier of the language model</param>
+            <param name="title">Optional title for the conversation</param>
+            <param name="systemPrompt">Optional system prompt for the conversation</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>A result containing the newly created conversation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.EstimateCostAsync(System.Guid,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Estimates the cost for generating text with the specified token counts
+            </summary>
+            <param name="modelId">The unique identifier of the language model</param>
+            <param name="inputTokens">The number of input tokens</param>
+            <param name="outputTokens">The number of output tokens</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>A result containing the estimated cost in decimal format</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.CountTokensAsync(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Counts the number of tokens in the provided text using the specified model's tokenizer
+            </summary>
+            <param name="modelId">The unique identifier of the language model</param>
+            <param name="text">The text to tokenize and count</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>A result containing the token count</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.StreamTextAsync(System.Guid,System.String,ExxerAI.Application.Interfaces.LLMParameters,System.Threading.CancellationToken)">
+            <summary>
+            Streams text generation in real-time using the specified language model
+            </summary>
+            <param name="modelId">The unique identifier of the language model</param>
+            <param name="prompt">The input prompt for text generation</param>
+            <param name="parameters">Optional parameters for generation</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>An async enumerable of response chunks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.LLMService.ValidateModelAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Validates whether the specified language model is available and functional
+            </summary>
+            <param name="modelId">The unique identifier of the language model to validate</param>
+            <param name="cancellationToken">Cancellation token for async operations</param>
+            <returns>A result containing true if the model is valid, false otherwise</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.MetricsEngine">
+            <summary>
+            Engine responsible for calculating and providing system metrics and statistics
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.MetricsEngine.#ctor(Microsoft.Extensions.Logging.ILogger{ExxerAI.Application.Services.MetricsEngine})">
+            <summary>
+            Initializes a new instance of the MetricsEngine class
+            </summary>
+            <param name="logger">Logger instance for structured logging</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.MetricsEngine.GetDocumentsProcessedTodayAsync(System.Threading.CancellationToken)">
+            <summary>
+            Calculates the number of documents processed today
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The count of documents processed today</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.MetricsEngine.GetDocumentsProcessedThisWeekAsync(System.Threading.CancellationToken)">
+            <summary>
+            Calculates the number of documents processed this week
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The count of documents processed this week</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.MetricsEngine.GetAverageProcessingTimeAsync(System.Threading.CancellationToken)">
+            <summary>
+            Calculates the average document processing time in milliseconds
+            </summary>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>The average processing time in milliseconds</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.MetricsEngine.GetDetailedMetricsAsync(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Retrieves detailed system metrics and performance indicators
+            </summary>
+            <param name="activeSessions">The current active watch sessions</param>
+            <param name="pendingChangesCount">The number of pending document changes</param>
+            <param name="cancellationToken">Cancellation token for operation control</param>
+            <returns>Dictionary containing detailed system metrics</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.TaskService">
+            <summary>
+            Service implementation for managing tasks in the ExxerAI system
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.#ctor(ExxerAI.Application.Interfaces.ITaskRepository,ExxerAI.Application.Interfaces.IAgentRepository)">
+            <summary>
+            Initializes a new instance of the TaskService class
+            </summary>
+            <param name="taskRepository">The task repository</param>
+            <param name="agentRepository">The agent repository</param>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.CreateTaskAsync(System.String,System.String,System.String,ExxerAI.Domain.ValueObjects.TaskPriority,System.Nullable{System.DateTime},System.Threading.CancellationToken)">
+            <summary>
+            Creates a new task
+            </summary>
+            <param name="title">The task title</param>
+            <param name="description">The task description</param>
+            <param name="taskType">The task type</param>
+            <param name="priority">The task priority</param>
+            <param name="deadline">Optional deadline for the task</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the created task</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.GetTaskAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a task by its identifier
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the task if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.GetPendingTasksAsync(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets all pending tasks
+            </summary>
+            <param name="maxCount">Maximum number of tasks to return</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of pending tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.GetAgentTasksAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.TaskAgentStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets tasks assigned to a specific agent
+            </summary>
+            <param name="agentId">The agent identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of agent tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.UpdateTaskStatusAsync(System.Guid,ExxerAI.Domain.ValueObjects.TaskAgentStatus,System.Threading.CancellationToken)">
+            <summary>
+            Updates a task's agentStatus
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="agentStatus">The new agentStatus</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.AssignTaskToAgentAsync(System.Guid,System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Assigns a task to an agent
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="agentId">The agent identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.CompleteTaskAsync(System.Guid,ExxerAI.Domain.ValueObjects.TaskData,System.Threading.CancellationToken)">
+            <summary>
+            Completes a task with optional output data
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="outputData">Optional output data</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.FailTaskAsync(System.Guid,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Fails a task with an error message
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="errorMessage">The error message</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.CancelTaskAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a task
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.GetOverdueTasksAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets overdue tasks
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of overdue tasks</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.TaskService.DeleteTaskAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a task
+            </summary>
+            <param name="taskId">The task identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="T:ExxerAI.Application.Services.WatchSession">
+            <summary>
+            Represents an active watch session for a Google Drive folder.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.SessionId">
+            <summary>
+            Gets or sets the unique session identifier.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.FolderId">
+            <summary>
+            Gets or sets the Google Drive folder ID being watched.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.StartedAt">
+            <summary>
+            Gets or sets when the watch session was started.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.StoppedAt">
+            <summary>
+            Gets or sets when the watch session was stopped.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.IsActive">
+            <summary>
+            Gets or sets whether the session is currently active.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.DocumentsWatched">
+            <summary>
+            Gets or sets the number of documents being watched in this session.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.DocumentsProcessed">
+            <summary>
+            Gets or sets the number of documents processed through this session.
+            </summary>
+        </member>
+        <member name="P:ExxerAI.Application.Services.WatchSession.LastProcessedAt">
+            <summary>
+            Gets or sets when a document was last processed in this session.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Services.WorkflowService">
+            <summary>
+            Service for managing workflow operations including creation, execution, and lifecycle management
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.#ctor(ExxerAI.Application.Interfaces.IWorkflowRepository)">
+            <summary>
+            Initializes a new instance of the WorkflowService
+            </summary>
+            <param name="workflowRepository">Repository for workflow operations</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when workflowRepository is null</exception>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.CreateWorkflowAsync(System.String,System.String,System.Collections.Generic.IEnumerable{ExxerAI.Domain.Entities.WorkflowStep},System.Threading.CancellationToken)">
+            <summary>
+            Creates a new workflow
+            </summary>
+            <param name="name">The workflow name</param>
+            <param name="description">The workflow description</param>
+            <param name="steps">The workflow steps</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the created workflow</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.GetWorkflowAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a workflow by its identifier
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the workflow if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.GetActiveWorkflowsAsync(System.Threading.CancellationToken)">
+            <summary>
+            Gets all active workflows
+            </summary>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of active workflows</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.UpdateWorkflowConfigurationAsync(System.Guid,ExxerAI.Domain.Configurations.WorkflowConfiguration,System.Threading.CancellationToken)">
+            <summary>
+            Updates a workflow's configuration
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="configuration">The new configuration</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.ExecuteWorkflowAsync(System.Guid,System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Starts execution of a workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="input">The input data for the workflow</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the workflow execution</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.GetWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Gets a workflow execution by its identifier
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the execution if found</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.GetWorkflowExecutionsAsync(System.Guid,System.Nullable{ExxerAI.Domain.ValueObjects.WorkflowExecutionStatus},System.Threading.CancellationToken)">
+            <summary>
+            Gets all executions for a specific workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="status">Optional agentStatus filter</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation containing the list of executions</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.PauseWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Pauses a running workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.ResumeWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Resumes a paused workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.CancelWorkflowExecutionAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Cancels a workflow execution
+            </summary>
+            <param name="executionId">The execution identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+        <member name="M:ExxerAI.Application.Services.WorkflowService.DeleteWorkflowAsync(System.Guid,System.Threading.CancellationToken)">
+            <summary>
+            Deletes a workflow
+            </summary>
+            <param name="workflowId">The workflow identifier</param>
+            <param name="cancellationToken">Cancellation token</param>
+            <returns>The result of the operation</returns>
+        </member>
+    </members>
+</doc>
