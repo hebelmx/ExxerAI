@@ -9,7 +9,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.DocumentProcessing;
 
 /// <summary>
 /// Advanced document processor based on proven KpiExxerpro OCRV5 and FromXcel_V3 algorithms

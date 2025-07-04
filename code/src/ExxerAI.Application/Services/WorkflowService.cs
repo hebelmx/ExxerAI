@@ -4,7 +4,7 @@ using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.Workflow;
 
 /// <summary>
 /// Service for managing workflow operations including creation, execution, and lifecycle management

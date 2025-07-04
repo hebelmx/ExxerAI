@@ -366,6 +366,4 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
 
         return Task.FromResult(Result<float>.WithSuccess(confidence));
     }
-
-
 }

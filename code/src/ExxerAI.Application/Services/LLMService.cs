@@ -5,7 +5,7 @@ using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 using System.Runtime.CompilerServices;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.LLM;
 
 /// <summary>
 /// Service for managing language model operations and conversations

@@ -3,7 +3,7 @@ using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.CLI.Commands;
+namespace ExxerAI.CLI.Commands.Task;
 
 /// <summary>
 /// Handles task-related CLI commands

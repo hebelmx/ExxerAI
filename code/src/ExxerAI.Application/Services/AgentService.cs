@@ -4,7 +4,7 @@ using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.Agent;
 
 /// <summary>
 /// Service implementation for managing agents in the ExxerAI system

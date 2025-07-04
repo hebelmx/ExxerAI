@@ -7,7 +7,7 @@ using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.Health;
 
 /// <summary>
 /// Engine responsible for monitoring system health and providing status information

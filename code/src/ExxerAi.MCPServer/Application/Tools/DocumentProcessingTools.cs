@@ -4,7 +4,7 @@ using ExxerAI.Domain;
 using ExxerAi.MCPServer.Application.Interfaces;
 using ModelContextProtocol.Server;
 
-namespace ExxerAi.MCPServer.Application.Tools;
+namespace ExxerAi.MCPServer.Application.Tools.DocumentProcessing;
 
 /// <summary>
 /// MCP tools for advanced document processing with polymorphic intelligence

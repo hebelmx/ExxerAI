@@ -6,7 +6,7 @@ using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.DocumentProcessing;
 
 /// <summary>
 /// Service for intelligent document ingestion from Google Drive with version management and deduplication.

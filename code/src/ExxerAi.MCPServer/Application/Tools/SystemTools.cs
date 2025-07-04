@@ -7,7 +7,7 @@ using ExxerAI.Domain;
 using ExxerAi.MCPServer.Application.Interfaces;
 using ModelContextProtocol.Server;
 
-namespace ExxerAi.MCPServer.Application.Tools;
+namespace ExxerAi.MCPServer.Application.Tools.System;
 
 /// <summary>
 /// MCP tools for system utilities and health monitoring

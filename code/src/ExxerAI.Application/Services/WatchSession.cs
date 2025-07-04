@@ -1,4 +1,4 @@
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.Watch;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;

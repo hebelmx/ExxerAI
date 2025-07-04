@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers;
+namespace ExxerAI.Domain.Helpers.Result;
 
 public static class ResultErrors
 {

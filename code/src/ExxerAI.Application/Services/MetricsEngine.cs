@@ -5,7 +5,7 @@ using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Helpers;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.Metrics;
 
 /// <summary>
 /// Engine responsible for calculating and providing system metrics and statistics

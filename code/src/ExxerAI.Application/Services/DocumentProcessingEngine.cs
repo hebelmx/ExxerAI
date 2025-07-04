@@ -7,7 +7,7 @@ using ExxerAI.Application.DTOs;
 using ExxerAI.Application.Interfaces;
 using Microsoft.Extensions.Logging;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.DocumentProcessing;
 
 /// <summary>
 /// Engine responsible for coordinating document processing operations and managing processing state

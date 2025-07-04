@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers;
+namespace ExxerAI.Domain.Helpers.Result;
 
 /// <summary>
 /// Static factory for creating null argument validation results

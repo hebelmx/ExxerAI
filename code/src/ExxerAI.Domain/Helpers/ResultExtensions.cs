@@ -1,7 +1,7 @@
 // --- Patch: ResultExtensions.cs ---
 // Place this in your Result namespace (e.g., MyProject.Common.Results)
 
-namespace ExxerAI.Domain.Helpers
+namespace ExxerAI.Domain.Helpers.Result
 {
     /// <summary>
     /// Extension methods for Result<T> following Open/Closed Principle

@@ -5,7 +5,7 @@ using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
 
-namespace ExxerAI.Application.Services;
+namespace ExxerAI.Application.Services.GoogleDrive;
 
 /// <summary>
 /// Engine responsible for handling Google Drive API interactions and document operations
