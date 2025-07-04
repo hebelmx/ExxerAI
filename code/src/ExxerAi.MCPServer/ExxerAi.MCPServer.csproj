@@ -16,12 +16,7 @@
 	  <!-- Security & Configuration -->
 	<UserSecretsId>aspnet-ExxerAi.MCPServer-cd7dce24-2a4d-4281-a3a4-809456944085</UserSecretsId>
 
-	<!-- Application Information -->
-	<AssemblyTitle>ExxerAI MCP Server</AssemblyTitle>
-	<Description>ExxerAI Model Context Protocol Server</Description>
-	<Company>Exxerpro Solutions</Company>
-	<Product>ExxerAI Intelligence System</Product>
-	<Title>ExxerAi.MCPServer</Title>
+
   </PropertyGroup>
 
   <!-- ============================================================================ -->

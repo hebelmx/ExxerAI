@@ -1,0 +1,318 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.CLI</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.CLI.Commands.AgentCommands">
+            <summary>
+            Handles agent-related CLI commands
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.#ctor(ExxerAI.Application.Interfaces.IAgentService,ExxerAI.Application.Interfaces.IRepository{ExxerAI.Domain.Entities.Agent})">
+            <summary>
+            Initializes a new instance of the AgentCommands class
+            </summary>
+            <param name="agentService">Agent service for operations</param>
+            <param name="agentRepository">Agent repository for direct access</param>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ValidateConstructorParameters(ExxerAI.Application.Interfaces.IAgentService,ExxerAI.Application.Interfaces.IRepository{ExxerAI.Domain.Entities.Agent})">
+            <summary>
+            Validates constructor parameters and returns validation result
+            </summary>
+            <param name="agentService">Agent service for operations</param>
+            <param name="agentRepository">Agent repository for direct access</param>
+            <returns>Validation result indicating success or failure with parameter names</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ExecuteAsync(System.String[])">
+            <summary>
+            Executes agent commands based on provided arguments
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ListAgents(System.String[])">
+            <summary>
+            Lists all agents with optional filtering
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.CreateAgent(System.String[])">
+            <summary>
+            Creates a new agent
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.DeleteAgent(System.String[])">
+            <summary>
+            Deletes an agent
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ShowAgentStatus(System.String[])">
+            <summary>
+            Shows detailed agent agentStatus information
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.UpdateAgent(System.String[])">
+            <summary>
+            Updates agent properties
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ActivateAgent(System.String[])">
+            <summary>
+            Activates an agent
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.DeactivateAgent(System.String[])">
+            <summary>
+            Deactivates an agent
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ChangeAgentStatus(System.String[],ExxerAI.Domain.ValueObjects.AgentStatus,System.String)">
+            <summary>
+            Changes agent agentStatus
+            </summary>
+            <param name="args">Command arguments</param>
+            <param name="newStatus">New agentStatus</param>
+            <param name="action">Action description</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ShowAgentHelp">
+            <summary>
+            Shows agent command help
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.AgentCommands.ShowUnknownAgentCommand(System.String)">
+            <summary>
+            Shows unknown agent command error
+            </summary>
+            <param name="command">Unknown command</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="T:ExxerAI.CLI.Commands.CommandRouter">
+            <summary>
+            Routes CLI commands to appropriate handlers
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.CommandRouter.#ctor(ExxerAI.CLI.Commands.AgentCommands,ExxerAI.CLI.Commands.TaskCommands,ExxerAI.CLI.Commands.WorkflowCommands)">
+            <summary>
+            Initializes a new instance of the CommandRouter class
+            </summary>
+            <param name="agentCommands">Agent commands handler</param>
+            <param name="taskCommands">Task commands handler</param>
+            <param name="workflowCommands">Workflow commands handler</param>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.CommandRouter.ValidateConstructorParameters(ExxerAI.CLI.Commands.AgentCommands,ExxerAI.CLI.Commands.TaskCommands,ExxerAI.CLI.Commands.WorkflowCommands)">
+            <summary>
+            Validates constructor parameters and returns validation result
+            </summary>
+            <param name="agentCommands">Agent commands handler</param>
+            <param name="taskCommands">Task commands handler</param>
+            <param name="workflowCommands">Workflow commands handler</param>
+            <returns>Validation result indicating success or failure with parameter names</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.CommandRouter.ExecuteAsync(System.String[])">
+            <summary>
+            Executes the appropriate command based on command line arguments
+            </summary>
+            <param name="args">Command line arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.CommandRouter.ShowHelp">
+            <summary>
+            Shows help information
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.CommandRouter.ShowVersion">
+            <summary>
+            Shows version information
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.CommandRouter.ShowUnknownCommand(System.String)">
+            <summary>
+            Shows unknown command error
+            </summary>
+            <param name="command">Unknown command</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="T:ExxerAI.CLI.Commands.TaskCommands">
+            <summary>
+            Handles task-related CLI commands
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.#ctor(ExxerAI.Application.Interfaces.ITaskRepository,ExxerAI.Application.Interfaces.IRepository{ExxerAI.Domain.Entities.Agent})">
+            <summary>
+            Initializes a new instance of the TaskCommands class
+            </summary>
+            <param name="taskRepository">Task repository for operations</param>
+            <param name="agentRepository">Agent repository for lookups</param>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ValidateConstructorParameters(ExxerAI.Application.Interfaces.ITaskRepository,ExxerAI.Application.Interfaces.IRepository{ExxerAI.Domain.Entities.Agent})">
+            <summary>
+            Validates constructor parameters and returns validation result
+            </summary>
+            <param name="taskRepository">Task repository for operations</param>
+            <param name="agentRepository">Agent repository for lookups</param>
+            <returns>Validation result indicating success or failure with parameter names</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ExecuteAsync(System.String[])">
+            <summary>
+            Executes task commands based on provided arguments
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ListTasks(System.String[])">
+            <summary>
+            Lists tasks with optional filtering
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.CreateTask(System.String[])">
+            <summary>
+            Creates a new task
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.AssignTask(System.String[])">
+            <summary>
+            Assigns a task to an agent
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.UpdateTaskStatus(System.String[])">
+            <summary>
+            Updates task agentStatus
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.DeleteTask(System.String[])">
+            <summary>
+            Deletes a task
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ShowTaskStatus(System.String[])">
+            <summary>
+            Shows detailed task agentStatus information
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ListOverdueTasks">
+            <summary>
+            Lists overdue tasks
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ShowTaskHelp">
+            <summary>
+            Shows task command help
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.TaskCommands.ShowUnknownTaskCommand(System.String)">
+            <summary>
+            Shows unknown task command error
+            </summary>
+            <param name="command">Unknown command</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="T:ExxerAI.CLI.Commands.WorkflowCommands">
+            <summary>
+            Handles workflow-related CLI commands
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.#ctor">
+            <summary>
+            Initializes a new instance of the WorkflowCommands class
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.ExecuteAsync(System.String[])">
+            <summary>
+            Executes workflow commands based on provided arguments
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.ListWorkflows">
+            <summary>
+            Lists available workflows
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.CreateWorkflow(System.String[])">
+            <summary>
+            Creates a new workflow
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.ExecuteWorkflow(System.String[])">
+            <summary>
+            Executes a workflow
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.ShowWorkflowStatus(System.String[])">
+            <summary>
+            Shows workflow agentStatus information
+            </summary>
+            <param name="args">Command arguments</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.ShowWorkflowHelp">
+            <summary>
+            Shows workflow command help
+            </summary>
+            <returns>Exit code</returns>
+        </member>
+        <member name="M:ExxerAI.CLI.Commands.WorkflowCommands.ShowUnknownWorkflowCommand(System.String)">
+            <summary>
+            Shows unknown workflow command error
+            </summary>
+            <param name="command">Unknown command</param>
+            <returns>Exit code</returns>
+        </member>
+        <member name="T:ExxerAI.CLI.Program">
+            <summary>
+            Main entry point for the ExxerAI Command Line Interface application
+            </summary>
+            <remarks>
+            This is the primary entry point for the CLI application. Currently displays a simple greeting.
+            Future implementations will include command-line argument parsing and agent interaction capabilities.
+            </remarks>
+            <summary>
+            Entry point for the ExxerAI CLI application
+            </summary>
+        </member>
+        <member name="M:ExxerAI.CLI.Program.Main(System.String[])">
+            <summary>
+            Main entry point for the CLI application
+            </summary>
+            <param name="args">Command line arguments</param>
+            <returns>Exit code</returns>
+        </member>
+    </members>
+</doc>

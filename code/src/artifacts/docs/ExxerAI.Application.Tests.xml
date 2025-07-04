@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Application.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Application.Tests.Data.KpiExxerproPatternSeedTests">
+            <summary>
+            Comprehensive unit tests for KpiExxerproPatternSeed static data class
+            Tests pattern data integrity, filtering methods, and statistical operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.AgentServiceImplementationTests">
+            <summary>
+            Implementation tests for AgentService - tests the real service implementation with mocked dependencies
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.AgentServiceTests">
+            <summary>
+            Interface-Test-Driven Development (I-TDD) tests for IAgentService.
+            Tests focus on the interface contract and behavior, not implementation details.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.DocumentIngestionServiceBehavioralTests">
+            <summary>
+            Behavioral tests for the document ingestion pipeline via IDocumentIngestionService.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.DocumentIngestionServiceImplementationTests">
+            <summary>
+            Implementation tests for DocumentIngestionService - tests the real service implementation with mocked dependencies
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests">
+            <summary>
+            Comprehensive tests for IDocumentIngestionService interface and DocumentIngestionService implementation.
+            Tests the complete document processing pipeline with I-TDD principles.
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.StartWatchingFolderAsync_ShouldReturnResultWithWatchId_When_ValidFolderProvided">
+            <summary>
+            Contract Test: StartWatchingFolderAsync should return Result with watch ID
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.StartWatchingFolderAsync_ShouldReturnFailure_When_FolderIdIsNull">
+            <summary>
+            Contract Test: StartWatchingFolderAsync should return failure for null folder ID
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.StopWatchingFolderAsync_ShouldReturnSuccess_When_ValidWatchId">
+            <summary>
+            Contract Test: StopWatchingFolderAsync should return success when watch exists
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.DetectDocumentChangesAsync_ShouldReturnChanges_When_ChangesExist">
+            <summary>
+            Contract Test: DetectDocumentChangesAsync should return changes collection
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.ProcessDocumentChangeAsync_ShouldProcessDocument_When_DocumentCreated">
+            <summary>
+            Contract Test: ProcessDocumentChangeAsync should handle document creation
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.ProcessDocumentChangeAsync_ShouldDetectVersion_When_DocumentModified">
+            <summary>
+            Contract Test: ProcessDocumentChangeAsync should handle document modification with Result pattern
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.IngestDocumentAsync_ShouldProcessDocument_When_ValidDocumentId">
+            <summary>
+            Contract Test: IngestDocumentAsync should process document by ID
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.IngestDocumentAsync_ShouldReturnFailure_When_DocumentIdIsNull">
+            <summary>
+            Contract Test: IngestDocumentAsync should return failure for invalid document ID
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.IsDocumentModifiedAsync_ShouldReturnTrue_When_DocumentWasModified">
+            <summary>
+            Contract Test: IsDocumentModifiedAsync should detect document changes
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.GetIngestionStatusAsync_ShouldReturnStatus_When_Requested">
+            <summary>
+            Contract Test: GetIngestionStatusAsync should return agentStatus information
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.ProcessDocumentChangeAsync_ShouldHandleFailure_When_ProcessingFails">
+            <summary>
+            Edge Case: ProcessDocumentChangeAsync should handle processing failures gracefully
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.ProcessDocumentChangeAsync_ShouldHandleSkip_When_VersionDetectionSaysSkip">
+            <summary>
+            Edge Case: Should handle non-processing changes gracefully using Result pattern
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.CompleteWorkflow_ShouldProcessNewDocument_EndToEnd">
+            <summary>
+            Integration Test: Complete end-to-end document processing workflow
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.ProcessDocumentChanges_ShouldHandleHighVolume_Efficiently">
+            <summary>
+            Performance Test: Should handle high volume of document changes efficiently
+            </summary>
+        </member>
+        <member name="M:ExxerAI.Application.Tests.Services.DocumentIngestionServiceTests.ProcessDocumentChangeAsync_ShouldRespectCancellation_When_TokenCancelled">
+            <summary>
+            Cancellation Test: Should respect cancellation tokens with Result pattern
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.HybridDocumentProcessorTests">
+            <summary>
+            Comprehensive unit tests for HybridDocumentProcessor using xUnit v3, Shouldly, and NSubstitute
+            Tests all major functionality including multi-stage processing pipeline, batch operations, and learning
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.HybridDocumentProcessorTests.TestExtractionPattern">
+            <summary>
+            Test implementation of ExtractionPattern for unit testing
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.KpiExxerproPatternSeedImplementationTests">
+            <summary>
+            Implementation tests for KpiExxerproPatternSeed - targeting 524 lines of static pattern logic
+            Tests all static methods and LINQ operations to achieve maximum mutation coverage
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.LLMServiceImplementationTests">
+            <summary>
+            Implementation tests for LLMService - tests the real service implementation with mocked dependencies
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.LLMServiceTests">
+            <summary>
+            Interface-Test-Driven Development (I-TDD) tests for ILLMService.
+            Tests focus on the interface contract and behavior, not implementation details.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.TaskServiceTests">
+            <summary>
+            Interface-Test-Driven Development (I-TDD) tests for ITaskService.
+            Tests focus on the interface contract and behavior, not implementation details.
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.VersionDecision">
+            <summary>
+            Test data classes for version decision (local enum for testing purposes)
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.WorkflowServiceImplementationTests">
+            <summary>
+            Implementation tests for WorkflowService - targeting 286 lines of business logic
+            Tests real implementation with mocked dependencies to achieve mutation coverage
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Application.Tests.Services.WorkflowServiceTests">
+            <summary>
+            Interface-Test-Driven Development (I-TDD) tests for IWorkflowService.
+            Tests focus on the interface contract and behavior, not implementation details.
+            </summary>
+        </member>
+    </members>
+</doc>

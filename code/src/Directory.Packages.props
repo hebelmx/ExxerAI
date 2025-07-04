@@ -12,9 +12,9 @@
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
 		<!-- MCP Protocol -->
-		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.1" />
-		<PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.1" />
-		<PackageVersion Include="ModelContextProtocol.Core" Version="0.3.0-preview.1" />
+		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
+		<PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.2" />
+		<PackageVersion Include="ModelContextProtocol.Core" Version="0.3.0-preview.2" />
 		<!-- UI Framework -->
 		<PackageVersion Include="MudBlazor" Version="8.8.0" />
 		<PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="3.2.0" />

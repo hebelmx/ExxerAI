@@ -1,7 +1,6 @@
 using ExxerAI.Domain.Helpers;
-using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
 
 namespace ExxerAI.Application.Interfaces;
 
@@ -19,9 +18,9 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the created agent</returns>
     Task<Result<Agent>> CreateAgentAsync(
-        string name,
-        string description,
-        AgentCapabilities capabilities,
+        string name, 
+        string description, 
+        AgentCapabilities capabilities, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -54,8 +53,8 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<Result<bool>> UpdateAgentConfigurationAsync(
-        Guid agentId,
-        AgentConfiguration configuration,
+        Guid agentId, 
+        AgentConfiguration configuration, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -66,8 +65,8 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<Result<bool>> UpdateAgentStatusAsync(
-        Guid agentId,
-        AgentStatus status,
+        Guid agentId, 
+        AgentStatus status, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -78,8 +77,8 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<Result<bool>> AssignTaskAsync(
-        Guid agentId,
-        Guid taskId,
+        Guid agentId, 
+        Guid taskId, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -90,8 +89,8 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<Result<bool>> AssignTaskToAgentAsync(
-        Guid agentId,
-        Guid taskId,
+        Guid agentId, 
+        Guid taskId, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -101,7 +100,7 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the best agent if found</returns>
     Task<Result<Agent>> FindBestAgentForTaskAsync(
-        string taskType,
+        string taskType, 
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -111,4 +110,4 @@ public interface IAgentService
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation</returns>
     Task<Result<bool>> DeleteAgentAsync(Guid agentId, CancellationToken cancellationToken = default);
-}
+} 

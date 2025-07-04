@@ -12,12 +12,7 @@
 	<!-- Security & Configuration -->
     <UserSecretsId>aspnet-ExxerAI.UI-e4582094-adfb-4fe5-9865-8a956054f604</UserSecretsId>
 
-	<!-- Application Information -->
-	<AssemblyTitle>ExxerAI UI Server</AssemblyTitle>
-	<Description>ExxerAI UI Server</Description>
-	<Company>Exxerpro Solutions</Company>
-	<Product>ExxerAI Intelligence System</Product>
-	<Title>ExxerAI.UI</Title>
+
   </PropertyGroup>
 
 	<!-- ============================================================================ -->

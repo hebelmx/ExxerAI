@@ -15,12 +15,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     
-    <!-- Application Information -->
-    <AssemblyTitle>ExxerAI REST API</AssemblyTitle>
-    <Description>ExxerAI Intelligence System REST API</Description>
-    <Company>Exxerpro Solutions</Company>
-    <Product>ExxerAI Intelligence System</Product>
-    <Title>ExxerAI.Api</Title>
+
   </PropertyGroup>
 
   <!-- ============================================================================ -->

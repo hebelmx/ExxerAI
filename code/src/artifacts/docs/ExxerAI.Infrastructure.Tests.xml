@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ExxerAI.Infrastructure.Tests</name>
+    </assembly>
+    <members>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryAgentRepositoryTests">
+            <summary>
+            Unit tests for InMemoryAgentRepository
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryAgentRepositoryTests.CrudOperationsTests">
+            <summary>
+            Test class for basic CRUD operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryAgentRepositoryTests.QueryOperationsTests">
+            <summary>
+            Test class for specialized query operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryAgentRepositoryTests.ValidationTests">
+            <summary>
+            Test class for validation and error scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests">
+            <summary>
+            Comprehensive unit tests for InMemoryTaskRepository
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.CrudOperationsTests">
+            <summary>
+            Test class for basic CRUD operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.QueryOperationsTests">
+            <summary>
+            Test class for specialized query operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.ValidationTests">
+            <summary>
+            Test class for validation and error scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.ExistenceTests">
+            <summary>
+            Test class for existence checking operations
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.ConcurrencyTests">
+            <summary>
+            Test class for concurrent operations and thread safety
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.PerformanceTests">
+            <summary>
+            Test class for performance and scalability scenarios
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.InMemoryTaskRepositoryTests.EdgeCaseTests">
+            <summary>
+            Test class for edge cases and boundary conditions
+            </summary>
+        </member>
+        <member name="T:ExxerAI.Infrastructure.Tests.UnitTest1">
+            <summary>
+            Unit tests for the ExxerAI Infrastructure project
+            </summary>
+            <remarks>
+            Contains tests for repository implementations, data access, and infrastructure services.
+            This is a placeholder test class that will be expanded with comprehensive infrastructure tests.
+            </remarks>
+        </member>
+        <member name="M:ExxerAI.Infrastructure.Tests.UnitTest1.Test1">
+            <summary>
+            Placeholder test method for infrastructure functionality
+            </summary>
+            <remarks>
+            This test method is a placeholder that will be replaced with actual infrastructure tests
+            covering repository operations, data persistence, and service implementations.
+            </remarks>
+        </member>
+    </members>
+</doc>

@@ -104,27 +104,27 @@
       },
       "ModelContextProtocol": {
         "type": "Direct",
-        "requested": "[0.3.0-preview.1, )",
-        "resolved": "0.3.0-preview.1",
-        "contentHash": "il9gKINohZ4V4zpsNELg7fNch89D1GcmsnyMDWMnaH5TURDGPwXdw1gfUAc1D/K2jLGHDWNeIkPyuak+uzZSWA==",
+        "requested": "[0.3.0-preview.2, )",
+        "resolved": "0.3.0-preview.2",
+        "contentHash": "tC4pwKzNPFXFqyqhAcq40QnkSF+md29UKGsaDkF9Pw8oinWqFoC3Nr9AF+YbpIWo8Jc6Nz9S7+LuJwqpZWfLOw==",
         "dependencies": {
-          "ModelContextProtocol.Core": "0.3.0-preview.1"
+          "ModelContextProtocol.Core": "0.3.0-preview.2"
         }
       },
       "ModelContextProtocol.AspNetCore": {
         "type": "Direct",
-        "requested": "[0.3.0-preview.1, )",
-        "resolved": "0.3.0-preview.1",
-        "contentHash": "5N+x6auqcU1EVTcopUO0HOkcnzGJ8lyYqcPBGmErNXUJVxT2oecZb/pjCayCHrjkyilqcm1KfdQV43Qp7auSyw==",
+        "requested": "[0.3.0-preview.2, )",
+        "resolved": "0.3.0-preview.2",
+        "contentHash": "YJPTc8UbPOfscs+2xyhwKgw80It17ymxNzupjv4FvM4fPTGQtaKszbgNdzyt3LMUrwX3MUhxWTJtoSHnqji3zA==",
         "dependencies": {
-          "ModelContextProtocol": "0.3.0-preview.1"
+          "ModelContextProtocol": "0.3.0-preview.2"
         }
       },
       "ModelContextProtocol.Core": {
         "type": "Direct",
-        "requested": "[0.3.0-preview.1, )",
-        "resolved": "0.3.0-preview.1",
-        "contentHash": "KAMAog1SioXF2x22yfS6RltIykAs7J95qqidM8oW3cD8cSeYDdOVK1MbbWaTPsvMMcCi5uV4givwGyveubDErw==",
+        "requested": "[0.3.0-preview.2, )",
+        "resolved": "0.3.0-preview.2",
+        "contentHash": "pM25u8vx2RximQMIU9/b0Nwg201SI4B87wNgaxO3FhAksWFbL7ApRcNdYnyj8qfwEdAY+wIksdYoIBcyb5Aipw==",
         "dependencies": {
           "Microsoft.Extensions.AI.Abstractions": "9.6.0",
           "System.Net.ServerSentEvents": "10.0.0-preview.4.25258.110"

@@ -17,12 +17,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <DisablePackageRestore>false</DisablePackageRestore>
     
-    <!-- Application Information -->
-    <AssemblyTitle>ExxerAI Infrastructure Layer</AssemblyTitle>
-    <Description>ExxerAI Intelligence System Infrastructure and External Services</Description>
-    <Company>Exxerpro Solutions</Company>
-    <Product>ExxerAI Intelligence System</Product>
-    <Title>ExxerAI.Infrastructure</Title>
+
   </PropertyGroup>
 
   <!-- ============================================================================ -->

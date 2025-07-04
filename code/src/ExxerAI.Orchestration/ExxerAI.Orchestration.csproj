@@ -11,12 +11,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     
-    <!-- Application Information -->
-    <AssemblyTitle>ExxerAI Orchestration Layer</AssemblyTitle>
-    <Description>ExxerAI Intelligence System Orchestration and Workflow Management</Description>
-    <Company>Exxerpro Solutions</Company>
-    <Product>ExxerAI Intelligence System</Product>
-    <Title>ExxerAI.Orchestration</Title>
+
   </PropertyGroup>
 
   <!-- ============================================================================ -->
