@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ExxerAI.Domain.Entities;
+﻿namespace ExxerAI.Domain.Entities;
 
 /// <summary>
 /// Represents an intelligent agent in the ExxerAI system
