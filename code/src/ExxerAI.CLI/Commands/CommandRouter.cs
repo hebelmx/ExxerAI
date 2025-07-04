@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ExxerAI.Domain;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.CLI.Commands;
 

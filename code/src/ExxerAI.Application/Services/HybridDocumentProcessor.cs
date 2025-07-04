@@ -1,7 +1,9 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Application.DTOs;
-using ExxerAI.Domain;
-using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
+using ExxerAI.Domain.Helpers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
 using System.Diagnostics;

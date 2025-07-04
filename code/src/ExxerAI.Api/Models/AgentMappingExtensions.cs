@@ -1,4 +1,6 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
 
 namespace ExxerAI.Api.Models;
 

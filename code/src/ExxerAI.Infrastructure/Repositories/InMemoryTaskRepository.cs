@@ -1,7 +1,10 @@
 using System.Collections.Concurrent;
 using ExxerAI.Application;
 using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain;
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.Configurations;
 
 namespace ExxerAI.Infrastructure.Repositories;
 

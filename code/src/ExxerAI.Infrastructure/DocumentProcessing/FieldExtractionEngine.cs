@@ -1,4 +1,7 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
+using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;

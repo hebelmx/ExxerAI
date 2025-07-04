@@ -7,6 +7,10 @@ using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
 using DomainMCPTypes = ExxerAI.Domain.DocumentProcessing;
 using DomainDateRange = ExxerAI.Domain.DocumentProcessing.DateRange;
+using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
+using ExxerAI.Domain.Helpers;
 
 namespace ExxerAI.Application.Services;
 */
