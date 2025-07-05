@@ -19,9 +19,9 @@ The current builds are:
 
 |Package                  |NuGet Version|CI Version|
 |-------------------------|-------------|----------|
-|xunit.v3.*               |             |          |
-|xunit.analyzers          |             |          |
-|xunit.runner.visualstudio|             |          |
+|xunit.v3.*               |  V3.0.0     |          |
+|xunit.analyzers          |  V1.23.0    |          |
+|xunit.runner.visualstudio|  V3.1.1     |          |
 
 
 Note that while we attempt to ensure that CI builds are always usable, we cannot make guarantees. If you come across issues using a CI build, please [let us know](https://github.com/xunit/xunit/issues)!
@@ -38,6 +38,28 @@ Table of Contents
 *   [Changes to Core Framework](#changes-to-core-framework)
 *   [Changes to Runner Utility](#changes-to-runner-utility)
 
+<PropertyGroup>
+    <!-- XUnit v3 Configuration: Test projects are now executables -->
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+</PropertyGroup>
+<!-- ============================================================================ -->
+<!-- PACKAGE REFERENCES - TESTING FRAMEWORK (XUnit v3) -->
+<!-- ============================================================================ -->
+<ItemGroup Label="Testing Framework">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.analyzers">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector" />
+</ItemGroup>
 Architectural Changes
 ---------------------
 

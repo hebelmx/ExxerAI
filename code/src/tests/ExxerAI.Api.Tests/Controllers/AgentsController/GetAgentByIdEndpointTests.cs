@@ -1,6 +1,6 @@
 using Meziantou.Extensions.Logging.Xunit;
+using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
@@ -78,6 +78,4 @@ public class GetAgentByIdEndpointTests
         var response = (ApiResponse<object>)objectResult.Value!;
         response.Success.ShouldBeFalse();
     }
-
-
-} 
+}

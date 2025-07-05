@@ -1,6 +1,6 @@
 using Meziantou.Extensions.Logging.Xunit;
+using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
@@ -86,6 +86,4 @@ public class GetActiveAgentsEndpointTests
         response.Success.ShouldBeFalse();
         response.Errors.ShouldContain("Service error");
     }
-
-
-} 
+}

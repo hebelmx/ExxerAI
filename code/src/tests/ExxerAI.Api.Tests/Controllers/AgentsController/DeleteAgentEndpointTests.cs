@@ -1,6 +1,5 @@
-using Meziantou.Extensions.Logging.Xunit;
+using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
-using Xunit.Abstractions;
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
@@ -93,4 +92,4 @@ public class DeleteAgentEndpointTests
         // Assert
         result.ShouldBeOfType<BadRequestObjectResult>();
     }
-} 
+}

@@ -1,8 +1,7 @@
 using ExxerAI.Api.Controllers;
 using ExxerAI.Application;
 using Microsoft.AspNetCore.Mvc;
-using Meziantou.Extensions.Logging.Xunit;
-using Xunit.Abstractions;
+using Meziantou.Extensions.Logging.Xunit.v3;
 
 namespace ExxerAI.Api.Tests;
 

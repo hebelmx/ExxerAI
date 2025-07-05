@@ -1,6 +1,5 @@
-using Meziantou.Extensions.Logging.Xunit;
+using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
-using Xunit.Abstractions;
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 
@@ -117,8 +116,6 @@ public class CreateAgentEndpointTests
         response.Errors.ShouldContain("Service error");
     }
 
-
-
     [Fact]
     public async Task Should_HandleMultipleModelStateErrors_When_ValidationFails()
     {
@@ -135,4 +132,4 @@ public class CreateAgentEndpointTests
         var actionResult = result.Result;
         actionResult.ShouldBeOfType<BadRequestObjectResult>();
     }
-} 
+}
