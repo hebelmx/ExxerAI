@@ -7,7 +7,7 @@ using Meziantou.Extensions.Logging.Xunit;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using Shouldly;
-using Xunit.Abstractions;
+
 
 namespace ExxerAI.Application.Tests.Services;
 

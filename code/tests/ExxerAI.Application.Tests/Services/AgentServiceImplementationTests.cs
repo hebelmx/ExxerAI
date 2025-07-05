@@ -223,7 +223,7 @@ using Microsoft.Extensions.Logging;
 using Meziantou.Extensions.Logging.Xunit;
 using NSubstitute;
 using Shouldly;
-using Xunit.Abstractions;
+
 
 namespace ExxerAI.Application.Tests.Services;
 

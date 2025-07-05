@@ -13,7 +13,8 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 
-		<!-- Test Configuration -->
+		<!-- XUnit v3 Configuration: Test projects are now executables -->
+		<OutputType>Exe</OutputType>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 
@@ -35,10 +36,19 @@
 	</PropertyGroup>
 
 	<!-- ============================================================================ -->
-	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK -->
+	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK (XUnit v3) -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
-		<PackageReference Include="xunit" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="xunit.v3" />
+		<PackageReference Include="xunit.analyzers">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="xunit.runner.visualstudio">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
