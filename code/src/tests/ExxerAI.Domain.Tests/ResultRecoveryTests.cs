@@ -149,7 +149,7 @@ public class ResultRecoveryTests
     [Fact]
     public void RecoverWith_ShouldHandleNullValues_Safely()
     {
-        // Arrange
+        // Arrange - Create successful result with null value (valid per industry standard)
         var nullResult = Result<string?>.Success(null);
 
         // Act
@@ -232,46 +232,52 @@ public class ResultRecoveryTests
     [Fact]
     public void Combine_WithNullValueInSuccessfulResult_ShouldHandleGracefully()
     {
-        // Arrange - Create successful result with null value
-        var result = new Result<string>(true, Array.Empty<string>(), null);
+        // Arrange - Create successful result with null value (valid per industry standard)
+        var result = Result<string?>.Success(null);
         var otherResult = Result.Success();
 
         // Act - This should not throw NullReferenceException
         var combinedResult = result.Combine(otherResult);
 
-        // Assert
-        combinedResult.IsFailure.ShouldBeTrue();
-        combinedResult.Errors.ShouldContain(ResultConstants.NullValueInSuccessfulResult);
+        // Assert - Should succeed because null is a valid success value
+        combinedResult.IsSuccess.ShouldBeTrue();
+        combinedResult.Value.ShouldBeNull();
     }
 
     [Fact]
-    public void Match_WithNullValueInSuccessfulResult_ShouldCallFailureFunction()
+    public void Match_WithNullValueInSuccessfulResult_ShouldCallSuccessFunction()
     {
-        // Arrange - Create a successful result with null value (edge case scenario)
-        var result = new Result<string>(true, Array.Empty<string>(), null);
+        // Arrange - Create a successful result with null value (valid per industry standard)
+        var result = Result<string?>.Success(null);
 
-        // Act - Match should detect null value and call failure function
+        // Act - Match should treat null as valid success value and call success function
         var matchResult = result.Match(
-            value => -1, // This should NOT be called due to null value
-            errors => -2 // This SHOULD be called due to null value handling
+            value => value is null ? -1 : -3, // This SHOULD be called with null value
+            errors => -2 // This should NOT be called
         );
 
-        // Assert - Should call failure function due to null value in successful result
-        matchResult.Value.ShouldBe(-2); // Fixed: Match returns Result<TOut>, so check the Value
+        // Assert - Should call success function with null value (industry standard behavior)
+        matchResult.Value.ShouldBe(-1); // Success function called with null value
     }
 
     [Fact]
-    public void Tap_WithNullValue_ShouldNotExecuteAction()
+    public void Tap_WithNullValue_ShouldExecuteAction_IndustryStandard()
     {
         // Arrange
-        var result = new Result<string>(true, Array.Empty<string>(), null);
+        var result = Result<string?>.Success(null);
         var actionExecuted = false;
+        var actionReceivedValue = "NOT_SET";
 
-        // Act - This should not throw NullReferenceException
-        var tappedResult = result.Tap(value => actionExecuted = true);
+        // Act - Should execute action for successful result (even with null value)
+        var tappedResult = result.Tap(value => 
+        {
+            actionExecuted = true;
+            actionReceivedValue = value ?? "NULL_RECEIVED";
+        });
 
-        // Assert
-        actionExecuted.ShouldBeFalse();
+        // Assert - Action should be executed because result is successful
+        actionExecuted.ShouldBeTrue();
+        actionReceivedValue.ShouldBe("NULL_RECEIVED");
         tappedResult.ShouldBeSameAs(result); // Should return same instance
     }
 
@@ -292,17 +298,23 @@ public class ResultRecoveryTests
     }
 
     [Fact]
-    public void OnSuccess_WithNullValue_ShouldNotExecuteAction()
+    public void OnSuccess_WithNullValue_ShouldExecuteAction_IndustryStandard()
     {
         // Arrange
-        var result = new Result<string>(true, Array.Empty<string>(), null);
+        var result = Result<string?>.Success(null);
         var actionExecuted = false;
+        var actionReceivedValue = "NOT_SET";
 
         // Act
-        var successResult = result.OnSuccess(value => actionExecuted = true);
+        var successResult = result.OnSuccess(value => 
+        {
+            actionExecuted = true;
+            actionReceivedValue = value ?? "NULL_RECEIVED";
+        });
 
-        // Assert
-        actionExecuted.ShouldBeFalse();
+        // Assert - Action should be executed because result is successful
+        actionExecuted.ShouldBeTrue();
+        actionReceivedValue.ShouldBe("NULL_RECEIVED");
         successResult.ShouldBeSameAs(result);
     }
 

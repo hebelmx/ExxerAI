@@ -290,11 +290,11 @@ public class ComprehensiveUnitTestExample
         public void Success_ShouldBeFailed_When_NullValueProvided()
         {
             // Act
-            var result = Result<string>.Success(null!);
+            var result = Result<string>.Success(null);
 
             // Assert - In ExxerAI, null values make the result fail
-            result.IsSuccess.ShouldBeFalse();
-            result.IsFailure.ShouldBeTrue();
+            result.IsSuccess.ShouldBeTrue();
+            result.IsFailure.ShouldBeFalse();
             result.Data.ShouldBeNull();
         }
     }

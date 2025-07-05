@@ -621,6 +621,7 @@ public sealed class Result<T>
 
     /// <summary>
     /// Creates a successful result with the specified value.
+    /// Follows industry standard Result&lt;T&gt; pattern: null values are valid success results when T is nullable.
     /// </summary>
     /// <param name="data">The value associated with the result.</param>
     /// <returns>A successful <see cref="Result{T}"/> instance.</returns>
@@ -631,6 +632,7 @@ public sealed class Result<T>
 
     /// <summary>
     /// Creates a successful result with the specified value (alias for Success).
+    /// Follows industry standard Result&lt;T&gt; pattern: null values are valid success results when T is nullable.
     /// </summary>
     /// <param name="data">The value associated with the result.</param>
     /// <returns>A successful <see cref="Result{T}"/> instance.</returns>
@@ -711,6 +713,7 @@ public sealed class Result<T>
 
     /// <summary>
     /// Implicitly converts a value of type T to a successful <see cref="Result{T}"/>.
+    /// Follows industry standard Result&lt;T&gt; pattern: null values are valid success results when T is nullable.
     /// </summary>
     /// <param name="data">The value to convert.</param>
     public static implicit operator Result<T>(T data)
@@ -742,12 +745,13 @@ public sealed class Result<T>
 
     /// <summary>
     /// Executes the specified action if the result is successful.
+    /// Follows industry standard Result&lt;T&gt; pattern: executes for all successful results regardless of null values.
     /// </summary>
     /// <param name="action">The action to execute on success, receiving the value.</param>
     /// <returns>The current <see cref="Result{T}"/> instance.</returns>
     public Result<T> OnSuccess(Action<T> action)
     {
-        if (_isSuccess && Value is not null)
+        if (_isSuccess)
         {
             action(Value);
         }
@@ -777,24 +781,26 @@ public sealed class Result<T>
 
     /// <summary>
     /// Maps a successful result to a <see cref="Result{TOut}"/> using the provided function, or propagates errors.
+    /// Follows industry standard Result&lt;T&gt; pattern: maps successful results regardless of null values.
     /// </summary>
     /// <typeparam name="TOut">The type of the value to return on success.</typeparam>
     /// <param name="func">The function to execute on success.</param>
     /// <returns>A <see cref="Result{TOut}"/> representing the outcome.</returns>
     public Result<TOut> Map<TOut>(Func<T, TOut> func)
     {
-        return _isSuccess && Value is not null ? Result<TOut>.Success(func(Value)) : Result<TOut>.WithFailure(Errors);
+        return _isSuccess ? Result<TOut>.Success(func(Value)) : Result<TOut>.WithFailure(Errors);
     }
 
     /// <summary>
     /// Binds a successful result to another <see cref="Result{TOut}"/> using the provided function, or propagates errors.
+    /// Follows industry standard Result&lt;T&gt; pattern: binds successful results regardless of null values.
     /// </summary>
     /// <typeparam name="TOut">The type of the value to return on success.</typeparam>
     /// <param name="func">The function to execute on success.</param>
     /// <returns>A <see cref="Result{TOut}"/> representing the outcome.</returns>
     public Result<TOut> Bind<TOut>(Func<T, Result<TOut>> func)
     {
-        return _isSuccess && Value is not null ? func(Value) : Result<TOut>.WithFailure(Errors);
+        return _isSuccess ? func(Value) : Result<TOut>.WithFailure(Errors);
     }
 
     /// <summary>
@@ -823,12 +829,13 @@ public sealed class Result<T>
 
     /// <summary>
     /// Executes the specified action if the result is successful, returning the current result.
+    /// Follows industry standard Result&lt;T&gt; pattern: executes for all successful results regardless of null values.
     /// </summary>
     /// <param name="action">The action to execute on success, receiving the value.</param>
     /// <returns>The current <see cref="Result{T}"/> instance.</returns>
     public Result<T> Tap(Action<T> action)
     {
-        if (_isSuccess && Value is not null)
+        if (_isSuccess)
         {
             action(Value);
         }
@@ -867,20 +874,15 @@ public sealed class Result<T>
             return Result<T>.WithFailure(errorList);
         }
         
-        // All operations succeeded - but check if we have a valid value
-        if (_isSuccess && Value is not null)
-        {
-            return Result<T>.Success(Value);
-        }
-        
-        // Success but null value - return with appropriate handling
+        // All operations succeeded - return the current successful result (null values are valid)
         return _isSuccess 
-            ? Result<T>.WithFailure(ResultConstants.NullValueInSuccessfulResult)
+            ? Result<T>.Success(Value)
             : this;
     }
 
     /// <summary>
     /// Matches the result to either a success or failure function.
+    /// Follows industry standard Result&lt;T&gt; pattern: null values are treated as valid success values.
     /// </summary>
     /// <typeparam name="TOut">The return type.</typeparam>
     /// <param name="onSuccess">Function to execute on success, receiving the value.</param>
@@ -893,11 +895,7 @@ public sealed class Result<T>
             return onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
         }
         
-        if (Value is null)
-        {
-            return onFailure([ResultConstants.NullValueInSuccessfulResult]);
-        }
-        
+        // Industry standard: null values are valid success values when T is nullable
         return onSuccess(Value);
     }
 

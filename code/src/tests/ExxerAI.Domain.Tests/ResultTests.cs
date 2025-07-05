@@ -1317,4 +1317,139 @@ public class ResultTests
     }
 
     #endregion Collection Type Overload Tests
+
+    #region Industry Standard Null Handling Tests
+
+    /// <summary>
+    /// Tests to verify that our Result&lt;T&gt; implementation follows industry standard patterns
+    /// where null values are valid success results when T is nullable.
+    /// This documents and validates our design decision to follow best practices.
+    /// </summary>
+    [Fact]
+    public void Success_WithNullValue_ShouldReturnSuccessfulResult_IndustryStandard()
+    {
+        // Arrange & Act - Create successful result with null (industry standard allows this)
+        var result = Result<string?>.Success(null);
+
+        // Assert - Should be successful because null is valid for nullable types
+        result.IsSuccess.ShouldBeTrue();
+        result.IsFailure.ShouldBeFalse();
+        result.Value.ShouldBeNull();
+        result.HasErrors.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void WithSuccess_WithNullValue_ShouldReturnSuccessfulResult_IndustryStandard()
+    {
+        // Arrange & Act - Create successful result with null (alias method)
+        var result = Result<object?>.WithSuccess(null);
+
+        // Assert - Should be successful (consistent with Success method)
+        result.IsSuccess.ShouldBeTrue();
+        result.IsFailure.ShouldBeFalse();
+        result.Value.ShouldBeNull();
+        result.HasErrors.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void ImplicitOperator_WithNullValue_ShouldReturnSuccessfulResult_IndustryStandard()
+    {
+        // Arrange - Declare variable to capture implicit conversion
+        string? nullValue = null;
+        
+        // Act - Use implicit conversion with null
+        Result<string?> result = nullValue;
+
+        // Assert - Should be successful via implicit operator
+        result.IsSuccess.ShouldBeTrue();
+        result.IsFailure.ShouldBeFalse();
+        result.Value.ShouldBeNull();
+        result.HasErrors.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void SuccessfulNullResult_ShouldWorkWithAllOperations_IndustryStandard()
+    {
+        // Arrange - Create successful result with null
+        var nullResult = Result<string?>.Success(null);
+
+        // Act & Assert - All operations should handle null gracefully
+        
+        // OnSuccess with null check
+        var onSuccessCalled = false;
+        nullResult.OnSuccess(value =>
+        {
+            onSuccessCalled = true;
+            value.ShouldBeNull(); // Should receive null value
+        });
+        onSuccessCalled.ShouldBeTrue(); // OnSuccess should be called for successful results
+
+        // ToString should work
+        var stringRepresentation = nullResult.ToString();
+        stringRepresentation.ShouldStartWith("Success:");
+
+        // Match should call success function
+        var matchResult = nullResult.Match(
+            value => value is null ? "NULL_SUCCESS" : "NOT_NULL", 
+            errors => "FAILURE"
+        );
+        matchResult.Value.ShouldBe("NULL_SUCCESS");
+
+        // Deconstruction should work
+        var (succeeded, data, errors) = nullResult;
+        succeeded.ShouldBeTrue();
+        data.ShouldBeNull();
+        errors.ShouldBeEmpty();
+    }
+
+    [Theory]
+    [InlineData("Successfully found: null")] // Can find null results
+    [InlineData("Operation completed: null")] // Can complete with null
+    [InlineData("Query returned: null")] // Query can return null successfully
+    public void SuccessfulNullResults_SupportVariousScenarios_IndustryStandard(string description)
+    {
+        // Arrange & Act - Create successful results with null for different scenarios
+        var result = Result<object?>.Success(null);
+
+        // Assert - All scenarios should be valid
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.ShouldBeNull();
+        
+        // Can add descriptive context if needed through warnings
+        var resultWithContext = Result<object?>.WithWarnings([description], null);
+        resultWithContext.IsSuccess.ShouldBeTrue();
+        resultWithContext.HasWarnings.ShouldBeTrue();
+        resultWithContext.Value.ShouldBeNull();
+        resultWithContext.Errors.First().ShouldBe(description);
+    }
+
+    [Fact]  
+    public void IndustryStandardDocumentation_ShouldExplainNullHandling()
+    {
+        // This test serves as documentation for our design decision
+        
+        // Industry Standard: Result<T> allows null as valid success when T is nullable
+        var optionalUser = Result<User?>.Success(null); // User not found, but operation succeeded
+        var optionalData = Result<string?>.Success(null); // Query succeeded, no data found
+        var optionalConfig = Result<Settings?>.Success(null); // Settings loaded, none configured
+        
+        // All should be successful
+        optionalUser.IsSuccess.ShouldBeTrue();
+        optionalData.IsSuccess.ShouldBeTrue();
+        optionalConfig.IsSuccess.ShouldBeTrue();
+        
+        // If null should be an error, use explicit failure results instead:
+        var userNotFoundError = Result<User>.WithFailure("User not found");
+        var dataNotFoundError = Result<string>.WithFailure("No data available");
+        
+        // Clear distinction between "operation succeeded with null result" vs "operation failed"
+        userNotFoundError.IsFailure.ShouldBeTrue();
+        dataNotFoundError.IsFailure.ShouldBeTrue();
+    }
+
+    // Sample types for documentation test
+    private class User { public string? Name { get; set; } }
+    private class Settings { public string? Theme { get; set; } }
+
+    #endregion Industry Standard Null Handling Tests
 }

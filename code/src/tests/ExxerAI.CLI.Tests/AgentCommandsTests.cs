@@ -451,7 +451,7 @@ public class AgentCommandsTests
         // Arrange
         var agentId = Guid.NewGuid();
         var args = new[] { "agentStatus", agentId.ToString() };
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.Success(null!)));
+        _mockAgentRepository.GetByIdAsync(agentId).Returns(Task.FromResult(Result<Agent>.WithFailure("Agent not found")));
 
         // Act
         var exitCode = await _agentCommands.ExecuteAsync(args);
