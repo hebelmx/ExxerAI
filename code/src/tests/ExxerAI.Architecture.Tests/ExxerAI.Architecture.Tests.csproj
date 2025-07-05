@@ -50,6 +50,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
+        <PackageReference Include="Meziantou.Extensions.Logging.Xunit.v3" />
+        <PackageReference Include="Microsoft.Extensions.Logging" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->

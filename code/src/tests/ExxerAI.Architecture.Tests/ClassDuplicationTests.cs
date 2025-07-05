@@ -1,18 +1,27 @@
 using System.Reflection;
 using NetArchTest.Rules;
-using FluentAssertions; // Add FluentAssertions for assertions
-using System.Diagnostics; // For logging
+using FluentAssertions;
+using Meziantou.Extensions.Logging.Xunit.v3;
+using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.Architecture.Tests;
 
 public class ClassDuplicationTests
 {
+    private readonly ILogger<ClassDuplicationTests> _logger;
+
+    public ClassDuplicationTests(ILogger<ClassDuplicationTests> logger)
+    {
+        _logger = logger;
+    }
+
     [Theory]
     [MemberData(nameof(ProductionAssemblies))]
     public void All_Classes_Should_Not_Have_Duplicate_Names_In_Different_Namespaces(string assemblyName)
     {
+        _logger.LogInformation($"Checking assembly: {assemblyName}");
         // Load the assembly to be tested
-        var assembly = Assembly.Load(assemblyName); // Use the provided assembly name
+        var assembly = Assembly.Load(assemblyName);
 
         // Find all types in the assembly
         var types = Types.InAssembly(assembly)
@@ -27,14 +36,17 @@ public class ClassDuplicationTests
             .Where(g => g.Namespaces.Count > 1)
             .ToList();
 
-        // Log duplicated classes if any
         if (duplicates.Any())
         {
+            _logger.LogError($"FAILED: {assemblyName} has duplicate class names in different namespaces:");
             foreach (var dup in duplicates)
             {
-                Debug.WriteLine($"DUPLICATE: {dup.ClassName} in [{string.Join(", ", dup.Namespaces)}]");
-                Console.WriteLine($"DUPLICATE: {dup.ClassName} in [{string.Join(", ", dup.Namespaces)}]");
+                _logger.LogError($"  DUPLICATE: {dup.ClassName} in [{string.Join(", ", dup.Namespaces)}]");
             }
+        }
+        else
+        {
+            _logger.LogInformation($"PASSED: {assemblyName} has no duplicate class names in different namespaces.");
         }
 
         // Use FluentAssertions to assert that there are no duplicated class names across different namespaces
