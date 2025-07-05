@@ -125,7 +125,14 @@ public class Result
     {
         if (IsFailure)
         {
-            action(Errors);
+            if (Errors is not null)
+            {
+                action(Errors);
+            }
+            else
+            {
+                action(["WithFailure to execute Request"]);
+            }
         }
         return this;
     }

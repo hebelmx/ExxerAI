@@ -584,9 +584,9 @@ public class ResultTests
         actionCalled.ShouldBeTrue();
     }
 
-    //TODO [bug] mAKE THIS TEST PASS
+    // TODO [BUG] MAKE THIS TEST PASS
     //abr
-    // july 4 2025
+    // July 4 2025
     [Fact]
     public void Result_OnFailure_ShouldInvokeActionWithErrors_WhenResultIsFailure()
     {
