@@ -1,1 +1,1 @@
-﻿[Environment]::SetEnvironmentVariable("Path", $Env:Path + ";C:\Program Files\ffmpeg\bin", [EnvironmentVariableTarget]::Machine)
+﻿[Environment]::SetEnvironmentVariable("Path", $Env:Path + ";C:\Program Files\Capture2Text", [EnvironmentVariableTarget]::Machine)
