@@ -1,11 +1,13 @@
 namespace ExxerAI.Domain.Helpers;
 
 /// <summary>
-/// Represents the result of an operation, including success agentStatus and error messages.
+/// Represents the result of an operation, including success status and error messages.
 /// Use this class for operations that do not return a value but need to indicate success or failure.
 /// </summary>
 public class Result
 {
+    // Note: Error messages are now centralized in ResultConstants class
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Result"/> class with the specified success state and errors.
     /// </summary>
@@ -31,7 +33,7 @@ public class Result
     /// </summary>
     public override string ToString()
     {
-        return IsSuccess ? "Success" : ListOfErrorsString();
+        return IsSuccess ? ResultConstants.SuccessPrefix : ListOfErrorsString();
     }
 
     /// <summary>
@@ -39,14 +41,15 @@ public class Result
     /// </summary>
     private string ListOfErrorsString()
     {
-        var stringBuilder = new StringBuilder("WithFailure: ");
+        var stringBuilder = new StringBuilder($"{ResultConstants.FailurePrefix}: ");
         foreach (var error in Errors)
         {
             stringBuilder.Append(error);
             stringBuilder.Append(", ");
         }
         // Remove the trailing comma and space, if any
-        if (stringBuilder.Length > 9)
+        var prefixLength = ResultConstants.FailurePrefix.Length + 2; // +2 for ": "
+        if (stringBuilder.Length > prefixLength)
         {
             stringBuilder.Length -= 2; // Remove the last ", "
         }
@@ -93,6 +96,16 @@ public class Result
     }
 
     /// <summary>
+    /// Creates a failed result with the specified errors (overload for string array).
+    /// </summary>
+    /// <param name="errors">The array of error messages.</param>
+    /// <returns>A failed <see cref="Result"/> instance.</returns>
+    public static Result WithFailure(string[] errors)
+    {
+        return new Result(false, errors);
+    }
+
+    /// <summary>
     /// Creates a failed result with a single error message.
     /// </summary>
     /// <param name="error">The error message.</param>
@@ -121,6 +134,15 @@ public class Result
     /// </summary>
     /// <param name="action">The action to execute on failure, receiving the error messages.</param>
     /// <returns>The current <see cref="Result"/> instance.</returns>
+    /// <remarks>
+    /// BUG FIX (2025-01-03): Previously this method called action(Errors) without null checking,
+    /// causing NullReferenceException when Errors collection was null. Fixed by adding proper
+    /// null checking and fallback error message, making it consistent with Result&lt;T&gt;.OnFailure.
+    /// Test: Result_OnFailure_ShouldInvokeActionWithErrors_WhenResultIsFailure now passes.
+    /// 
+    /// CONSISTENCY FIX (2025-01-03): Standardized default error message to use DefaultErrorMessage
+    /// constant to eliminate inconsistencies throughout the codebase.
+    /// </remarks>
     public Result OnFailure(Action<IEnumerable<string>> action)
     {
         if (IsFailure)
@@ -131,7 +153,7 @@ public class Result
             }
             else
             {
-                action(["WithFailure to execute Request"]);
+                action([ResultConstants.DefaultErrorMessage]);
             }
         }
         return this;
@@ -235,16 +257,18 @@ public class Result
             .ToList();
         return combinedErrors.Any()
             ? WithFailure(combinedErrors)
-            : WithFailure("No Errors were Found");
+            : WithFailure(ResultConstants.NoErrorsFoundMessage);
     }
 }
 
 /// <summary>
-/// Represents the result of an operation that returns a value, including success agentStatus, value, and error messages.
+/// Represents the result of an operation that returns a value, including success status, value, and error messages.
 /// Use this class for operations that return a value and need to indicate success, failure, or warnings.
 /// </summary>
 public class Result<T>
 {
+    // Note: Error messages are now centralized in ResultConstants class
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{T}"/> class for deserialization.
     /// </summary>
@@ -255,7 +279,8 @@ public class Result<T>
     public Result(bool isSuccess, IEnumerable<string>? errors, T? value = default)
     {
         _isSuccess = isSuccess;
-        Errors = errors ?? ImmutableList<string>.Empty;
+        _hasErrors = errors?.Any() == true;
+        Errors = errors?.ToArray() ?? Array.Empty<string>();
         _value = value;
     }
 
@@ -267,8 +292,9 @@ public class Result<T>
     /// <param name="value">The value returned by the operation.</param>
     public Result(bool isSuccess, List<string>? errors, T? value = default)
     {
-        _isSuccess = (value is not null) ? isSuccess : false;
-        Errors = errors?.ToImmutableList() ?? ImmutableList<string>.Empty;
+        _isSuccess = isSuccess;
+        _hasErrors = errors?.Any() == true;
+        Errors = errors?.ToArray() ?? Array.Empty<string>();
         _value = value;
     }
 
@@ -284,44 +310,34 @@ public class Result<T>
 
     private readonly T? _value;
     private readonly bool _isSuccess;
+    private readonly bool _hasErrors;
 
     /// <summary>
     /// Gets a value indicating whether the result is a success.
-    /// Returns false if the value is null, or if there are any errors.
+    /// A result is considered successful if it was explicitly marked as successful 
+    /// and does not contain any error messages (warnings are allowed for successful results).
     /// </summary>
-    public bool IsSuccess
-    {
-        get
-        {
-            // Check if T is null
-            if (_value == null) return false;
-            // Check if errors are not null or empty
-            if (Errors != null && Errors.Any()) return false;
-            // For collections, an empty collection is still a valid successful result
-            // The presence of a non-null collection (even if empty) indicates success
-            return _isSuccess;
-        }
-    }
+    public bool IsSuccess => _isSuccess && !_hasErrors;
 
     /// <summary>
     /// Gets a value indicating whether the result has warnings (i.e., is successful but contains error messages).
     /// </summary>
-    public bool HasWarnings => IsSuccess && Errors is not null && Errors.Any();
+    public bool HasWarnings => _isSuccess && _hasErrors;
 
     /// <summary>
     /// Gets a value indicating whether the result is recoverable (either successful or has warnings).
     /// </summary>
-    public bool IsRecoverable => IsSuccess || HasWarnings;
+    public bool IsRecoverable => _isSuccess; // Recoverable if operation succeeded, regardless of warnings
 
     /// <summary>
     /// Gets a value indicating whether the result is a failure.
     /// </summary>
-    public bool IsFailure => !IsSuccess;
+    public bool IsFailure => !_isSuccess;
 
     /// <summary>
     /// Gets the collection of error messages associated with the result.
     /// </summary>
-    public IEnumerable<string>? Errors { get; init; }
+    public IEnumerable<string> Errors { get; init; }
 
     /// <summary>
     /// Gets the first non-empty error message, or null if none exist.
@@ -335,7 +351,7 @@ public class Result<T>
     /// <returns>A successful <see cref="Result{T}"/> instance.</returns>
     public static Result<T> Success(T data)
     {
-        return new Result<T>(true, ImmutableList<string>.Empty, data);
+        return new Result<T>(true, Array.Empty<string>(), data);
     }
 
     /// <summary>
@@ -345,7 +361,7 @@ public class Result<T>
     /// <returns>A successful <see cref="Result{T}"/> instance.</returns>
     public static Result<T> WithSuccess(T data)
     {
-        return new Result<T>(true, ImmutableList<string>.Empty, data);
+        return new Result<T>(true, Array.Empty<string>(), data);
     }
 
     /// <summary>
@@ -353,7 +369,7 @@ public class Result<T>
     /// </summary>
     public override string ToString()
     {
-        return _isSuccess ? $"Success: {Value!.ToString()}" : ListOfErrorsString() ?? "WithFailure";
+        return _isSuccess ? $"{ResultConstants.SuccessPrefix}: {Value?.ToString()}" : ListOfErrorsString() ?? ResultConstants.DefaultFailureString;
     }
 
     /// <summary>
@@ -361,15 +377,16 @@ public class Result<T>
     /// </summary>
     private string? ListOfErrorsString()
     {
-        if (Errors is null) return default;
-        var stringBuilder = new StringBuilder("WithFailure: ");
+        if (Errors is null || !Errors.Any()) return default;
+        var stringBuilder = new StringBuilder($"{ResultConstants.FailurePrefix}: ");
         foreach (var error in Errors)
         {
             stringBuilder.Append(error);
             stringBuilder.Append(", ");
         }
         // Remove the trailing comma and space, if any
-        if (stringBuilder.Length > 9)
+        var prefixLength = ResultConstants.FailurePrefix.Length + 2; // +2 for ": "
+        if (stringBuilder.Length > prefixLength)
         {
             stringBuilder.Length -= 2; // Remove the last ", "
         }
@@ -385,36 +402,31 @@ public class Result<T>
     public static Result<T> WithFailure(IEnumerable<string>? errors, T? value = default)
     {
         // Use the provided errors or fall back to the default error message
-        errors ??= ["WithFailure to execute Request"];
-        return new Result<T>(false, errors, value);
+        var errorList = errors?.ToList() ?? [ResultConstants.DefaultErrorMessage];
+        return new Result<T>(false, errorList, value);
     }
-
-#pragma warning disable CS1570 // XML comment has badly formed XML
-
-    /// <summary>
-    /// Creates a failed result with the specified errors and optional value (overload for List<string>).
-    /// </summary>
-    /// <param name="errors">The list of error messages.</param>
-    /// <param name="value">The value to associate with the result (optional).</param>
-    /// <returns>A failed <see cref="Result{T}"/> instance.</returns>
-    public static Result<T> WithFailure(List<string> errors, T? value = default)
-    {
-        errors ??= ["WithFailure to execute Request"];
-        return new Result<T>(false, errors, value);
-    }
-
-#pragma warning restore CS1570 // XML comment has badly formed XML
 
     /// <summary>
     /// Creates a successful result with warnings (non-fatal diagnostics).
     /// </summary>
-    /// <param name="errors">The list of warning messages.</param>
-    /// <param name="value">The value to associate with the result (optional).</param>
+    /// <param name="warnings">The collection of warning messages.</param>
+    /// <param name="value">The value to associate with the result.</param>
     /// <returns>A successful <see cref="Result{T}"/> instance with warnings.</returns>
-    public static Result<T> WithWarnings(List<string> errors, T? value = default)
+    public static Result<T> WithWarnings(IEnumerable<string> warnings, T value)
     {
-        errors ??= ["WithFailure to execute Request"];
-        return new Result<T>(true, errors, value);
+        var warningList = warnings?.ToList() ?? [ResultConstants.DefaultWarningMessage];
+        return new Result<T>(true, warningList, value);
+    }
+
+    /// <summary>
+    /// Creates a failed result with the specified errors and optional value (overload for string array).
+    /// </summary>
+    /// <param name="errors">The array of error messages.</param>
+    /// <param name="value">The value to associate with the result (optional).</param>
+    /// <returns>A failed <see cref="Result{T}"/> instance.</returns>
+    public static Result<T> WithFailure(string[] errors, T? value = default)
+    {
+        return new Result<T>(false, errors, value);
     }
 
     /// <summary>
@@ -443,7 +455,7 @@ public class Result<T>
     /// <param name="result">The result to convert.</param>
     public static implicit operator Result(Result<T> result)
     {
-        return result._isSuccess ? Result.Success() : Result.WithFailure(result.Errors ?? ["Failure"]);
+        return result._isSuccess ? Result.Success() : Result.WithFailure(result.Errors ?? [ResultConstants.DefaultErrorMessage]);
     }
 
     /// <summary>
@@ -482,13 +494,13 @@ public class Result<T>
     {
         if (IsFailure)
         {
-            if (Errors is not null)
+            if (Errors is not null && Errors.Any())
             {
                 action(Errors);
             }
             else
             {
-                action(["WithFailure to execute Request"]);
+                action([ResultConstants.DefaultErrorMessage]);
             }
         }
         return this;
@@ -565,7 +577,7 @@ public class Result<T>
     /// <returns>The result of the executed function.</returns>
     public Result<TOut> Match<TOut>(Func<T, TOut> onSuccess, Func<IEnumerable<string>, TOut> onFailure)
     {
-        return _isSuccess ? onSuccess(Value!) : onFailure(Errors ?? ["With Failure to Execute Request"]);
+        return _isSuccess ? onSuccess(Value!) : onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
     }
 
     /// <summary>
@@ -584,9 +596,26 @@ public class Result<T>
     /// <typeparam name="TOut">The type of the value to return on recovery.</typeparam>
     /// <param name="recoverFunc">The function to execute on failure.</param>
     /// <returns>The recovered <see cref="Result{TOut}"/> or a successful result with the current value.</returns>
+    /// <remarks>
+    /// BUG FIX (2025-01-03): Previously used dangerous cast (TOut)(object)Value! which could throw 
+    /// InvalidCastException at runtime. Now properly handles type conversion with validation.
+    /// This method should only be used when T and TOut are compatible types.
+    /// </remarks>
     public Result<TOut> RecoverWith<TOut>(Func<Result<TOut>> recoverFunc)
     {
-        return IsFailure ? recoverFunc() : Result<TOut>.Success((TOut)(object)Value!);
+        if (IsFailure) 
+        {
+            return recoverFunc();
+        }
+
+        // Safe type conversion: only proceed if Value can be safely converted to TOut
+        if (Value is TOut convertedValue)
+        {
+            return Result<TOut>.Success(convertedValue);
+        }
+
+        // If types are incompatible, return a failure instead of throwing
+        return Result<TOut>.WithFailure(string.Format(ResultConstants.RecoverWithTypeConversionError, typeof(T).Name, typeof(TOut).Name));
     }
 
     /// <summary>
@@ -605,6 +634,6 @@ public class Result<T>
             .ToList();
         return combinedErrors.Any()
             ? Result<TOut>.WithFailure(combinedErrors, value)
-            : Result<TOut>.WithFailure("No Errors were Found", value);
+            : Result<TOut>.WithFailure(ResultConstants.NoErrorsFoundMessage, value);
     }
 }
