@@ -15,7 +15,7 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
     <!-- UI Framework -->
-    <PackageVersion Include="MudBlazor" Version="8.9.0" />
+    <PackageVersion Include="MudBlazor" Version="8.8.0" />
     <PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="3.2.0" />
     <!-- AI and Extensions -->
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />

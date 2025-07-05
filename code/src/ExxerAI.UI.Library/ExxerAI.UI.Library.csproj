@@ -6,8 +6,9 @@
 <PropertyGroup>
 	<!-- Target Framework -->
 	<TargetFramework>net9.0</TargetFramework>
+	<OutputType>Library</OutputType>
 	<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-
+	<Namespace>ExxerAI.UI.Library</Namespace>
 	<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 	<!-- Language Features -->
     <Nullable>enable</Nullable>
@@ -16,7 +17,7 @@
 	<!-- Razor Class Library Configuration -->
 	<RazorLangVersion>Latest</RazorLangVersion>
 	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-	
+
 	<!-- Library Configuration -->
 	<IsPackable>true</IsPackable>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -34,7 +35,8 @@
 	<!-- PACKAGE REFERENCES - ENTITY FRAMEWORK -->
 	<!-- ============================================================================ -->
   <ItemGroup Label="Entity Framework">
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
+
+	  <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">

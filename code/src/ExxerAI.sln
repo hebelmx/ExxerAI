@@ -109,6 +109,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Architecture.Tests"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.UI", "ExxerAI.UI\ExxerAI.UI.csproj", "{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.UI.Library", "ExxerAI.UI.Library\ExxerAI.UI.Library.csproj", "{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -311,6 +313,18 @@ Global
 		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x64.Build.0 = Release|Any CPU
 		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x86.ActiveCfg = Release|Any CPU
 		{FFBE9F66-C359-874A-6BD5-EF1EFA32FC6A}.Release|x86.Build.0 = Release|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Debug|x64.Build.0 = Debug|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Debug|x86.Build.0 = Debug|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Release|x64.ActiveCfg = Release|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Release|x64.Build.0 = Release|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Release|x86.ActiveCfg = Release|Any CPU
+		{B87D87A6-FFDA-A7A4-368B-5D1B16A52DFE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
