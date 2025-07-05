@@ -1,6 +1,6 @@
 using System.Reflection;
 using NetArchTest.Rules;
-using FluentAssertions;
+using Shouldly;
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.Extensions.Logging;
 
@@ -10,9 +10,9 @@ public class ClassDuplicationTests
 {
     private readonly ILogger<ClassDuplicationTests> _logger;
 
-    public ClassDuplicationTests(ILogger<ClassDuplicationTests> logger)
+    public ClassDuplicationTests(ITestOutputHelper testOutputHelper)
     {
-        _logger = logger;
+        _logger = XUnitLogger.CreateLogger<ClassDuplicationTests>(testOutputHelper);
     }
 
     [Theory]
@@ -23,10 +23,18 @@ public class ClassDuplicationTests
         // Load the assembly to be tested
         var assembly = Assembly.Load(assemblyName);
 
-        // Find all types in the assembly
+        // Find all types in the assembly, excluding Blazor legitimate patterns
         var types = Types.InAssembly(assembly)
             .That()
             .AreClasses()
+            .And()
+            .DoNotHaveNameMatching("TypeInference") // Blazor auto-generated
+            .And()
+            .DoNotHaveNameMatching("_Imports") // Blazor _Imports.razor files
+            .And()
+            .DoNotHaveNameMatching("InputModel") // Blazor page-specific form models
+            .And()
+            .DoNotResideInNamespaceMatching("__Blazor.*") // Blazor internal namespaces
             .GetTypes();
 
         // Group by class name and check for duplicates in different namespaces
@@ -49,9 +57,8 @@ public class ClassDuplicationTests
             _logger.LogInformation($"PASSED: {assemblyName} has no duplicate class names in different namespaces.");
         }
 
-        // Use FluentAssertions to assert that there are no duplicated class names across different namespaces
-        duplicates.Should().BeEmpty($"Duplicate class names found in assembly '{assemblyName}': {{0}}",
-            string.Join(", ", duplicates.Select(d => $"{d.ClassName} in [{string.Join(", ", d.Namespaces)}]")));
+        // Use Shouldly to assert that there are no duplicated class names across different namespaces
+        duplicates.ShouldBeEmpty($"Duplicate class names found in assembly '{assemblyName}': {string.Join(", ", duplicates.Select(d => $"{d.ClassName} in [{string.Join(", ", d.Namespaces)}]"))}");
     }
 
     // List all production assemblies with their full root namespace

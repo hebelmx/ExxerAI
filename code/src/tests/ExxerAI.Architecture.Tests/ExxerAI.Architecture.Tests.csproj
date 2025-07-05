@@ -39,7 +39,7 @@
 	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK (XUnit v3) -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
-		<PackageReference Include="FluentAssertions" />
+		<PackageReference Include="Shouldly" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.analyzers">
@@ -73,6 +73,13 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Core References">
 		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Orchestration\ExxerAI.Orchestration.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.CLI\ExxerAI.CLI.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.Api\ExxerAI.Api.csproj" />
+		<ProjectReference Include="..\..\ExxerAI.UI\ExxerAI.UI.csproj" />
+		<ProjectReference Include="..\..\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
 	</ItemGroup>
 
 </Project>
