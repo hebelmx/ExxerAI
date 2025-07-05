@@ -1,202 +1,100 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="57ab3247-0e82-4e8d-b4f5-21d23a7c46c1" name="Abel Briones@DESKTOP-FB2ES22 2025-07-04 22:34:15" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-07-04T22:34:15.8725905-06:00" queuing="2025-07-04T22:34:15.8725910-06:00" start="2025-07-04T22:34:15.1190538-06:00" finish="2025-07-04T22:34:15.9077954-06:00" />
-  <TestSettings name="default" id="24dfe919-83c5-4f2d-a68b-4bed401d1cea">
-    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-04_22_34_15" />
+<TestRun id="b326cfd2-1bfa-477e-b950-ca7a3d69b960" name="Abel Briones@DESKTOP-FB2ES22 2025-07-04 22:35:34" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-04T22:35:34.3454584-06:00" queuing="2025-07-04T22:35:34.3454588-06:00" start="2025-07-04T22:35:33.6721669-06:00" finish="2025-07-04T22:35:34.3715710-06:00" />
+  <TestSettings name="default" id="2ff43070-afb0-483b-aee7-9450eaf8c9ca">
+    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-04_22_35_34" />
   </TestSettings>
   <Results>
-    <UnitTestResult executionId="2df60619-a9fc-411b-addd-57f82b647fc2" testId="16d31d88-edfc-bb90-20d5-da0e3c90eeac" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldConvertCompatibleTypes_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0003541" startTime="2025-07-04T22:34:15.8096755-06:00" endTime="2025-07-04T22:34:15.8099800-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2df60619-a9fc-411b-addd-57f82b647fc2" />
-    <UnitTestResult executionId="9b33741f-2dde-4107-a994-96ced314efb5" testId="c3905146-5b5f-0646-6962-9ae0a2f45af6" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleComplexTypeConversions_SafelyWithoutExceptions" computerName="DESKTOP-FB2ES22" duration="00:00:00.0006962" startTime="2025-07-04T22:34:15.8071051-06:00" endTime="2025-07-04T22:34:15.8077619-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9b33741f-2dde-4107-a994-96ced314efb5" />
-    <UnitTestResult executionId="ba6cf13f-b8cd-4675-b378-5c2a4c47720a" testId="008d66c0-68ae-7829-664e-3dc25b2e2040" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.GenericRecover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0004305" startTime="2025-07-04T22:34:15.8047840-06:00" endTime="2025-07-04T22:34:15.8048396-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba6cf13f-b8cd-4675-b378-5c2a4c47720a" />
-    <UnitTestResult executionId="4f003f2d-e2d5-482c-96fa-ad30df2097fa" testId="87dd9720-59f0-5d96-a0b1-30e2237fa17f" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleNullValues_Safely" computerName="DESKTOP-FB2ES22" duration="00:00:00.0261300" startTime="2025-07-04T22:34:15.7794269-06:00" endTime="2025-07-04T22:34:15.8007541-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4f003f2d-e2d5-482c-96fa-ad30df2097fa">
-      <Output>
-        <ErrorInfo>
-          <Message>Shouldly.ShouldAssertException : convertedResult.IsSuccess&#xD;
-    should be&#xD;
-True&#xD;
-    but was&#xD;
-False</Message>
-          <StackTrace>   at ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleNullValues_Safely() in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs:line 159&#xD;
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="2bd33ff1-024d-4c40-b030-e65b93f53bb5" testId="7c60b7b8-56a0-0a25-fba5-f9783bc573e0" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Recover_ShouldReturnOriginalResult_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0001957" startTime="2025-07-04T22:34:15.8095373-06:00" endTime="2025-07-04T22:34:15.8095873-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2bd33ff1-024d-4c40-b030-e65b93f53bb5" />
-    <UnitTestResult executionId="9fb247cb-76a3-42b8-bf29-aaa544dceea6" testId="c7c67a5e-ba5d-a183-c954-80220aae8abb" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldReturnFailure_WhenTypeConversionIsIncompatible" computerName="DESKTOP-FB2ES22" duration="00:00:00.0003272" startTime="2025-07-04T22:34:15.8411123-06:00" endTime="2025-07-04T22:34:15.8411717-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9fb247cb-76a3-42b8-bf29-aaa544dceea6" />
-    <UnitTestResult executionId="b920f067-c69a-4589-9909-eedf50758dac" testId="4dbbb630-7076-d661-260e-a96c44502222" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0030022" startTime="2025-07-04T22:34:15.8414484-06:00" endTime="2025-07-04T22:34:15.8414836-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b920f067-c69a-4589-9909-eedf50758dac">
-      <Output>
-        <ErrorInfo>
-          <Message>Shouldly.ShouldAssertException : matchResult&#xD;
-    should be&#xD;
-Success: Success: test value&#xD;
-    but was&#xD;
-Success: Success: test value</Message>
-          <StackTrace>   at ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess() in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs:line 176&#xD;
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="ec7a63aa-8788-4576-b8cb-1cc1908c9e50" testId="c1c35af9-2fcf-f6c9-459e-c3e6d2214d26" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.NonGenericMatch_ShouldHandleNullErrors_Gracefully" computerName="DESKTOP-FB2ES22" duration="00:00:00.0022324" startTime="2025-07-04T22:34:15.8052468-06:00" endTime="2025-07-04T22:34:15.8053048-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec7a63aa-8788-4576-b8cb-1cc1908c9e50">
-      <Output>
-        <ErrorInfo>
-          <Message>Shouldly.ShouldAssertException : matchResult&#xD;
-    should contain (case insensitive comparison)&#xD;
-"Operation failed to execute successfully"&#xD;
-    but was actually&#xD;
-"Failed: "</Message>
-          <StackTrace>   at ExxerAI.Domain.Tests.ResultRecoveryTests.NonGenericMatch_ShouldHandleNullErrors_Gracefully() in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs:line 208&#xD;
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="545ccd87-3be1-47c2-b558-8a683fa6eef7" testId="02099127-b2d4-5e43-22a8-ff63a7206855" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldExecuteRecoveryFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0034396" startTime="2025-07-04T22:34:15.8058141-06:00" endTime="2025-07-04T22:34:15.8069580-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="545ccd87-3be1-47c2-b558-8a683fa6eef7" />
-    <UnitTestResult executionId="dc6644d5-b377-49a0-8a1d-2cf52996244f" testId="08bb7c34-aa66-9584-c4ff-aa983410d966" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Recover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0015288" startTime="2025-07-04T22:34:15.8079699-06:00" endTime="2025-07-04T22:34:15.8093920-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dc6644d5-b377-49a0-8a1d-2cf52996244f" />
-    <UnitTestResult executionId="2a7430a2-388d-453e-868e-0b6db85d6873" testId="dd405242-79ce-8db3-e116-75cb9ddc030a" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteFailureFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0007458" startTime="2025-07-04T22:34:15.8420426-06:00" endTime="2025-07-04T22:34:15.8420774-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a7430a2-388d-453e-868e-0b6db85d6873">
-      <Output>
-        <ErrorInfo>
-          <Message>Shouldly.ShouldAssertException : matchResult&#xD;
-    should be&#xD;
-Success: Failed: test error&#xD;
-    but was&#xD;
-Success: Failed: test error</Message>
-          <StackTrace>   at ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteFailureFunction_WhenResultIsFailure() in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs:line 192&#xD;
-   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</StackTrace>
-        </ErrorInfo>
-      </Output>
-    </UnitTestResult>
-    <UnitTestResult executionId="9e6349f1-aa2f-44c0-a929-3393aa222f33" testId="a8617554-53f6-76b6-bfad-dde010670e7f" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.GenericRecover_ShouldReturnOriginalResult_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0079424" startTime="2025-07-04T22:34:15.7590926-06:00" endTime="2025-07-04T22:34:15.7711514-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e6349f1-aa2f-44c0-a929-3393aa222f33" />
+    <UnitTestResult executionId="578c5fc6-9a20-4052-b1b4-dab462ebe70d" testId="dd405242-79ce-8db3-e116-75cb9ddc030a" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteFailureFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0001268" startTime="2025-07-04T22:35:34.3255884-06:00" endTime="2025-07-04T22:35:34.3256100-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="578c5fc6-9a20-4052-b1b4-dab462ebe70d" />
+    <UnitTestResult executionId="6338130f-e4a0-403e-9d90-7b1566dccfcc" testId="87dd9720-59f0-5d96-a0b1-30e2237fa17f" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleNullValues_Safely" computerName="DESKTOP-FB2ES22" duration="00:00:00.0009110" startTime="2025-07-04T22:35:34.2995632-06:00" endTime="2025-07-04T22:35:34.2996068-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6338130f-e4a0-403e-9d90-7b1566dccfcc" />
+    <UnitTestResult executionId="46adc440-17e1-4b5c-bf21-9029381908ba" testId="008d66c0-68ae-7829-664e-3dc25b2e2040" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.GenericRecover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0001780" startTime="2025-07-04T22:35:34.2999112-06:00" endTime="2025-07-04T22:35:34.2999410-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46adc440-17e1-4b5c-bf21-9029381908ba" />
+    <UnitTestResult executionId="2a87e080-3c6c-417a-b377-8a29526a9a6a" testId="16d31d88-edfc-bb90-20d5-da0e3c90eeac" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldConvertCompatibleTypes_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0002236" startTime="2025-07-04T22:35:34.3018258-06:00" endTime="2025-07-04T22:35:34.3019818-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2a87e080-3c6c-417a-b377-8a29526a9a6a" />
+    <UnitTestResult executionId="39a000ff-cf2e-4433-a5ae-0d1d241c07bd" testId="08bb7c34-aa66-9584-c4ff-aa983410d966" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Recover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0008340" startTime="2025-07-04T22:35:34.3008184-06:00" endTime="2025-07-04T22:35:34.3016597-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="39a000ff-cf2e-4433-a5ae-0d1d241c07bd" />
+    <UnitTestResult executionId="e5a8716b-7156-4083-8f8d-1ea4e08fc754" testId="c7c67a5e-ba5d-a183-c954-80220aae8abb" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldReturnFailure_WhenTypeConversionIsIncompatible" computerName="DESKTOP-FB2ES22" duration="00:00:00.0001910" startTime="2025-07-04T22:35:34.3252046-06:00" endTime="2025-07-04T22:35:34.3252649-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e5a8716b-7156-4083-8f8d-1ea4e08fc754" />
+    <UnitTestResult executionId="a7461c5c-ad2e-4057-ad21-fd9905e5b77d" testId="02099127-b2d4-5e43-22a8-ff63a7206855" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldExecuteRecoveryFunction_WhenResultIsFailure" computerName="DESKTOP-FB2ES22" duration="00:00:00.0052368" startTime="2025-07-04T22:35:34.3000695-06:00" endTime="2025-07-04T22:35:34.3003536-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a7461c5c-ad2e-4057-ad21-fd9905e5b77d" />
+    <UnitTestResult executionId="49369e38-59ae-4e2c-8578-b8f5d540bde4" testId="a8617554-53f6-76b6-bfad-dde010670e7f" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.GenericRecover_ShouldReturnOriginalResult_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0062282" startTime="2025-07-04T22:35:34.2830574-06:00" endTime="2025-07-04T22:35:34.2933973-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="49369e38-59ae-4e2c-8578-b8f5d540bde4" />
+    <UnitTestResult executionId="d1e61a96-e6f3-4f99-926f-cb9c7a4f785e" testId="c3905146-5b5f-0646-6962-9ae0a2f45af6" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleComplexTypeConversions_SafelyWithoutExceptions" computerName="DESKTOP-FB2ES22" duration="00:00:00.0003448" startTime="2025-07-04T22:35:34.3004283-06:00" endTime="2025-07-04T22:35:34.3007268-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d1e61a96-e6f3-4f99-926f-cb9c7a4f785e" />
+    <UnitTestResult executionId="bd8effb7-95ae-4f52-9f91-ae708f68928b" testId="7c60b7b8-56a0-0a25-fba5-f9783bc573e0" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Recover_ShouldReturnOriginalResult_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0001119" startTime="2025-07-04T22:35:34.3017428-06:00" endTime="2025-07-04T22:35:34.3017692-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bd8effb7-95ae-4f52-9f91-ae708f68928b" />
+    <UnitTestResult executionId="5faafbcf-5434-4926-8a2e-e20591dc9af1" testId="c1c35af9-2fcf-f6c9-459e-c3e6d2214d26" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.NonGenericMatch_ShouldHandleNullErrors_Gracefully" computerName="DESKTOP-FB2ES22" duration="00:00:00.0004648" startTime="2025-07-04T22:35:34.2999998-06:00" endTime="2025-07-04T22:35:34.3000207-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5faafbcf-5434-4926-8a2e-e20591dc9af1" />
+    <UnitTestResult executionId="a01e9d60-e4d5-44c2-b58a-26ef7d6ff28f" testId="4dbbb630-7076-d661-260e-a96c44502222" testName="ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess" computerName="DESKTOP-FB2ES22" duration="00:00:00.0004120" startTime="2025-07-04T22:35:34.3255056-06:00" endTime="2025-07-04T22:35:34.3255305-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a01e9d60-e4d5-44c2-b58a-26ef7d6ff28f" />
   </Results>
   <TestDefinitions>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.Recover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="08bb7c34-aa66-9584-c4ff-aa983410d966">
-      <Execution id="dc6644d5-b377-49a0-8a1d-2cf52996244f" />
+      <Execution id="39a000ff-cf2e-4433-a5ae-0d1d241c07bd" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="Recover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.Recover_ShouldReturnOriginalResult_WhenResultIsSuccess" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="7c60b7b8-56a0-0a25-fba5-f9783bc573e0">
-      <Execution id="2bd33ff1-024d-4c40-b030-e65b93f53bb5" />
+      <Execution id="bd8effb7-95ae-4f52-9f91-ae708f68928b" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="Recover_ShouldReturnOriginalResult_WhenResultIsSuccess" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldConvertCompatibleTypes_WhenResultIsSuccess" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="16d31d88-edfc-bb90-20d5-da0e3c90eeac">
-      <Execution id="2df60619-a9fc-411b-addd-57f82b647fc2" />
+      <Execution id="2a87e080-3c6c-417a-b377-8a29526a9a6a" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="RecoverWith_ShouldConvertCompatibleTypes_WhenResultIsSuccess" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleComplexTypeConversions_SafelyWithoutExceptions" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="c3905146-5b5f-0646-6962-9ae0a2f45af6">
-      <Execution id="9b33741f-2dde-4107-a994-96ced314efb5" />
+      <Execution id="d1e61a96-e6f3-4f99-926f-cb9c7a4f785e" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="RecoverWith_ShouldHandleComplexTypeConversions_SafelyWithoutExceptions" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleNullValues_Safely" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="87dd9720-59f0-5d96-a0b1-30e2237fa17f">
-      <Execution id="4f003f2d-e2d5-482c-96fa-ad30df2097fa" />
+      <Execution id="6338130f-e4a0-403e-9d90-7b1566dccfcc" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="RecoverWith_ShouldHandleNullValues_Safely" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldReturnFailure_WhenTypeConversionIsIncompatible" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="c7c67a5e-ba5d-a183-c954-80220aae8abb">
-      <Execution id="9fb247cb-76a3-42b8-bf29-aaa544dceea6" />
+      <Execution id="e5a8716b-7156-4083-8f8d-1ea4e08fc754" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="RecoverWith_ShouldReturnFailure_WhenTypeConversionIsIncompatible" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldExecuteRecoveryFunction_WhenResultIsFailure" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="02099127-b2d4-5e43-22a8-ff63a7206855">
-      <Execution id="545ccd87-3be1-47c2-b558-8a683fa6eef7" />
+      <Execution id="a7461c5c-ad2e-4057-ad21-fd9905e5b77d" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="RecoverWith_ShouldExecuteRecoveryFunction_WhenResultIsFailure" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.GenericRecover_ShouldReturnOriginalResult_WhenResultIsSuccess" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="a8617554-53f6-76b6-bfad-dde010670e7f">
-      <Execution id="9e6349f1-aa2f-44c0-a929-3393aa222f33" />
+      <Execution id="49369e38-59ae-4e2c-8578-b8f5d540bde4" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="GenericRecover_ShouldReturnOriginalResult_WhenResultIsSuccess" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteFailureFunction_WhenResultIsFailure" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="dd405242-79ce-8db3-e116-75cb9ddc030a">
-      <Execution id="2a7430a2-388d-453e-868e-0b6db85d6873" />
+      <Execution id="578c5fc6-9a20-4052-b1b4-dab462ebe70d" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="Match_ShouldExecuteFailureFunction_WhenResultIsFailure" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.NonGenericMatch_ShouldHandleNullErrors_Gracefully" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="c1c35af9-2fcf-f6c9-459e-c3e6d2214d26">
-      <Execution id="ec7a63aa-8788-4576-b8cb-1cc1908c9e50" />
+      <Execution id="5faafbcf-5434-4926-8a2e-e20591dc9af1" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="NonGenericMatch_ShouldHandleNullErrors_Gracefully" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.GenericRecover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="008d66c0-68ae-7829-664e-3dc25b2e2040">
-      <Execution id="ba6cf13f-b8cd-4675-b378-5c2a4c47720a" />
+      <Execution id="46adc440-17e1-4b5c-bf21-9029381908ba" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="GenericRecover_ShouldExecuteRecoveryFunction_WhenResultIsFailure" />
     </UnitTest>
     <UnitTest name="ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess" storage="f:\dynamic\exxerai\exxerai\code\artifacts\bin\exxerai.domain.tests\debug\net9.0\exxerai.domain.tests.dll" id="4dbbb630-7076-d661-260e-a96c44502222">
-      <Execution id="b920f067-c69a-4589-9909-eedf50758dac" />
+      <Execution id="a01e9d60-e4d5-44c2-b58a-26ef7d6ff28f" />
       <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\code\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.Domain.Tests.ResultRecoveryTests" name="Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
-    <TestEntry testId="16d31d88-edfc-bb90-20d5-da0e3c90eeac" executionId="2df60619-a9fc-411b-addd-57f82b647fc2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="c3905146-5b5f-0646-6962-9ae0a2f45af6" executionId="9b33741f-2dde-4107-a994-96ced314efb5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="008d66c0-68ae-7829-664e-3dc25b2e2040" executionId="ba6cf13f-b8cd-4675-b378-5c2a4c47720a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="87dd9720-59f0-5d96-a0b1-30e2237fa17f" executionId="4f003f2d-e2d5-482c-96fa-ad30df2097fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="7c60b7b8-56a0-0a25-fba5-f9783bc573e0" executionId="2bd33ff1-024d-4c40-b030-e65b93f53bb5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="c7c67a5e-ba5d-a183-c954-80220aae8abb" executionId="9fb247cb-76a3-42b8-bf29-aaa544dceea6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="4dbbb630-7076-d661-260e-a96c44502222" executionId="b920f067-c69a-4589-9909-eedf50758dac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="c1c35af9-2fcf-f6c9-459e-c3e6d2214d26" executionId="ec7a63aa-8788-4576-b8cb-1cc1908c9e50" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="02099127-b2d4-5e43-22a8-ff63a7206855" executionId="545ccd87-3be1-47c2-b558-8a683fa6eef7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="08bb7c34-aa66-9584-c4ff-aa983410d966" executionId="dc6644d5-b377-49a0-8a1d-2cf52996244f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="dd405242-79ce-8db3-e116-75cb9ddc030a" executionId="2a7430a2-388d-453e-868e-0b6db85d6873" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
-    <TestEntry testId="a8617554-53f6-76b6-bfad-dde010670e7f" executionId="9e6349f1-aa2f-44c0-a929-3393aa222f33" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dd405242-79ce-8db3-e116-75cb9ddc030a" executionId="578c5fc6-9a20-4052-b1b4-dab462ebe70d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="87dd9720-59f0-5d96-a0b1-30e2237fa17f" executionId="6338130f-e4a0-403e-9d90-7b1566dccfcc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="008d66c0-68ae-7829-664e-3dc25b2e2040" executionId="46adc440-17e1-4b5c-bf21-9029381908ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16d31d88-edfc-bb90-20d5-da0e3c90eeac" executionId="2a87e080-3c6c-417a-b377-8a29526a9a6a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="08bb7c34-aa66-9584-c4ff-aa983410d966" executionId="39a000ff-cf2e-4433-a5ae-0d1d241c07bd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c7c67a5e-ba5d-a183-c954-80220aae8abb" executionId="e5a8716b-7156-4083-8f8d-1ea4e08fc754" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="02099127-b2d4-5e43-22a8-ff63a7206855" executionId="a7461c5c-ad2e-4057-ad21-fd9905e5b77d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8617554-53f6-76b6-bfad-dde010670e7f" executionId="49369e38-59ae-4e2c-8578-b8f5d540bde4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c3905146-5b5f-0646-6962-9ae0a2f45af6" executionId="d1e61a96-e6f3-4f99-926f-cb9c7a4f785e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7c60b7b8-56a0-0a25-fba5-f9783bc573e0" executionId="bd8effb7-95ae-4f52-9f91-ae708f68928b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c1c35af9-2fcf-f6c9-459e-c3e6d2214d26" executionId="5faafbcf-5434-4926-8a2e-e20591dc9af1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4dbbb630-7076-d661-260e-a96c44502222" executionId="a01e9d60-e4d5-44c2-b58a-26ef7d6ff28f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
   </TestEntries>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
     <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
   </TestLists>
-  <ResultSummary outcome="Failed">
-    <Counters total="12" executed="12" passed="8" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  <ResultSummary outcome="Completed">
+    <Counters total="12" executed="12" passed="12" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
       <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.1+bf6400fd51 (64-bit .NET 9.0.6)&#xD;
-[xUnit.net 00:00:00.13]   Discovering: ExxerAI.Domain.Tests&#xD;
-[xUnit.net 00:00:00.24]   Discovered:  ExxerAI.Domain.Tests&#xD;
-[xUnit.net 00:00:00.26]   Starting:    ExxerAI.Domain.Tests&#xD;
-[xUnit.net 00:00:00.32]       Shouldly.ShouldAssertException : convertedResult.IsSuccess&#xD;
-[xUnit.net 00:00:00.32]           should be&#xD;
-[xUnit.net 00:00:00.32]       True&#xD;
-[xUnit.net 00:00:00.32]           but was&#xD;
-[xUnit.net 00:00:00.32]       False&#xD;
-[xUnit.net 00:00:00.32]       Stack Trace:&#xD;
-[xUnit.net 00:00:00.32]         F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs(159,0): at ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleNullValues_Safely()&#xD;
-[xUnit.net 00:00:00.32]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-[xUnit.net 00:00:00.32]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
-[xUnit.net 00:00:00.32]       Shouldly.ShouldAssertException : matchResult&#xD;
-[xUnit.net 00:00:00.32]           should contain (case insensitive comparison)&#xD;
-[xUnit.net 00:00:00.32]       "Operation failed to execute successfully"&#xD;
-[xUnit.net 00:00:00.32]           but was actually&#xD;
-[xUnit.net 00:00:00.32]       "Failed: "&#xD;
-[xUnit.net 00:00:00.32]       Stack Trace:&#xD;
-[xUnit.net 00:00:00.32]         F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs(208,0): at ExxerAI.Domain.Tests.ResultRecoveryTests.NonGenericMatch_ShouldHandleNullErrors_Gracefully()&#xD;
-[xUnit.net 00:00:00.32]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-[xUnit.net 00:00:00.32]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
-[xUnit.net 00:00:00.36]       Shouldly.ShouldAssertException : matchResult&#xD;
-[xUnit.net 00:00:00.36]           should be&#xD;
-[xUnit.net 00:00:00.36]       Success: Success: test value&#xD;
-[xUnit.net 00:00:00.36]           but was&#xD;
-[xUnit.net 00:00:00.36]       Success: Success: test value&#xD;
-[xUnit.net 00:00:00.36]       Stack Trace:&#xD;
-[xUnit.net 00:00:00.36]         F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs(176,0): at ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess()&#xD;
-[xUnit.net 00:00:00.36]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-[xUnit.net 00:00:00.36]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
-[xUnit.net 00:00:00.36]       Shouldly.ShouldAssertException : matchResult&#xD;
-[xUnit.net 00:00:00.36]           should be&#xD;
-[xUnit.net 00:00:00.36]       Success: Failed: test error&#xD;
-[xUnit.net 00:00:00.36]           but was&#xD;
-[xUnit.net 00:00:00.36]       Success: Failed: test error&#xD;
-[xUnit.net 00:00:00.36]       Stack Trace:&#xD;
-[xUnit.net 00:00:00.36]         F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultRecoveryTests.cs(192,0): at ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteFailureFunction_WhenResultIsFailure()&#xD;
-[xUnit.net 00:00:00.36]            at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)&#xD;
-[xUnit.net 00:00:00.36]            at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)&#xD;
-[xUnit.net 00:00:00.36]   Finished:    ExxerAI.Domain.Tests&#xD;
+[xUnit.net 00:00:00.07]   Discovering: ExxerAI.Domain.Tests&#xD;
+[xUnit.net 00:00:00.18]   Discovered:  ExxerAI.Domain.Tests&#xD;
+[xUnit.net 00:00:00.19]   Starting:    ExxerAI.Domain.Tests&#xD;
+[xUnit.net 00:00:00.25]   Finished:    ExxerAI.Domain.Tests&#xD;
 </StdOut>
     </Output>
-    <RunInfos>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-04T22:34:15.8027243-06:00">
-        <Text>[xUnit.net 00:00:00.32]     ExxerAI.Domain.Tests.ResultRecoveryTests.RecoverWith_ShouldHandleNullValues_Safely [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-04T22:34:15.8056156-06:00">
-        <Text>[xUnit.net 00:00:00.32]     ExxerAI.Domain.Tests.ResultRecoveryTests.NonGenericMatch_ShouldHandleNullErrors_Gracefully [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-04T22:34:15.8889667-06:00">
-        <Text>[xUnit.net 00:00:00.36]     ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteSuccessFunction_WhenResultIsSuccess [FAIL]</Text>
-      </RunInfo>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-04T22:34:15.8892092-06:00">
-        <Text>[xUnit.net 00:00:00.36]     ExxerAI.Domain.Tests.ResultRecoveryTests.Match_ShouldExecuteFailureFunction_WhenResultIsFailure [FAIL]</Text>
-      </RunInfo>
-    </RunInfos>
   </ResultSummary>
 </TestRun>

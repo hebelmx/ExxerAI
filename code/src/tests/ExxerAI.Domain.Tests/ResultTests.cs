@@ -9,21 +9,11 @@ public class ResultTests
     #region Test Constants
 
     /// <summary>
-    /// Constants for expected messages to reduce test fragility and improve maintainability.
-    /// These represent contracts vs implementation details.
+    /// Test-specific constants for error messages used in tests.
+    /// For system constants, see ResultConstants class.
     /// </summary>
-    private static class ExpectedMessages
+    private static class TestMessages
     {
-        // Contract: Default error message (should be consistent across versions)
-        public const string DefaultError = "Operation failed to execute successfully";
-        
-        // Contract: No errors found message
-        public const string NoErrorsFound = "No errors were found";
-        
-        // Implementation detail: ToString formatting (more flexible)
-        public const string SuccessPrefix = "Success";
-        public const string FailurePrefix = "Failure";
-        
         // Test data: Specific error messages used in tests
         public const string TestError = "Test error";
         public const string InitialFailure = "Initial failure";
@@ -47,10 +37,10 @@ public class ResultTests
         {
             // Contract: Must indicate failure and contain the error (case-insensitive for formatting)
             var lowerResult = toStringResult.ToLowerInvariant();
-            var lowerPrefix = ExpectedMessages.FailurePrefix.ToLowerInvariant();
+            var lowerPrefix = ResultConstants.FailurePrefix.ToLowerInvariant();
             
             lowerResult.Contains(lowerPrefix).ShouldBeTrue(
-                $"Expected '{toStringResult}' to indicate failure (should contain '{ExpectedMessages.FailurePrefix}')");
+                $"Expected '{toStringResult}' to indicate failure (should contain '{ResultConstants.FailurePrefix}')");
             toStringResult.Contains(expectedError).ShouldBeTrue(
                 $"Expected '{toStringResult}' to contain error '{expectedError}'");
         }
@@ -62,10 +52,10 @@ public class ResultTests
         {
             // Contract: Must indicate success (case-insensitive for formatting)
             var lowerResult = toStringResult.ToLowerInvariant();
-            var lowerPrefix = ExpectedMessages.SuccessPrefix.ToLowerInvariant();
+            var lowerPrefix = ResultConstants.SuccessPrefix.ToLowerInvariant();
             
             lowerResult.Contains(lowerPrefix).ShouldBeTrue(
-                $"Expected '{toStringResult}' to indicate success (should contain '{ExpectedMessages.SuccessPrefix}')");
+                $"Expected '{toStringResult}' to indicate success (should contain '{ResultConstants.SuccessPrefix}')");
         }
     }
 
@@ -100,7 +90,7 @@ public class ResultTests
         failureResult.ShouldNotBeNull();
         failureResult.IsSuccess.ShouldBeFalse();
         failureResult.IsFailure.ShouldBeTrue();
-        failureResult.Errors.ShouldContain(ExpectedMessages.TestError);
+        failureResult.Errors.ShouldContain(TestMessages.TestError);
         failureResult.Errors.Count().ShouldBe(1);
 
         // Arrange & Act - Test static WithFailure factory method with multiple errors
@@ -210,7 +200,7 @@ public class ResultTests
     {
         // Arrange
         var successResult = Result.Success();
-        var failureResult = Result.WithFailure(ExpectedMessages.InitialFailure);
+        var failureResult = Result.WithFailure(TestMessages.InitialFailure);
         var actionExecuted = false;
         var capturedErrors = new List<string>();
 
@@ -224,7 +214,7 @@ public class ResultTests
 
         // Act & Assert - Test OnFailure method
         failureResult.OnFailure(errors => capturedErrors.AddRange(errors));
-        capturedErrors.ShouldContain(ExpectedMessages.InitialFailure);
+        capturedErrors.ShouldContain(TestMessages.InitialFailure);
 
         capturedErrors.Clear(); // Reset
         successResult.OnFailure(errors => capturedErrors.AddRange(errors));
@@ -238,7 +228,7 @@ public class ResultTests
         mappedResult.IsSuccess.ShouldBeTrue();
         mappedResult.Value.ShouldBe("Mapped value");
         failedMappedResult.IsFailure.ShouldBeTrue();
-        failedMappedResult.Errors.ShouldContain(ExpectedMessages.InitialFailure);
+        failedMappedResult.Errors.ShouldContain(TestMessages.InitialFailure);
 
         // Arrange & Act - Test Bind method
         var boundResult = successResult.Bind(() => Result<int>.Success(100));
@@ -248,7 +238,7 @@ public class ResultTests
         boundResult.IsSuccess.ShouldBeTrue();
         boundResult.Value.ShouldBe(100);
         failedBoundResult.IsFailure.ShouldBeTrue();
-        failedBoundResult.Errors.ShouldContain(ExpectedMessages.InitialFailure);
+        failedBoundResult.Errors.ShouldContain(TestMessages.InitialFailure);
 
         // Arrange & Act - Test Ensure method
         var ensuredSuccess = successResult.Ensure(() => true, "Should not fail");
@@ -274,7 +264,7 @@ public class ResultTests
         // Assert - Combine method results
         combinedSuccess.IsSuccess.ShouldBeTrue();
         combinedFailure.IsFailure.ShouldBeTrue();
-        combinedFailure.Errors.ShouldContain(ExpectedMessages.InitialFailure);
+        combinedFailure.Errors.ShouldContain(TestMessages.InitialFailure);
 
         // Arrange & Act - Test Match method
         var matchResult = successResult.Match(() => "Success!", errors => $"Failed: {string.Join(", ", errors)}");
@@ -282,7 +272,7 @@ public class ResultTests
 
         // Assert - Match method results (more resilient to formatting changes)
         matchResult.ShouldBe("Success!");
-        TestHelpers.ShouldRepresentFailure(matchFailResult, ExpectedMessages.InitialFailure);
+        TestHelpers.ShouldRepresentFailure(matchFailResult, TestMessages.InitialFailure);
 
         // Arrange & Act - Test Recover method
         var recoveredResult = failureResult.Recover(() => Result.Success());
@@ -298,7 +288,7 @@ public class ResultTests
 
         // Assert - ToString method results (more resilient to formatting changes)
         TestHelpers.ShouldRepresentSuccess(successString);
-        TestHelpers.ShouldRepresentFailure(failureString, ExpectedMessages.InitialFailure);
+        TestHelpers.ShouldRepresentFailure(failureString, TestMessages.InitialFailure);
     }
 
     [Fact]
@@ -390,7 +380,7 @@ public class ResultTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(ExpectedMessages.NoErrorsFound);
+        result.Errors.ShouldContain(ResultConstants.NoErrorsFoundMessage);
     }
 
     [Fact]

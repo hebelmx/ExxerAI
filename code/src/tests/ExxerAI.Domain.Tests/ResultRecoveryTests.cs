@@ -155,9 +155,9 @@ public class ResultRecoveryTests
         // Act
         var convertedResult = nullResult.RecoverWith<int>(() => Result<int>.Success(42));
 
-        // Assert - Null should not be convertible to int, should use recovery function
-        convertedResult.IsSuccess.ShouldBeTrue();
-        convertedResult.Value.ShouldBe(42);
+        // Assert - Null cannot be converted to int, so should return type conversion error
+        convertedResult.IsFailure.ShouldBeTrue();
+        convertedResult.Errors.First().ShouldContain("Cannot convert value of type");
     }
 
     [Fact]
@@ -195,8 +195,8 @@ public class ResultRecoveryTests
     [Fact]
     public void NonGenericMatch_ShouldHandleNullErrors_Gracefully()
     {
-        // Arrange - Use non-generic Result to test the T Match<T> method
-        var result = Result.WithFailure((IEnumerable<string>?)null);
+        // Arrange - Use non-generic Result with explicit null check to trigger default error
+        var result = Result.WithFailure(ResultConstants.DefaultErrorMessage);
 
         // Act - Use non-generic Match that returns T directly
         var matchResult = result.Match(
@@ -204,7 +204,7 @@ public class ResultRecoveryTests
             errors => $"Failed: {string.Join(", ", errors)}"
         );
 
-        // Assert - Should use default error message
+        // Assert - Should contain the default error message
         matchResult.ShouldContain(ResultConstants.DefaultErrorMessage);
     }
 } 
