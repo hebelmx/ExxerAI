@@ -6,17 +6,19 @@
   <PropertyGroup>
     <!-- Target Framework -->
     <TargetFramework>net9.0</TargetFramework>
-    
+	  <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <!-- Language Features -->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    
+
     <!-- Package Management -->
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode>false</RestoreLockedMode>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <DisablePackageRestore>false</DisablePackageRestore>
-    
+
 
   </PropertyGroup>
 

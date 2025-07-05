@@ -6,18 +6,20 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<TargetFramework>net9.0</TargetFramework>
-		
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		
+
 		<!-- Test Configuration -->
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		
+
 		<!-- Package Management -->
 		<RestoreLockedMode>false</RestoreLockedMode>
-		
+
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI Application Tests</AssemblyTitle>
 		<Description>Unit and Integration Tests for ExxerAI Application Services</Description>

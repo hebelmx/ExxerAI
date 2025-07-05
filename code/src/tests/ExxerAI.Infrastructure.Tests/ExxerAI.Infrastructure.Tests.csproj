@@ -6,15 +6,17 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<TargetFramework>net9.0</TargetFramework>
-		
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		
+
 		<!-- Test Configuration -->
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
-		
+
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI Infrastructure Tests</AssemblyTitle>
 		<Description>Unit and Integration Tests for ExxerAI Infrastructure Services</Description>

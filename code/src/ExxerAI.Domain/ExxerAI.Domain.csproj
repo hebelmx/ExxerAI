@@ -1,11 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- ============================================================================ -->
+
+
+
+	<!-- ============================================================================ -->
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
   <PropertyGroup>
     <!-- Target Framework -->
     <TargetFramework>net9.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
     <!-- Language Features -->
     <Nullable>enable</Nullable>
