@@ -3,52 +3,58 @@
 		<!-- ============================================================================ -->
 		<!-- ARTIFACT REDIRECTION - ALL BUILD OUTPUTS OUTSIDE SRC DIRECTORY -->
 		<!-- ============================================================================ -->
-		
+
 		<!-- Redirect all build outputs to artifacts/bin and artifacts/obj -->
 		<BaseOutputPath>$(SolutionDir)..\..\artifacts\bin\</BaseOutputPath>
 		<BaseIntermediateOutputPath>$(SolutionDir)..\..\artifacts\obj\</BaseIntermediateOutputPath>
-		
+
 		<!-- Redirect all test results and coverage reports -->
 		<TestResultsDirectory>$(SolutionDir)..\..\artifacts\TestResults\</TestResultsDirectory>
 		<CoverletOutputFormat>cobertura</CoverletOutputFormat>
 		<CoverletOutput>$(SolutionDir)..\..\artifacts\Coverage\</CoverletOutput>
-		
+
 		<!-- Redirect package restore outputs -->
 		<RestorePackagesPath>$(SolutionDir)..\..\artifacts\packages\</RestorePackagesPath>
 		<NuGetPackageRoot>$(SolutionDir)..\..\artifacts\packages\</NuGetPackageRoot>
 		<PackageOutputPath>$(SolutionDir)..\..\artifacts\packages\</PackageOutputPath>
-		
+
 		<!-- Redirect MSBuild logs and other build artifacts -->
 		<MSBuildProjectExtensionsPath>$(SolutionDir)..\..\artifacts\obj\$(MSBuildProjectName)\</MSBuildProjectExtensionsPath>
 		<DefaultItemExcludes>$(DefaultItemExcludes);$(SolutionDir)..\..\artifacts/**</DefaultItemExcludes>
-		
+
 		<!-- Redirect publish outputs -->
 		<PublishDir>$(SolutionDir)..\..\artifacts\publish\$(MSBuildProjectName)\</PublishDir>
-		
+
 		<!-- Redirect documentation outputs -->
 		<DocumentationFile>$(SolutionDir)..\..\artifacts\docs\$(MSBuildProjectName).xml</DocumentationFile>
-		
+
 		<!-- ============================================================================ -->
 		<!-- ASSEMBLY GENERATION CONTROL -->
 		<!-- ============================================================================ -->
-		
+
 		<!-- Disable automatic assembly info generation to avoid duplicates -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-		
+
 		<!-- ============================================================================ -->
 		<!-- VERSION INFORMATION -->
 		<!-- ============================================================================ -->
-		
+
+		<!-- ============================================================================ -->
+		<!-- COMPILER INFORMATION-->
+		<!-- ============================================================================ -->
+
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
 		<Version>1.0.0</Version>
 		<FileVersion>1.0.0.0</FileVersion>
 		<AssemblyVersion>1.0.0.0</AssemblyVersion>
 		<InformationalVersion>1.0.0+build</InformationalVersion>
-		
+
 		<!-- ============================================================================ -->
 		<!-- APPLICATION INFORMATION -->
 		<!-- ============================================================================ -->
-		
+
 		<Company>Exxerpro Solutions</Company>
 		<Product>ExxerAI Intelligence System</Product>
 	</PropertyGroup>
