@@ -11,9 +11,9 @@ public static partial class EnumToString
     /// <param name="enumeration">The enumeration instance.</param>
     /// <param name="value">The integer value to convert.</param>
     /// <returns>The corresponding FlowStatus enumeration.</returns>
-    public static FlowStatus ToString2(this FlowStatus enumeration, int value)
+    public static FlowStatus ToEnum(this FlowStatus enumeration, int value)
     {
-        return value;
+        return EnumModel.FromValue<FlowStatus>(value);
     }
 
     /// <summary>

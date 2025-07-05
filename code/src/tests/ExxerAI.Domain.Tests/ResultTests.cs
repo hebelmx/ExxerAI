@@ -1,3 +1,5 @@
+using Shouldly;
+
 namespace ExxerAI.Domain.Tests;
 
 public class ResultTests
@@ -582,6 +584,9 @@ public class ResultTests
         actionCalled.ShouldBeTrue();
     }
 
+    //TODO [bug] mAKE THIS TEST PASS
+    //abr
+    // july 4 2025
     [Fact]
     public void Result_OnFailure_ShouldInvokeActionWithErrors_WhenResultIsFailure()
     {
@@ -591,6 +596,8 @@ public class ResultTests
         IEnumerable<string>? receivedErrors = null;
         Action<IEnumerable<string>> action = e => receivedErrors = e;
 
+        bool fail = result.IsFailure;
+        fail.ShouldBeTrue("Because we created a failure");
         // Act
         result.OnFailure(action);
 
@@ -646,7 +653,7 @@ public class ResultTests
 
     /// <summary>
     /// Regression tests to ensure Result<T> collections are always consistent.
-    /// These tests prevent the bug where Success() returned null collections while 
+    /// These tests prevent the bug where Success() returned null collections while
     /// WithFailure() returned empty collections, causing unpredictable behavior.
     /// </summary>
     [Fact]
@@ -659,7 +666,7 @@ public class ResultTests
         // Assert - Both methods should return empty collections (never null)
         successResult.Errors.ShouldNotBeNull();
         successResult.Errors.ShouldBeEmpty();
-        
+
         withSuccessResult.Errors.ShouldNotBeNull();
         withSuccessResult.Errors.ShouldBeEmpty();
 
@@ -707,7 +714,7 @@ public class ResultTests
         // Assert - Both constructors should handle nulls the same way
         jsonConstructorResult.Errors.ShouldNotBeNull();
         jsonConstructorResult.Errors.ShouldBeEmpty();
-        
+
         regularConstructorResult.Errors.ShouldNotBeNull();
         regularConstructorResult.Errors.ShouldBeEmpty();
 
@@ -791,7 +798,7 @@ public class ResultTests
     public void Collection_Behavior_Documentation_Test()
     {
         // This test serves as living documentation for the expected collection behavior
-        
+
         // ✅ SUCCESS BEHAVIOR: Always empty collections, never null
         var success = Result<string>.Success("data");
         success.Errors.ShouldNotBeNull("✅ Success results must have non-null collections");
@@ -813,5 +820,5 @@ public class ResultTests
         method1.Errors.ShouldBeEquivalentTo(method2.Errors, "✅ All success methods must behave identically");
     }
 
-    #endregion
+    #endregion Collection Consistency Regression Tests
 }

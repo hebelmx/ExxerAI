@@ -39,9 +39,9 @@ public class EnumModelTests
         var (value, name, displayName) = flowStatus;
 
         // Assert
-        value.ShouldBe(1);
-        name.ShouldBe("Ok");
-        displayName.ShouldBe("Ok");
+        value.ShouldBe(2);
+        name.ShouldBe("InProcess");
+        displayName.ShouldBe("InProcess");
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class EnumModelTests
         int value = flowStatus;
 
         // Assert
-        value.ShouldBe(1);
+        value.ShouldBe(2);
     }
 
     [Fact]
@@ -67,7 +67,7 @@ public class EnumModelTests
         var result = flowStatus.ToString(1);
 
         // Assert
-        result.ShouldBe("Ok");
+        result.ShouldBe("Created");
     }
 
     [Theory]
@@ -92,11 +92,11 @@ public class EnumModelTests
 
         // Assert
         allFlowStatuses.ShouldNotBeEmpty();
-        allFlowStatuses.ShouldContain(ps => ps.Name == "Ok");
-        allFlowStatuses.ShouldContain(ps => ps.Name == "nOK");
-        allFlowStatuses.ShouldContain(ps => ps.Name == "Restored");
-        allFlowStatuses.ShouldContain(ps => ps.Name == "Rejected");
-        allFlowStatuses.ShouldContain(ps => ps.Name == "Scrap");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "None");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Created");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "InProcess");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Finished");
+        allFlowStatuses.ShouldContain(ps => ps.Name == "Invalid");
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class EnumModelTests
         // Assert
         lookupTables.ShouldNotBeEmpty();
         lookupTables.ShouldAllBe(lt => lt != null);
-        lookupTables.ShouldContain(lt => lt.Name == "Ok");
+        lookupTables.ShouldContain(lt => lt.Name == "Created");
     }
 
     [Fact]
@@ -162,22 +162,22 @@ public class EnumModelTests
     public void AbsoluteDifference_BetweenValues_ShouldReturnCorrectDifference()
     {
         // Arrange
-        var flowStatus1 = FlowStatus.InProcess;       // Value = 1
+        var flowStatus1 = FlowStatus.InProcess;       // Value = 2
         var flowStatus2 = FlowStatus.Finished; // Value = 4
 
         // Act
         var difference = EnumModel.AbsoluteDifference(flowStatus1, flowStatus2);
 
         // Assert
-        difference.ShouldBe(3);
+        difference.ShouldBe(2);
     }
 
     [Theory]
-    [InlineData(1)]     // Ok
-    [InlineData(2)]     // NOk
-    [InlineData(4)]     // Restored
-    [InlineData(8)]     // Rejected
-    [InlineData(512)]   // Scrap
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(4)]
+    [InlineData(8)]
+    [InlineData(32)]
     public void FromValue_WithValidValues_ShouldReturnCorrectInstance(int value)
     {
         // Arrange & Act
@@ -196,7 +196,7 @@ public class EnumModelTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.Name.ShouldBe("Invalid Value");
+        result.Name.ShouldBe("Invalid");
     }
 
     [Theory]
@@ -223,18 +223,18 @@ public class EnumModelTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.Name.ShouldBe("Invalid Value");
+        result.Name.ShouldBe("Invalid");
     }
 
     [Fact]
     public void FromDisplayName_WithValidDisplayName_ShouldReturnCorrectInstance()
     {
         // Arrange & Act
-        var result = EnumModel.FromDisplayName<FlowStatus>("Ok");
+        var result = EnumModel.FromDisplayName<FlowStatus>("Invalid");
 
         // Assert
         result.ShouldNotBeNull();
-        result.DisplayName.ShouldBe("Ok");
+        result.DisplayName.ShouldBe("Invalid");
     }
 
     [Fact]
@@ -245,7 +245,7 @@ public class EnumModelTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.Name.ShouldBe("Invalid Value");
+        result.Name.ShouldBe("Invalid");
     }
 
     [Theory]
@@ -265,7 +265,7 @@ public class EnumModelTests
         }
         else
         {
-            result.Name.ShouldBe("Invalid Value");
+            result.Name.ShouldBe("Invalid");
         }
     }
 
@@ -277,7 +277,7 @@ public class EnumModelTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.Name.ShouldBe("Invalid Value");
+        result.Name.ShouldBe("Invalid");
     }
 
     [Fact]

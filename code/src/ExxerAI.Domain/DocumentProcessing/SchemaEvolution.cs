@@ -19,12 +19,12 @@ public class SchemaEvolution
     /// <summary>
     /// Gets or sets the previous version number.
     /// </summary>
-    public int PreviousVersion { get; set; } = 1;
+    public int PreviousVersion { get; set; } = 1; //why this default values
 
     /// <summary>
     /// Gets or sets the new version number.
     /// </summary>
-    public int NewVersion { get; set; } = 2;
+    public int NewVersion { get; set; } = 2; //why this default values
 
     /// <summary>
     /// Gets or sets the changes made in this evolution.
