@@ -41,4 +41,19 @@ public static class ResultConstants
     /// Use with string.Format(template, sourceType, targetType).
     /// </summary>
     public const string RecoverWithTypeConversionError = "Cannot convert value of type '{0}' to '{1}' in RecoverWith operation";
+
+    /// <summary>
+    /// Error message when a null value is encountered in a successful result where a value is expected.
+    /// </summary>
+    public const string NullValueInSuccessfulResult = "Operation succeeded but returned a null value";
+
+    /// <summary>
+    /// Error message when Result state is inconsistent after deserialization.
+    /// </summary>
+    public const string InconsistentResultState = "Result object has inconsistent internal state";
+
+    /// <summary>
+    /// Error message when a condition cannot be evaluated due to null value.
+    /// </summary>
+    public const string ConditionEvaluationWithNullValue = "Cannot evaluate condition with null value";
 } 

@@ -1,7 +1,7 @@
 ---
 description: Application-Driven Design & Testing Expert
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 Task: Complete unit test bed for Indtrace Application project [IndTrace.Application.csproj](mdc:Core/Application/IndTrace.Application.csproj)
 

@@ -4,7 +4,7 @@ namespace ExxerAI.Domain.Helpers;
 /// Represents the result of an operation, including success status and error messages.
 /// Use this class for operations that do not return a value but need to indicate success or failure.
 /// </summary>
-public class Result
+public sealed class Result
 {
     // Note: Error messages are now centralized in ResultConstants class
 
@@ -15,8 +15,11 @@ public class Result
     /// <param name="errors">A collection of error messages.</param>
     private Result(bool succeeded, IEnumerable<string> errors)
     {
-        IsSuccess = succeeded && (errors?.Any() != true);
-        Errors = errors?.ToArray() ?? Array.Empty<string>();
+        var errorArray = errors?.ToArray() ?? Array.Empty<string>();
+        var hasAnyErrors = errorArray.Length > 0;
+        
+        IsSuccess = succeeded && !hasAnyErrors;
+        Errors = errorArray;
     }
 
     /// <summary>
@@ -33,26 +36,129 @@ public class Result
     /// </summary>
     public override string ToString()
     {
-        return IsSuccess ? ResultConstants.SuccessPrefix : ListOfErrorsString();
+        return IsSuccess ? ResultConstants.SuccessPrefix : FormatErrorsString(Errors, ResultConstants.FailurePrefix);
     }
 
     /// <summary>
-    /// Returns a formatted string containing all error messages.
+    /// Formats error messages into a readable string. Shared logic for consistent formatting.
+    /// Uses Span&lt;char&gt; optimizations for small error collections to reduce allocations.
     /// </summary>
-    private string ListOfErrorsString()
+    /// <param name="errors">The collection of error messages.</param>
+    /// <param name="prefix">The prefix to use (e.g., "Success", "Failure").</param>
+    /// <returns>A formatted string representation.</returns>
+    public static string FormatErrorsString(IEnumerable<string> errors, string prefix)
     {
-        var stringBuilder = new StringBuilder($"{ResultConstants.FailurePrefix}: ");
-        foreach (var error in Errors)
+        if (errors is null || !errors.Any()) 
+            return prefix;
+
+        // Fast path for arrays/collections with known count
+        if (errors is string[] errorArray)
         {
+            return FormatErrorsStringSpan(errorArray.AsSpan(), prefix);
+        }
+        
+        if (errors is ICollection<string> collection && collection.Count <= 16)
+        {
+            // Use array for small collections (avoid repeated enumeration)
+            var collectionArray = new string[collection.Count];
+            var index = 0;
+            foreach (var error in collection)
+            {
+                collectionArray[index++] = error;
+            }
+            return FormatErrorsStringSpan(collectionArray.AsSpan(), prefix);
+        }
+
+        // Fallback to StringBuilder for large collections
+        return FormatErrorsStringFallback(errors, prefix);
+    }
+
+    /// <summary>
+    /// High-performance formatting using Span&lt;string&gt; for small collections.
+    /// Uses stackalloc char buffer to minimize allocations.
+    /// </summary>
+    /// <param name="errorSpan">The span of error messages.</param>
+    /// <param name="prefix">The prefix to use.</param>
+    /// <returns>A formatted string.</returns>
+    private static string FormatErrorsStringSpan(ReadOnlySpan<string> errorSpan, string prefix)
+    {
+        if (errorSpan.IsEmpty)
+            return prefix;
+
+        // Estimate capacity: prefix + ": " + errors + separators
+        var estimatedLength = prefix.Length + 2; // ": "
+        foreach (var error in errorSpan)
+        {
+            estimatedLength += (error?.Length ?? 0) + 2; // ", "
+        }
+
+        // Use stackalloc for small strings, StringBuilder for large ones
+        if (estimatedLength <= 512)
+        {
+            Span<char> buffer = stackalloc char[estimatedLength];
+            return BuildStringInSpan(buffer, errorSpan, prefix);
+        }
+        else
+        {
+            return FormatErrorsStringFallback(errorSpan.ToArray(), prefix);
+        }
+    }
+
+    /// <summary>
+    /// Builds the formatted string directly in a Span&lt;char&gt; buffer for maximum efficiency.
+    /// </summary>
+    /// <param name="buffer">The character buffer to write to.</param>
+    /// <param name="errorSpan">The span of error messages.</param>
+    /// <param name="prefix">The prefix to use.</param>
+    /// <returns>The formatted string.</returns>
+    private static string BuildStringInSpan(Span<char> buffer, ReadOnlySpan<string> errorSpan, string prefix)
+    {
+        var position = 0;
+        
+        // Write prefix
+        prefix.AsSpan().CopyTo(buffer[position..]);
+        position += prefix.Length;
+        
+        // Write ": "
+        ": ".AsSpan().CopyTo(buffer[position..]);
+        position += 2;
+        
+        // Write errors with separators
+        for (var i = 0; i < errorSpan.Length; i++)
+        {
+            if (i > 0)
+            {
+                ", ".AsSpan().CopyTo(buffer[position..]);
+                position += 2;
+            }
+            
+            var error = errorSpan[i] ?? string.Empty;
+            error.AsSpan().CopyTo(buffer[position..]);
+            position += error.Length;
+        }
+        
+        return new string(buffer[..position]);
+    }
+
+    /// <summary>
+    /// StringBuilder fallback for large collections or when Span optimization isn't beneficial.
+    /// </summary>
+    /// <param name="errors">The error messages.</param>
+    /// <param name="prefix">The prefix to use.</param>
+    /// <returns>A formatted string.</returns>
+    private static string FormatErrorsStringFallback(IEnumerable<string> errors, string prefix)
+    {
+        var stringBuilder = new StringBuilder($"{prefix}: ");
+        var isFirst = true;
+        
+        foreach (var error in errors)
+        {
+            if (!isFirst)
+                stringBuilder.Append(", ");
             stringBuilder.Append(error);
-            stringBuilder.Append(", ");
+            isFirst = false;
         }
-        // Remove the trailing comma and space, if any
-        var prefixLength = ResultConstants.FailurePrefix.Length + 2; // +2 for ": "
-        if (stringBuilder.Length > prefixLength)
-        {
-            stringBuilder.Length -= 2; // Remove the last ", "
-        }
+        
         return stringBuilder.ToString();
     }
 
@@ -92,7 +198,13 @@ public class Result
     /// <returns>A failed <see cref="Result"/> instance.</returns>
     public static Result WithFailure(IEnumerable<string> errors)
     {
-        return new Result(false, errors);
+        // Check for null or empty collections and provide default error message (consistent with generic version)
+        var errorArray = errors?.ToArray();
+        if (errorArray is null || errorArray.Length == 0)
+        {
+            errorArray = [ResultConstants.DefaultErrorMessage];
+        }
+        return new Result(false, errorArray);
     }
 
     /// <summary>
@@ -102,6 +214,11 @@ public class Result
     /// <returns>A failed <see cref="Result"/> instance.</returns>
     public static Result WithFailure(string[] errors)
     {
+        // Check for empty array and provide default error message (consistent with IEnumerable overload)
+        if (errors is null || errors.Length == 0)
+        {
+            errors = [ResultConstants.DefaultErrorMessage];
+        }
         return new Result(false, errors);
     }
 
@@ -217,8 +334,27 @@ public class Result
     /// <returns>A <see cref="Result"/> representing the combined outcome.</returns>
     public Result Combine(params Result[] results)
     {
-        var allErrors = results.Where(r => r.IsFailure).SelectMany(r => r.Errors).ToList();
-        return allErrors.Any() ? WithFailure(allErrors) : Success();
+        if (results is null || results.Length == 0)
+            return this;
+            
+        var errorList = new List<string>();
+        
+        // Add current result's errors if it's a failure
+        if (IsFailure && Errors is not null)
+        {
+            errorList.AddRange(Errors);
+        }
+        
+        // Add errors from all failed results
+        foreach (var result in results)
+        {
+            if (result.IsFailure && result.Errors is not null)
+            {
+                errorList.AddRange(result.Errors);
+            }
+        }
+        
+        return errorList.Count > 0 ? WithFailure(errorList) : Success();
     }
 
     /// <summary>
@@ -245,18 +381,131 @@ public class Result
 
     /// <summary>
     /// Combines two sets of errors into a single failed result, or a default failure if both are empty.
+    /// Uses Span&lt;T&gt; optimizations for small collections to reduce allocations.
     /// </summary>
     /// <param name="primaryErrors">The primary error messages.</param>
     /// <param name="secondaryErrors">The secondary error messages.</param>
     /// <returns>A failed <see cref="Result"/> with all errors.</returns>
     public static Result CombineErrors(IEnumerable<string>? primaryErrors, IEnumerable<string>? secondaryErrors)
     {
-        // Combine non-null lists, or return a failure message if both are null.
-        var combinedErrors = (primaryErrors ?? [])
-            .Concat(secondaryErrors ?? [])
-            .ToList();
-        return combinedErrors.Any()
-            ? WithFailure(combinedErrors)
+        // Fast path: both null
+        if (primaryErrors is null && secondaryErrors is null)
+        {
+            return WithFailure(ResultConstants.NoErrorsFoundMessage);
+        }
+
+        // Fast path: one is null
+        if (primaryErrors is null)
+        {
+            return WithFailure(secondaryErrors!);
+        }
+        if (secondaryErrors is null)
+        {
+            return WithFailure(primaryErrors);
+        }
+
+        // Span optimization for small collections
+        if (TryGetSmallCollectionCounts(primaryErrors, secondaryErrors, out var primaryCount, out var secondaryCount))
+        {
+            var totalCount = primaryCount + secondaryCount;
+            if (totalCount <= 32) // Reasonable stackalloc limit
+            {
+                return CombineErrorsSpan(primaryErrors, secondaryErrors, primaryCount, secondaryCount, totalCount);
+            }
+        }
+
+        // Fallback to List<string> for large collections
+        return CombineErrorsFallback(primaryErrors, secondaryErrors);
+    }
+
+    /// <summary>
+    /// Attempts to get collection counts for small collections that benefit from Span optimization.
+    /// </summary>
+    /// <param name="primary">Primary error collection.</param>
+    /// <param name="secondary">Secondary error collection.</param>
+    /// <param name="primaryCount">Count of primary errors.</param>
+    /// <param name="secondaryCount">Count of secondary errors.</param>
+    /// <returns>True if both collections are small enough for Span optimization.</returns>
+    private static bool TryGetSmallCollectionCounts(
+        IEnumerable<string> primary, 
+        IEnumerable<string> secondary, 
+        out int primaryCount, 
+        out int secondaryCount)
+    {
+        primaryCount = 0;
+        secondaryCount = 0;
+
+        // Only optimize for collections with known counts
+        if (primary is ICollection<string> primaryCollection && primaryCollection.Count <= 16)
+        {
+            primaryCount = primaryCollection.Count;
+        }
+        else
+        {
+            return false;
+        }
+
+        if (secondary is ICollection<string> secondaryCollection && secondaryCollection.Count <= 16)
+        {
+            secondaryCount = secondaryCollection.Count;
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /// <summary>
+    /// High-performance error combining using arrays for small collections.
+    /// </summary>
+    /// <param name="primaryErrors">Primary error collection.</param>
+    /// <param name="secondaryErrors">Secondary error collection.</param>
+    /// <param name="primaryCount">Count of primary errors.</param>
+    /// <param name="secondaryCount">Count of secondary errors.</param>
+    /// <param name="totalCount">Total error count.</param>
+    /// <returns>A failed Result with combined errors.</returns>
+    private static Result CombineErrorsSpan(
+        IEnumerable<string> primaryErrors,
+        IEnumerable<string> secondaryErrors,
+        int primaryCount,
+        int secondaryCount,
+        int totalCount)
+    {
+        var errorArray = new string[totalCount];
+        var position = 0;
+
+        // Copy primary errors
+        foreach (var error in primaryErrors)
+        {
+            errorArray[position++] = error;
+        }
+
+        // Copy secondary errors
+        foreach (var error in secondaryErrors)
+        {
+            errorArray[position++] = error;
+        }
+
+        return WithFailure(errorArray);
+    }
+
+    /// <summary>
+    /// Fallback implementation for large collections using List&lt;string&gt;.
+    /// </summary>
+    /// <param name="primaryErrors">Primary error collection.</param>
+    /// <param name="secondaryErrors">Secondary error collection.</param>
+    /// <returns>A failed Result with combined errors.</returns>
+    private static Result CombineErrorsFallback(IEnumerable<string> primaryErrors, IEnumerable<string> secondaryErrors)
+    {
+        var errorList = new List<string>();
+        
+        errorList.AddRange(primaryErrors);
+        errorList.AddRange(secondaryErrors);
+        
+        return errorList.Count > 0
+            ? WithFailure(errorList)
             : WithFailure(ResultConstants.NoErrorsFoundMessage);
     }
 }
@@ -265,7 +514,7 @@ public class Result
 /// Represents the result of an operation that returns a value, including success status, value, and error messages.
 /// Use this class for operations that return a value and need to indicate success, failure, or warnings.
 /// </summary>
-public class Result<T>
+public sealed class Result<T>
 {
     // Note: Error messages are now centralized in ResultConstants class
 
@@ -279,9 +528,13 @@ public class Result<T>
     public Result(bool isSuccess, IEnumerable<string>? errors, T? value = default)
     {
         _isSuccess = isSuccess;
-        _hasErrors = errors?.Any() == true;
-        Errors = errors?.ToArray() ?? Array.Empty<string>();
+        var errorArray = errors?.ToArray() ?? Array.Empty<string>();
+        _hasErrors = errorArray.Length > 0;
+        Errors = errorArray;
         _value = value;
+        
+        // Validate state consistency after deserialization
+        ValidateInternalState();
     }
 
     /// <summary>
@@ -293,9 +546,25 @@ public class Result<T>
     public Result(bool isSuccess, List<string>? errors, T? value = default)
     {
         _isSuccess = isSuccess;
-        _hasErrors = errors?.Any() == true;
-        Errors = errors?.ToArray() ?? Array.Empty<string>();
+        var errorArray = errors?.ToArray() ?? Array.Empty<string>();
+        _hasErrors = errorArray.Length > 0;
+        Errors = errorArray;
         _value = value;
+    }
+
+    /// <summary>
+    /// Validates the internal state consistency of the Result object.
+    /// </summary>
+    private void ValidateInternalState()
+    {
+        // Check for inconsistent states that could indicate deserialization issues
+        var actualHasErrors = Errors?.Any() == true;
+        
+        if (_hasErrors != actualHasErrors)
+        {
+            // Log warning but don't throw - fix the inconsistency
+            _hasErrors = actualHasErrors;
+        }
     }
 
     /// <summary>
@@ -310,24 +579,30 @@ public class Result<T>
 
     private readonly T? _value;
     private readonly bool _isSuccess;
-    private readonly bool _hasErrors;
+    private bool _hasErrors; // Made non-readonly to allow validation fixes
 
     /// <summary>
     /// Gets a value indicating whether the result is a success.
     /// A result is considered successful if it was explicitly marked as successful 
-    /// and does not contain any error messages (warnings are allowed for successful results).
+    /// (warnings do not affect success status - they are just diagnostic information).
     /// </summary>
-    public bool IsSuccess => _isSuccess && !_hasErrors;
+    public bool IsSuccess => _isSuccess;
 
     /// <summary>
-    /// Gets a value indicating whether the result has warnings (i.e., is successful but contains error messages).
+    /// Gets a value indicating whether the result has warnings or error messages.
+    /// This includes both diagnostic warnings (for successful operations) and error messages (for failures).
+    /// </summary>
+    public bool HasErrors => _hasErrors;
+
+    /// <summary>
+    /// Gets a value indicating whether the result has warnings (i.e., is successful but contains diagnostic messages).
     /// </summary>
     public bool HasWarnings => _isSuccess && _hasErrors;
 
     /// <summary>
-    /// Gets a value indicating whether the result is recoverable (either successful or has warnings).
+    /// Gets a value indicating whether the result is recoverable (successful operations, even with warnings).
     /// </summary>
-    public bool IsRecoverable => _isSuccess; // Recoverable if operation succeeded, regardless of warnings
+    public bool IsRecoverable => _isSuccess;
 
     /// <summary>
     /// Gets a value indicating whether the result is a failure.
@@ -369,28 +644,9 @@ public class Result<T>
     /// </summary>
     public override string ToString()
     {
-        return _isSuccess ? $"{ResultConstants.SuccessPrefix}: {Value?.ToString()}" : ListOfErrorsString() ?? ResultConstants.DefaultFailureString;
-    }
-
-    /// <summary>
-    /// Returns a formatted string containing all error messages.
-    /// </summary>
-    private string? ListOfErrorsString()
-    {
-        if (Errors is null || !Errors.Any()) return default;
-        var stringBuilder = new StringBuilder($"{ResultConstants.FailurePrefix}: ");
-        foreach (var error in Errors)
-        {
-            stringBuilder.Append(error);
-            stringBuilder.Append(", ");
-        }
-        // Remove the trailing comma and space, if any
-        var prefixLength = ResultConstants.FailurePrefix.Length + 2; // +2 for ": "
-        if (stringBuilder.Length > prefixLength)
-        {
-            stringBuilder.Length -= 2; // Remove the last ", "
-        }
-        return stringBuilder.ToString();
+        return _isSuccess 
+            ? $"{ResultConstants.SuccessPrefix}: {Value?.ToString()}" 
+            : Result.FormatErrorsString(Errors, ResultConstants.FailurePrefix);
     }
 
     /// <summary>
@@ -402,8 +658,12 @@ public class Result<T>
     public static Result<T> WithFailure(IEnumerable<string>? errors, T? value = default)
     {
         // Use the provided errors or fall back to the default error message
-        var errorList = errors?.ToList() ?? [ResultConstants.DefaultErrorMessage];
-        return new Result<T>(false, errorList, value);
+        var errorArray = errors?.ToArray();
+        if (errorArray is null || errorArray.Length == 0)
+        {
+            errorArray = [ResultConstants.DefaultErrorMessage];
+        }
+        return new Result<T>(false, errorArray, value);
     }
 
     /// <summary>
@@ -414,8 +674,12 @@ public class Result<T>
     /// <returns>A successful <see cref="Result{T}"/> instance with warnings.</returns>
     public static Result<T> WithWarnings(IEnumerable<string> warnings, T value)
     {
-        var warningList = warnings?.ToList() ?? [ResultConstants.DefaultWarningMessage];
-        return new Result<T>(true, warningList, value);
+        var warningArray = warnings?.ToArray();
+        if (warningArray is null || warningArray.Length == 0)
+        {
+            warningArray = [ResultConstants.DefaultWarningMessage];
+        }
+        return new Result<T>(true, warningArray, value);
     }
 
     /// <summary>
@@ -426,6 +690,11 @@ public class Result<T>
     /// <returns>A failed <see cref="Result{T}"/> instance.</returns>
     public static Result<T> WithFailure(string[] errors, T? value = default)
     {
+        // Check for empty array and provide default error message (consistent with IEnumerable overload)
+        if (errors is null || errors.Length == 0)
+        {
+            errors = [ResultConstants.DefaultErrorMessage];
+        }
         return new Result<T>(false, errors, value);
     }
 
@@ -494,7 +763,7 @@ public class Result<T>
     {
         if (IsFailure)
         {
-            if (Errors is not null && Errors.Any())
+            if (Errors is not null && _hasErrors)
             {
                 action(Errors);
             }
@@ -536,10 +805,19 @@ public class Result<T>
     /// <returns>A <see cref="Result{T}"/> representing the outcome.</returns>
     public Result<T> Ensure(Func<T, bool> condition, string errorMessage)
     {
-        if (_isSuccess && !condition(Value!))
+        if (!_isSuccess)
+            return this;
+            
+        if (Value is null)
+        {
+            return WithFailure(ResultConstants.ConditionEvaluationWithNullValue);
+        }
+        
+        if (!condition(Value))
         {
             return WithFailure(errorMessage);
         }
+        
         return this;
     }
 
@@ -564,8 +842,41 @@ public class Result<T>
     /// <returns>A <see cref="Result{T}"/> representing the combined outcome, with the current value if successful.</returns>
     public Result<T> Combine(params Result[] results)
     {
-        var allErrors = results.Where(r => r.IsFailure).SelectMany(r => r.Errors).ToList();
-        return allErrors.Any() ? Result<T>.WithFailure(allErrors) : Result<T>.Success(this.Value!);
+        if (results is null || results.Length == 0)
+            return this;
+            
+        var errorList = new List<string>();
+        
+        // Add current result's errors if it's a failure
+        if (IsFailure && Errors is not null)
+        {
+            errorList.AddRange(Errors);
+        }
+        
+        // Add errors from all failed results
+        foreach (var result in results)
+        {
+            if (result.IsFailure && result.Errors is not null)
+            {
+                errorList.AddRange(result.Errors);
+            }
+        }
+        
+        if (errorList.Count > 0)
+        {
+            return Result<T>.WithFailure(errorList);
+        }
+        
+        // All operations succeeded - but check if we have a valid value
+        if (_isSuccess && Value is not null)
+        {
+            return Result<T>.Success(Value);
+        }
+        
+        // Success but null value - return with appropriate handling
+        return _isSuccess 
+            ? Result<T>.WithFailure(ResultConstants.NullValueInSuccessfulResult)
+            : this;
     }
 
     /// <summary>
@@ -577,7 +888,17 @@ public class Result<T>
     /// <returns>The result of the executed function.</returns>
     public Result<TOut> Match<TOut>(Func<T, TOut> onSuccess, Func<IEnumerable<string>, TOut> onFailure)
     {
-        return _isSuccess ? onSuccess(Value!) : onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
+        if (!_isSuccess)
+        {
+            return onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
+        }
+        
+        if (Value is null)
+        {
+            return onFailure([ResultConstants.NullValueInSuccessfulResult]);
+        }
+        
+        return onSuccess(Value);
     }
 
     /// <summary>
@@ -628,12 +949,20 @@ public class Result<T>
     /// <returns>A failed result with all errors.</returns>
     public static Result<TOut> CombineErrors<TOut>(IEnumerable<string>? primaryErrors, IEnumerable<string>? secondaryErrors, TOut? value = default)
     {
-        // Combine non-null lists, or return a failure message if both are null.
-        var combinedErrors = (primaryErrors ?? [])
-            .Concat(secondaryErrors ?? [])
-            .ToList();
-        return combinedErrors.Any()
-            ? Result<TOut>.WithFailure(combinedErrors, value)
+        var errorList = new List<string>();
+        
+        if (primaryErrors is not null)
+        {
+            errorList.AddRange(primaryErrors);
+        }
+        
+        if (secondaryErrors is not null)
+        {
+            errorList.AddRange(secondaryErrors);
+        }
+        
+        return errorList.Count > 0
+            ? Result<TOut>.WithFailure(errorList, value)
             : Result<TOut>.WithFailure(ResultConstants.NoErrorsFoundMessage, value);
     }
 }

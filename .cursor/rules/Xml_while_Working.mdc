@@ -8,7 +8,7 @@ alwaysApply: true
 For every file you edit ensure that all **public classes**, **public methods**, and **public properties** have appropriate XML documentation.  
 
 Follow these constraints:
-- DO NOT overwrite valid existing XML comments. if comments are obsolet or need updates go Ahead if the are valid keept as it tis.
+- DO NOT overwrite valid existing XML comments. if comments are obsolete or need updates go Ahead if the are valid keept as it tis.
 - If a public member lacks XML comments, add `<summary>`, `<param>`, and `<returns>` tags as appropriate.
 - Use meaningful descriptions that accurately reflect the member’s purpose.
 - If no changes are needed, you may proceed silently without further confirmation.

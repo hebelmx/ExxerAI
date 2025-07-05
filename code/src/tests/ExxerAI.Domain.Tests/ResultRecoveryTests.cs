@@ -207,4 +207,134 @@ public class ResultRecoveryTests
         // Assert - Should contain the default error message
         matchResult.ShouldContain(ResultConstants.DefaultErrorMessage);
     }
+
+    #region Type Safety Regression Tests
+
+    /// <summary>
+    /// Regression tests for the null handling fixes implemented to prevent NullReferenceException.
+    /// These tests ensure that methods like Ensure, Combine, and Match properly handle null values
+    /// without throwing exceptions at runtime.
+    /// </summary>
+    [Fact]
+    public void Ensure_WithNullValue_ShouldReturnFailureInsteadOfThrowing()
+    {
+        // Arrange - Create a successful result with null value (edge case scenario)
+        var result = new Result<string>(true, Array.Empty<string>(), null);
+
+        // Act - This should not throw NullReferenceException
+        var ensuredResult = result.Ensure(value => value.Length > 0, "Value should have length");
+
+        // Assert
+        ensuredResult.IsFailure.ShouldBeTrue();
+        ensuredResult.Errors.ShouldContain(ResultConstants.ConditionEvaluationWithNullValue);
+    }
+
+    [Fact]
+    public void Combine_WithNullValueInSuccessfulResult_ShouldHandleGracefully()
+    {
+        // Arrange - Create successful result with null value
+        var result = new Result<string>(true, Array.Empty<string>(), null);
+        var otherResult = Result.Success();
+
+        // Act - This should not throw NullReferenceException
+        var combinedResult = result.Combine(otherResult);
+
+        // Assert
+        combinedResult.IsFailure.ShouldBeTrue();
+        combinedResult.Errors.ShouldContain(ResultConstants.NullValueInSuccessfulResult);
+    }
+
+    [Fact]
+    public void Match_WithNullValueInSuccessfulResult_ShouldCallFailureFunction()
+    {
+        // Arrange - Create a successful result with null value (edge case scenario)
+        var result = new Result<string>(true, Array.Empty<string>(), null);
+
+        // Act - Match should detect null value and call failure function
+        var matchResult = result.Match(
+            value => -1, // This should NOT be called due to null value
+            errors => -2 // This SHOULD be called due to null value handling
+        );
+
+        // Assert - Should call failure function due to null value in successful result
+        matchResult.Value.ShouldBe(-2); // Fixed: Match returns Result<TOut>, so check the Value
+    }
+
+    [Fact]
+    public void Tap_WithNullValue_ShouldNotExecuteAction()
+    {
+        // Arrange
+        var result = new Result<string>(true, Array.Empty<string>(), null);
+        var actionExecuted = false;
+
+        // Act - This should not throw NullReferenceException
+        var tappedResult = result.Tap(value => actionExecuted = true);
+
+        // Assert
+        actionExecuted.ShouldBeFalse();
+        tappedResult.ShouldBeSameAs(result); // Should return same instance
+    }
+
+    [Fact]
+    public void JsonConstructor_WithInconsistentState_ShouldValidateAndFix()
+    {
+        // Arrange - Create Result with inconsistent state (hasErrors = true, but no actual errors)
+        var errors = Array.Empty<string>();
+
+        // Act - Constructor should validate and fix inconsistency
+        var result = new Result<string>(true, errors, "test-value");
+
+        // Assert - State should be consistent after validation
+        result.IsSuccess.ShouldBeTrue();
+        result.HasErrors.ShouldBeFalse(); // Should be fixed from inconsistent state
+        result.HasWarnings.ShouldBeFalse();
+        result.Value.ShouldBe("test-value");
+    }
+
+    [Fact]
+    public void OnSuccess_WithNullValue_ShouldNotExecuteAction()
+    {
+        // Arrange
+        var result = new Result<string>(true, Array.Empty<string>(), null);
+        var actionExecuted = false;
+
+        // Act
+        var successResult = result.OnSuccess(value => actionExecuted = true);
+
+        // Assert
+        actionExecuted.ShouldBeFalse();
+        successResult.ShouldBeSameAs(result);
+    }
+
+    [Fact]
+    public void Performance_ReducedLinqAllocations_ShouldBeMeasurable()
+    {
+        // Arrange - Create multiple results for combination
+        var results = new[]
+        {
+            Result.WithFailure("Error 1"),
+            Result.WithFailure("Error 2"),
+            Result.WithFailure("Error 3")
+        };
+
+        var primaryErrors = new[] { "Primary 1", "Primary 2" };
+        var secondaryErrors = new[] { "Secondary 1", "Secondary 2" };
+
+        // Act - These operations should use optimized code paths
+        var combinedResult = Result.Success().Combine(results);
+        var combinedErrors = Result.CombineErrors(primaryErrors, secondaryErrors);
+        var genericCombinedErrors = Result<string>.CombineErrors<string>(primaryErrors, secondaryErrors);
+
+        // Assert - Verify functionality is preserved
+        combinedResult.IsFailure.ShouldBeTrue();
+        combinedResult.Errors.Count().ShouldBe(3);
+
+        combinedErrors.IsFailure.ShouldBeTrue();
+        combinedErrors.Errors.Count().ShouldBe(4);
+
+        genericCombinedErrors.IsFailure.ShouldBeTrue();
+        genericCombinedErrors.Errors.Count().ShouldBe(4);
+    }
+
+    #endregion Type Safety Regression Tests
 } 

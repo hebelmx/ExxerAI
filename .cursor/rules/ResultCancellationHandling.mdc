@@ -1,7 +1,6 @@
 ---
-attachmentType: agent
+description: Handling Cancellation in Functional .NET Applications
 globs: 
-description: HandlingCancellationInFunctionalNet
 alwaysApply: always
 ---
 

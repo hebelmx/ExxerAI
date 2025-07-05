@@ -1,4 +1,8 @@
-
+---
+description: Validating Null Parameters in Functional .NET: Constructor vs. Method Pattern
+globs: 
+alwaysApply: false
+---
 # Validating Null Parameters in Functional .NET: Constructor vs. Method Pattern
 
 ## Context

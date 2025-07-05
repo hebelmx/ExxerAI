@@ -1,7 +1,7 @@
 ---
-description: PatterForEnumModelInlineData
+description: Patter For EnumModel InlineData
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 
 *** Scope: This is the patter needed to when needed to inline data from a class derived from EnumModel, because Xunit Dont Support 

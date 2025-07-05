@@ -1,7 +1,7 @@
 ---
 description: C#.NET Expert Programmer and XML refactor
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 
 
