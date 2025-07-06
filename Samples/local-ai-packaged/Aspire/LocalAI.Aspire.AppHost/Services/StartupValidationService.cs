@@ -9,8 +9,8 @@ public static class StartupValidationService
 {
     public static async Task<bool> ValidateAndPrepareEnvironmentAsync(bool cleanBuild = false)
     {
-        Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
-        Console.WriteLine("===============================================");
+        Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator🚀 ");
+        Console.WriteLine("================================================");
 
         var isValid = true;
 
