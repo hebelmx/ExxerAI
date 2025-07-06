@@ -1,46 +1,50 @@
 <Project>
 
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
 
-<PropertyGroup>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+		<GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+		<GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+		<GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+	</PropertyGroup>
+	<PropertyGroup>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<GenerateBuildLog>true</GenerateBuildLog>
+		<BinaryLogFile>$(ArtifactsDir)\logs\$(MSBuildProjectName).binlog</BinaryLogFile>
+	</PropertyGroup>
+	<PropertyGroup>
+		<!-- Root where Directory.Build.props is placed -->
+		<RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</RepoRoot>
 
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>    
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
-  </PropertyGroup>
+		<!-- Global output directories -->
+		<ArtifactsDir>$([System.IO.Path]::Combine('$(RepoRoot)', 'artifacts'))</ArtifactsDir>
+		<ArtifactsObjDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'obj'))</ArtifactsObjDir>
+		<ArtifactsBinDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'bin'))</ArtifactsBinDir>
+		<ArtifactsPackagesDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'packages', '$(Configuration)'))</ArtifactsPackagesDir>
+		<ArtifactsTestResultsDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'TestResults', '$(Configuration)'))</ArtifactsTestResultsDir>
 
-  <PropertyGroup>
-    <!-- Root where Directory.Build.props is placed -->
-    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))</RepoRoot>
+		<!-- Use project name as folder -->
+		<OutDirName>$(MSBuildProjectName)</OutDirName>
 
-    <!-- Global output directories -->
-    <ArtifactsDir>$([System.IO.Path]::Combine('$(RepoRoot)', 'artifacts'))</ArtifactsDir>
-    <ArtifactsObjDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'obj'))</ArtifactsObjDir>
-    <ArtifactsBinDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'bin'))</ArtifactsBinDir>
-    <ArtifactsPackagesDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'packages', '$(Configuration)'))</ArtifactsPackagesDir>
-    <ArtifactsTestResultsDir>$([System.IO.Path]::Combine('$(ArtifactsDir)', 'TestResults', '$(Configuration)'))</ArtifactsTestResultsDir>
+		<!-- Enforced centralized build outputs -->
+		<BaseIntermediateOutputPath>$([System.IO.Path]::Combine('$(ArtifactsObjDir)', '$(OutDirName)'))\\</BaseIntermediateOutputPath>
+		<IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\\</IntermediateOutputPath>
 
-    <!-- Use project name as folder -->
-    <OutDirName>$(MSBuildProjectName)</OutDirName>
+		<BaseOutputPath>$([System.IO.Path]::Combine('$(ArtifactsBinDir)', '$(OutDirName)'))\\</BaseOutputPath>
 
-    <!-- Enforced centralized build outputs -->
-    <BaseIntermediateOutputPath>$([System.IO.Path]::Combine('$(ArtifactsObjDir)', '$(OutDirName)'))\\</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>$(BaseIntermediateOutputPath)$(Configuration)\\</IntermediateOutputPath>
+		<PackageOutputPath>$(ArtifactsPackagesDir)</PackageOutputPath>
+	</PropertyGroup>
 
-    <BaseOutputPath>$([System.IO.Path]::Combine('$(ArtifactsBinDir)', '$(OutDirName)'))\\</BaseOutputPath>
+	<PropertyGroup>
+		<VSTestLogger Condition="'$(VSTestLogger)' == ''">trx%3bLogFileName=$(MSBuildProjectName).$(TargetFramework).$(OS).trx</VSTestLogger>
+		<VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(ArtifactsTestResultsDir)</VSTestResultsDirectory>
+	</PropertyGroup>
 
-    <PackageOutputPath>$(ArtifactsPackagesDir)</PackageOutputPath>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <VSTestLogger Condition="'$(VSTestLogger)' == ''">trx%3bLogFileName=$(MSBuildProjectName).$(TargetFramework).$(OS).trx</VSTestLogger>
-    <VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(ArtifactsTestResultsDir)</VSTestResultsDirectory>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
 </Project>

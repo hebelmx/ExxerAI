@@ -5,7 +5,7 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
-		<TargetFramework>net10.0</TargetFramework>
+
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -35,16 +35,16 @@
 		<TieredCompilation>true</TieredCompilation>
 	</PropertyGroup>
 	<!-- Directory.Build.props or project file -->
-	<ItemGroup>
-		<PackageReference Include="DiffEngine" PrivateAssets="all" />
-	</ItemGroup>
+
 	<PropertyGroup>
 		<!-- Ensures all assemblies from NuGet are copied to output -->
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
+	<!-- HACK_WARNING_DO_NOT_AUTOMATE_THIS -->
+
 	<Target Name="ForceCopyDiffEngine" AfterTargets="Build">
 		<ItemGroup>
-			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net10.0\DiffEngine.dll" />
+			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net9.0\DiffEngine.dll" />
 		</ItemGroup>
 		<Copy SourceFiles="@(DiffEngineDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
 	</Target>

@@ -1,3 +1,8 @@
+using ExxerAI.UI.Library.Data;
+using ExxerAI.UI.Library.Identity;
+using ExxerAI.UI.Library.Identity.Account.Pages;
+using ExxerAI.UI.Library.Identity.Account.Pages.Manage;
+
 namespace ExxerAI.UI.Library.Identity.Account
 {
     internal static class IdentityComponentsEndpointRouteBuilderExtensions
@@ -50,7 +55,7 @@ namespace ExxerAI.UI.Library.Identity.Account
                 var redirectUrl = UriHelper.BuildRelative(
                     context.Request.PathBase,
                     "/Account/Manage/ExternalLogins",
-                    QueryString.Create("Action", ExternalLogins.LinkLoginCallbackAction));
+                    QueryString.Create("Action", "LoginCallback"));
 
                 var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, signInManager.UserManager.GetUserId(context.User));
                 return TypedResults.Challenge(properties, [provider]);
