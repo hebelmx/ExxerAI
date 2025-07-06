@@ -1,3 +1,4 @@
+using ExxerAI.Aspire.ServiceDefaults;
 using ExxerAI.UI.Components;
 using ExxerAI.UI.Components.Account;
 using ExxerAI.UI.Data;
@@ -58,7 +59,6 @@ else
 }
 
 app.UseHttpsRedirection();
-
 
 app.UseAntiforgery();
 

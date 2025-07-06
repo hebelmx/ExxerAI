@@ -21,8 +21,4 @@
     <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Aspire\ExxerAI.Aspire.ServiceDefaults\ExxerAI.Aspire.ServiceDefaults.csproj" />
-  </ItemGroup>
-
 </Project>

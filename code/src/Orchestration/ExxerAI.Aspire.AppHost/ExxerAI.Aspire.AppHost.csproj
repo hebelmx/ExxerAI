@@ -13,7 +13,6 @@
 
   <ItemGroup Label="Hosting">
     <PackageReference Include="Aspire.Hosting.AppHost" />
-    <PackageReference Include="Aspire.Hosting.AppHost" />
   </ItemGroup>
 
   <ItemGroup Label="Data Access">
@@ -24,7 +23,38 @@
 
   </ItemGroup>
 
+
+
   <ItemGroup>
+	  <PackageReference Include="Aspirant.Hosting.Yarp" />
+	  <PackageReference Include="Aspire.Hosting" />
+	  <PackageReference Include="Aspire.Hosting.AppHost" />
+	  <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+	  <PackageReference Include="Aspire.Hosting.Python" />
+
+	  <PackageReference Include="Aspire.Hosting.Redis" />
+	  <PackageReference Include="Aspire.Hosting.NodeJs" />
+	  <PackageReference Include="Aspire.Hosting.RabbitMQ" />
+	  <PackageReference Include="Aspire.Hosting.MongoDB" />
+	  <PackageReference Include="Aspire.Hosting.Seq" />
+
+	  <PackageReference Include="CommunityToolkit.Aspire.EventStore" />
+	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" />
+	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.RavenDB" />
+	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.Sqlite" />
+	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" />
+	  <PackageReference Include="CommunityToolkit.Aspire.OllamaSharp" />
+	  <PackageReference Include="Dependify.Aspire.Hosting" />
+	  <PackageReference Include="Keycloak.AuthServices.Aspire.Hosting" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting" />
+	  <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
+	  <PackageReference Include="Nextended.Aspire" />
+	  <PackageReference Include="NorthernNerds.Aspire.Hosting.Neo4j" />
+	  <PackageReference Include="Raygun.Aspire.Hosting.Ollama" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Presentation\ExxerAI.UI.Dashboard\ExxerAI.Aspire.Dashboard.csproj" />
     <ProjectReference Include="..\..\Presentation\ExxerAI.UI\ExxerAI.UI.csproj" />
   </ItemGroup>
 
