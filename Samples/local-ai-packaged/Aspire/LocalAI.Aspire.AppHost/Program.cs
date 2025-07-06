@@ -8,7 +8,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 // Add PostgreSQL database
 var postgres = builder.AddPostgres("postgres");
 
-var database = postgres.AddDatabase("localai_db");
+var database = postgres.AddDatabase("localai-db");
 
 // Add Redis for caching
 var redis = builder.AddRedis("redis");

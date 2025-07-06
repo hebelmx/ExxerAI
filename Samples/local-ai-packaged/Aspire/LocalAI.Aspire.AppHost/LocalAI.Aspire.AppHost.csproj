@@ -1,39 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-    <IsAspireHost>true</IsAspireHost>
-    <UserSecretsId>e99e4025-0fd5-4383-8380-0e1122b49ac5</UserSecretsId>
-    
-    <!-- Self-contained deployment settings -->
-    <PublishSingleFile>true</PublishSingleFile>
-    <SelfContained>true</SelfContained>
-    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
-    <PublishTrimmed>false</PublishTrimmed>
-    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
-    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
-    
-    <!-- Application metadata -->
-    <AssemblyTitle>LocalAI Aspire Orchestrator</AssemblyTitle>
-    <AssemblyDescription>Self-contained orchestrator for local AI stack using .NET Aspire</AssemblyDescription>
-    <AssemblyVersion>1.0.0.0</AssemblyVersion>
-    <FileVersion>1.0.0.0</FileVersion>
-    <Company>LocalAI</Company>
-    <Product>LocalAI Aspire Orchestrator</Product>
+	<Sdk Name="Aspire.AppHost.Sdk" Version="9.3.1" />
+	<PropertyGroup>
+	<OutputType>Exe</OutputType>
+	<TargetFramework>net10.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<IsAspireHost>true</IsAspireHost>
+	<UserSecretsId>e99e4025-0fd5-4383-8380-0e1122b49ac5</UserSecretsId>
+	
+	<!-- Self-contained deployment settings -->
+	<PublishSingleFile>true</PublishSingleFile>
+	<SelfContained>true</SelfContained>
+	<RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+	<PublishTrimmed>false</PublishTrimmed>
+	<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+	<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+	
+	<!-- Application metadata -->
+	<AssemblyTitle>LocalAI Aspire Orchestrator</AssemblyTitle>
+	<AssemblyDescription>Self-contained orchestrator for local AI stack using .NET Aspire</AssemblyDescription>
+	<AssemblyVersion>1.0.0.0</AssemblyVersion>
+	<FileVersion>1.0.0.0</FileVersion>
+	<Company>LocalAI</Company>
+	<Product>LocalAI Aspire Orchestrator</Product>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Aspire.Hosting.AppHost" Version="8.2.2" />
-    <PackageReference Include="Aspire.Hosting.PostgreSQL" Version="8.2.2" />
-    <PackageReference Include="Aspire.Hosting.Redis" Version="8.2.2" />
-    <PackageReference Include="Aspire.Hosting.NodeJs" Version="8.2.2" />
-    <PackageReference Include="Aspire.Hosting.RabbitMQ" Version="8.2.2" />
-    <PackageReference Include="Aspire.Hosting.MongoDB" Version="8.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="8.2.2" />
+	<PackageReference Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+	<PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.3.1" />
+	<PackageReference Include="Aspire.Hosting.Redis" Version="9.3.1" />
+	<PackageReference Include="Aspire.Hosting.NodeJs" Version="9.3.1" />
+	<PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.3.1" />
+	<PackageReference Include="Aspire.Hosting.MongoDB" Version="9.3.1" />
+	<PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.0-preview.5.25277.114" />
+	<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
   </ItemGroup>
 
   <ItemGroup>
