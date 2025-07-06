@@ -1,29 +1,9 @@
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.Aspire.AppHost.Services;
-
-/// <summary>
-/// Secure key store for managing API keys, secrets, and credentials
-/// Supports multiple storage backends and encryption
-/// </summary>
-public interface IKeyStore
-{
-    Task<string?> GetKeyAsync(string keyName, string? scope = null);
-
-    Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null);
-
-    Task<bool> DeleteKeyAsync(string keyName, string? scope = null);
-
-    Task<IEnumerable<string>> ListKeysAsync(string? scope = null);
-
-    Task<bool> KeyExistsAsync(string keyName, string? scope = null);
-
-    Task RotateKeyAsync(string keyName, string newValue, string? scope = null);
-
-    Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32);
-}
 
 /// <summary>
 /// Implementation of secure key store with file-based storage and encryption
@@ -318,16 +298,4 @@ public class SecureKeyStore : IKeyStore
 
         return result.ToString();
     }
-}
-
-/// <summary>
-/// Represents a stored key with metadata
-/// </summary>
-public record StoredKey
-{
-    public string Name { get; init; } = string.Empty;
-    public string EncryptedValue { get; init; } = string.Empty;
-    public DateTime CreatedAt { get; init; }
-    public DateTime? ExpiresAt { get; init; }
-    public string? Scope { get; init; }
 }

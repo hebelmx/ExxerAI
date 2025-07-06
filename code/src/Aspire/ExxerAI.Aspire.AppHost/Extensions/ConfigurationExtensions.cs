@@ -1,3 +1,8 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
+using Microsoft.Extensions.Configuration;
+
 using ExxerAI.Aspire.AppHost.Configuration;
 
 namespace ExxerAI.Aspire.AppHost.Extensions;
@@ -11,38 +16,38 @@ public static class ConfigurationExtensions
     /// Register all LocalAI stack configurations with the DI container
     /// </summary>
     public static IServiceCollection AddLocalAIConfiguration(
-        this IServiceCollection services, 
+        this IServiceCollection services,
         IConfiguration configuration)
     {
         // Register the main configuration
         services.Configure<LocalAIStackConfiguration>(
             configuration.GetSection(LocalAIStackConfiguration.SectionName));
-        
+
         // Register individual service configurations for easier injection
         services.Configure<DatabaseConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:Database"));
-            
+
         services.Configure<LocalAIConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:LocalAI"));
-            
+
         services.Configure<SearchConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:Search"));
-            
+
         services.Configure<VectorDatabaseConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:VectorDatabases"));
-            
+
         services.Configure<MonitoringConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:Monitoring"));
-            
+
         services.Configure<NetworkConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:Network"));
-            
+
         services.Configure<SecurityConfiguration>(
             configuration.GetSection($"{LocalAIStackConfiguration.SectionName}:Security"));
 
         // Add configuration validation
         services.AddSingleton<IValidateOptions<LocalAIStackConfiguration>, LocalAIStackConfigurationValidator>();
-        
+
         return services;
     }
 
@@ -106,7 +111,7 @@ public class LocalAIStackConfigurationValidator : IValidateOptions<LocalAIStackC
         // Validate database configuration
         if (string.IsNullOrWhiteSpace(options.Database.DatabaseName))
             errors.Add("Database name is required");
-            
+
         if (string.IsNullOrWhiteSpace(options.Database.Username))
             errors.Add("Database username is required");
 
@@ -133,14 +138,14 @@ public class LocalAIStackConfigurationValidator : IValidateOptions<LocalAIStackC
         // Validate security settings if authentication is enabled
         if (options.Security.EnableAuthentication)
         {
-            if (string.IsNullOrWhiteSpace(options.Security.EncryptionKey) || 
+            if (string.IsNullOrWhiteSpace(options.Security.EncryptionKey) ||
                 options.Security.EncryptionKey.Length < 32)
             {
                 errors.Add("Encryption key must be at least 32 characters when authentication is enabled");
             }
         }
 
-        return errors.Count > 0 
+        return errors.Count > 0
             ? ValidateOptionsResult.Fail(errors)
             : ValidateOptionsResult.Success;
     }

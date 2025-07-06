@@ -2,7 +2,7 @@ using ExxerAI.Api.Controllers;
 using ExxerAI.Application;
 using Microsoft.AspNetCore.Mvc;
 using Meziantou.Extensions.Logging.Xunit.v3;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Api.Tests;
 

@@ -1,5 +1,5 @@
 using ExxerAI.Domain;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 using System.ComponentModel.DataAnnotations;
 using VersionStatus = ExxerAI.Application.Interfaces.VersionStatus;
 

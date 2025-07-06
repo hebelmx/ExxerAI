@@ -1,4 +1,4 @@
-namespace ExxerAI.Api.Tests.Controllers.AgentsController;
+namespace ExxerAI.Api.Tests.Controllers.AgentsControllerTests;
 
 /// <summary>
 /// Unit tests for AgentsController constructor validation

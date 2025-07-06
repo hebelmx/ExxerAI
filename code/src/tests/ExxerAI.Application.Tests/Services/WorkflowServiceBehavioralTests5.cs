@@ -1,4 +1,4 @@
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Application.Tests.Services;
 

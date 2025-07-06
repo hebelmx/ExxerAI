@@ -9,7 +9,7 @@ using DomainDateRange = ExxerAI.Domain.DocumentProcessing.DateRange;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Application.Services;
 */

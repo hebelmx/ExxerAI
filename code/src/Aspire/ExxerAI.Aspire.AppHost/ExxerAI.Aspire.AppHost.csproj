@@ -30,14 +30,14 @@
 	<PackageReference Include="Aspire.Hosting.PostgreSQL" />
 	<PackageReference Include="Aspire.Hosting.Redis" />
 	<PackageReference Include="Aspire.Hosting.NodeJs" />
-	<PackageReference Include="Aspire.Hosting.RabbitMQ"  />
+	<PackageReference Include="Aspire.Hosting.RabbitMQ" />
 	<PackageReference Include="Aspire.Hosting.MongoDB" />
-	<PackageReference Include="Microsoft.Extensions.Hosting"  />
-	<PackageReference Include="Microsoft.Extensions.ServiceDiscovery"  />
+	<PackageReference Include="Microsoft.Extensions.Hosting" />
+	<PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
   </ItemGroup>
 
   <ItemGroup>
-	<ProjectReference Include="..\..\Presentation\ExxerAI.UI.Dashboard\ExxerAII.Aspire.Dashboard.csproj" />
+	<ProjectReference Include="..\..\Presentation\ExxerAI.UI.Dashboard\ExxerAI.Aspire.Dashboard.csproj" />
   </ItemGroup>
 
 </Project>

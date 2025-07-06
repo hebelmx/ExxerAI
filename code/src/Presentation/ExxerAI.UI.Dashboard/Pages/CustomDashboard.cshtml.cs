@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ExxerAII.Aspire.Dashboard.Pages;
+namespace ExxerAI.Aspire.Dashboard.Pages;
 
 public class CustomDashboardModel : PageModel
 {

@@ -1,5 +1,5 @@
-using ExxerAII.Aspire.Dashboard.Models;
-using ExxerAII.Aspire.Dashboard.Services;
+using ExxerAI.Aspire.Dashboard.Models;
+using ExxerAI.Aspire.Dashboard.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -64,7 +64,7 @@ app.MapHub<DashboardHub>("/dashboardHub");
 
 app.Run();
 
-namespace ExxerAII.Aspire.Dashboard
+namespace ExxerAI.Aspire.Dashboard
 {
     public partial class Program
     { }

@@ -1,8 +1,7 @@
-using ExxerAI.Domain.Helpers.Operations;
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExxerAI.Api.Tests.Controllers.AgentsController;
+namespace ExxerAI.Api.Tests.Controllers.AgentsControllerTests;
 
 /// <summary>
 /// Unit tests for POST /api/agents endpoint
@@ -10,14 +9,14 @@ namespace ExxerAI.Api.Tests.Controllers.AgentsController;
 public class CreateAgentEndpointTests
 {
     private readonly IAgentService _mockAgentService;
-    private readonly ILogger<Api.Controllers.AgentsController> _logger;
-    private readonly Api.Controllers.AgentsController _controller;
+    private readonly ILogger<AgentsController> _logger;
+    private readonly AgentsController _controller;
 
     public CreateAgentEndpointTests(ITestOutputHelper testOutputHelper)
     {
         _mockAgentService = Substitute.For<IAgentService>();
-        _logger = XUnitLogger.CreateLogger<Api.Controllers.AgentsController>(testOutputHelper);
-        _controller = new Api.Controllers.AgentsController(_mockAgentService, _logger);
+        _logger = XUnitLogger.CreateLogger<AgentsController>(testOutputHelper);
+        _controller = new AgentsController(_mockAgentService, _logger);
     }
 
     [Fact]
@@ -63,7 +62,7 @@ public class CreateAgentEndpointTests
         response.Data.Name.ShouldBe(createdAgent.Name);
 
         // Verify route values
-        createdResult.ActionName.ShouldBe(nameof(Api.Controllers.AgentsController.GetAgent));
+        createdResult.ActionName.ShouldBe(nameof(AgentsController.GetAgent));
         createdResult.RouteValues!["id"].ShouldBe(createdAgent.Id);
     }
 

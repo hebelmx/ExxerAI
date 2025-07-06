@@ -14,4 +14,4 @@ global using ExxerAI.Domain.Entities;
 global using ExxerAI.Domain.Enums;
 global using Shouldly;
 global using Xunit;
-global using ExxerAI.Domain.Helpers;
+global using ExxerAI.Domain.Operations;

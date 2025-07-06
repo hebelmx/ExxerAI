@@ -1,9 +1,7 @@
-using ExxerAI.Domain.Helpers.Operations;
-using Meziantou.Extensions.Logging.Xunit;
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ExxerAI.Api.Tests.Controllers.AgentsController;
+namespace ExxerAI.Api.Tests.Controllers.AgentsControllerTests;
 
 /// <summary>
 /// Unit tests for GET /api/agents/{id} endpoint

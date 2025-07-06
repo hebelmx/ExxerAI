@@ -1,4 +1,5 @@
 using ExxerAI.Aspire.AppHost.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.Aspire.AppHost.Services;
 

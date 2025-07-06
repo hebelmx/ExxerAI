@@ -104,7 +104,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Aspire.AppHost", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Aspire.ServiceDefaults", "Aspire\ExxerAI.Aspire.ServiceDefaults\ExxerAI.Aspire.ServiceDefaults.csproj", "{07B17990-3D97-470F-7071-A00FB2037397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAII.Aspire.Dashboard", "Presentation\ExxerAI.UI.Dashboard\ExxerAII.Aspire.Dashboard.csproj", "{159B9BEF-CB83-3C1A-F374-D8F311D9E1A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Aspire.Dashboard", "Presentation\ExxerAI.UI.Dashboard\ExxerAI.Aspire.Dashboard.csproj", "{159B9BEF-CB83-3C1A-F374-D8F311D9E1A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
