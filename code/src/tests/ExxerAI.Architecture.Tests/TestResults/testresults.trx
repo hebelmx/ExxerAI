@@ -18,7 +18,7 @@ File name: 'Microsoft.TestPlatform.CoreUtilities, Version=15.0.0.0, Culture=neut
     </Output>
     <RunInfos>
       <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-04T09:01:53.2582795-06:00">
-        <Text>Testhost process for source(s) 'F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.Architecture.Tests.dll' exited with error: Unhandled exception. System.IO.FileNotFoundException: Could not load file or assembly 'Microsoft.TestPlatform.CoreUtilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'. The system cannot find the file specified.&#xD;
+        <Text>Testhost process for source(s) 'F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.Architecture.Tests.dll' exited with error: Unhandled exception. System.IO.FileNotFoundException: Could not load file or assembly 'Microsoft.TestPlatform.CoreUtilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'. The system cannot find the file specified.&#xD;
 File name: 'Microsoft.TestPlatform.CoreUtilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a'&#xD;
    at Microsoft.VisualStudio.TestPlatform.TestHost.Program.Main(String[] args)&#xD;
 . Please check the diagnostic logs for more information.</Text>

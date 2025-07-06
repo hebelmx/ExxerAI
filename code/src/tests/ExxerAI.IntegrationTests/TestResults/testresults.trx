@@ -23,69 +23,69 @@
     <UnitTestResult executionId="26fed813-ffbf-4d12-9a54-68072a5d2597" testId="65d0e738-bb51-235f-e6db-9891a507e29d" testName="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" computerName="DESKTOP-FB2ES22" duration="00:00:00.0005610" startTime="2025-07-04T09:02:00.4309319-06:00" endTime="2025-07-04T09:02:00.4309794-06:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="26fed813-ffbf-4d12-9a54-68072a5d2597" />
   </Results>
   <TestDefinitions>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_NextToken" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="fe3a8bfd-bfa5-14bb-17a0-99041fa1f609">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_NextToken" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="fe3a8bfd-bfa5-14bb-17a0-99041fa1f609">
       <Execution id="9a6d704f-4a9f-4571-95a6-671f2d500fad" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="KeywordPattern_ExtractValue_Should_Return_NextToken" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="KeywordPattern_ExtractValue_Should_Return_NextToken" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="7fc7d6dd-d407-d1d4-ea1d-56d423a0d7ce">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="7fc7d6dd-d407-d1d4-ea1d-56d423a0d7ce">
       <Execution id="8608a570-439d-4018-87c4-1ca48a98e132" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="d7ff42dd-cbf6-d657-c52e-1664be1d8a8a">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="d7ff42dd-cbf6-d657-c52e-1664be1d8a8a">
       <Execution id="026ee3bc-f484-4355-8c5e-df62de0e1fbe" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="65d0e738-bb51-235f-e6db-9891a507e29d">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="65d0e738-bb51-235f-e6db-9891a507e29d">
       <Execution id="26fed813-ffbf-4d12-9a54-68072a5d2597" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Handle_Invalid_Regex_Gracefully" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Handle_Empty_List" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="20ac6855-0cc5-7302-01c9-cb9983963908">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Handle_Empty_List" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="20ac6855-0cc5-7302-01c9-cb9983963908">
       <Execution id="731fc91e-e16a-42e7-9a96-78d78c62b001" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="EnumerableExtensions_ForEach_Should_Handle_Empty_List" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="EnumerableExtensions_ForEach_Should_Handle_Empty_List" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="320c2467-b16e-4f41-207a-3071a12c7919">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="320c2467-b16e-4f41-207a-3071a12c7919">
       <Execution id="b36e9626-be60-476a-99be-f58189eb9b8d" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Return_Null_When_No_Match" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="ccdf71f0-0cb1-4602-703a-92bfab999b69">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="ccdf71f0-0cb1-4602-703a-92bfab999b69">
       <Execution id="2cf7228c-bfe1-42d2-a6cb-afbd8038e543" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="EnumerableExtensions_ForEach_Should_Execute_Action_On_Each_Item" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="d3c27bca-260b-4758-f12d-60ebe5cd2b46">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="d3c27bca-260b-4758-f12d-60ebe5cd2b46">
       <Execution id="0765e4c1-1968-485b-9494-3e3774c0e0cb" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="KeywordPattern_ExtractValue_Should_Return_Null_When_Keyword_Not_Found" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="e4ae3f75-7c8c-2bfb-fed7-a602219de718">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="e4ae3f75-7c8c-2bfb-fed7-a602219de718">
       <Execution id="5b997aa9-7a2d-4766-8ff8-e6aa1e7e9a12" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="OCRRegionPattern_ExtractValue_Should_Return_Null_When_Reference_Not_Found" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_NextToken" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="a0243f94-5b71-b283-4a72-d03f822d02f7">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.OCRRegionPattern_ExtractValue_Should_Return_NextToken" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="a0243f94-5b71-b283-4a72-d03f822d02f7">
       <Execution id="1ae3291d-8609-45e1-ae80-1eaa3a123712" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="OCRRegionPattern_ExtractValue_Should_Return_NextToken" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="OCRRegionPattern_ExtractValue_Should_Return_NextToken" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="e44fb0a5-feec-b96a-15f1-84c008934a59">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="e44fb0a5-feec-b96a-15f1-84c008934a59">
       <Execution id="bee2c910-299e-4c10-86d1-7445b66b8edb" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Status_When_Successful" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="adecc26f-7311-d29c-efc0-1431095f585c">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.GetIngestionStatusAsync_Should_Return_Status_When_Successful" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="adecc26f-7311-d29c-efc0-1431095f585c">
       <Execution id="3b01116e-aa16-4e7d-b164-0632ce63a917" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="GetIngestionStatusAsync_Should_Return_Status_When_Successful" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="GetIngestionStatusAsync_Should_Return_Status_When_Successful" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="e2e98a4b-5493-ccb0-b1b3-bc8b4278d404">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="e2e98a4b-5493-ccb0-b1b3-bc8b4278d404">
       <Execution id="501db25a-d693-4ba3-b896-152392333832" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="RegexPattern_ExtractValue_Should_Return_Match_When_Regex_Finds_Value" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DateRange_Should_Set_Properties_Correctly" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="9f999cb1-6509-9b25-732c-1e199f2771b7">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DateRange_Should_Set_Properties_Correctly" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="9f999cb1-6509-9b25-732c-1e199f2771b7">
       <Execution id="7fa12e99-a3ad-469c-afca-24b448c3954b" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DateRange_Should_Set_Properties_Correctly" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DateRange_Should_Set_Properties_Correctly" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="6016f213-a55d-8193-1173-f41e72f411e8">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="6016f213-a55d-8193-1173-f41e72f411e8">
       <Execution id="aab85851-437e-483f-b863-5d849909380b" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs" />
     </UnitTest>
-    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net9.0\exxerai.integrationtests.dll" id="213efc28-bd80-2476-c728-55c51bfa1c52">
+    <UnitTest name="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4.DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" storage="f:\dynamic\exxerai\exxerai\artifacts\bin\debug\net10.0\exxerai.integrationtests.dll" id="213efc28-bd80-2476-c728-55c51bfa1c52">
       <Execution id="281e2b03-4cf0-4dfa-8c14-cd97ea5dd352" />
-      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net9.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" />
+      <TestMethod codeBase="F:\Dynamic\ExxerAi\ExxerAI\artifacts\bin\Debug\net10.0\ExxerAI.IntegrationTests.dll" adapterTypeName="executor://xunit/VsTestRunner3/netcore/" className="ExxerAI.IntegrationTests.GoogleDriveServiceBehavioralTests4" name="DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist" />
     </UnitTest>
   </TestDefinitions>
   <TestEntries>
@@ -113,7 +113,7 @@
   <ResultSummary outcome="Completed">
     <Counters total="16" executed="16" passed="16" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
     <Output>
-      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.1+bf6400fd51 (64-bit .NET 9.0.6)&#xD;
+      <StdOut>[xUnit.net 00:00:00.00] xUnit.net VSTest Adapter v3.1.1+bf6400fd51 (64-bit .NET 10.0.0-preview.5.25277.114)&#xD;
 [xUnit.net 00:00:00.11]   Discovering: ExxerAI.IntegrationTests&#xD;
 [xUnit.net 00:00:00.15]   Discovered:  ExxerAI.IntegrationTests&#xD;
 [xUnit.net 00:00:00.17]   Starting:    ExxerAI.IntegrationTests&#xD;

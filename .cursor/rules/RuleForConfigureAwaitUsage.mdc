@@ -1,0 +1,77 @@
+description: Domain-Driven Rules for Use of ConfigureAwait in Async Calls
+globs: 
+alwaysApply: false
+---
+
+Role > Specialist: C# > Async Programming Best Practices  
+- Focus: Proper use of `ConfigureAwait(false)` in asynchronous C# code  
+- Scope: Application vs. Library code, UI considerations, performance implications  
+
+## Guidelines for Use of `ConfigureAwait(false)`
+
+### ✅ When to Use
+- In library code performing asynchronous operations  
+- When the continuation does **not** require access to the original synchronization context  
+- To avoid unnecessary context switching and improve performance  
+- To prevent deadlocks, especially in ASP.NET or library scenarios  
+
+### ❌ When Not to Use
+- In UI applications (e.g., WPF, WinForms, Xamarin) where post-await code interacts with UI elements  
+- When continuation code depends on the original context (e.g., updating the UI)  
+- When unsure if the continuation will need the captured context  
+
+## Design Considerations
+- **Library vs. Application Code**:  
+  - **Library Code**: Prefer `ConfigureAwait(false)` to avoid forcing context capture  
+  - **Application Code (UI)**: Avoid `ConfigureAwait(false)` to preserve UI thread access  
+
+- **Default Behavior**:  
+  - Without `ConfigureAwait`, continuations run on the captured context (e.g., UI thread)  
+
+- **Implications**:  
+  - Using `ConfigureAwait(false)` relinquishes control over the execution context  
+  - Carefully assess post-await behavior for context dependencies  
+
+## Code Examples
+
+### Library Code (Recommended)
+```csharp
+public async Task<string> GetDataAsync()
+{
+    using (var connection = new SqlConnection("connectionString"))
+    {
+        await connection.OpenAsync().ConfigureAwait(false);
+        using (var command = new SqlCommand("SELECT * FROM MyTable", connection))
+        {
+            var reader = await command.ExecuteReaderAsync().ConfigureAwait(false);
+            return "Data";
+        }
+    }
+}
+
+UI Code (Avoid ConfigureAwait(false))
+csharp
+Copiar
+Editar
+public async Task UpdateUIAsync()
+{
+    var data = await GetDataAsync(); // GetDataAsync uses ConfigureAwait(false)
+    myTextBox.Text = data; // Requires original UI context
+}
+
+
+UI Code (Avoid ConfigureAwait(false))
+csharp
+Copiar
+Editar
+public async Task UpdateUIAsync()
+{
+    var data = await GetDataAsync(); // GetDataAsync uses ConfigureAwait(false)
+    myTextBox.Text = data; // Requires original UI context
+}
+
+
+Summary
+
+Use ConfigureAwait(false) in asynchronous library code to improve efficiency and avoid deadlocks, 
+but never use it where UI context or synchronization is essential after awaiting.

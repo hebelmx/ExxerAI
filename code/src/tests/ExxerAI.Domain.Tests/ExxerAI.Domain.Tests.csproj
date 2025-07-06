@@ -5,7 +5,7 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
-		<TargetFramework>net9.0</TargetFramework>
+		<TargetFramework>net10.0</TargetFramework>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -44,7 +44,7 @@
 	</PropertyGroup>
 	<Target Name="ForceCopyDiffEngine" AfterTargets="Build">
 		<ItemGroup>
-			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net9.0\DiffEngine.dll" />
+			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net10.0\DiffEngine.dll" />
 		</ItemGroup>
 		<Copy SourceFiles="@(DiffEngineDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
 	</Target>
