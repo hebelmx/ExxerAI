@@ -28,7 +28,6 @@
   <ItemGroup>
 	  <PackageReference Include="Aspirant.Hosting.Yarp" />
 	  <PackageReference Include="Aspire.Hosting" />
-	  <PackageReference Include="Aspire.Hosting.AppHost" />
 	  <PackageReference Include="Aspire.Hosting.PostgreSQL" />
 	  <PackageReference Include="Aspire.Hosting.Python" />
 

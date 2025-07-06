@@ -35,7 +35,7 @@ public class InMemoryAgentRepositoryTests
             };
 
             // Act
-            var result = await _repository.AddAsync(agent);
+            var result = await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -57,11 +57,11 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Active
             };
 
-            var addResult = await _repository.AddAsync(agent);
+            var addResult = await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
             var agentId = addResult.Data!.Id;
 
             // Act
-            var result = await _repository.GetByIdAsync(agentId);
+            var result = await _repository.GetByIdAsync(agentId, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -74,11 +74,11 @@ public class InMemoryAgentRepositoryTests
         public async Task Should_ReturnFailure_When_AgentNotFound()
         {
             // Act
-            var result = await _repository.GetByIdAsync(Guid.NewGuid());
+            var result = await _repository.GetByIdAsync(Guid.NewGuid(), TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Agent not found");
+            result.Error!.ShouldContain("Agent not found");
         }
 
         [Fact]
@@ -93,14 +93,14 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Active
             };
 
-            var addResult = await _repository.AddAsync(agent);
+            var addResult = await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
             var addedAgent = addResult.Data!;
 
             addedAgent.Name = "Updated Agent Name";
             addedAgent.Description = "Updated Description";
 
             // Act
-            var result = await _repository.UpdateAsync(addedAgent);
+            var result = await _repository.UpdateAsync(addedAgent, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -122,17 +122,17 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Active
             };
 
-            var addResult = await _repository.AddAsync(agent);
+            var addResult = await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
             var agentId = addResult.Data!.Id;
 
             // Act
-            var deleteResult = await _repository.DeleteAsync(agentId);
+            var deleteResult = await _repository.DeleteAsync(agentId, TestContext.Current.CancellationToken);
 
             // Assert
             deleteResult.IsSuccess.ShouldBeTrue();
 
             // Verify agent is deleted
-            var getResult = await _repository.GetByIdAsync(agentId);
+            var getResult = await _repository.GetByIdAsync(agentId, TestContext.Current.CancellationToken);
             getResult.IsFailure.ShouldBeTrue();
         }
 
@@ -143,11 +143,11 @@ public class InMemoryAgentRepositoryTests
             var agent1 = new Agent { Name = "Agent 1", Description = "Desc 1", Capabilities = new AgentCapabilities { SupportedTaskTypes = ["test"] } };
             var agent2 = new Agent { Name = "Agent 2", Description = "Desc 2", Capabilities = new AgentCapabilities { SupportedTaskTypes = ["test"] } };
 
-            await _repository.AddAsync(agent1);
-            await _repository.AddAsync(agent2);
+            await _repository.AddAsync(agent1, TestContext.Current.CancellationToken);
+            await _repository.AddAsync(agent2, TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _repository.GetAllAsync();
+            var result = await _repository.GetAllAsync(TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -180,11 +180,11 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Inactive
             };
 
-            await _repository.AddAsync(activeAgent);
-            await _repository.AddAsync(inactiveAgent);
+            await _repository.AddAsync(activeAgent, TestContext.Current.CancellationToken);
+            await _repository.AddAsync(inactiveAgent, TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _repository.GetByStatusAsync(AgentStatus.Active);
+            var result = await _repository.GetByStatusAsync(AgentStatus.Active, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -213,11 +213,11 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Active
             };
 
-            await _repository.AddAsync(webAgent);
-            await _repository.AddAsync(dataAgent);
+            await _repository.AddAsync(webAgent, TestContext.Current.CancellationToken);
+            await _repository.AddAsync(dataAgent, TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _repository.FindByTaskTypeAsync("web");
+            var result = await _repository.FindByTaskTypeAsync("web", TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -238,10 +238,10 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Active
             };
 
-            await _repository.AddAsync(agent);
+            await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _repository.FindByTaskTypeAsync("nonexistent");
+            var result = await _repository.FindByTaskTypeAsync("nonexistent", TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -261,10 +261,10 @@ public class InMemoryAgentRepositoryTests
                 Status = AgentStatus.Active
             };
 
-            await _repository.AddAsync(agent);
+            await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _repository.GetAgentsWithTaskCountAsync();
+            var result = await _repository.GetAgentsWithTaskCountAsync(TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -286,22 +286,22 @@ public class InMemoryAgentRepositoryTests
         public async Task Should_ReturnFailure_When_AddingNullAgent()
         {
             // Act
-            var result = await _repository.AddAsync(null!);
+            var result = await _repository.AddAsync(null!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Agent cannot be null");
+            result.Error!.ShouldContain("Agent cannot be null");
         }
 
         [Fact]
         public async Task Should_ReturnFailure_When_UpdatingNullAgent()
         {
             // Act
-            var result = await _repository.UpdateAsync(null!);
+            var result = await _repository.UpdateAsync(null!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Agent cannot be null");
+            result.Error!.ShouldContain("Agent cannot be null");
         }
 
         [Fact]
@@ -317,22 +317,22 @@ public class InMemoryAgentRepositoryTests
             };
 
             // Act
-            var result = await _repository.UpdateAsync(agent);
+            var result = await _repository.UpdateAsync(agent, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Agent not found");
+            result.Error!.ShouldContain("Agent not found");
         }
 
         [Fact]
         public async Task Should_ReturnFailure_When_DeletingNonExistentAgent()
         {
             // Act
-            var result = await _repository.DeleteAsync(Guid.NewGuid());
+            var result = await _repository.DeleteAsync(Guid.NewGuid(), TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Agent not found");
+            result.Error!.ShouldContain("Agent not found");
         }
 
         [Fact]
@@ -346,11 +346,11 @@ public class InMemoryAgentRepositoryTests
                 Capabilities = new AgentCapabilities { SupportedTaskTypes = ["test"] }
             };
 
-            var addResult = await _repository.AddAsync(agent);
+            var addResult = await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
             var agentId = addResult.Data!.Id;
 
             // Act
-            var existsResult = await _repository.ExistsAsync(agentId);
+            var existsResult = await _repository.ExistsAsync(agentId, TestContext.Current.CancellationToken);
 
             // Assert
             existsResult.IsSuccess.ShouldBeTrue();
@@ -361,7 +361,7 @@ public class InMemoryAgentRepositoryTests
         public async Task Should_CheckNonExistence_When_AgentDoesNotExist()
         {
             // Act
-            var existsResult = await _repository.ExistsAsync(Guid.NewGuid());
+            var existsResult = await _repository.ExistsAsync(Guid.NewGuid(), TestContext.Current.CancellationToken);
 
             // Assert
             existsResult.IsSuccess.ShouldBeTrue();
