@@ -61,46 +61,56 @@
 		<PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
 		<PackageVersion Include="xunit.analyzers" Version="1.18.0" />-->
 		<!--Testin Infraestructure-->
-		<PackageVersion Include="coverlet.collector" Version="6.0.4" />
+		<!--<PackageVersion Include="coverlet.collector" Version="6.0.4" />
 		<PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
 		<PackageVersion Include="Shouldly" Version="4.3.0" />
 		<PackageVersion Include="NSubstitute" Version="5.3.0" />
 		<PackageVersion Include="Meziantou.Extensions.Logging.Xunit.v3" Version="1.1.6" />
 		<PackageVersion Include="FakeClock" Version="1.1.1" />
+		-->
 		<!-- System -->
+		<!--
 		<PackageVersion Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageVersion Include="System.Net.ServerSentEvents" Version="10.0.0-preview.4.25258.110" />
 		<PackageVersion Include="System.IO.Pipelines" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.Bcl.Memory" Version="4.5.5" />
 		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.6" />
 		<PackageVersion Include="System.Text.Json" Version="9.0.6" />
-		<PackageVersion Include="System.Threading.Channels" Version="9.0.6" />
+		<PackageVersion Include="System.Threading.Channels" Version="9.0.6" />-->
 		<!-- AI Exentsions and abstractions-->
 		<!-- MCP Protocol -->
-		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
+		<!--<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
 		<PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.2" />
 		<PackageVersion Include="ModelContextProtocol.Core" Version="0.3.0-preview.2" />
+		-->
 		<!-- LLM Connectors -->
+		<!--
 		<PackageVersion Include="OllamaSharp.ModelContextProtocol" Version="5.2.6" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.5.1-beta.318" />
 
+		-->
 		<!--Microsoft AI Extensions-->
+		<!--
 		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="9.6.0" />
 		<PackageVersion Include="Microsoft.Extensions.AI" Version="9.6.0" />
 		<PackageVersion Include="Microsoft.SemanticKernel" Version="1.59.0" />
 
+		-->
 		<!--Aspire Clientes LLM-->
+		<!--
 		<PackageVersion Include="OllamaSharp" Version="5.2.6" />
-		<PackageVersion Include="Aspire.OpenAI" Version="9.3.1-preview.1.25305.6" />
+		<PackageVersion Include="Aspire.OpenAI" Version="9.3.1-preview.1.25305.6" />-->
 
 		<!--Open Telemetry-->
 		<!--LangFuse Jaeger Seq-->
 		<!--OpenTelemetry -->
-		<PackageVersion Include="OpenTelemetry" Version="1.12.0" />
+		<!--<PackageVersion Include="OpenTelemetry" Version="1.12.0" />
 		<PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
 
+		-->
 		<!--OpenTelemetry Exporters-->
-		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
+		<!--
+		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />-->
 		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
 		<!--OpenTelemetry Instrumentation-->
 		<PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
@@ -147,12 +157,15 @@
 		<PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
 
 		<!--OpenTelemetry Exporters-->
+		<!--
 		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
 		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
+		-->
 		<!--OpenTelemetry Instrumentation-->
+		<!--
 		<PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
 		<PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
+		<PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />-->
 
 		<!--Aspire Host Log and OpenTelemetry-->
 
@@ -172,7 +185,7 @@
 		<!--Aspire Host Orchestration-->
 
 		<PackageVersion Include="Aspire.Hosting" Version="9.3.2" />
-		<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+		<!--<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />-->
 		<PackageVersion Include="Aspire.AppHost.Sdk" Version="9.3.1" />
 		<PackageVersion Include="InfinityFlow.Aspire.Temporal" Version="0.6.2" />
 
@@ -180,7 +193,6 @@
 		<PackageVersion Include="Aspire.Hosting.Kafka" Version="9.3.1" />
 		<!--Aspire Data Access-->
 
-		<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
 		<PackageVersion Include="Aspire.Hosting.Qdrant" Version="9.3.1" />
 		<PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.3.2" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.RavenDB" Version="9.5.1-beta.318" />

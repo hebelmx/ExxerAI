@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers;
+namespace ExxerAI.Domain.Operations;
 
 /// <summary>
 /// Provides extension methods for working with enumerables.

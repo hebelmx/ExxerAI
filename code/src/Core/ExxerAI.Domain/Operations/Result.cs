@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers;
+namespace ExxerAI.Domain.Operations;
 
 /// <summary>
 /// Represents the result of an operation, including success status and error messages.
@@ -17,7 +17,7 @@ public sealed class Result
     {
         var errorArray = errors?.ToArray() ?? Array.Empty<string>();
         var hasAnyErrors = errorArray.Length > 0;
-        
+
         IsSuccess = succeeded && !hasAnyErrors;
         Errors = errorArray;
     }
@@ -48,7 +48,7 @@ public sealed class Result
     /// <returns>A formatted string representation.</returns>
     public static string FormatErrorsString(IEnumerable<string> errors, string prefix)
     {
-        if (errors is null || !errors.Any()) 
+        if (errors is null || !errors.Any())
             return prefix;
 
         // Fast path for arrays/collections with known count
@@ -56,7 +56,7 @@ public sealed class Result
         {
             return FormatErrorsStringSpan(errorArray.AsSpan(), prefix);
         }
-        
+
         if (errors is ICollection<string> collection && collection.Count <= 16)
         {
             // Use array for small collections (avoid repeated enumeration)
@@ -114,15 +114,15 @@ public sealed class Result
     private static string BuildStringInSpan(Span<char> buffer, ReadOnlySpan<string> errorSpan, string prefix)
     {
         var position = 0;
-        
+
         // Write prefix
         prefix.AsSpan().CopyTo(buffer[position..]);
         position += prefix.Length;
-        
+
         // Write ": "
         ": ".AsSpan().CopyTo(buffer[position..]);
         position += 2;
-        
+
         // Write errors with separators
         for (var i = 0; i < errorSpan.Length; i++)
         {
@@ -131,12 +131,12 @@ public sealed class Result
                 ", ".AsSpan().CopyTo(buffer[position..]);
                 position += 2;
             }
-            
+
             var error = errorSpan[i] ?? string.Empty;
             error.AsSpan().CopyTo(buffer[position..]);
             position += error.Length;
         }
-        
+
         return new string(buffer[..position]);
     }
 
@@ -150,7 +150,7 @@ public sealed class Result
     {
         var stringBuilder = new StringBuilder($"{prefix}: ");
         var isFirst = true;
-        
+
         foreach (var error in errors)
         {
             if (!isFirst)
@@ -158,7 +158,7 @@ public sealed class Result
             stringBuilder.Append(error);
             isFirst = false;
         }
-        
+
         return stringBuilder.ToString();
     }
 
@@ -256,7 +256,7 @@ public sealed class Result
     /// causing NullReferenceException when Errors collection was null. Fixed by adding proper
     /// null checking and fallback error message, making it consistent with Result&lt;T&gt;.OnFailure.
     /// Test: Result_OnFailure_ShouldInvokeActionWithErrors_WhenResultIsFailure now passes.
-    /// 
+    ///
     /// CONSISTENCY FIX (2025-01-03): Standardized default error message to use DefaultErrorMessage
     /// constant to eliminate inconsistencies throughout the codebase.
     /// </remarks>
@@ -336,15 +336,15 @@ public sealed class Result
     {
         if (results is null || results.Length == 0)
             return this;
-            
+
         var errorList = new List<string>();
-        
+
         // Add current result's errors if it's a failure
         if (IsFailure && Errors is not null)
         {
             errorList.AddRange(Errors);
         }
-        
+
         // Add errors from all failed results
         foreach (var result in results)
         {
@@ -353,7 +353,7 @@ public sealed class Result
                 errorList.AddRange(result.Errors);
             }
         }
-        
+
         return errorList.Count > 0 ? WithFailure(errorList) : Success();
     }
 
@@ -427,9 +427,9 @@ public sealed class Result
     /// <param name="secondaryCount">Count of secondary errors.</param>
     /// <returns>True if both collections are small enough for Span optimization.</returns>
     private static bool TryGetSmallCollectionCounts(
-        IEnumerable<string> primary, 
-        IEnumerable<string> secondary, 
-        out int primaryCount, 
+        IEnumerable<string> primary,
+        IEnumerable<string> secondary,
+        out int primaryCount,
         out int secondaryCount)
     {
         primaryCount = 0;
@@ -500,10 +500,10 @@ public sealed class Result
     private static Result CombineErrorsFallback(IEnumerable<string> primaryErrors, IEnumerable<string> secondaryErrors)
     {
         var errorList = new List<string>();
-        
+
         errorList.AddRange(primaryErrors);
         errorList.AddRange(secondaryErrors);
-        
+
         return errorList.Count > 0
             ? WithFailure(errorList)
             : WithFailure(ResultConstants.NoErrorsFoundMessage);
@@ -532,7 +532,7 @@ public sealed class Result<T>
         _hasErrors = errorArray.Length > 0;
         Errors = errorArray;
         _value = value;
-        
+
         // Validate state consistency after deserialization
         ValidateInternalState();
     }
@@ -559,7 +559,7 @@ public sealed class Result<T>
     {
         // Check for inconsistent states that could indicate deserialization issues
         var actualHasErrors = Errors?.Any() == true;
-        
+
         if (_hasErrors != actualHasErrors)
         {
             // Log warning but don't throw - fix the inconsistency
@@ -583,7 +583,7 @@ public sealed class Result<T>
 
     /// <summary>
     /// Gets a value indicating whether the result is a success.
-    /// A result is considered successful if it was explicitly marked as successful 
+    /// A result is considered successful if it was explicitly marked as successful
     /// (warnings do not affect success status - they are just diagnostic information).
     /// </summary>
     public bool IsSuccess => _isSuccess;
@@ -646,8 +646,8 @@ public sealed class Result<T>
     /// </summary>
     public override string ToString()
     {
-        return _isSuccess 
-            ? $"{ResultConstants.SuccessPrefix}: {Value?.ToString()}" 
+        return _isSuccess
+            ? $"{ResultConstants.SuccessPrefix}: {Value?.ToString()}"
             : Result.FormatErrorsString(Errors, ResultConstants.FailurePrefix);
     }
 
@@ -813,17 +813,17 @@ public sealed class Result<T>
     {
         if (!_isSuccess)
             return this;
-            
+
         if (Value is null)
         {
             return WithFailure(ResultConstants.ConditionEvaluationWithNullValue);
         }
-        
+
         if (!condition(Value))
         {
             return WithFailure(errorMessage);
         }
-        
+
         return this;
     }
 
@@ -851,15 +851,15 @@ public sealed class Result<T>
     {
         if (results is null || results.Length == 0)
             return this;
-            
+
         var errorList = new List<string>();
-        
+
         // Add current result's errors if it's a failure
         if (IsFailure && Errors is not null)
         {
             errorList.AddRange(Errors);
         }
-        
+
         // Add errors from all failed results
         foreach (var result in results)
         {
@@ -868,14 +868,14 @@ public sealed class Result<T>
                 errorList.AddRange(result.Errors);
             }
         }
-        
+
         if (errorList.Count > 0)
         {
             return Result<T>.WithFailure(errorList);
         }
-        
+
         // All operations succeeded - return the current successful result (null values are valid)
-        return _isSuccess 
+        return _isSuccess
             ? Result<T>.Success(Value)
             : this;
     }
@@ -894,7 +894,7 @@ public sealed class Result<T>
         {
             return onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
         }
-        
+
         // Industry standard: null values are valid success values when T is nullable
         return onSuccess(Value);
     }
@@ -916,13 +916,13 @@ public sealed class Result<T>
     /// <param name="recoverFunc">The function to execute on failure.</param>
     /// <returns>The recovered <see cref="Result{TOut}"/> or a successful result with the current value.</returns>
     /// <remarks>
-    /// BUG FIX (2025-01-03): Previously used dangerous cast (TOut)(object)Value! which could throw 
+    /// BUG FIX (2025-01-03): Previously used dangerous cast (TOut)(object)Value! which could throw
     /// InvalidCastException at runtime. Now properly handles type conversion with validation.
     /// This method should only be used when T and TOut are compatible types.
     /// </remarks>
     public Result<TOut> RecoverWith<TOut>(Func<Result<TOut>> recoverFunc)
     {
-        if (IsFailure) 
+        if (IsFailure)
         {
             return recoverFunc();
         }
@@ -948,17 +948,17 @@ public sealed class Result<T>
     public static Result<TOut> CombineErrors<TOut>(IEnumerable<string>? primaryErrors, IEnumerable<string>? secondaryErrors, TOut? value = default)
     {
         var errorList = new List<string>();
-        
+
         if (primaryErrors is not null)
         {
             errorList.AddRange(primaryErrors);
         }
-        
+
         if (secondaryErrors is not null)
         {
             errorList.AddRange(secondaryErrors);
         }
-        
+
         return errorList.Count > 0
             ? Result<TOut>.WithFailure(errorList, value)
             : Result<TOut>.WithFailure(ResultConstants.NoErrorsFoundMessage, value);

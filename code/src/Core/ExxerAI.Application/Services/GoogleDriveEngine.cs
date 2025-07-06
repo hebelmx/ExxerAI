@@ -1,5 +1,5 @@
 using ExxerAI.Domain.DocumentProcessing;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 using Microsoft.Extensions.Logging;
 
 namespace ExxerAI.Application.Services;

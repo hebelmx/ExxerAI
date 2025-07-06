@@ -1,6 +1,4 @@
-using ExxerAI.Domain.Helpers.Operations;
-
-namespace ExxerAI.Domain.Helpers;
+namespace ExxerAI.Domain.Operations;
 
 /// <summary>
 /// Utility class for wrapping async operations to handle cancellation in a functional way.

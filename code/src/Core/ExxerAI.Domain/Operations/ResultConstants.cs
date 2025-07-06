@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Helpers;
+namespace ExxerAI.Domain.Operations;
 
 /// <summary>
 /// Constants used by the Result classes to ensure consistency and avoid magic strings.

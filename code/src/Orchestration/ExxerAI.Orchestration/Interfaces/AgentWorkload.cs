@@ -1,8 +1,9 @@
 namespace ExxerAI.Orchestration.Interfaces;
+
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.Operations;
 
 /// <summary>
 /// Represents the current workload of an agent

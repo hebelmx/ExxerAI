@@ -1,7 +1,3 @@
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Helpers;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
 
@@ -128,4 +124,4 @@ internal class SchemaLearningEngine
         var averageConfidence = results.Average(r => r.OverallConfidence);
         return Math.Min(averageConfidence * 0.1f, 0.2f); // Cap improvement at 20%
     }
-} 
+}

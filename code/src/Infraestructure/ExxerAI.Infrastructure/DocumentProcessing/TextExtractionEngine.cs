@@ -5,7 +5,7 @@ using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
 using System.Text;
 using System.Text.RegularExpressions;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Infrastructure.DocumentProcessing;
 
@@ -87,4 +87,4 @@ internal class TextExtractionEngine
             return Result<string>.WithFailure($"OCR extraction failed: {ex.Message}");
         }
     }
-} 
+}

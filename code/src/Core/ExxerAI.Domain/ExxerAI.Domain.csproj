@@ -26,6 +26,9 @@
     <EnableDynamicPgo>true</EnableDynamicPgo>
     <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
 
 
 

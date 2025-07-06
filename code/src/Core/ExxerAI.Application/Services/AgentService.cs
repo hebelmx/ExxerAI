@@ -1,6 +1,6 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Application.Services;
 

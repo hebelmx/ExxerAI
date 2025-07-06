@@ -1,5 +1,5 @@
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 // For Workflow, WorkflowStatus, WorkflowExecution, WorkflowExecutionStatus
 

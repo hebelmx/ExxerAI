@@ -9,4 +9,4 @@ global using System.Text.RegularExpressions;
 global using ExxerAI.Domain.Configurations;
 global using ExxerAI.Domain.ValueObjects;
 global using ExxerAI.Domain;
-global using ExxerAI.Domain.Helpers;
+global using ExxerAI.Domain.Operations;
