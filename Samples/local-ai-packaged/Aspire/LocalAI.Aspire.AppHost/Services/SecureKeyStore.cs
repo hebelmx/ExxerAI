@@ -12,11 +12,17 @@ namespace LocalAI.Aspire.AppHost.Services;
 public interface IKeyStore
 {
     Task<string?> GetKeyAsync(string keyName, string? scope = null);
+
     Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null);
+
     Task<bool> DeleteKeyAsync(string keyName, string? scope = null);
+
     Task<IEnumerable<string>> ListKeysAsync(string? scope = null);
+
     Task<bool> KeyExistsAsync(string keyName, string? scope = null);
+
     Task RotateKeyAsync(string keyName, string newValue, string? scope = null);
+
     Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32);
 }
 
@@ -35,17 +41,17 @@ public class SecureKeyStore : IKeyStore
     {
         _logger = logger;
         _storePath = storePath ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LocalAI", "keystore.json");
-        
+
         // Initialize encryption key
         _encryptionKey = DeriveEncryptionKey(encryptionKey ?? Environment.MachineName);
-        
+
         // Ensure store directory exists
         var directory = Path.GetDirectoryName(_storePath);
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
-        
+
         // Load existing keys
         _ = LoadKeysAsync();
     }
@@ -56,7 +62,7 @@ public class SecureKeyStore : IKeyStore
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
-            
+
             // Check environment variables first (highest priority)
             var envValue = Environment.GetEnvironmentVariable(ConvertToEnvVar(fullKey));
             if (!string.IsNullOrEmpty(envValue))
@@ -64,7 +70,7 @@ public class SecureKeyStore : IKeyStore
                 _logger.LogDebug("Retrieved key {KeyName} from environment variable", fullKey);
                 return envValue;
             }
-            
+
             // Check cache/storage
             if (_cache.TryGetValue(fullKey, out var storedKey))
             {
@@ -75,12 +81,12 @@ public class SecureKeyStore : IKeyStore
                     await DeleteKeyAsync(keyName, scope);
                     return null;
                 }
-                
+
                 var decryptedValue = DecryptValue(storedKey.EncryptedValue);
                 _logger.LogDebug("Retrieved key {KeyName} from store", fullKey);
                 return decryptedValue;
             }
-            
+
             _logger.LogDebug("Key {KeyName} not found", fullKey);
             return null;
         }
@@ -97,8 +103,8 @@ public class SecureKeyStore : IKeyStore
         {
             var fullKey = GetFullKeyName(keyName, scope);
             var encryptedValue = EncryptValue(value);
-            var expiresAt = expiration.HasValue ? DateTime.UtcNow.Add(expiration.Value) : null;
-            
+            var expiresAt = expiration.HasValue ? DateTime.UtcNow.Add(expiration.Value) : DateTime.UtcNow;
+
             var storedKey = new StoredKey
             {
                 Name = fullKey,
@@ -107,10 +113,10 @@ public class SecureKeyStore : IKeyStore
                 ExpiresAt = expiresAt,
                 Scope = scope
             };
-            
+
             _cache[fullKey] = storedKey;
             await SaveKeysAsync();
-            
+
             _logger.LogInformation("Stored key {KeyName} with scope {Scope}", keyName, scope ?? "global");
         }
         finally
@@ -126,13 +132,13 @@ public class SecureKeyStore : IKeyStore
         {
             var fullKey = GetFullKeyName(keyName, scope);
             var removed = _cache.Remove(fullKey);
-            
+
             if (removed)
             {
                 await SaveKeysAsync();
                 _logger.LogInformation("Deleted key {KeyName}", fullKey);
             }
-            
+
             return removed;
         }
         finally
@@ -170,17 +176,17 @@ public class SecureKeyStore : IKeyStore
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
-            
+
             // Backup old key with timestamp
             if (_cache.TryGetValue(fullKey, out var oldKey))
             {
                 var backupKey = $"{fullKey}_backup_{DateTime.UtcNow:yyyyMMddHHmmss}";
                 _cache[backupKey] = oldKey with { Name = backupKey };
             }
-            
+
             // Set new key
             await SetKeyAsync(keyName, newValue, scope);
-            
+
             _logger.LogInformation("Rotated key {KeyName}", fullKey);
         }
         finally
@@ -193,7 +199,7 @@ public class SecureKeyStore : IKeyStore
     {
         var apiKey = GenerateSecureRandomString(length);
         await SetKeyAsync(keyName, apiKey, scope);
-        
+
         _logger.LogInformation("Generated new API key {KeyName} with length {Length}", keyName, length);
         return apiKey;
     }
@@ -220,13 +226,13 @@ public class SecureKeyStore : IKeyStore
 
             var jsonData = await File.ReadAllTextAsync(_storePath);
             var storedKeys = JsonSerializer.Deserialize<StoredKey[]>(jsonData) ?? Array.Empty<StoredKey>();
-            
+
             _cache.Clear();
             foreach (var key in storedKeys)
             {
                 _cache[key.Name] = key;
             }
-            
+
             _logger.LogInformation("Loaded {Count} keys from store", storedKeys.Length);
         }
         catch (Exception ex)
@@ -244,7 +250,7 @@ public class SecureKeyStore : IKeyStore
             {
                 WriteIndented = true
             });
-            
+
             await File.WriteAllTextAsync(_storePath, jsonData);
             _logger.LogDebug("Saved {Count} keys to store", keysToStore.Length);
         }
@@ -259,36 +265,36 @@ public class SecureKeyStore : IKeyStore
         using var aes = Aes.Create();
         aes.Key = _encryptionKey;
         aes.GenerateIV();
-        
+
         using var encryptor = aes.CreateEncryptor();
         var valueBytes = Encoding.UTF8.GetBytes(value);
         var encryptedBytes = encryptor.TransformFinalBlock(valueBytes, 0, valueBytes.Length);
-        
+
         // Combine IV and encrypted data
         var result = new byte[aes.IV.Length + encryptedBytes.Length];
         Array.Copy(aes.IV, 0, result, 0, aes.IV.Length);
         Array.Copy(encryptedBytes, 0, result, aes.IV.Length, encryptedBytes.Length);
-        
+
         return Convert.ToBase64String(result);
     }
 
     private string DecryptValue(string encryptedValue)
     {
         var data = Convert.FromBase64String(encryptedValue);
-        
+
         using var aes = Aes.Create();
         aes.Key = _encryptionKey;
-        
+
         // Extract IV and encrypted data
         var iv = new byte[16]; // AES block size
         var encryptedBytes = new byte[data.Length - 16];
         Array.Copy(data, 0, iv, 0, 16);
         Array.Copy(data, 16, encryptedBytes, 0, encryptedBytes.Length);
-        
+
         aes.IV = iv;
         using var decryptor = aes.CreateDecryptor();
         var decryptedBytes = decryptor.TransformFinalBlock(encryptedBytes, 0, encryptedBytes.Length);
-        
+
         return Encoding.UTF8.GetString(decryptedBytes);
     }
 
@@ -304,13 +310,13 @@ public class SecureKeyStore : IKeyStore
         using var rng = RandomNumberGenerator.Create();
         var bytes = new byte[length];
         rng.GetBytes(bytes);
-        
+
         var result = new StringBuilder(length);
         foreach (var b in bytes)
         {
             result.Append(chars[b % chars.Length]);
         }
-        
+
         return result.ToString();
     }
 }

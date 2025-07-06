@@ -6,43 +6,36 @@ Console.WriteLine("===============================================");
 var builder = DistributedApplication.CreateBuilder(args);
 
 // Add PostgreSQL database
-var postgres = builder.AddPostgres("postgres")
-    .WithLifetime(ContainerLifetime.Persistent);
+var postgres = builder.AddPostgres("postgres");
 
 var database = postgres.AddDatabase("localai_db");
 
 // Add Redis for caching
-var redis = builder.AddRedis("redis")
-    .WithLifetime(ContainerLifetime.Persistent);
+var redis = builder.AddRedis("redis");
 
 // Add LocalAI container
 var localai = builder.AddContainer("localai", "localai/localai", "v2.0.0")
     .WithHttpEndpoint(port: 8081, targetPort: 8080)
-    .WithEnvironment("THREADS", "1")
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithEnvironment("THREADS", "1");
 
-// Add SearXNG search container  
+// Add SearXNG search container
 var searxng = builder.AddContainer("searxng", "searxng/searxng", "latest")
-    .WithHttpEndpoint(port: 8080, targetPort: 8080)
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithHttpEndpoint(port: 8080, targetPort: 8080);
 
 // Add Qdrant vector database
 var qdrant = builder.AddContainer("qdrant", "qdrant/qdrant", "latest")
-    .WithHttpEndpoint(port: 6333, targetPort: 6333)
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithHttpEndpoint(port: 6333, targetPort: 6333);
 
 // Add Prometheus monitoring
 var prometheus = builder.AddContainer("prometheus", "prom/prometheus", "latest")
     .WithHttpEndpoint(port: 9090, targetPort: 9090)
-    .WithBindMount("./monitoring/prometheus.yml", "/etc/prometheus/prometheus.yml", isReadOnly: true)
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithBindMount("./monitoring/prometheus.yml", "/etc/prometheus/prometheus.yml", isReadOnly: true);
 
 // Add Grafana dashboard
 var grafana = builder.AddContainer("grafana", "grafana/grafana", "latest")
     .WithHttpEndpoint(port: 3002, targetPort: 3000)
     .WithEnvironment("GF_SECURITY_ADMIN_USER", "admin")
-    .WithEnvironment("GF_SECURITY_ADMIN_PASSWORD", "admin")
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithEnvironment("GF_SECURITY_ADMIN_PASSWORD", "admin");
 
 // Build and run the application
 var app = builder.Build();

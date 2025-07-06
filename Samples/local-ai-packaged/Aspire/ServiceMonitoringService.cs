@@ -1,7 +1,5 @@
 using System.Diagnostics;
 using System.Text.Json;
-using Microsoft.Extensions.Options;
-using LocalAI.Aspire.Dashboard.Models;
 
 namespace LocalAI.Aspire.Dashboard.Services;
 
@@ -10,19 +8,13 @@ namespace LocalAI.Aspire.Dashboard.Services;
 /// </summary>
 public class ServiceMonitoringService
 {
-    private readonly MonitoringConfiguration _config;
+    private readonly ConfigurationService _config;
     private readonly ILogger<ServiceMonitoringService> _logger;
-    private readonly HttpClient _httpClient;
 
-    public ServiceMonitoringService(
-        IOptions<MonitoringConfiguration> config,
-        ILogger<ServiceMonitoringService> logger,
-        HttpClient httpClient)
+    public ServiceMonitoringService(ConfigurationService config, ILogger<ServiceMonitoringService> logger)
     {
-        _config = config.Value;
+        _config = config;
         _logger = logger;
-        _httpClient = httpClient;
-        _httpClient.Timeout = TimeSpan.FromSeconds(_config.HealthChecks.TimeoutSeconds);
     }
 
     /// <summary>
@@ -33,6 +25,26 @@ public class ServiceMonitoringService
         var services = new List<ServiceStatus>();
 
         // Core services
+        services.Add(await CheckServiceAsync("PostgreSQL", $"http://localhost:{_config.Configuration.Database.Port}", ServiceCategory.Database, true));
+        services.Add(await CheckServiceAsync("Redis", $"http://localhost:{_config.Configuration.Network.Redis.Port}", ServiceCategory.Cache, true));
+
+        // AI services
+        services.Add(await CheckServiceAsync("LocalAI API", $"http://localhost:{_config.Configuration.LocalAI.ApiPort}/health", ServiceCategory.AI, true));
+        services.Add(await CheckServiceAsync("Open WebUI", $"http://localhost:{_config.Configuration.LocalAI.WebUIPort}", ServiceCategory.AI, true));
+
+        // Vector databases
+        services.Add(await CheckServiceAsync("Qdrant", $"http://localhost:{_config.Configuration.VectorDatabases.Qdrant.Port}", ServiceCategory.VectorDB, false));
+        services.Add(await CheckServiceAsync("Milvus", $"http://localhost:{_config.Configuration.VectorDatabases.Milvus.WebPort}", ServiceCategory.VectorDB, false));
+
+        // Search
+        services.Add(await CheckServiceAsync("SearXNG", $"http://localhost:{_config.Configuration.Search.Port}", ServiceCategory.Search, false));
+
+        // Monitoring
+        services.Add(await CheckServiceAsync("Prometheus", $"http://localhost:{_config.Configuration.Monitoring.Prometheus.Port}/-/healthy", ServiceCategory.Monitoring, false));
+        services.Add(await CheckServiceAsync("Grafana", $"http://localhost:{_config.Configuration.Monitoring.Grafana.Port}/api/health", ServiceCategory.Monitoring, false));
+
+        // Gateway
+        services.Add(await CheckServiceAsync("Nginx", $"http://localhost:{_config.Configuration.Network.Nginx.HttpPort}", ServiceCategory.Gateway, false));
 
         var coreServices = services.Where(s => s.IsCritical).ToList();
         var optionalServices = services.Where(s => !s.IsCritical).ToList();
@@ -75,9 +87,11 @@ public class ServiceMonitoringService
     {
         try
         {
-            var stopwatch = Stopwatch.StartNew();
-            var response = await _httpClient.GetAsync(url);
-            stopwatch.Stop();
+            using var client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(5);
+
+            var response = await client.GetAsync(url);
+            var responseTime = response.Headers.Date?.Subtract(DateTime.UtcNow).Duration() ?? TimeSpan.Zero;
 
             return new ServiceStatus
             {
@@ -86,7 +100,7 @@ public class ServiceMonitoringService
                 Url = url,
                 Category = category,
                 IsCritical = isCritical,
-                ResponseTime = stopwatch.Elapsed,
+                ResponseTime = responseTime,
                 StatusCode = (int)response.StatusCode,
                 LastChecked = DateTime.UtcNow,
                 Message = response.IsSuccessStatusCode ? "Service is responsive" : $"HTTP {response.StatusCode}"
@@ -101,7 +115,7 @@ public class ServiceMonitoringService
                 Url = url,
                 Category = category,
                 IsCritical = isCritical,
-                ResponseTime = TimeSpan.FromSeconds(_config.HealthChecks.TimeoutSeconds),
+                ResponseTime = TimeSpan.FromSeconds(5),
                 StatusCode = 0,
                 LastChecked = DateTime.UtcNow,
                 Message = "Service timeout"

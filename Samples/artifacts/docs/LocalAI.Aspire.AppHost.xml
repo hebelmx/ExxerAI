@@ -4,24 +4,228 @@
         <name>LocalAI.Aspire.AppHost</name>
     </assembly>
     <members>
-        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddSupabaseStack(Aspire.Hosting.IDistributedApplicationBuilder,System.String)">
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.LocalAIStackConfiguration">
             <summary>
-            Adds the complete Supabase stack to the application
+            Root configuration for the entire LocalAI stack
+            Note: Sensitive values (passwords, API keys) are managed by the SecureKeyStore
             </summary>
         </member>
-        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddLocalAIStack(Aspire.Hosting.IDistributedApplicationBuilder,System.String)">
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.DatabaseConfiguration">
             <summary>
-            Adds the LocalAI stack with models and UI
+            Database (Supabase/PostgreSQL) configuration
+            Note: Username and Password are stored securely in KeyStore
             </summary>
         </member>
-        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddVectorDatabases(Aspire.Hosting.IDistributedApplicationBuilder)">
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.SupabaseConfiguration">
             <summary>
-            Adds vector database options (Qdrant and Milvus)
+            Supabase service configuration
+            Note: All secrets (JWT, API keys) are managed by KeyStore
             </summary>
         </member>
-        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddMonitoringStack(Aspire.Hosting.IDistributedApplicationBuilder)">
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.LocalAIConfiguration">
             <summary>
-            Adds monitoring stack with Prometheus and Grafana
+            LocalAI and Open WebUI configuration
+            Note: API keys are managed by KeyStore
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.SearchConfiguration">
+            <summary>
+            Search engine (SearXNG) configuration
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.VectorDatabaseConfiguration">
+            <summary>
+            Vector databases configuration
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.MonitoringConfiguration">
+            <summary>
+            Monitoring stack configuration
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.NetworkConfiguration">
+            <summary>
+            Network and gateway configuration
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.SecurityConfiguration">
+            <summary>
+            Security and authentication configuration
+            Note: Encryption keys and secrets are managed by KeyStore
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.ExternalAPIConfiguration">
+            <summary>
+            External API integrations configuration
+            Note: All API keys are managed by KeyStore
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Configuration.KeyStoreConfiguration">
+            <summary>
+            Key store configuration
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Extensions.ConfigurationExtensions">
+            <summary>
+            Extension methods for registering configuration services
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Extensions.ConfigurationExtensions.AddLocalAIConfiguration(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Register all LocalAI stack configurations with the DI container
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Extensions.ConfigurationExtensions.GetConfiguration``1(System.IServiceProvider)">
+            <summary>
+            Get typed configuration from the service provider
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Extensions.ConfigurationExtensions.GetDatabaseConnectionString(LocalAI.Aspire.AppHost.Configuration.DatabaseConfiguration)">
+            <summary>
+            Generate connection string for database
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Extensions.ConfigurationExtensions.GetLocalAIApiUrl(LocalAI.Aspire.AppHost.Configuration.LocalAIConfiguration)">
+            <summary>
+            Generate LocalAI API base URL
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Extensions.ConfigurationExtensions.GetAllServiceUrls(LocalAI.Aspire.AppHost.Configuration.LocalAIStackConfiguration)">
+            <summary>
+            Generate service URLs for display
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Extensions.LocalAIStackConfigurationValidator">
+            <summary>
+            Configuration validator to ensure all required settings are present
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Services.ConfigurationService">
+            <summary>
+            Service to provide strongly-typed configuration to the orchestrator
+            Integrates with SecureKeyStore for sensitive data management
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.InitializeAsync">
+            <summary>
+            Initialize the service with key management
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.ApplyEnvironmentOverrides">
+            <summary>
+            Apply environment variable overrides for sensitive data
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.GetServiceUrls">
+            <summary>
+            Get all service URLs for display
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.DisplayServiceUrls">
+            <summary>
+            Display service URLs in a formatted way
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.GetSecureDatabaseConnectionStringAsync">
+            <summary>
+            Get secure database connection string using KeyStore
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.GetSecureLocalAIApiKeyAsync">
+            <summary>
+            Get LocalAI API key from secure store
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.GetExternalApiKeyAsync(System.String)">
+            <summary>
+            Get external API key for third-party integrations
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.SetExternalApiKeyAsync(System.String,System.String)">
+            <summary>
+            Set external API key for third-party integrations
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.GetDatabaseConnectionString">
+            <summary>
+            Generate connection string for database (fallback method)
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.ConfigurationService.GetLocalAIApiUrl">
+            <summary>
+            Get LocalAI API URL
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager">
+            <summary>
+            Manages all API keys and secrets for the LocalAI stack
+            Provides strongly-typed access to all service credentials
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.InitializeKeysAsync(LocalAI.Aspire.AppHost.Configuration.LocalAIStackConfiguration,System.Boolean)">
+            <summary>
+            Initialize all required keys with secure defaults or generate new ones
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.GetDatabaseConnectionStringAsync(LocalAI.Aspire.AppHost.Configuration.DatabaseConfiguration)">
+            <summary>
+            Get a database connection string with secure credentials
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.GetSupabaseKeysAsync">
+            <summary>
+            Get Supabase configuration with secure keys
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.GetLocalAIApiKeyAsync">
+            <summary>
+            Get LocalAI API key
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.GetVectorDatabaseKeysAsync">
+            <summary>
+            Get vector database credentials
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.GetMonitoringKeysAsync">
+            <summary>
+            Get monitoring service credentials
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.GetExternalApiKeyAsync(System.String)">
+            <summary>
+            Get external API key for third-party integrations
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.SetExternalApiKeyAsync(System.String,System.String)">
+            <summary>
+            Set external API key for third-party integrations
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.RotateInternalSecretsAsync">
+            <summary>
+            Rotate all internal secrets (useful for security maintenance)
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.Services.LocalAIKeyManager.ListAllKeysAsync">
+            <summary>
+            List all available keys (for management/debugging)
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Services.IKeyStore">
+            <summary>
+            Secure key store for managing API keys, secrets, and credentials
+            Supports multiple storage backends and encryption
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Services.SecureKeyStore">
+            <summary>
+            Implementation of secure key store with file-based storage and encryption
+            </summary>
+        </member>
+        <member name="T:LocalAI.Aspire.AppHost.Services.StoredKey">
+            <summary>
+            Represents a stored key with metadata
             </summary>
         </member>
     </members>
