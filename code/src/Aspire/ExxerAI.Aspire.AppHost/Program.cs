@@ -5,13 +5,26 @@ Console.WriteLine("===============================================");
 
 var builder = DistributedApplication.CreateBuilder(args);
 
+// Define a container resource
+var redisContainer = builder.AddContainer("redis", "redis:latest")
+    .WithVolume("redis_data", "/data", isReadOnly: false);
+
+// Example of connecting a service to the container
+builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
+    .WithReference("redis_data", new Uri("ip"));
+
 // Add PostgreSQL database
-var postgres = builder.AddPostgres("postgres");
+var postgres = builder.AddSqlServer("SqlServer");
+//AddPostgres("postgres");
+
+//var postgres = builder.AddPostgres("localai-postgres")
+//    .WithHttpEndpoint(port: 5432, targetPort: 5432)
+//    .WithEnvironment("POSTGRES_USER", "localai");
 
 var database = postgres.AddDatabase("localai-db");
 
-// Add Redis for caching
-var redis = builder.AddRedis("redis");
+//// Add Redis for caching
+//var redis = builder.AddRedis("redis");
 
 // Add LocalAI container
 var localai = builder.AddContainer("localai", "localai/localai", "v2.0.0")
