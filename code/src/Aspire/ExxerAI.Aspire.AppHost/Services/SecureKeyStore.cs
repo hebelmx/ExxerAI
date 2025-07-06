@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
-namespace ExxerAII.Aspire.AppHost.Services;
+namespace ExxerAI.Aspire.AppHost.Services;
 
 /// <summary>
 /// Secure key store for managing API keys, secrets, and credentials

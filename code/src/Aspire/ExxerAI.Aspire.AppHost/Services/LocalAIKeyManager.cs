@@ -1,6 +1,6 @@
-using ExxerAII.Aspire.AppHost.Configuration;
+using ExxerAI.Aspire.AppHost.Configuration;
 
-namespace ExxerAII.Aspire.AppHost.Services;
+namespace ExxerAI.Aspire.AppHost.Services;
 
 /// <summary>
 /// Manages all API keys and secrets for the LocalAI stack
@@ -16,35 +16,42 @@ public class LocalAIKeyManager
     {
         // Database keys
         public const string DatabasePassword = "database-password";
+
         public const string DatabaseUsername = "database-username";
-        
+
         // Supabase keys
         public const string SupabaseJwtSecret = "supabase-jwt-secret";
+
         public const string SupabaseAnonKey = "supabase-anon-key";
         public const string SupabaseServiceRoleKey = "supabase-service-role-key";
-        
+
         // LocalAI keys
         public const string LocalAIApiKey = "localai-api-key";
+
         public const string OpenWebUISecretKey = "open-webui-secret-key";
-        
+
         // Vector database keys
         public const string QdrantApiKey = "qdrant-api-key";
+
         public const string MilvusUsername = "milvus-username";
         public const string MilvusPassword = "milvus-password";
-        
+
         // Monitoring keys
         public const string GrafanaAdminPassword = "grafana-admin-password";
+
         public const string PrometheusPassword = "prometheus-password";
-        
+
         // Redis keys
         public const string RedisPassword = "redis-password";
-        
+
         // Security keys
         public const string EncryptionKey = "encryption-key";
+
         public const string JwtSigningKey = "jwt-signing-key";
-        
+
         // External API keys (for integrations)
         public const string OpenAIApiKey = "openai-api-key";
+
         public const string AnthropicApiKey = "anthropic-api-key";
         public const string GoogleCloudApiKey = "google-cloud-api-key";
         public const string AzureOpenAIApiKey = "azure-openai-api-key";
@@ -74,10 +81,10 @@ public class LocalAIKeyManager
 
         // Initialize internal service keys
         await InitializeInternalKeysAsync(config, regenerateSecrets);
-        
+
         // Initialize external API keys (these will be empty until user provides them)
         await InitializeExternalKeysAsync();
-        
+
         _logger.LogInformation("Key store initialization completed");
     }
 
@@ -88,7 +95,7 @@ public class LocalAIKeyManager
     {
         var username = await _keyStore.GetKeyAsync(KeyNames.DatabaseUsername, Scopes.Internal) ?? config.Username;
         var password = await _keyStore.GetKeyAsync(KeyNames.DatabasePassword, Scopes.Internal) ?? config.Password;
-        
+
         return $"Host={config.Host};Port={config.Port};Database={config.DatabaseName};Username={username};Password={password}";
     }
 
@@ -100,7 +107,7 @@ public class LocalAIKeyManager
         var jwtSecret = await _keyStore.GetKeyAsync(KeyNames.SupabaseJwtSecret, Scopes.Internal);
         var anonKey = await _keyStore.GetKeyAsync(KeyNames.SupabaseAnonKey, Scopes.Internal);
         var serviceRoleKey = await _keyStore.GetKeyAsync(KeyNames.SupabaseServiceRoleKey, Scopes.Internal);
-        
+
         return (jwtSecret!, anonKey!, serviceRoleKey!);
     }
 
@@ -120,7 +127,7 @@ public class LocalAIKeyManager
         var qdrantKey = await _keyStore.GetKeyAsync(KeyNames.QdrantApiKey, Scopes.Internal);
         var milvusUser = await _keyStore.GetKeyAsync(KeyNames.MilvusUsername, Scopes.Internal);
         var milvusPass = await _keyStore.GetKeyAsync(KeyNames.MilvusPassword, Scopes.Internal);
-        
+
         return (qdrantKey, milvusUser, milvusPass);
     }
 
@@ -131,7 +138,7 @@ public class LocalAIKeyManager
     {
         var grafanaPassword = await _keyStore.GetKeyAsync(KeyNames.GrafanaAdminPassword, Scopes.Internal);
         var prometheusPassword = await _keyStore.GetKeyAsync(KeyNames.PrometheusPassword, Scopes.Internal);
-        
+
         return (grafanaPassword!, prometheusPassword);
     }
 

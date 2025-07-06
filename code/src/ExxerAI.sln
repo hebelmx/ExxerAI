@@ -100,7 +100,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Directives", "Directives", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Aspire", "Aspire", "{3350246F-B98A-4900-83A5-43C3971BA086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAII.Aspire.AppHost", "Aspire\ExxerAI.Aspire.AppHost\ExxerAII.Aspire.AppHost.csproj", "{886F2019-7DBB-5077-576B-99ADEE2A15F7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Aspire.AppHost", "Aspire\ExxerAI.Aspire.AppHost\ExxerAI.Aspire.AppHost.csproj", "{886F2019-7DBB-5077-576B-99ADEE2A15F7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExxerAI.Aspire.ServiceDefaults", "Aspire\ExxerAI.Aspire.ServiceDefaults\ExxerAI.Aspire.ServiceDefaults.csproj", "{07B17990-3D97-470F-7071-A00FB2037397}"
 EndProject

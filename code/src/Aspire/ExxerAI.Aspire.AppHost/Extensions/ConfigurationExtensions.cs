@@ -1,6 +1,6 @@
-using ExxerAII.Aspire.AppHost.Configuration;
+using ExxerAI.Aspire.AppHost.Configuration;
 
-namespace ExxerAII.Aspire.AppHost.Extensions;
+namespace ExxerAI.Aspire.AppHost.Extensions;
 
 /// <summary>
 /// Extension methods for registering configuration services
