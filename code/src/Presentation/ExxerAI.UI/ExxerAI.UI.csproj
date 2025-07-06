@@ -56,6 +56,8 @@
 		<PackageReference Include="FluentResults" />
 	</ItemGroup>
 	<ItemGroup>
-	  <ProjectReference Include="..\ExxerAI.Aspire.ServiceDefaults\ExxerAI.Aspire.ServiceDefaults.csproj" />
+	  <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
+	  <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	  <ProjectReference Include="..\..\Orchestration\ExxerAI.Aspire.ServiceDefaults\ExxerAI.Aspire.ServiceDefaults.csproj" />
 	</ItemGroup>
 </Project>

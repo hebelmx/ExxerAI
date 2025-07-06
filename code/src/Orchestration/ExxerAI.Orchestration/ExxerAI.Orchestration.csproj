@@ -24,13 +24,13 @@
     <EnableDynamicPgo>true</EnableDynamicPgo>
     <TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
+    <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+  </ItemGroup>
 
   <!-- ============================================================================ -->
   <!-- PROJECT REFERENCES -->
   <!-- ============================================================================ -->
-  <ItemGroup Label="Infrastructure References">
-    <ProjectReference Include="..\ExxerAI.Application\ExxerAI.Application.csproj" />
-    <ProjectReference Include="..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-  </ItemGroup>
 
 </Project>

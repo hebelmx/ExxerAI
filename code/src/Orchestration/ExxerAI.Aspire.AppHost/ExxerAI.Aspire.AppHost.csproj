@@ -11,7 +11,7 @@
     <UserSecretsId>6c5b9e36-80c7-4631-a60f-c6ee9b2ab7b2</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup Label ="Hosting">
+  <ItemGroup Label="Hosting">
     <PackageReference Include="Aspire.Hosting.AppHost" />
     <PackageReference Include="Aspire.Hosting.AppHost" />
   </ItemGroup>
