@@ -5,9 +5,9 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<!-- Define all reusable version constants -->
-		<!--$(net10)-->
-		<net9>9.0.6</net9>
-		<net10>10.0.0-preview.5.25277.114</net10>
+		<!--9.0.6-->
+		<!--<Target>9.0.6</Target>
+		<Target>10.0.0-preview.5.25277.114</Target>-->
 		<!-- Add more as needed -->
 	</PropertyGroup>
 	<ItemGroup>
@@ -25,23 +25,23 @@
 		<PackageVersion Include="FluentAssertions" Version="8.4.0" />
 		<PackageVersion Include="Keycloak.AuthServices.Aspire.Hosting" Version="0.1.0" />
 		<!-- ASP.NET Core and Web -->
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="$(net10)" />
+		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
 		<PackageVersion Include="Nextended.Aspire" Version="9.0.13" />
 		<PackageVersion Include="Raygun.Aspire.Hosting.Ollama" Version="1.1.0" />
 		<PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.1" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="$(net10)" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
 		<!-- UI Framework -->
 		<PackageVersion Include="MudBlazor" Version="8.9.0" />
 		<PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="3.2.0" />
 		<!-- AI and Extensions -->
-		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="$(net10)" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
 		<!-- Entity Framework -->
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="$(net10)" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
 		<PackageVersion Include="EntityFrameworkCore.Testing" Version="2.4.0" />
 		<PackageVersion Include="MockQueryable.EntityFrameworkCore" Version="7.0.4" />
@@ -60,9 +60,9 @@
 		<PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
 		<PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
 		<!-- Microsoft Logging -->
-		<PackageVersion Include="Microsoft.Extensions.Logging" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="$(net10)" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="$(net10)" />
+		<PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
 		<!-- Utilities -->
 		<PackageVersion Include="FluentResults" Version="4.0.0" />
 		<PackageVersion Include="FluentValidation" Version="11.12.0" />
@@ -92,11 +92,11 @@
 		<!-- System -->
 		<PackageVersion Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageVersion Include="System.Net.ServerSentEvents" Version="10.0.0-preview.4.25258.110" />
-		<PackageVersion Include="System.IO.Pipelines" Version="$(net10)" />
+		<PackageVersion Include="System.IO.Pipelines" Version="9.0.6" />
 		<PackageVersion Include="Microsoft.Bcl.Memory" Version="4.5.5" />
-		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="$(net10)" />
-		<PackageVersion Include="System.Text.Json" Version="$(net10)" />
-		<PackageVersion Include="System.Threading.Channels" Version="$(net10)" />
+		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.6" />
+		<PackageVersion Include="System.Text.Json" Version="9.0.6" />
+		<PackageVersion Include="System.Threading.Channels" Version="9.0.6" />
 		<!-- AI Exentsions and abstractions-->
 		<!-- MCP Protocol -->
 		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
