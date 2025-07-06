@@ -1,0 +1,357 @@
+@page "/custom"
+@model LocalAI.Aspire.Dashboard.Pages.CustomDashboardModel
+@{
+    ViewData["Title"] = "LocalAI Stack Health Dashboard";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4 text-center mb-4">
+                <i class="fas fa-heartbeat text-primary"></i>
+                LocalAI Stack Health Dashboard
+            </h1>
+        </div>
+    </div>
+
+    <!-- Overall Status -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 id="overall-status" class="mb-3">
+                        <span class="badge badge-pill badge-success">System Healthy</span>
+                    </h2>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h5 id="total-services">0</h5>
+                            <small class="text-muted">Total Services</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h5 id="healthy-services" class="text-success">0</h5>
+                            <small class="text-muted">Healthy</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h5 id="unhealthy-services" class="text-danger">0</h5>
+                            <small class="text-muted">Unhealthy</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h5 id="last-checked" class="text-info">--</h5>
+                            <small class="text-muted">Last Checked</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- System Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h4 id="cpu-usage" class="text-primary">0%</h4>
+                    <small class="text-muted">CPU Usage</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h4 id="memory-usage" class="text-info">0 MB</h4>
+                    <small class="text-muted">Memory Usage</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h4 id="uptime" class="text-success">--</h4>
+                    <small class="text-muted">Uptime</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center">
+                    <h4 id="disk-space" class="text-warning">0 GB</h4>
+                    <small class="text-muted">Free Disk Space</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Categories -->
+    <div class="row">
+        <!-- Core Services -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-server"></i> Core Services</h5>
+                </div>
+                <div class="card-body">
+                    <div id="core-services" class="service-list">
+                        <!-- Core services will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Services -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-brain"></i> AI Services</h5>
+                </div>
+                <div class="card-body">
+                    <div id="ai-services" class="service-list">
+                        <!-- AI services will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Optional Services -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-cogs"></i> Optional Services</h5>
+                </div>
+                <div class="card-body">
+                    <div id="optional-services" class="service-list">
+                        <!-- Optional services will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Monitoring -->
+        <div class="col-md-6 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-chart-line"></i> Monitoring</h5>
+                </div>
+                <div class="card-body">
+                    <div id="monitoring-services" class="service-list">
+                        <!-- Monitoring services will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-tools"></i> Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-primary btn-block" onclick="refreshServices()">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="/dashboard" class="btn btn-outline-info btn-block">
+                                <i class="fas fa-chart-bar"></i> Health UI
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="http://localhost:15000" target="_blank" class="btn btn-outline-success btn-block">
+                                <i class="fas fa-tachometer-alt"></i> Aspire
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="http://localhost:3002" target="_blank" class="btn btn-outline-warning btn-block">
+                                <i class="fas fa-chart-line"></i> Grafana
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <a href="http://localhost:9090" target="_blank" class="btn btn-outline-danger btn-block">
+                                <i class="fas fa-fire"></i> Prometheus
+                            </a>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-outline-secondary btn-block" onclick="toggleAutoRefresh()">
+                                <i class="fas fa-play" id="auto-refresh-icon"></i> <span id="auto-refresh-text">Auto</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.service-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.service-item:last-child {
+    border-bottom: none;
+}
+
+.service-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-healthy { background-color: #28a745; }
+.status-unhealthy { background-color: #dc3545; }
+.status-unknown { background-color: #6c757d; }
+.status-degraded { background-color: #ffc107; }
+
+.response-time {
+    font-size: 0.8em;
+    color: #6c757d;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+<script>
+let connection;
+let autoRefresh = true;
+
+// Initialize SignalR connection
+async function initializeConnection() {
+    connection = new signalR.HubConnectionBuilder()
+        .withUrl("/dashboardHub")
+        .build();
+
+    connection.on("ServiceStatusUpdate", function (status) {
+        updateServiceStatus(status);
+    });
+
+    connection.on("SystemMetricsUpdate", function (metrics) {
+        updateSystemMetrics(metrics);
+    });
+
+    try {
+        await connection.start();
+        await connection.invoke("JoinMonitoringGroup");
+        console.log("Connected to dashboard hub");
+    } catch (err) {
+        console.error("Error connecting to hub:", err);
+    }
+}
+
+// Update service status display
+function updateServiceStatus(status) {
+    // Update overall status
+    const overallElement = document.getElementById('overall-status');
+    const badgeClass = status.overallStatus === 0 ? 'badge-success' : 
+                       status.overallStatus === 1 ? 'badge-warning' : 'badge-danger';
+    const statusText = status.overallStatus === 0 ? 'System Healthy' :
+                       status.overallStatus === 1 ? 'System Degraded' : 'System Unhealthy';
+    
+    overallElement.innerHTML = `<span class="badge badge-pill ${badgeClass}">${statusText}</span>`;
+    
+    // Update counters
+    document.getElementById('total-services').textContent = status.totalServices;
+    document.getElementById('healthy-services').textContent = status.healthyServices;
+    document.getElementById('unhealthy-services').textContent = status.unhealthyServices;
+    document.getElementById('last-checked').textContent = new Date(status.lastChecked).toLocaleTimeString();
+    
+    // Update service lists
+    updateServiceList('core-services', status.services.filter(s => s.isCritical && (s.category === 0 || s.category === 1))); // Database, Cache
+    updateServiceList('ai-services', status.services.filter(s => s.category === 2 || s.category === 3)); // AI, VectorDB
+    updateServiceList('optional-services', status.services.filter(s => !s.isCritical && s.category === 4)); // Search
+    updateServiceList('monitoring-services', status.services.filter(s => s.category === 5 || s.category === 6)); // Monitoring, Gateway
+}
+
+// Update system metrics display
+function updateSystemMetrics(metrics) {
+    document.getElementById('cpu-usage').textContent = `${metrics.cpuUsage.toFixed(1)}%`;
+    document.getElementById('memory-usage').textContent = `${(metrics.memoryUsage / 1024 / 1024).toFixed(1)} MB`;
+    document.getElementById('disk-space').textContent = `${(metrics.diskSpace / 1024 / 1024 / 1024).toFixed(1)} GB`;
+    
+    const uptime = new Date(metrics.uptime * 1000).toISOString().substr(11, 8);
+    document.getElementById('uptime').textContent = uptime;
+}
+
+// Update individual service list
+function updateServiceList(containerId, services) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    
+    services.forEach(service => {
+        const statusClass = service.status === 1 ? 'status-healthy' :
+                           service.status === 2 ? 'status-unhealthy' :
+                           service.status === 3 ? 'status-degraded' : 'status-unknown';
+        
+        const serviceItem = document.createElement('div');
+        serviceItem.className = 'service-item';
+        serviceItem.innerHTML = `
+            <div class="service-info">
+                <strong>${service.name}</strong>
+                <div class="response-time">${service.responseTime ? (service.responseTime / 10000).toFixed(0) + 'ms' : '--'}</div>
+            </div>
+            <div class="service-status">
+                <span class="status-dot ${statusClass}"></span>
+                <small>${service.message}</small>
+            </div>
+        `;
+        container.appendChild(serviceItem);
+    });
+    
+    if (services.length === 0) {
+        container.innerHTML = '<div class="text-muted text-center">No services in this category</div>';
+    }
+}
+
+// Manual refresh
+async function refreshServices() {
+    try {
+        const response = await fetch('/api/services');
+        const status = await response.json();
+        updateServiceStatus(status);
+        
+        const metricsResponse = await fetch('/api/metrics');
+        const metrics = await metricsResponse.json();
+        updateSystemMetrics(metrics);
+    } catch (error) {
+        console.error('Error refreshing services:', error);
+    }
+}
+
+// Toggle auto-refresh
+function toggleAutoRefresh() {
+    autoRefresh = !autoRefresh;
+    const icon = document.getElementById('auto-refresh-icon');
+    const text = document.getElementById('auto-refresh-text');
+    
+    if (autoRefresh) {
+        icon.className = 'fas fa-play';
+        text.textContent = 'Auto';
+        initializeConnection();
+    } else {
+        icon.className = 'fas fa-pause';
+        text.textContent = 'Manual';
+        if (connection) {
+            connection.stop();
+        }
+    }
+}
+
+// Initialize when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    initializeConnection();
+    refreshServices();
+});
+</script>

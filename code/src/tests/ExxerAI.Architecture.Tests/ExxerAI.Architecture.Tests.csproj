@@ -60,6 +60,12 @@
 	<ItemGroup Label="Testing Utilities">
 		<PackageReference Include="NetArchTest.Rules" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
+	  <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	  <ProjectReference Include="..\..\Infraestructure\ExxerAI.CLI\ExxerAI.CLI.csproj" />
+	  <ProjectReference Include="..\..\Infraestructure\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+	</ItemGroup>
 
 	<!-- ============================================================================ -->
 	<!-- GLOBAL USINGS -->
@@ -71,15 +77,5 @@
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
 	<!-- ============================================================================ -->
-	<ItemGroup Label="Core References">
-		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Orchestration\ExxerAI.Orchestration.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.CLI\ExxerAI.CLI.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Api\ExxerAI.Api.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.UI\ExxerAI.UI.csproj" />
-		<ProjectReference Include="..\..\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
-	</ItemGroup>
 
 </Project>

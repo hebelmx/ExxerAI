@@ -4,8 +4,9 @@ globs:
 alwaysApply: false
 ---
 
+This is your task and you must no stop until completee.
 
-Please scan the current solution and ensure that all **public classes**, **public methods**, and **public properties** have appropriate XML documentation.  
+Please scan the current folder and ensure that all **public classes**, **public methods**, and **public properties** have appropriate XML documentation.  
 
 Follow these constraints:
 - DO NOT modify any existing code logic or structure.
@@ -14,6 +15,7 @@ Follow these constraints:
 - Use meaningful descriptions that accurately reflect the member’s purpose.
 - If no changes are needed, you may proceed silently without further confirmation.
 
+**Production code must not change, no properties, types, names, methods, any kind of behavior, only add coments**
 
 - **Do not modify any code structure or behavior** under any circumstance.
 - **Update XML comments only when they are outdated or incomplet**
@@ -28,6 +30,8 @@ Follow these constraints:
 - Apply this rule uniformly across all `.cs` files in the solution.
 - Don't Modify any code
 - Please proceed without further notification.
+
+**All the comments must be meaninfull and add value think of the consumer of the code**
 
 - Examples
 
@@ -63,3 +67,13 @@ public bool IsFailure => !IsSuccess;
     }
     
 }
+
+This job has to be dont unitl all code have 100% coverage on documentation
+Dont stop
+make a due diligence, verify all the canges are saved after each change
+
+Wen you finist make a due diligence check all the files to seaach for any missing comment
+if you find any missing comment remember the thoerem of bates of conditional propertie, 
+if you find an error the probabilite of finding another one just increased to almost 100%.
+
+"Leave the code in better shape thant when you foundit"

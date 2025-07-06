@@ -1,41 +1,62 @@
-using LocalAI.Aspire.AppHost;
+using Aspire.Hosting;
+
+Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
+Console.WriteLine("===============================================");
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-// === CORE INFRASTRUCTURE ===
-// Add Supabase stack (PostgreSQL + Auth + Realtime + Storage)
-var postgres = builder.AddSupabaseStack();
+// Add PostgreSQL database
+var postgres = builder.AddPostgres("postgres")
+    .WithLifetime(ContainerLifetime.Persistent);
+
+var database = postgres.AddDatabase("localai_db");
 
 // Add Redis for caching
 var redis = builder.AddRedis("redis")
-    .WithDataVolume();
+    .WithLifetime(ContainerLifetime.Persistent);
 
-// === AI SERVICES ===
-// Add LocalAI stack (LocalAI + Open WebUI)
-var localAi = builder.AddLocalAIStack();
+// Add LocalAI container
+var localai = builder.AddContainer("localai", "localai/localai", "v2.0.0")
+    .WithHttpEndpoint(port: 8081, targetPort: 8080)
+    .WithEnvironment("THREADS", "1")
+    .WithLifetime(ContainerLifetime.Persistent);
 
-// Add SearXNG for private search
-var searxng = builder.AddContainer("searxng", "searxng/searxng")
+// Add SearXNG search container  
+var searxng = builder.AddContainer("searxng", "searxng/searxng", "latest")
     .WithHttpEndpoint(port: 8080, targetPort: 8080)
-    .WithEnvironment("SEARXNG_BASE_URL", "http://localhost:8080/")
-    .WithBindMount("../searxng", "/etc/searxng", isReadOnly: true)
-    .WithVolume("searxng-logs", "/var/log/uwsgi");
+    .WithLifetime(ContainerLifetime.Persistent);
 
-// === VECTOR DATABASES ===
-// Add vector databases for embeddings
-var (qdrant, milvus) = builder.AddVectorDatabases();
+// Add Qdrant vector database
+var qdrant = builder.AddContainer("qdrant", "qdrant/qdrant", "latest")
+    .WithHttpEndpoint(port: 6333, targetPort: 6333)
+    .WithLifetime(ContainerLifetime.Persistent);
 
-// === MONITORING ===
-// Add monitoring stack
-var (prometheus, grafana) = builder.AddMonitoringStack();
+// Add Prometheus monitoring
+var prometheus = builder.AddContainer("prometheus", "prom/prometheus", "latest")
+    .WithHttpEndpoint(port: 9090, targetPort: 9090)
+    .WithBindMount("./monitoring/prometheus.yml", "/etc/prometheus/prometheus.yml", isReadOnly: true)
+    .WithLifetime(ContainerLifetime.Persistent);
 
-// === API GATEWAY ===
-// Nginx reverse proxy
-var nginx = builder.AddContainer("nginx", "nginx:alpine")
-    .WithHttpEndpoint(port: 80, targetPort: 80)
-    .WithHttpEndpoint(port: 443, targetPort: 443, name: "https")
-    .WithBindMount("../nginx/nginx.conf", "/etc/nginx/nginx.conf", isReadOnly: true)
-    .WaitFor(localAi)
-    .WaitFor(searxng);
+// Add Grafana dashboard
+var grafana = builder.AddContainer("grafana", "grafana/grafana", "latest")
+    .WithHttpEndpoint(port: 3002, targetPort: 3000)
+    .WithEnvironment("GF_SECURITY_ADMIN_USER", "admin")
+    .WithEnvironment("GF_SECURITY_ADMIN_PASSWORD", "admin")
+    .WithLifetime(ContainerLifetime.Persistent);
 
-builder.Build().Run();
+// Build and run the application
+var app = builder.Build();
+
+Console.WriteLine();
+Console.WriteLine("✅ LocalAI Stack Services:");
+Console.WriteLine($"   🗄️  PostgreSQL: Available via service discovery");
+Console.WriteLine($"   🔄  Redis: Available via service discovery");
+Console.WriteLine($"   🤖  LocalAI API: http://localhost:8081");
+Console.WriteLine($"   🔍  SearXNG: http://localhost:8080");
+Console.WriteLine($"   📊  Qdrant: http://localhost:6333");
+Console.WriteLine($"   �  Prometheus: http://localhost:9090");
+Console.WriteLine($"   📊  Grafana: http://localhost:3002 (admin/admin)");
+Console.WriteLine();
+Console.WriteLine("🚀 Starting services...");
+
+await app.RunAsync();

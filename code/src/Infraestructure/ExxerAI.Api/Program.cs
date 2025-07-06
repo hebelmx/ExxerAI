@@ -3,7 +3,7 @@ using ExxerAI.Application.Services;
 using ExxerAI.Infrastructure.Repositories;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Helpers;
+using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.Configurations;
 
 namespace ExxerAI.Api;

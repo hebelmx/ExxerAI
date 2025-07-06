@@ -56,6 +56,10 @@
 		<PackageReference Include="Shouldly" />
 		<PackageReference Include="NSubstitute" />
 	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
+	  <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	</ItemGroup>
 
 	<!-- ============================================================================ -->
 	<!-- GLOBAL USINGS -->
@@ -69,10 +73,5 @@
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
 	<!-- ============================================================================ -->
-	<ItemGroup Label="Infrastructure References">
-		<ProjectReference Include="..\..\ExxerAI.Application\ExxerAI.Application.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-		<ProjectReference Include="..\..\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
-	</ItemGroup>
 
 </Project>

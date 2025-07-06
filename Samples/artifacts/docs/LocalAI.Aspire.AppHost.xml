@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>LocalAI.Aspire.AppHost</name>
+    </assembly>
+    <members>
+        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddSupabaseStack(Aspire.Hosting.IDistributedApplicationBuilder,System.String)">
+            <summary>
+            Adds the complete Supabase stack to the application
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddLocalAIStack(Aspire.Hosting.IDistributedApplicationBuilder,System.String)">
+            <summary>
+            Adds the LocalAI stack with models and UI
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddVectorDatabases(Aspire.Hosting.IDistributedApplicationBuilder)">
+            <summary>
+            Adds vector database options (Qdrant and Milvus)
+            </summary>
+        </member>
+        <member name="M:LocalAI.Aspire.AppHost.LocalAIExtensions.AddMonitoringStack(Aspire.Hosting.IDistributedApplicationBuilder)">
+            <summary>
+            Adds monitoring stack with Prometheus and Grafana
+            </summary>
+        </member>
+    </members>
+</doc>
