@@ -39,3 +39,6 @@ secrets.json
 ## OS
 .DS_Store
 Thumbs.db
+ Samples/local-ai-packaged/neo4j/data/transactions/neo4j/neostore.transaction.db.0 >> .gitignore
+echo 
+Samples/local-ai-packaged/neo4j/data/transactions/system/neostore.transaction.db.0
