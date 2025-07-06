@@ -24,12 +24,12 @@
 
             <MudGrid>
                 <MudItem md="12">
-                    <MudStaticTextField For="@(() => Input.Email)" @bind-Value="Input.Email"
+                    <MudTextField For="@(() => Input.Email)" @bind-Value="Input.Email"
                         Label="Email" Placeholder="name@example.com"
                         UserAttributes="@(new() { { "autocomplete", "username" }, { "aria-required", "true" } } )" />
                 </MudItem>
                 <MudItem md="12">
-                    <MudStaticTextField For="@(() => Input.Password)" @bind-Value="Input.Password"
+                    <MudTextField For="@(() => Input.Password)" @bind-Value="Input.Password"
                         Label="Password" InputType="InputType.Password" Placeholder="password"
                         UserAttributes="@(new() { { "autocomplete", "current-password" }, { "aria-required", "true" } } )" />
                 </MudItem>

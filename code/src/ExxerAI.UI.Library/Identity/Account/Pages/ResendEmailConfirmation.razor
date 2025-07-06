@@ -25,7 +25,7 @@
 
     <MudGrid>
         <MudItem md="12">
-            <MudStaticTextField For="@(() => Input.Email)" @bind-Value="Input.Email"
+            <MudTextField For="@(() => Input.Email)" @bind-Value="Input.Email"
                                 Label="Email" Placeholder="name@example.com"
                                 UserAttributes="@(new() { { "autocomplete", "username" }, { "aria-required", "true" } } )" />
         </MudItem>
