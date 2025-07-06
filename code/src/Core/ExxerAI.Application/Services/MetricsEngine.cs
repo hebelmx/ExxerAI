@@ -24,7 +24,7 @@ internal class MetricsEngine
     public async Task<int> GetDocumentsProcessedTodayAsync(CancellationToken cancellationToken)
     {
         // Simulate metric calculation
-        await Task.Delay(10, cancellationToken);
+        await Task.Delay(10, cancellationToken).ConfigureAwait(false);
         return Random.Shared.Next(0, 50);
     }
 
@@ -36,7 +36,7 @@ internal class MetricsEngine
     public async Task<int> GetDocumentsProcessedThisWeekAsync(CancellationToken cancellationToken)
     {
         // Simulate metric calculation
-        await Task.Delay(10, cancellationToken);
+        await Task.Delay(10, cancellationToken).ConfigureAwait(false);
         return Random.Shared.Next(0, 300);
     }
 
@@ -48,7 +48,7 @@ internal class MetricsEngine
     public async Task<double> GetAverageProcessingTimeAsync(CancellationToken cancellationToken)
     {
         // Simulate metric calculation
-        await Task.Delay(10, cancellationToken);
+        await Task.Delay(10, cancellationToken).ConfigureAwait(false);
         return Random.Shared.NextDouble() * 5000 + 1000; // 1-6 seconds
     }
 
@@ -64,7 +64,7 @@ internal class MetricsEngine
         int pendingChangesCount, 
         CancellationToken cancellationToken)
     {
-        await Task.Delay(10, cancellationToken);
+        await Task.Delay(10, cancellationToken).ConfigureAwait(false);
 
         return new Dictionary<string, object>
         {

@@ -174,7 +174,7 @@ public class WorkflowService : IWorkflowService
 	{
 		try
 		{
-			await Task.CompletedTask;
+			await Task.CompletedTask.ConfigureAwait(false);
 			// This would typically use an execution repository
 			return Result<WorkflowExecution>.WithFailure("Execution repository not implemented");
 		}
@@ -216,7 +216,7 @@ public class WorkflowService : IWorkflowService
 	{
 		try
 		{
-			await Task.CompletedTask;
+			await Task.CompletedTask.ConfigureAwait(false);
 			return Result<bool>.WithFailure("Execution management not implemented");
 		}
 		catch (Exception ex)
@@ -235,7 +235,7 @@ public class WorkflowService : IWorkflowService
 	{
 		try
 		{
-			await Task.CompletedTask;
+			await Task.CompletedTask.ConfigureAwait(false);
 			return Result<bool>.WithFailure("Execution management not implemented");
 		}
 		catch (Exception ex)
@@ -254,7 +254,7 @@ public class WorkflowService : IWorkflowService
 	{
 		try
 		{
-			await Task.CompletedTask;
+			await Task.CompletedTask.ConfigureAwait(false);
 			return Result<bool>.WithFailure("Execution management not implemented");
 		}
 		catch (Exception ex)

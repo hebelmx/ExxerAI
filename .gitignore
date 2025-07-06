@@ -12,6 +12,9 @@ obj/
 x64/
 x86/
 
+# Ignore Neo4j transaction files
+Samples/local-ai-packaged/neo4j/data/transactions/**/*.db.0
+
 ## ASP.NET Scaffolding
 ScaffoldingReadMe.txt
 

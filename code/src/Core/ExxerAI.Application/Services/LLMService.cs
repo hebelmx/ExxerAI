@@ -40,7 +40,7 @@ try
 if (string.IsNullOrWhiteSpace(prompt))
 return Result<LLMResponse>.WithFailure("Prompt cannot be null or empty");
 
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
+var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
 if (modelResult.IsFailure) return Result<LLMResponse>.WithFailure($"Model {modelId} not found");
 
 var response = new LLMResponse
@@ -83,7 +83,7 @@ Content = message,
 Timestamp = DateTime.UtcNow
 };
 
-var addResult = await _conversationRepository.AddMessageAsync(userMessage, cancellationToken);
+var addResult = await _conversationRepository.AddMessageAsync(userMessage, cancellationToken).ConfigureAwait(false);
 if (addResult.IsFailure) return Result<ConversationMessage>.WithFailure(addResult.Error ?? "Failed to add user message");
 
 var assistantMessage = new ConversationMessage
@@ -94,7 +94,7 @@ Content = $"Response to: {message}",
 Timestamp = DateTime.UtcNow
 };
 
-var assistantResult = await _conversationRepository.AddMessageAsync(assistantMessage, cancellationToken);
+var assistantResult = await _conversationRepository.AddMessageAsync(assistantMessage, cancellationToken).ConfigureAwait(false);
 return assistantResult.IsFailure ? Result<ConversationMessage>.WithFailure(assistantResult.Error ?? "Failed to add assistant message") : Result<ConversationMessage>.WithSuccess(assistantMessage);
 }
 catch (Exception ex)
@@ -126,7 +126,7 @@ Status = ConversationStatus.Active,
 CreatedAt = DateTime.UtcNow
 };
 
-var result = await _conversationRepository.AddAsync(conversation, cancellationToken);
+var result = await _conversationRepository.AddAsync(conversation, cancellationToken).ConfigureAwait(false);
 return result.IsFailure ? Result<Conversation>.WithFailure(result.Error ?? "Failed to add conversation") : Result<Conversation>.WithSuccess(conversation);
 }
 catch (Exception ex)
@@ -147,7 +147,7 @@ public async Task<Result<decimal>> EstimateCostAsync(Guid modelId, int inputToke
 {
 try
 {
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
+var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
 if (modelResult.IsFailure) return Result<decimal>.WithFailure($"Model {modelId} not found");
 
 // Basic cost estimation (would use real pricing from model)
@@ -174,7 +174,7 @@ try
 if (string.IsNullOrEmpty(text))
 return Result<int>.WithSuccess(0);
 
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
+var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
 if (modelResult.IsFailure) return Result<int>.WithFailure($"Model {modelId} not found");
 
 // Basic token counting (would use real tokenizer)
@@ -197,7 +197,7 @@ return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
 /// <returns>An async enumerable of response chunks</returns>
 public async IAsyncEnumerable<LLMResponseChunk> StreamTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
 {
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
+var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
 if (modelResult.IsFailure) yield break;
 
 // Simulate streaming response
@@ -212,7 +212,7 @@ ChunkIndex = i,
 IsComplete = i == chunks.Length - 1
 };
 
-await Task.Delay(100, cancellationToken); // Simulate processing delay
+await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Simulate processing delay
 }
 }
 
@@ -226,7 +226,7 @@ public async Task<Result<bool>> ValidateModelAsync(Guid modelId, CancellationTok
 {
 try
 {
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken);
+var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
 return Result<bool>.WithSuccess(modelResult.IsSuccess);
 }
 catch (Exception ex)

@@ -68,7 +68,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         try
         {
             // Stage 1: Direct text extraction (port from OCRV5.py extract_data_from_pdf)
-            var directResult = await _directTextExtractor.ExtractTextAsync(documentData, cancellationToken);
+            var directResult = await _directTextExtractor.ExtractTextAsync(documentData, cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Stage 1 - Direct text extraction: {Success}, Confidence: {Confidence}",
                 directResult.IsSuccessful, directResult.Confidence);
@@ -113,7 +113,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             // Stage 3: Pattern matching using persistent dictionary (enhanced from Python regex patterns)
             _logger.LogDebug("Starting pattern matching for document type: {DocumentType}", metadata.DocumentType);
 
-            var patterns = await _patternDictionary.GetPatternsForDocumentTypeAsync(metadata.DocumentType.ToString(), cancellationToken);
+            var patterns = await _patternDictionary.GetPatternsForDocumentTypeAsync(metadata.DocumentType.ToString(), cancellationToken).ConfigureAwait(false);
             var extractedFields = await ApplyPatternDictionaryAsync(result.ExtractedText, patterns, cancellationToken);
 
             // Update the ExtractedFields dictionary with the extracted values
