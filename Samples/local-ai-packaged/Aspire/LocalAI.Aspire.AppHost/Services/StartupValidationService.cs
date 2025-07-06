@@ -266,10 +266,12 @@ public static class StartupValidationService
             ╔══════════════════════════════════════════════════════════════╗
             ║                LocalAI Aspire Orchestrator                  ║
             ║              Self-Contained AI Stack Manager                ║
+            ║                    🚀 Ready to Launch! 🚀                   ║
             ╚══════════════════════════════════════════════════════════════╝
             """;
 
         Console.WriteLine(banner);
+        Console.WriteLine("🎯 Orchestrating: Supabase • LocalAI • SearXNG • Vector DBs • Monitoring");
         Console.WriteLine();
     }
 
