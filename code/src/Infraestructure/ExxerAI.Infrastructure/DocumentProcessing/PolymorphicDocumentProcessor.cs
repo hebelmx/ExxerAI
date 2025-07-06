@@ -14,7 +14,7 @@ using SixLabors.ImageSharp.PixelFormats;
 
 using System.Text;
 using System.Text.RegularExpressions;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Infrastructure.DocumentProcessing;
 

@@ -4,7 +4,7 @@ using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
 using Microsoft.Extensions.Logging;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Infrastructure.External;
 

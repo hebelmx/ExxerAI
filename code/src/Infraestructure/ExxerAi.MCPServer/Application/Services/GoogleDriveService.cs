@@ -6,7 +6,7 @@ using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAi.MCPServer.Application.Services;
 

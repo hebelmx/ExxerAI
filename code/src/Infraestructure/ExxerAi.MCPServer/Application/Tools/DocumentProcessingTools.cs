@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 using ModelContextProtocol.Server;
 
 namespace ExxerAi.MCPServer.Application.Tools;

@@ -1,7 +1,7 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.Helpers;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.ValueObjects;
 
 namespace ExxerAI.CLI.Commands;

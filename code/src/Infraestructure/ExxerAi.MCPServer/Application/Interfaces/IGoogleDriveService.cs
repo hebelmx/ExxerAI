@@ -1,6 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAi.MCPServer.Application.Services;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAi.MCPServer.Application.Interfaces;
 

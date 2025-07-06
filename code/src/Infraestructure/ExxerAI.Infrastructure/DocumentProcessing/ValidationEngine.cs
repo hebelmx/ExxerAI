@@ -3,7 +3,7 @@ using ExxerAI.Domain.ValueObjects;
 using ExxerAI.Domain.Configurations;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Logging;
-using ExxerAI.Domain.Helpers.Operations;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Infrastructure.DocumentProcessing;
 
