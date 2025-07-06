@@ -1,0 +1,59 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+rule_files:
+  # - "first_rules.yml"
+  # - "second_rules.yml"
+
+scrape_configs:
+  # Aspire services
+  - job_name: 'aspire-dashboard'
+    static_configs:
+      - targets: ['localhost:18888']
+    metrics_path: '/metrics'
+
+  # LocalAI
+  - job_name: 'localai'
+    static_configs:
+      - targets: ['localhost:8081']
+    metrics_path: '/metrics'
+
+  # Supabase services
+  - job_name: 'supabase-rest'
+    static_configs:
+      - targets: ['localhost:3000']
+    metrics_path: '/metrics'
+
+  - job_name: 'supabase-auth'
+    static_configs:
+      - targets: ['localhost:9999']
+    metrics_path: '/metrics'
+
+  # SearXNG
+  - job_name: 'searxng'
+    static_configs:
+      - targets: ['localhost:8080']
+    metrics_path: '/stats'
+
+  # Qdrant
+  - job_name: 'qdrant'
+    static_configs:
+      - targets: ['localhost:6333']
+    metrics_path: '/metrics'
+
+  # Milvus
+  - job_name: 'milvus'
+    static_configs:
+      - targets: ['localhost:9091']
+    metrics_path: '/metrics'
+
+  # Redis
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['localhost:6379']
+
+  # PostgreSQL
+  - job_name: 'postgres'
+    static_configs:
+      - targets: ['localhost:5432']
