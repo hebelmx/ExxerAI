@@ -1,3 +1,4 @@
+using ExxerAI.Domain.Helpers.Operations;
 using Shouldly;
 
 namespace ExxerAI.Domain.Tests;

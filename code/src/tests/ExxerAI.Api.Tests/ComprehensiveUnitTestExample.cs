@@ -1,5 +1,6 @@
 using ExxerAI.Application.Services;
 using ExxerAI.Domain.DocumentProcessing;
+using ExxerAI.Domain.Helpers.Operations;
 
 namespace ExxerAI.Api.Tests;
 

@@ -1,3 +1,4 @@
+using ExxerAI.Domain.Helpers.Operations;
 using Meziantou.Extensions.Logging.Xunit;
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireSharedProject>true</IsAspireSharedProject>
+  </PropertyGroup>
+
+  <ItemGroup  Label="Microsoft.Extensions">
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+
+    <PackageReference Include="Microsoft.Extensions.Http.Resilience"  />
+    <PackageReference Include="Microsoft.Extensions.ServiceDiscovery"  />
+  </ItemGroup>
+
+
+	<ItemGroup Label="OpenTelemetry">
+
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol"  />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting"  />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore"  />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Runtime"  />
+  </ItemGroup>
+
+
+	<ItemGroup Label="Data Access Clients">
+		<PackageReference Include="Aspire.Qdrant.Client" />
+	</ItemGroup>
+
+</Project>

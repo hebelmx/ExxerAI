@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Sdk Name="Aspire.AppHost.Sdk" Version="9.3.1" />
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsAspireHost>true</IsAspireHost>
+    <UserSecretsId>6c5b9e36-80c7-4631-a60f-c6ee9b2ab7b2</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup Label ="Hosting">
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+    <PackageReference Include="Aspire.Hosting.AppHost" />
+  </ItemGroup>
+
+  <ItemGroup Label="Data Access">
+
+	  <PackageReference Include="Aspire.Hosting.Qdrant" />
+      <PackageReference Include="Aspire.Hosting.SqlServer" />
+	  <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
+
+  </ItemGroup>
+
+	<ItemGroup>
+    <ProjectReference Include="..\ExxerAI.UI\ExxerAI.UI.csproj" />
+  </ItemGroup>
+
+</Project>

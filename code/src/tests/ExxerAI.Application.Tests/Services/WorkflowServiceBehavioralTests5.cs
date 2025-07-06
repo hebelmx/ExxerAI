@@ -1,3 +1,5 @@
+using ExxerAI.Domain.Helpers.Operations;
+
 namespace ExxerAI.Application.Tests.Services;
 
 public class WorkflowServiceBehavioralTests5

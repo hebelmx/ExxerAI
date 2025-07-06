@@ -1,3 +1,5 @@
+using ExxerAI.Domain.Helpers.Operations;
+
 namespace ExxerAI.CLI.Tests;
 
 /// <summary>
