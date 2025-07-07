@@ -1,0 +1,203 @@
+     OCRRegionPatternTests (10 tests) Failed: One or more child tests failed: 10 tests failed
+      Should_ExtractAbsoluteValue_When_NegativeNumbersPresent (3 tests) Failed: One or more child tests failed: 3 tests failed
+       Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(inputText: "Balance: -500.00", expectedValue: "500.00") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"500.00"
+    but was
+"-500.00"
+    difference
+Difference     |  |    |         |    |         |   
+               | \|/  \|/       \|/  \|/       \|/  
+Index          | 0    1    2    3    4    5    6    
+Expected Value | 5    0    0    .    0    0         
+Actual Value   | -    5    0    0    .    0    0    
+Expected Code  | 53   48   48   46   48   48        
+Actual Code    | 45   53   48   48   46   48   48   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 526
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+       Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(inputText: "Deficit: -10,000", expectedValue: "10,000") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"10,000"
+    but was
+"-10,000"
+    difference
+Difference     |  |    |    |    |              |   
+               | \|/  \|/  \|/  \|/            \|/  
+Index          | 0    1    2    3    4    5    6    
+Expected Value | 1    0    ,    0    0    0         
+Actual Value   | -    1    0    ,    0    0    0    
+Expected Code  | 49   48   44   48   48   48        
+Actual Code    | 45   49   48   44   48   48   48   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 526
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+
+
+       Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(inputText: "Loss: -1,250.75", expectedValue: "1,250.75") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"1,250.75"
+    but was
+"-1,250.75"
+    difference
+Difference     |  |    |    |    |    |    |    |    |    |   
+               | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+Index          | 0    1    2    3    4    5    6    7    8    
+Expected Value | 1    ,    2    5    0    .    7    5         
+Actual Value   | -    1    ,    2    5    0    .    7    5    
+Expected Code  | 49   44   50   53   48   46   55   53        
+Actual Code    | 45   49   44   50   53   48   46   55   53   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 526
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+      Should_ExtractCurrencyValues_When_CurrencySymbolsPresent (4 tests) Failed: One or more child tests failed: 4 tests failed
+       Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(inputText: "Amount: £999.99", expectedValue: "999.99") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"999.99"
+    but was
+"£999.99"
+    difference
+Difference     |  |              |    |         |   
+               | \|/            \|/  \|/       \|/  
+Index          | 0    1    2    3    4    5    6    
+Expected Value | 9    9    9    .    9    9         
+Actual Value   | £    9    9    9    .    9    9    
+Expected Code  | 57   57   57   46   57   57        
+Actual Code    | 163  57   57   57   46   57   57   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 429
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+       Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(inputText: "Cost: €2,750.50", expectedValue: "2,750.50") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"2,750.50"
+    but was
+"€2,750.50"
+    difference
+Difference     |  |    |    |    |    |    |    |    |    |   
+               | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+Index          | 0    1    2    3    4    5    6    7    8    
+Expected Value | 2    ,    7    5    0    .    5    0         
+Actual Value   | €    2    ,    7    5    0    .    5    0    
+Expected Code  | 50   44   55   53   48   46   53   48        
+Actual Code    | 8364 50   44   55   53   48   46   53   48   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 429
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+       Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(inputText: "Price: $1,500.00", expectedValue: "1,500.00") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"1,500.00"
+    but was
+"$1,500.00"
+    difference
+Difference     |  |    |    |    |         |    |         |   
+               | \|/  \|/  \|/  \|/       \|/  \|/       \|/  
+Index          | 0    1    2    3    4    5    6    7    8    
+Expected Value | 1    ,    5    0    0    .    0    0         
+Actual Value   | $    1    ,    5    0    0    .    0    0    
+Expected Code  | 49   44   53   48   48   46   48   48        
+Actual Code    | 36   49   44   53   48   48   46   48   48   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 429
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+       Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(inputText: "Total: ¥10,000", expectedValue: "10,000") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"10,000"
+    but was
+"¥10,000"
+    difference
+Difference     |  |    |    |    |              |   
+               | \|/  \|/  \|/  \|/            \|/  
+Index          | 0    1    2    3    4    5    6    
+Expected Value | 1    0    ,    0    0    0         
+Actual Value   | ¥    1    0    ,    0    0    0    
+Expected Code  | 49   48   44   48   48   48        
+Actual Code    | 165  49   48   44   48   48   48   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 429
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+      Should_ExtractPercentageValues_When_Present (3 tests) Failed: One or more child tests failed: 3 tests failed
+       Should_ExtractPercentageValues_When_Present(inputText: "Discount: 15.5%", expectedValue: "15.5") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"15.5"
+    but was
+"15.5%"
+    difference
+Difference     |                      |   
+               |                     \|/  
+Index          | 0    1    2    3    4    
+Expected Value | 1    5    .    5         
+Actual Value   | 1    5    .    5    %    
+Expected Code  | 49   53   46   53        
+Actual Code    | 49   53   46   53   37   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractPercentageValues_When_Present(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 550
+   at System.RuntimeMethodHandle.InvokeMethod(Object target, Void** arguments, Signature sig, Boolean isConstructor)
+   at System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+
+
+       Should_ExtractPercentageValues_When_Present(inputText: "Interest: 10%", expectedValue: "10") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"10"
+    but was
+"10%"
+    difference
+Difference     |            |   
+               |           \|/  
+Index          | 0    1    2    
+Expected Value | 1    0         
+Actual Value   | 1    0    %    
+Expected Code  | 49   48        
+Actual Code    | 49   48   37   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractPercentageValues_When_Present(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 550
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractPercentageValues_When_Present(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+
+
+       Should_ExtractPercentageValues_When_Present(inputText: "Rate: 5.25%", expectedValue: "5.25") Failed: Shouldly.ShouldAssertException: result
+Shouldly.ShouldAssertException
+result
+    should be
+"5.25"
+    but was
+"5.25%"
+    difference
+Difference     |                      |   
+               |                     \|/  
+Index          | 0    1    2    3    4    
+Expected Value | 5    .    2    5         
+Actual Value   | 5    .    2    5    %    
+Expected Code  | 53   46   50   53        
+Actual Code    | 53   46   50   53   37   
+   at ExxerAI.Application.Tests.Patterns.OCRRegionPatternTests.Should_ExtractPercentageValues_When_Present(String inputText, String expectedValue) in F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Patterns\OCRRegionPatternTests.cs:line 550
+   at InvokeStub_OCRRegionPatternTests.Should_ExtractPercentageValues_When_Present(Object, Span`1)
+   at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+

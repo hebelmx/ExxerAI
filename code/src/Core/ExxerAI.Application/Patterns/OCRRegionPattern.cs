@@ -148,23 +148,23 @@ public class OCRRegionPattern : ExtractionPattern
         // Priority order: longest and most complete matches first
         var patterns = new[]
         {
-            // Pattern 1: Full currency amount with commas at start of line (e.g., "1,100.00 USD")
-            @"^(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
+            // Pattern 1: Full currency amount with commas at start of line (e.g., "1,100.00 USD", "$1,500.00", "€2,750.50")
+            @"^[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
             
-            // Pattern 2: Simple number with decimals at start (e.g., "1250.75")  
-            @"^(\d+\.\d{2})",
+            // Pattern 2: Simple number with decimals at start (e.g., "1250.75", "$999.99", "5.25%")  
+            @"^[^\d]*(\d+\.\d{2})",
             
-            // Pattern 3: Integer at start (e.g., "500")
-            @"^(\d+)",
+            // Pattern 3: Integer at start (e.g., "500", "$100", "10%")
+            @"^[^\d]*(\d+)",
             
             // Pattern 4: Currency amount anywhere in line (fallback)
-            @"(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
+            @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
             
             // Pattern 5: Any decimal number (fallback)
-            @"(\d+\.\d{2})",
+            @"[^\d]*(\d+\.\d{2})",
             
             // Pattern 6: Any integer (final fallback)
-            @"(\d+)"
+            @"[^\d]*(\d+)"
         };
         
         foreach (var pattern in patterns)
