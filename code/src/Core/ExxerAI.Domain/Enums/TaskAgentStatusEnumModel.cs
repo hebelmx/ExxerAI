@@ -19,7 +19,7 @@ public class TaskAgentStatusEnumModel : EnumModel
     /// <param name="value">The integer value.</param>
     /// <param name="name">The name.</param>
     /// <param name="displayName">The display name.</param>
-    private TaskAgentStatusEnumModel(int value, string name, string displayName = "") 
+    private TaskAgentStatusEnumModel(int value, string name, string displayName = "")
         : base(value, name, displayName)
     {
     }
@@ -27,7 +27,7 @@ public class TaskAgentStatusEnumModel : EnumModel
     /// <summary>
     /// Gets the invalid task agent status instance.
     /// </summary>
-    public static readonly TaskAgentStatusEnumModel Invalid = new(0, "Invalid", "Invalid Status");
+    public new static readonly TaskAgentStatusEnumModel Invalid = new(0, "Invalid", "Invalid Status");
 
     /// <summary>
     /// Task is pending assignment or processing.
@@ -96,8 +96,8 @@ public class TaskAgentStatusEnumModel : EnumModel
     /// <returns>True if the task is overdue, false otherwise.</returns>
     public bool IsOverdue(DateTime? deadline)
     {
-        return deadline.HasValue && 
-               deadline.Value < DateTime.UtcNow && 
+        return deadline.HasValue &&
+               deadline.Value < DateTime.UtcNow &&
                !this.Equals(Completed);
     }
 
@@ -114,7 +114,7 @@ public class TaskAgentStatusEnumModel : EnumModel
         return this.Value switch
         {
             _ when this.Equals(Pending) => newStatus.Equals(InProgress) || newStatus.Equals(Cancelled),
-            _ when this.Equals(InProgress) => newStatus.Equals(Paused) || newStatus.Equals(Completed) || 
+            _ when this.Equals(InProgress) => newStatus.Equals(Paused) || newStatus.Equals(Completed) ||
                                              newStatus.Equals(Failed) || newStatus.Equals(Cancelled),
             _ when this.Equals(Paused) => newStatus.Equals(InProgress) || newStatus.Equals(Cancelled),
             _ when IsTerminal => false, // Terminal states cannot transition
@@ -136,4 +136,4 @@ public class TaskAgentStatusEnumModel : EnumModel
             _ => this // Terminal or invalid states stay the same
         };
     }
-} 
+}

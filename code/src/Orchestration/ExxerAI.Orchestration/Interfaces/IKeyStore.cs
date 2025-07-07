@@ -1,4 +1,4 @@
-namespace ExxerAI.Orchestration.Services;
+namespace ExxerAI.Orchestration.Interfaces;
 
 /// <summary>
 /// Secure key store for managing API keys, secrets, and credentials

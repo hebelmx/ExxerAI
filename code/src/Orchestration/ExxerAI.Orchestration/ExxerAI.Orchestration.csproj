@@ -55,10 +55,6 @@
     <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
-
   <!-- ============================================================================ -->
   <!-- PROJECT REFERENCES -->
   <!-- ============================================================================ -->

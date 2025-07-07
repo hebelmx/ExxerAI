@@ -19,7 +19,7 @@ public class TaskPriorityEnumModel : EnumModel
     /// <param name="value">The integer value.</param>
     /// <param name="name">The name.</param>
     /// <param name="displayName">The display name.</param>
-    private TaskPriorityEnumModel(int value, string name, string displayName = "") 
+    private TaskPriorityEnumModel(int value, string name, string displayName = "")
         : base(value, name, displayName)
     {
     }
@@ -27,7 +27,7 @@ public class TaskPriorityEnumModel : EnumModel
     /// <summary>
     /// Gets the invalid task priority instance.
     /// </summary>
-    public static readonly TaskPriorityEnumModel Invalid = new(0, "Invalid", "Invalid Priority");
+    public new static readonly TaskPriorityEnumModel Invalid = new(0, "Invalid", "Invalid Priority");
 
     /// <summary>
     /// Represents low priority tasks - typically maintenance or non-urgent work.
@@ -90,4 +90,4 @@ public class TaskPriorityEnumModel : EnumModel
             _ => Normal
         };
     }
-} 
+}
