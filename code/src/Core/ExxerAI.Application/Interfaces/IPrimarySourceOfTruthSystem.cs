@@ -29,7 +29,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="data">The data to validate</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the validation operation</returns>
-    Task<Result<ValidationResult>> ValidateAgainstTruthAsync(
+    Task<Result<DocumentProcessing.ValidationResult>> ValidateAgainstTruthAsync(
         ExtractedData data,
         CancellationToken cancellationToken = default);
 

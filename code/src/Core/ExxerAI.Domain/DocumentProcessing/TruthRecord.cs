@@ -31,6 +31,16 @@ public class TruthRecord
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
     /// <summary>
+    /// Gets or sets when this truth record was created
+    /// </summary>
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets the status of this truth record as string
+    /// </summary>
+    public string Status { get; set; } = "Active";
+
+    /// <summary>
     /// Gets or sets the data lineage identifier for audit tracking
     /// </summary>
     public string LineageId { get; set; } = string.Empty;
@@ -44,7 +54,7 @@ public class TruthRecord
     /// <summary>
     /// Gets or sets the agentStatus of this truth record
     /// </summary>
-    public TruthRecordStatus Status { get; set; } = TruthRecordStatus.Active;
+    public TruthRecordStatus TruthStatus { get; set; } = TruthRecordStatus.Active;
 
     /// <summary>
     /// Gets or sets the version number for this record
@@ -86,7 +96,7 @@ public class TruthRecord
     /// <summary>
     /// Gets whether this truth record is currently active
     /// </summary>
-    public bool IsActive => Status == TruthRecordStatus.Active;
+    public bool IsActive => TruthStatus == TruthRecordStatus.Active;
 
     /// <summary>
     /// Marks this truth record as superseded by a new version
@@ -95,7 +105,8 @@ public class TruthRecord
     /// <param name="modifiedBy">Who performed the superseding</param>
     public void MarkAsSuperseded(string newVersionId, string modifiedBy)
     {
-        Status = TruthRecordStatus.Superseded;
+        TruthStatus = TruthRecordStatus.Superseded;
+        Status = "Superseded";
         LastModified = DateTime.UtcNow;
         ModifiedBy = modifiedBy;
         Metadata["SupersededBy"] = newVersionId;
@@ -107,7 +118,8 @@ public class TruthRecord
     /// <param name="reason">The reason for requiring review</param>
     public void RequireHumanReview(string reason)
     {
-        Status = TruthRecordStatus.RequiresHumanReview;
+        TruthStatus = TruthRecordStatus.RequiresHumanReview;
+        Status = "RequiresReview";
         LastModified = DateTime.UtcNow;
         Metadata["ReviewReason"] = reason;
         Metadata["ReviewRequested"] = DateTime.UtcNow;

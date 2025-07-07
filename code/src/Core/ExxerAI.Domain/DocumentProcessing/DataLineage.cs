@@ -11,6 +11,26 @@ public class DataLineage
     public string Id { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
+    /// Gets or sets the record ID this lineage tracks
+    /// </summary>
+    public string RecordId { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets or sets the source documents involved
+    /// </summary>
+    public IEnumerable<string> SourceDocuments { get; set; } = Array.Empty<string>();
+
+    /// <summary>
+    /// Gets or sets the processing history steps
+    /// </summary>
+    public IEnumerable<string> ProcessingHistory { get; set; } = Array.Empty<string>();
+
+    /// <summary>
+    /// Gets or sets when the lineage was created
+    /// </summary>
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
     /// Gets or sets the source document or data
     /// </summary>
     public DataSource OriginalSource { get; set; } = new();
@@ -25,11 +45,6 @@ public class DataLineage
     /// </summary>
     [StringLength(255)]
     public string FinalTruthRecordId { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets when the lineage was created
-    /// </summary>
-    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
     /// Gets or sets additional lineage metadata

@@ -16,6 +16,11 @@ public class ConflictResolution
     public List<DataSource> ConflictingSources { get; init; } = new();
 
     /// <summary>
+    /// Gets or sets the conflicting data sources as ExtractedData list
+    /// </summary>
+    public List<ExtractedData> ConflictingSourcesData { get; init; } = new();
+
+    /// <summary>
     /// Gets or sets the resolution strategy used
     /// </summary>
     public ConflictResolutionStrategy Strategy { get; set; } = ConflictResolutionStrategy.MostConfident;
