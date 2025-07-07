@@ -12,13 +12,11 @@
     <PackageReference Include="Aspire.Microsoft.Data.SqlClient" />
     <PackageReference Include="Aspire.Qdrant.Client" />
     <PackageReference Include="CommunityToolkit.Aspire.OllamaSharp" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" />
     <PackageReference Include="AspNetCore.HealthChecks.UI" />
     <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" />
     <PackageReference Include="AspNetCore.HealthChecks.Redis" />
     <PackageReference Include="AspNetCore.HealthChecks.Npgsql" />
     <PackageReference Include="AspNetCore.HealthChecks.Uris" />
-    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
   <ItemGroup>

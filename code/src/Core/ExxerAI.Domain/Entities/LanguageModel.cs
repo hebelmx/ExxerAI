@@ -1,3 +1,7 @@
+using System.ComponentModel.DataAnnotations;
+using ExxerAI.Domain.ValueObjects;
+using ExxerAI.Domain.Configurations;
+
 namespace ExxerAI.Domain.Entities;
 
 /// <summary>

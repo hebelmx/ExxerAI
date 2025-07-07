@@ -20,18 +20,24 @@
 	  <PackageReference Include="Aspire.Hosting.Qdrant" />
       <PackageReference Include="Aspire.Hosting.SqlServer" />
 	  <PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
+	  <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup Label="Cache">
+
+	  <PackageReference Include="Aspire.Hosting.Redis" />
+
 
   </ItemGroup>
 
 
-
-  <ItemGroup>
+	<ItemGroup>
 	  <PackageReference Include="Aspirant.Hosting.Yarp" />
 	  <PackageReference Include="Aspire.Hosting" />
-	  <PackageReference Include="Aspire.Hosting.PostgreSQL" />
+
 	  <PackageReference Include="Aspire.Hosting.Python" />
 
-	  <PackageReference Include="Aspire.Hosting.Redis" />
+
 	  <PackageReference Include="Aspire.Hosting.NodeJs" />
 	  <PackageReference Include="Aspire.Hosting.RabbitMQ" />
 	  <PackageReference Include="Aspire.Hosting.MongoDB" />
@@ -40,6 +46,7 @@
 	  <PackageReference Include="CommunityToolkit.Aspire.EventStore" />
 	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" />
 	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.RavenDB" />
+	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.Redis.Extensions" />
 	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.Sqlite" />
 	  <PackageReference Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" />
 	  <PackageReference Include="CommunityToolkit.Aspire.OllamaSharp" />

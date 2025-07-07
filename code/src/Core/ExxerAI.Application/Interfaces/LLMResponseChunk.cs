@@ -21,6 +21,11 @@ public class LLMResponseChunk
     public int ChunkIndex { get; set; }
 
     /// <summary>
+    /// Gets or sets the reason the generation finished (if this is the last chunk)
+    /// </summary>
+    public string? FinishReason { get; set; }
+
+    /// <summary>
     /// Gets or sets chunk metadata
     /// </summary>
     public Dictionary<string, object> Metadata { get; init; } = new();

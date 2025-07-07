@@ -1,4 +1,6 @@
-﻿Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
+﻿using Aspire.Hosting;
+
+Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
 Console.WriteLine("===============================================");
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -6,12 +8,15 @@ var builder = DistributedApplication.CreateBuilder(args);
 builder.AddProject<Projects.ExxerAI_UI>("exxerai-ui");
 
 // Define a container resource
+
+var cache = builder.AddRedis("cache")
+    .WithRedisInsight();
+    .WithRedisCommander(); ;
+
 var redisContainer = builder.AddContainer("redis", "redis:latest")
     .WithVolume("redis_data", "/data", isReadOnly: false);
 
 // Example of connecting a service to the container
-builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
-    .WithReference("redis_data", new Uri("ip"));
 
 // Add PostgreSQL database
 var postgres = builder.AddSqlServer("SqlServer");
@@ -49,6 +54,12 @@ var grafana = builder.AddContainer("grafana", "grafana/grafana", "latest")
     .WithHttpEndpoint(port: 3002, targetPort: 3000)
     .WithEnvironment("GF_SECURITY_ADMIN_USER", "admin")
     .WithEnvironment("GF_SECURITY_ADMIN_PASSWORD", "admin");
+
+builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
+    .WithReference(cache);
+
+builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
+    .WithReference("redis_data", new Uri("ip"));
 
 // Build and run the application
 var app = builder.Build();
