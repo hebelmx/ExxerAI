@@ -47,21 +47,45 @@ public class OCRRegionPattern : ExtractionPattern
 
         for (int i = 0; i < lines.Length; i++)
         {
-            if (lines[i].Contains(ReferenceText, StringComparison.OrdinalIgnoreCase))
+            // Use more precise matching to avoid "Subtotal:" matching "Total:"
+            // Check if the line contains the reference text as a complete word or phrase
+            var line = lines[i];
+            var referenceIndex = line.IndexOf(ReferenceText, StringComparison.OrdinalIgnoreCase);
+            
+            if (referenceIndex >= 0)
             {
-                return SearchStrategy switch
+                // Ensure it's a word boundary match - reference text should be at start or after non-letter
+                bool isWordBoundary = referenceIndex == 0 || 
+                                    !char.IsLetter(line[referenceIndex - 1]);
+                
+                // Also check the character after the reference text (if any)
+                int endIndex = referenceIndex + ReferenceText.Length;
+                if (endIndex < line.Length)
                 {
-                    SearchStrategy.NextToken => ExtractNextToken(lines[i]),
-                    SearchStrategy.NextLineInRegion => i + 1 < lines.Length ? ExtractFromLine(lines[i + 1]) : null,
-                    SearchStrategy.SameLineOrNext => ExtractFromSameLine(lines[i]) ?? (i + 1 < lines.Length ? ExtractFromLine(lines[i + 1]) : null),
-                    _ => null
-                };
+                    isWordBoundary = isWordBoundary && !char.IsLetter(line[endIndex]);
+                }
+                
+                if (isWordBoundary)
+                {
+                    return SearchStrategy switch
+                    {
+                        SearchStrategy.NextToken => ExtractNextToken(lines[i]),
+                        SearchStrategy.NextLineInRegion => i + 1 < lines.Length ? ExtractFromLine(lines[i + 1]) : null,
+                        SearchStrategy.SameLineOrNext => ExtractFromSameLine(lines[i]) ?? (i + 1 < lines.Length ? ExtractFromLine(lines[i + 1]) : null),
+                        _ => null
+                    };
+                }
             }
         }
 
         return null;
     }
 
+    /// <summary>
+    /// Extracts the next token immediately following the reference text on the same line
+    /// </summary>
+    /// <param name="line">The line containing the reference text</param>
+    /// <returns>The first token after the reference text, or null if not found</returns>
     private string? ExtractNextToken(string line)
     {
         // Find the reference text position
@@ -77,6 +101,11 @@ public class OCRRegionPattern : ExtractionPattern
         return tokens.Length > 0 ? tokens[0] : null;
     }
 
+    /// <summary>
+    /// Extracts numeric values from the same line as the reference text, after the reference
+    /// </summary>
+    /// <param name="line">The line containing the reference text</param>
+    /// <returns>The extracted numeric value, or null if not found</returns>
     private string? ExtractFromSameLine(string line)
     {
         // Find the reference text position
@@ -94,19 +123,48 @@ public class OCRRegionPattern : ExtractionPattern
         return match.Success ? match.Groups[1].Value : null;
     }
 
+    /// <summary>
+    /// Extracts numeric values from a line using prioritized regex patterns
+    /// Handles various currency formats including comma-separated thousands
+    /// </summary>
+    /// <param name="line">The line to extract numeric values from</param>
+    /// <returns>The extracted numeric value, or null if not found</returns>
+    /// <remarks>
+    /// Uses a six-tier pattern matching system:
+    /// 1. Full currency amounts at line start (e.g., "1,100.00 USD")
+    /// 2. Simple decimals at line start (e.g., "1250.75")
+    /// 3. Integers at line start (e.g., "500")
+    /// 4. Currency amounts anywhere in line (fallback)
+    /// 5. Any decimal numbers (fallback)
+    /// 6. Any integers (final fallback)
+    /// </remarks>
     private string? ExtractFromLine(string line)
     {
         // Extract numeric value from the entire line
         // For the specific failing case: "1,100.00 USD" should return "1,100.00"
         var trimmedLine = line.Trim();
         
-        // Try to find numbers that start at the beginning of the string or after whitespace
-        // This should prioritize "1,100.00" over "100.00" in "1,100.00 USD"
+        // Improved patterns to handle currency amounts properly
+        // Priority order: longest and most complete matches first
         var patterns = new[]
         {
-            @"^(\d{1,3}(?:,\d{3})*(?:\.\d+)?)",           // Number at start of line
-            @"\s+(\d{1,3}(?:,\d{3})*(?:\.\d+)?)",         // Number after whitespace
-            @"(\d{1,3}(?:,\d{3})*(?:\.\d+)?)"             // Any number (fallback)
+            // Pattern 1: Full currency amount with commas at start of line (e.g., "1,100.00 USD")
+            @"^(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
+            
+            // Pattern 2: Simple number with decimals at start (e.g., "1250.75")  
+            @"^(\d+\.\d{2})",
+            
+            // Pattern 3: Integer at start (e.g., "500")
+            @"^(\d+)",
+            
+            // Pattern 4: Currency amount anywhere in line (fallback)
+            @"(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
+            
+            // Pattern 5: Any decimal number (fallback)
+            @"(\d+\.\d{2})",
+            
+            // Pattern 6: Any integer (final fallback)
+            @"(\d+)"
         };
         
         foreach (var pattern in patterns)

@@ -8,6 +8,7 @@
 		<!-- XUnit v3 Configuration: Test projects are now executables -->
 		<OutputType>Exe</OutputType>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<!-- Language Features -->
@@ -57,6 +58,7 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.analyzers">
 			<PrivateAssets>all</PrivateAssets>
@@ -66,8 +68,13 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="coverlet.collector" />
-	</ItemGroup>
+		<!--<PackageVersion Include="xunit.v3.runner.inproc.console" />-->
+
+		<!--<PackageReference Include="Microsoft.Testing.Platform" />-->
+		<!--<PackageReference Include="Microsoft.Testing.Platform" />-->
+
+		<!--<PackageReference Include="coverlet.collector" /-->
+		</ItemGroup>
 
 	<!-- ============================================================================ -->
 	<!-- PACKAGE REFERENCES - TESTING UTILITIES -->
@@ -84,11 +91,28 @@
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
+	<!-- ALWAYS INCLUDE xunit.runner.json-->
+	<!-- ============================================================================ -->
+
+
+	<ItemGroup>
+		<Content Include="testconfig.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Infrastructure References">
 		<ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
 
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="xunit.runner.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>

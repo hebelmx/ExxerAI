@@ -376,4 +376,296 @@ public class OCRRegionPatternTests
         // Assert
         result.ShouldBe("1,100.00");
     }
+
+    /// <summary>
+    /// Tests word boundary matching to prevent false positives
+    /// </summary>
+    [Theory]
+    [InlineData("Subtotal: 1,000.00\nTotal: 500.00", "Total:", "500.00")]
+    [InlineData("Grand Total Amount: 750.00", "Total:", null)]
+    [InlineData("Total Amount: 1,250.50", "Total:", null)]
+    [InlineData("Total: 999.99", "Total:", "999.99")]
+    public void Should_RespectWordBoundaries_When_MatchingReferenceText(string inputText, string referenceText, string? expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = referenceText,
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with various currency symbols and formats
+    /// </summary>
+    [Theory]
+    [InlineData("Price: $1,500.00", "1,500.00")]
+    [InlineData("Cost: €2,750.50", "2,750.50")]
+    [InlineData("Amount: £999.99", "999.99")]
+    [InlineData("Total: ¥10,000", "10,000")]
+    [InlineData("Value: 1,234.56 USD", "1,234.56")]
+    [InlineData("Sum: 5,678.90 EUR", "5,678.90")]
+    public void Should_ExtractCurrencyValues_When_CurrencySymbolsPresent(string inputText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = inputText.Split(':')[0] + ":",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with irregular spacing and formatting
+    /// </summary>
+    [Theory]
+    [InlineData("Amount:   1,500.00", "1,500.00")]
+    [InlineData("Total:\t\t2,750.50", "2,750.50")]
+    [InlineData("Price:          999.99", "999.99")]
+    [InlineData("Cost:1,234.56", "1,234.56")]
+    public void Should_HandleIrregularSpacing_When_ExtractingValues(string inputText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = inputText.Split(':')[0] + ":",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with very large numbers
+    /// </summary>
+    [Theory]
+    [InlineData("Budget: 1,000,000.00", "1,000,000.00")]
+    [InlineData("Revenue: 25,500,750.99", "25,500,750.99")]
+    [InlineData("Assets: 100,000,000", "100,000,000")]
+    public void Should_ExtractLargeNumbers_When_Present(string inputText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = inputText.Split(':')[0] + ":",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with very small decimal numbers
+    /// </summary>
+    [Theory]
+    [InlineData("Fee: 0.01", "0.01")]
+    [InlineData("Tax: 0.99", "0.99")]
+    [InlineData("Interest: 0.05", "0.05")]
+    public void Should_ExtractSmallDecimals_When_Present(string inputText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = inputText.Split(':')[0] + ":",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with negative numbers
+    /// </summary>
+    [Theory]
+    [InlineData("Balance: -500.00", "500.00")]
+    [InlineData("Loss: -1,250.75", "1,250.75")]
+    [InlineData("Deficit: -10,000", "10,000")]
+    public void Should_ExtractAbsoluteValue_When_NegativeNumbersPresent(string inputText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = inputText.Split(':')[0] + ":",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with percentage values
+    /// </summary>
+    [Theory]
+    [InlineData("Rate: 5.25%", "5.25")]
+    [InlineData("Interest: 10%", "10")]
+    [InlineData("Discount: 15.5%", "15.5")]
+    public void Should_ExtractPercentageValues_When_Present(string inputText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = inputText.Split(':')[0] + ":",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with multiple numbers on the same line
+    /// </summary>
+    [Fact]
+    public void Should_ExtractFirstNumber_When_MultipleNumbersOnSameLine()
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = "Values:",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+        const string text = "Values: 100.00 200.00 300.00";
+
+        // Act
+        var result = pattern.ExtractValue(text, context);
+
+        // Assert
+        result.ShouldBe("100.00");
+    }
+
+    /// <summary>
+    /// Tests extraction with mixed alphanumeric content
+    /// </summary>
+    [Theory]
+    [InlineData("Invoice: ABC123 Amount: 1,500.00", "Amount:", "1,500.00")]
+    [InlineData("Order: XYZ789 Total: 2,750.50", "Total:", "2,750.50")]
+    [InlineData("Reference: DEF456 Cost: 999.99", "Cost:", "999.99")]
+    public void Should_ExtractNumbers_When_MixedAlphanumericContent(string inputText, string referenceText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = referenceText,
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests extraction with special characters and punctuation
+    /// </summary>
+    [Theory]
+    [InlineData("Total (incl. tax): 1,500.00", "Total (incl. tax):", "1,500.00")]
+    [InlineData("Amount [USD]: 2,750.50", "Amount [USD]:", "2,750.50")]
+    [InlineData("Cost - Final: 999.99", "Cost - Final:", "999.99")]
+    public void Should_ExtractValues_When_SpecialCharactersInReference(string inputText, string referenceText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = referenceText,
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
+
+    /// <summary>
+    /// Tests performance with very long text input
+    /// </summary>
+    [Fact]
+    public void Should_PerformEfficiently_When_ProcessingLongText()
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = "Target:",
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+        
+        // Create a long text with the target at the end
+        var longText = string.Join("\n", Enumerable.Range(1, 1000).Select(i => $"Line {i}: Some content here"))
+                      + "\nTarget: 12,345.67\nMore content";
+
+        // Act
+        var result = pattern.ExtractValue(longText, context);
+
+        // Assert
+        result.ShouldBe("12,345.67");
+    }
+
+    /// <summary>
+    /// Tests extraction with Unicode and international characters
+    /// </summary>
+    [Theory]
+    [InlineData("Montant: 1,500.00", "Montant:", "1,500.00")]
+    [InlineData("Betrag: 2,750.50", "Betrag:", "2,750.50")]
+    [InlineData("Cantidad: 999.99", "Cantidad:", "999.99")]
+    public void Should_ExtractValues_When_InternationalCharacters(string inputText, string referenceText, string expectedValue)
+    {
+        // Arrange
+        var pattern = new OCRRegionPattern
+        {
+            ReferenceText = referenceText,
+            SearchStrategy = SearchStrategy.NextToken
+        };
+        var context = new ExtractionContext();
+
+        // Act
+        var result = pattern.ExtractValue(inputText, context);
+
+        // Assert
+        result.ShouldBe(expectedValue);
+    }
 }
