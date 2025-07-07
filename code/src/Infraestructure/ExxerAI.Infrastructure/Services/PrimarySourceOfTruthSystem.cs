@@ -101,7 +101,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
     /// <param name="data">The data to validate</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the validation operation</returns>
-    public async Task<Result<DocumentProcessing.ValidationResult>> ValidateAgainstTruthAsync(
+    public async Task<Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>> ValidateAgainstTruthAsync(
         ExtractedData data,
         CancellationToken cancellationToken = default)
     {
@@ -110,7 +110,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             if (data is null)
             {
                 _logger.LogWarning("Attempted to validate null extracted data");
-                return Result<DocumentProcessing.ValidationResult>.WithFailure("Data cannot be null");
+                return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure("Data cannot be null");
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -120,17 +120,17 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             _logger.LogInformation("Validation completed for document {DocumentId} with result: {IsValid}",
                 data.DocumentId, validationResult.IsValid);
 
-            return Result<DocumentProcessing.ValidationResult>.Success(validationResult);
+            return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.Success(validationResult);
         }
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Validation operation was cancelled");
-            return Result<DocumentProcessing.ValidationResult>.WithFailure("Operation was cancelled");
+            return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error validating data for document {DocumentId}", data?.DocumentId);
-            return Result<DocumentProcessing.ValidationResult>.WithFailure($"Validation failed: {ex.Message}");
+            return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure($"Validation failed: {ex.Message}");
         }
     }
 
@@ -269,7 +269,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
     /// <param name="toDate">The end date for the report</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the grounding report</returns>
-    public async Task<Result<GroundingReport>> GenerateGroundingReportAsync(
+    public async Task<Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>> GenerateGroundingReportAsync(
         DateTime fromDate,
         DateTime toDate,
         CancellationToken cancellationToken = default)
@@ -279,7 +279,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             if (toDate <= fromDate)
             {
                 _logger.LogWarning("Invalid date range: from {FromDate} to {ToDate}", fromDate, toDate);
-                return Result<GroundingReport>.WithFailure("Invalid date range");
+                return Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure("Invalid date range");
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -289,17 +289,17 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             _logger.LogInformation("Generated grounding report for period {FromDate} to {ToDate} with {TotalRecords} records",
                 fromDate, toDate, report.TotalRecords);
 
-            return Result<GroundingReport>.Success(report);
+            return Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.Success(report);
         }
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Report generation operation was cancelled");
-            return Result<GroundingReport>.WithFailure("Operation was cancelled");
+            return Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error generating grounding report for period {FromDate} to {ToDate}", fromDate, toDate);
-            return Result<GroundingReport>.WithFailure($"Report generation failed: {ex.Message}");
+            return Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure($"Report generation failed: {ex.Message}");
         }
     }
 
@@ -512,7 +512,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
     /// <param name="toDate">The end date for metrics</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing quality metrics</returns>
-    public async Task<Result<DataQualityMetrics>> GetDataQualityMetricsAsync(
+    public async Task<Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>> GetDataQualityMetricsAsync(
         DateTime fromDate,
         DateTime toDate,
         CancellationToken cancellationToken = default)
@@ -522,7 +522,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             if (toDate <= fromDate)
             {
                 _logger.LogWarning("Invalid date range for quality metrics: from {FromDate} to {ToDate}", fromDate, toDate);
-                return Result<DataQualityMetrics>.WithFailure("Invalid date range");
+                return Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.WithFailure("Invalid date range");
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -530,17 +530,17 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             var metrics = await CalculateQualityMetricsAsync(fromDate, toDate, cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Calculated quality metrics for period {FromDate} to {ToDate}", fromDate, toDate);
-            return Result<DataQualityMetrics>.Success(metrics);
+            return Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.Success(metrics);
         }
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get quality metrics operation was cancelled");
-            return Result<DataQualityMetrics>.WithFailure("Operation was cancelled");
+            return Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error calculating quality metrics for period {FromDate} to {ToDate}", fromDate, toDate);
-            return Result<DataQualityMetrics>.WithFailure($"Failed to calculate metrics: {ex.Message}");
+            return Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.WithFailure($"Failed to calculate metrics: {ex.Message}");
         }
     }
 
@@ -580,7 +580,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         };
     }
 
-    private async Task<DocumentProcessing.ValidationResult> PerformValidationAsync(ExtractedData data, CancellationToken cancellationToken)
+    private async Task<ExxerAI.Domain.DocumentProcessing.ValidationResult> PerformValidationAsync(ExtractedData data, CancellationToken cancellationToken)
     {
         await Task.Delay(10, cancellationToken).ConfigureAwait(false); // Simulate validation work
 
@@ -602,7 +602,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             errors.Add("No fields extracted");
         }
 
-        return new DocumentProcessing.ValidationResult
+        return new ExxerAI.Domain.DocumentProcessing.ValidationResult
         {
             IsValid = !errors.Any(),
             Errors = errors,
@@ -632,7 +632,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         };
     }
 
-    private async Task<GroundingReport> GenerateReportAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
+    private async Task<ExxerAI.Domain.DocumentProcessing.GroundingReport> GenerateReportAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
     {
         await Task.Delay(10, cancellationToken).ConfigureAwait(false); // Simulate report generation
 
@@ -643,7 +643,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         var validRecords = recordsInPeriod.Count(r => r.ConfidenceScore >= 0.8f);
         var invalidRecords = recordsInPeriod.Count - validRecords;
 
-        return new GroundingReport
+        return new ExxerAI.Domain.DocumentProcessing.GroundingReport
         {
             FromDate = fromDate,
             ToDate = toDate,
@@ -679,7 +679,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         return existingRecord;
     }
 
-    private async Task<DataQualityMetrics> CalculateQualityMetricsAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
+    private async Task<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics> CalculateQualityMetricsAsync(DateTime fromDate, DateTime toDate, CancellationToken cancellationToken)
     {
         await Task.Delay(10, cancellationToken).ConfigureAwait(false); // Simulate metrics calculation
 
@@ -691,7 +691,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         var mediumQuality = recordsInPeriod.Count(r => r.ConfidenceScore >= 0.7f && r.ConfidenceScore < 0.9f);
         var lowQuality = recordsInPeriod.Count - highQuality - mediumQuality;
 
-        return new DataQualityMetrics
+        return new ExxerAI.Domain.DocumentProcessing.DataQualityMetrics
         {
             FromDate = fromDate,
             ToDate = toDate,

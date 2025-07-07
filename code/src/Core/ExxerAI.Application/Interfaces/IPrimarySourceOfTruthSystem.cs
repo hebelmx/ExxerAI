@@ -29,7 +29,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="data">The data to validate</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the validation operation</returns>
-    Task<Result<DocumentProcessing.ValidationResult>> ValidateAgainstTruthAsync(
+    Task<Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>> ValidateAgainstTruthAsync(
         ExtractedData data,
         CancellationToken cancellationToken = default);
 
@@ -70,7 +70,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="toDate">The end date for the report</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing the grounding report</returns>
-    Task<Result<GroundingReport>> GenerateGroundingReportAsync(
+    Task<Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>> GenerateGroundingReportAsync(
         DateTime fromDate,
         DateTime toDate,
         CancellationToken cancellationToken = default);
@@ -128,7 +128,7 @@ public interface IPrimarySourceOfTruthSystem
     /// <param name="toDate">The end date for metrics</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The result of the operation containing quality metrics</returns>
-    Task<Result<DataQualityMetrics>> GetDataQualityMetricsAsync(
+    Task<Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>> GetDataQualityMetricsAsync(
         DateTime fromDate,
         DateTime toDate,
         CancellationToken cancellationToken = default);

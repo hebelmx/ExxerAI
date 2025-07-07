@@ -1,4 +1,5 @@
 using ExxerAI.Domain.Entities;
+using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.Infrastructure.Interfaces;
 

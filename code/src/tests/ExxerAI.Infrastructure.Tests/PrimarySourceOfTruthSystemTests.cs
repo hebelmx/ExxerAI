@@ -110,7 +110,7 @@ public class PrimarySourceOfTruthSystemTests
             var expectedValidationResult = CreateValidValidationResult();
             
             _truthSystem.ValidateAgainstTruthAsync(extractedData, _cancellationToken)
-                .Returns(Result<DocumentProcessing.ValidationResult>.Success(expectedValidationResult));
+                .Returns(Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.Success(expectedValidationResult));
 
             // Act
             var result = await _truthSystem.ValidateAgainstTruthAsync(extractedData, _cancellationToken);
@@ -129,7 +129,7 @@ public class PrimarySourceOfTruthSystemTests
             var validationResult = CreateInvalidValidationResult();
             
             _truthSystem.ValidateAgainstTruthAsync(conflictingData, _cancellationToken)
-                .Returns(Result<DocumentProcessing.ValidationResult>.Success(validationResult));
+                .Returns(Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.Success(validationResult));
 
             // Act
             var result = await _truthSystem.ValidateAgainstTruthAsync(conflictingData, _cancellationToken);
@@ -474,9 +474,9 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static DocumentProcessing.ValidationResult CreateValidValidationResult()
+    private static ExxerAI.Domain.DocumentProcessing.ValidationResult CreateValidValidationResult()
     {
-        return new DocumentProcessing.ValidationResult
+        return new ExxerAI.Domain.DocumentProcessing.ValidationResult
         {
             IsValid = true,
             Errors = Array.Empty<string>(),
@@ -485,9 +485,9 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static DocumentProcessing.ValidationResult CreateInvalidValidationResult()
+    private static ExxerAI.Domain.DocumentProcessing.ValidationResult CreateInvalidValidationResult()
     {
-        return new ValidationResult
+        return new ExxerAI.Domain.DocumentProcessing.ValidationResult
         {
             IsValid = false,
             Errors = new[] { "Amount mismatch with existing records" },
@@ -543,9 +543,9 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static GroundingReport CreateValidGroundingReport()
+    private static ExxerAI.Domain.DocumentProcessing.GroundingReport CreateValidGroundingReport()
     {
-        return new GroundingReport
+        return new ExxerAI.Domain.DocumentProcessing.GroundingReport
         {
             FromDate = DateTime.UtcNow.AddDays(-30),
             ToDate = DateTime.UtcNow,
@@ -590,9 +590,9 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static DataQualityMetrics CreateValidDataQualityMetrics()
+    private static ExxerAI.Domain.DocumentProcessing.DataQualityMetrics CreateValidDataQualityMetrics()
     {
-        return new DataQualityMetrics
+        return new ExxerAI.Domain.DocumentProcessing.DataQualityMetrics
         {
             FromDate = DateTime.UtcNow.AddDays(-30),
             ToDate = DateTime.UtcNow,
