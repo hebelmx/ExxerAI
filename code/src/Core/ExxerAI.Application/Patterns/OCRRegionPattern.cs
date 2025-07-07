@@ -103,6 +103,7 @@ public class OCRRegionPattern : ExtractionPattern
 
     /// <summary>
     /// Extracts numeric values from the same line as the reference text, after the reference
+    /// Strips currency symbols, negative signs, and percentage signs
     /// </summary>
     /// <param name="line">The line containing the reference text</param>
     /// <returns>The extracted numeric value, or null if not found</returns>
@@ -116,26 +117,44 @@ public class OCRRegionPattern : ExtractionPattern
         var afterRef = line.Substring(refIndex + ReferenceText.Length).Trim();
         if (string.IsNullOrEmpty(afterRef)) return null;
         
-        // Extract numeric value from the remaining text
-        // Remove any leading non-digit characters (currency symbols, negative signs, etc.) and find the first complete number
-        var match = Regex.Match(afterRef.Trim(), @"[^\d]*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)");
-        return match.Success ? match.Groups[1].Value : null;
+        // Extract numeric value using the same patterns as ExtractFromLine
+        var patterns = new[]
+        {
+            @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)[^\d]*",  // Currency amounts with commas
+            @"[^\d]*(\d+\.\d+)[^\d]*",                         // Decimal numbers
+            @"[^\d]*(\d+)[^\d]*"                               // Integer numbers
+        };
+        
+        foreach (var pattern in patterns)
+        {
+            var match = Regex.Match(afterRef, pattern);
+            if (match.Success && match.Groups.Count > 1)
+            {
+                var value = match.Groups[1].Value;
+                if (!string.IsNullOrEmpty(value) && value.Any(char.IsDigit))
+                {
+                    return value;
+                }
+            }
+        }
+        
+        return null;
     }
 
     /// <summary>
     /// Extracts numeric values from a line using prioritized regex patterns
     /// Handles various currency formats including comma-separated thousands
+    /// Strips currency symbols, negative signs, and percentage signs
     /// </summary>
     /// <param name="line">The line to extract numeric values from</param>
     /// <returns>The extracted numeric value, or null if not found</returns>
     /// <remarks>
-    /// Uses a six-tier pattern matching system:
-    /// 1. Full currency amounts at line start (e.g., "1,100.00 USD")
-    /// 2. Simple decimals at line start (e.g., "1250.75")
-    /// 3. Integers at line start (e.g., "500")
-    /// 4. Currency amounts anywhere in line (fallback)
-    /// 5. Any decimal numbers (fallback)
-    /// 6. Any integers (final fallback)
+    /// Uses a comprehensive pattern matching system that:
+    /// 1. Finds numeric values with various prefixes/suffixes
+    /// 2. Strips currency symbols ($, €, £, ¥, etc.)
+    /// 3. Strips negative signs (-)
+    /// 4. Strips percentage signs (%)
+    /// 5. Preserves only digits, commas, and decimal points
     /// </remarks>
     private string? ExtractFromLine(string line)
     {
@@ -143,27 +162,17 @@ public class OCRRegionPattern : ExtractionPattern
         // For the specific failing case: "1,100.00 USD" should return "1,100.00"
         var trimmedLine = line.Trim();
         
-        // Improved patterns to handle currency amounts properly
-        // Priority order: longest and most complete matches first
+        // Comprehensive patterns to find numeric values with various prefixes/suffixes
         var patterns = new[]
         {
-            // Pattern 1: Full currency amount with commas at start of line (e.g., "1,100.00 USD", "$1,500.00", "€2,750.50")
-            @"^[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
+            // Pattern 1: Currency amounts with commas (e.g., "$1,500.00", "€2,750.50", "£999.99", "¥10,000")
+            @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)[^\d]*",
             
-            // Pattern 2: Simple number with decimals at start (e.g., "1250.75", "$999.99", "5.25%")  
-            @"^[^\d]*(\d+\.\d{2})",
+            // Pattern 2: Simple decimal numbers (e.g., "5.25%", "$999.99", "-500.00")  
+            @"[^\d]*(\d+\.\d+)[^\d]*",
             
-            // Pattern 3: Integer at start (e.g., "500", "$100", "10%")
-            @"^[^\d]*(\d+)",
-            
-            // Pattern 4: Currency amount anywhere in line (fallback)
-            @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)",
-            
-            // Pattern 5: Any decimal number (fallback)
-            @"[^\d]*(\d+\.\d{2})",
-            
-            // Pattern 6: Any integer (final fallback)
-            @"[^\d]*(\d+)"
+            // Pattern 3: Integer numbers (e.g., "10%", "$100", "-500")
+            @"[^\d]*(\d+)[^\d]*"
         };
         
         foreach (var pattern in patterns)
