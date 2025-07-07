@@ -6,9 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="Core/ExxerAI.Application/ExxerAI.Application.csproj" />
-    <ProjectReference Include="Core/ExxerAI.Domain/ExxerAI.Domain.csproj" />
-  </ItemGroup>
-
 </Project> 
