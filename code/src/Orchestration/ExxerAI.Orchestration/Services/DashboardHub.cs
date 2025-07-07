@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.SignalR;
-
-namespace ExxerAI.Aspire.Dashboard.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// SignalR hub for real-time dashboard updates

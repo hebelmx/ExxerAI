@@ -1,5 +1,5 @@
-using ExxerAI.Aspire.Dashboard.Models;
-using ExxerAI.Aspire.Dashboard.Services;
+using ExxerAI.Orchestration.Models;
+using ExxerAI.Orchestration.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);

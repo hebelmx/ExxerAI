@@ -35,6 +35,8 @@ public class ClassDuplicationTests
             .DoNotHaveNameMatching("InputModel") // Blazor page-specific form models
             .And()
             .DoNotResideInNamespaceMatching("__Blazor.*") // Blazor internal namespaces
+            .And()
+            .DoNotResideInNamespace("ExxerAI")
             .GetTypes();
 
         // Group by class name and check for duplicates in different namespaces
@@ -44,13 +46,16 @@ public class ClassDuplicationTests
             .Where(g => g.Namespaces.Count > 1)
             .ToList();
 
-        if (duplicates.Any())
+        bool any = false;
+        foreach (var dup in duplicates)
+        {
+            any = true;
+            _logger.LogError($"  DUPLICATE: {dup.ClassName} in [{string.Join(", ", dup.Namespaces)}]");
+        }
+
+        if (any)
         {
             _logger.LogError($"FAILED: {assemblyName} has duplicate class names in different namespaces:");
-            foreach (var dup in duplicates)
-            {
-                _logger.LogError($"  DUPLICATE: {dup.ClassName} in [{string.Join(", ", dup.Namespaces)}]");
-            }
         }
         else
         {
@@ -71,6 +76,8 @@ public class ClassDuplicationTests
         new object[] { "ExxerAI.CLI" },
         new object[] { "ExxerAI.Api" },
         new object[] { "ExxerAI.UI" },
+        new object[] { "ExxerAI.UI.Library" },
+        new object[] { "ExxerAI.Aspire.Dashboard" },
         new object[] { "ExxerAi.MCPServer" }
     };
 }

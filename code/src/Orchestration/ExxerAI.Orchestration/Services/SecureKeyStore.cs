@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
-namespace ExxerAI.Aspire.AppHost.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// Implementation of secure key store with file-based storage and encryption

@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace ExxerAI.Aspire.AppHost.Services;
+namespace ExxerAI.Orchestration.Services;
 
 public static class StartupValidationService
 {

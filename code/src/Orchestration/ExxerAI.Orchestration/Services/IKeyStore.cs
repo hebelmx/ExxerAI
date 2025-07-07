@@ -1,4 +1,4 @@
-namespace ExxerAI.Aspire.AppHost.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// Secure key store for managing API keys, secrets, and credentials

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ExxerAI.Aspire.AppHost.Configuration;
+namespace ExxerAI.Orchestration.Configuration;
 
 /// <summary>
 /// Root configuration for the entire LocalAI stack

@@ -1,4 +1,4 @@
-namespace ExxerAI.Aspire.AppHost.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// Represents a stored key with metadata

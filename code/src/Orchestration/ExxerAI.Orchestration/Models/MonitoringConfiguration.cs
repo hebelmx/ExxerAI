@@ -1,4 +1,4 @@
-namespace ExxerAI.Aspire.Dashboard.Models;
+namespace ExxerAI.Orchestration.Models;
 
 /// <summary>
 /// Configuration for monitoring LocalAI stack services

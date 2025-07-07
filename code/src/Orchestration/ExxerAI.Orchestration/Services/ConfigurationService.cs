@@ -1,6 +1,6 @@
-using ExxerAI.Aspire.AppHost.Configuration;
+using ExxerAI.Orchestration.Configuration;
 
-namespace ExxerAI.Aspire.AppHost.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// Service to provide strongly-typed configuration to the orchestrator

@@ -1,9 +1,4 @@
-namespace ExxerAI.Orchestration.Interfaces;
-
-using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Operations;
+namespace ExxerAI.Infrastructure.Interfaces;
 
 /// <summary>
 /// Represents performance metrics for the orchestration engine

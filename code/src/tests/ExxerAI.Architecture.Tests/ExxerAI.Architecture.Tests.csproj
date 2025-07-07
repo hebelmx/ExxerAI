@@ -63,8 +63,13 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
 	  <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	  <ProjectReference Include="..\..\Infraestructure\ExxerAI.Api\ExxerAI.Api.csproj" />
 	  <ProjectReference Include="..\..\Infraestructure\ExxerAI.CLI\ExxerAI.CLI.csproj" />
 	  <ProjectReference Include="..\..\Infraestructure\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\Infraestructure\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
+	  <ProjectReference Include="..\..\Presentation\ExxerAI.UI.Dashboard\ExxerAI.Aspire.Dashboard.csproj" />
+	  <ProjectReference Include="..\..\Presentation\ExxerAI.UI.Library\ExxerAI.UI.Library.csproj" />
+	  <ProjectReference Include="..\..\Presentation\ExxerAI.UI\ExxerAI.UI.csproj" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->

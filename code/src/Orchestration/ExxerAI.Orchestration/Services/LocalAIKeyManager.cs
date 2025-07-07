@@ -1,7 +1,7 @@
-using ExxerAI.Aspire.AppHost.Configuration;
+using ExxerAI.Orchestration.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace ExxerAI.Aspire.AppHost.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// Manages all API keys and secrets for the LocalAI stack

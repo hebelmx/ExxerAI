@@ -1,9 +1,6 @@
 using ExxerAI.Domain.Entities;
-using ExxerAI.Domain.ValueObjects;
-using ExxerAI.Domain.Configurations;
-using ExxerAI.Domain.Operations;
 
-namespace ExxerAI.Orchestration.Interfaces;
+namespace ExxerAI.Infrastructure.Interfaces;
 
 /// <summary>
 /// Interface for executing workflow steps

@@ -1,8 +1,9 @@
 using System.Diagnostics;
-using ExxerAI.Aspire.Dashboard.Models;
+using ExxerAI.Orchestration.Models;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
 
-namespace ExxerAI.Aspire.Dashboard.Services;
+namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
 /// Service for monitoring LocalAI stack services

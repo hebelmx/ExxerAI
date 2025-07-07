@@ -1,12 +1,9 @@
+using ExxerAI.Orchestration.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
-using Microsoft.Extensions.Configuration;
-
-using ExxerAI.Aspire.AppHost.Configuration;
-
-namespace ExxerAI.Aspire.AppHost.Extensions;
+namespace ExxerAI.Orchestration.Extensions;
 
 /// <summary>
 /// Extension methods for registering configuration services
