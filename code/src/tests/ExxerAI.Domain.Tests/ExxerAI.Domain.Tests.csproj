@@ -70,10 +70,9 @@
 		</PackageReference>
 		<PackageReference Include="xunit.v3.runner.inproc.console" />
 
-		<!--<PackageReference Include="Microsoft.Testing.Platform" />-->
-		<!--<PackageReference Include="Microsoft.Testing.Platform" />-->
+	
 
-		<!--<PackageReference Include="coverlet.collector" /-->
+		<PackageReference Include="coverlet.collector" />
 		</ItemGroup>
 
 	<!-- ============================================================================ -->
