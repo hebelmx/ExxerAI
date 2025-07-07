@@ -4,6 +4,7 @@ using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.ValueObjects;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using System.ComponentModel.DataAnnotations;
 
 namespace ExxerAI.Application.Services;
 
@@ -14,7 +15,7 @@ namespace ExxerAI.Application.Services;
 public class TaskService : ITaskService
 {
     private readonly ILogger<TaskService> _logger;
-    private readonly ConcurrentDictionary<string, AgentTask> _tasks;
+    private readonly ConcurrentDictionary<Guid, AgentTask> _tasks;
     private readonly SemaphoreSlim _taskLock;
 
     /// <summary>
@@ -24,32 +25,46 @@ public class TaskService : ITaskService
     public TaskService(ILogger<TaskService> logger)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _tasks = new ConcurrentDictionary<string, AgentTask>();
+        _tasks = new ConcurrentDictionary<Guid, AgentTask>();
         _taskLock = new SemaphoreSlim(1, 1);
     }
 
     /// <summary>
     /// Creates a new task
     /// </summary>
-    /// <param name="taskRequest">The task creation request</param>
+    /// <param name="title">The task title</param>
+    /// <param name="description">The task description</param>
+    /// <param name="taskType">The task type</param>
+    /// <param name="priority">The task priority</param>
+    /// <param name="deadline">Optional deadline for the task</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the created task</returns>
-    public async Task<Result<AgentTask>> CreateTaskAsync(CreateTaskRequest taskRequest, CancellationToken cancellationToken = default)
+    /// <returns>The result of the operation containing the created task</returns>
+    public async Task<Result<AgentTask>> CreateTaskAsync(
+        string title,
+        string description,
+        string taskType,
+        TaskPriority priority = TaskPriority.Normal,
+        DateTime? deadline = null,
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            if (taskRequest is null)
+            if (string.IsNullOrWhiteSpace(title))
             {
-                _logger.LogWarning("Attempted to create task with null request");
-                return Result<AgentTask>.WithFailure("Task request cannot be null");
+                _logger.LogWarning("Attempted to create task with empty title");
+                return Result<AgentTask>.WithFailure("Task title cannot be empty");
             }
 
-            var validationResult = ValidateTaskRequest(taskRequest);
-            if (!validationResult.IsSuccess)
+            if (string.IsNullOrWhiteSpace(description))
             {
-                _logger.LogWarning("Task creation validation failed: {Errors}",
-                    string.Join(", ", validationResult.Errors));
-                return Result<AgentTask>.WithFailure(validationResult.Errors);
+                _logger.LogWarning("Attempted to create task with empty description");
+                return Result<AgentTask>.WithFailure("Task description cannot be empty");
+            }
+
+            if (string.IsNullOrWhiteSpace(taskType))
+            {
+                _logger.LogWarning("Attempted to create task with empty task type");
+                return Result<AgentTask>.WithFailure("Task type cannot be empty");
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -59,21 +74,20 @@ public class TaskService : ITaskService
             {
                 var task = new AgentTask
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = taskRequest.Name,
-                    Description = taskRequest.Description,
-                    Priority = taskRequest.Priority,
-                    AssignedAgentId = taskRequest.AssignedAgentId,
-                    Status = TaskStatus.Pending,
+                    Id = Guid.NewGuid(),
+                    Title = title,
+                    Description = description,
+                    TaskType = taskType,
+                    AgentStatus = TaskAgentStatus.Pending,
+                    Priority = priority,
                     CreatedAt = DateTime.UtcNow,
-                    UpdatedAt = DateTime.UtcNow,
-                    Metadata = new Dictionary<string, object>(taskRequest.Metadata)
+                    Deadline = deadline
                 };
 
                 _tasks.TryAdd(task.Id, task);
 
-                _logger.LogInformation("Created task {TaskId}: {TaskName} assigned to agent {AgentId}",
-                    task.Id, task.Name, task.AssignedAgentId);
+                _logger.LogInformation("Created task {TaskId}: {TaskTitle} with type {TaskType} and priority {Priority}",
+                    task.Id, title, taskType, priority);
 
                 return Result<AgentTask>.Success(task);
             }
@@ -89,88 +103,8 @@ public class TaskService : ITaskService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating task {TaskName}", taskRequest?.Name);
+            _logger.LogError(ex, "Error creating task {TaskTitle}", title);
             return Result<AgentTask>.WithFailure($"Failed to create task: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Updates an existing task
-    /// </summary>
-    /// <param name="taskId">The task identifier</param>
-    /// <param name="updateRequest">The task update request</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the updated task</returns>
-    public async Task<Result<AgentTask>> UpdateTaskAsync(string taskId, UpdateTaskRequest updateRequest, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(taskId))
-            {
-                _logger.LogWarning("Attempted to update task with empty ID");
-                return Result<AgentTask>.WithFailure("Task ID cannot be empty");
-            }
-
-            if (updateRequest is null)
-            {
-                _logger.LogWarning("Attempted to update task {TaskId} with null request", taskId);
-                return Result<AgentTask>.WithFailure("Update request cannot be null");
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
-            try
-            {
-                if (!_tasks.TryGetValue(taskId, out var existingTask))
-                {
-                    _logger.LogWarning("Task {TaskId} not found for update", taskId);
-                    return Result<AgentTask>.WithFailure("Task not found");
-                }
-
-                // Update only provided fields
-                if (!string.IsNullOrWhiteSpace(updateRequest.Name))
-                    existingTask.Name = updateRequest.Name;
-
-                if (!string.IsNullOrWhiteSpace(updateRequest.Description))
-                    existingTask.Description = updateRequest.Description;
-
-                if (updateRequest.Priority.HasValue)
-                    existingTask.Priority = updateRequest.Priority.Value;
-
-                if (!string.IsNullOrWhiteSpace(updateRequest.AssignedAgentId))
-                    existingTask.AssignedAgentId = updateRequest.AssignedAgentId;
-
-                if (updateRequest.Status.HasValue)
-                    existingTask.Status = updateRequest.Status.Value;
-
-                existingTask.UpdatedAt = DateTime.UtcNow;
-
-                // Update metadata
-                foreach (var kvp in updateRequest.Metadata)
-                {
-                    existingTask.Metadata[kvp.Key] = kvp.Value;
-                }
-
-                _tasks.TryUpdate(taskId, existingTask, existingTask);
-
-                _logger.LogInformation("Updated task {TaskId}: {TaskName}", taskId, existingTask.Name);
-                return Result<AgentTask>.Success(existingTask);
-            }
-            finally
-            {
-                _taskLock.Release();
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            _logger.LogInformation("Update task operation was cancelled");
-            return Result<AgentTask>.WithFailure("Operation was cancelled");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating task {TaskId}", taskId);
-            return Result<AgentTask>.WithFailure($"Failed to update task: {ex.Message}");
         }
     }
 
@@ -179,24 +113,18 @@ public class TaskService : ITaskService
     /// </summary>
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the task</returns>
-    public async Task<Result<AgentTask>> GetTaskByIdAsync(string taskId, CancellationToken cancellationToken = default)
+    /// <returns>The result of the operation containing the task if found</returns>
+    public async Task<Result<AgentTask>> GetTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(taskId))
-            {
-                _logger.LogWarning("Attempted to get task with empty ID");
-                return Result<AgentTask>.WithFailure("Task ID cannot be empty");
-            }
-
             cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             if (_tasks.TryGetValue(taskId, out var task))
             {
-                _logger.LogDebug("Retrieved task {TaskId}: {TaskName}", taskId, task.Name);
+                _logger.LogDebug("Retrieved task {TaskId}: {TaskName}", taskId, task.Title);
                 return Result<AgentTask>.Success(task);
             }
 
@@ -216,52 +144,362 @@ public class TaskService : ITaskService
     }
 
     /// <summary>
-    /// Gets all tasks assigned to a specific agent
+    /// Gets all pending tasks
     /// </summary>
-    /// <param name="agentId">The agent identifier</param>
+    /// <param name="maxCount">Maximum number of tasks to return</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the tasks</returns>
-    public async Task<Result<IEnumerable<AgentTask>>> GetTasksByAgentAsync(string agentId, CancellationToken cancellationToken = default)
+    /// <returns>The result of the operation containing the list of pending tasks</returns>
+    public async Task<Result<IEnumerable<AgentTask>>> GetPendingTasksAsync(
+        int maxCount = 100, 
+        CancellationToken cancellationToken = default)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(agentId))
-            {
-                _logger.LogWarning("Attempted to get tasks with empty agent ID");
-                return Result<IEnumerable<AgentTask>>.WithFailure("Agent ID cannot be empty");
-            }
+            cancellationToken.ThrowIfCancellationRequested();
 
+            await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
+
+            var tasks = _tasks.Values
+                .Where(t => t.AgentStatus == TaskAgentStatus.Pending)
+                .OrderByDescending(t => t.CreatedAt)
+                .Take(maxCount)
+                .ToList();
+
+            _logger.LogDebug("Retrieved {TaskCount} pending tasks (max: {MaxCount})", tasks.Count, maxCount);
+            return Result<IEnumerable<AgentTask>>.Success(tasks);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get pending tasks operation was cancelled");
+            return Result<IEnumerable<AgentTask>>.WithFailure("Operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving pending tasks");
+            return Result<IEnumerable<AgentTask>>.WithFailure($"Failed to retrieve pending tasks: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Gets tasks assigned to a specific agent
+    /// </summary>
+    /// <param name="agentId">The agent identifier</param>
+    /// <param name="status">Optional status filter</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation containing the list of agent tasks</returns>
+    public async Task<Result<IEnumerable<AgentTask>>> GetAgentTasksAsync(
+        Guid agentId, 
+        TaskAgentStatus? status = null, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
             cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             var tasks = _tasks.Values
                 .Where(t => t.AssignedAgentId == agentId)
+                .Where(t => status == null || t.AgentStatus == status.Value)
                 .OrderByDescending(t => t.CreatedAt)
                 .ToList();
 
-            _logger.LogDebug("Retrieved {TaskCount} tasks for agent {AgentId}", tasks.Count, agentId);
+            _logger.LogDebug("Retrieved {TaskCount} tasks for agent {AgentId} with status filter {Status}", 
+                tasks.Count, agentId, status?.ToString() ?? "none");
             return Result<IEnumerable<AgentTask>>.Success(tasks);
         }
         catch (OperationCanceledException)
         {
-            _logger.LogInformation("Get tasks by agent operation was cancelled");
+            _logger.LogInformation("Get agent tasks operation was cancelled");
             return Result<IEnumerable<AgentTask>>.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error retrieving tasks for agent {AgentId}", agentId);
-            return Result<IEnumerable<AgentTask>>.WithFailure($"Failed to retrieve tasks: {ex.Message}");
+            return Result<IEnumerable<AgentTask>>.WithFailure($"Failed to retrieve agent tasks: {ex.Message}");
         }
     }
 
     /// <summary>
-    /// Gets tasks filtered by status
+    /// Updates a task's status
     /// </summary>
-    /// <param name="status">The task status to filter by</param>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="agentStatus">The new status</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the tasks</returns>
-    public async Task<Result<IEnumerable<AgentTask>>> GetTasksByStatusAsync(TaskStatus status, CancellationToken cancellationToken = default)
+    /// <returns>The result of the operation</returns>
+    public async Task<Result<bool>> UpdateTaskStatusAsync(
+        Guid taskId, 
+        TaskAgentStatus agentStatus, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!_tasks.TryGetValue(taskId, out var task))
+                {
+                    _logger.LogWarning("Task {TaskId} not found for status update", taskId);
+                    return Result<bool>.WithFailure("Task not found");
+                }
+
+                var previousStatus = task.AgentStatus;
+                task.AgentStatus = agentStatus;
+
+                // Set completion time if task is completed
+                if (agentStatus == TaskAgentStatus.Completed && !task.CompletedAt.HasValue)
+                {
+                    task.CompletedAt = DateTime.UtcNow;
+                }
+
+                // Set started time if task is in progress
+                if (agentStatus == TaskAgentStatus.InProgress && !task.StartedAt.HasValue)
+                {
+                    task.StartedAt = DateTime.UtcNow;
+                }
+
+                _tasks.TryUpdate(taskId, task, task);
+
+                _logger.LogInformation("Updated task {TaskId} status from {PreviousStatus} to {NewStatus}",
+                    taskId, previousStatus, agentStatus);
+
+                return Result<bool>.Success(true);
+            }
+            finally
+            {
+                _taskLock.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Update task status operation was cancelled");
+            return Result<bool>.WithFailure("Operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating status for task {TaskId} to {Status}", taskId, agentStatus);
+            return Result<bool>.WithFailure($"Failed to update task status: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Assigns a task to an agent
+    /// </summary>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="agentId">The agent identifier</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    public async Task<Result<bool>> AssignTaskToAgentAsync(
+        Guid taskId, 
+        Guid agentId, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!_tasks.TryGetValue(taskId, out var task))
+                {
+                    _logger.LogWarning("Task {TaskId} not found for assignment", taskId);
+                    return Result<bool>.WithFailure("Task not found");
+                }
+
+                var previousAgentId = task.AssignedAgentId;
+                task.AssignedAgentId = agentId;
+                task.AgentStatus = TaskAgentStatus.Pending; // Reset to pending when reassigned
+
+                _tasks.TryUpdate(taskId, task, task);
+
+                _logger.LogInformation("Assigned task {TaskId} from agent {PreviousAgentId} to agent {NewAgentId}",
+                    taskId, previousAgentId, agentId);
+
+                return Result<bool>.Success(true);
+            }
+            finally
+            {
+                _taskLock.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Assign task operation was cancelled");
+            return Result<bool>.WithFailure("Operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error assigning task {TaskId} to agent {AgentId}", taskId, agentId);
+            return Result<bool>.WithFailure($"Failed to assign task: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Completes a task with optional output data
+    /// </summary>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="outputData">Optional output data</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    public async Task<Result<bool>> CompleteTaskAsync(
+        Guid taskId, 
+        TaskData? outputData = null, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!_tasks.TryGetValue(taskId, out var task))
+                {
+                    _logger.LogWarning("Task {TaskId} not found for completion", taskId);
+                    return Result<bool>.WithFailure("Task not found");
+                }
+
+                task.AgentStatus = TaskAgentStatus.Completed;
+                task.CompletedAt = DateTime.UtcNow;
+
+                // Store output data if provided
+                if (outputData != null)
+                {
+                    task.Output = outputData;
+                }
+
+                _tasks.TryUpdate(taskId, task, task);
+
+                _logger.LogInformation("Completed task {TaskId}: {TaskName}", taskId, task.Title);
+                return Result<bool>.Success(true);
+            }
+            finally
+            {
+                _taskLock.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Complete task operation was cancelled");
+            return Result<bool>.WithFailure("Operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error completing task {TaskId}", taskId);
+            return Result<bool>.WithFailure($"Failed to complete task: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Fails a task with an error message
+    /// </summary>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="errorMessage">The error message</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    public async Task<Result<bool>> FailTaskAsync(
+        Guid taskId, 
+        string errorMessage, 
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(errorMessage))
+            {
+                _logger.LogWarning("Attempted to fail task {TaskId} with empty error message", taskId);
+                return Result<bool>.WithFailure("Error message cannot be empty");
+            }
+
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!_tasks.TryGetValue(taskId, out var task))
+                {
+                    _logger.LogWarning("Task {TaskId} not found for failure", taskId);
+                    return Result<bool>.WithFailure("Task not found");
+                }
+
+                task.AgentStatus = TaskAgentStatus.Failed;
+                task.ErrorMessage = errorMessage;
+
+                _tasks.TryUpdate(taskId, task, task);
+
+                _logger.LogWarning("Failed task {TaskId}: {TaskName} - {ErrorMessage}", taskId, task.Title, errorMessage);
+                return Result<bool>.Success(true);
+            }
+            finally
+            {
+                _taskLock.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Fail task operation was cancelled");
+            return Result<bool>.WithFailure("Operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error failing task {TaskId}", taskId);
+            return Result<bool>.WithFailure($"Failed to fail task: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Cancels a task
+    /// </summary>
+    /// <param name="taskId">The task identifier</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation</returns>
+    public async Task<Result<bool>> CancelTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (!_tasks.TryGetValue(taskId, out var task))
+                {
+                    _logger.LogWarning("Task {TaskId} not found for cancellation", taskId);
+                    return Result<bool>.WithFailure("Task not found");
+                }
+
+                task.AgentStatus = TaskAgentStatus.Cancelled;
+
+                _tasks.TryUpdate(taskId, task, task);
+
+                _logger.LogInformation("Cancelled task {TaskId}: {TaskName}", taskId, task.Title);
+                return Result<bool>.Success(true);
+            }
+            finally
+            {
+                _taskLock.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Cancel task operation was cancelled");
+            return Result<bool>.WithFailure("Operation was cancelled");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error cancelling task {TaskId}", taskId);
+            return Result<bool>.WithFailure($"Failed to cancel task: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Gets overdue tasks
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The result of the operation containing the list of overdue tasks</returns>
+    public async Task<Result<IEnumerable<AgentTask>>> GetOverdueTasksAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -269,23 +507,27 @@ public class TaskService : ITaskService
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
-            var tasks = _tasks.Values
-                .Where(t => t.Status == status)
-                .OrderByDescending(t => t.CreatedAt)
+            var now = DateTime.UtcNow;
+            var overdueTasks = _tasks.Values
+                .Where(t => t.AgentStatus != TaskAgentStatus.Completed && 
+                           t.AgentStatus != TaskAgentStatus.Cancelled && 
+                           t.AgentStatus != TaskAgentStatus.Failed)
+                .Where(t => t.Deadline.HasValue && t.Deadline.Value < now)
+                .OrderBy(t => t.Deadline ?? DateTime.MaxValue)
                 .ToList();
 
-            _logger.LogDebug("Retrieved {TaskCount} tasks with status {Status}", tasks.Count, status);
-            return Result<IEnumerable<AgentTask>>.Success(tasks);
+            _logger.LogDebug("Retrieved {TaskCount} overdue tasks", overdueTasks.Count);
+            return Result<IEnumerable<AgentTask>>.Success(overdueTasks);
         }
         catch (OperationCanceledException)
         {
-            _logger.LogInformation("Get tasks by status operation was cancelled");
+            _logger.LogInformation("Get overdue tasks operation was cancelled");
             return Result<IEnumerable<AgentTask>>.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving tasks with status {Status}", status);
-            return Result<IEnumerable<AgentTask>>.WithFailure($"Failed to retrieve tasks: {ex.Message}");
+            _logger.LogError(ex, "Error retrieving overdue tasks");
+            return Result<IEnumerable<AgentTask>>.WithFailure($"Failed to retrieve overdue tasks: {ex.Message}");
         }
     }
 
@@ -294,17 +536,11 @@ public class TaskService : ITaskService
     /// </summary>
     /// <param name="taskId">The task identifier</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result indicating success or failure</returns>
-    public async Task<Result<bool>> DeleteTaskAsync(string taskId, CancellationToken cancellationToken = default)
+    /// <returns>The result of the operation</returns>
+    public async Task<Result<bool>> DeleteTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(taskId))
-            {
-                _logger.LogWarning("Attempted to delete task with empty ID");
-                return Result<bool>.WithFailure("Task ID cannot be empty");
-            }
-
             cancellationToken.ThrowIfCancellationRequested();
 
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -316,7 +552,7 @@ public class TaskService : ITaskService
                     return Result<bool>.WithFailure("Task not found");
                 }
 
-                _logger.LogInformation("Deleted task {TaskId}: {TaskName}", taskId, removedTask.Name);
+                _logger.LogInformation("Deleted task {TaskId}: {TaskName}", taskId, removedTask.Title);
                 return Result<bool>.Success(true);
             }
             finally
@@ -337,157 +573,6 @@ public class TaskService : ITaskService
     }
 
     /// <summary>
-    /// Assigns a task to an agent
-    /// </summary>
-    /// <param name="taskId">The task identifier</param>
-    /// <param name="agentId">The agent identifier</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the updated task</returns>
-    public async Task<Result<AgentTask>> AssignTaskToAgentAsync(string taskId, string agentId, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(taskId))
-            {
-                _logger.LogWarning("Attempted to assign task with empty task ID");
-                return Result<AgentTask>.WithFailure("Task ID cannot be empty");
-            }
-
-            if (string.IsNullOrWhiteSpace(agentId))
-            {
-                _logger.LogWarning("Attempted to assign task {TaskId} with empty agent ID", taskId);
-                return Result<AgentTask>.WithFailure("Agent ID cannot be empty");
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
-            try
-            {
-                if (!_tasks.TryGetValue(taskId, out var task))
-                {
-                    _logger.LogWarning("Task {TaskId} not found for assignment", taskId);
-                    return Result<AgentTask>.WithFailure("Task not found");
-                }
-
-                var previousAgentId = task.AssignedAgentId;
-                task.AssignedAgentId = agentId;
-                task.Status = TaskStatus.Assigned;
-                task.UpdatedAt = DateTime.UtcNow;
-
-                _tasks.TryUpdate(taskId, task, task);
-
-                _logger.LogInformation("Assigned task {TaskId} from agent {PreviousAgentId} to agent {NewAgentId}",
-                    taskId, previousAgentId, agentId);
-
-                return Result<AgentTask>.Success(task);
-            }
-            finally
-            {
-                _taskLock.Release();
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            _logger.LogInformation("Assign task operation was cancelled");
-            return Result<AgentTask>.WithFailure("Operation was cancelled");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error assigning task {TaskId} to agent {AgentId}", taskId, agentId);
-            return Result<AgentTask>.WithFailure($"Failed to assign task: {ex.Message}");
-        }
-    }
-
-    /// <summary>
-    /// Updates the status of a task
-    /// </summary>
-    /// <param name="taskId">The task identifier</param>
-    /// <param name="status">The new status</param>
-    /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Result containing the updated task</returns>
-    public async Task<Result<AgentTask>> UpdateTaskStatusAsync(string taskId, TaskStatus status, CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (string.IsNullOrWhiteSpace(taskId))
-            {
-                _logger.LogWarning("Attempted to update task status with empty task ID");
-                return Result<AgentTask>.WithFailure("Task ID cannot be empty");
-            }
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
-            try
-            {
-                if (!_tasks.TryGetValue(taskId, out var task))
-                {
-                    _logger.LogWarning("Task {TaskId} not found for status update", taskId);
-                    return Result<AgentTask>.WithFailure("Task not found");
-                }
-
-                var previousStatus = task.Status;
-                task.Status = status;
-                task.UpdatedAt = DateTime.UtcNow;
-
-                // Set completion time if task is completed
-                if (status == TaskStatus.Completed && !task.CompletedAt.HasValue)
-                {
-                    task.CompletedAt = DateTime.UtcNow;
-                }
-
-                _tasks.TryUpdate(taskId, task, task);
-
-                _logger.LogInformation("Updated task {TaskId} status from {PreviousStatus} to {NewStatus}",
-                    taskId, previousStatus, status);
-
-                return Result<AgentTask>.Success(task);
-            }
-            finally
-            {
-                _taskLock.Release();
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            _logger.LogInformation("Update task status operation was cancelled");
-            return Result<AgentTask>.WithFailure("Operation was cancelled");
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating status for task {TaskId} to {Status}", taskId, status);
-            return Result<AgentTask>.WithFailure($"Failed to update task status: {ex.Message}");
-        }
-    }
-
-    // Private helper methods
-
-    private static Result<bool> ValidateTaskRequest(CreateTaskRequest request)
-    {
-        var errors = new List<string>();
-
-        if (string.IsNullOrWhiteSpace(request.Name))
-        {
-            errors.Add("Task name is required");
-        }
-
-        if (string.IsNullOrWhiteSpace(request.Description))
-        {
-            errors.Add("Task description is required");
-        }
-
-        if (string.IsNullOrWhiteSpace(request.AssignedAgentId))
-        {
-            errors.Add("Assigned agent ID is required");
-        }
-
-        return errors.Any() 
-            ? Result<bool>.WithFailure(errors) 
-            : Result<bool>.Success(true);
-    }
-
-    /// <summary>
     /// Disposes the resources used by the TaskService
     /// </summary>
     public void Dispose()
@@ -496,134 +581,5 @@ public class TaskService : ITaskService
         _tasks.Clear();
         GC.SuppressFinalize(this);
     }
-}
-
-/// <summary>
-/// Request for creating a new task
-/// </summary>
-public class CreateTaskRequest
-{
-    /// <summary>
-    /// Gets or sets the task name
-    /// </summary>
-    public string Name { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the task description
-    /// </summary>
-    public string Description { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the task priority
-    /// </summary>
-    public TaskPriority Priority { get; set; } = TaskPriority.Medium;
-
-    /// <summary>
-    /// Gets or sets the assigned agent identifier
-    /// </summary>
-    public string AssignedAgentId { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets additional task metadata
-    /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
-}
-
-/// <summary>
-/// Request for updating an existing task
-/// </summary>
-public class UpdateTaskRequest
-{
-    /// <summary>
-    /// Gets or sets the task name (optional)
-    /// </summary>
-    public string? Name { get; set; }
-
-    /// <summary>
-    /// Gets or sets the task description (optional)
-    /// </summary>
-    public string? Description { get; set; }
-
-    /// <summary>
-    /// Gets or sets the task priority (optional)
-    /// </summary>
-    public TaskPriority? Priority { get; set; }
-
-    /// <summary>
-    /// Gets or sets the assigned agent identifier (optional)
-    /// </summary>
-    public string? AssignedAgentId { get; set; }
-
-    /// <summary>
-    /// Gets or sets the task status (optional)
-    /// </summary>
-    public TaskStatus? Status { get; set; }
-
-    /// <summary>
-    /// Gets or sets additional task metadata
-    /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
-}
-
-/// <summary>
-/// Task priority levels
-/// </summary>
-public enum TaskPriority
-{
-    /// <summary>
-    /// Low priority task
-    /// </summary>
-    Low = 1,
-
-    /// <summary>
-    /// Medium priority task
-    /// </summary>
-    Medium = 2,
-
-    /// <summary>
-    /// High priority task
-    /// </summary>
-    High = 3,
-
-    /// <summary>
-    /// Critical priority task
-    /// </summary>
-    Critical = 4
-}
-
-/// <summary>
-/// Task status values
-/// </summary>
-public enum TaskStatus
-{
-    /// <summary>
-    /// Task is pending assignment or start
-    /// </summary>
-    Pending,
-
-    /// <summary>
-    /// Task has been assigned to an agent
-    /// </summary>
-    Assigned,
-
-    /// <summary>
-    /// Task is currently in progress
-    /// </summary>
-    InProgress,
-
-    /// <summary>
-    /// Task has been completed successfully
-    /// </summary>
-    Completed,
-
-    /// <summary>
-    /// Task has failed or been cancelled
-    /// </summary>
-    Failed,
-
-    /// <summary>
-    /// Task has been cancelled
-    /// </summary>
-    Cancelled
 }
 

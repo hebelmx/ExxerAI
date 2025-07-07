@@ -1,5 +1,6 @@
 using Shouldly;
 using Xunit;
+using ExxerAI.Domain.DocumentProcessing;
 
 namespace ExxerAI.Domain.Tests.DocumentProcessing;
 
@@ -23,7 +24,7 @@ public class TruthRecordTests
         truthRecord.Timestamp.ShouldBeInRange(DateTime.UtcNow.AddMinutes(-1), DateTime.UtcNow.AddMinutes(1));
         truthRecord.LineageId.ShouldBe(string.Empty);
         truthRecord.DataHash.ShouldBe(string.Empty);
-        truthRecord.Status.ShouldBe(TruthRecordStatus.Active);
+        truthRecord.TruthStatus.ShouldBe(TruthRecordStatus.Active);
         truthRecord.Version.ShouldBe(1);
         truthRecord.ConfidenceScore.ShouldBe(1.0f);
         truthRecord.ConflictResolution.ShouldBeNull();
@@ -48,7 +49,7 @@ public class TruthRecordTests
         truthRecord.MarkAsSuperseded(newVersionId, modifiedBy);
 
         // Assert
-        truthRecord.Status.ShouldBe(TruthRecordStatus.Superseded);
+        truthRecord.TruthStatus.ShouldBe(TruthRecordStatus.Superseded);
         truthRecord.LastModified.ShouldNotBeNull();
         truthRecord.LastModified!.Value.ShouldBeGreaterThan(originalTimestamp);
         truthRecord.ModifiedBy.ShouldBe(modifiedBy);
@@ -69,7 +70,7 @@ public class TruthRecordTests
         truthRecord.RequireHumanReview(reviewReason);
 
         // Assert
-        truthRecord.Status.ShouldBe(TruthRecordStatus.RequiresHumanReview);
+        truthRecord.TruthStatus.ShouldBe(TruthRecordStatus.RequiresHumanReview);
         truthRecord.LastModified.ShouldNotBeNull();
         truthRecord.LastModified!.Value.ShouldBeGreaterThan(originalTimestamp);
         truthRecord.Metadata.ShouldContainKey("ReviewReason");
@@ -80,20 +81,19 @@ public class TruthRecordTests
     }
 
     [Theory]
-    [InlineData(nameof(TruthRecordStatus.Active), true)]
-    [InlineData(nameof(TruthRecordStatus.Superseded), false)]
-    [InlineData(nameof(TruthRecordStatus.UnderReview), false)]
-    [InlineData(nameof(TruthRecordStatus.RequiresHumanReview), false)]
-    [InlineData(nameof(TruthRecordStatus.Archived), false)]
-    [InlineData(nameof(TruthRecordStatus.Invalid), false)]
-    public void Should_ReturnCorrectIsActive_When_StatusSet(string statusName, bool expectedIsActive)
+    [InlineData(TruthRecordStatus.Active, true)]
+    [InlineData(TruthRecordStatus.Superseded, false)]
+    [InlineData(TruthRecordStatus.UnderReview, false)]
+    [InlineData(TruthRecordStatus.RequiresHumanReview, false)]
+    [InlineData(TruthRecordStatus.Archived, false)]
+    [InlineData(TruthRecordStatus.Invalid, false)]
+    public void Should_ReturnCorrectIsActive_When_StatusSet(TruthRecordStatus status, bool expectedIsActive)
     {
         // Arrange
         var truthRecord = new TruthRecord();
-        var status = Enum.Parse<TruthRecordStatus>(statusName);
 
         // Act
-        truthRecord.Status = status;
+        truthRecord.TruthStatus = status;
 
         // Assert
         truthRecord.IsActive.ShouldBe(expectedIsActive);

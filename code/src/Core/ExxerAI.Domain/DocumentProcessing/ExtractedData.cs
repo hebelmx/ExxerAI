@@ -49,5 +49,5 @@ public class ExtractedData
     /// Gets the overall confidence for all extracted fields
     /// </summary>
     public float OverallConfidence => 
-        FieldConfidences.Values.DefaultIfEmpty(ConfidenceScore).Average();
+        FieldConfidences.Count > 0 ? FieldConfidences.Values.Average() : 0.0f;
 }

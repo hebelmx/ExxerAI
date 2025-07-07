@@ -207,7 +207,7 @@ public class TaskServiceTests
             result.IsSuccess.ShouldBeTrue();
             result.Value.ShouldNotBeNull();
             result.Value.Count().ShouldBeGreaterThan(0);
-            result.Value.All(t => t.Status == TaskAgentStatus.Pending).ShouldBeTrue();
+            result.Value.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
         }
 
         [Fact]
@@ -254,7 +254,7 @@ public class TaskServiceTests
         {
             // Arrange
             var agentId = Guid.NewGuid();
-            var expectedTasks = CreateAgentTasks();
+            var expectedTasks = CreateAgentTasks(agentId);
             
             _taskService.GetAgentTasksAsync(agentId, null, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
@@ -265,7 +265,7 @@ public class TaskServiceTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Value.ShouldNotBeNull();
-            result.Value.All(t => t.AssignedToAgentId == agentId).ShouldBeTrue();
+            result.Value.All(t => t.AssignedAgentId == agentId).ShouldBeTrue();
         }
 
         [Fact]
@@ -274,7 +274,7 @@ public class TaskServiceTests
             // Arrange
             var agentId = Guid.NewGuid();
             var status = TaskAgentStatus.InProgress;
-            var expectedTasks = CreateAgentTasks().Where(t => t.Status == status);
+            var expectedTasks = CreateAgentTasks(agentId).Where(t => t.AgentStatus == status);
             
             _taskService.GetAgentTasksAsync(agentId, status, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
@@ -284,7 +284,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.All(t => t.Status == status).ShouldBeTrue();
+            result.Value.All(t => t.AgentStatus == status).ShouldBeTrue();
         }
 
         [Fact]
@@ -620,12 +620,12 @@ public class TaskServiceTests
             Description = "Test task description",
             TaskType = "DocumentProcessing",
             Priority = TaskPriority.Normal,
-            Status = TaskAgentStatus.Pending,
+            AgentStatus = TaskAgentStatus.Pending,
             CreatedAt = DateTime.UtcNow,
             Deadline = DateTime.UtcNow.AddDays(7),
-            AssignedToAgentId = null,
-            InputData = CreateValidTaskData(),
-            OutputData = null
+            AssignedAgentId = null,
+            Input = CreateValidTaskData(),
+            Output = null
         };
     }
 
@@ -653,7 +653,7 @@ public class TaskServiceTests
                 Description = "First pending task",
                 TaskType = "DocumentProcessing",
                 Priority = TaskPriority.Normal,
-                Status = TaskAgentStatus.Pending,
+                AgentStatus = TaskAgentStatus.Pending,
                 CreatedAt = DateTime.UtcNow.AddMinutes(-30),
                 Deadline = DateTime.UtcNow.AddDays(1)
             },
@@ -664,16 +664,16 @@ public class TaskServiceTests
                 Description = "Second pending task",
                 TaskType = "DataValidation",
                 Priority = TaskPriority.High,
-                Status = TaskAgentStatus.Pending,
+                AgentStatus = TaskAgentStatus.Pending,
                 CreatedAt = DateTime.UtcNow.AddMinutes(-15),
                 Deadline = DateTime.UtcNow.AddHours(12)
             }
         };
     }
 
-    private static IEnumerable<AgentTask> CreateAgentTasks()
+    private static IEnumerable<AgentTask> CreateAgentTasks(Guid? agentId = null)
     {
-        var agentId = Guid.NewGuid();
+        var actualAgentId = agentId ?? Guid.NewGuid();
         return new[]
         {
             new AgentTask
@@ -683,9 +683,9 @@ public class TaskServiceTests
                 Description = "First agent task",
                 TaskType = "DocumentProcessing",
                 Priority = TaskPriority.Normal,
-                Status = TaskAgentStatus.InProgress,
+                AgentStatus = TaskAgentStatus.InProgress,
                 CreatedAt = DateTime.UtcNow.AddHours(-2),
-                AssignedToAgentId = agentId,
+                AssignedAgentId = actualAgentId,
                 Deadline = DateTime.UtcNow.AddDays(2)
             },
             new AgentTask
@@ -695,9 +695,9 @@ public class TaskServiceTests
                 Description = "Second agent task",
                 TaskType = "DataValidation",
                 Priority = TaskPriority.Low,
-                Status = TaskAgentStatus.Completed,
+                AgentStatus = TaskAgentStatus.Completed,
                 CreatedAt = DateTime.UtcNow.AddHours(-4),
-                AssignedToAgentId = agentId,
+                AssignedAgentId = actualAgentId,
                 Deadline = DateTime.UtcNow.AddDays(1)
             }
         };
@@ -714,10 +714,10 @@ public class TaskServiceTests
                 Description = "First overdue task",
                 TaskType = "DocumentProcessing",
                 Priority = TaskPriority.High,
-                Status = TaskAgentStatus.InProgress,
+                AgentStatus = TaskAgentStatus.InProgress,
                 CreatedAt = DateTime.UtcNow.AddDays(-3),
                 Deadline = DateTime.UtcNow.AddDays(-1),
-                AssignedToAgentId = Guid.NewGuid()
+                AssignedAgentId = Guid.NewGuid()
             },
             new AgentTask
             {
@@ -726,7 +726,7 @@ public class TaskServiceTests
                 Description = "Second overdue task",
                 TaskType = "DataValidation",
                 Priority = TaskPriority.Normal,
-                Status = TaskAgentStatus.Pending,
+                AgentStatus = TaskAgentStatus.Pending,
                 CreatedAt = DateTime.UtcNow.AddDays(-2),
                 Deadline = DateTime.UtcNow.AddHours(-6)
             }

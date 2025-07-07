@@ -127,17 +127,16 @@ public class AgentScheduler : IAgentScheduler
                 var workload = new AgentWorkload
                 {
                     AgentId = agent.Id,
-                    ActiveTasks = 0,
-                    MaxConcurrentTasks = GetMaxConcurrentTasks(agent),
-                    CurrentCpuUsage = 0.0f,
-                    CurrentMemoryUsage = 0.0f,
-                    LastUpdated = DateTime.UtcNow
+                    AssignedTasks = 0,
+                    RunningTasks = 0,
+                    UtilizationPercentage = 0.0,
+                    EstimatedCompletionTime = TimeSpan.Zero
                 };
 
                 _agentWorkloads.TryAdd(agent.Id, workload);
 
-                _logger.LogInformation("Registered agent {AgentId}: {AgentName} with max concurrent tasks: {MaxTasks}",
-                    agent.Id, agent.Name, workload.MaxConcurrentTasks);
+                _logger.LogInformation("Registered agent {AgentId}: {AgentName} with utilization: {Utilization:P0}",
+                    agent.Id, agent.Name, workload.UtilizationPercentage);
 
                 return Result<bool>.Success(true);
             }
@@ -233,12 +232,11 @@ public class AgentScheduler : IAgentScheduler
             if (_agentWorkloads.TryGetValue(agentId, out var workload))
             {
                 // Update workload with current metrics
-                workload.LastUpdated = DateTime.UtcNow;
-                workload.CurrentCpuUsage = SimulateCurrentCpuUsage();
-                workload.CurrentMemoryUsage = SimulateCurrentMemoryUsage();
+                workload.UtilizationPercentage = CalculateUtilization(workload);
+                workload.EstimatedCompletionTime = CalculateEstimatedCompletion(workload);
 
-                _logger.LogDebug("Retrieved workload for agent {AgentId}: {ActiveTasks}/{MaxTasks} tasks, CPU: {CpuUsage:P0}, Memory: {MemoryUsage:P0}",
-                    agentId, workload.ActiveTasks, workload.MaxConcurrentTasks, workload.CurrentCpuUsage, workload.CurrentMemoryUsage);
+                _logger.LogDebug("Retrieved workload for agent {AgentId}: {AssignedTasks} assigned, {RunningTasks} running, Utilization: {Utilization:P0}",
+                    agentId, workload.AssignedTasks, workload.RunningTasks, workload.UtilizationPercentage);
 
                 return Result<AgentWorkload>.Success(workload);
             }
@@ -267,11 +265,9 @@ public class AgentScheduler : IAgentScheduler
             return false;
         }
 
-        // Agent is available if it's active and has capacity
+        // Agent is available if it's active and has low utilization
         return agent.Status == AgentStatus.Active &&
-               workload.ActiveTasks < workload.MaxConcurrentTasks &&
-               workload.CurrentCpuUsage < 0.9f && // Less than 90% CPU usage
-               workload.CurrentMemoryUsage < 0.8f; // Less than 80% memory usage
+               workload.UtilizationPercentage < 0.8; // Less than 80% utilization
     }
 
     private float CalculateAgentScore(Agent agent, AgentTask task)
@@ -307,7 +303,7 @@ public class AgentScheduler : IAgentScheduler
         // Simple capability matching based on agent capabilities
         // In a real implementation, this would be more sophisticated
         var requiredCapabilities = GetRequiredCapabilities(task);
-        var agentCapabilities = agent.Capabilities?.SupportedOperations ?? new List<string>();
+        var agentCapabilities = agent.Capabilities?.SupportedTaskTypes ?? new List<string>();
 
         if (!requiredCapabilities.Any())
         {
@@ -324,16 +320,15 @@ public class AgentScheduler : IAgentScheduler
     private static float CalculateWorkloadScore(AgentWorkload workload)
     {
         // Higher score for agents with lower workload
-        var utilizationRatio = (float)workload.ActiveTasks / workload.MaxConcurrentTasks;
-        return 1.0f - utilizationRatio;
+        return 1.0f - (float)workload.UtilizationPercentage;
     }
 
     private static float CalculatePerformanceScore(AgentWorkload workload)
     {
-        // Higher score for agents with better performance metrics
-        var cpuScore = 1.0f - workload.CurrentCpuUsage;
-        var memoryScore = 1.0f - workload.CurrentMemoryUsage;
-        return (cpuScore + memoryScore) / 2.0f;
+        // Higher score for agents with faster estimated completion
+        var maxCompletionHours = 24.0; // Maximum expected completion time
+        var completionHours = workload.EstimatedCompletionTime.TotalHours;
+        return Math.Max(0.0f, 1.0f - (float)(completionHours / maxCompletionHours));
     }
 
     private static float CalculatePriorityScore(AgentTask task)
@@ -343,7 +338,7 @@ public class AgentScheduler : IAgentScheduler
         {
             TaskPriority.Critical => 1.0f,
             TaskPriority.High => 0.8f,
-            TaskPriority.Medium => 0.6f,
+                            TaskPriority.Normal => 0.6f,
             TaskPriority.Low => 0.4f,
             _ => 0.5f
         };
@@ -354,19 +349,23 @@ public class AgentScheduler : IAgentScheduler
         // Extract required capabilities from task metadata or type
         var capabilities = new List<string>();
 
-        if (task.Metadata.TryGetValue("RequiredCapabilities", out var capabilitiesObj) &&
-            capabilitiesObj is IEnumerable<string> capabilityList)
-        {
-            capabilities.AddRange(capabilityList);
-        }
-
-        // Add default capabilities based on task name or description
-        if (task.Name.Contains("document", StringComparison.OrdinalIgnoreCase))
+        // Add default capabilities based on task type or description
+        if (task.TaskType.Contains("document", StringComparison.OrdinalIgnoreCase))
         {
             capabilities.Add("DocumentProcessing");
         }
 
-        if (task.Name.Contains("analysis", StringComparison.OrdinalIgnoreCase))
+        if (task.TaskType.Contains("analysis", StringComparison.OrdinalIgnoreCase))
+        {
+            capabilities.Add("DataAnalysis");
+        }
+
+        if (task.Description.Contains("document", StringComparison.OrdinalIgnoreCase))
+        {
+            capabilities.Add("DocumentProcessing");
+        }
+
+        if (task.Description.Contains("analysis", StringComparison.OrdinalIgnoreCase))
         {
             capabilities.Add("DataAnalysis");
         }
@@ -374,32 +373,18 @@ public class AgentScheduler : IAgentScheduler
         return capabilities;
     }
 
-    private static int GetMaxConcurrentTasks(Agent agent)
+    private static double CalculateUtilization(AgentWorkload workload)
     {
-        // Determine max concurrent tasks based on agent capabilities
-        var baseCapacity = 5; // Default capacity
-
-        if (agent.Capabilities?.MaxConcurrentTasks > 0)
-        {
-            return agent.Capabilities.MaxConcurrentTasks;
-        }
-
-        // Adjust based on agent type or other factors
-        return baseCapacity;
+        // Calculate utilization based on running vs assigned tasks
+        if (workload.AssignedTasks == 0) return 0.0;
+        return (double)workload.RunningTasks / workload.AssignedTasks;
     }
 
-    private static float SimulateCurrentCpuUsage()
+    private static TimeSpan CalculateEstimatedCompletion(AgentWorkload workload)
     {
-        // Simulate CPU usage - in real implementation, this would come from system metrics
-        var random = new Random();
-        return (float)(random.NextDouble() * 0.7); // 0-70% usage
-    }
-
-    private static float SimulateCurrentMemoryUsage()
-    {
-        // Simulate memory usage - in real implementation, this would come from system metrics
-        var random = new Random();
-        return (float)(random.NextDouble() * 0.6); // 0-60% usage
+        // Estimate completion time based on running tasks
+        // Simple estimation: 1 hour per running task
+        return TimeSpan.FromHours(workload.RunningTasks);
     }
 
     /// <summary>
@@ -413,17 +398,20 @@ public class AgentScheduler : IAgentScheduler
         {
             if (increment)
             {
-                Interlocked.Increment(ref workload.ActiveTasks);
+                workload.AssignedTasks++;
+                workload.RunningTasks++;
             }
             else
             {
-                Interlocked.Decrement(ref workload.ActiveTasks);
+                workload.AssignedTasks--;
+                workload.RunningTasks--;
             }
 
-            workload.LastUpdated = DateTime.UtcNow;
+            workload.UtilizationPercentage = CalculateUtilization(workload);
+            workload.EstimatedCompletionTime = CalculateEstimatedCompletion(workload);
 
-            _logger.LogDebug("Updated workload for agent {AgentId}: {ActiveTasks} active tasks",
-                agentId, workload.ActiveTasks);
+            _logger.LogDebug("Updated workload for agent {AgentId}: {AssignedTasks} assigned, {RunningTasks} running",
+                agentId, workload.AssignedTasks, workload.RunningTasks);
         }
     }
 

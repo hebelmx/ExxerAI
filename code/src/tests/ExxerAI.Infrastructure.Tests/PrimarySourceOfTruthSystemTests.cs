@@ -267,10 +267,10 @@ public class PrimarySourceOfTruthSystemTests
             // Arrange
             var fromDate = DateTime.UtcNow.AddDays(-30);
             var toDate = DateTime.UtcNow;
-            var expectedReport = CreateValidGroundingReport();
+            var expectedReport = CreateValidGroundingReport(fromDate, toDate);
             
             _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken)
-                .Returns(Result<GroundingReport>.Success(expectedReport));
+                .Returns(Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.Success(expectedReport));
 
             // Act
             var result = await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken);
@@ -290,7 +290,7 @@ public class PrimarySourceOfTruthSystemTests
             var toDate = DateTime.UtcNow.AddDays(-30); // Invalid: to date before from date
             
             _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken)
-                .Returns(Result<GroundingReport>.WithFailure("Invalid date range"));
+                .Returns(Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure("Invalid date range"));
 
             // Act
             var result = await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken);
@@ -353,7 +353,7 @@ public class PrimarySourceOfTruthSystemTests
             var recordId = "valid-record-id";
             var updatedData = CreateValidExtractedData();
             var updatedBy = "test-user";
-            var expectedRecord = CreateValidTruthRecord();
+            var expectedRecord = CreateValidTruthRecord(recordId);
             
             _truthSystem.UpdateTruthRecordAsync(recordId, updatedData, updatedBy, _cancellationToken)
                 .Returns(Result<TruthRecord>.Success(expectedRecord));
@@ -417,10 +417,10 @@ public class PrimarySourceOfTruthSystemTests
             // Arrange
             var fromDate = DateTime.UtcNow.AddDays(-30);
             var toDate = DateTime.UtcNow;
-            var expectedMetrics = CreateValidDataQualityMetrics();
+            var expectedMetrics = CreateValidDataQualityMetrics(fromDate, toDate);
             
             _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, _cancellationToken)
-                .Returns(Result<DataQualityMetrics>.Success(expectedMetrics));
+                .Returns(Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.Success(expectedMetrics));
 
             // Act
             var result = await _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, _cancellationToken);
@@ -461,11 +461,11 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static TruthRecord CreateValidTruthRecord()
+    private static TruthRecord CreateValidTruthRecord(string? id = null)
     {
         return new TruthRecord
         {
-            Id = "truth-record-123",
+            Id = id ?? "truth-record-123",
             Data = CreateValidExtractedData(),
             Source = CreateValidDataSource(),
             CreatedAt = DateTime.UtcNow,
@@ -526,9 +526,9 @@ public class PrimarySourceOfTruthSystemTests
         return new ConflictResolution
         {
             ResolvedData = CreateValidExtractedData(),
-            ResolutionStrategy = "HighestConfidence",
+            Strategy = ConflictResolutionStrategy.MostConfident,
             ResolvedAt = DateTime.UtcNow,
-            ConflictingSources = CreateConflictingDataSet().ToList()
+            ConflictingSourcesData = CreateConflictingDataSet().ToList()
         };
     }
 
@@ -543,12 +543,12 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static ExxerAI.Domain.DocumentProcessing.GroundingReport CreateValidGroundingReport()
+    private static ExxerAI.Domain.DocumentProcessing.GroundingReport CreateValidGroundingReport(DateTime? fromDate = null, DateTime? toDate = null)
     {
         return new ExxerAI.Domain.DocumentProcessing.GroundingReport
         {
-            FromDate = DateTime.UtcNow.AddDays(-30),
-            ToDate = DateTime.UtcNow,
+            FromDate = fromDate ?? DateTime.UtcNow.AddDays(-30),
+            ToDate = toDate ?? DateTime.UtcNow,
             TotalRecords = 1000,
             ValidRecords = 950,
             InvalidRecords = 50,
@@ -590,12 +590,12 @@ public class PrimarySourceOfTruthSystemTests
         };
     }
 
-    private static ExxerAI.Domain.DocumentProcessing.DataQualityMetrics CreateValidDataQualityMetrics()
+    private static ExxerAI.Domain.DocumentProcessing.DataQualityMetrics CreateValidDataQualityMetrics(DateTime? fromDate = null, DateTime? toDate = null)
     {
         return new ExxerAI.Domain.DocumentProcessing.DataQualityMetrics
         {
-            FromDate = DateTime.UtcNow.AddDays(-30),
-            ToDate = DateTime.UtcNow,
+            FromDate = fromDate ?? DateTime.UtcNow.AddDays(-30),
+            ToDate = toDate ?? DateTime.UtcNow,
             TotalRecords = 1000,
             HighQualityRecords = 900,
             MediumQualityRecords = 80,

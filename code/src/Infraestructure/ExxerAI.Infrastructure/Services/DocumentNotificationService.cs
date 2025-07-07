@@ -46,20 +46,19 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var notification = new DocumentNotification
-            {
-                Type = DocumentNotificationType.DocumentAdded,
-                DocumentId = document.Id,
-                DocumentName = document.OriginalFileName,
-                Timestamp = DateTime.UtcNow,
-                Data = new Dictionary<string, object>
+            var notification = new DocumentNotification(
+                "DocumentAdded",
+                document.Id,
+                document.OriginalFileName,
+                DateTime.UtcNow,
+                new Dictionary<string, object>
                 {
                     { "DocumentId", document.Id },
                     { "FileName", document.OriginalFileName },
                     { "FileSize", document.FileSize },
                     { "MimeType", document.MimeType }
                 }
-            };
+            );
 
             await SendNotificationAsync(notification, cancellationToken).ConfigureAwait(false);
 
@@ -107,13 +106,12 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var notification = new DocumentNotification
-            {
-                Type = DocumentNotificationType.DocumentModified,
-                DocumentId = document.Id,
-                DocumentName = document.OriginalFileName,
-                Timestamp = DateTime.UtcNow,
-                Data = new Dictionary<string, object>
+            var notification = new DocumentNotification(
+                "DocumentModified",
+                document.Id,
+                document.OriginalFileName,
+                DateTime.UtcNow,
+                new Dictionary<string, object>
                 {
                     { "DocumentId", document.Id },
                     { "FileName", document.OriginalFileName },
@@ -121,7 +119,7 @@ public class DocumentNotificationService : IDocumentNotificationService
                     { "CurrentVersion", document.Version.ToString() ?? "1.0" },
                     { "ModifiedAt", document.UpdatedAt }
                 }
-            };
+            );
 
             await SendNotificationAsync(notification, cancellationToken).ConfigureAwait(false);
 
@@ -169,19 +167,18 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var notification = new DocumentNotification
-            {
-                Type = DocumentNotificationType.DocumentRemoved,
-                DocumentId = documentId,
-                DocumentName = documentName,
-                Timestamp = DateTime.UtcNow,
-                Data = new Dictionary<string, object>
+            var notification = new DocumentNotification(
+                "DocumentRemoved",
+                documentId,
+                documentName,
+                DateTime.UtcNow,
+                new Dictionary<string, object>
                 {
                     { "DocumentId", documentId },
                     { "DocumentName", documentName },
                     { "RemovedAt", DateTime.UtcNow }
                 }
-            };
+            );
 
             await SendNotificationAsync(notification, cancellationToken).ConfigureAwait(false);
 
@@ -229,13 +226,12 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var notification = new DocumentNotification
-            {
-                Type = DocumentNotificationType.ProcessingFailed,
-                DocumentId = document.Id,
-                DocumentName = document.OriginalFileName,
-                Timestamp = DateTime.UtcNow,
-                Data = new Dictionary<string, object>
+            var notification = new DocumentNotification(
+                "ProcessingFailed",
+                document.Id,
+                document.OriginalFileName,
+                DateTime.UtcNow,
+                new Dictionary<string, object>
                 {
                     { "DocumentId", document.Id },
                     { "FileName", document.OriginalFileName },
@@ -243,7 +239,7 @@ public class DocumentNotificationService : IDocumentNotificationService
                     { "ErrorType", error.GetType().Name },
                     { "FailedAt", DateTime.UtcNow }
                 }
-            };
+            );
 
             await SendNotificationAsync(notification, cancellationToken).ConfigureAwait(false);
 
@@ -291,13 +287,12 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             cancellationToken.ThrowIfCancellationRequested();
 
-            var notification = new DocumentNotification
-            {
-                Type = DocumentNotificationType.ProcessingCompleted,
-                DocumentId = document.Id,
-                DocumentName = document.OriginalFileName,
-                Timestamp = DateTime.UtcNow,
-                Data = new Dictionary<string, object>
+            var notification = new DocumentNotification(
+                "ProcessingCompleted",
+                document.Id,
+                document.OriginalFileName,
+                DateTime.UtcNow,
+                new Dictionary<string, object>
                 {
                     { "DocumentId", document.Id },
                     { "FileName", document.OriginalFileName },
@@ -307,7 +302,7 @@ public class DocumentNotificationService : IDocumentNotificationService
                     { "ExtractedFieldsCount", result.ExtractedFields.Count },
                     { "CompletedAt", DateTime.UtcNow }
                 }
-            };
+            );
 
             await SendNotificationAsync(notification, cancellationToken).ConfigureAwait(false);
 
@@ -451,66 +446,4 @@ public class DocumentNotificationService : IDocumentNotificationService
         _subscribers.Clear();
         GC.SuppressFinalize(this);
     }
-}
-
-/// <summary>
-/// Represents a document notification event
-/// </summary>
-public class DocumentNotification
-{
-    /// <summary>
-    /// Gets or sets the type of notification
-    /// </summary>
-    public DocumentNotificationType Type { get; set; }
-
-    /// <summary>
-    /// Gets or sets the document identifier
-    /// </summary>
-    public string DocumentId { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets the document name
-    /// </summary>
-    public string DocumentName { get; set; } = string.Empty;
-
-    /// <summary>
-    /// Gets or sets when the notification was created
-    /// </summary>
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-
-    /// <summary>
-    /// Gets or sets additional notification data
-    /// </summary>
-    public Dictionary<string, object> Data { get; set; } = new();
-}
-
-/// <summary>
-/// Types of document notifications
-/// </summary>
-public enum DocumentNotificationType
-{
-    /// <summary>
-    /// Document was added to the system
-    /// </summary>
-    DocumentAdded,
-
-    /// <summary>
-    /// Document was modified
-    /// </summary>
-    DocumentModified,
-
-    /// <summary>
-    /// Document was removed from the system
-    /// </summary>
-    DocumentRemoved,
-
-    /// <summary>
-    /// Document processing completed successfully
-    /// </summary>
-    ProcessingCompleted,
-
-    /// <summary>
-    /// Document processing failed
-    /// </summary>
-    ProcessingFailed
 } 

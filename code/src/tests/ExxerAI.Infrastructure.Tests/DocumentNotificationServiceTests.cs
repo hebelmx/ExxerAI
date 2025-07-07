@@ -484,23 +484,18 @@ public class DocumentNotificationServiceTests
     // Test Data Factory Methods
     private static DocumentAsset CreateValidDocumentAsset()
     {
-        return new DocumentAsset
+        var content = System.Text.Encoding.UTF8.GetBytes("Test document content");
+        var document = new DocumentAsset("test-document.pdf", content, "/documents/test-document.pdf")
         {
-            Id = "doc-123",
-            Name = "test-document.pdf",
-            Path = "/documents/test-document.pdf",
-            Size = 1024000,
-            MimeType = "application/pdf",
-            CreatedAt = DateTime.UtcNow,
-            ModifiedAt = DateTime.UtcNow,
-            Version = "v1.0",
-            Hash = "abc123def456",
-            Metadata = new Dictionary<string, object>
-            {
-                { "DocumentType", "Invoice" },
-                { "Language", "en-US" }
-            }
+            MimeType = "application/pdf"
         };
+        
+        document.SetContentHash("abc123def456");
+        document.AddMetadata("DocumentType", "Invoice");
+        document.AddMetadata("Language", "en-US");
+        document.MarkAsActive();
+        
+        return document;
     }
 
     private static DocumentProcessingResult CreateValidDocumentProcessingResult()
@@ -508,8 +503,8 @@ public class DocumentNotificationServiceTests
         return new DocumentProcessingResult
         {
             DocumentId = "doc-123",
-            ProcessingStatus = ProcessingStatus.Completed,
-            ExtractedData = new ExtractedData
+            ExtractedText = "Test extracted text",
+            GroundedData = new ExtractedData
             {
                 DocumentId = "doc-123",
                 ExtractedFields = new Dictionary<string, object>
@@ -520,11 +515,11 @@ public class DocumentNotificationServiceTests
                 ConfidenceScore = 0.95f,
                 ProcessedAt = DateTime.UtcNow
             },
-            OverallConfidence = 0.95f,
-            ProcessingTime = TimeSpan.FromSeconds(5),
-            ProcessedAt = DateTime.UtcNow,
-            Errors = Array.Empty<string>(),
-            Warnings = Array.Empty<string>()
+            Confidence = 0.95f,
+            LLMConfidence = 0.95f,
+            GroundingConfidence = 0.95f,
+            ProcessingTimeMs = 5000,
+            ErrorMessage = null
         };
     }
 
