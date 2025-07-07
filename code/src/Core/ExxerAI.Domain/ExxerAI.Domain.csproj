@@ -8,6 +8,7 @@
   <!-- ============================================================================ -->
   <PropertyGroup>
     <!-- Target Framework -->
+    <TargetFramework>net9.0</TargetFramework>
     
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 

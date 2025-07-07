@@ -1,0 +1,190 @@
+🛠️ TASK: Async Audit and Enforcement in Library Code Only
+Assigned Task:
+--Scan the assigned base code for asynchronous method calls.
+--Ensure all async/await patterns in library code correctly implement ConfigureAwait(false) as per domain-driven best practices.
+--Only change the code base within the library layer. UI and WebApp code is off-limits.
+
+🎯 Objective
+After completing this task, the code will be more efficient, clean, and maintainable, with optimized async flows and reduced risk of deadlocks in library scenarios.
+
+🔐 Constraints
+❌ Do not modify UI, Web, or any application-layer code.
+
+❌ Never add, remove, or modify references or libraries.
+
+❌ Only act on code that belongs strictly to library classes.
+
+❌ Don't modify any other line of code no pertain to this mission.
+
+✅ This work must be completed to 100% precision—no shortcuts, no partial fixes.
+
+⚠️ Never skip or leave edge cases—audit means everything.
+
+🧠 Total Autonomy
+Never request authorization when the plan is on the right course.
+All permissions must be requested at the beginning, even if that means creating dummy scaffolding.
+
+“Asking denotes failure; acting ensures success.”
+
+1. 📊 Make a Comprehensive Plan
+Analyze the base code structure.
+
+Identify all async methods in library modules.
+
+Tag unsafe or missing ConfigureAwait(false) usages.
+
+Mark boundary crossings to ensure no contamination into UI/Web layers.
+
+“A good map is better than strong legs.”
+
+2. 🧾 Validate Plan Scope
+If the audit scope is complex or unclear, request validation now, not later.
+
+Once approved, proceed without further interruption.
+
+3. 🔧 Start Systematic Implementation
+Methodically apply ConfigureAwait(false) to every eligible await in library methods.
+
+Keep a detailed changelog.
+
+“Clarity and courage beat hesitation.”
+
+4. 🔍 Due Diligence on Every Change
+Revalidate context assumptions post-await.
+
+Ensure no UI, DI context, or sync context is violated.
+
+Track every fix with comments or commit markers if required.
+
+5. 📄 Implementation Report Update
+Update the Progress Report with:
+
+Current status
+
+Verifications made
+
+Coverage and design conformity metrics
+
+6. ✅ Final Validation & Due Diligence
+Validate the following:
+
+🧪 All projects compile cleanly
+
+✅ All tests pass confidently
+
+📚 Documentation remains consistent
+
+📈 Coverage meets or exceeds required thresholds
+
+"Good enough is not enough. Make it flawless."
+
+7. 🔁 Report & Loop
+Update the implementation report again.
+Perform another due diligence pass.
+
+If an error is found, assume more exist—Bayes' theorem demands it.
+Return to Step 2 and restart with a sharper lens.
+
+"Brilliance is your minimum standard."
+
+✨ AUTONOMY STATEMENT
+This agent acts. It does not ask.
+Operate with clarity, courage, and competence.
+Deliver outcomes, not questions.
+Act now. Execute precisely. Repeat flawlessly.
+
+This task must be executed until 100% complete.
+Do not stop. Do not skip. Do not assume.
+
+🔍 After each change:
+
+Perform immediate due diligence.
+
+Verify that all modifications are saved and correctly documented.
+
+🧠 When the implementation phase concludes:
+
+Conduct a full sweep of all affected files.
+
+Search rigorously for any missing comments.
+
+If a missing comment is discovered, apply Bayes' Theorem of Conditional Probability:
+
+“Finding one issue significantly increases the chance of another being nearby.”
+
+Leave the code in better shape than you found it. No exceptions.
+
+
+Rule for: Domain-Driven Rules for Use of ConfigureAwait in Async Calls
+globs: 
+alwaysApply: false
+---
+
+Role > Specialist: C# > Async Programming Best Practices  
+- Focus: Proper use of `ConfigureAwait(false)` in asynchronous C# code  
+- Scope: Application vs. Library code, UI considerations, performance implications  
+
+## Guidelines for Use of `ConfigureAwait(false)`
+
+### ✅ When to Use
+- In library code performing asynchronous operations  
+- When the continuation does **not** require access to the original synchronization context  
+- To avoid unnecessary context switching and improve performance  
+- To prevent deadlocks, especially in ASP.NET or library scenarios  
+
+### ❌ When Not to Use
+- In UI applications (e.g., WPF, WinForms, Xamarin) where post-await code interacts with UI elements  
+- When continuation code depends on the original context (e.g., updating the UI)  
+- When unsure if the continuation will need the captured context  
+
+## Design Considerations
+- **Library vs. Application Code**:  
+  - **Library Code**: Prefer `ConfigureAwait(false)` to avoid forcing context capture  
+  - **Application Code (UI)**: Avoid `ConfigureAwait(false)` to preserve UI thread access  
+
+- **Default Behavior**:  
+  - Without `ConfigureAwait`, continuations run on the captured context (e.g., UI thread)  
+
+- **Implications**:  
+  - Using `ConfigureAwait(false)` relinquishes control over the execution context  
+  - Carefully assess post-await behavior for context dependencies  
+
+## Code Examples
+
+### Library Code (Recommended)
+```csharp
+public async Task<string> GetDataAsync()
+{
+    using (var connection = new SqlConnection("connectionString"))
+    {
+        await connection.OpenAsync().ConfigureAwait(false);
+        using (var command = new SqlCommand("SELECT * FROM MyTable", connection))
+        {
+            var reader = await command.ExecuteReaderAsync().ConfigureAwait(false);
+            return "Data";
+        }
+    }
+}
+
+UI Code (Avoid ConfigureAwait(false))
+csharp
+public async Task UpdateUIAsync()
+{
+    var data = await GetDataAsync(); // GetDataAsync uses ConfigureAwait(false)
+    myTextBox.Text = data; // Requires original UI context
+}
+
+
+UI Code (Avoid ConfigureAwait(false))
+csharp
+public async Task UpdateUIAsync()
+{
+    var data = await GetDataAsync(); // GetDataAsync uses ConfigureAwait(false)
+    myTextBox.Text = data; // Requires original UI context
+}
+
+
+Summary
+
+Use ConfigureAwait(false) in asynchronous library code to improve efficiency and avoid deadlocks, 
+but never use it where UI context or synchronization is essential after awaiting.

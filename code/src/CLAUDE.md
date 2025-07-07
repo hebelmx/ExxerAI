@@ -1,17 +1,21 @@
 # 🧭 MASTER INSTRUCTIONS FOR AUTONOMOUS AGENT
 
 **Project:** ExxerAI MCP Server
-**Base Path:** `F:\Dynamic\ExxerAi\ExxerAI\src`
-**Objective:** Flawlessly complete the design outlined in `PROJECT_DESIGN_EXXERAI_CENTER_OP.md`
-by executing the cycle defined in `TASK_IMPLEMENTATION_PROJECT AUTONOMOS LOOP.md`.
+**Base Path:** On windows `F:\Dynamic\ExxerAi\ExxerAI\code\src`
+**Base Path:** On linux `mnt/e/Dynamic/ExxerAi/ExxerAI/code/src`
+**Objective:** Flawlessly complete the design outlined in `PROJECT.md`
+by executing the cycle defined this task
 
----
+### THE PROJECT AS DESCRITE ON PROJECT.md
 
 ### EXECUTION DIRECTIVE: CONTINUOUS AUTONOMOUS LOOP
 
 THIS TASK IS TO BE EXECUTED AUTONOMOUSLY IN A CONTINUOUS LOOP:
+✅ Evaluate the actual state of the code agains the project.
 
 ✅ The project is fully implemented according to the design.
+
+✅ The PROJECT.md is Updated with any new feature requested or changed on dev
 
 ✅ All documented features are completed.
 
@@ -67,7 +71,7 @@ The agent must remain in this cycle, refining, validating, and improving, zero o
 
 ### 1. UNDERSTAND PROJECT OBJECTIVES
 
-Study `PROJECT_DESIGN_EXXERAI_CENTER_OP.md Inspect. Ensure it have the full picture this was a guideline a foundation, but is a live document, image all the involved parties, how they want the product, the user, the developers, the owners, the mantainers, the deployers, have the best picture of the project on mind, while we need to comply with the specification we don't have to be limited by this, we have to deliver and enhance a dream, make the vision of a dream a relity beyond fantasy, while completing on time and budget with the best practices.
+Study `PROJECT.md Inspect. Ensure it have the full picture this was a guideline a foundation, but is a live document, image all the involved parties, how they want the product, the user, the developers, the owners, the mantainers, the deployers, have the best picture of the project on mind, while we need to comply with the specification we don't have to be limited by this, we have to deliver and enhance a dream, make the vision of a dream a relity beyond fantasy, while completing on time and budget with the best practices.
 
 > *"A clean foundation promises a bright future."*
 
@@ -91,7 +95,7 @@ Every public API must be covered by tests using XUnit and NSubstitute.Cover logi
 
 ### 4. Design Audit
 
-Study `PROJECT_DESIGN_EXXERAI_CENTER_OP.md`.Compare line-by-line against current implementation. Identify gaps and deviations.
+Study `PROJECT.md`.Compare line-by-line against current implementation. Identify gaps and deviations.
 
 > *"The design is the score. You are the performer."*
 

@@ -1,0 +1,90 @@
+## CLAUDE.md
+
+# 🛠️  TASK: XML Documentation Enforcement in Library Code Only
+
+### 🌟 Objective
+and every **public class**, **public method**, and **public property** has complete, meaningful XML documentation.
+
+---
+
+## 🔐 Constraints
+
+### Global Rules
+- ❌ Do not modify behavior, logic, or application-layer code.
+- ❌ Never change method or class structure.
+- ❌ Never overwrite or remove valid code or existing XML comments.
+- ✅ Only act on COMMENTS and apply precision documentation
+
+
+### Documentation Rule (Maintainability & Clarity)
+- ✅ Every `public class`, `public method`, and `public property` **must** have:
+  - `<summary>` comment
+  - `<param>` tags (if applicable)
+  - `<returns>` tag (if non-void)
+- ✅ If documentation is missing, incomplete, or ambiguous, **insert accurate XML comments only**.
+- ⚠️ Never change existing code or valid comments.
+- 📚 Follow .NET XML conventions for external developer clarity.
+
+---
+
+## 🧠 AUTONOMY DECLARATION
+
+> *This task grants full autonomy. Execute with discipline, detail, and precision. No queries are needed after initiation. This is your task and it must be completed flawlessly.*
+
+---
+
+## 📋 Step-by-Step Action Plan
+
+### 1. 📂 Code Structure Analysis
+- Identify all library folders/files.
+- Tag eligible `.cs` files.
+
+### 2. 🦾 Audit Preparation
+- **Flag** all public APIs missing XML documentation.
+
+### 3. 🔧 Execution Phase
+- Inject `<summary>`, `<param>`, `<returns>` comments to public members as needed.
+- Use meaningful, concise, value-adding documentation.
+
+### 4. 🔍 Integrity Verification
+- Ensure doc comments reflect actual behavior — no placeholders.
+
+### 5. 📄 Documentation & Reporting
+- Keep changelog with:
+  - Files touched
+  - Methods patched
+  - Comments inserted
+- Validate doc coverage and async compliance metrics.
+
+### 6. 🔪 Final Compliance Sweep
+- Re-scan for undocumented APIs.
+- Build solution.
+
+"Good enough is not enough. Make it flawless."
+
+7. 🔁 Report & Loop
+Update the implementation report again.
+Perform another due diligence pass.
+
+If an error is found, assume more exist—Bayes' theorem demands it.
+Return to Step 2 and restart with a sharper lens.
+
+"Brilliance is your minimum standard."
+
+✨ AUTONOMY STATEMENT
+This agent acts. It does not ask.
+Operate with clarity, courage, and competence.
+Deliver outcomes, not questions.
+Act now. Execute precisely. Repeat flawlessly.
+
+This task must be executed until 100% complete.
+Do not stop. Do not skip. Do not assume.
+
+---Deliverables 
+📚 Documentation remains consistent
+
+📈 Coverage meets or exceeds required thresholds
+## ✨ Closing
+
+> “This is your mission. Document cleanly. Leave no flaw behind.”
+
