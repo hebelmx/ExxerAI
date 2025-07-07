@@ -10,8 +10,11 @@ builder.AddProject<Projects.ExxerAI_UI>("exxerai-ui");
 // Define a container resource
 
 var cache = builder.AddRedis("cache")
-    .WithRedisInsight();
-    .WithRedisCommander(); ;
+    .WithRedisInsight()
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithContainerName("");
+/*.WithVolume() */
+;
 
 var redisContainer = builder.AddContainer("redis", "redis:latest")
     .WithVolume("redis_data", "/data", isReadOnly: false);
@@ -56,7 +59,8 @@ var grafana = builder.AddContainer("grafana", "grafana/grafana", "latest")
     .WithEnvironment("GF_SECURITY_ADMIN_PASSWORD", "admin");
 
 builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
-    .WithReference(cache);
+    .WithReference(cache)
+    .WaitFor(cache); ;
 
 builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
     .WithReference("redis_data", new Uri("ip"));

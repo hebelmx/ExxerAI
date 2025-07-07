@@ -74,7 +74,7 @@ public class PersonaService : IPersonaService
 
             // Save to repository
             var result = await _personaRepository.AddAsync(persona, cancellationToken).ConfigureAwait(false);
-            
+
             if (!result.IsSuccess)
                 return Result<Persona>.WithFailure($"Failed to create persona: {result.Error}");
 
@@ -133,7 +133,7 @@ public class PersonaService : IPersonaService
 
             // Save updates
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-            
+
             if (!updateResult.IsSuccess)
                 return Result<Persona>.WithFailure($"Failed to update persona: {updateResult.Error}");
 
@@ -202,7 +202,7 @@ public class PersonaService : IPersonaService
                 return Result<IEnumerable<Persona>>.WithFailure("Search criteria cannot be null");
 
             // Start with all personas or active only
-            var personasResult = searchCriteria.IncludeInactive 
+            var personasResult = searchCriteria.IncludeInactive
                 ? await _personaRepository.GetAllAsync(cancellationToken).ConfigureAwait(false)
                 : await _personaRepository.GetActivePersonasAsync(cancellationToken).ConfigureAwait(false);
 
@@ -215,10 +215,10 @@ public class PersonaService : IPersonaService
             if (!string.IsNullOrWhiteSpace(searchCriteria.NamePattern))
             {
                 var nameResult = await _personaRepository.SearchByNameAsync(
-                    searchCriteria.NamePattern, 
-                    false, 
+                    searchCriteria.NamePattern,
+                    false,
                     cancellationToken).ConfigureAwait(false);
-                
+
                 if (nameResult.IsSuccess)
                 {
                     var nameMatchIds = nameResult.Value.Select(p => p.Id).ToHashSet();
@@ -230,9 +230,9 @@ public class PersonaService : IPersonaService
             if (!string.IsNullOrWhiteSpace(searchCriteria.Role))
             {
                 var roleResult = await _personaRepository.GetByRoleAsync(
-                    searchCriteria.Role, 
+                    searchCriteria.Role,
                     cancellationToken).ConfigureAwait(false);
-                
+
                 if (roleResult.IsSuccess)
                 {
                     var roleMatchIds = roleResult.Value.Select(p => p.Id).ToHashSet();
@@ -247,8 +247,8 @@ public class PersonaService : IPersonaService
                     searchCriteria.RequiredKnowledgeDomains,
                     searchCriteria.RequireAllKnowledgeDomains,
                     cancellationToken).ConfigureAwait(false);
-                
-                if (domainResult.IsSuccess)
+
+                if (domainResult.IsSuccess && domainResult.Value is not null)
                 {
                     var domainMatchIds = domainResult.Value.Select(p => p.Id).ToHashSet();
                     personas = personas.Where(p => domainMatchIds.Contains(p.Id));
@@ -256,21 +256,21 @@ public class PersonaService : IPersonaService
             }
 
             // Apply trait filter
-            if (searchCriteria.RequiredTraits.Any())
+            if (searchCriteria != null && searchCriteria.RequiredTraits.Any())
             {
                 var traitResult = await _personaRepository.SearchByTraitsAsync(
                     searchCriteria.RequiredTraits,
                     true,
                     cancellationToken).ConfigureAwait(false);
-                
-                if (traitResult.IsSuccess)
+
+                if (traitResult.IsSuccess && traitResult.Value is not null)
                 {
                     var traitMatchIds = traitResult.Value.Select(p => p.Id).ToHashSet();
                     personas = personas.Where(p => traitMatchIds.Contains(p.Id));
                 }
             }
 
-            return Result<IEnumerable<Persona>>.WithSuccess(personas.ToList());
+            return Result<IEnumerable<Persona>>.WithSuccess([.. personas]);
         }
         catch (Exception ex)
         {
@@ -308,7 +308,7 @@ public class PersonaService : IPersonaService
             persona.AddTrait(traitKey.Trim(), traitValue?.Trim() ?? string.Empty);
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-            return updateResult.IsSuccess 
+            return updateResult.IsSuccess
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to add trait: {updateResult.Error}");
         }
@@ -344,12 +344,12 @@ public class PersonaService : IPersonaService
 
             var persona = getResult.Value;
             var removed = persona.Traits.Remove(traitKey.Trim());
-            
+
             if (removed)
             {
                 persona.UpdatedAt = DateTime.UtcNow;
                 var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-                return updateResult.IsSuccess 
+                return updateResult.IsSuccess
                     ? Result<bool>.WithSuccess(true)
                     : Result<bool>.WithFailure($"Failed to remove trait: {updateResult.Error}");
             }
@@ -390,7 +390,7 @@ public class PersonaService : IPersonaService
             persona.AddKnowledgeDomain(knowledgeDomain.Trim());
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-            return updateResult.IsSuccess 
+            return updateResult.IsSuccess
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to add knowledge domain: {updateResult.Error}");
         }
@@ -430,7 +430,7 @@ public class PersonaService : IPersonaService
             if (removed)
             {
                 var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-                return updateResult.IsSuccess 
+                return updateResult.IsSuccess
                     ? Result<bool>.WithSuccess(true)
                     : Result<bool>.WithFailure($"Failed to remove knowledge domain: {updateResult.Error}");
             }
@@ -481,7 +481,7 @@ public class PersonaService : IPersonaService
 
             // Update persona
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-            return updateResult.IsSuccess 
+            return updateResult.IsSuccess
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to associate template: {updateResult.Error}");
         }
@@ -606,28 +606,27 @@ public class PersonaService : IPersonaService
             if (string.IsNullOrWhiteSpace(contextTag))
                 return Result<Persona>.WithFailure("Context tag cannot be empty");
 
-            return await _personaRepository.FindSuitableForContextAsync(
-                contextTag, 
-                preferredRole, 
-                requiredKnowledgeDomains, 
-                cancellationToken).ConfigureAwait(false)
-                .ContinueWith(task => 
-                {
-                    if (!task.Result.IsSuccess)
-                        return task.Result;
+            var result = await _personaRepository.FindSuitableForContextAsync(
+                contextTag,
+                preferredRole,
+                requiredKnowledgeDomains,
+                cancellationToken).ConfigureAwait(false);
 
-                    var personas = task.Result.Value;
-                    var bestMatch = personas.FirstOrDefault();
-                    
-                    return bestMatch != null 
+            if (result.IsSuccess && result.Value is not null)
+            {
+                var bestMatch = result.Value.FirstOrDefault();
+
+                return bestMatch != null
                         ? Result<Persona>.WithSuccess(bestMatch)
                         : Result<Persona>.WithFailure("No suitable persona found for the given context");
-                }, cancellationToken);
+            }
         }
         catch (Exception ex)
         {
             return Result<Persona>.WithFailure($"Error finding best persona: {ex.Message}");
         }
+        // If we reach here, it means no suitable persona was found
+        return Result<Persona>.WithFailure("No suitable persona found for the given context");
     }
 
     /// <summary>
@@ -653,7 +652,7 @@ public class PersonaService : IPersonaService
             persona.Activate();
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-            return updateResult.IsSuccess 
+            return updateResult.IsSuccess
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to activate persona: {updateResult.Error}");
         }
@@ -686,7 +685,7 @@ public class PersonaService : IPersonaService
             persona.Deactivate();
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
-            return updateResult.IsSuccess 
+            return updateResult.IsSuccess
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to deactivate persona: {updateResult.Error}");
         }

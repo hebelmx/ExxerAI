@@ -91,7 +91,7 @@ public class EnhancedLLMService : ILLMService
 
             // Generate response
             var response = await provider.GenerateCompletionAsync(model.Name, prompt, parameters, cancellationToken).ConfigureAwait(false);
-            
+
             if (!response.IsSuccess)
                 return response;
 
@@ -179,7 +179,7 @@ public class EnhancedLLMService : ILLMService
             };
 
             var response = await provider.GenerateChatCompletionAsync(model.Name, messages, parameters, cancellationToken).ConfigureAwait(false);
-            
+
             if (!response.IsSuccess)
                 return Result<ConversationMessage>.WithFailure($"Failed to generate response: {response.Error}");
 
@@ -201,7 +201,7 @@ public class EnhancedLLMService : ILLMService
                 Role = MessageRole.Assistant,
                 Content = response.Value.Content,
                 CreatedAt = DateTime.UtcNow,
-                Metadata = new ConversationMetadata
+                Metadata = new MessageMetadata()
                 {
                     TokensUsed = response.Value.TotalTokens,
                     Cost = response.Value.EstimatedCost,
@@ -274,7 +274,7 @@ public class EnhancedLLMService : ILLMService
             };
 
             var result = await _conversationRepository.AddAsync(conversation, cancellationToken).ConfigureAwait(false);
-            
+
             if (!result.IsSuccess)
                 return Result<Conversation>.WithFailure($"Failed to create conversation: {result.Error}");
 
@@ -410,7 +410,7 @@ public class EnhancedLLMService : ILLMService
             chunk.Metadata["model_id"] = modelId;
             chunk.Metadata["model_name"] = model.Name;
             chunk.Metadata["provider_name"] = provider.ProviderName;
-            
+
             yield return chunk;
         }
     }
@@ -444,7 +444,7 @@ public class EnhancedLLMService : ILLMService
 
             // Validate provider and model
             var validationResult = await provider.ValidateAsync(model.Name, cancellationToken).ConfigureAwait(false);
-            
+
             if (!validationResult.IsSuccess)
                 return Result<bool>.WithFailure($"Validation failed: {validationResult.Error}");
 
@@ -520,7 +520,7 @@ public class EnhancedLLMService : ILLMService
                 now - lastCheck > TimeSpan.FromMinutes(1))
             {
                 var rateLimitResult = await provider.GetRateLimitInfoAsync(modelName, cancellationToken).ConfigureAwait(false);
-                
+
                 if (!rateLimitResult.IsSuccess)
                     return Result<bool>.WithFailure($"Could not check rate limits: {rateLimitResult.Error}");
 
@@ -561,7 +561,7 @@ public class EnhancedLLMService : ILLMService
             // Estimate cost for this request
             var maxTokens = parameters?.MaxTokens ?? _configuration.DefaultMaxTokens;
             var estimatedCost = await provider.EstimateCostAsync(modelName, 1000, maxTokens, cancellationToken).ConfigureAwait(false);
-            
+
             if (estimatedCost.IsSuccess && dailySpent + estimatedCost.Value > _configuration.MaxDailyCost)
                 return Result<bool>.WithFailure("Request would exceed daily cost limit");
 
@@ -581,7 +581,7 @@ public class EnhancedLLMService : ILLMService
         try
         {
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
-            
+
             if (!_dailyCostTracker.ContainsKey(today))
                 _dailyCostTracker[today] = 0;
 
@@ -590,7 +590,7 @@ public class EnhancedLLMService : ILLMService
             // Clean up old entries (keep last 30 days)
             var cutoffDate = DateTime.UtcNow.AddDays(-30).Date.ToString("yyyy-MM-dd");
             var keysToRemove = _dailyCostTracker.Keys.Where(k => string.Compare(k, cutoffDate) < 0).ToList();
-            
+
             foreach (var key in keysToRemove)
             {
                 _dailyCostTracker.Remove(key);
@@ -602,7 +602,7 @@ public class EnhancedLLMService : ILLMService
         }
     }
 
-    #endregion
+    #endregion Private Methods
 }
 
 /// <summary>

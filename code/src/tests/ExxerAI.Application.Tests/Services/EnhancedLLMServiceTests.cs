@@ -1,5 +1,6 @@
 using ExxerAI.Application.Services;
 using ExxerAI.Application.Interfaces;
+using System.Linq.Async //Remove this if .NET 10 OR ABOVE
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.ValueObjects;
@@ -24,7 +25,7 @@ public class EnhancedLLMServiceTests
         _mockProvider = Substitute.For<ILLMProvider>();
         _mockModelRepository = Substitute.For<ILanguageModelRepository>();
         _mockConversationRepository = Substitute.For<IConversationRepository>();
-        
+
         _configuration = new LLMServiceConfiguration
         {
             MaxDailyCost = 100m,
@@ -36,7 +37,7 @@ public class EnhancedLLMServiceTests
         };
 
         var providers = new List<ILLMProvider> { _mockProvider };
-        
+
         _service = new EnhancedLLMService(
             providers,
             _mockModelRepository,
@@ -543,7 +544,7 @@ public class EnhancedLLMServiceTests
         chunks[1].Content.ShouldBe(" world");
         chunks[2].Content.ShouldBe("!");
         chunks[2].FinishReason.ShouldBe("stop");
-        
+
         // Check metadata was added
         chunks.All(c => c.Metadata.ContainsKey("model_id")).ShouldBeTrue();
         chunks.All(c => c.Metadata.ContainsKey("model_name")).ShouldBeTrue();

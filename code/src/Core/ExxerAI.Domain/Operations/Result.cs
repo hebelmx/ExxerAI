@@ -579,12 +579,14 @@ public sealed class Result<T>
 
     private readonly T? _value;
     private readonly bool _isSuccess;
-    private bool _hasErrors; // Made non-readonly to allow validation fixes
+    private bool _hasErrors; // Made non-readonly to allow validation fixes  //TODO RESTORE TO READ ONLY ?
 
     /// <summary>
     /// Gets a value indicating whether the result is a success.
     /// A result is considered successful if it was explicitly marked as successful
     /// (warnings do not affect success status - they are just diagnostic information).
+    /// A Success result can still have a null Value, which is valid in the Result<T> pattern.
+    /// Null defense: Result<T> allows null values as valid success results when T is nullable.
     /// </summary>
     public bool IsSuccess => _isSuccess;
 

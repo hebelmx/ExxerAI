@@ -53,4 +53,9 @@ public class ConversationMessage
     /// Gets or sets message metadata
     /// </summary>
     public MessageMetadata Metadata { get; set; } = new();
+
+    /// <summary>
+    /// Gets or sets the reason the generation finished (if applicable)
+    /// </summary>
+    public string FinishReason { get; set; } = string.Empty;
 }
