@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="b0f73d2c-1826-48b9-980c-6c386b64c72a" name="Abel Briones@DESKTOP-FB2ES22 2025-07-07 10:14:41" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-07-07T10:14:41.7390439-06:00" queuing="2025-07-07T10:14:41.7390445-06:00" start="2025-07-07T10:14:41.1646981-06:00" finish="2025-07-07T10:14:41.7394230-06:00" />
-  <TestSettings name="default" id="246d0956-2285-4543-b451-0cc0b8f172c6">
-    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-07_10_14_41" />
+<TestRun id="c4e6b963-5607-40f7-b152-46b33a1dc8b3" name="Abel Briones@DESKTOP-FB2ES22 2025-07-07 11:01:59" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-07T11:01:59.8772983-06:00" queuing="2025-07-07T11:01:59.8772989-06:00" start="2025-07-07T11:01:58.7348288-06:00" finish="2025-07-07T11:01:59.8778433-06:00" />
+  <TestSettings name="default" id="687a5d6b-31cc-4a27-987c-dcacddbcf9e5">
+    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-07_11_01_59" />
   </TestSettings>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
@@ -15,8 +15,8 @@
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-07T10:14:41.6889414-06:00">
-        <Text>[xUnit.net 00:00:00.04] ExxerAI.Application.Tests: Catastrophic failure: System.InvalidOperationException: Could not launch test process&#xD;
+      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-07T11:01:59.7715679-06:00">
+        <Text>[xUnit.net 00:00:00.38] ExxerAI.Application.Tests: Catastrophic failure: System.InvalidOperationException: Could not launch test process&#xD;
    at Xunit.v3.TestProcessLauncherAdapter.GetAssemblyInfo(ITestProcessLauncher launcher, XunitProjectAssembly projectAssembly)&#xD;
    at Xunit.v3.TestProcessLauncherAdapter.GetAssemblyInfo(XunitProjectAssembly projectAssembly)&#xD;
    at Xunit.Runner.v3.Xunit3..ctor(XunitProjectAssembly projectAssembly, ISourceInformationProvider sourceInformationProvider, IMessageSink diagnosticMessageSink, ITestProcessLauncher testProcessLauncher)&#xD;
@@ -25,8 +25,8 @@
    at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)&#xD;
    at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)</Text>
       </RunInfo>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Warning" timestamp="2025-07-07T10:14:41.6905044-06:00">
-        <Text>No test matches the given testcase filter `OCRRegionPattern` in F:\Dynamic\ExxerAi\ExxerAI\code\src\artifacts\bin\ExxerAI.Application.Tests\Debug\net9.0\ExxerAI.Application.Tests.dll</Text>
+      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Warning" timestamp="2025-07-07T11:01:59.7762292-06:00">
+        <Text>No test matches the given testcase filter `Should_ExtractCurrencyValues_When_CurrencySymbolsPresent` in F:\Dynamic\ExxerAi\ExxerAI\code\src\artifacts\bin\ExxerAI.Application.Tests\Debug\net9.0\ExxerAI.Application.Tests.dll</Text>
       </RunInfo>
     </RunInfos>
   </ResultSummary>

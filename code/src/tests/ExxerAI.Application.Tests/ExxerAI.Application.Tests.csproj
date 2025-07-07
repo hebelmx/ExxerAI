@@ -5,9 +5,9 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
-		
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
@@ -52,6 +52,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="xunit.v3.runner.inproc.console" />
+
 		<PackageReference Include="coverlet.collector" />
 		<PackageReference Include="Shouldly" />
 		<PackageReference Include="NSubstitute" />

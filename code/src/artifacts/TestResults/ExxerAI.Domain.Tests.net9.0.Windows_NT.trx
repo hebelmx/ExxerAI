@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="bd3ed307-9771-4645-bc19-bbc8b4ece0ec" name="Abel Briones@DESKTOP-FB2ES22 2025-07-07 10:54:19" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
-  <Times creation="2025-07-07T10:54:19.9231501-06:00" queuing="2025-07-07T10:54:19.9231505-06:00" start="2025-07-07T10:54:18.6785005-06:00" finish="2025-07-07T10:54:19.9236043-06:00" />
-  <TestSettings name="default" id="ed457978-c447-4f4e-a022-487ed45754b6">
-    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-07_10_54_19" />
+<TestRun id="8a622f8e-dfa8-400a-a014-0f9cb162273f" name="Abel Briones@DESKTOP-FB2ES22 2025-07-07 11:04:37" runUser="DESKTOP-FB2ES22\Abel Briones" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-07-07T11:04:37.2619267-06:00" queuing="2025-07-07T11:04:37.2619270-06:00" start="2025-07-07T11:04:36.5459685-06:00" finish="2025-07-07T11:04:37.2622578-06:00" />
+  <TestSettings name="default" id="ffa61f1b-4d5a-47e9-aee6-e225c0f6779a">
+    <Deployment runDeploymentRoot="Abel_Briones_DESKTOP-FB2ES22_2025-07-07_11_04_37" />
   </TestSettings>
   <TestLists>
     <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
@@ -15,8 +15,8 @@
 </StdOut>
     </Output>
     <RunInfos>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-07T10:54:19.8511913-06:00">
-        <Text>[xUnit.net 00:00:00.19] ExxerAI.Domain.Tests: Catastrophic failure: System.InvalidOperationException: Could not launch test process&#xD;
+      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Error" timestamp="2025-07-07T11:04:37.2077728-06:00">
+        <Text>[xUnit.net 00:00:00.20] ExxerAI.Domain.Tests: Catastrophic failure: System.InvalidOperationException: Could not launch test process&#xD;
    at Xunit.v3.TestProcessLauncherAdapter.GetAssemblyInfo(ITestProcessLauncher launcher, XunitProjectAssembly projectAssembly)&#xD;
    at Xunit.v3.TestProcessLauncherAdapter.GetAssemblyInfo(XunitProjectAssembly projectAssembly)&#xD;
    at Xunit.Runner.v3.Xunit3..ctor(XunitProjectAssembly projectAssembly, ISourceInformationProvider sourceInformationProvider, IMessageSink diagnosticMessageSink, ITestProcessLauncher testProcessLauncher)&#xD;
@@ -25,7 +25,7 @@
    at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)&#xD;
    at Xunit.Runner.VisualStudio.VsTestRunner.RunTestsInAssembly(IRunContext runContext, IFrameworkHandle frameworkHandle, LoggerHelper logger, TestPlatformContext testPlatformContext, RunSettings runSettings, IMessageSink reporterMessageHandler, AssemblyRunInfo runInfo)</Text>
       </RunInfo>
-      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Warning" timestamp="2025-07-07T10:54:19.8532261-06:00">
+      <RunInfo computerName="DESKTOP-FB2ES22" outcome="Warning" timestamp="2025-07-07T11:04:37.2094748-06:00">
         <Text>No test is available in F:\Dynamic\ExxerAi\ExxerAI\code\src\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\ExxerAI.Domain.Tests.dll. Make sure that test discoverer &amp; executors are registered and platform &amp; framework version settings are appropriate and try again.</Text>
       </RunInfo>
     </RunInfos>

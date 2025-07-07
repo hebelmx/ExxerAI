@@ -117,9 +117,8 @@ public class OCRRegionPattern : ExtractionPattern
         if (string.IsNullOrEmpty(afterRef)) return null;
         
         // Extract numeric value from the remaining text
-        // Remove any leading non-digit characters and find the first complete number
-        var cleanText = Regex.Replace(afterRef.Trim(), @"^[^\d]*", "");
-        var match = Regex.Match(cleanText, @"^(\d{1,3}(?:,\d{3})*(?:\.\d+)?)");
+        // Remove any leading non-digit characters (currency symbols, negative signs, etc.) and find the first complete number
+        var match = Regex.Match(afterRef.Trim(), @"[^\d]*(\d{1,3}(?:,\d{3})*(?:\.\d+)?)");
         return match.Success ? match.Groups[1].Value : null;
     }
 
