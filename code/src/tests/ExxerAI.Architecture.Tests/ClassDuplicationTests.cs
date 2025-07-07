@@ -50,16 +50,16 @@ public class ClassDuplicationTests
         foreach (var dup in duplicates)
         {
             any = true;
-            _logger.LogError($"  DUPLICATE: {dup.ClassName} in [{string.Join(", ", dup.Namespaces)}]");
+            _logger.LogError("  DUPLICATE: {ClassName} in {Namespaces]", dup.ClassName, @dup.Namespaces);
         }
 
         if (any)
         {
-            _logger.LogError($"FAILED: {assemblyName} has duplicate class names in different namespaces:");
+            _logger.LogError("FAILED: {assemblyName} has duplicate class names in different namespaces:", assemblyName);
         }
         else
         {
-            _logger.LogInformation($"PASSED: {assemblyName} has no duplicate class names in different namespaces.");
+            _logger.LogInformation("PASSED: {assemblyName} has no duplicate class", assemblyName);
         }
 
         // Use Shouldly to assert that there are no duplicated class names across different namespaces
