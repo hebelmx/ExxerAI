@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <RunConfiguration>
+    <TargetFrameworkVersion>net9.0</TargetFrameworkVersion>
+    <ResultsDirectory>TestResults</ResultsDirectory>
+    <Diagnostics>True</Diagnostics>
+    <Verbosity>diagnostic</Verbosity>
+  </RunConfiguration>
+</RunSettings>

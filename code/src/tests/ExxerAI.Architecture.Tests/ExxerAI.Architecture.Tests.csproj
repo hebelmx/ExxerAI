@@ -5,7 +5,8 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
-		
+		<!-- XUnit v3 Configuration: Test projects are now executables -->
+		<OutputType>Exe</OutputType>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -13,8 +14,7 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 
-		<!-- XUnit v3 Configuration: Test projects are now executables -->
-		<OutputType>Exe</OutputType>
+
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 
@@ -42,14 +42,14 @@
 		<PackageReference Include="Shouldly" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="xunit.v3" />
-		<PackageReference Include="xunit.analyzers">
+		<!--<PackageReference Include="xunit.analyzers">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="xunit.runner.visualstudio">
+		</PackageReference>-->
+		<!--<PackageReference Include="xunit.runner.visualstudio">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
+		</PackageReference>-->
         <PackageReference Include="Meziantou.Extensions.Logging.Xunit.v3" />
         <PackageReference Include="Microsoft.Extensions.Logging" />
 	</ItemGroup>
