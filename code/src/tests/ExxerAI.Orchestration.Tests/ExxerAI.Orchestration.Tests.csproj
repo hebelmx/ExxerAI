@@ -5,7 +5,8 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
-		
+		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -53,6 +54,7 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="xunit.v3.runner.inproc.console" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->

@@ -6,6 +6,8 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<!-- XUnit v3 Configuration: Test projects are now executables -->
+		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+
 		<OutputType>Exe</OutputType>
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 

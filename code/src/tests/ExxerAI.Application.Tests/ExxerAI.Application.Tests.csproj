@@ -5,9 +5,10 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
+		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+		
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>

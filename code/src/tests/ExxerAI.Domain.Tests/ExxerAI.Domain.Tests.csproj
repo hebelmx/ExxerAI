@@ -57,7 +57,7 @@
 	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK (XUnit v3) -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
-		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		
 
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.analyzers">
