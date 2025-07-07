@@ -274,7 +274,7 @@ public class InMemoryTaskRepositoryTests
             }
 
             // Act
-            var result = await _repository.GetByAgentAsync(agentId1, TestContext.Current.CancellationToken);
+            var result = await _repository.GetByAgentAsync(agentId1, null, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -302,7 +302,7 @@ public class InMemoryTaskRepositoryTests
             }
 
             // Act
-            var result = await _repository.GetByAgentAsync(agentId, TaskAgentStatus.InProgress);
+            var result = await _repository.GetByAgentAsync(agentId, TaskAgentStatus.InProgress, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -330,7 +330,7 @@ public class InMemoryTaskRepositoryTests
             }
 
             // Act
-            var result = await _repository.GetByTypeAsync("DataAnalysis", TestContext.Current.CancellationToken);
+            var result = await _repository.GetByTypeAsync("DataAnalysis", null, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -484,7 +484,7 @@ public class InMemoryTaskRepositoryTests
         public async Task Should_ReturnFailure_When_GetByAgentWithEmptyId()
         {
             // Act
-            var result = await _repository.GetByAgentAsync(Guid.Empty, TestContext.Current.CancellationToken);
+            var result = await _repository.GetByAgentAsync(Guid.Empty, null, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -495,7 +495,7 @@ public class InMemoryTaskRepositoryTests
         public async Task Should_ReturnFailure_When_GetByTypeWithEmptyType()
         {
             // Act
-            var result = await _repository.GetByTypeAsync("", TestContext.Current.CancellationToken);
+            var result = await _repository.GetByTypeAsync("", null, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -629,7 +629,7 @@ public class InMemoryTaskRepositoryTests
                         AgentStatus = TaskAgentStatus.InProgress,
                         CreatedAt = taskToUpdate.CreatedAt
                     };
-                    return _repository.UpdateAsync(updatedTask);
+                    return _repository.UpdateAsync(updatedTask, TestContext.Current.CancellationToken);
                 });
 
             var results = await Task.WhenAll(updateTasks);
@@ -706,8 +706,8 @@ public class InMemoryTaskRepositoryTests
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
             var statusQuery = await _repository.GetByStatusAsync(TaskAgentStatus.InProgress, TestContext.Current.CancellationToken);
-            var agentQuery = await _repository.GetByAgentAsync(agentIds[0], TestContext.Current.CancellationToken);
-            var typeQuery = await _repository.GetByTypeAsync("QueryType5", TestContext.Current.CancellationToken);
+            var agentQuery = await _repository.GetByAgentAsync(agentIds[0], null, TestContext.Current.CancellationToken);
+            var typeQuery = await _repository.GetByTypeAsync("QueryType5", null, TestContext.Current.CancellationToken);
             var overdueQuery = await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
 
             stopwatch.Stop();
@@ -732,8 +732,8 @@ public class InMemoryTaskRepositoryTests
             // Act
             var allTasks = await _repository.GetAllAsync(TestContext.Current.CancellationToken);
             var statusTasks = await _repository.GetByStatusAsync(TaskAgentStatus.Pending, TestContext.Current.CancellationToken);
-            var agentTasks = await _repository.GetByAgentAsync(Guid.NewGuid());
-            var typeTasks = await _repository.GetByTypeAsync("NonExistent", null!, TestContext.Current.CancellationToken);
+            var agentTasks = await _repository.GetByAgentAsync(Guid.NewGuid(), null, TestContext.Current.CancellationToken);
+            var typeTasks = await _repository.GetByTypeAsync("NonExistent", null, TestContext.Current.CancellationToken);
             var overdueTasks = await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
 
             // Assert

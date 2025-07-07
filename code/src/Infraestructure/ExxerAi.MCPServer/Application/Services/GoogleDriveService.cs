@@ -113,7 +113,7 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogInformation("Starting folder watch for {FolderId}", folderId);
 
             // Verify folder exists
-            var folder = await _driveService.Files.Get(folderId).ExecuteAsync();
+            var folder = await _driveService!.Files.Get(folderId).ExecuteAsync();
             if (folder == null)
             {
                 return Result<string>.WithFailure($"Folder {folderId} not found or not accessible");
@@ -176,7 +176,7 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogInformation("Downloading document {DocumentId}", documentId);
 
             // Get file metadata
-            var file = await _driveService.Files.Get(documentId).ExecuteAsync();
+            var file = await _driveService!.Files.Get(documentId).ExecuteAsync();
             if (file == null)
             {
                 return Result<byte[]>.WithFailure($"File {documentId} not found");
@@ -184,7 +184,7 @@ public class GoogleDriveService : IGoogleDriveService
 
             // Download file content
             using var stream = new MemoryStream();
-            var request = _driveService.Files.Get(documentId);
+            var request = _driveService!.Files.Get(documentId);
             await request.DownloadAsync(stream);
 
             var fileData = stream.ToArray();
@@ -217,7 +217,7 @@ public class GoogleDriveService : IGoogleDriveService
         {
             _logger.LogInformation("Getting metadata for document {DocumentId}", documentId);
 
-            var file = await _driveService.Files.Get(documentId).ExecuteAsync();
+            var file = await _driveService!.Files.Get(documentId).ExecuteAsync();
             if (file == null)
             {
                 return Result<GoogleDriveFileMetadata>.WithFailure($"File {documentId} not found");
@@ -229,8 +229,8 @@ public class GoogleDriveService : IGoogleDriveService
                 Name = file.Name ?? "Unknown",
                 MimeType = file.MimeType ?? "application/octet-stream",
                 Size = file.Size ?? 0,
-                CreatedTime = file.CreatedTime ?? DateTime.MinValue,
-                ModifiedTime = file.ModifiedTime ?? DateTime.MinValue,
+                CreatedTime = file.CreatedTimeDateTimeOffset?.DateTime ?? DateTime.MinValue,
+                ModifiedTime = file.ModifiedTimeDateTimeOffset?.DateTime ?? DateTime.MinValue,
                 WebViewLink = file.WebViewLink,
                 DownloadUrl = file.WebContentLink
             };
@@ -257,7 +257,7 @@ public class GoogleDriveService : IGoogleDriveService
             try
             {
                 // List files in folder modified since last check
-                var listRequest = _driveService.Files.List();
+                var listRequest = _driveService!.Files.List();
                 listRequest.Q = $"'{session.FolderId}' in parents and modifiedTime > '{session.LastCheck:yyyy-MM-ddTHH:mm:ss}'";
                 listRequest.Fields = "files(id,name,mimeType,modifiedTime,size)";
 
@@ -336,7 +336,7 @@ public class GoogleDriveService : IGoogleDriveService
             // Process through ExxerAI document pipeline if available
             if (_documentProcessor != null)
             {
-                var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value, metadata);
+                var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value!, metadata);
 
                 if (processingResult.IsSuccess)
                 {

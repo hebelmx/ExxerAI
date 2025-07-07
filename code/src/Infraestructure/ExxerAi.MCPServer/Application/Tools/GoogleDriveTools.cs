@@ -130,8 +130,8 @@ public class GoogleDriveTools : IGoogleDriveTools
                 return Result<string>.WithFailure($"Failed to download document: {downloadResult.Error}");
             }
 
-            var metadata = metadataResult.Value;
-            var fileSize = downloadResult.Value.Length;
+            var metadata = metadataResult.Value!;
+            var fileSize = downloadResult.Value!.Length;
 
             var result = $"✅ Downloaded: {metadata.Name}\n" +
                         $"📄 Document ID: {documentId}\n" +
@@ -172,7 +172,7 @@ public class GoogleDriveTools : IGoogleDriveTools
                 return Result<string>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
             }
 
-            var metadata = metadataResult.Value;
+            var metadata = metadataResult.Value!;
             var result = $"📄 Document Metadata:\n" +
                         $"🏷️ Name: {metadata.Name}\n" +
                         $"🆔 ID: {metadata.Id}\n" +

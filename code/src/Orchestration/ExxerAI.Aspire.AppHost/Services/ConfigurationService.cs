@@ -9,14 +9,14 @@ namespace ExxerAI.Aspire.AppHost.Services;
 public class ConfigurationService
 {
     public LocalAIStackConfiguration Configuration { get; }
-    private readonly LocalAIKeyManager _keyManager;
+    private readonly LocalAIKeyManager? _keyManager;
     private readonly ILogger<ConfigurationService>? _logger;
 
     public ConfigurationService(IConfiguration configuration, LocalAIKeyManager? keyManager = null, ILogger<ConfigurationService>? logger = null)
     {
         Configuration = new LocalAIStackConfiguration();
         configuration.GetSection(LocalAIStackConfiguration.SectionName).Bind(Configuration);
-        _keyManager = keyManager!;
+        _keyManager = keyManager;
         _logger = logger;
         
         // Apply environment variable overrides if key manager is not available
