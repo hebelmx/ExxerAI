@@ -1115,7 +1115,7 @@ public sealed class Result<T>
     /// <returns>The current <see cref="Result{T}"/> instance.</returns>
     public Result<T> OnSuccess(Action<T> action)
     {
-        if (_isSuccess)
+        if (_isSuccess && Value is not null)
         {
             action(Value);
         }

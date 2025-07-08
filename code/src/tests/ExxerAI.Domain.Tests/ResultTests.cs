@@ -17,6 +17,7 @@ public class ResultTests
     {
         // Test data: Specific error messages used in tests
         public const string TestError = "Test error";
+
         public const string InitialFailure = "Initial failure";
         public const string ConditionFailed = "Condition failed";
     }
@@ -39,7 +40,7 @@ public class ResultTests
             // Contract: Must indicate failure and contain the error (case-insensitive for formatting)
             var lowerResult = toStringResult.ToLowerInvariant();
             var lowerPrefix = ResultConstants.FailurePrefix.ToLowerInvariant();
-            
+
             lowerResult.Contains(lowerPrefix).ShouldBeTrue(
                 $"Expected '{toStringResult}' to indicate failure (should contain '{ResultConstants.FailurePrefix}')");
             toStringResult.Contains(expectedError).ShouldBeTrue(
@@ -54,7 +55,7 @@ public class ResultTests
             // Contract: Must indicate success (case-insensitive for formatting)
             var lowerResult = toStringResult.ToLowerInvariant();
             var lowerPrefix = ResultConstants.SuccessPrefix.ToLowerInvariant();
-            
+
             lowerResult.Contains(lowerPrefix).ShouldBeTrue(
                 $"Expected '{toStringResult}' to indicate success (should contain '{ResultConstants.SuccessPrefix}')");
         }
@@ -111,7 +112,7 @@ public class ResultTests
     [Fact]
     public void Constructor_WithInvalidParameters_ShouldThrowException()
     {
-        // Arrange & Act & Assert - Test generic Result<T> constructor with null checks  
+        // Arrange & Act & Assert - Test generic Result<T> constructor with null checks
         var resultWithNullValue = new Result<string>(true, null, null);
         resultWithNullValue.IsSuccessMayBeNull.ShouldBeTrue(); // No errors and explicitly marked successful
         resultWithNullValue.IsSuccess.ShouldBeFalse(); // Kotlin-style: IsSuccess requires non-null value
@@ -183,7 +184,7 @@ public class ResultTests
         // Assert - Warning result properties (fixed behavior: warnings are successful but with diagnostics)
         warningResult.IsSuccess.ShouldBeTrue(); // Fixed: Warnings are now successful operations
         warningResult.HasWarnings.ShouldBeTrue(); // Should have warnings since we used WithWarnings
-        warningResult.IsRecoverable.ShouldBeTrue(); // Should be recoverable since the operation succeeded  
+        warningResult.IsRecoverable.ShouldBeTrue(); // Should be recoverable since the operation succeeded
         warningResult.Value.ShouldBe("success value");
         warningResult.Errors.ShouldContain("Warning 1");
 
@@ -886,7 +887,7 @@ public class ResultTests
     /// These tests ensure all overloads (IEnumerable, Array) behave consistently and that IEnumerable
     /// properly handles all collection types (List, HashSet, etc.) without needing specific overloads.
     /// </summary>
-    
+
     [Fact]
     public void Result_WithFailure_ShouldAcceptDifferentCollectionTypes()
     {
@@ -1162,7 +1163,7 @@ public class ResultTests
     {
         // Arrange - Create different readonly collection types with same content
         var sourceList = new List<string> { "ReadOnlyError1", "ReadOnlyError2", "ReadOnlyError3" };
-        
+
         // Different readonly collection types
         IReadOnlyList<string> readOnlyList = sourceList.AsReadOnly();
         IReadOnlyCollection<string> readOnlyCollection = sourceList.AsReadOnly();
@@ -1227,7 +1228,7 @@ public class ResultTests
         // Arrange - Create different readonly collection types with same content
         var sourceList = new List<string> { "ReadOnlyError1", "ReadOnlyError2", "ReadOnlyError3" };
         var testValue = "ImmutableTestValue";
-        
+
         // Different readonly collection types
         IReadOnlyList<string> readOnlyList = sourceList.AsReadOnly();
         IReadOnlyCollection<string> readOnlyCollection = sourceList.AsReadOnly();
@@ -1287,7 +1288,7 @@ public class ResultTests
     {
         // Arrange - Test OnFailure behavior with readonly collection types
         var sourceErrors = new List<string> { "ImmutableError1", "ImmutableError2" };
-        
+
         var readOnlyListResult = Result.WithFailure(sourceErrors.AsReadOnly());
         var immutableListResult = Result.WithFailure(sourceErrors.ToImmutableList());
         var immutableArrayResult = Result.WithFailure(sourceErrors.ToImmutableArray());
@@ -1360,7 +1361,7 @@ public class ResultTests
     {
         // Arrange - Declare variable to capture implicit conversion
         string? nullValue = null;
-        
+
         // Act - Use implicit conversion with null
         Result<string?> result = nullValue;
 
@@ -1379,7 +1380,7 @@ public class ResultTests
         var nullResult = Result<string?>.Success(null);
 
         // Act & Assert - All operations should handle null gracefully
-        
+
         // OnSuccess with null check
         var onSuccessCalled = false;
         nullResult.OnSuccess(value =>
@@ -1395,7 +1396,7 @@ public class ResultTests
 
         // Match should call success function
         var matchResult = nullResult.Match(
-            value => value is null ? "NULL_SUCCESS" : "NOT_NULL", 
+            value => value is null ? "NULL_SUCCESS" : "NOT_NULL",
             errors => "FAILURE"
         );
         matchResult.Value.ShouldBe("NULL_SUCCESS");
@@ -1419,7 +1420,7 @@ public class ResultTests
         // Assert - All scenarios should be valid
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldBeNull();
-        
+
         // Can add descriptive context if needed through warnings
         var resultWithContext = Result<object?>.WithWarnings([description], null);
         resultWithContext.IsSuccess.ShouldBeTrue();
@@ -1428,7 +1429,7 @@ public class ResultTests
         resultWithContext.Errors.First().ShouldBe(description);
     }
 
-    [Fact]  
+    [Fact]
     public void IndustryStandardDocumentation_ShouldExplainNullHandling()
     {
         // Arrange - Create comprehensive null handling scenarios for documentation
@@ -1472,7 +1473,7 @@ public class ResultTests
         resultWithValue.IsSuccesValueNull.ShouldBeFalse();
 
         // Arrange - Success with null value
-        var resultWithNull = Result<string>.Success(null);
+        var resultWithNull = Result<string>.Success(null!);
 
         // Act & Assert - Null success (Kotlin-style null safety)
         resultWithNull.IsSuccessMayBeNull.ShouldBeTrue("Success operation, regardless of null value");
@@ -1511,7 +1512,7 @@ public class ResultTests
         successWithValue.IsSuccessNotNull.ShouldBeTrue();
         successWithValue.IsSuccess.ShouldBeTrue("IsSuccess and IsSuccessNotNull should be equivalent");
 
-        // Arrange & Act & Assert - Success with null value  
+        // Arrange & Act & Assert - Success with null value
         var successWithNull = Result<string>.Success(null);
         successWithNull.IsSuccessNotNull.ShouldBeFalse("Null value should make this false");
         successWithNull.IsSuccess.ShouldBeFalse("IsSuccess should also be false for null values");
@@ -1526,7 +1527,7 @@ public class ResultTests
     public void IsSuccesValueNull_ShouldOnlyReturnTrue_WhenSuccessfulButValueIsNull()
     {
         // Arrange & Act & Assert - Success with null value (should be false due to IsSuccess requirement)
-        var successWithNull = Result<string>.Success(null);
+        var successWithNull = Result<string>.Success(null!);
         successWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false when Value is null, so this is false");
         successWithNull.IsSuccessMayBeNull.ShouldBeTrue("But operation was successful");
         successWithNull.Value.ShouldBeNull();
@@ -1550,7 +1551,7 @@ public class ResultTests
         // Arrange & Act & Assert - Reference types
         var stringSuccess = Result<string>.Success("test");
         var stringNull = Result<string>.Success(null);
-        
+
         stringSuccess.IsSuccessNotNull.ShouldBeTrue();
         stringNull.IsSuccessNotNull.ShouldBeFalse();
         stringNull.IsSuccessMayBeNull.ShouldBeTrue();
@@ -1567,7 +1568,7 @@ public class ResultTests
 
         nullableIntSuccess.IsSuccessNotNull.ShouldBeFalse("Null nullable int");
         nullableIntSuccess.IsSuccessMayBeNull.ShouldBeTrue();
-        
+
         nullableIntWithValue.IsSuccessNotNull.ShouldBeTrue("Non-null nullable int");
         nullableIntWithValue.IsSuccessMayBeNull.ShouldBeTrue();
 
@@ -1621,7 +1622,7 @@ public class ResultTests
         mappedFromNull.IsSuccessNotNull.ShouldBeTrue("Map produced non-null result even from null source");
         mappedFromNull.IsFailure.ShouldBeFalse("Map should succeed when producing non-null value");
 
-        // Act & Assert - Bind operations  
+        // Act & Assert - Bind operations
         var boundSuccess = initialSuccess.Bind(s => Result<int>.Success(s.Length));
         boundSuccess.IsSuccessNotNull.ShouldBeTrue();
 
@@ -1640,7 +1641,7 @@ public class ResultTests
 
     [Theory]
     [InlineData("hello world", true, true, true, false)]   // Non-null success
-    [InlineData(null, false, false, true, false)]          // Null success  
+    [InlineData(null, false, false, true, false)]          // Null success
     public void NullSafetyProperties_ShouldHaveConsistentBehavior(string value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
     {
         // Arrange
@@ -1681,7 +1682,7 @@ public class ResultTests
         var databaseErrorResult = Result<User>.WithFailure("Database connection failed");
 
         // Act & Assert - Kotlin-style null safety pattern
-        
+
         // Pattern 1: Check if operation succeeded (regardless of null)
         if (userFoundResult.IsSuccessMayBeNull)
         {
@@ -1724,8 +1725,11 @@ public class ResultTests
     #endregion Null Safety Properties Tests (Kotlin-Style)
 
     // Sample types for documentation test
-    private class User { public string? Name { get; set; } }
-    private class Settings { public string? Theme { get; set; } }
+    private class User
+    { public string? Name { get; set; } }
+
+    private class Settings
+    { public string? Theme { get; set; } }
 
     #endregion Industry Standard Null Handling Tests
 }
