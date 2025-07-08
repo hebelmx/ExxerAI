@@ -228,6 +228,9 @@ var neo4jPass = builder.AddParameter("neo4jPass", "secret");
 
 var neo4jDb = builder.AddNeo4j("graph-db", neo4jUser, neo4jPass);
 
+var db = neo4jDb.AddDatabase(databaseName)
+    .WithCreationScript(creationScript);
+
 // Client Side configuration for Neo4j
 /*NorthernNerds.Aspire.Neo4j	NuGet	Downloads
    NorthernNerds.Aspire.Hosting.Neo4j
@@ -243,6 +246,11 @@ var neo4jDb = builder.AddNeo4j("graph-db", neo4jUser, neo4jPass);
 
    var builder = WebApplication.CreateBuilder(args);
    builder.AddNeo4jClient("graph-db");
+or
+
+   builder.AddKeyedNeo4jClient("graph-db");
+   builder.AddKeyedNeo4jClient("graph-db-logging");
+
 Configure parameters in appsettings.json:
 
 {
@@ -252,6 +260,7 @@ Configure parameters in appsettings.json:
      }
    }
 https://github.com/terle/aspire-neo4j?tab=readme-ov-file
+https://github.com/terle/aspire-neo4j/blob/main/example/README.md
  *
  */
 
