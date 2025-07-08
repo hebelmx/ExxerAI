@@ -1,0 +1,533 @@
+using ExxerAI.Application.Interfaces;
+using ExxerAI.Infrastructure.GraphStore;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using Neo4jClient;
+using Shouldly;
+
+namespace ExxerAI.IntegrationTests.KnowledgeStore;
+
+/// <summary>
+/// Integration tests for Neo4j graph knowledge store implementation
+/// Tests actual behavior against Neo4j instance when orchestration is ready
+/// </summary>
+public class Neo4jGraphStoreIntegrationTests : IDisposable
+{
+    private readonly ILogger<Neo4jGraphKnowledgeStore> _logger;
+    private IGraphClient _graphClient;
+    private Neo4jGraphKnowledgeStore _graphStore;
+
+    public Neo4jGraphStoreIntegrationTests()
+    {
+        _logger = Substitute.For<ILogger<Neo4jGraphKnowledgeStore>>();
+    }
+
+    public void Dispose()
+    {
+        _graphClient?.Dispose();
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_Initialize_ShouldCreateConstraintsAndIndexes()
+    {
+        // Arrange
+        SetupGraphClient();
+
+        // Act
+        var result = await _graphStore.InitializeAsync();
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+        _logger.Received().LogInformation(Arg.Is<string>(s => s.Contains("initialized successfully")));
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_StoreDocument_ShouldCreateDocumentNodeWithProperties()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        var document = new GraphDocument
+        {
+            DocumentId = "test-doc-001",
+            Title = "Test Document",
+            Content = "This is a comprehensive test document about machine learning.",
+            DocumentType = "research-paper",
+            CreatedAt = DateTime.UtcNow,
+            ModifiedAt = DateTime.UtcNow,
+            Tags = new List<string> { "AI", "ML", "research" },
+            Properties = new Dictionary<string, object>
+            {
+                ["author"] = "Dr. Test Author",
+                ["word_count"] = 5000,
+                ["language"] = "en"
+            }
+        };
+
+        // Act
+        var result = await _graphStore.StoreDocumentAsync(document);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+
+        // Verify document was stored by querying
+        var queryResult = await _graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId}) RETURN d.title as title, d.documentType as type",
+            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+
+        queryResult.IsSuccess.ShouldBeTrue();
+        var results = queryResult.Value.ToList();
+        results.Count.ShouldBe(1);
+        results.First()["title"].ShouldBe(document.Title);
+        results.First()["type"].ShouldBe(document.DocumentType);
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_StoreConcepts_ShouldCreateConceptNodesWithMetadata()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        var concepts = new List<GraphConcept>
+        {
+            new GraphConcept
+            {
+                ConceptId = "concept-ml",
+                Name = "Machine Learning",
+                Type = "technology",
+                Description = "A subset of artificial intelligence focusing on algorithms that learn from data",
+                Confidence = 0.95f,
+                Aliases = new List<string> { "ML", "Statistical Learning" },
+                Properties = new Dictionary<string, object>
+                {
+                    ["domain"] = "computer_science",
+                    ["complexity"] = "high"
+                }
+            },
+            new GraphConcept
+            {
+                ConceptId = "concept-ai",
+                Name = "Artificial Intelligence",
+                Type = "technology",
+                Description = "Intelligence demonstrated by machines",
+                Confidence = 0.98f,
+                Aliases = new List<string> { "AI" }
+            }
+        };
+
+        // Act
+        var result = await _graphStore.StoreConceptsAsync(concepts);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+
+        // Verify concepts were stored
+        var queryResult = await _graphStore.ExecuteQueryAsync(
+            "MATCH (c:Concept) WHERE c.conceptId IN [$id1, $id2] RETURN c.name as name, c.confidence as confidence",
+            new Dictionary<string, object> 
+            { 
+                ["id1"] = "concept-ml", 
+                ["id2"] = "concept-ai" 
+            });
+
+        queryResult.IsSuccess.ShouldBeTrue();
+        var results = queryResult.Value.ToList();
+        results.Count.ShouldBe(2);
+        results.Any(r => r["name"].ToString() == "Machine Learning").ShouldBeTrue();
+        results.Any(r => r["name"].ToString() == "Artificial Intelligence").ShouldBeTrue();
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_CreateRelationships_ShouldLinkDocumentsAndConcepts()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        // First create document and concept
+        var document = CreateTestDocument("rel-doc-001", "Document about AI");
+        var concept = CreateTestConcept("rel-concept-ai", "Artificial Intelligence");
+
+        await _graphStore.StoreDocumentAsync(document);
+        await _graphStore.StoreConceptsAsync(new[] { concept });
+
+        var relationships = new List<GraphRelationship>
+        {
+            new GraphRelationship
+            {
+                FromNodeId = document.DocumentId,
+                ToNodeId = concept.ConceptId,
+                RelationshipType = "DISCUSSES",
+                Weight = 0.8f,
+                Properties = new Dictionary<string, object>
+                {
+                    ["mentions"] = 15,
+                    ["context"] = "primary_topic"
+                }
+            }
+        };
+
+        // Act
+        var result = await _graphStore.CreateRelationshipsAsync(relationships);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+
+        // Verify relationship was created
+        var queryResult = await _graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId})-[r:DISCUSSES]->(c:Concept {conceptId: $conceptId}) RETURN r.weight as weight",
+            new Dictionary<string, object> 
+            { 
+                ["docId"] = document.DocumentId, 
+                ["conceptId"] = concept.ConceptId 
+            });
+
+        queryResult.IsSuccess.ShouldBeTrue();
+        var results = queryResult.Value.ToList();
+        results.Count.ShouldBe(1);
+        Convert.ToSingle(results.First()["weight"]).ShouldBe(0.8f, tolerance: 0.01f);
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_FindRelatedDocuments_ShouldTraverseGraphCorrectly()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        await SetupTestGraphData();
+
+        // Act
+        var result = await _graphStore.FindRelatedDocumentsAsync(
+            "Machine Learning", 
+            relationshipTypes: new[] { "DISCUSSES", "MENTIONS" },
+            maxDepth: 2,
+            limit: 10);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+        var documents = result.Value.ToList();
+        documents.Count.ShouldBeGreaterThan(0);
+        documents.All(d => !string.IsNullOrEmpty(d.DocumentId)).ShouldBeTrue();
+        documents.All(d => !string.IsNullOrEmpty(d.Content)).ShouldBeTrue();
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_FindRelatedConcepts_ShouldDiscoverConceptualConnections()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        await SetupTestGraphData();
+
+        // Act
+        var result = await _graphStore.FindRelatedConceptsAsync(
+            "ml-doc-001",
+            relationshipTypes: new[] { "DISCUSSES" },
+            maxDepth: 1,
+            limit: 5);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+        var concepts = result.Value.ToList();
+        concepts.Count.ShouldBeGreaterThan(0);
+        concepts.All(c => !string.IsNullOrEmpty(c.ConceptId)).ShouldBeTrue();
+        concepts.All(c => !string.IsNullOrEmpty(c.Name)).ShouldBeTrue();
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_FindShortestPath_ShouldDiscoverConnectionPaths()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        await SetupTestGraphData();
+
+        // Act
+        var result = await _graphStore.FindShortestPathAsync(
+            "ml-doc-001",
+            "ai-doc-002",
+            relationshipTypes: new[] { "DISCUSSES", "RELATED_TO" },
+            maxLength: 5);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+        var path = result.Value;
+        
+        if (path.Length > 0) // Path exists
+        {
+            path.Length.ShouldBeGreaterThan(0);
+            path.Length.ShouldBeLessThanOrEqualTo(5);
+        }
+        else // No path found
+        {
+            path.Length.ShouldBe(-1);
+        }
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_BatchOperations_ShouldHandleLargeDataSetsEfficiently()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        var documents = GenerateTestDocuments(50);
+        var concepts = GenerateTestConcepts(20);
+        var relationships = GenerateTestRelationships(documents, concepts, 100);
+
+        // Act
+        var result = await _graphStore.StoreBatchAsync(documents, concepts, relationships);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+
+        // Verify data was stored
+        var stats = await _graphStore.GetStatsAsync();
+        stats.IsSuccess.ShouldBeTrue();
+        stats.Value.DocumentNodes.ShouldBeGreaterThanOrEqualTo(50);
+        stats.Value.ConceptNodes.ShouldBeGreaterThanOrEqualTo(20);
+        stats.Value.TotalRelationships.ShouldBeGreaterThanOrEqualTo(100);
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_DeleteDocument_ShouldRemoveNodeAndRelationships()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        var document = CreateTestDocument("deletable-doc", "Document to be deleted");
+        await _graphStore.StoreDocumentAsync(document);
+
+        // Act
+        var result = await _graphStore.DeleteDocumentAsync(document.DocumentId);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+
+        // Verify deletion
+        var queryResult = await _graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId}) RETURN count(d) as count",
+            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+
+        queryResult.IsSuccess.ShouldBeTrue();
+        var count = Convert.ToInt32(queryResult.Value.First()["count"]);
+        count.ShouldBe(0);
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_ConcurrentOperations_ShouldMaintainDataIntegrity()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        var concurrentTasks = new List<Task>();
+        var documentCount = 30;
+
+        // Act - Concurrent document creation
+        for (int i = 0; i < documentCount; i++)
+        {
+            var doc = CreateTestDocument($"concurrent-doc-{i}", $"Concurrent document {i}");
+            concurrentTasks.Add(_graphStore.StoreDocumentAsync(doc));
+        }
+
+        await Task.WhenAll(concurrentTasks);
+
+        // Assert
+        var stats = await _graphStore.GetStatsAsync();
+        stats.IsSuccess.ShouldBeTrue();
+        stats.Value.DocumentNodes.ShouldBeGreaterThanOrEqualTo(documentCount);
+    }
+
+    [Theory(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [InlineData("MATCH (d:Document) RETURN count(d) as documentCount")]
+    [InlineData("MATCH (c:Concept) RETURN count(c) as conceptCount")]
+    [InlineData("MATCH ()-[r]->() RETURN count(r) as relationshipCount")]
+    public async Task Neo4jGraphStore_ExecuteQuery_ShouldHandleVariousCypherQueries(string cypherQuery)
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        // Act
+        var result = await _graphStore.ExecuteQueryAsync(cypherQuery);
+
+        // Assert
+        result.IsSuccess.ShouldBeTrue();
+        var results = result.Value.ToList();
+        results.Count.ShouldBeGreaterThanOrEqualTo(0);
+    }
+
+    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async Task Neo4jGraphStore_PerformanceTest_ShouldMeetResponseTimeRequirements()
+    {
+        // Arrange
+        SetupGraphClient();
+        await _graphStore.InitializeAsync();
+
+        var documents = GenerateTestDocuments(200);
+        var concepts = GenerateTestConcepts(50);
+        var relationships = GenerateTestRelationships(documents, concepts, 500);
+
+        // Act & Assert - Batch storage performance
+        var storageStopwatch = System.Diagnostics.Stopwatch.StartNew();
+        var batchResult = await _graphStore.StoreBatchAsync(documents, concepts, relationships);
+        storageStopwatch.Stop();
+
+        batchResult.IsSuccess.ShouldBeTrue();
+        storageStopwatch.ElapsedMilliseconds.ShouldBeLessThan(60000); // < 60 seconds for large batch
+
+        // Act & Assert - Query performance
+        var queryStopwatch = System.Diagnostics.Stopwatch.StartNew();
+        var queryResult = await _graphStore.FindRelatedDocumentsAsync("Technology", maxDepth: 2, limit: 20);
+        queryStopwatch.Stop();
+
+        queryResult.IsSuccess.ShouldBeTrue();
+        queryStopwatch.ElapsedMilliseconds.ShouldBeLessThan(5000); // < 5 seconds for graph traversal
+    }
+
+    private void SetupGraphClient()
+    {
+        _graphClient = new GraphClient(new Uri("bolt://localhost:7687"), "neo4j", "password");
+        _graphStore = new Neo4jGraphKnowledgeStore(_graphClient, _logger);
+    }
+
+    private async Task SetupTestGraphData()
+    {
+        // Create test documents
+        var documents = new[]
+        {
+            CreateTestDocument("ml-doc-001", "Document about machine learning algorithms"),
+            CreateTestDocument("ai-doc-002", "Document about artificial intelligence applications"),
+            CreateTestDocument("tech-doc-003", "General technology document")
+        };
+
+        // Create test concepts
+        var concepts = new[]
+        {
+            CreateTestConcept("concept-ml", "Machine Learning"),
+            CreateTestConcept("concept-ai", "Artificial Intelligence"),
+            CreateTestConcept("concept-tech", "Technology")
+        };
+
+        // Create relationships
+        var relationships = new[]
+        {
+            new GraphRelationship
+            {
+                FromNodeId = "ml-doc-001",
+                ToNodeId = "concept-ml",
+                RelationshipType = "DISCUSSES",
+                Weight = 0.9f
+            },
+            new GraphRelationship
+            {
+                FromNodeId = "ai-doc-002",
+                ToNodeId = "concept-ai",
+                RelationshipType = "DISCUSSES",
+                Weight = 0.8f
+            },
+            new GraphRelationship
+            {
+                FromNodeId = "concept-ml",
+                ToNodeId = "concept-ai",
+                RelationshipType = "RELATED_TO",
+                Weight = 0.7f
+            }
+        };
+
+        await _graphStore.StoreBatchAsync(documents, concepts, relationships);
+    }
+
+    private static GraphDocument CreateTestDocument(string id, string content)
+    {
+        return new GraphDocument
+        {
+            DocumentId = id,
+            Title = $"Test Document {id}",
+            Content = content,
+            DocumentType = "test-document",
+            CreatedAt = DateTime.UtcNow,
+            ModifiedAt = DateTime.UtcNow,
+            Tags = new List<string> { "test", "integration" }
+        };
+    }
+
+    private static GraphConcept CreateTestConcept(string id, string name)
+    {
+        return new GraphConcept
+        {
+            ConceptId = id,
+            Name = name,
+            Type = "test-concept",
+            Description = $"Test concept for {name}",
+            Confidence = 0.85f
+        };
+    }
+
+    private static List<GraphDocument> GenerateTestDocuments(int count)
+    {
+        var documents = new List<GraphDocument>();
+        for (int i = 0; i < count; i++)
+        {
+            documents.Add(CreateTestDocument($"batch-doc-{i:D3}", $"Batch document {i} content"));
+        }
+        return documents;
+    }
+
+    private static List<GraphConcept> GenerateTestConcepts(int count)
+    {
+        var concepts = new List<GraphConcept>();
+        var conceptTypes = new[] { "Technology", "Science", "Business", "Research", "Development" };
+        
+        for (int i = 0; i < count; i++)
+        {
+            concepts.Add(new GraphConcept
+            {
+                ConceptId = $"batch-concept-{i:D3}",
+                Name = $"{conceptTypes[i % conceptTypes.Length]} {i}",
+                Type = conceptTypes[i % conceptTypes.Length].ToLower(),
+                Description = $"Generated concept {i}",
+                Confidence = 0.7f + (i % 3) * 0.1f
+            });
+        }
+        return concepts;
+    }
+
+    private static List<GraphRelationship> GenerateTestRelationships(
+        List<GraphDocument> documents, 
+        List<GraphConcept> concepts, 
+        int count)
+    {
+        var relationships = new List<GraphRelationship>();
+        var relationshipTypes = new[] { "DISCUSSES", "MENTIONS", "RELATES_TO", "REFERENCES" };
+        var random = new Random(42);
+
+        for (int i = 0; i < count; i++)
+        {
+            var doc = documents[random.Next(documents.Count)];
+            var concept = concepts[random.Next(concepts.Count)];
+
+            relationships.Add(new GraphRelationship
+            {
+                FromNodeId = doc.DocumentId,
+                ToNodeId = concept.ConceptId,
+                RelationshipType = relationshipTypes[i % relationshipTypes.Length],
+                Weight = 0.5f + (float)(random.NextDouble() * 0.5),
+                Properties = new Dictionary<string, object>
+                {
+                    ["generated"] = true,
+                    ["batch_id"] = i
+                }
+            });
+        }
+
+        return relationships;
+    }
+}

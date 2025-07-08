@@ -223,7 +223,10 @@ var seq = builder.AddSeq("seq")
 
 //Adding neo 4j container
 
-//var neo4jDb = builder.AddNeo4j("graph-db", neo4jUser, neo4jPass);
+var neo4jUser = builder.AddParameter("neo4jUser", "neo4j");
+var neo4jPass = builder.AddParameter("neo4jPass", "secret");
+
+var neo4jDb = builder.AddNeo4j("graph-db", neo4jUser, neo4jPass);
 
 // Client Side configuration for Neo4j
 /*NorthernNerds.Aspire.Neo4j	NuGet	Downloads
@@ -240,6 +243,15 @@ var seq = builder.AddSeq("seq")
 
    var builder = WebApplication.CreateBuilder(args);
    builder.AddNeo4jClient("graph-db");
+Configure parameters in appsettings.json:
+
+{
+     "Parameters": {
+       "neo4j-pass": "Password",
+       "neo4j-user": "neo4j"
+     }
+   }
+https://github.com/terle/aspire-neo4j?tab=readme-ov-file
  *
  */
 
@@ -263,7 +275,10 @@ builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
     .WithReference(qdrant)
     .WaitFor(qdrant)
     .WithReference(seq)
-    .WaitFor(seq);
+    .WaitFor(seq)
+    .WithReference(neo4jDb)
+    .WaitFor(neo4jDb)
+
 // keep adding references to other services as needed
 ;
 

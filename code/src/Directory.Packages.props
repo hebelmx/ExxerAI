@@ -1,181 +1,180 @@
 <Project>
-	<PropertyGroup>
-		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
-	</PropertyGroup>
-	<!-- Define all reusable version constants -->
-	<!-- net9.0 9.0.6-->
-	<!-- net10.0 10.0.0-preview.5.25277.114 </verNet>-->
-	<!-- Add more as needed -->
-	<ItemGroup>
-		<!-- Remove if .NET 10 Use to mock IAsyncEnumerable Application.Tests -->
-		<!--<PackageVersion Include="System.Linq.Async" Version="6.0.1" />-->
-		<!-- https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable -->
-		<PackageVersion Include="System.Linq.AsyncEnumerable" Version="10.0.0-preview.5.25277.114" />
-		<!-- Add on .NET 10 -->
-		<PackageVersion Include="Aspirant.Hosting.Yarp" Version="0.0.4" />
-		<PackageVersion Include="Aspire.Azure.Npgsql" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.Azure.AppConfiguration" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.Python" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="9.3.1" />
-		<PackageVersion Include="CommunityToolkit.Aspire.EventStore" Version="9.5.0" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Redis.Extensions" Version="9.5.0" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Sqlite" Version="9.5.0" />
-		<PackageVersion Include="CommunityToolkit.Aspire.OllamaSharp" Version="9.5.0" />
-		<PackageVersion Include="Dependify.Aspire.Hosting" Version="1.7.0" />
-		<PackageVersion Include="DiffEngine" Version="16.2.3" />
-		<PackageVersion Include="FluentAssertions" Version="8.4.0" />
-		<PackageVersion Include="Keycloak.AuthServices.Aspire.Hosting" Version="0.1.0" />
-		<!-- ASP.NET Core and Web -->
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.6" />
-		<PackageVersion Include="Nextended.Aspire" Version="9.0.13" />
-		<PackageVersion Include="Raygun.Aspire.Hosting.Ollama" Version="1.1.0" />
-		<PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.1" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.6" />
-		<!-- UI Framework -->
-		<PackageVersion Include="MudBlazor" Version="8.9.0" />
-		<PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="3.2.0" />
-		<!-- AI and Extensions -->
-		<PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
-		<!-- Entity Framework -->
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
-		<PackageVersion Include="EntityFrameworkCore.Testing" Version="2.4.0" />
-		<PackageVersion Include="MockQueryable.EntityFrameworkCore" Version="7.0.4" />
-		<!-- Google APIs -->
-		<PackageVersion Include="Google.Apis.Drive.v3" Version="1.69.0.3783" />
-		<PackageVersion Include="Google.Apis.Auth" Version="1.70.0" />
-		<PackageVersion Include="Google.Apis.Core" Version="1.70.0" />
-		<!-- Document Processing -->
-		<PackageVersion Include="PdfPig" Version="0.1.10" />
-		<PackageVersion Include="SixLabors.ImageSharp" Version="3.1.10" />
-		<!-- Machine Learning -->
-		<PackageVersion Include="Microsoft.ML" Version="4.0.0" />
-		<!-- Serilog Logging -->
-		<PackageVersion Include="Serilog" Version="4.3.0" />
-		<PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.0" />
-		<PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
-		<PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
-		<!-- Microsoft Logging -->
-		<PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
-		<!-- Utilities -->
-		<PackageVersion Include="FluentResults" Version="4.0.0" />
-		<PackageVersion Include="FluentValidation" Version="11.12.0" />
-		<PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.12.0" />
-		<PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.2.25" />
-		<PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-
-		<!-- Testing - Platform -->
-		<!--<PackageVersion Include="Microsoft.Testing.Platform" Version="1.7.3" />-->
-		<!--<PackageReference Include="Microsoft.Testing.Platform" Version="1.7.3" />-->
-		<PackageVersion Include="xunit.v3.runner.console" Version="2.0.3" />
-		<PackageVersion Include="xunit.v3.runner.common" Version="3.0.0-pre.40" />
-		<PackageVersion Include="xunit.v3.runner.inproc.console" Version="3.0.0-pre.40" />
-		<PackageVersion Include="xunit.v3.runner.utility" Version="3.0.0-pre.40" />
-		<!-- Testing - XUnit V3 Latest Stable -->
-		<PackageVersion Include="xunit.v3" Version="3.0.0-pre.40" />
-		<PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
-		<PackageVersion Include="xunit.analyzers" Version="1.23.0-pre.3" />
-		<!--Testin Architecture-->
-		<PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
-		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
-		<!--OpenTelemetry Instrumentation-->
-		<PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
-		<!--Testin Infraestructure-->
-		<PackageVersion Include="coverlet.collector" Version="6.0.4" />
-		<PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
-		<PackageVersion Include="Shouldly" Version="4.3.0" />
-		<PackageVersion Include="NSubstitute" Version="5.3.0" />
-		<PackageVersion Include="Meziantou.Extensions.Logging.Xunit.v3" Version="1.1.6" />
-		<PackageVersion Include="FakeClock" Version="1.1.1" />
-		<!-- System -->
-		<PackageVersion Include="System.Data.DataSetExtensions" Version="4.5.0" />
-		<PackageVersion Include="System.Net.ServerSentEvents" Version="10.0.0-preview.4.25258.110" />
-		<PackageVersion Include="System.IO.Pipelines" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.Bcl.Memory" Version="4.5.5" />
-		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.6" />
-		<PackageVersion Include="System.Text.Json" Version="9.0.6" />
-		<PackageVersion Include="System.Threading.Channels" Version="9.0.6" />
-		<!-- AI Exentsions and abstractions-->
-		<!-- MCP Protocol -->
-		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
-		<PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.2" />
-		<PackageVersion Include="ModelContextProtocol.Core" Version="0.3.0-preview.2" />
-		<!-- LLM Connectors -->
-		<PackageVersion Include="OllamaSharp.ModelContextProtocol" Version="5.2.7" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.5.0" />
-		<!--Microsoft AI Extensions-->
-		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="9.6.0" />
-		<PackageVersion Include="Microsoft.Extensions.AI" Version="9.6.0" />
-		<PackageVersion Include="Microsoft.SemanticKernel" Version="1.59.0" />
-		<!--Aspire Clientes LLM-->
-		<PackageVersion Include="OllamaSharp" Version="5.2.7" />
-		<PackageVersion Include="Aspire.OpenAI" Version="9.3.1-preview.1.25305.6" />
-		<!--Open Telemetry-->
-		<!--LangFuse Jaeger Seq-->
-		<!--OpenTelemetry -->
-		<PackageVersion Include="OpenTelemetry" Version="1.12.0" />
-		<PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
-		<!--OpenTelemetry Exporters-->
-		<PackageVersion Include="Aspire.Hosting.Seq" Version="9.3.1" />
-		<!--Graph and vector Databases-->
-		<PackageVersion Include="Neo4jClient" Version="5.27.15-cskardon" />
-		<PackageVersion Include="Qdrant.Client" Version="1.14.1" />
-		<!--Aspire Cache-->
-		<PackageVersion Include="Aspire.Hosting.Redis" Version="9.3.1" />
-		<!--Aspire Testing-->
-		<PackageVersion Include="Aspire.Hosting.Testing" Version="9.3.1" />
-		<PackageVersion Include="Aspirant.Hosting.Testing" Version="0.0.4" />
-		<!--Aspire Host Orchestration-->
-		<PackageVersion Include="Aspire.Hosting" Version="9.3.2" />
-		<!--<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />-->
-		<PackageVersion Include="Aspire.AppHost.Sdk" Version="9.3.1" />
-		<PackageVersion Include="InfinityFlow.Aspire.Temporal" Version="0.6.2" />
-		<!--Aspire Messaging-->
-		<PackageVersion Include="Aspire.Hosting.Kafka" Version="9.3.1" />
-		<!--Aspire Data Access-->
-		<PackageVersion Include="Aspire.Hosting.Qdrant" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.3.2" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.RavenDB" Version="9.5.0" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" Version="9.5.0" />
-		<PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.3.1" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.PostgreSQL.Extensions" Version="9.5.1-beta.318" />
-		<PackageVersion Include="Aspire.Hosting.MongoDB" Version="9.3.1" />
-		<PackageVersion Include="NorthernNerds.Aspire.Hosting.Neo4j" Version="2.0.0" />
-		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Python.Extensions" Version="9.5.1-beta.318" />
-		<!--Aspire Data Frameworks-->
-		<PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.3.1" />
-		<!--Aspire Data Clients-->
-		<PackageVersion Include="Aspire.Qdrant.Client" Version="9.3.1" />
-		<PackageVersion Include="Graphr.Neo4j" Version="8.0.1" />
-		<PackageVersion Include="N8.NetTools.Common" Version="0.7.2" />
-		<!--Log and Telemetry Clients-->
-		<PackageVersion Include="Aspire.Seq" Version="9.3.1" />
-		<!--Aspire Common Services-->
-		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.6.0" />
-		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
-		<PackageVersion Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
-		<PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />
-		<PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
-		<PackageVersion Include="AspNetCore.HealthChecks.Npgsql" Version="9.0.0" />
-		<PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
-		<PackageVersion Include="Aspire.Hosting.NodeJs" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="9.3.1" />
-	</ItemGroup>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+  <!-- Define all reusable version constants -->
+  <!-- net9.0 9.0.6-->
+  <!-- net10.0 10.0.0-preview.5.25277.114 </verNet>-->
+  <!-- Add more as needed -->
+  <ItemGroup>
+    <!-- Remove if .NET 10 Use to mock IAsyncEnumerable Application.Tests -->
+    <!--<PackageVersion Include="System.Linq.Async" Version="6.0.1" />-->
+    <!-- https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable -->
+    <PackageVersion Include="NorthernNerds.Aspire.Neo4j" Version="2.0.0" />
+    <PackageVersion Include="System.Linq.AsyncEnumerable" Version="10.0.0-preview.5.25277.114" />
+    <!-- Add on .NET 10 -->
+    <PackageVersion Include="Aspirant.Hosting.Yarp" Version="0.0.4" />
+    <PackageVersion Include="Aspire.Azure.Npgsql" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.Azure.AppConfiguration" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.Python" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="9.3.1" />
+    <PackageVersion Include="CommunityToolkit.Aspire.EventStore" Version="9.5.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.Redis.Extensions" Version="9.5.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.Sqlite" Version="9.5.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.OllamaSharp" Version="9.5.0" />
+    <PackageVersion Include="Dependify.Aspire.Hosting" Version="1.7.0" />
+    <PackageVersion Include="DiffEngine" Version="16.2.3" />
+    <PackageVersion Include="FluentAssertions" Version="8.4.0" />
+    <PackageVersion Include="Keycloak.AuthServices.Aspire.Hosting" Version="0.1.0" />
+    <!-- ASP.NET Core and Web -->
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.6" />
+    <PackageVersion Include="Nextended.Aspire" Version="9.0.13" />
+    <PackageVersion Include="Raygun.Aspire.Hosting.Ollama" Version="1.1.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.1" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.6" />
+    <!-- UI Framework -->
+    <PackageVersion Include="MudBlazor" Version="8.9.0" />
+    <PackageVersion Include="Extensions.MudBlazor.StaticInput" Version="3.2.0" />
+    <!-- AI and Extensions -->
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+    <!-- Entity Framework -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
+    <PackageVersion Include="EntityFrameworkCore.Testing" Version="2.4.0" />
+    <PackageVersion Include="MockQueryable.EntityFrameworkCore" Version="7.0.4" />
+    <!-- Google APIs -->
+    <PackageVersion Include="Google.Apis.Drive.v3" Version="1.69.0.3783" />
+    <PackageVersion Include="Google.Apis.Auth" Version="1.70.0" />
+    <PackageVersion Include="Google.Apis.Core" Version="1.70.0" />
+    <!-- Document Processing -->
+    <PackageVersion Include="PdfPig" Version="0.1.10" />
+    <PackageVersion Include="SixLabors.ImageSharp" Version="3.1.10" />
+    <!-- Machine Learning -->
+    <PackageVersion Include="Microsoft.ML" Version="4.0.0" />
+    <!-- Serilog Logging -->
+    <PackageVersion Include="Serilog" Version="4.3.0" />
+    <PackageVersion Include="Serilog.Extensions.Hosting" Version="9.0.0" />
+    <PackageVersion Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+    <!-- Microsoft Logging -->
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
+    <!-- Utilities -->
+    <PackageVersion Include="FluentResults" Version="4.0.0" />
+    <PackageVersion Include="FluentValidation" Version="11.12.0" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.12.0" />
+    <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.2.25" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <!-- Testing - Platform -->
+    <!--<PackageReference Include="Microsoft.Testing.Platform" Version="1.7.3" />-->
+    <PackageVersion Include="xunit.v3.runner.console" Version="2.0.3" />
+    <PackageVersion Include="xunit.v3.runner.common" Version="3.0.0-pre.40" />
+    <PackageVersion Include="xunit.v3.runner.inproc.console" Version="3.0.0-pre.40" />
+    <PackageVersion Include="xunit.v3.runner.utility" Version="3.0.0-pre.40" />
+    <!-- Testing - XUnit V3 Latest Stable -->
+    <PackageVersion Include="xunit.v3" Version="3.0.0-pre.40" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
+    <PackageVersion Include="xunit.analyzers" Version="1.23.0-pre.3" />
+    <!--Testin Architecture-->
+    <PackageVersion Include="NetArchTest.Rules" Version="1.3.2" />
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.12.0" />
+    <!--OpenTelemetry Instrumentation-->
+    <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
+    <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
+    <!--Testin Infraestructure-->
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.2" />
+    <PackageVersion Include="Shouldly" Version="4.3.0" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
+    <PackageVersion Include="Meziantou.Extensions.Logging.Xunit.v3" Version="1.1.6" />
+    <PackageVersion Include="FakeClock" Version="1.1.1" />
+    <!-- System -->
+    <PackageVersion Include="System.Data.DataSetExtensions" Version="4.5.0" />
+    <PackageVersion Include="System.Net.ServerSentEvents" Version="10.0.0-preview.4.25258.110" />
+    <PackageVersion Include="System.IO.Pipelines" Version="9.0.6" />
+    <PackageVersion Include="Microsoft.Bcl.Memory" Version="4.5.5" />
+    <PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.6" />
+    <PackageVersion Include="System.Text.Json" Version="9.0.6" />
+    <PackageVersion Include="System.Threading.Channels" Version="9.0.6" />
+    <!-- AI Exentsions and abstractions-->
+    <!-- MCP Protocol -->
+    <PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
+    <PackageVersion Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.2" />
+    <PackageVersion Include="ModelContextProtocol.Core" Version="0.3.0-preview.2" />
+    <!-- LLM Connectors -->
+    <PackageVersion Include="OllamaSharp.ModelContextProtocol" Version="5.2.7" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.5.0" />
+    <!--Microsoft AI Extensions-->
+    <PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="9.6.0" />
+    <PackageVersion Include="Microsoft.Extensions.AI" Version="9.6.0" />
+    <PackageVersion Include="Microsoft.SemanticKernel" Version="1.59.0" />
+    <!--Aspire Clientes LLM-->
+    <PackageVersion Include="OllamaSharp" Version="5.2.7" />
+    <PackageVersion Include="Aspire.OpenAI" Version="9.3.1-preview.1.25305.6" />
+    <!--Open Telemetry-->
+    <!--LangFuse Jaeger Seq-->
+    <!--OpenTelemetry -->
+    <PackageVersion Include="OpenTelemetry" Version="1.12.0" />
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.12.0" />
+    <!--OpenTelemetry Exporters-->
+    <PackageVersion Include="Aspire.Hosting.Seq" Version="9.3.1" />
+    <!--Graph and vector Databases-->
+    <PackageVersion Include="Neo4jClient" Version="5.27.15-cskardon" />
+    <PackageVersion Include="Qdrant.Client" Version="1.14.1" />
+    <!--Aspire Cache-->
+    <PackageVersion Include="Aspire.Hosting.Redis" Version="9.3.1" />
+    <!--Aspire Testing-->
+    <PackageVersion Include="Aspire.Hosting.Testing" Version="9.3.1" />
+    <PackageVersion Include="Aspirant.Hosting.Testing" Version="0.0.4" />
+    <!--Aspire Host Orchestration-->
+    <PackageVersion Include="Aspire.Hosting" Version="9.3.2" />
+    <!--<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />-->
+    <PackageVersion Include="Aspire.AppHost.Sdk" Version="9.3.1" />
+    <PackageVersion Include="InfinityFlow.Aspire.Temporal" Version="0.6.2" />
+    <!--Aspire Messaging-->
+    <PackageVersion Include="Aspire.Hosting.Kafka" Version="9.3.1" />
+    <!--Aspire Data Access-->
+    <PackageVersion Include="Aspire.Hosting.Qdrant" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.3.2" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.RavenDB" Version="9.5.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" Version="9.5.0" />
+    <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.3.1" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.PostgreSQL.Extensions" Version="9.5.1-beta.318" />
+    <PackageVersion Include="Aspire.Hosting.MongoDB" Version="9.3.1" />
+    <PackageVersion Include="NorthernNerds.Aspire.Hosting.Neo4j" Version="2.0.0" />
+    <PackageVersion Include="CommunityToolkit.Aspire.Hosting.Python.Extensions" Version="9.5.1-beta.318" />
+    <!--Aspire Data Frameworks-->
+    <PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.3.1" />
+    <!--Aspire Data Clients-->
+    <PackageVersion Include="Aspire.Qdrant.Client" Version="9.3.1" />
+    <PackageVersion Include="Graphr.Neo4j" Version="8.0.1" />
+    <PackageVersion Include="N8.NetTools.Common" Version="0.7.2" />
+    <!--Log and Telemetry Clients-->
+    <PackageVersion Include="Aspire.Seq" Version="9.3.1" />
+    <!--Aspire Common Services-->
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.6.0" />
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Npgsql" Version="9.0.0" />
+    <PackageVersion Include="AspNetCore.HealthChecks.Uris" Version="9.0.0" />
+    <PackageVersion Include="Aspire.Hosting.NodeJs" Version="9.3.1" />
+    <PackageVersion Include="Aspire.Hosting.RabbitMQ" Version="9.3.1" />
+  </ItemGroup>
 </Project>

@@ -56,6 +56,7 @@
 	  <PackageReference Include="Microsoft.Extensions.ServiceDiscovery" />
 	  <PackageReference Include="Nextended.Aspire" />
 	  <PackageReference Include="NorthernNerds.Aspire.Hosting.Neo4j" />
+
 	  <PackageReference Include="Raygun.Aspire.Hosting.Ollama" />
   </ItemGroup>
 
