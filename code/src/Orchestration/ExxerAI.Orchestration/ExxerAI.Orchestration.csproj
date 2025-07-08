@@ -5,6 +5,7 @@
   <!-- ============================================================================ -->
   <PropertyGroup>
 	<!-- Target Framework -->
+	<TargetFramework>net9.0</TargetFramework>
 
 	  <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
@@ -59,10 +60,6 @@
   <ItemGroup>
 	<ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
 	<ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-	<Folder Include="NewFolder\" />
   </ItemGroup>
 
   <!-- ============================================================================ -->

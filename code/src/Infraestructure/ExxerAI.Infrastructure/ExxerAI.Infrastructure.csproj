@@ -63,6 +63,23 @@
   </ItemGroup>
 
   <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - VECTOR DATABASE -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Vector Database">
+    <PackageReference Include="Qdrant.Client" />
+    <PackageReference Include="Microsoft.Extensions.AI" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
+  <!-- PACKAGE REFERENCES - GRAPH DATABASE -->
+  <!-- ============================================================================ -->
+  <ItemGroup Label="Graph Database">
+    <PackageReference Include="Neo4jClient" />
+    <PackageReference Include="Graphr.Neo4j" />
+  </ItemGroup>
+
+  <!-- ============================================================================ -->
   <!-- PROJECT REFERENCES -->
   <!-- ============================================================================ -->
 

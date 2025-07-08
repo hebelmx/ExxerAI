@@ -5,6 +5,7 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
+		<TargetFramework>net9.0</TargetFramework>
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>

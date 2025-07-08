@@ -1,5 +1,6 @@
 ﻿using Aspire.Hosting;
 using MongoDB.Driver;
+using NorthernNerds.Aspire.Hosting.Neo4j;
 
 Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
 Console.WriteLine("===============================================");
@@ -84,6 +85,8 @@ e Microsoft.Extensions.Configuration.
        }
      }
    }
+https://learn.microsoft.com/en-us/dotnet/aspire/database/sql-server-integration?tabs=dotnet-cli%2Cssms
+
 builder.AddSqlServerClient(
    "database",
    static settings => settings.DisableHealthChecks = true);
@@ -117,7 +120,6 @@ var sqlServerDb = sqlServer.AddDatabase(databaseName)
     .WithCreationScript(creationScript);
 
 // PostgreSQL for LocalAI
-builder.AddPostgres("localai-postgres");
 
 // AI Inference container
 builder.AddContainer("localai", "localai/localai", "v2.0.0")
@@ -129,8 +131,117 @@ builder.AddContainer("searxng", "searxng/searxng", "latest")
     .WithHttpEndpoint(port: 8080, targetPort: 8080);
 
 // Qdrant vector database
-builder.AddContainer("qdrant", "qdrant/qdrant", "latest")
-    .WithHttpEndpoint(port: 6333, targetPort: 6333);
+
+var apiKey = builder.AddParameter("apiKey", secret: true);
+
+var qdrant = builder.AddQdrant("qdrant", apiKey)
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithDataVolume("ExxerAI_Quadrant"); // Uncomment this line to use a persistent volume for Qdrant data on prod
+//.WithDataBindMount(source: @"C:\Qdrant\Data"); // Uncomment this line to bind mount a local directory for persistent data storage on dev
+
+/*
+ *The preceding code gets a parameter to pass to the AddQdrant API,
+ * and internally assigns the parameter to the QDRANT__SERVICE__API_KEY
+ * environment variable of the Qdrant container.
+ * The apiKey parameter is usually specified as a user secret:
+ *{
+     "Parameters": {
+       "apiKey": "Non-default-P@ssw0rd"
+     }
+   }
+ * If you need to customize it further
+ */
+
+// Qdrant client configuration
+/**
+ *
+ <PackageReference Include="Aspire.Qdrant.Client"
+                  Version="*" />
+builder.AddQdrantClient("qdrant");
+public class ExampleService(QdrantClient client)
+{
+    // Use client...
+}
+builder.AddKeyedQdrantClient(name: "mainQdrant");
+builder.AddKeyedQdrantClient(name: "loggingQdrant");
+
+public class ExampleService(
+    [FromKeyedServices("mainQdrant")] QdrantClient mainQdrantClient,
+    [FromKeyedServices("loggingQdrant")] QdrantClient loggingQdrantClient)
+{
+    // Use clients...
+}
+
+Use a connection string
+When using a connection string from the ConnectionStrings configuration section, you can provide the name of the connection string when calling builder.AddQdrantClient():
+
+C#
+
+Copy
+builder.AddQdrantClient("qdrant");
+Then .NET Aspire retrieves the connection string from the ConnectionStrings configuration section:
+
+JSON
+
+Copy
+{
+  "ConnectionStrings": {
+    "qdrant": "Endpoint=http://localhost:6334;Key=123456!@#$%"
+  }
+}
+
+The .NET Aspire Qdrant client integration supports Microsoft.Extensions.Configuration.
+It loads the QdrantClientSettings from configuration by using the Aspire:Qdrant:Client key.
+The following is an example of an appsettings.json that configures some of the options:
+QdrantClientSettings
+
+{
+     "Aspire": {
+       "Qdrant": {
+         "Client": {
+           "Endpoint": "http://localhost:6334/",
+           "Key": "123456!@#$%"
+         }
+       }
+     }
+   }
+https://learn.microsoft.com/en-us/dotnet/aspire/database/qdrant-integration?tabs=package-reference
+
+ */
+
+var seq = builder.AddSeq("seq")
+    .WithDataVolume("ExerAI_SEQ") // Uncomment this line to use a persistent volume for Seq data on prod
+    .WithDataBindMount(source: @"C:\Data")  // Uncomment this line to bind mount a local directory for persistent data storage on dev
+    .ExcludeFromManifest()
+    .WithLifetime(ContainerLifetime.Persistent);
+
+/*
+ *
+ *
+ * https://learn.microsoft.com/en-us/dotnet/aspire/logging/seq-integration?tabs=dotnet-cli
+ */
+
+//Adding neo 4j container
+
+//var neo4jDb = builder.AddNeo4j("graph-db", neo4jUser, neo4jPass);
+
+// Client Side configuration for Neo4j
+/*NorthernNerds.Aspire.Neo4j	NuGet	Downloads
+   NorthernNerds.Aspire.Hosting.Neo4j
+ *
+ *
+
+   using NorthernNerds.Aspire.Neo4j;
+
+   var builder = WebApplication.CreateBuilder(args);
+   builder.AddNeo4jClient("graph-db");n your service projects:
+
+   using NorthernNerds.Aspire.Neo4j;
+
+   var builder = WebApplication.CreateBuilder(args);
+   builder.AddNeo4jClient("graph-db");
+ *
+ */
 
 // Monitoring - Prometheus
 builder.AddContainer("prometheus", "prom/prometheus", "latest")
@@ -148,7 +259,12 @@ builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
     .WithReference(cache)
     .WaitFor(cache)
     .WithReference(sqlServerDb)
-    .WaitFor(sqlServerDb);
+    .WaitFor(sqlServerDb)
+    .WithReference(qdrant)
+    .WaitFor(qdrant)
+    .WithReference(seq)
+    .WaitFor(seq);
+// keep adding references to other services as needed
 ;
 
 // Build and run the application
