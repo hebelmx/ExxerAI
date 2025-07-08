@@ -4,7 +4,9 @@
 		<CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
 	</PropertyGroup>
 	<!-- Define all reusable version constants -->
-	<!-- net9.0 9.0.6-->
+	<!-- net9.0 9.0.7-->
+	<!-- Updated to  9.0.7 by ABR 8 julio 2025-->
+
 	<!-- net10.0 10.0.0-preview.5.25277.114 </verNet>-->
 	<!-- Add more as needed -->
 	<ItemGroup>
@@ -28,16 +30,16 @@
 		<PackageVersion Include="FluentAssertions" Version="8.4.0" />
 		<PackageVersion Include="Keycloak.AuthServices.Aspire.Hosting" Version="0.1.0" />
 		<!-- ASP.NET Core and Web -->
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="9.0.7" />
+		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.7" />
+		<PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.7" />
+		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Client.Core" Version="9.0.7" />
+		<PackageVersion Include="Microsoft.AspNetCore.SignalR.Common" Version="9.0.7" />
 		<PackageVersion Include="Nextended.Aspire" Version="9.0.13" />
 		<PackageVersion Include="Raygun.Aspire.Hosting.Ollama" Version="1.1.0" />
 		<PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.3" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.6" />
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.7" />
@@ -49,10 +51,10 @@
 		<PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.7" />
 		<!-- Microsoft Logging -->
 		<PackageVersion Include="Microsoft.Extensions.Logging" Version="9.0.7" />
-		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.7" />
 		<!-- Entity Framework -->
-		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.6" />
+		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
 		<PackageVersion Include="EntityFrameworkCore.Testing" Version="2.4.0" />
 		<PackageVersion Include="MockQueryable.EntityFrameworkCore" Version="7.0.4" />
@@ -104,11 +106,11 @@
 		<!-- System -->
 		<PackageVersion Include="System.Data.DataSetExtensions" Version="4.5.0" />
 		<PackageVersion Include="System.Net.ServerSentEvents" Version="10.0.0-preview.4.25258.110" />
-		<PackageVersion Include="System.IO.Pipelines" Version="9.0.6" />
+		<PackageVersion Include="System.IO.Pipelines" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Bcl.Memory" Version="4.5.5" />
-		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.6" />
-		<PackageVersion Include="System.Text.Json" Version="9.0.6" />
-		<PackageVersion Include="System.Threading.Channels" Version="9.0.6" />
+		<PackageVersion Include="System.Diagnostics.DiagnosticSource" Version="9.0.7" />
+		<PackageVersion Include="System.Text.Json" Version="9.0.7" />
+		<PackageVersion Include="System.Threading.Channels" Version="9.0.7" />
 		<!-- AI Exentsions and abstractions-->
 		<!-- MCP Protocol -->
 		<PackageVersion Include="ModelContextProtocol" Version="0.3.0-preview.2" />
@@ -118,8 +120,8 @@
 		<PackageVersion Include="OllamaSharp.ModelContextProtocol" Version="5.2.7" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Ollama" Version="9.5.0" />
 		<!--Microsoft AI Extensions-->
-		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="9.6.0" />
-		<PackageVersion Include="Microsoft.Extensions.AI" Version="9.6.0" />
+		<PackageVersion Include="Microsoft.Extensions.AI.Abstractions" Version="9.7.0" />
+		<PackageVersion Include="Microsoft.Extensions.AI" Version="9.7.0" />
 		<PackageVersion Include="Microsoft.SemanticKernel" Version="1.59.0" />
 		<!--Aspire Clientes LLM-->
 		<PackageVersion Include="OllamaSharp" Version="5.2.7" />
@@ -166,7 +168,7 @@
 		<!--Log and Telemetry Clients-->
 		<PackageVersion Include="Aspire.Seq" Version="9.3.1" />
 		<!--Aspire Common Services-->
-		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.6.0" />
+		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.7.0" />
 		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
 		<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
 		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
