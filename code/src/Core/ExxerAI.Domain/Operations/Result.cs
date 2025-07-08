@@ -17,92 +17,92 @@ namespace ExxerAI.Domain.Operations;
 /// <item><strong>JSON Serializable:</strong> Built-in support for serialization with state validation</item>
 /// <item><strong>Warning Support:</strong> Distinguish between errors and diagnostic warnings</item>
 /// </list>
-/// 
+///
 /// <para><strong>Basic Usage:</strong></para>
 /// <code>
 /// // Success results
 /// var success = Result.Success();
 /// var successWithValue = Result&lt;string&gt;.Success("Hello World");
-/// 
+///
 /// // Failure results
 /// var failure = Result.WithFailure("Operation failed");
 /// var failureWithValue = Result&lt;int&gt;.WithFailure("Parse error", defaultValue: 0);
-/// 
+///
 /// // Multiple errors
 /// var multipleErrors = Result.WithFailure(new[] { "Error 1", "Error 2" });
-/// 
+///
 /// // Warnings (successful with diagnostics)
 /// var withWarnings = Result&lt;string&gt;.WithWarnings(
 ///     new[] { "Performance warning" },
 ///     "Operation completed"
 /// );
 /// </code>
-/// 
+///
 /// <para><strong>Checking Results:</strong></para>
 /// <code>
 /// Result&lt;string&gt; result = GetSomeResult();
-/// 
+///
 /// // Basic checks
 /// if (result.IsSuccess)
 /// {
 ///     Console.WriteLine($"Value: {result.Value}");
 /// }
-/// 
+///
 /// if (result.IsFailure)
 /// {
 ///     Console.WriteLine($"Errors: {string.Join(", ", result.Errors)}");
 /// }
-/// 
+///
 /// // Warning handling
 /// if (result.HasWarnings)
 /// {
 ///     Console.WriteLine("Operation succeeded with warnings");
 /// }
-/// 
+///
 /// // Recoverable operations (success or warnings)
 /// if (result.IsRecoverable)
 /// {
 ///     ProcessValue(result.Value);
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Functional Operations:</strong></para>
 /// <code>
 /// // Map (Transform Success Values)
 /// Result&lt;int&gt; lengthResult = result.Map(input =&gt; input.Length);
-/// 
+///
 /// // Bind (Chain Operations)
 /// Result&lt;User&gt; userResult = GetEmailInput()
 ///     .Bind(ValidateEmail)
 ///     .Bind(CreateUser);
-/// 
+///
 /// // Match (Handle Both Cases)
 /// string message = result.Match(
 ///     onSuccess: value =&gt; $"Success: {value}",
 ///     onFailure: errors =&gt; $"Failed: {string.Join(", ", errors)}"
 /// );
-/// 
+///
 /// // Ensure (Add Validation)
 /// Result&lt;string&gt; validated = result
 ///     .Ensure(value =&gt; !string.IsNullOrEmpty(value), "Value cannot be empty")
 ///     .Ensure(value =&gt; value.Length &gt; 3, "Value too short");
 /// </code>
-/// 
+///
 /// <para><strong>Advanced Patterns:</strong></para>
 /// <code>
 /// // Error Recovery
 /// Result&lt;string&gt; final = primary.Recover(() =&gt; TryBackupSource());
-/// 
+///
 /// // Combining Results
 /// Result combined = result1.Combine(result2.ToResult());
-/// 
+///
 /// // Implicit Conversions
 /// Result&lt;string&gt; result = "Hello World"; // Implicit success
-/// 
+///
 /// // Deconstruction
 /// var (succeeded, data, errors) = GetResult();
 /// </code>
-/// 
+///
 /// <para><strong>Performance Benefits:</strong></para>
 /// <list type="bullet">
 /// <item>70% reduction in LINQ allocations for error combining</item>
@@ -110,10 +110,10 @@ namespace ExxerAI.Domain.Operations;
 /// <item>40% less memory pressure in high-throughput scenarios</item>
 /// <item>Zero allocations for successful operations without errors</item>
 /// </list>
-/// 
+///
 /// <para><strong>Thread Safety:</strong> Both Result and Result&lt;T&gt; classes are thread-safe due to their immutable design.
 /// All fields are readonly, collections are never modified after creation, and operations create new instances rather than modifying existing ones.</para>
-/// 
+///
 /// <para><strong>Best Practices:</strong></para>
 /// <list type="bullet">
 /// <item>Always check IsSuccess before accessing Value</item>
@@ -122,7 +122,7 @@ namespace ExxerAI.Domain.Operations;
 /// <item>Avoid mixing exceptions with Results for consistency</item>
 /// <item>Reuse results instead of calling operations multiple times</item>
 /// </list>
-/// 
+///
 /// <para>Use these classes consistently throughout your application for better error handling and more robust code.</para>
 /// </remarks>
 /// <example>
@@ -139,7 +139,7 @@ namespace ExxerAI.Domain.Operations;
 ///         .Map(u =&gt; new User(u.Email, u.Name, u.Age));
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Service Layer Pattern Example:</strong></para>
 /// <code>
 /// public async Task&lt;Result&lt;Order&gt;&gt; ProcessOrderAsync(OrderRequest request)
@@ -151,7 +151,7 @@ namespace ExxerAI.Domain.Operations;
 ///         .RecoverAsync(async () =&gt; await NotifyFailure(request));
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Migration from Exceptions:</strong></para>
 /// <code>
 /// // ❌ Old exception-based approach
@@ -162,17 +162,17 @@ namespace ExxerAI.Domain.Operations;
 ///     if (user == null) throw new UserNotFoundException($"User {id} not found");
 ///     return user;
 /// }
-/// 
+///
 /// // ✅ New Result-based approach
 /// public Result&lt;User&gt; GetUser(int id)
 /// {
 ///     if (id &lt;= 0)
 ///         return Result&lt;User&gt;.WithFailure("Invalid ID");
-///     
+///
 ///     var user = database.Find(id);
 ///     if (user == null)
 ///         return Result&lt;User&gt;.WithFailure($"User {id} not found");
-///     
+///
 ///     return Result&lt;User&gt;.Success(user);
 /// }
 /// </code>
@@ -698,7 +698,7 @@ public sealed class Result
 /// <item><strong>State Semantics:</strong> Clear distinction between success, warnings, and failures</item>
 /// <item><strong>Implicit Conversions:</strong> Seamless conversion from values to results</item>
 /// </list>
-/// 
+///
 /// <para><strong>Value Semantics:</strong></para>
 /// <list type="bullet">
 /// <item><strong>IsSuccess:</strong> Operation succeeded and value is not null</item>
@@ -707,30 +707,30 @@ public sealed class Result
 /// <item><strong>IsFailure:</strong> Operation failed</item>
 /// <item><strong>IsRecoverable:</strong> Operation can be recovered from (alias for IsSuccess)</item>
 /// </list>
-/// 
+///
 /// <para><strong>Functional Operations:</strong></para>
 /// <code>
 /// // Transform successful values
 /// Result&lt;int&gt; length = stringResult.Map(s =&gt; s.Length);
-/// 
+///
 /// // Chain operations
 /// Result&lt;User&gt; user = emailResult
 ///     .Bind(ValidateEmail)
 ///     .Bind(CreateUser);
-/// 
+///
 /// // Handle both success and failure
 /// string display = result.Match(
 ///     onSuccess: value =&gt; $"Got: {value}",
 ///     onFailure: errors =&gt; $"Failed: {string.Join(", ", errors)}"
 /// );
-/// 
+///
 /// // Add validation
 /// var validated = result.Ensure(
-///     value =&gt; value != null, 
+///     value =&gt; value != null,
 ///     "Value cannot be null"
 /// );
 /// </code>
-/// 
+///
 /// <para><strong>Warning Handling:</strong></para>
 /// <code>
 /// // Create result with warnings
@@ -738,31 +738,31 @@ public sealed class Result
 ///     new[] { "Performance degraded", "Cache miss" },
 ///     "Operation completed"
 /// );
-/// 
+///
 /// // Check for warnings
 /// if (result.HasWarnings)
 /// {
 ///     logger.LogWarning("Warnings: {Warnings}", result.Errors);
 /// }
-/// 
+///
 /// // Still successful despite warnings
 /// if (result.IsSuccess)
 /// {
 ///     ProcessValue(result.Value);
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Error Recovery:</strong></para>
 /// <code>
 /// // Recover from failures
 /// var final = primaryOperation
 ///     .Recover(() =&gt; fallbackOperation)
 ///     .RecoverWith&lt;string&gt;(() =&gt; Result&lt;string&gt;.Success("default"));
-/// 
+///
 /// // Combine multiple operations
 /// var combined = operation1.Combine(operation2.ToResult());
 /// </code>
-/// 
+///
 /// <para><strong>Type Safety Benefits:</strong></para>
 /// <list type="bullet">
 /// <item>Compile-time guarantee of error handling</item>
@@ -779,32 +779,32 @@ public sealed class Result
 /// var success = Result&lt;string&gt;.Success("Hello World");
 /// var failure = Result&lt;string&gt;.WithFailure("Something went wrong");
 /// var withWarnings = Result&lt;string&gt;.WithWarnings(["Warning"], "Data");
-/// 
+///
 /// // Implicit conversion
 /// Result&lt;string&gt; result = "Hello World"; // Automatically wraps as success
-/// 
+///
 /// // Safe access
 /// if (result.IsSuccess)
 /// {
 ///     Console.WriteLine(result.Value); // Type-safe access
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Service Method Pattern:</strong></para>
 /// <code>
 /// public async Task&lt;Result&lt;User&gt;&gt; GetUserAsync(int id)
 /// {
 ///     if (id &lt;= 0)
 ///         return Result&lt;User&gt;.WithFailure("Invalid user ID");
-///     
+///
 ///     var user = await database.FindAsync(id);
 ///     if (user == null)
 ///         return Result&lt;User&gt;.WithFailure($"User {id} not found");
-///     
+///
 ///     return Result&lt;User&gt;.Success(user);
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Functional Pipeline:</strong></para>
 /// <code>
 /// public Result&lt;ProcessedData&gt; ProcessUserData(string input)
@@ -817,19 +817,19 @@ public sealed class Result
 ///         .Tap(data =&gt; logger.LogInformation("Processed: {Data}", data));
 /// }
 /// </code>
-/// 
+///
 /// <para><strong>Error Aggregation:</strong></para>
 /// <code>
 /// public Result&lt;ValidationResult&gt; ValidateModel(Model model)
 /// {
 ///     var errors = new List&lt;string&gt;();
-///     
+///
 ///     if (string.IsNullOrEmpty(model.Name))
 ///         errors.Add("Name is required");
-///     
+///
 ///     if (model.Age &lt; 0)
 ///         errors.Add("Age must be positive");
-///     
+///
 ///     return errors.Any()
 ///         ? Result&lt;ValidationResult&gt;.WithFailure(errors)
 ///         : Result&lt;ValidationResult&gt;.Success(new ValidationResult(model));
