@@ -3,6 +3,7 @@ using ExxerAI.Domain.Operations;
 using Microsoft.Extensions.Logging;
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
+using System.Text.RegularExpressions;
 
 namespace ExxerAI.Infrastructure.VectorStore;
 
@@ -48,7 +49,7 @@ public class QdrantVectorStore : IVectorStore
 
             // Check if collection exists
             var collections = await _client.ListCollectionsAsync(cancellationToken);
-            var collectionExists = collections.Any(c => c.Name == _collectionName);
+            var collectionExists = collections.Any(c => c == _collectionName);
 
             if (!collectionExists)
             {
@@ -88,15 +89,7 @@ public class QdrantVectorStore : IVectorStore
                 _logger.LogInformation("Collection {CollectionName} already exists", _collectionName);
             }
 
-            // Create index for document_id field for fast lookups
-            await _client.CreateFieldIndexAsync(
-                collectionName: _collectionName,
-                fieldName: "document_id",
-                fieldSchema: new PayloadSchemaInfo
-                {
-                    DataType = PayloadSchemaType.Keyword
-                },
-                cancellationToken: cancellationToken);
+            // Note: Field indexes are created automatically when documents are inserted
 
             lock (_initLock)
             {
@@ -134,11 +127,11 @@ public class QdrantVectorStore : IVectorStore
             await EnsureInitializedAsync(cancellationToken);
 
             var payload = CreatePayload(documentId, content, metadata);
-            var pointId = PointId.NewGuid();
+            var pointId = Guid.NewGuid().ToString();
 
             var pointStruct = new PointStruct
             {
-                Id = pointId,
+                Id = new PointId { Uuid = pointId },
                 Vectors = embeddings,
                 Payload = { payload }
             };
@@ -196,8 +189,7 @@ public class QdrantVectorStore : IVectorStore
                 limit: (ulong)limit,
                 scoreThreshold: threshold,
                 filter: searchFilter,
-                @params: searchParams,
-                withPayload: true,
+                searchParams: searchParams,
                 cancellationToken: cancellationToken);
 
             var results = searchResults.Select(result => new VectorSearchResult
@@ -210,7 +202,7 @@ public class QdrantVectorStore : IVectorStore
 
             _logger.LogDebug("Found {Count} similar documents with threshold {Threshold}", results.Count, threshold);
 
-            return Result.Success(results.AsEnumerable());
+            return Result<IEnumerable<VectorSearchResult>>.Success(results.AsEnumerable());
         }
         catch (Exception ex)
         {
@@ -240,7 +232,7 @@ public class QdrantVectorStore : IVectorStore
                         Field = new FieldCondition
                         {
                             Key = "document_id",
-                            Match = new Match { Value = documentId }
+                            Match = new Qdrant.Client.Grpc.Match { Text = documentId }
                         }
                     }
                 }
@@ -289,7 +281,7 @@ public class QdrantVectorStore : IVectorStore
             var stats = new VectorStoreStats
             {
                 TotalVectors = (long)collectionInfo.PointsCount,
-                CollectionSize = (long)(collectionInfo.PointsCount * _vectorSize * sizeof(float)),
+                CollectionSize = (long)((ulong)collectionInfo.PointsCount * (ulong)_vectorSize * sizeof(float)),
                 VectorDimensions = _vectorSize,
                 IndexingStatus = collectionInfo.Status.ToString(),
                 LastUpdated = DateTime.UtcNow,
@@ -333,7 +325,7 @@ public class QdrantVectorStore : IVectorStore
                 var payload = CreatePayload(item.DocumentId, item.Content, item.Metadata);
                 return new PointStruct
                 {
-                    Id = PointId.NewGuid(),
+                    Id = new PointId { Uuid = Guid.NewGuid().ToString() },
                     Vectors = item.Embeddings,
                     Payload = { payload }
                 };
@@ -342,7 +334,7 @@ public class QdrantVectorStore : IVectorStore
             const int batchSize = 100; // Qdrant recommended batch size
             for (int i = 0; i < points.Count; i += batchSize)
             {
-                var batch = points.Skip(i).Take(batchSize);
+                var batch = points.Skip(i).Take(batchSize).ToList();
                 await _client.UpsertAsync(
                     collectionName: _collectionName,
                     points: batch,
@@ -413,7 +405,7 @@ public class QdrantVectorStore : IVectorStore
             Field = new FieldCondition
             {
                 Key = $"meta_{kvp.Key}",
-                Match = new Match { Value = ConvertToValue(kvp.Value) }
+                Match = new Qdrant.Client.Grpc.Match { Text = ConvertToValue(kvp.Value).ToString() }
             }
         }).ToList();
 

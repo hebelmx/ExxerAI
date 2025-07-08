@@ -3,6 +3,7 @@ using ExxerAI.Application.Services;
 using ExxerAI.Infrastructure.Embeddings;
 using ExxerAI.Infrastructure.GraphStore;
 using ExxerAI.Infrastructure.VectorStore;
+using ExxerAI.Domain.Operations;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -22,7 +23,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     private readonly ILogger<QdrantVectorStore> _vectorLogger;
     private readonly ILogger<Neo4jGraphKnowledgeStore> _graphLogger;
     private readonly ILogger<OpenAIEmbeddingGenerator> _embeddingLogger;
-    
+
     private QdrantClient _qdrantClient;
     private IGraphClient _neo4jClient;
     private HybridKnowledgeService _hybridService;
@@ -68,8 +69,8 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         {
             DocumentId = "hybrid-doc-001",
             Title = "Machine Learning in Healthcare",
-            Content = @"Machine learning is revolutionizing healthcare by enabling predictive analytics, 
-                       diagnostic assistance, and personalized treatment plans. AI algorithms can analyze 
+            Content = @"Machine learning is revolutionizing healthcare by enabling predictive analytics,
+                       diagnostic assistance, and personalized treatment plans. AI algorithms can analyze
                        medical images, predict patient outcomes, and optimize treatment protocols.",
             DocumentType = "research-article",
             CreatedAt = DateTime.UtcNow,
@@ -124,7 +125,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         searchResult.IsSuccess.ShouldBeTrue();
         var hybridResults = searchResult.Value;
-        
+
         hybridResults.CombinedResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
         hybridResults.SemanticResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
     }
@@ -152,7 +153,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         // Act
         var result = await _hybridService.SearchHybridAsync(
-            "artificial intelligence applications", 
+            "artificial intelligence applications",
             searchOptions);
 
         // Assert
@@ -196,7 +197,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         relatedDocuments.All(d => !string.IsNullOrEmpty(d.Content)).ShouldBeTrue();
 
         // Should find documents that discuss ML concepts
-        relatedDocuments.Any(d => d.Content.Contains("machine learning") || 
+        relatedDocuments.Any(d => d.Content.Contains("machine learning") ||
                                  d.Content.Contains("artificial intelligence")).ShouldBeTrue();
     }
 
@@ -231,7 +232,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         var documentId = "removable-doc-001";
         var knowledgeDocument = CreateTestKnowledgeDocument(documentId, "Document to be removed");
-        
+
         await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
 
         // Act
@@ -242,7 +243,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         // Verify removal by searching
         var searchResult = await _hybridService.SearchHybridAsync(
-            knowledgeDocument.Content, 
+            knowledgeDocument.Content,
             new HybridSearchOptions { SemanticThreshold = 0.5f });
 
         searchResult.IsSuccess.ShouldBeTrue();
@@ -302,11 +303,11 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var results = result.Value.CombinedResults;
 
         results.Count.ShouldBeGreaterThan(0);
-        
+
         // Verify that combined scores reflect the weighting
         foreach (var hybridResult in results)
         {
-            var expectedScore = (hybridResult.SemanticScore * semanticWeight) + 
+            var expectedScore = (hybridResult.SemanticScore * semanticWeight) +
                                (hybridResult.GraphScore * graphWeight);
             hybridResult.CombinedScore.ShouldBe(expectedScore, tolerance: 0.01f);
         }
@@ -334,7 +335,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Act & Assert - Hybrid search performance
         var searchStopwatch = System.Diagnostics.Stopwatch.StartNew();
         var searchResult = await _hybridService.SearchHybridAsync(
-            "artificial intelligence machine learning", 
+            "artificial intelligence machine learning",
             new HybridSearchOptions { MaxCombinedResults = 20 });
         searchStopwatch.Stop();
 
@@ -371,7 +372,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             vectorSearch.IsSuccess.ShouldBeTrue();
             vectorSearch.Value.SemanticResults.Any(r => r.DocumentId == doc.DocumentId).ShouldBeTrue();
 
-            // Explore concepts should find the document in graph store  
+            // Explore concepts should find the document in graph store
             if (doc.ExtractedConcepts.Any())
             {
                 var conceptExploration = await _hybridService.ExploreConceptRelationshipsAsync(
@@ -387,7 +388,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         _qdrantClient = new QdrantClient("localhost", 6333, https: false);
         var vectorStore = new QdrantVectorStore(_qdrantClient, _vectorLogger, _testCollectionName, 1536);
 
-        // Setup Neo4j client  
+        // Setup Neo4j client
         _neo4jClient = new GraphClient(new Uri("bolt://localhost:7687"), "neo4j", "password");
         var graphStore = new Neo4jGraphKnowledgeStore(_neo4jClient, _graphLogger);
 
@@ -396,11 +397,11 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         mockEmbeddingGenerator.EmbeddingDimensions.Returns(1536);
         mockEmbeddingGenerator.ModelName.Returns("text-embedding-3-small");
         mockEmbeddingGenerator.GenerateEmbeddingAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(callInfo => 
+            .Returns(callInfo =>
             {
                 var text = callInfo.Arg<string>();
                 var embedding = GenerateTestEmbedding(text, 1536);
-                return Task.FromResult(Result.Success(embedding));
+                return Task.FromResult(Result<float[]>.Success(embedding));
             });
 
         // Create hybrid service
@@ -503,12 +504,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var hash = text.GetHashCode();
         var random = new Random(hash);
         var embedding = new float[dimensions];
-        
+
         for (int i = 0; i < dimensions; i++)
         {
             embedding[i] = (float)(random.NextDouble() * 2.0 - 1.0);
         }
-        
+
         return embedding;
     }
 }

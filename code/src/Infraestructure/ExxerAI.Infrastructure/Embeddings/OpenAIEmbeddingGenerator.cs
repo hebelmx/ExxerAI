@@ -11,12 +11,12 @@ namespace ExxerAI.Infrastructure.Embeddings;
 /// </summary>
 public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddingGenerator
 {
-    private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
+    private readonly Microsoft.Extensions.AI.IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
     private readonly ILogger<OpenAIEmbeddingGenerator> _logger;
     private readonly string _modelName;
 
     public OpenAIEmbeddingGenerator(
-        IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
+        Microsoft.Extensions.AI.IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
         ILogger<OpenAIEmbeddingGenerator> logger,
         string modelName = "text-embedding-3-small")
     {
