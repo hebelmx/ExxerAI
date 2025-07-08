@@ -83,9 +83,10 @@ public class OCRRegionPattern : ExtractionPattern
 
     /// <summary>
     /// Extracts the next token immediately following the reference text on the same line
+    /// Strips currency symbols, negative signs, and percentage signs
     /// </summary>
     /// <param name="line">The line containing the reference text</param>
-    /// <returns>The first token after the reference text, or null if not found</returns>
+    /// <returns>The first numeric token after the reference text, cleaned of symbols, or null if not found</returns>
     private string? ExtractNextToken(string line)
     {
         // Find the reference text position
@@ -98,7 +99,38 @@ public class OCRRegionPattern : ExtractionPattern
         
         // Extract the first token after the reference text
         var tokens = afterRef.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return tokens.Length > 0 ? tokens[0] : null;
+        if (tokens.Length == 0) return null;
+        
+        var firstToken = tokens[0];
+        
+        // Apply regex patterns to extract clean numeric value from the token
+        // This handles currency symbols, negative signs, and percentage signs
+        var patterns = new[]
+        {
+            // Pattern 1: Currency amounts with commas - extract numeric part only
+            @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)[^\d]*",
+            
+            // Pattern 2: Simple decimal numbers - extract numeric part only
+            @"[^\d]*(\d+\.\d+)[^\d]*",
+            
+            // Pattern 3: Integer numbers - extract numeric part only
+            @"[^\d]*(\d+)[^\d]*"
+        };
+        
+        foreach (var pattern in patterns)
+        {
+            var match = Regex.Match(firstToken, pattern);
+            if (match.Success && match.Groups.Count > 1)
+            {
+                var value = match.Groups[1].Value;
+                if (!string.IsNullOrEmpty(value) && value.Any(char.IsDigit))
+                {
+                    return value;
+                }
+            }
+        }
+        
+        return null;
     }
 
     /// <summary>
