@@ -97,14 +97,6 @@
 	<!-- ALWAYS INCLUDE xunit.runner.json-->
 	<!-- ============================================================================ -->
 
-
-	<ItemGroup>
-		<Content Include="testconfig.json">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
-	</ItemGroup>
-
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
 	<!-- ============================================================================ -->
