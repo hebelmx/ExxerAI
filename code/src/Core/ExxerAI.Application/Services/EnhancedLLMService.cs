@@ -99,6 +99,9 @@ public class EnhancedLLMService : ILLMService
             if (!response.IsSuccess)
                 return response;
 
+            if (response.Value is null)
+                return Result<LLMResponse>.WithFailure("Generated response is null");
+
             // Track costs
             await TrackCostAsync(model.Name, response.Value.EstimatedCost).ConfigureAwait(false);
 
@@ -141,6 +144,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<ConversationMessage>.WithFailure($"Conversation not found: {conversationResult.Error}");
 
             var conversation = conversationResult.Value;
+            if (conversation is null)
+                return Result<ConversationMessage>.WithFailure("Conversation not found: Retrieved conversation is null");
 
             // Get model information
             var modelResult = await _modelRepository.GetByIdAsync(conversation.LanguageModelId, cancellationToken).ConfigureAwait(false);
@@ -148,6 +153,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<ConversationMessage>.WithFailure($"Model not found: {modelResult.Error}");
 
             var model = modelResult.Value;
+            if (model is null)
+                return Result<ConversationMessage>.WithFailure("Model not found: Retrieved model is null");
 
             // Get provider
             var providerResult = await GetProviderForModelAsync(model, cancellationToken).ConfigureAwait(false);
@@ -155,6 +162,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<ConversationMessage>.WithFailure($"Provider not available: {providerResult.Error}");
 
             var provider = providerResult.Value;
+            if (provider is null)
+                return Result<ConversationMessage>.WithFailure("Provider not found: Retrieved provider is null");
 
             // Build conversation history
             var messages = new List<ChatMessage>();
