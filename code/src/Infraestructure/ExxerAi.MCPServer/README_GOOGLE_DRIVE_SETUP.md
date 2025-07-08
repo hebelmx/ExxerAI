@@ -106,7 +106,22 @@ The server runs on `http://localhost:8000` by default and exposes MCP endpoints 
 - **Real-time Processing**: Auto-process documents detected in watched folders
 - **KpiExxerpro Pipeline**: Advanced document intelligence with 95% accuracy
 - **Hybrid Storage**: Store results in SQL Server 2025 with vector search
+- **Three knowledge graph for document processing**:
+- - **Document Classification**: Categorization based on content   
+  - **Document Provenance**: Source and history tracking
+  - **Entity Recognition**: Extract key entities and relationships
+  - **Document Validation**: Ensure data integrity and compliance
+  - **Document Enrichment**: Add context and metadata to documents
+  - **Document Summarization**: Generate concise summaries of content
+  - **Document Comparison**: Identify differences between document versions
+  - **Data Extraction**: Extract structured data from unstructured content
+  - **Document Linking**: Connect related documents and information
+  - **Modeling uncertainty**: Handle ambiguous or incomplete data
+  
 - **Audit Trail**: Complete processing lineage and validation history
+- - **Document Metadata**: File properties and attributes
+  - **Content Analysis**: Text extraction and semantic understanding
+  - **Validation Patterns**: Learning from document processing history
 
 ## 🔄 Usage Examples
 

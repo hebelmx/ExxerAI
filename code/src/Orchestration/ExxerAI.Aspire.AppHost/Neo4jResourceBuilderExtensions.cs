@@ -29,27 +29,27 @@ public static class Neo4jResourceBuilderExtensions
     {
         // Create or retrieve the password parameter.
         // Create or retrieve the password parameter.
-        var passwordParameter = neo4jPassword?.Resource ??
-                                ParameterResourceBuilderExtensions.CreateDefaultPasswordParameter(
-                                    builder, $"{name}-password");
+        //var passwordParameter = neo4jPassword?.Resource ??
+        //                        ParameterResourceBuilderExtensions.CreateDefaultPasswordParameter(
+        //                            builder, $"{name}-password");
 
-        // Create a new Neo4j resource with the provided parameters.
-        var graphDb = new Neo4jResource(name, neo4jUser?.Resource, passwordParameter);
+        //// Create a new Neo4j resource with the provided parameters.
+        //var graphDb = new Neo4jResource(name, neo4jUser?.Resource, passwordParameter);
 
-        // Add the Neo4j resource to the builder and configure it.
-        return builder.AddResource(graphDb)
-            .WithImage(Neo4jContainerImageTags.Image)
-            .WithImageRegistry(Neo4jContainerImageTags.Registry)
-            .WithImageTag(Neo4jContainerImageTags.Tag)
-            .WithEnvironment(AuthEnvVarName, $"{graphDb.UsernameParameter.Value}/{graphDb.PasswordParameter.Value}")
-            .WithEndpoint(
-                targetPort: boltPort,
-                port: 7687,
-                name: Neo4jResource.BoltEndpointName)
-            .WithHttpEndpoint(
-                targetPort: httpPort,
-                port: 7474,
-                name: Neo4jResource.HttpEndpointName);
+        //// Add the Neo4j resource to the builder and configure it.
+        //return builder.AddResource(graphDb)
+        //    .WithImage(Neo4jContainerImageTags.Image)
+        //    .WithImageRegistry(Neo4jContainerImageTags.Registry)
+        //    .WithImageTag(Neo4jContainerImageTags.Tag)
+        //    .WithEnvironment(AuthEnvVarName, $"{graphDb.UsernameParameter.Value}/{graphDb.PasswordParameter.Value}")
+        //    .WithEndpoint(
+        //        targetPort: boltPort,
+        //        port: 7687,
+        //        name: Neo4jResource.BoltEndpointName)
+        //    .WithHttpEndpoint(
+        //        targetPort: httpPort,
+        //        port: 7474,
+        //        name: Neo4jResource.HttpEndpointName);
         return builder;
     }
 }
