@@ -84,7 +84,7 @@ public class OCRRegionPattern : ExtractionPattern
     /// <summary>
     /// Determines whether numeric extraction should be applied to a token
     /// Only pure numeric values or values with currency/percentage symbols should use numeric extraction
-    /// Alphanumeric values like "INV-2024-001" should be returned as-is
+    /// Alphanumeric values like "INV-2024-001" or date formats like "12-2023" should be returned as-is
     /// </summary>
     /// <param name="token">The token to evaluate</param>
     /// <returns>True if numeric extraction should be applied, false otherwise</returns>
@@ -95,15 +95,19 @@ public class OCRRegionPattern : ExtractionPattern
 
         // Common currency symbols and formatting characters
         var currencyChars = new[] { '$', '€', '£', '¥', '₹', '₽', '₩', '฿', '₴', '₫' };
-        var formatChars = new[] { '%', '-', '+' };
-            
-        // Check if token is purely numeric with optional decimal point and commas
-        // Or if it's a currency amount with symbols
         
+        // Check if the token matches common date/identifier formats like "12-2023" or "INV-2024-001"
+        bool isDateOrIdentifierFormat = Regex.IsMatch(token, @"^\d{1,4}-\d{1,4}(-\d{1,4})*$") ||  // date formats like MM-YYYY or DD-MM-YYYY
+                                       Regex.IsMatch(token, @"^[A-Za-z0-9]+-\d{1,4}(-\d{1,4})*$"); // identifier formats like INV-2024-001
+        
+        // If it's a date or identifier format, don't apply numeric extraction
+        if (isDateOrIdentifierFormat)
+            return false;
+            
         // First, check if it has any alphabetic characters (excluding currency symbols)
         bool hasAlphabeticChars = token.Any(c => char.IsLetter(c));
         
-        // If it has alphabetic chars like "INV-2024-001", don't apply numeric extraction
+        // If it has alphabetic chars, don't apply numeric extraction
         if (hasAlphabeticChars)
             return false;
             

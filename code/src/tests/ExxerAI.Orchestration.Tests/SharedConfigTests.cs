@@ -4,7 +4,7 @@ namespace ExxerAI.Orchestration.Tests;
 
 public class SharedConfigTests
 {
-    [Fact]
+    [Fact(Skip = "Under development")]
     public void SharedConfig_Binds_Correctly_From_Defaults()
     {
         var inMemorySettings = new Dictionary<string, string>

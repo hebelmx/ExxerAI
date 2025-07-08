@@ -7,6 +7,7 @@
 		<!-- Target Framework -->
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+		<DisableTestingPlatformServerCapability>true</DisableTestingPlatformServerCapability>
 
 		<!-- Avoid generate duplicated asemblies -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -46,7 +47,6 @@
 	<PropertyGroup>
 		<!-- Ensures all assemblies from NuGet are copied to output -->
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-		<RunSettingsFilePath>F:\Dynamic\ExxerAi\ExxerAI\code\src\artifacts\bin\ExxerAI.Domain.Tests\Debug\net9.0\fine-code-coverage\coverage-tool-output\ExxerAI.Domain.Tests-fcc-mscodecoverage-generated.runsettings</RunSettingsFilePath>
 	</PropertyGroup>
 	<!-- HACK_WARNING_DO_NOT_AUTOMATE_THIS -->
 

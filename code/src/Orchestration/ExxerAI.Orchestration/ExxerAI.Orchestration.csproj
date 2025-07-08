@@ -25,11 +25,11 @@
 	<TieredCompilation>true</TieredCompilation>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
+	<Content Include="appsettings.json">
+	  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	</Content>
   </ItemGroup>
 
 
@@ -57,12 +57,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
-    <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+	<ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
+	<ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="NewFolder\" />
+	<Folder Include="NewFolder\" />
   </ItemGroup>
 
   <!-- ============================================================================ -->
