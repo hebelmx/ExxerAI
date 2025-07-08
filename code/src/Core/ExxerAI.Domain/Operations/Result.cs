@@ -1152,7 +1152,7 @@ public sealed class Result<T>
     /// <returns>A <see cref="Result{TOut}"/> representing the outcome.</returns>
     public Result<TOut> Map<TOut>(Func<T, TOut> func)
     {
-        return _isSuccess ? Result<TOut>.Success(func(Value)) : Result<TOut>.WithFailure(Errors);
+        return _isSuccess && Value is not null ? Result<TOut>.Success(func(Value)) : Result<TOut>.WithFailure(Errors);
     }
 
     /// <summary>
@@ -1164,7 +1164,7 @@ public sealed class Result<T>
     /// <returns>A <see cref="Result{TOut}"/> representing the outcome.</returns>
     public Result<TOut> Bind<TOut>(Func<T, Result<TOut>> func)
     {
-        return _isSuccess ? func(Value) : Result<TOut>.WithFailure(Errors);
+        return _isSuccess && Value is not null ? func(Value) : Result<TOut>.WithFailure(Errors);
     }
 
     /// <summary>
@@ -1199,7 +1199,7 @@ public sealed class Result<T>
     /// <returns>The current <see cref="Result{T}"/> instance.</returns>
     public Result<T> Tap(Action<T> action)
     {
-        if (_isSuccess)
+        if (_isSuccess && Value is not null)
         {
             action(Value);
         }
@@ -1239,7 +1239,7 @@ public sealed class Result<T>
         }
 
         // All operations succeeded - return the current successful result (null values are valid)
-        return _isSuccess
+        return _isSuccess && Value is not null
             ? Result<T>.Success(Value)
             : this;
     }
@@ -1260,7 +1260,7 @@ public sealed class Result<T>
         }
 
         // Industry standard: null values are valid success values when T is nullable
-        return onSuccess(Value);
+        return Value is not null ? onSuccess(Value) : onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
     }
 
     /// <summary>

@@ -71,6 +71,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<LLMResponse>.WithFailure($"Model not found: {modelResult.Error}");
 
             var model = modelResult.Value;
+            if (model is null)
+                return Result<LLMResponse>.WithFailure("Model not found: Retrieved model is null");
 
             // Get provider for the model
             var providerResult = await GetProviderForModelAsync(model, cancellationToken).ConfigureAwait(false);
@@ -78,6 +80,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<LLMResponse>.WithFailure($"Provider not available: {providerResult.Error}");
 
             var provider = providerResult.Value;
+            if (provider is null)
+                return Result<LLMResponse>.WithFailure("Provider not found: Retrieved provider is null");
 
             // Check rate limits
             var rateLimitResult = await CheckRateLimitsAsync(provider, model.Name, cancellationToken).ConfigureAwait(false);
