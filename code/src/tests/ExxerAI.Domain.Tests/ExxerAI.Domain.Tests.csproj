@@ -6,7 +6,7 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-
+		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
 
 		<!-- Avoid generate duplicated asemblies -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
