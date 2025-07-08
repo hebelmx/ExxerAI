@@ -1,18 +1,15 @@
 ﻿using Aspire.Hosting;
 using Grpc.Core;
 using MongoDB.Driver;
+using Nextended.Aspire;
 using NorthernNerds.Aspire.Hosting.Neo4j;
 
 Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
 Console.WriteLine("===============================================");
-
-var builder = DistributedApplication.CreateBuilder(args);
-
-builder.AddProject<Projects.ExxerAI_UI>("exxerai-ui");
-
 Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator");
 Console.WriteLine("===============================================");
 
+var builder = DistributedApplication.CreateBuilder(args);
 // Web frontend project
 builder.AddProject<Projects.ExxerAI_UI>("exxerai-ui");
 
@@ -25,6 +22,12 @@ var cache = builder.AddRedis("cache")
 builder.AddContainer("redis", "redis:latest")
     .WithVolume("redis_data", "/data", isReadOnly: false);
 
+var postgresServer = builder.AddPostgres("postgresserver")
+    .WithDataVolume()
+    .WithLifetime(ContainerLifetime.Persistent);
+
+var postgresDatabase = postgresServer.AddDatabase("postgres");
+
 //Adding the passwor paramter for SQLServer
 var password = builder.AddParameter("password", secret: true);
 // SQL Server database (in progress)
@@ -32,8 +35,8 @@ var sqlServer = builder.AddSqlServer("sql-server", password)
     .WithHttpEndpoint(port: 1433, targetPort: 1433)
     .WithContainerName("ExxerAI__SqlServer")
     .WithLifetime(ContainerLifetime.Persistent)
-    .WithVolume("sqlserver_data", "/var/opt/mssql", isReadOnly: false) // Uncomment this line to use a persistent volume for SQL Server data on prod
-                                                                       //.WithDataBindMount(source: @"C:\SqlServer\Data"); //Enable this line to bind mount a local directory for persistent data storage on dev
+//    .WithVolume("sqlserver_data", "/var/opt/mssql", isReadOnly: false) // Uncomment this line to use a persistent volume for SQL Server data on prod
+       .WithDataBindMount(source: @"C:\SqlServer\Data") //Enable this line to bind mount a local directory for persistent data storage on dev
     .WithImage("mcr.microsoft.com/mssql/server:2025-latest")
     .WithEnvironment("ACCEPT_EULA", "Y")
     .WithEnvironment("MSSQL_PID", "Developer")
@@ -211,10 +214,16 @@ https://learn.microsoft.com/en-us/dotnet/aspire/database/qdrant-integration?tabs
  */
 
 var seq = builder.AddSeq("seq")
-    .WithDataVolume("ExerAI_SEQ") // Uncomment this line to use a persistent volume for Seq data on prod
-    .WithDataBindMount(source: @"C:\Data")  // Uncomment this line to bind mount a local directory for persistent data storage on dev
     .ExcludeFromManifest()
-    .WithLifetime(ContainerLifetime.Persistent);
+    .WithDataVolume("ExerAI_SEQ") // Uncomment this line to use a persistent volume for Seq data on prod
+                                  //.WithDataBindMount(source: @"C:\Data")  // Uncomment this line to bind mount a local directory for persistent data storage on dev
+
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithEnvironment("ACCEPT_EULA", "Y");
+;
+
+//Configration details of SEQ
+//https://github.com/dotnet/docs-aspire/blob/main/docs/logging/seq-integration.md
 
 /*
  *
@@ -267,13 +276,13 @@ https://github.com/terle/aspire-neo4j/blob/main/example/README.md
 
 var ollama = builder.AddOllama("Ollama", 1342, "llama3:latest");
 
-// Monitoring - Prometheus
-builder.AddContainer("prometheus", "prom/prometheus", "latest")
+// Monitoring - PrometheusVAR
+var prometheus = builder.AddContainer("prometheus", "prom/prometheus", "latest")
     .WithHttpEndpoint(port: 9090, targetPort: 9090)
     .WithBindMount("./monitoring/prometheus.yml", "/etc/prometheus/prometheus.yml", isReadOnly: true);
 
 // Monitoring - Grafana
-builder.AddContainer("grafana", "grafana/grafana", "latest")
+var grafana = builder.AddContainer("grafana", "grafana/grafana", "latest")
     .WithHttpEndpoint(port: 3002, targetPort: 3000)
     .WithEnvironment("GF_SECURITY_ADMIN_USER", "admin")
     .WithEnvironment("GF_SECURITY_ADMIN_PASSWORD", "admin");
@@ -290,6 +299,16 @@ builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")
     .WaitFor(seq)
     .WithReference(neo4jDb)
     .WaitFor(neo4jDb)
+    .WithReference(ollama)
+    .WaitFor(ollama)
+    .WithReference(postgresServer)
+    .WaitFor(postgresServer)
+    //.WithReference(prometheus)
+    //.WaitFor(prometheus)
+    //.WithReference(grafana)
+    //.WaitFor(grafana)
+    .WithReference(seq)
+    .WaitFor(seq)
 
 // keep adding references to other services as needed
 ;
