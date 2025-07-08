@@ -82,11 +82,46 @@ public class OCRRegionPattern : ExtractionPattern
     }
 
     /// <summary>
+    /// Determines whether numeric extraction should be applied to a token
+    /// Only pure numeric values or values with currency/percentage symbols should use numeric extraction
+    /// Alphanumeric values like "INV-2024-001" should be returned as-is
+    /// </summary>
+    /// <param name="token">The token to evaluate</param>
+    /// <returns>True if numeric extraction should be applied, false otherwise</returns>
+    private bool ShouldApplyNumericExtraction(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+            return false;
+
+        // Common currency symbols and formatting characters
+        var currencyChars = new[] { '$', '€', '£', '¥', '₹', '₽', '₩', '฿', '₴', '₫' };
+        var formatChars = new[] { '%', '-', '+' };
+            
+        // Check if token is purely numeric with optional decimal point and commas
+        // Or if it's a currency amount with symbols
+        
+        // First, check if it has any alphabetic characters (excluding currency symbols)
+        bool hasAlphabeticChars = token.Any(c => char.IsLetter(c));
+        
+        // If it has alphabetic chars like "INV-2024-001", don't apply numeric extraction
+        if (hasAlphabeticChars)
+            return false;
+            
+        // Check if it starts with a currency symbol or has a currency/percentage format
+        bool hasCurrencyPrefix = token.Length > 0 && currencyChars.Contains(token[0]);
+        bool hasFormatSuffix = token.Length > 0 && (token.EndsWith("%") || currencyChars.Any(c => token.EndsWith(c.ToString())));
+        bool hasNumberWithFormatting = Regex.IsMatch(token, @"[-+]?\d+([.,]\d+)?%?");
+            
+        // Apply numeric extraction for pure numbers or currency/percentage values
+        return hasCurrencyPrefix || hasFormatSuffix || hasNumberWithFormatting;
+    }
+
+    /// <summary>
     /// Extracts the next token immediately following the reference text on the same line
-    /// Strips currency symbols, negative signs, and percentage signs
+    /// For NextToken strategy, extracts complete alphanumeric tokens or cleaned numeric values
     /// </summary>
     /// <param name="line">The line containing the reference text</param>
-    /// <returns>The first numeric token after the reference text, cleaned of symbols, or null if not found</returns>
+    /// <returns>The first token after the reference text (complete or cleaned), or null if not found</returns>
     private string? ExtractNextToken(string line)
     {
         // Find the reference text position
@@ -103,34 +138,39 @@ public class OCRRegionPattern : ExtractionPattern
         
         var firstToken = tokens[0];
         
-        // Apply regex patterns to extract clean numeric value from the token
-        // This handles currency symbols, negative signs, and percentage signs
-        var patterns = new[]
+        // Check if token looks like a numeric value with currency/percentage/negative symbols
+        // Apply regex filtering only for purely numeric values with these symbols
+        if (ShouldApplyNumericExtraction(firstToken))
         {
-            // Pattern 1: Currency amounts with commas - extract numeric part only
-            @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)[^\d]*",
-            
-            // Pattern 2: Simple decimal numbers - extract numeric part only
-            @"[^\d]*(\d+\.\d+)[^\d]*",
-            
-            // Pattern 3: Integer numbers - extract numeric part only
-            @"[^\d]*(\d+)[^\d]*"
-        };
-        
-        foreach (var pattern in patterns)
-        {
-            var match = Regex.Match(firstToken, pattern);
-            if (match.Success && match.Groups.Count > 1)
+            // Apply regex patterns to extract clean numeric value from the token
+            var patterns = new[]
             {
-                var value = match.Groups[1].Value;
-                if (!string.IsNullOrEmpty(value) && value.Any(char.IsDigit))
+                // Pattern 1: Currency amounts with commas - extract numeric part only
+                @"[^\d]*(\d{1,3}(?:,\d{3})+(?:\.\d{2})?)[^\d]*",
+                
+                // Pattern 2: Simple decimal numbers - extract numeric part only
+                @"[^\d]*(\d+\.\d+)[^\d]*",
+                
+                // Pattern 3: Integer numbers - extract numeric part only
+                @"[^\d]*(\d+)[^\d]*"
+            };
+            
+            foreach (var pattern in patterns)
+            {
+                var match = Regex.Match(firstToken, pattern);
+                if (match.Success && match.Groups.Count > 1)
                 {
-                    return value;
+                    var value = match.Groups[1].Value;
+                    if (!string.IsNullOrEmpty(value) && value.Any(char.IsDigit))
+                    {
+                        return value;
+                    }
                 }
             }
         }
         
-        return null;
+        // For alphanumeric tokens (like "INV-2024-001"), return complete token
+        return firstToken;
     }
 
     /// <summary>

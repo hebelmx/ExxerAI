@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<!-- ============================================================================ -->
 	<!-- CORE PROPERTIES -->
@@ -63,11 +63,17 @@
 	<ItemGroup Label="Testing Utilities">
 		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
+
+		<PackageReference Include="Microsoft.Extensions.Hosting"  />
+		<PackageReference Include="Microsoft.Extensions.Options"  />
+
 	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
 	  <ProjectReference Include="..\..\Orchestration\ExxerAI.Orchestration\ExxerAI.Orchestration.csproj" />
 	</ItemGroup>
+
+
 
 	<!-- ============================================================================ -->
 	<!-- GLOBAL USINGS -->
