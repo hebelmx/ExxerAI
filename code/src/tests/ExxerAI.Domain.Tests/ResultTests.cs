@@ -113,7 +113,8 @@ public class ResultTests
     {
         // Arrange & Act & Assert - Test generic Result<T> constructor with null checks  
         var resultWithNullValue = new Result<string>(true, null, null);
-        resultWithNullValue.IsSuccess.ShouldBeTrue(); // No errors and explicitly marked successful = success
+        resultWithNullValue.IsSuccessMayBeNull.ShouldBeTrue(); // No errors and explicitly marked successful
+        resultWithNullValue.IsSuccess.ShouldBeFalse(); // Kotlin-style: IsSuccess requires non-null value
         resultWithNullValue.Value.ShouldBeNull();
 
         // Arrange & Act & Assert - Test generic Result<T> with empty enumerable
@@ -1332,8 +1333,9 @@ public class ResultTests
         // Arrange & Act - Create successful result with null (industry standard allows this)
         var result = Result<string?>.Success(null);
 
-        // Assert - Should be successful because null is valid for nullable types
-        result.IsSuccess.ShouldBeTrue();
+        // Assert - With new Kotlin-style null safety: IsSuccess requires non-null, but IsSuccessMayBeNull is true
+        result.IsSuccess.ShouldBeFalse("New Kotlin-style: IsSuccess guarantees non-null value");
+        result.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful, just with null value");
         result.IsFailure.ShouldBeFalse();
         result.Value.ShouldBeNull();
         result.HasErrors.ShouldBeFalse();
@@ -1345,8 +1347,9 @@ public class ResultTests
         // Arrange & Act - Create successful result with null (alias method)
         var result = Result<object?>.WithSuccess(null);
 
-        // Assert - Should be successful (consistent with Success method)
-        result.IsSuccess.ShouldBeTrue();
+        // Assert - Kotlin-style null safety (consistent with Success method)
+        result.IsSuccess.ShouldBeFalse("Kotlin-style: IsSuccess guarantees non-null value");
+        result.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful, just with null value");
         result.IsFailure.ShouldBeFalse();
         result.Value.ShouldBeNull();
         result.HasErrors.ShouldBeFalse();
@@ -1361,8 +1364,9 @@ public class ResultTests
         // Act - Use implicit conversion with null
         Result<string?> result = nullValue;
 
-        // Assert - Should be successful via implicit operator
-        result.IsSuccess.ShouldBeTrue();
+        // Assert - Kotlin-style null safety via implicit operator
+        result.IsSuccess.ShouldBeFalse("Kotlin-style: IsSuccess guarantees non-null value");
+        result.IsSuccessMayBeNull.ShouldBeTrue("Implicit conversion created successful result with null");
         result.IsFailure.ShouldBeFalse();
         result.Value.ShouldBeNull();
         result.HasErrors.ShouldBeFalse();
@@ -1427,26 +1431,297 @@ public class ResultTests
     [Fact]  
     public void IndustryStandardDocumentation_ShouldExplainNullHandling()
     {
-        // This test serves as documentation for our design decision
-        
-        // Industry Standard: Result<T> allows null as valid success when T is nullable
-        var optionalUser = Result<User?>.Success(null); // User not found, but operation succeeded
-        var optionalData = Result<string?>.Success(null); // Query succeeded, no data found
-        var optionalConfig = Result<Settings?>.Success(null); // Settings loaded, none configured
-        
-        // All should be successful
-        optionalUser.IsSuccess.ShouldBeTrue();
-        optionalData.IsSuccess.ShouldBeTrue();
-        optionalConfig.IsSuccess.ShouldBeTrue();
-        
-        // If null should be an error, use explicit failure results instead:
-        var userNotFoundError = Result<User>.WithFailure("User not found");
-        var dataNotFoundError = Result<string>.WithFailure("No data available");
-        
-        // Clear distinction between "operation succeeded with null result" vs "operation failed"
-        userNotFoundError.IsFailure.ShouldBeTrue();
-        dataNotFoundError.IsFailure.ShouldBeTrue();
+        // Arrange - Create comprehensive null handling scenarios for documentation
+        var nullStringResult = Result<string>.Success(null);
+        var validStringResult = Result<string>.Success("hello");
+        var failureResult = Result<string>.WithFailure("error");
+
+        // Act & Assert - Document null handling behavior
+        nullStringResult.IsSuccess.ShouldBeFalse("Industry standard: IsSuccess requires non-null value");
+        nullStringResult.IsSuccessMayBeNull.ShouldBeTrue("IsSuccessMayBeNull allows null values in successful results");
+        nullStringResult.IsRecoverable.ShouldBeTrue("Null successful results are still recoverable");
+
+        validStringResult.IsSuccess.ShouldBeTrue("Valid values with success should return true");
+        validStringResult.IsSuccessMayBeNull.ShouldBeTrue("Non-null successful results are also SuccessMayBeNull");
+
+        failureResult.IsSuccess.ShouldBeFalse("WithFailure results are never successful");
+        failureResult.IsSuccessMayBeNull.ShouldBeFalse("WithFailure results are never SuccessMayBeNull");
+        failureResult.IsRecoverable.ShouldBeFalse("WithFailure results are not recoverable");
+
+        // Document the pattern: Check IsSuccessMayBeNull first, then handle null values appropriately
+        if (nullStringResult.IsSuccessMayBeNull)
+        {
+            // Safe to access Value, but check for null if needed
+            var value = nullStringResult.Value; // Can be null
+            value.ShouldBeNull("This demonstrates safe null handling");
+        }
     }
+
+    #region Null Safety Properties Tests (Kotlin-Style)
+
+    [Fact]
+    public void IsSuccessMayBeNull_ShouldReturnTrue_ForSuccessfulResultsRegardlessOfNullValue()
+    {
+        // Arrange - Success with non-null value
+        var resultWithValue = Result<string>.Success("hello world");
+
+        // Act & Assert - Non-null success
+        resultWithValue.IsSuccessMayBeNull.ShouldBeTrue();
+        resultWithValue.IsSuccess.ShouldBeTrue();
+        resultWithValue.IsSuccessNotNull.ShouldBeTrue();
+        resultWithValue.IsSuccesValueNull.ShouldBeFalse();
+
+        // Arrange - Success with null value
+        var resultWithNull = Result<string>.Success(null);
+
+        // Act & Assert - Null success (Kotlin-style null safety)
+        resultWithNull.IsSuccessMayBeNull.ShouldBeTrue("Success operation, regardless of null value");
+        resultWithNull.IsSuccess.ShouldBeFalse("IsSuccess guarantees non-null value");
+        resultWithNull.IsSuccessNotNull.ShouldBeFalse("Value is null");
+        resultWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false, so this is false too");
+    }
+
+    [Fact]
+    public void IsSuccessMayBeNull_ShouldReturnFalse_ForFailureResults()
+    {
+        // Arrange - Failure with default value
+        var failureResult = Result<string>.WithFailure("operation failed");
+
+        // Act & Assert - All success properties should be false for failures
+        failureResult.IsSuccessMayBeNull.ShouldBeFalse();
+        failureResult.IsSuccess.ShouldBeFalse();
+        failureResult.IsSuccessNotNull.ShouldBeFalse();
+        failureResult.IsSuccesValueNull.ShouldBeFalse();
+
+        // Arrange - Failure with explicit null value
+        var failureWithNull = Result<string>.WithFailure(["error"], null);
+
+        // Act & Assert - Failure with null value
+        failureWithNull.IsSuccessMayBeNull.ShouldBeFalse();
+        failureWithNull.IsSuccess.ShouldBeFalse();
+        failureWithNull.IsSuccessNotNull.ShouldBeFalse();
+        failureWithNull.IsSuccesValueNull.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void IsSuccessNotNull_ShouldOnlyReturnTrue_WhenSuccessfulAndValueIsNotNull()
+    {
+        // Arrange & Act & Assert - Success with non-null value
+        var successWithValue = Result<int>.Success(42);
+        successWithValue.IsSuccessNotNull.ShouldBeTrue();
+        successWithValue.IsSuccess.ShouldBeTrue("IsSuccess and IsSuccessNotNull should be equivalent");
+
+        // Arrange & Act & Assert - Success with null value  
+        var successWithNull = Result<string>.Success(null);
+        successWithNull.IsSuccessNotNull.ShouldBeFalse("Null value should make this false");
+        successWithNull.IsSuccess.ShouldBeFalse("IsSuccess should also be false for null values");
+
+        // Arrange & Act & Assert - Failure cases
+        var failure = Result<string>.WithFailure("error");
+        failure.IsSuccessNotNull.ShouldBeFalse();
+        failure.IsSuccess.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void IsSuccesValueNull_ShouldOnlyReturnTrue_WhenSuccessfulButValueIsNull()
+    {
+        // Arrange & Act & Assert - Success with null value (should be false due to IsSuccess requirement)
+        var successWithNull = Result<string>.Success(null);
+        successWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false when Value is null, so this is false");
+        successWithNull.IsSuccessMayBeNull.ShouldBeTrue("But operation was successful");
+        successWithNull.Value.ShouldBeNull();
+
+        // Arrange & Act & Assert - Success with non-null value
+        var successWithValue = Result<string>.Success("hello");
+        successWithValue.IsSuccesValueNull.ShouldBeFalse("Value is not null");
+        successWithValue.IsSuccess.ShouldBeTrue();
+
+        // Arrange & Act & Assert - Failure cases
+        var failureWithNull = Result<string>.WithFailure(["error"], null);
+        failureWithNull.IsSuccesValueNull.ShouldBeFalse("Result is not successful");
+
+        var failureWithValue = Result<string>.WithFailure(["error"], "value");
+        failureWithValue.IsSuccesValueNull.ShouldBeFalse("Result is not successful");
+    }
+
+    [Fact]
+    public void NullSafetyProperties_ShouldWorkWithDifferentTypes()
+    {
+        // Arrange & Act & Assert - Reference types
+        var stringSuccess = Result<string>.Success("test");
+        var stringNull = Result<string>.Success(null);
+        
+        stringSuccess.IsSuccessNotNull.ShouldBeTrue();
+        stringNull.IsSuccessNotNull.ShouldBeFalse();
+        stringNull.IsSuccessMayBeNull.ShouldBeTrue();
+
+        // Arrange & Act & Assert - Value types (can't be null in non-nullable context)
+        var intSuccess = Result<int>.Success(42);
+        intSuccess.IsSuccessNotNull.ShouldBeTrue();
+        intSuccess.IsSuccess.ShouldBeTrue();
+        intSuccess.IsSuccessMayBeNull.ShouldBeTrue();
+
+        // Arrange & Act & Assert - Nullable value types
+        var nullableIntSuccess = Result<int?>.Success(null);
+        var nullableIntWithValue = Result<int?>.Success(100);
+
+        nullableIntSuccess.IsSuccessNotNull.ShouldBeFalse("Null nullable int");
+        nullableIntSuccess.IsSuccessMayBeNull.ShouldBeTrue();
+        
+        nullableIntWithValue.IsSuccessNotNull.ShouldBeTrue("Non-null nullable int");
+        nullableIntWithValue.IsSuccessMayBeNull.ShouldBeTrue();
+
+        // Arrange & Act & Assert - Complex objects
+        var userSuccess = Result<User>.Success(new User { Name = "John" });
+        var userNull = Result<User>.Success(null);
+
+        userSuccess.IsSuccessNotNull.ShouldBeTrue();
+        userNull.IsSuccessNotNull.ShouldBeFalse();
+        userNull.IsSuccessMayBeNull.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void NullSafetyProperties_ShouldWorkWithWarnings()
+    {
+        // Arrange - Success with warnings and non-null value
+        var warningWithValue = Result<string>.WithWarnings(["Warning: slow performance"], "completed");
+
+        // Act & Assert - Warnings are successful operations
+        warningWithValue.IsSuccessMayBeNull.ShouldBeTrue("Warnings are successful");
+        warningWithValue.IsSuccess.ShouldBeTrue("Value is not null");
+        warningWithValue.IsSuccessNotNull.ShouldBeTrue("Success with non-null value");
+        warningWithValue.IsSuccesValueNull.ShouldBeFalse("Value is not null");
+        warningWithValue.HasWarnings.ShouldBeTrue();
+
+        // Arrange - Success with warnings and null value (edge case)
+        var warningWithNull = Result<string>.WithWarnings(["Warning: incomplete data"], null);
+
+        // Act & Assert - Warnings with null value
+        warningWithNull.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful despite warnings");
+        warningWithNull.IsSuccess.ShouldBeFalse("Value is null");
+        warningWithNull.IsSuccessNotNull.ShouldBeFalse("Value is null");
+        warningWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false, so this is false");
+        warningWithNull.HasWarnings.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void NullSafetyProperties_ShouldWorkWithFunctionalOperations()
+    {
+        // Arrange
+        var initialSuccess = Result<string>.Success("hello");
+        var initialNull = Result<string>.Success(null);
+        var failure = Result<string>.WithFailure("error");
+
+        // Act & Assert - Map operations
+        var mappedSuccess = initialSuccess.Map(s => s.Length);
+        mappedSuccess.IsSuccessNotNull.ShouldBeTrue();
+        mappedSuccess.IsSuccessMayBeNull.ShouldBeTrue();
+
+        var mappedFromNull = initialNull.Map(s => s?.Length ?? 0);
+        mappedFromNull.IsSuccessNotNull.ShouldBeTrue("Map produced non-null result even from null source");
+        mappedFromNull.IsFailure.ShouldBeFalse("Map should succeed when producing non-null value");
+
+        // Act & Assert - Bind operations  
+        var boundSuccess = initialSuccess.Bind(s => Result<int>.Success(s.Length));
+        boundSuccess.IsSuccessNotNull.ShouldBeTrue();
+
+        var boundFromNull = initialNull.Bind(s => Result<int>.Success(42));
+        boundFromNull.IsFailure.ShouldBeTrue("Bind from null success should fail");
+
+        // Act & Assert - Ensure operations
+        var ensuredSuccess = initialSuccess.Ensure(s => s.Length > 3, "Too short");
+        ensuredSuccess.IsSuccessNotNull.ShouldBeTrue();
+
+        // Note: Ensure on null will fail due to null check in Ensure method
+        var ensuredFromNull = initialNull.Ensure(s => true, "Should not matter");
+        ensuredFromNull.IsFailure.ShouldBeTrue("Ensure on null should fail");
+        ensuredFromNull.Errors.ShouldContain(ResultConstants.ConditionEvaluationWithNullValue);
+    }
+
+    [Theory]
+    [InlineData("hello world", true, true, true, false)]   // Non-null success
+    [InlineData(null, false, false, true, false)]          // Null success  
+    public void NullSafetyProperties_ShouldHaveConsistentBehavior(string value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
+    {
+        // Arrange
+        var result = Result<string>.Success(value);
+
+        // Act & Assert - All properties should be consistent
+        result.IsSuccess.ShouldBe(expectedIsSuccess);
+        result.IsSuccessNotNull.ShouldBe(expectedIsSuccessNotNull);
+        result.IsSuccessMayBeNull.ShouldBe(expectedIsSuccessMayBeNull);
+        result.IsSuccesValueNull.ShouldBe(expectedIsSuccesValueNull);
+
+        // Additional consistency checks
+        if (result.IsSuccessNotNull)
+        {
+            result.IsSuccess.ShouldBeTrue("IsSuccessNotNull implies IsSuccess");
+            result.IsSuccessMayBeNull.ShouldBeTrue("IsSuccessNotNull implies IsSuccessMayBeNull");
+        }
+
+        if (result.IsSuccess)
+        {
+            result.IsSuccessMayBeNull.ShouldBeTrue("IsSuccess implies IsSuccessMayBeNull");
+            result.Value.ShouldNotBeNull("IsSuccess guarantees non-null value");
+        }
+
+        if (result.IsSuccesValueNull)
+        {
+            result.IsSuccess.ShouldBeTrue("IsSuccesValueNull requires IsSuccess");
+            result.Value.ShouldBeNull("IsSuccesValueNull implies null value");
+        }
+    }
+
+    [Fact]
+    public void NullSafetyProperties_DocumentKotlinStyleUsagePattern()
+    {
+        // Arrange - Simulate repository method that might return null
+        var userFoundResult = Result<User>.Success(new User { Name = "John" });
+        var userNotFoundResult = Result<User>.Success(null); // Found operation succeeded, but no user exists
+        var databaseErrorResult = Result<User>.WithFailure("Database connection failed");
+
+        // Act & Assert - Kotlin-style null safety pattern
+        
+        // Pattern 1: Check if operation succeeded (regardless of null)
+        if (userFoundResult.IsSuccessMayBeNull)
+        {
+            // Safe to check value, but might be null
+            userFoundResult.IsSuccessNotNull.ShouldBeTrue("User was found");
+            var user = userFoundResult.Value; // Safe access, non-null guaranteed by IsSuccessNotNull
+            user.ShouldNotBeNull();
+            user.Name.ShouldBe("John");
+        }
+
+        // Pattern 2: Handle successful operation that returned null
+        if (userNotFoundResult.IsSuccessMayBeNull)
+        {
+            userNotFoundResult.IsSuccessNotNull.ShouldBeFalse("No user found, but operation succeeded");
+            if (!userNotFoundResult.IsSuccessNotNull)
+            {
+                // Handle the "successful but null" case
+                userNotFoundResult.Value.ShouldBeNull("Operation succeeded but returned null");
+            }
+        }
+
+        // Pattern 3: Handle operation failure
+        if (!databaseErrorResult.IsSuccessMayBeNull)
+        {
+            databaseErrorResult.IsFailure.ShouldBeTrue();
+            databaseErrorResult.Errors.ShouldContain("Database connection failed");
+        }
+
+        // Pattern 4: Safe value extraction with null checking
+        var users = new[] { userFoundResult, userNotFoundResult, databaseErrorResult };
+        var validUsers = users
+            .Where(r => r.IsSuccessNotNull) // Only successful results with non-null values
+            .Select(r => r.Value)
+            .ToList();
+
+        validUsers.Count.ShouldBe(1);
+        validUsers[0].Name.ShouldBe("John");
+    }
+
+    #endregion Null Safety Properties Tests (Kotlin-Style)
 
     // Sample types for documentation test
     private class User { public string? Name { get; set; } }
