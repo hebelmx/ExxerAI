@@ -195,7 +195,7 @@ public class ResultTests
         // Assert - Enumerable value properties
         resultWithList.IsSuccess.ShouldBeTrue();
         resultWithList.Value.ShouldBeEquivalentTo(listValue);
-        resultWithList.Value.Count.ShouldBe(2);
+        resultWithList.Value!.Count.ShouldBe(2);
     }
 
     [Fact]
@@ -310,7 +310,7 @@ public class ResultTests
             .Map(() => new { PartNumber = validPartNumber, Quality = validQuality });
 
         validationResult.IsSuccess.ShouldBeTrue();
-        validationResult.Value.PartNumber.ShouldBe(validPartNumber);
+        validationResult.Value!.PartNumber.ShouldBe(validPartNumber);
         validationResult.Value.Quality.ShouldBe(validQuality);
 
         // Act & Assert - Test failing validation business rules
@@ -1574,7 +1574,7 @@ public class ResultTests
 
         // Arrange & Act & Assert - Complex objects
         var userSuccess = Result<User>.Success(new User { Name = "John" });
-        var userNull = Result<User>.Success(null);
+        var userNull = Result<User>.Success(null!);
 
         userSuccess.IsSuccessNotNull.ShouldBeTrue();
         userNull.IsSuccessNotNull.ShouldBeFalse();

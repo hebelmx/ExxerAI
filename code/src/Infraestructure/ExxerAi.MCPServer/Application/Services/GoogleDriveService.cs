@@ -338,7 +338,7 @@ public class GoogleDriveService : IGoogleDriveService
             {
                 var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value!, metadata);
 
-                if (processingResult.IsSuccess)
+                if (processingResult.IsSuccess && processingResult.Value is not null)
                 {
                     _logger.LogInformation("✅ Successfully processed {FileName} - Confidence: {Confidence:P}",
                         file.Name, processingResult.Value.OverallConfidence);

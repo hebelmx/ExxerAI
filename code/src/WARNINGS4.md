@@ -1,0 +1,34 @@
+Severity	Code	Description	Project	File	Line	Suppression State
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Api.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs	493	
+Warning (active)	CS8601	Possible null reference assignment.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\QdrantVectorStoreIntegrationTests.cs	292	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Domain.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultTests.cs	198	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Domain.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultTests.cs	313	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Domain.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultTests.cs	1722	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\DocumentIngestionServiceBehavioralTests.cs	55	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\DocumentIngestionServiceBehavioralTests.cs	81	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\EnhancedLLMServiceTests.cs	191	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\EnhancedLLMServiceTests.cs	261	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\EnhancedLLMServiceTests.cs	352	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskRepositoryBehavioralTests1.cs	67	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServiceTests.cs	113	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Application.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceBehavioralTests5.cs	30	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Infrastructure.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\LLM\OpenAIProviderTests.cs	152	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Infrastructure.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\LLM\OpenAIProviderTests.cs	168	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Infrastructure.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\PrimarySourceOfTruthSystemTests.cs	139	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\GoogleDriveServiceBehavioralTests4.cs	68	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\GoogleDriveServiceBehavioralTests4.cs	93	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	129	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	164	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	219	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	250	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	275	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	275	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	276	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	303	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs	373	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs	261	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs	292	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs	345	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.IntegrationTests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\QdrantVectorStoreIntegrationTests.cs	156	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Api.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\AgentsControllerMissingEndpointsTests.cs	279	
+Warning (active)	CS8602	Dereference of a possibly null reference.	ExxerAI.Api.Tests	F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs	492	

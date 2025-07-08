@@ -291,7 +291,7 @@ public class SemanticSearchService
         {
             var result = await _vectorStore.GetStatsAsync(cancellationToken);
 
-            if (result.IsSuccess)
+            if (result.IsSuccess && result.Value is not null)
                 _logger.LogDebug("Retrieved index stats: {TotalVectors} vectors", result.Value.TotalVectors);
             else
                 _logger.LogError("Failed to get index stats: {Error}", result.Error);
