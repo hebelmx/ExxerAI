@@ -305,6 +305,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             persona.AddTrait(traitKey.Trim(), traitValue?.Trim() ?? string.Empty);
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);

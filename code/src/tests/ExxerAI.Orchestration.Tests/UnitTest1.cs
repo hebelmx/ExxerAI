@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Orchestration.Tests;
 
@@ -53,7 +54,7 @@ public class OrchestrationIntegrationTests
         try
         {
             // Act
-            await configService.InitializeAsync();
+            await configService.InitializeAsync(TestContext.Current.CancellationToken);
 
             // Store some test keys
             await keyStore.SetKeyAsync("test-api-key", "test-value", "integration-test");
@@ -98,8 +99,8 @@ public class OrchestrationIntegrationTests
             var configService = new ConfigurationService(configuration, null, _mockConfigLogger);
 
             // Act
-            await configService.InitializeAsync();
-            var apiKey = await configService.GetSecureLocalAIApiKeyAsync();
+            await configService.InitializeAsync(TestContext.Current.CancellationToken);
+            var apiKey = await configService.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
 
             // Assert
             apiKey.ShouldBe(testApiKey);
@@ -159,7 +160,7 @@ public class OrchestrationIntegrationTests
         var configService = new ConfigurationService(configuration, null, _mockConfigLogger);
 
         // Act
-        await configService.InitializeAsync();
+        await configService.InitializeAsync(TestContext.Current.CancellationToken);
         var serviceUrls = configService.GetServiceUrls();
         var dbConnectionString = configService.GetDatabaseConnectionString();
         var localAIUrl = configService.GetLocalAIApiUrl();
@@ -210,7 +211,7 @@ public class OrchestrationIntegrationTests
             var tasks = new List<Task>();
 
             // Configuration service operations
-            tasks.Add(configService.InitializeAsync());
+            tasks.Add(configService.InitializeAsync(TestContext.Current.CancellationToken));
             tasks.Add(configService.SetExternalApiKeyAsync("openai", "openai-key-123"));
             tasks.Add(configService.SetExternalApiKeyAsync("anthropic", "anthropic-key-456"));
 

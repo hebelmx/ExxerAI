@@ -88,7 +88,7 @@ Every public class, method, and property must have proper XML documentation.Comm
 ### 3. Full Unit Test Coverage
 
 Every public API must be covered by tests using XUnit and NSubstitute.Cover logic, validation, edge cases, contracts, and regressions.
-
+All test must be Passing after each change made
 > *"Tests aren’t just validation—they are tomorrow’s guarantees."*
 
 ---
@@ -129,10 +129,12 @@ Build with discipline: low coupling, high cohesion, contract-driven code.Ensure 
 
 Confirm:
 
-- Successful compilation
-- Passing tests
-- Complete documentation
-- Acceptable coverage
+- After each change every project Must have a Successful compilation
+- After each change All the Test must Be, new and All, remeber the test now must be run with dotnet.run
+- All each new of code must be covered by any test Normal Flow, normal fails and Edge Cases
+- Complete documentation XML Documentation
+
+
 
 > *"Working isn’t enough. It must be perfect."*
 
