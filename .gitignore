@@ -46,3 +46,4 @@ Thumbs.db
 echo 
 Samples/local-ai-packaged/neo4j/data/transactions/system/neostore.transaction.db.0
 Samples/local-ai-packaged/neo4j/data/transactions/**/*.db.0
+/Samples/local-ai-packaged/neo4j/data
