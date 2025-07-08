@@ -393,7 +393,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var graphStore = new Neo4jGraphKnowledgeStore(_neo4jClient, _graphLogger);
 
         // Setup mock embedding generator (would be real OpenAI in actual integration)
-        var mockEmbeddingGenerator = Substitute.For<IEmbeddingGenerator>();
+        var mockEmbeddingGenerator = Substitute.For<ExxerAI.Application.Interfaces.IEmbeddingGenerator>();
         mockEmbeddingGenerator.EmbeddingDimensions.Returns(1536);
         mockEmbeddingGenerator.ModelName.Returns("text-embedding-3-small");
         mockEmbeddingGenerator.GenerateEmbeddingAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
