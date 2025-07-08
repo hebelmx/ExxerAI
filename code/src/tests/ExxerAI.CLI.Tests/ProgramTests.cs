@@ -155,7 +155,7 @@ public class ProgramTests
 	public async Task Main_Should_HandleNullArguments_When_NullProvided()
 	{
 		// Arrange
-		string[]? args = null;
+		string[]? args = null!;
 
 		// Act
 		var exitCode = await CallMainMethod(args!);

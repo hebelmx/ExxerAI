@@ -242,7 +242,7 @@ public class PromptTemplateTests
     /// Tests creating new version with null or empty text throws exception
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ThrowException_When_CreatingVersionWithInvalidText(string invalidText)
@@ -393,7 +393,7 @@ public class PromptTemplateTests
     /// Tests adding expected parameter with null name throws exception
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ThrowException_When_AddingParameterWithInvalidName(string invalidName)

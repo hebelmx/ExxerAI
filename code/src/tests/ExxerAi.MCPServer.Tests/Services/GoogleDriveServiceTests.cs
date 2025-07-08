@@ -56,7 +56,7 @@ public class GoogleDriveServiceTests
         public void Should_ThrowArgumentNullException_When_LoggerIsNull()
         {
             // Arrange & Act & Assert
-            Should.Throw<ArgumentNullException>(() => new GoogleDriveService(null!, _mockConfiguration, _mockDocumentProcessor))
+            Should.Throw<ArgumentNullException>(() => new GoogleDriveService(null!!!!, _mockConfiguration, _mockDocumentProcessor))
                 .ParamName.ShouldBe("logger");
         }
 
@@ -64,7 +64,7 @@ public class GoogleDriveServiceTests
         public void Should_ThrowArgumentNullException_When_ConfigurationIsNull()
         {
             // Arrange & Act & Assert
-            Should.Throw<ArgumentNullException>(() => new GoogleDriveService(_mockLogger, null!, _mockDocumentProcessor))
+            Should.Throw<ArgumentNullException>(() => new GoogleDriveService(_mockLogger, null!!!!, _mockDocumentProcessor))
                 .ParamName.ShouldBe("configuration");
         }
 
@@ -72,7 +72,7 @@ public class GoogleDriveServiceTests
         public void Should_CreateInstance_When_DocumentProcessorIsNull()
         {
             // Arrange & Act
-            var service = new GoogleDriveService(_mockLogger, _mockConfiguration, null);
+            var service = new GoogleDriveService(_mockLogger, _mockConfiguration, null!);
 
             // Assert
             service.ShouldNotBeNull();
@@ -149,7 +149,7 @@ public class GoogleDriveServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData("null-placeholder")] // Using placeholder instead of null for xUnit
+        [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
         public async Task Should_ReturnFailure_When_FolderIdIsInvalid(string invalidFolderId)
         {
             // Arrange
@@ -206,7 +206,7 @@ public class GoogleDriveServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData("null-placeholder")] // Using placeholder instead of null for xUnit
+        [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
         public async Task Should_ReturnFailure_When_DocumentIdIsInvalid(string invalidDocumentId)
         {
             // Arrange
@@ -242,7 +242,7 @@ public class GoogleDriveServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData("null-placeholder")] // Using placeholder instead of null for xUnit
+        [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
         public async Task Should_ReturnFailure_When_DocumentIdIsInvalid(string invalidDocumentId)
         {
             // Arrange
@@ -283,7 +283,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldContain("No active watch sessions found");
+            result.Value!.ShouldContain("No active watch sessions found");
         }
 
         [Fact]
@@ -294,7 +294,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNullOrEmpty();
+            result.Value!.ShouldNotBeNullOrEmpty();
         }
     }
 
@@ -306,7 +306,7 @@ public class GoogleDriveServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData("null-placeholder")] // Using placeholder instead of null for xUnit
+        [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
         public async Task Should_ReturnFailure_When_WatchIdIsInvalid(string invalidWatchId)
         {
             // Arrange

@@ -190,7 +190,7 @@ public class ComprehensiveUnitTestExample
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
             result.Data.ShouldBe(testData);
-            result.Value.ShouldBe(testData); // Both properties should work
+            result.Value!.ShouldBe(testData); // Both properties should work
             result.Errors.ShouldBeEmpty(); // Successful results have empty collections (after regression fix)
             result.Error.ShouldBeNull();
         }
@@ -211,7 +211,7 @@ public class ComprehensiveUnitTestExample
             result.IsSuccess.ShouldBeFalse();
             result.IsFailure.ShouldBeTrue();
             result.Data.ShouldBeNull();
-            result.Value.ShouldBeNull();
+            result.Value!.ShouldBeNull();
             result.Errors.ShouldNotBeEmpty();
             result.Errors.ShouldBe(errors);
             result.Error.ShouldBe("Document not found"); // First error
@@ -226,7 +226,7 @@ public class ComprehensiveUnitTestExample
             // Arrange
             var result = Result<string>.Success("test-document-id");
             var actionExecuted = false;
-            string? capturedValue = null;
+            string? capturedValue = null!;
 
             // Act
             var chainedResult = result.OnSuccess(value =>
@@ -251,7 +251,7 @@ public class ComprehensiveUnitTestExample
             var errors = new[] { "Processing failed", "Network timeout" };
             var result = Result<string>.WithFailure(errors);
             var actionExecuted = false;
-            IEnumerable<string>? capturedErrors = null;
+            IEnumerable<string>? capturedErrors = null!;
 
             // Act
             var chainedResult = result.OnFailure(errorList =>
@@ -283,7 +283,7 @@ public class ComprehensiveUnitTestExample
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldBe(testData);
-            result.Value.ShouldBe(testData);
+            result.Value!.ShouldBe(testData);
         }
 
         /// <summary>
@@ -350,7 +350,7 @@ public class ComprehensiveUnitTestExample
         /// Validation Test: StartWatchingFolderAsync should fail with null or empty folder ID
         /// </summary>
         [Theory]
-        [InlineData(null)]
+        [InlineData(null!)]
         [InlineData("")]
         [InlineData("   ")]
         public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvided(string? invalidFolderId)
@@ -705,7 +705,7 @@ public class ComprehensiveUnitTestExample
             try
             {
                 // Simulate processing time
-                await Task.Delay(100, TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(100), TestContext.Current.CancellationToken);
                 return true;
             }
             finally

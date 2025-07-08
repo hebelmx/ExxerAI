@@ -198,7 +198,7 @@ public class ValidationErrorsTests
         public void EnsureNotNull_WithNullValue_ShouldReturnFailure()
         {
             // Arrange
-            string? nullValue = null;
+            string? nullValue = null!;
 
             // Act
             var result = ResultExtensions.EnsureNotNull(nullValue, "testParam");
@@ -226,7 +226,7 @@ public class ValidationErrorsTests
         public void EnsureNotNull_Nullable_WithNull_ShouldReturnFailure()
         {
             // Arrange
-            int? nullValue = null;
+            int? nullValue = null!;
 
             // Act
             var result = ResultExtensions.EnsureNotNull(nullValue, "testParam");

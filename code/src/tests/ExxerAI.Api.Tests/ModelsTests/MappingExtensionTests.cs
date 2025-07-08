@@ -98,7 +98,7 @@ public class MappingExtensionTests
         {
             CanProcessNaturalLanguage = true,
             MaxConcurrentTasks = 2,
-            SupportedTaskTypes = null
+            SupportedTaskTypes = null!
         };
 
         // Act
@@ -154,7 +154,7 @@ public class MappingExtensionTests
             TaskTimeoutSeconds = 300,
             MaxRetries = 3,
             Priority = 1,
-            CustomProperties = null
+            CustomProperties = null!
         };
 
         // Act
@@ -207,7 +207,7 @@ public class MappingExtensionTests
         {
             CanProcessNaturalLanguage = false,
             MaxConcurrentTasks = 1,
-            SupportedTaskTypes = null
+            SupportedTaskTypes = null!
         };
 
         // Act
@@ -263,7 +263,7 @@ public class MappingExtensionTests
             TaskTimeoutSeconds = 450,
             MaxRetries = 2,
             Priority = 4,
-            CustomProperties = null
+            CustomProperties = null!
         };
 
         // Act

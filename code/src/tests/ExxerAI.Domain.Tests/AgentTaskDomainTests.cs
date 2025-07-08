@@ -181,8 +181,8 @@ public class AgentTaskDomainTests
 
 			// Assert
 			task.ExecutionDuration.ShouldNotBeNull();
-			task.ExecutionDuration.Value.TotalHours.ShouldBe(2.5125, 0.0001);
-			task.ExecutionDuration.Value.TotalMinutes.ShouldBe(150.75, 0.01);
+			task.ExecutionDuration.Value!.TotalHours.ShouldBe(2.5125, 0.0001);
+			task.ExecutionDuration.Value!.TotalMinutes.ShouldBe(150.75, 0.01);
 		}
 
 		[Fact]
@@ -381,7 +381,7 @@ public class AgentTaskDomainTests
 		[Theory]
 		[InlineData("")]
 		[InlineData("   ")]
-		[InlineData(null)]
+		[InlineData(null!)]
 		public void Should_AllowEmptyTitle_When_ValidationNotEnforced(string? title)
 		{
 			// Arrange & Act
@@ -502,7 +502,7 @@ public class AgentTaskDomainTests
 			};
 
 			// Act
-			task.AssignedAgentId = null;
+			task.AssignedAgentId = null!;
 
 			// Assert
 			task.AssignedAgentId.ShouldBeNull();

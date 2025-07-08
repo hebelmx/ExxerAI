@@ -41,7 +41,7 @@ namespace ExxerAI.Application.Tests.Services
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
             result.Value!.Count().ShouldBe(2);
-            result.Value.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
+            result.Value!.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace ExxerAI.Application.Tests.Services
             // Assert
             result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeEmpty();
+            result.Value!.ShouldBeEmpty();
         }
 
         [Fact]

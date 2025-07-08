@@ -208,7 +208,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var documents = result.Value.ToList();
+        var documents = result.Value!.ToList();
         documents.Count.ShouldBeGreaterThan(0);
         documents.All(d => !string.IsNullOrEmpty(d.DocumentId)).ShouldBeTrue();
         documents.All(d => !string.IsNullOrEmpty(d.Content)).ShouldBeTrue();
@@ -232,7 +232,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var concepts = result.Value.ToList();
+        var concepts = result.Value!.ToList();
         concepts.Count.ShouldBeGreaterThan(0);
         concepts.All(c => !string.IsNullOrEmpty(c.ConceptId)).ShouldBeTrue();
         concepts.All(c => !string.IsNullOrEmpty(c.Name)).ShouldBeTrue();
@@ -360,7 +360,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var results = result.Value.ToList();
+        var results = result.Value!.ToList();
         results.Count.ShouldBeGreaterThanOrEqualTo(0);
     }
 

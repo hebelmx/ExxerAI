@@ -51,7 +51,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                null!, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, _logger))
+                null!!!!, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("directTextExtractor");
         }
 
@@ -60,7 +60,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, null!, _regionOCR, _patternDictionary, _learningEngine, _logger))
+                _directTextExtractor, null!!!!, _regionOCR, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("ocrProcessor");
         }
 
@@ -69,7 +69,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, null!, _patternDictionary, _learningEngine, _logger))
+                _directTextExtractor, _ocrProcessor, null!!!!, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("regionOCR");
         }
 
@@ -78,7 +78,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, null!, _learningEngine, _logger))
+                _directTextExtractor, _ocrProcessor, _regionOCR, null!!!!, _learningEngine, _logger))
                 .ParamName.ShouldBe("patternDictionary");
         }
 
@@ -87,7 +87,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, null!, _logger))
+                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, null!!!!, _logger))
                 .ParamName.ShouldBe("learningEngine");
         }
 
@@ -96,7 +96,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, null!))
+                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, null!!!!))
                 .ParamName.ShouldBe("logger");
         }
     }
@@ -122,7 +122,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
             result.Value!.ExtractionMethod.ShouldBe(ExtractionMethod.DirectText);
             result.Value!.ExtractedText.ShouldBe(directTextResult.Text);
             result.Value!.Confidence.ShouldBe(0.95f);
@@ -151,7 +151,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
             result.Value!.ExtractionMethod.ShouldBe(ExtractionMethod.OCR);
             result.Value!.ExtractedText.ShouldBe(successfulOCRResult.Text);
             result.Value!.Confidence.ShouldBe(successfulOCRResult.Confidence);
@@ -224,7 +224,7 @@ public class HybridDocumentProcessorTests
             if (result.IsSuccess)
             {
                 // If processing somehow completed, it should be valid
-                result.Value.ShouldNotBeNull();
+                result.Value!.ShouldNotBeNull();
             }
             else
             {
@@ -320,7 +320,7 @@ public class HybridDocumentProcessorTests
             _directTextExtractor.ExtractTextAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
                 .Returns(async callInfo =>
                 {
-                    await Task.Delay(10); // Small delay to ensure progress reporting
+                    await Task.Delay(TimeSpan.FromMilliseconds(10), TestContext.Current.CancellationToken); // Small delay to ensure progress reporting
                     return CreateSuccessfulDirectTextResult();
                 });
             _patternDictionary.GetPatternsForDocumentTypeAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
@@ -458,7 +458,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
             result.Value!.IsValid.ShouldBeTrue();
             result.Value!.Errors.ShouldBeEmpty();
         }
@@ -475,7 +475,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
             result.Value!.IsValid.ShouldBeFalse();
             result.Value!.Errors.ShouldNotBeEmpty();
             result.Value!.Errors.ShouldContain(error => error.Contains("Required field"));
@@ -493,7 +493,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
             result.Value!.IsValid.ShouldBeFalse();
             result.Value!.Errors.ShouldNotBeEmpty();
         }
@@ -510,7 +510,7 @@ public class HybridDocumentProcessorTests
 
             // Assert - The method handles regex exceptions gracefully and returns success with invalid validation
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
             result.Value!.IsValid.ShouldBeFalse(); // Validation fails due to malformed regex
         }
     }

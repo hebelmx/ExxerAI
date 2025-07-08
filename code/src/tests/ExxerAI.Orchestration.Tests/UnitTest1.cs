@@ -33,7 +33,7 @@ public class OrchestrationIntegrationTests
         var configuration = CreateTestConfiguration();
 
         // Act
-        var configService = new ConfigurationService(configuration, null, _mockConfigLogger);
+        var configService = new ConfigurationService(configuration, null!, _mockConfigLogger);
 
         // Assert
         configService.ShouldNotBeNull();
@@ -96,7 +96,7 @@ public class OrchestrationIntegrationTests
         try
         {
             var configuration = CreateTestConfiguration();
-            var configService = new ConfigurationService(configuration, null, _mockConfigLogger);
+            var configService = new ConfigurationService(configuration, null!, _mockConfigLogger);
 
             // Act
             await configService.InitializeAsync(TestContext.Current.CancellationToken);
@@ -157,7 +157,7 @@ public class OrchestrationIntegrationTests
     {
         // Arrange
         var configuration = CreateTestConfiguration();
-        var configService = new ConfigurationService(configuration, null, _mockConfigLogger);
+        var configService = new ConfigurationService(configuration, null!, _mockConfigLogger);
 
         // Act
         await configService.InitializeAsync(TestContext.Current.CancellationToken);
@@ -190,7 +190,7 @@ public class OrchestrationIntegrationTests
             {
                 // Redis connection string is different format
                 kvp.Key.ShouldBe("Redis");
-                kvp.Value.ShouldStartWith("redis://");
+                kvp.Value!.ShouldStartWith("redis://");
             }
         }
     }

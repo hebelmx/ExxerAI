@@ -146,7 +146,7 @@ public class ResultSpanOptimizationTests
     public void FormatErrorsString_NullCollection_ShouldReturnPrefix()
     {
         // Arrange
-        IEnumerable<string>? errors = null;
+        IEnumerable<string>? errors = null!;
         var prefix = ResultConstants.FailurePrefix;
 
         // Act
@@ -251,7 +251,7 @@ public class ResultSpanOptimizationTests
     {
         // Arrange
         var primaryErrors = new List<string> { "Primary1", "Primary2" };
-        IEnumerable<string>? secondaryErrors = null;
+        IEnumerable<string>? secondaryErrors = null!;
 
         // Act
         var result = Result.CombineErrors(primaryErrors, secondaryErrors);
@@ -270,8 +270,8 @@ public class ResultSpanOptimizationTests
     public void CombineErrors_BothNullCollections_ShouldReturnDefaultError()
     {
         // Arrange
-        IEnumerable<string>? primaryErrors = null;
-        IEnumerable<string>? secondaryErrors = null;
+        IEnumerable<string>? primaryErrors = null!;
+        IEnumerable<string>? secondaryErrors = null!;
 
         // Act
         var result = Result.CombineErrors(primaryErrors, secondaryErrors);

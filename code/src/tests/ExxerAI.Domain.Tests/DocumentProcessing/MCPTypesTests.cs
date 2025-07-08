@@ -388,7 +388,7 @@ public class MCPTypesTests
 			status.Version = "1.2.3";
 			status.LastChecked = checkTime;
 			status.ResponseTimeMs = 150;
-			status.ErrorMessage = null;
+			status.ErrorMessage = null!;
 			status.Metrics["cpuUsage"] = 25.5;
 
 			// Assert
@@ -401,7 +401,7 @@ public class MCPTypesTests
 		}
 
 		[Theory]
-		[InlineData(true, 50, null)]
+		[InlineData(true, 50, null!)]
 		[InlineData(false, 5000, "Connection timeout")]
 		[InlineData(false, 0, "Server unreachable")]
 		public void Should_HandleHealthyAndUnhealthyStates_When_StatusSet(bool isHealthy, long responseTime, string? errorMessage)

@@ -190,7 +190,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var relatedDocuments = result.Value.ToList();
+        var relatedDocuments = result.Value!.ToList();
 
         relatedDocuments.Count.ShouldBeGreaterThan(0);
         relatedDocuments.All(d => !string.IsNullOrEmpty(d.DocumentId)).ShouldBeTrue();
@@ -300,7 +300,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var results = result.Value.CombinedResults;
+        var results = result.Value!.CombinedResults;
 
         results.Count.ShouldBeGreaterThan(0);
 

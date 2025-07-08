@@ -64,7 +64,7 @@ public class DocumentIngestionServiceTests
     public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_FolderIdIsNull()
     {
         // Arrange
-        const string? folderId = null;
+        const string? folderId = null!;
 
         // Act
         var result = await _service.StartWatchingFolderAsync(folderId!, TestContext.Current.CancellationToken);
@@ -194,7 +194,7 @@ public class DocumentIngestionServiceTests
     public async Task IngestDocumentAsync_ShouldReturnFailure_When_DocumentIdIsNull()
     {
         // Arrange
-        const string? documentId = null;
+        const string? documentId = null!;
 
         // Act
         var result = await _service.IngestDocumentAsync(documentId!, TestContext.Current.CancellationToken);

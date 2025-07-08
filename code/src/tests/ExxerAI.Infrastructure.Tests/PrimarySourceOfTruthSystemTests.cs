@@ -41,8 +41,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Id.ShouldBe(expectedTruthRecord.Id);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Id.ShouldBe(expectedTruthRecord.Id);
         }
 
         [Fact]
@@ -118,8 +118,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.IsValid.ShouldBeTrue();
+            result.Value!.ShouldNotBeNull();
+            result.Value!.IsValid.ShouldBeTrue();
         }
 
         [Fact]
@@ -137,8 +137,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.IsValid.ShouldBeFalse();
-            result.Value.Errors.ShouldNotBeEmpty();
+            result.Value!.IsValid.ShouldBeFalse();
+            result.Value!.Errors.ShouldNotBeEmpty();
         }
     }
 
@@ -159,8 +159,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Id.ShouldBe(expectedRecord.Id);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Id.ShouldBe(expectedRecord.Id);
         }
 
         [Fact]
@@ -183,7 +183,7 @@ public class PrimarySourceOfTruthSystemTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!!)]
         public async Task Should_ReturnFailure_When_InvalidRecordIdProvided(string invalidId)
         {
             // Arrange
@@ -216,8 +216,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.ResolvedData.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
+            result.Value!.ResolvedData.ShouldNotBeNull();
         }
 
         [Fact]
@@ -255,8 +255,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.RecordId.ShouldBe(recordId);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.RecordId.ShouldBe(recordId);
         }
     }
 
@@ -278,9 +278,9 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.FromDate.ShouldBe(fromDate);
-            result.Value.ToDate.ShouldBe(toDate);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.FromDate.ShouldBe(fromDate);
+            result.Value!.ToDate.ShouldBe(toDate);
         }
 
         [Fact]
@@ -320,8 +320,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Count().ShouldBeGreaterThan(0);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Count().ShouldBeGreaterThan(0);
         }
 
         [Theory]
@@ -364,8 +364,8 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Id.ShouldBe(recordId);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Id.ShouldBe(recordId);
         }
     }
 
@@ -386,7 +386,7 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
     }
 
@@ -406,7 +406,7 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
+            result.Value!.ShouldNotBeNull();
         }
     }
 
@@ -428,9 +428,9 @@ public class PrimarySourceOfTruthSystemTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.FromDate.ShouldBe(fromDate);
-            result.Value.ToDate.ShouldBe(toDate);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.FromDate.ShouldBe(fromDate);
+            result.Value!.ToDate.ShouldBe(toDate);
         }
     }
 

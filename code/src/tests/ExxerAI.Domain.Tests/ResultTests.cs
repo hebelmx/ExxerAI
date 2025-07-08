@@ -456,7 +456,7 @@ public class ResultTests
         // Assert
         result.IsFailure.ShouldBeTrue();
         result.Errors.ShouldContain(ResultConstants.NoErrorsFoundMessage);
-        result.Value.ShouldBeNull();
+        result.Value!.ShouldBeNull();
     }
 
     [Fact]
@@ -473,7 +473,7 @@ public class ResultTests
         result.Errors.ShouldContain("Error 1");
         result.Errors.ShouldContain("Error 2");
         result.Errors.Count().ShouldBe(2);
-        result.Value.ShouldBeNull();
+        result.Value!.ShouldBeNull();
     }
 
     [Fact]
@@ -491,7 +491,7 @@ public class ResultTests
         result.Errors.ShouldContain("Error A");
         result.Errors.ShouldContain("Error B");
         result.Errors.Count().ShouldBe(2);
-        result.Value.ShouldBe(value);
+        result.Value!.ShouldBe(value);
     }
 
     [Fact]
@@ -512,7 +512,7 @@ public class ResultTests
         result.Errors.ShouldContain("Error A");
         result.Errors.ShouldContain("Error B");
         result.Errors.Count().ShouldBe(4);
-        result.Value.ShouldBe(value);
+        result.Value!.ShouldBe(value);
     }
 
     [Fact]
@@ -527,7 +527,7 @@ public class ResultTests
         // Assert
         result.IsFailure.ShouldBeTrue();
         result.Errors.ShouldContain(ResultConstants.NoErrorsFoundMessage);
-        result.Value.ShouldBe(value);
+        result.Value!.ShouldBe(value);
     }
 
     [Fact]
@@ -552,7 +552,7 @@ public class ResultTests
         result.IsSuccess.ShouldBeTrue();
         result.IsFailure.ShouldBeFalse();
         result.Errors.ShouldBeEmpty(); // Success results have empty collections (regression fix)
-        result.Value.ShouldBe(4);
+        result.Value!.ShouldBe(4);
     }
 
     [Fact]
@@ -650,7 +650,7 @@ public class ResultTests
         // Arrange
         var errors = new List<string> { "Error1", "Error2" };
         var result = Result.WithFailure(errors);
-        IEnumerable<string>? receivedErrors = null;
+        IEnumerable<string>? receivedErrors = null!;
         Action<IEnumerable<string>> action = e => receivedErrors = e;
 
         bool fail = result.IsFailure;
@@ -999,9 +999,9 @@ public class ResultTests
         var hashSetResult = Result.WithFailure(errorHashSet);
 
         // Act & Assert - OnFailure should work consistently across all collection types
-        IEnumerable<string>? receivedListErrors = null;
-        IEnumerable<string>? receivedArrayErrors = null;
-        IEnumerable<string>? receivedHashSetErrors = null;
+        IEnumerable<string>? receivedListErrors = null!;
+        IEnumerable<string>? receivedArrayErrors = null!;
+        IEnumerable<string>? receivedHashSetErrors = null!;
 
         listResult.OnFailure(errors => receivedListErrors = errors);
         arrayResult.OnFailure(errors => receivedArrayErrors = errors);
@@ -1037,9 +1037,9 @@ public class ResultTests
         var hashSetResult = Result<int>.WithFailure(errorHashSet, 42);
 
         // Act & Assert - OnFailure should work consistently across all collection types
-        IEnumerable<string>? receivedListErrors = null;
-        IEnumerable<string>? receivedArrayErrors = null;
-        IEnumerable<string>? receivedHashSetErrors = null;
+        IEnumerable<string>? receivedListErrors = null!;
+        IEnumerable<string>? receivedArrayErrors = null!;
+        IEnumerable<string>? receivedHashSetErrors = null!;
 
         listResult.OnFailure(errors => receivedListErrors = errors);
         arrayResult.OnFailure(errors => receivedArrayErrors = errors);
@@ -1295,9 +1295,9 @@ public class ResultTests
         var immutableArrayResult = Result.WithFailure(sourceErrors.ToImmutableArray());
 
         // Act & Assert - OnFailure should work consistently across all readonly collection types
-        IEnumerable<string>? receivedReadOnlyErrors = null;
-        IEnumerable<string>? receivedImmutableListErrors = null;
-        IEnumerable<string>? receivedImmutableArrayErrors = null;
+        IEnumerable<string>? receivedReadOnlyErrors = null!;
+        IEnumerable<string>? receivedImmutableListErrors = null!;
+        IEnumerable<string>? receivedImmutableArrayErrors = null!;
 
         readOnlyListResult.OnFailure(errors => receivedReadOnlyErrors = errors);
         immutableListResult.OnFailure(errors => receivedImmutableListErrors = errors);
@@ -1339,7 +1339,7 @@ public class ResultTests
         result.IsSuccess.ShouldBeFalse("New Kotlin-style: IsSuccess guarantees non-null value");
         result.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful, just with null value");
         result.IsFailure.ShouldBeFalse();
-        result.Value.ShouldBeNull();
+        result.Value!.ShouldBeNull();
         result.HasErrors.ShouldBeFalse();
     }
 
@@ -1353,7 +1353,7 @@ public class ResultTests
         result.IsSuccess.ShouldBeFalse("Kotlin-style: IsSuccess guarantees non-null value");
         result.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful, just with null value");
         result.IsFailure.ShouldBeFalse();
-        result.Value.ShouldBeNull();
+        result.Value!.ShouldBeNull();
         result.HasErrors.ShouldBeFalse();
     }
 
@@ -1361,7 +1361,7 @@ public class ResultTests
     public void ImplicitOperator_WithNullValue_ShouldReturnSuccessfulResult_IndustryStandard()
     {
         // Arrange - Declare variable to capture implicit conversion
-        string? nullValue = null;
+        string? nullValue = null!;
 
         // Act - Use implicit conversion with null
         Result<string?> result = nullValue;
@@ -1370,7 +1370,7 @@ public class ResultTests
         result.IsSuccess.ShouldBeFalse("Kotlin-style: IsSuccess guarantees non-null value");
         result.IsSuccessMayBeNull.ShouldBeTrue("Implicit conversion created successful result with null");
         result.IsFailure.ShouldBeFalse();
-        result.Value.ShouldBeNull();
+        result.Value!.ShouldBeNull();
         result.HasErrors.ShouldBeFalse();
     }
 
@@ -1410,9 +1410,9 @@ public class ResultTests
     }
 
     [Theory]
-    [InlineData("Successfully found: null")] // Can find null results
-    [InlineData("Operation completed: null")] // Can complete with null
-    [InlineData("Query returned: null")] // Query can return null successfully
+    [InlineData("Successfully found: null!")] // Can find null results
+    [InlineData("Operation completed: null!")] // Can complete with null
+    [InlineData("Query returned: null!")] // Query can return null successfully
     public void SuccessfulNullResults_SupportVariousScenarios_IndustryStandard(string description)
     {
         // Arrange & Act - Create successful results with null for different scenarios
@@ -1420,7 +1420,7 @@ public class ResultTests
 
         // Assert - All scenarios should be valid
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeNull();
+        result.Value!.ShouldBeNull();
 
         // Can add descriptive context if needed through warnings
         var resultWithContext = Result<object?>.WithWarnings([description], null);
@@ -1642,7 +1642,7 @@ public class ResultTests
 
     [Theory]
     [InlineData("hello world", true, true, true, false)]   // Non-null success
-    [InlineData(null, false, false, true, false)]          // Null success
+    [InlineData(null!, false, false, true, false)]          // Null success
     public void NullSafetyProperties_ShouldHaveConsistentBehavior(string value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
     {
         // Arrange
@@ -1664,13 +1664,13 @@ public class ResultTests
         if (result.IsSuccess)
         {
             result.IsSuccessMayBeNull.ShouldBeTrue("IsSuccess implies IsSuccessMayBeNull");
-            result.Value.ShouldNotBeNull("IsSuccess guarantees non-null value");
+            result.Value!.ShouldNotBeNull("IsSuccess guarantees non-null value");
         }
 
         if (result.IsSuccesValueNull)
         {
             result.IsSuccess.ShouldBeTrue("IsSuccesValueNull requires IsSuccess");
-            result.Value.ShouldBeNull("IsSuccesValueNull implies null value");
+            result.Value!.ShouldBeNull("IsSuccesValueNull implies null value");
         }
     }
 

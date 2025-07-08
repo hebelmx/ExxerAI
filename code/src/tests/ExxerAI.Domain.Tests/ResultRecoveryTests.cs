@@ -295,7 +295,7 @@ public class ResultRecoveryTests
         result.IsSuccess.ShouldBeTrue();
         result.HasErrors.ShouldBeFalse(); // Should be fixed from inconsistent state
         result.HasWarnings.ShouldBeFalse();
-        result.Value.ShouldBe("test-value");
+        result.Value!.ShouldBe("test-value");
     }
 
     [Fact]

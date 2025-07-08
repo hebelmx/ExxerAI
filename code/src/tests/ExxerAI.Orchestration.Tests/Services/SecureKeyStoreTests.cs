@@ -341,7 +341,7 @@ public class SecureKeyStoreTests : IDisposable
         var newKeyStore = new SecureKeyStore(_mockLogger, _testStorePath, "test-encryption-key");
 
         // Wait a moment for initialization
-        await Task.Delay(100, TestContext.Current.CancellationToken);
+        await Task.Delay(TimeSpan.FromMilliseconds(100), TestContext.Current.CancellationToken);
 
         // Act
         var retrievedValue = await newKeyStore.GetKeyAsync(keyName);

@@ -28,7 +28,7 @@ public class WorkflowServiceBehavioralTests5
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Name.ShouldBe("Test Workflow");
+        result.Value!.Name.ShouldBe("Test Workflow");
     }
 
     [Fact]

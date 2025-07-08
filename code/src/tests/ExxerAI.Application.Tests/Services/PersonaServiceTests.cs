@@ -58,11 +58,11 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeNull();
-        result.Value.Name.ShouldBe(name);
-        result.Value.Role.ShouldBe(role);
-        result.Value.Description.ShouldBe(description);
-        result.Value.SystemPrompt.ShouldBe(systemPrompt);
+        result.Value!.ShouldNotBeNull();
+        result.Value!.Name.ShouldBe(name);
+        result.Value!.Role.ShouldBe(role);
+        result.Value!.Description.ShouldBe(description);
+        result.Value!.SystemPrompt.ShouldBe(systemPrompt);
 
         await _personaRepository.Received(1)
             .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
@@ -72,7 +72,7 @@ public class PersonaServiceTests
     /// Tests persona creation with null or empty name fails
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task CreatePersonaAsync_Should_ReturnFailure_When_NameIsInvalid(string invalidName)
@@ -98,7 +98,7 @@ public class PersonaServiceTests
     /// Tests persona creation with null or empty role fails
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task CreatePersonaAsync_Should_ReturnFailure_When_RoleIsInvalid(string invalidRole)
@@ -181,7 +181,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldNotBeNull();
 
         await _personaRepository.Received(1)
             .GetByIdAsync(personaId, Arg.Any<CancellationToken>());
@@ -229,7 +229,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(expectedPersona);
+        result.Value!.ShouldBe(expectedPersona);
 
         await _personaRepository.Received(1)
             .GetByIdAsync(personaId, Arg.Any<CancellationToken>());
@@ -256,7 +256,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Count().ShouldBe(2);
+        result.Value!.Count().ShouldBe(2);
 
         await _personaRepository.Received(1)
             .GetActivePersonasAsync(Arg.Any<CancellationToken>());
@@ -288,7 +288,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
         persona.Traits.ShouldContainKey("tone");
         persona.Traits["tone"].ShouldBe("professional");
 
@@ -315,7 +315,7 @@ public class PersonaServiceTests
     /// Tests adding trait with empty key fails
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_TraitKeyIsInvalid(string invalidKey)
@@ -359,7 +359,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
         persona.Traits.ShouldNotContainKey("tone");
 
         await _personaRepository.Received(1)
@@ -392,7 +392,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
         persona.KnowledgeDomains.ShouldContain("machine_learning");
 
         await _personaRepository.Received(1)
@@ -426,7 +426,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
         persona.KnowledgeDomains.ShouldNotContain("machine_learning");
 
         await _personaRepository.Received(1)
@@ -473,10 +473,10 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeNull();
-        result.Value.Name.ShouldBe("Code Review Template");
-        result.Value.ContextTag.ShouldBe("code_review");
-        result.Value.PersonaId.ShouldBe(personaId);
+        result.Value!.ShouldNotBeNull();
+        result.Value!.Name.ShouldBe("Code Review Template");
+        result.Value!.ContextTag.ShouldBe("code_review");
+        result.Value!.PersonaId.ShouldBe(personaId);
 
         await _promptTemplateRepository.Received(1)
             .AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>());
@@ -486,7 +486,7 @@ public class PersonaServiceTests
     /// Tests creating template with invalid template name fails
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public async Task CreateTemplateForPersonaAsync_Should_ReturnFailure_When_TemplateNameIsInvalid(string invalidName)
@@ -528,7 +528,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Count().ShouldBe(2);
+        result.Value!.Count().ShouldBe(2);
 
         await _promptTemplateRepository.Received(1)
             .GetByPersonaIdAsync(personaId, false, Arg.Any<CancellationToken>());
@@ -559,7 +559,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
         persona.IsActive.ShouldBeTrue();
 
         await _personaRepository.Received(1)
@@ -591,7 +591,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
         persona.IsActive.ShouldBeFalse();
 
         await _personaRepository.Received(1)
@@ -623,7 +623,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
 
         await _promptTemplateRepository.Received(1)
             .DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
@@ -671,9 +671,9 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeNull();
-        result.Value.IsValid.ShouldBeTrue();
-        result.Value.Errors.ShouldBeEmpty();
+        result.Value!.ShouldNotBeNull();
+        result.Value!.IsValid.ShouldBeTrue();
+        result.Value!.Errors.ShouldBeEmpty();
     }
 
     /// <summary>
@@ -714,7 +714,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldNotBeNull();
 
         await _personaRepository.Received(1)
             .GetActivePersonasAsync(Arg.Any<CancellationToken>());
@@ -745,7 +745,7 @@ public class PersonaServiceTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new PersonaService(null, _promptTemplateRepository));
+            new PersonaService(null!!!, _promptTemplateRepository));
     }
 
     /// <summary>
@@ -756,6 +756,6 @@ public class PersonaServiceTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new PersonaService(_personaRepository, null));
+            new PersonaService(_personaRepository, null!!!));
     }
 }

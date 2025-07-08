@@ -125,7 +125,7 @@ public class DocumentAssetTests
     }
 
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ThrowArgumentException_When_InvalidHashProvided(string? invalidHash)

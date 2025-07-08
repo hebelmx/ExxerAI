@@ -185,7 +185,7 @@ public class EnumModelTests
 
         // Assert
         result.ShouldNotBeNull();
-        result.Value.ShouldBe(value);
+        result.Value!.ShouldBe(value);
     }
 
     [Fact]
@@ -251,7 +251,7 @@ public class EnumModelTests
     [Theory]
     [InlineData(1)]
     [InlineData(2)]
-    [InlineData(null)]
+    [InlineData(null!)]
     public void FromValue_WithNullableInt_ShouldHandleCorrectly(int? value)
     {
         // Arrange & Act
@@ -261,7 +261,7 @@ public class EnumModelTests
         result.ShouldNotBeNull();
         if (value.HasValue && EnumModel.Exists<FlowStatus>(value.Value))
         {
-            result.Value.ShouldBe(value.Value);
+            result.Value!.ShouldBe(value.Value);
         }
         else
         {

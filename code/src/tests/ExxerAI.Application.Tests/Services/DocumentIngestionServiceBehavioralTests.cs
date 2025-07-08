@@ -27,7 +27,7 @@ public class DocumentIngestionServiceBehavioralTests
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeEquivalentTo(changes);
+        result.Value!.ShouldBeEquivalentTo(changes);
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public class DocumentIngestionServiceBehavioralTests
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.DocumentsWatched.ShouldBe(5);
+        result.Value!.DocumentsWatched.ShouldBe(5);
     }
 
     [Fact]
@@ -79,7 +79,7 @@ public class DocumentIngestionServiceBehavioralTests
         var result = await _service.IngestDocumentAsync(documentId);
 
         result.IsSuccess.ShouldBeTrue();
-        result.Value.DocumentId.ShouldBe(documentId);
+        result.Value!.DocumentId.ShouldBe(documentId);
     }
 
     [Fact]

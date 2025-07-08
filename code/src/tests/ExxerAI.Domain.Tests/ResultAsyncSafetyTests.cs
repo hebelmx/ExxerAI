@@ -117,7 +117,7 @@ public class ResultAsyncSafetyTests
     {
         // Arrange
         var exceptionThrown = false;
-        Result<string>? result = null;
+        Result<string>? result = null!;
 
         try
         {
@@ -134,7 +134,7 @@ public class ResultAsyncSafetyTests
         exceptionThrown.ShouldBeFalse();
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe("Async operation succeeded");
+        result.Value!.ShouldBe("Async operation succeeded");
     }
 
     /// <summary>
@@ -199,7 +199,7 @@ public class ResultAsyncSafetyTests
     {
         try
         {
-            await Task.Delay(1, TestContext.Current.CancellationToken); // Very short delay for high concurrency
+            await Task.Delay(TimeSpan.FromMilliseconds(1), TestContext.Current.CancellationToken); // Very short delay for high concurrency
 
             // Perform operations that use Span optimizations
             var errors = new[] { $"Error{taskId}A", $"Error{taskId}B", $"Error{taskId}C" };
@@ -213,7 +213,7 @@ public class ResultAsyncSafetyTests
             var combined = Result.CombineErrors(errors, new[] { $"Combined{taskId}" });
             var str3 = combined.ToString();
 
-            await Task.Delay(1, TestContext.Current.CancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(1), TestContext.Current.CancellationToken);
 
             // Verify results
             return result1.IsFailure && result2.IsFailure && combined.IsFailure &&

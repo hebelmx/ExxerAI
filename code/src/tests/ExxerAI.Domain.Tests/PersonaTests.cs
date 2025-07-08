@@ -115,7 +115,7 @@ public class PersonaTests
     /// Tests adding trait with null or empty key throws exception
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ThrowException_When_AddingTraitWithInvalidKey(string invalidKey)
@@ -233,7 +233,7 @@ public class PersonaTests
     /// Tests adding knowledge domain with null or empty value throws exception
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ThrowException_When_AddingInvalidKnowledgeDomain(string invalidDomain)
@@ -516,7 +516,7 @@ public class PersonaTests
     /// Tests setting metadata with null key throws exception
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ThrowException_When_SettingMetadataWithInvalidKey(string invalidKey)

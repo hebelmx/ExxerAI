@@ -332,7 +332,7 @@ public class AgentDomainTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!)]
         public void Should_AllowEmptyName_When_ValidationNotEnforced(string? name)
         {
             // Arrange & Act

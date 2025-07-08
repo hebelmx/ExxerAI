@@ -58,7 +58,7 @@ public class EnhancedLLMServiceTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
-            null!,
+            null!!!!,
             _mockModelRepository,
             _mockConversationRepository,
             _configuration));
@@ -70,7 +70,7 @@ public class EnhancedLLMServiceTests
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
             new List<ILLMProvider> { _mockProvider },
-            null!,
+            null!!!!,
             _mockConversationRepository,
             _configuration));
     }
@@ -82,7 +82,7 @@ public class EnhancedLLMServiceTests
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
             new List<ILLMProvider> { _mockProvider },
             _mockModelRepository,
-            null!,
+            null!!!!,
             _configuration));
     }
 
@@ -94,7 +94,7 @@ public class EnhancedLLMServiceTests
             new List<ILLMProvider> { _mockProvider },
             _mockModelRepository,
             _mockConversationRepository,
-            null!));
+            null!!!!));
     }
 
     [Fact]
@@ -189,10 +189,10 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Content.ShouldBe("Test response");
-        result.Value.Metadata.ShouldContainKey("model_id");
-        result.Value.Metadata.ShouldContainKey("model_name");
-        result.Value.Metadata.ShouldContainKey("provider_name");
+        result.Value!.Content.ShouldBe("Test response");
+        result.Value!.Metadata.ShouldContainKey("model_id");
+        result.Value!.Metadata.ShouldContainKey("model_name");
+        result.Value!.Metadata.ShouldContainKey("provider_name");
     }
 
     [Fact]
@@ -259,10 +259,10 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.AgentId.ShouldBe(agentId);
-        result.Value.LanguageModelId.ShouldBe(modelId);
-        result.Value.Title.ShouldBe(title);
-        result.Value.SystemPrompt.ShouldBe(systemPrompt);
+        result.Value!.AgentId.ShouldBe(agentId);
+        result.Value!.LanguageModelId.ShouldBe(modelId);
+        result.Value!.Title.ShouldBe(title);
+        result.Value!.SystemPrompt.ShouldBe(systemPrompt);
     }
 
     [Fact]
@@ -350,9 +350,9 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Content.ShouldBe("Hello! How can I help you today?");
-        result.Value.Role.ShouldBe(MessageRole.Assistant);
-        result.Value.ConversationId.ShouldBe(conversationId);
+        result.Value!.Content.ShouldBe("Hello! How can I help you today?");
+        result.Value!.Role.ShouldBe(MessageRole.Assistant);
+        result.Value!.ConversationId.ShouldBe(conversationId);
     }
 
     [Fact]
@@ -397,7 +397,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(expectedCost);
+        result.Value!.ShouldBe(expectedCost);
     }
 
     [Fact]
@@ -427,7 +427,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(0);
+        result.Value!.ShouldBe(0);
     }
 
     [Fact]
@@ -455,7 +455,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(expectedTokenCount);
+        result.Value!.ShouldBe(expectedTokenCount);
     }
 
     [Fact]
@@ -502,7 +502,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeTrue();
+        result.Value!.ShouldBeTrue();
     }
 
     [Fact]

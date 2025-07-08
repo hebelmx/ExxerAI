@@ -20,9 +20,9 @@ public class CLIValidationTests
     public void AgentCommands_Constructor_WithNullArguments_ShouldCreateInstance()
     {
         // Arrange & Act - Following Result<T> pattern, constructors don't validate
-        var withNullService = new AgentCommands(null!, _agentRepository);
-        var withNullRepo = new AgentCommands(_agentService, null!);
-        var withBothNull = new AgentCommands(null!, null!);
+        var withNullService = new AgentCommands(null!!, _agentRepository);
+        var withNullRepo = new AgentCommands(_agentService, null!!);
+        var withBothNull = new AgentCommands(null!, null!!);
 
         // Assert - Constructors succeed, validation happens at execution
         withNullService.ShouldNotBeNull();
@@ -34,8 +34,8 @@ public class CLIValidationTests
     public void TaskCommands_Constructor_WithNullArguments_ShouldCreateInstance()
     {
         // Arrange & Act - Following Result<T> pattern
-        var withNullTaskRepo = new TaskCommands(null!, _agentRepository);
-        var withNullAgentRepo = new TaskCommands(_taskRepository, null!);
+        var withNullTaskRepo = new TaskCommands(null!!, _agentRepository);
+        var withNullAgentRepo = new TaskCommands(_taskRepository, null!!);
 
         // Assert
         withNullTaskRepo.ShouldNotBeNull();
@@ -61,9 +61,9 @@ public class CLIValidationTests
         var workflowCommands = new WorkflowCommands();
 
         // Act - Following Result<T> pattern
-        var withNullAgent = new CommandRouter(null!, taskCommands, workflowCommands);
-        var withNullTask = new CommandRouter(agentCommands, null!, workflowCommands);
-        var withNullWorkflow = new CommandRouter(agentCommands, taskCommands, null!);
+        var withNullAgent = new CommandRouter(null!!, taskCommands, workflowCommands);
+        var withNullTask = new CommandRouter(agentCommands, null!!, workflowCommands);
+        var withNullWorkflow = new CommandRouter(agentCommands, taskCommands, null!!);
 
         // Assert
         withNullAgent.ShouldNotBeNull();
@@ -75,7 +75,7 @@ public class CLIValidationTests
     public async Task AgentCommands_ExecuteAsync_WithNullDependency_ShouldReturnErrorExitCode()
     {
         // Arrange - CLI with null service dependency
-        var commands = new AgentCommands(null!, _agentRepository);
+        var commands = new AgentCommands(null!!, _agentRepository);
         var args = new[] { "create", "TestAgent" };
 
         // Capture console output - Linux style with proper restoration
@@ -83,7 +83,8 @@ public class CLIValidationTests
         try
         {
             using var consoleCapture = new StringWriter();
-            Console.SetOut(consoleCapture);
+            using Xunit;
+Console.SetOut(consoleCapture);
 
             // Act - Execution should handle null gracefully and return error
             var result = await commands.ExecuteAsync(args);
@@ -147,7 +148,8 @@ public class CLIValidationTests
         try
         {
             using var consoleCapture = new StringWriter();
-            Console.SetOut(consoleCapture);
+            using Xunit;
+Console.SetOut(consoleCapture);
 
             // Act - await fully before reading output
             var result = await router.ExecuteAsync(new[] { "invalidcommand" });
@@ -243,7 +245,7 @@ public class CLIValidationTests
         public void Constructor_WithNullParameters_ShouldStillCreateInstance()
         {
             // Act & Assert - Following the rule of not throwing exceptions
-            var agentCommands = new AgentCommands(null!, null!);
+            var agentCommands = new AgentCommands(null!, null!!);
             agentCommands.ShouldNotBeNull();
         }
     }
@@ -324,7 +326,7 @@ public class CLIValidationTests
         public void Constructor_WithNullParameters_ShouldStillCreateInstance()
         {
             // Act & Assert - Following the rule of not throwing exceptions
-            var taskCommands = new TaskCommands(null!, null!);
+            var taskCommands = new TaskCommands(null!, null!!);
             taskCommands.ShouldNotBeNull();
         }
     }
@@ -338,8 +340,8 @@ public class CLIValidationTests
         public void ValidateConstructorParameters_WithValidParameters_ShouldReturnSuccess()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!);
-            var taskCommands = new TaskCommands(null!, null!);
+            var agentCommands = new AgentCommands(null!, null!!);
+            var taskCommands = new TaskCommands(null!, null!!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -353,7 +355,7 @@ public class CLIValidationTests
         public void ValidateConstructorParameters_WithNullAgentCommands_ShouldReturnFailure()
         {
             // Arrange
-            var taskCommands = new TaskCommands(null!, null!);
+            var taskCommands = new TaskCommands(null!, null!!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -368,7 +370,7 @@ public class CLIValidationTests
         public void ValidateConstructorParameters_WithNullTaskCommands_ShouldReturnFailure()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!);
+            var agentCommands = new AgentCommands(null!, null!!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -383,8 +385,8 @@ public class CLIValidationTests
         public void ValidateConstructorParameters_WithNullWorkflowCommands_ShouldReturnFailure()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!);
-            var taskCommands = new TaskCommands(null!, null!);
+            var agentCommands = new AgentCommands(null!, null!!);
+            var taskCommands = new TaskCommands(null!, null!!);
 
             // Act
             var result = CommandRouter.ValidateConstructorParameters(agentCommands, taskCommands, null!);
@@ -423,8 +425,8 @@ public class CLIValidationTests
         public void Constructor_WithValidParameters_ShouldCreateInstance()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!);
-            var taskCommands = new TaskCommands(null!, null!);
+            var agentCommands = new AgentCommands(null!, null!!);
+            var taskCommands = new TaskCommands(null!, null!!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -438,7 +440,7 @@ public class CLIValidationTests
         public void Constructor_WithNullParameters_ShouldStillCreateInstance()
         {
             // Act & Assert - Following the rule of not throwing exceptions
-            var commandRouter = new CommandRouter(null!, null!, null!);
+            var commandRouter = new CommandRouter(null!, null!, null!!);
             commandRouter.ShouldNotBeNull();
         }
     }

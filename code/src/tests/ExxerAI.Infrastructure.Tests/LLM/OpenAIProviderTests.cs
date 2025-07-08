@@ -9,7 +9,7 @@ namespace ExxerAI.Infrastructure.Tests.LLM;
 /// <summary>
 /// Unit tests for OpenAI provider implementation
 /// </summary>
-public class OpenAIProviderTests
+public class OpenAIProviderTests : IDisposable
 {
     private readonly OpenAIConfiguration _config;
     private readonly HttpClient _httpClient;
@@ -42,14 +42,14 @@ public class OpenAIProviderTests
     public void Constructor_WithNullHttpClient_ShouldThrowArgumentNullException()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(null!, _config));
+        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(null!!!!, _config));
     }
 
     [Fact]
     public void Constructor_WithNullConfiguration_ShouldThrowArgumentNullException()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(_httpClient, null!));
+        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(_httpClient, null!!!!));
     }
 
     [Theory]
@@ -74,8 +74,8 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeGreaterThan(0);
-        result.Value.ShouldBeLessThan(50); // Approximate token count for this text
+        result.Value!.ShouldBeGreaterThan(0);
+        result.Value!.ShouldBeLessThan(50); // Approximate token count for this text
     }
 
     [Fact]
@@ -90,14 +90,14 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(0);
+        result.Value!.ShouldBe(0);
     }
 
     [Fact]
     public async Task CountTokensAsync_WithNullText_ShouldReturnZero()
     {
         // Arrange
-        string? text = null;
+        string? text = null!;
         var modelName = "gpt-3.5-turbo";
 
         // Act
@@ -105,7 +105,7 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(0);
+        result.Value!.ShouldBe(0);
     }
 
     [Theory]
@@ -120,7 +120,7 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe(expectedCost, tolerance: 0.001m);
+        result.Value!.ShouldBe(expectedCost, tolerance: 0.001m);
     }
 
     [Fact]
@@ -150,9 +150,9 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.RequestsPerMinute.ShouldBe(500);
-        result.Value.TokensPerMinute.ShouldBe(30_000);
-        result.Value.IsLimitExceeded.ShouldBeFalse();
+        result.Value!.RequestsPerMinute.ShouldBe(500);
+        result.Value!.TokensPerMinute.ShouldBe(30_000);
+        result.Value!.IsLimitExceeded.ShouldBeFalse();
     }
 
     [Fact]
@@ -166,9 +166,9 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.RequestsPerMinute.ShouldBe(3500);
-        result.Value.TokensPerMinute.ShouldBe(90_000);
-        result.Value.IsLimitExceeded.ShouldBeFalse();
+        result.Value!.RequestsPerMinute.ShouldBe(3500);
+        result.Value!.TokensPerMinute.ShouldBe(90_000);
+        result.Value!.IsLimitExceeded.ShouldBeFalse();
     }
 
     [Fact]
@@ -179,8 +179,8 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeEmpty();
-        result.Value.Count().ShouldBe(3); // gpt-4o, gpt-4-turbo, gpt-3.5-turbo
+        result.Value!.ShouldNotBeEmpty();
+        result.Value!.Count().ShouldBe(3); // gpt-4o, gpt-4-turbo, gpt-3.5-turbo
     }
 
     [Fact]
@@ -194,8 +194,8 @@ public class OpenAIProviderTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldNotBeNull();
-        result.Value.TestedModel.ShouldBe(modelName);
+        result.Value!.ShouldNotBeNull();
+        result.Value!.TestedModel.ShouldBe(modelName);
         // Note: This will likely fail without a real API key, but structure should be correct
     }
 

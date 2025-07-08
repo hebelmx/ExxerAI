@@ -1,4 +1,4 @@
-﻿namespace ExxerAI.Domain.Tests;
+namespace ExxerAI.Domain.Tests;
 
 /// <summary>
 /// Unit tests for Workflow domain entity

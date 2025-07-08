@@ -24,7 +24,7 @@ _service = new LLMService(_mockModelRepository, _mockConversationRepository);
 public void Constructor_Should_ThrowArgumentNullException_When_ModelRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new LLMService(null!, _mockConversationRepository))
+Should.Throw<ArgumentNullException>(() => new LLMService(null!!!!, _mockConversationRepository))
 .ParamName.ShouldBe("modelRepository");
 }
 
@@ -32,7 +32,7 @@ Should.Throw<ArgumentNullException>(() => new LLMService(null!, _mockConversatio
 public void Constructor_Should_ThrowArgumentNullException_When_ConversationRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new LLMService(_mockModelRepository, null!))
+Should.Throw<ArgumentNullException>(() => new LLMService(_mockModelRepository, null!!!!))
 .ParamName.ShouldBe("conversationRepository");
 }
 
@@ -90,11 +90,11 @@ var result = await _service.GenerateTextAsync(modelId, prompt);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.Content.ShouldStartWith("Generated response for:");
-result.Value.InputTokens.ShouldBeGreaterThan(0);
-result.Value.OutputTokens.ShouldBeGreaterThan(0);
-result.Value.EstimatedCost.ShouldBeGreaterThan(0);
+result.Value!.ShouldNotBeNull();
+result.Value!.Content.ShouldStartWith("Generated response for:");
+result.Value!.InputTokens.ShouldBeGreaterThan(0);
+result.Value!.OutputTokens.ShouldBeGreaterThan(0);
+result.Value!.EstimatedCost.ShouldBeGreaterThan(0);
 }
 
 [Fact]
@@ -150,10 +150,10 @@ var result = await _service.ContinueConversationAsync(conversationId, message);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.ConversationId.ShouldBe(conversationId);
-result.Value.Role.ShouldBe(MessageRole.Assistant);
-result.Value.Content.ShouldStartWith("Response to:");
+result.Value!.ShouldNotBeNull();
+result.Value!.ConversationId.ShouldBe(conversationId);
+result.Value!.Role.ShouldBe(MessageRole.Assistant);
+result.Value!.Content.ShouldStartWith("Response to:");
 }
 
 [Fact]
@@ -173,12 +173,12 @@ var result = await _service.CreateConversationAsync(agentId, modelId, title, sys
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.AgentId.ShouldBe(agentId);
-result.Value.LanguageModelId.ShouldBe(modelId);
-result.Value.Title.ShouldBe(title);
-result.Value.SystemPrompt.ShouldBe(systemPrompt);
-result.Value.Status.ShouldBe(ConversationStatus.Active);
+result.Value!.ShouldNotBeNull();
+result.Value!.AgentId.ShouldBe(agentId);
+result.Value!.LanguageModelId.ShouldBe(modelId);
+result.Value!.Title.ShouldBe(title);
+result.Value!.SystemPrompt.ShouldBe(systemPrompt);
+result.Value!.Status.ShouldBe(ConversationStatus.Active);
 }
 
 [Fact]
@@ -197,7 +197,7 @@ var result = await _service.CreateConversationAsync(agentId, modelId);
 // Assert
 result.IsSuccess.ShouldBeTrue();
 result.Value!.Title.ShouldBe("New Conversation");
-result.Value.SystemPrompt.ShouldBe(string.Empty);
+result.Value!.SystemPrompt.ShouldBe(string.Empty);
 }
 
 [Fact]
@@ -249,8 +249,8 @@ var result = await _service.EstimateCostAsync(modelId, 1000, 500, TestContext.Cu
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeGreaterThan(0);
-result.Value.ShouldBe(0.02m);
+result.Value!.ShouldBeGreaterThan(0);
+result.Value!.ShouldBe(0.02m);
 }
 
 [Fact]
@@ -268,7 +268,7 @@ var result = await _service.CountTokensAsync(modelId, "", TestContext.Current.Ca
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(0);
+result.Value!.ShouldBe(0);
 }
 
 [Fact]
@@ -287,8 +287,8 @@ var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeGreaterThan(0);
-result.Value.ShouldBe(text.Length / 4);
+result.Value!.ShouldBeGreaterThan(0);
+result.Value!.ShouldBe(text.Length / 4);
 }
 
 [Fact]
@@ -367,7 +367,7 @@ var result = await _service.ValidateModelAsync(modelId);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeTrue();
+result.Value!.ShouldBeTrue();
 }
 
 [Fact]
@@ -383,6 +383,6 @@ var result = await _service.ValidateModelAsync(modelId);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeFalse();
+result.Value!.ShouldBeFalse();
 }
 }

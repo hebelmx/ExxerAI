@@ -26,7 +26,7 @@ _service = new DocumentIngestionService(_mockDocumentProcessor, _mockHashGenerat
 public void Constructor_Should_ThrowArgumentNullException_When_DocumentProcessorIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(null!, _mockHashGenerator, _mockLogger))
+Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(null!!!!, _mockHashGenerator, _mockLogger))
 .ParamName.ShouldBe("documentProcessor");
 }
 
@@ -34,7 +34,7 @@ Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(null!, _m
 public void Constructor_Should_ThrowArgumentNullException_When_HashGeneratorIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(_mockDocumentProcessor, null!, _mockLogger))
+Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(_mockDocumentProcessor, null!!!!, _mockLogger))
 .ParamName.ShouldBe("hashGenerator");
 }
 
@@ -42,7 +42,7 @@ Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(_mockDocu
 public void Constructor_Should_ThrowArgumentNullException_When_LoggerIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(_mockDocumentProcessor, _mockHashGenerator, null!))
+Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(_mockDocumentProcessor, _mockHashGenerator, null!!!!))
 .ParamName.ShouldBe("logger");
 }
 
@@ -65,8 +65,8 @@ var result = await _service.StartWatchingFolderAsync("test-folder-id", TestConte
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.ShouldNotBeEmpty();
+result.Value!.ShouldNotBeNull();
+result.Value!.ShouldNotBeEmpty();
 Guid.TryParse(result.Value, out _).ShouldBeTrue(); // Should be a valid GUID
 }
 
@@ -104,7 +104,7 @@ var result = await _service.StopWatchingFolderAsync(watchId);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeTrue();
+result.Value!.ShouldBeTrue();
 }
 
 [Fact]
@@ -115,8 +115,8 @@ var result = await _service.DetectDocumentChangesAsync();
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.ShouldBeEmpty();
+result.Value!.ShouldNotBeNull();
+result.Value!.ShouldBeEmpty();
 }
 
 [Fact]
@@ -147,9 +147,9 @@ var result = await _service.ProcessDocumentChangeAsync(changeEvent);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.DocumentId.ShouldBe(changeEvent.DocumentId);
-result.Value.Confidence.ShouldBe(1.0f);
+result.Value!.ShouldNotBeNull();
+result.Value!.DocumentId.ShouldBe(changeEvent.DocumentId);
+result.Value!.Confidence.ShouldBe(1.0f);
 }
 
 [Fact]
@@ -169,10 +169,10 @@ var result = await _service.ProcessDocumentChangeAsync(changeEvent);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
-result.Value.DocumentId.ShouldBe(changeEvent.DocumentId);
-result.Value.Confidence.ShouldBe(1.0f);
-result.Value.ProcessingTimeMs.ShouldBeGreaterThanOrEqualTo(0);
+result.Value!.ShouldNotBeNull();
+result.Value!.DocumentId.ShouldBe(changeEvent.DocumentId);
+result.Value!.Confidence.ShouldBe(1.0f);
+result.Value!.ProcessingTimeMs.ShouldBeGreaterThanOrEqualTo(0);
 }
 
 [Fact]
@@ -207,7 +207,7 @@ var result = await _service.ProcessDocumentChangeAsync(changeEvent);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(expectedResult);
+result.Value!.ShouldBe(expectedResult);
 }
 
 [Fact]
@@ -256,7 +256,7 @@ var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(expectedResult);
+result.Value!.ShouldBe(expectedResult);
 }
 
 [Fact]
@@ -282,7 +282,7 @@ var result = await _service.IngestDocumentAsync(documentId, forceReprocess: true
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(expectedResult);
+result.Value!.ShouldBe(expectedResult);
 }
 
 [Fact]
@@ -298,7 +298,7 @@ var result = await _service.IsDocumentModifiedAsync(documentId, lastProcessed);
 // Assert
 result.IsSuccess.ShouldBeTrue();
 // The implementation simulates recent modification, so it should return true
-result.Value.ShouldBeTrue();
+result.Value!.ShouldBeTrue();
 }
 
 [Fact]
@@ -309,10 +309,10 @@ var result = await _service.GetIngestionStatusAsync(TestContext.Current.Cancella
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
+result.Value!.ShouldNotBeNull();
 result.Value!.DocumentsWatched.ShouldBeGreaterThanOrEqualTo(0);
-result.Value.ActiveWatchSessions.ShouldBeGreaterThanOrEqualTo(0);
-result.Value.PendingChanges.ShouldBeGreaterThanOrEqualTo(0);
+result.Value!.ActiveWatchSessions.ShouldBeGreaterThanOrEqualTo(0);
+result.Value!.PendingChanges.ShouldBeGreaterThanOrEqualTo(0);
 }
 
 [Fact]
@@ -391,6 +391,6 @@ var result = await _service.ProcessDocumentChangeAsync(changeEvent);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(expectedResult);
+result.Value!.ShouldBe(expectedResult);
 }
 }

@@ -123,7 +123,7 @@ public class LLMPatternTests
     /// Tests that LLMPattern handles null or empty text gracefully
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_HandleNullOrEmptyText_When_ExtractValueCalled(string? text)

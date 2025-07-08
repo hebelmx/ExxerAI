@@ -86,7 +86,7 @@ public class BasicResultTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.IsFailure.ShouldBeFalse();
-        result.Value.ShouldBe(testValue);
+        result.Value!.ShouldBe(testValue);
         result.Errors.ShouldBeEmpty();
     }
 
@@ -104,7 +104,7 @@ public class BasicResultTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeFalse();
         result.IsFailure.ShouldBeTrue();
-        result.Value.ShouldBe(fallbackValue);
+        result.Value!.ShouldBe(fallbackValue);
         result.Errors.ShouldContain(errorMessage);
         result.Errors.Count().ShouldBe(1);
     }
@@ -123,7 +123,7 @@ public class BasicResultTests
         result.IsSuccess.ShouldBeTrue(); // Fixed: Warnings should be successful
         result.HasWarnings.ShouldBeTrue();
         result.IsRecoverable.ShouldBeTrue();
-        result.Value.ShouldBe(value);
+        result.Value!.ShouldBe(value);
         result.Errors.ShouldContain("Warning 1");
         result.Errors.ShouldContain("Warning 2");
     }
@@ -163,7 +163,7 @@ public class BasicResultTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBe("test value");
+        result.Value!.ShouldBe("test value");
         result.Errors.ShouldBeEmpty();
     }
 

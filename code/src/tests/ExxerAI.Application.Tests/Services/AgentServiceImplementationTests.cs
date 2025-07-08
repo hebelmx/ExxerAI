@@ -24,7 +24,7 @@ _agentService = new AgentService(_mockAgentRepository, _mockTaskRepository);
 public void Constructor_Should_ThrowArgumentNullException_When_AgentRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new AgentService(null!, _mockTaskRepository))
+Should.Throw<ArgumentNullException>(() => new AgentService(null!!!!, _mockTaskRepository))
 .ParamName.ShouldBe("agentRepository");
 }
 
@@ -32,7 +32,7 @@ Should.Throw<ArgumentNullException>(() => new AgentService(null!, _mockTaskRepos
 public void Constructor_Should_ThrowArgumentNullException_When_TaskRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new AgentService(_mockAgentRepository, null!))
+Should.Throw<ArgumentNullException>(() => new AgentService(_mockAgentRepository, null!!!!))
 .ParamName.ShouldBe("taskRepository");
 }
 
@@ -72,7 +72,7 @@ var result = await _agentService.CreateAgentAsync("TestAgent", "Test Description
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldNotBeNull();
+result.Value!.ShouldNotBeNull();
 }
 
 [Fact]
@@ -103,7 +103,7 @@ var result = await _agentService.GetAllAgentsAsync();
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBe(agents);
+result.Value!.ShouldBe(agents);
 }
 
 [Fact]
@@ -138,7 +138,7 @@ var result = await _agentService.AssignTaskAsync(agentId, taskId);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeTrue();
+result.Value!.ShouldBeTrue();
 task.AssignedAgentId.ShouldBe(agentId);
 }
 
@@ -172,6 +172,6 @@ var result = await _agentService.DeleteAgentAsync(agentId);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
-result.Value.ShouldBeTrue();
+result.Value!.ShouldBeTrue();
 }
 }

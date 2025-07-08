@@ -39,7 +39,7 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -95,7 +95,7 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -119,7 +119,7 @@ public class DocumentNotificationServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!!)]
         public async Task Should_ReturnFailure_When_InvalidPreviousVersionProvided(string invalidVersion)
         {
             // Arrange
@@ -154,13 +154,13 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Theory]
         [InlineData("", "test-document.pdf")]
         [InlineData("   ", "test-document.pdf")]
-        [InlineData(null, "test-document.pdf")]
+        [InlineData(null!!, "test-document.pdf")]
         public async Task Should_ReturnFailure_When_InvalidDocumentIdProvided(string invalidId, string documentName)
         {
             // Arrange
@@ -178,7 +178,7 @@ public class DocumentNotificationServiceTests
         [Theory]
         [InlineData("doc-123", "")]
         [InlineData("doc-123", "   ")]
-        [InlineData("doc-123", null)]
+        [InlineData("doc-123", null!!)]
         public async Task Should_ReturnFailure_When_InvalidDocumentNameProvided(string documentId, string invalidName)
         {
             // Arrange
@@ -211,7 +211,7 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -268,7 +268,7 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -325,13 +325,13 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!!)]
         public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string invalidId)
         {
             // Arrange
@@ -401,13 +401,13 @@ public class DocumentNotificationServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!!)]
         public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string invalidId)
         {
             // Arrange
@@ -529,7 +529,7 @@ public class DocumentNotificationServiceTests
         return async notification =>
         {
             // Simulate processing notification
-            await Task.Delay(10, TestContext.Current.CancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(10), TestContext.Current.CancellationToken);
             Console.WriteLine($"Notification received: {notification.Type}");
         };
     }
@@ -538,7 +538,7 @@ public class DocumentNotificationServiceTests
     {
         return async notification =>
         {
-            await Task.Delay(10, TestContext.Current.CancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(10), TestContext.Current.CancellationToken);
             throw new InvalidOperationException("Callback failed");
         };
     }

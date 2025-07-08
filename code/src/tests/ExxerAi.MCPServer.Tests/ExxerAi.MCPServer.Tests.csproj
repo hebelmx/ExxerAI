@@ -69,7 +69,7 @@
   <!-- PROJECT REFERENCES -->
   <!-- ============================================================================ -->
   <ItemGroup Label="Infrastructure References">
-    <ProjectReference Include="..\..\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
+    <ProjectReference Include="..\..\Infraestructure\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
   </ItemGroup>
 
 </Project> 

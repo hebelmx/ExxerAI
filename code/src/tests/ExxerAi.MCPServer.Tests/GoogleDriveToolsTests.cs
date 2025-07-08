@@ -47,7 +47,7 @@ public class GoogleDriveToolsTests
 		public void Should_ThrowArgumentNullException_When_LoggerIsNull()
 		{
 			// Arrange & Act & Assert
-			Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(null!, _mockGoogleDriveService))
+			Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(null!!!!, _mockGoogleDriveService))
 				.ParamName.ShouldBe("logger");
 		}
 
@@ -55,7 +55,7 @@ public class GoogleDriveToolsTests
 		public void Should_ThrowArgumentNullException_When_GoogleDriveServiceIsNull()
 		{
 			// Arrange & Act & Assert
-			Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(_mockLogger, null!))
+			Should.Throw<ArgumentNullException>(() => new GoogleDriveTools(_mockLogger, null!!!!))
 				.ParamName.ShouldBe("googleDriveService");
 		}
 	}
@@ -100,7 +100,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldBe(expectedResult);
+			result.Value!.ShouldBe(expectedResult);
 		}
 
 		[Fact]
@@ -190,9 +190,9 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldContain("✅ Downloaded:");
-			result.Value.ShouldContain(sampleMetadata.Name);
-			result.Value.ShouldContain($"{sampleFileData.Length:N0} bytes");
+			result.Value!.ShouldContain("✅ Downloaded:");
+			result.Value!.ShouldContain(sampleMetadata.Name);
+			result.Value!.ShouldContain($"{sampleFileData.Length:N0} bytes");
 		}
 
 		[Fact]
@@ -251,9 +251,9 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldContain("✅ Status: Healthy");
-			result.Value.ShouldContain("🔗 API Connection: ✅ Connected");
-			result.Value.ShouldContain("🔑 Authentication: ✅ Valid");
+			result.Value!.ShouldContain("✅ Status: Healthy");
+			result.Value!.ShouldContain("🔗 API Connection: ✅ Connected");
+			result.Value!.ShouldContain("🔑 Authentication: ✅ Valid");
 		}
 
 		[Fact]
@@ -271,10 +271,10 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue(); // Health check itself succeeds, but reports unhealthy status
-			result.Value.ShouldContain("✅ Status: Unhealthy");
-			result.Value.ShouldContain("🔗 API Connection: ❌ Failed");
-			result.Value.ShouldContain("🔑 Authentication: ❌ Invalid");
-			result.Value.ShouldContain(expectedError);
+			result.Value!.ShouldContain("✅ Status: Unhealthy");
+			result.Value!.ShouldContain("🔗 API Connection: ❌ Failed");
+			result.Value!.ShouldContain("🔑 Authentication: ❌ Invalid");
+			result.Value!.ShouldContain(expectedError);
 		}
 	}
 
@@ -314,7 +314,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldBe(expectedResult);
+			result.Value!.ShouldBe(expectedResult);
 		}
 
 		[Fact]
@@ -373,7 +373,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
-			result.Value.ShouldBe(expectedResult);
+			result.Value!.ShouldBe(expectedResult);
 		}
 
 		[Fact]

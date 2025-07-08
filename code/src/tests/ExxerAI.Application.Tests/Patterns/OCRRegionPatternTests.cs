@@ -296,7 +296,7 @@ public class OCRRegionPatternTests
     /// Tests extraction with empty or null input
     /// </summary>
     [Theory]
-    [InlineData(null)]
+    [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
     public void Should_ReturnNull_When_InputIsNullOrEmpty(string? inputText)
@@ -383,8 +383,8 @@ public class OCRRegionPatternTests
     /// </summary>
     [Theory]
     [InlineData("Subtotal: 1,000.00\nTotal: 500.00", "Total:", "500.00")]
-    [InlineData("Grand Total Amount: 750.00", "Total:", null)]
-    [InlineData("Total Amount: 1,250.50", "Total:", null)]
+    [InlineData("Grand Total Amount: 750.00", "Total:", null!)]
+    [InlineData("Total Amount: 1,250.50", "Total:", null!)]
     [InlineData("Total: 999.99", "Total:", "999.99")]
     public void Should_RespectWordBoundaries_When_MatchingReferenceText(string inputText, string referenceText, string? expectedValue)
     {

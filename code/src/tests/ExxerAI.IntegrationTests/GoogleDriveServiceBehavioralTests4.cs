@@ -39,7 +39,7 @@ public class GoogleDriveServiceBehavioralTests4
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ShouldBeEquivalentTo(changes);
+        result.Value!.ShouldBeEquivalentTo(changes);
     }
 
     [Fact]
@@ -65,7 +65,7 @@ public class GoogleDriveServiceBehavioralTests4
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.DocumentsWatched.ShouldBe(5);
+        result.Value!.DocumentsWatched.ShouldBe(5);
     }
 
     [Fact]
@@ -90,7 +90,7 @@ public class GoogleDriveServiceBehavioralTests4
         var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeTrue();
-        result.Value.DocumentId.ShouldBe(documentId);
+        result.Value!.DocumentId.ShouldBe(documentId);
     }
 
     [Fact]

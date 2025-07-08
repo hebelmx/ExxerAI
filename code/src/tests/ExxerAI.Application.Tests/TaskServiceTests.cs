@@ -44,16 +44,16 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Title.ShouldBe(title);
-            result.Value.Description.ShouldBe(description);
-            result.Value.TaskType.ShouldBe(taskType);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Title.ShouldBe(title);
+            result.Value!.Description.ShouldBe(description);
+            result.Value!.TaskType.ShouldBe(taskType);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!)]
         public async Task Should_ReturnFailure_When_InvalidTitleProvided(string invalidTitle)
         {
             // Arrange
@@ -74,7 +74,7 @@ public class TaskServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!)]
         public async Task Should_ReturnFailure_When_InvalidDescriptionProvided(string invalidDescription)
         {
             // Arrange
@@ -95,7 +95,7 @@ public class TaskServiceTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!)]
         public async Task Should_ReturnFailure_When_InvalidTaskTypeProvided(string invalidTaskType)
         {
             // Arrange
@@ -151,8 +151,8 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Id.ShouldBe(expectedTask.Id);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Id.ShouldBe(expectedTask.Id);
         }
 
         [Fact]
@@ -206,9 +206,9 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Count().ShouldBeGreaterThan(0);
-            result.Value.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Count().ShouldBeGreaterThan(0);
+            result.Value!.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
         }
 
         [Fact]
@@ -226,7 +226,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.Count().ShouldBeLessThanOrEqualTo(maxCount);
+            result.Value!.Count().ShouldBeLessThanOrEqualTo(maxCount);
         }
 
         [Theory]
@@ -265,8 +265,8 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.All(t => t.AssignedAgentId == agentId).ShouldBeTrue();
+            result.Value!.ShouldNotBeNull();
+            result.Value!.All(t => t.AssignedAgentId == agentId).ShouldBeTrue();
         }
 
         [Fact]
@@ -285,7 +285,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.All(t => t.AgentStatus == status).ShouldBeTrue();
+            result.Value!.All(t => t.AgentStatus == status).ShouldBeTrue();
         }
 
         [Fact]
@@ -323,7 +323,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -380,7 +380,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -455,7 +455,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -472,7 +472,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -511,13 +511,13 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null)]
+        [InlineData(null!)]
         public async Task Should_ReturnFailure_When_InvalidErrorMessageProvided(string invalidMessage)
         {
             // Arrange
@@ -551,7 +551,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldBeTrue();
+            result.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -588,8 +588,8 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.All(t => t.Deadline < DateTime.UtcNow).ShouldBeTrue();
+            result.Value!.ShouldNotBeNull();
+            result.Value!.All(t => t.Deadline < DateTime.UtcNow).ShouldBeTrue();
         }
 
         [Fact]
@@ -606,8 +606,8 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ShouldNotBeNull();
-            result.Value.Count().ShouldBe(0);
+            result.Value!.ShouldNotBeNull();
+            result.Value!.Count().ShouldBe(0);
         }
     }
 

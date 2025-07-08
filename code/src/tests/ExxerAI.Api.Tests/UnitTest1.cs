@@ -1,4 +1,4 @@
-﻿namespace ExxerAI.Api.Tests;
+namespace ExxerAI.Api.Tests;
 
 /// <summary>
 /// Unit tests for the ExxerAI API project

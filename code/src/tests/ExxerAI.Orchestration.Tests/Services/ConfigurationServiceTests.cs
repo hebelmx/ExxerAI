@@ -72,7 +72,7 @@ public class ConfigurationServiceTests : IDisposable
             var config = CreateTestConfiguration();
 
             // Act
-            var service = new ConfigurationService(config, null, _mockLogger);
+            var service = new ConfigurationService(config, null!, _mockLogger);
 
             // Assert
             service.Configuration.Database.Password.ShouldBe(testPassword);
@@ -107,7 +107,7 @@ public class ConfigurationServiceTests : IDisposable
     {
         // Arrange
         var config = CreateTestConfiguration();
-        var service = new ConfigurationService(config, null, _mockLogger);
+        var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
         await service.InitializeAsync(TestContext.Current.CancellationToken);
@@ -172,7 +172,7 @@ public class ConfigurationServiceTests : IDisposable
     {
         // Arrange
         var config = CreateTestConfiguration();
-        var service = new ConfigurationService(config, null, _mockLogger);
+        var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
         var connectionString = await service.GetSecureDatabaseConnectionStringAsync();
@@ -208,7 +208,7 @@ public class ConfigurationServiceTests : IDisposable
     {
         // Arrange
         var config = CreateTestConfiguration();
-        var service = new ConfigurationService(config, null, _mockLogger);
+        var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
         var apiKey = await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
@@ -252,7 +252,7 @@ public class ConfigurationServiceTests : IDisposable
         try
         {
             var config = CreateTestConfiguration();
-            var service = new ConfigurationService(config, null, _mockLogger);
+            var service = new ConfigurationService(config, null!, _mockLogger);
 
             // Act
             var apiKey = await service.GetExternalApiKeyAsync(provider);
@@ -289,7 +289,7 @@ public class ConfigurationServiceTests : IDisposable
         var provider = "openai";
         var apiKey = "new-openai-key";
         var config = CreateTestConfiguration();
-        var service = new ConfigurationService(config, null, _mockLogger);
+        var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
         await service.SetExternalApiKeyAsync(provider, apiKey);
@@ -368,7 +368,7 @@ public class ConfigurationServiceTests : IDisposable
             var config = CreateTestConfiguration();
 
             // Act
-            var service = new ConfigurationService(config, null, _mockLogger);
+            var service = new ConfigurationService(config, null!, _mockLogger);
 
             // Assert
             service.Configuration.Database.Password.ShouldBe(testValues["LOCALAI_DB_PASSWORD"]);
