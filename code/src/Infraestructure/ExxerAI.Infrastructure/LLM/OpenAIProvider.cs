@@ -15,7 +15,7 @@ public class OpenAIProvider : ILLMProvider
 {
     private readonly HttpClient _httpClient;
     private readonly OpenAIConfiguration _configuration;
-    private readonly Dictionary<string, LLMModelInfo> _modelInfo;
+    private Dictionary<string, LLMModelInfo> _modelInfo;
 
     /// <summary>
     /// Initializes a new instance of the OpenAIProvider class
@@ -226,8 +226,7 @@ public class OpenAIProvider : ILLMProvider
 
         var httpContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
-        using var response = await _httpClient.PostAsync("chat/completions", httpContent, 
-            HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+        using var response = await _httpClient.PostAsync("chat/completions", httpContent, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
             yield break;
@@ -246,6 +245,7 @@ public class OpenAIProvider : ILLMProvider
             if (data == "[DONE]")
                 break;
 
+            LLMResponseChunk? chunk = null;
             try
             {
                 var chunkResponse = JsonSerializer.Deserialize<OpenAIStreamResponse>(data, JsonSerializerOptions);
@@ -256,7 +256,7 @@ public class OpenAIProvider : ILLMProvider
 
                     if (!string.IsNullOrEmpty(content))
                     {
-                        yield return new LLMResponseChunk
+                        chunk = new LLMResponseChunk
                         {
                             Content = content,
                             ChunkIndex = chunkIndex++,
@@ -274,8 +274,10 @@ public class OpenAIProvider : ILLMProvider
             catch (JsonException)
             {
                 // Skip malformed chunks
-                continue;
             }
+
+            if (chunk != null)
+                yield return chunk;
         }
     }
 
@@ -483,7 +485,7 @@ public class OpenAIProvider : ILLMProvider
     private void ConfigureHttpClient()
     {
         _httpClient.BaseAddress = new Uri(_configuration.BaseUrl);
-        _httpClient.DefaultRequestHeaders.Authorization = 
+        _httpClient.DefaultRequestHeaders.Authorization =
             new AuthenticationHeaderValue("Bearer", _configuration.ApiKey);
         _httpClient.DefaultRequestHeaders.UserAgent.Add(
             new ProductInfoHeaderValue("ExxerAI", "1.0"));
@@ -592,7 +594,7 @@ public class OpenAIProvider : ILLMProvider
         WriteIndented = false
     };
 
-    #endregion
+    #endregion Private Methods
 }
 
 /// <summary>
@@ -754,4 +756,4 @@ internal class OpenAIDelta
     public string? Role { get; set; }
 }
 
-#endregion
+#endregion OpenAI API Models

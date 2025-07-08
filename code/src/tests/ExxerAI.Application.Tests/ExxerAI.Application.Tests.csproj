@@ -7,17 +7,20 @@
 		<!-- Target Framework -->
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
+		<!-- Avoid generate duplicated asemblies -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 
 		<!-- XUnit v3 Configuration: Test projects are now executables -->
 		<OutputType>Exe</OutputType>
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<!-- ensures an actual executable is generated -->
 
 		<!-- Package Management -->
 		<RestoreLockedMode>false</RestoreLockedMode>
@@ -44,6 +47,8 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
+		<PackageReference Include="System.Linq.AsyncEnumerable" />
+
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.analyzers">
 			<PrivateAssets>all</PrivateAssets>
@@ -59,9 +64,9 @@
 		<PackageReference Include="Shouldly" />
 		<PackageReference Include="NSubstitute" />
 
-		<!--Remove if .NET 10-->
-		<PackageVersion Include="System.Linq.Async">
-		<!--https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable-->
+		<!--Remove if .NET 10--><!--
+		<PackageReference Include="System.Linq.Async" />
+		--><!--https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable-->
 
 	</ItemGroup>
 	<ItemGroup>

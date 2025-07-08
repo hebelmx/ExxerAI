@@ -1,11 +1,11 @@
 using ExxerAI.Application.Services;
 using ExxerAI.Application.Interfaces;
-using System.Linq.Async //Remove this if .NET 10 OR ABOVE
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.ValueObjects;
 using NSubstitute;
 using Shouldly;
+using System.Linq;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -526,10 +526,13 @@ public class EnhancedLLMServiceTests
             new LLMResponseChunk { Content = " world", ChunkIndex = 1 },
             new LLMResponseChunk { Content = "!", ChunkIndex = 2, FinishReason = "stop" }
         };
+        //using System.Linq.Async; //Remove this if .NET 10 OR ABOVE
+
+        var chuncksSeq = mockChunks.ToAsyncEnumerable();
 
         _mockProvider
             .StreamCompletionAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<LLMParameters>(), Arg.Any<CancellationToken>())
-            .Returns(mockChunks.ToAsyncEnumerable());
+            .Returns(chuncksSeq);
 
         // Act
         var chunks = new List<LLMResponseChunk>();

@@ -5,22 +5,25 @@
 	<!-- ============================================================================ -->
 	<PropertyGroup>
 		<!-- Target Framework -->
-		<!-- XUnit v3 Configuration: Test projects are now executables -->
-		<OutputType>Exe</OutputType>
-		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
+
+		<!-- Avoid generate duplicated asemblies -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
 		<!-- Language Features -->
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<UseAppHost>true</UseAppHost>
+		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+
+		<!-- XUnit v3 Configuration: Test projects are now executables -->
+		<OutputType>Exe</OutputType>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>true</IsTestProject>
 		<!-- ensures an actual executable is generated -->
 
-
-
-
-		<IsTestProject>true</IsTestProject>
+		<!-- Package Management -->
+		<RestoreLockedMode>false</RestoreLockedMode>
 
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI Domain Tests</AssemblyTitle>
@@ -58,8 +61,8 @@
 	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK (XUnit v3) -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
-		
 
+		<PackageReference Include="Microsoft.NET.Test.Sdk" />
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.analyzers">
 			<PrivateAssets>all</PrivateAssets>
@@ -71,7 +74,7 @@
 		</PackageReference>
 		<PackageReference Include="xunit.v3.runner.inproc.console" />
 
-	
+
 
 		<PackageReference Include="coverlet.collector" />
 		</ItemGroup>
