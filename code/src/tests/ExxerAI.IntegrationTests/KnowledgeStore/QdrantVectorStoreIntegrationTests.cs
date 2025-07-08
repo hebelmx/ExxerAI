@@ -61,7 +61,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         };
 
         // Act - Store
-        var storeResult = await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, metadata, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+        var storeResult = await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, metadata, TestContext.Current.CancellationToken);
 
         // Act - Search
         var searchResult = await _vectorStore.SearchSimilarAsync(
@@ -70,7 +70,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         // Assert
         storeResult.IsSuccess.ShouldBeTrue();
         searchResult.IsSuccess.ShouldBeTrue();
-        
+
         var results = searchResult.Value!.ToList();
         results.Count.ShouldBeGreaterThan(0);
         results.First().DocumentId.ShouldBe(documentId);
@@ -177,7 +177,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         // Assert
         filteredResult.IsSuccess.ShouldBeTrue();
         var results = filteredResult.Value!.ToList();
-        results.All(r => r.Metadata.ContainsKey("meta_category") && 
+        results.All(r => r.Metadata.ContainsKey("meta_category") &&
                         r.Metadata["meta_category"].ToString() == "technology").ShouldBeTrue();
     }
 
@@ -243,7 +243,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         var embeddings = GenerateTestEmbedding(1536);
         var metadataDict = ConvertToMetadataDictionary(metadata);
-        var result = await _vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+        var result = await _vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, TestContext.Current.CancellationToken);
         return result.IsSuccess;
     }
 

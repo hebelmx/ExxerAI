@@ -11,11 +11,12 @@ appliesTo:
 
 ### Objective
 
-Refactor all asynchronous methods to ensure they consistently follow the actual cancellation patterns used in the ExxerAI codebase:
+Refactor all asynchronous methods on production code to ensure they consistently follow this rule and the rule CANCELATION_RULE.md actual cancellation patterns used in the ExxerAI codebase:
 
+- All Async Projects Must:
 - Accept and propagate `CancellationToken`
 - Handle `OperationCanceledException` functionally
-- Return `Result<T>.WithFailure()` for cancellation scenarios
+- Return `Result<T>.C()` for cancellation scenarios
 - Distinguish between cancellation and timeout when applicable
 - Maintain consistent error messages and logging
 
@@ -265,6 +266,9 @@ public async Task<Result<List<ProcessedItem>>> ProcessBatchAsync(
     return Result<List<ProcessedItem>>.Success(results);
 }
 ```
+### Unit Testing, on Unit testing the 
+
+
 
 ### Files Requiring Audit
 

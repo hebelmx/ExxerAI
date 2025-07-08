@@ -44,7 +44,6 @@ Always use a functional-style failure when cancellation is triggered:
 
 ```csharp
 return ResultExtensions.Cancelled<T>();
-return ResultExtensions.Cancelled<T>("Customizede Message");
 ```
 ### 5. Source of CancelationToken
 - On Production Code the Cancelation Token must be supplied by the caller method if there is no one the calling method must be refactor to accept and propagate a cancelation Token
@@ -64,44 +63,24 @@ public static class ResultErrors
 
 ### Result Extensions for Cancellation
 
-Class CancellationAwareResult
-Class ResultExtensions
-Class ResultErrors
-Class ResultConstants
-
 ```csharp
 public static class ResultExtensions
 {
-		/// <summary>
-        /// Creates a result indicating that an operation was cancelled.
-        /// </summary>
-        /// <returns>A <see cref="Result"/> object representing a cancelled operation.</returns>
-        public static Result Cancelled()
-        {
-            return Result.WithFailure(ResultErrors.OperationCancelled);
-        }
+    public static Result Cancelled() =>
+        Result.WithFailure(ResultErrors.OperationCancelled);
 
-        /// <summary>
-        /// /// Creates a generic result indicating that an operation was cancelled.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static Result<T> Cancelled<T>()
-        {
-            return Result<T>.WithFailure(ResultErrors.OperationCancelled);
-        }
-		
+    public static Result<T> Cancelled<T>() =>
+        Result<T>.WithFailure(ResultErrors.OperationCancelled);
 
     public static bool IsCancelled(this Result result) =>
-        ...code emited for brevity
+        result.Errors.Contains(ResultErrors.OperationCancelled);
 
     public static bool IsCancelled<T>(this Result<T> result) =>
-        ...code emited for brevity
+        result.Errors.Contains(ResultErrors.OperationCancelled);
 }
 ```
 
 ### Method Pattern
-
 
 ```csharp
 public async Task<Result<MyDto>> HandleAsync(CancellationToken ct)
@@ -124,38 +103,20 @@ public async Task<Result<MyDto>> HandleAsync(CancellationToken ct)
 ### Optional Utility Wrapper
 
 ```csharp
- public static async Task<Result<T>> WrapCancellationAware<T>(
-        Func<CancellationToken, Task<T>> operation,
-        CancellationToken cancellationToken = default)
+public static async Task<Result<T>> WrapCancellationAware<T>(
+    Func<CancellationToken, Task<T>> operation,
+    CancellationToken ct)
+{
+    try
     {
-        // Validate arguments
-        if (operation is null)
-            return Result<T>.WithFailure($"Operation was null name of {operation} type Typeof {operation}");
-
-        // Early cancellation check
-        if (cancellationToken.IsCancellationRequested)
-            return ResultExtensions.Cancelled<T>();
-
-        try
-        {
-            var result = await operation(cancellationToken).ConfigureAwait(false);
-            return Result<T>.Success(result);
-        }
-        catch (OperationCanceledException)
-        {
-            return ResultExtensions.Cancelled<T>();
-        }
-        catch (Exception ex)
-        {
-            return Result<T>.WithFailure($"Operation failed: {ex.Message}");
-        }
+        var result = await operation(ct);
+        return Result<T>.WithSuccess(result);
     }
-	
-	  public static async Task<Result<T>> WrapResultOperation<T>(
-	  ...code emited for brevity
-	  
-	 public static async Task<Result<T>> WrapWithTimeout<T>(
-	 ...code emited for brevity
+    catch (OperationCanceledException)
+    {
+        return ResultExtensions.Cancelled<T>();
+    }
+}
 ```
 
 ---
@@ -170,6 +131,6 @@ public async Task<Result<MyDto>> HandleAsync(CancellationToken ct)
 | Handle CancellationException | Catch and convert to `Result.Cancelled<T>()`             |
 | Functional Return            | Return `Result<T>` for cancellation instead of exception |
 | Avoid Exceptions             | Do not throw exceptions for control flow                 |
-| Unit testing 	               | Use TestContext.Current.CancellationToken as Canceltoken |
+
 ---
 
