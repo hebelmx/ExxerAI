@@ -220,7 +220,7 @@ public class ConfigurationServiceTests : IDisposable
     [InlineData("openai")]
     [InlineData("anthropic")]
     [InlineData("huggingface")]
-    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethod(string provider)
+    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethod(string provider, CancellationToken cancellationToken = default)
     {
         // Arrange
         var expectedApiKey = $"secure-{provider}-key";

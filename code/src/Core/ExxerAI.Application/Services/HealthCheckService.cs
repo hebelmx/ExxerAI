@@ -1,5 +1,5 @@
-using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain;
+using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.Health;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
@@ -69,16 +69,16 @@ public class HealthCheckService : IHealthCheckService
                 }
                 catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
                 {
-                    return (provider.ComponentName, Result: Result<ComponentHealthReport>.Failure($"Health check cancelled for {provider.ComponentName}"));
+                    return (provider.ComponentName, Result: Result<ComponentHealthReport>.WithFailure($"Health check cancelled for {provider.ComponentName}"));
                 }
                 catch (OperationCanceledException)
                 {
-                    return (provider.ComponentName, Result: Result<ComponentHealthReport>.Failure($"Health check timeout for {provider.ComponentName} after {provider.Timeout}"));
+                    return (provider.ComponentName, Result: Result<ComponentHealthReport>.WithFailure($"Health check timeout for {provider.ComponentName} after {provider.Timeout}"));
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Error during health check for component {ComponentName}", provider.ComponentName);
-                    return (provider.ComponentName, Result: Result<ComponentHealthReport>.Failure($"Health check failed for {provider.ComponentName}: {ex.Message}"));
+                    return (provider.ComponentName, Result: Result<ComponentHealthReport>.WithFailure($"Health check failed for {provider.ComponentName}: {ex.Message}"));
                 }
             });
 
@@ -99,10 +99,10 @@ public class HealthCheckService : IHealthCheckService
                         ComponentName = componentName,
                         Status = HealthStatus.Critical,
                         CheckedAt = DateTime.UtcNow,
-                        StatusMessage = result.ErrorMessage ?? "Health check failed",
+                        StatusMessage = result.Error ?? "Health check failed",
                         CheckDuration = TimeSpan.Zero
                     };
-                    failedReport.AddIssue(HealthIssueSeverity.Critical, result.ErrorMessage ?? "Health check failed");
+                    failedReport.AddIssue(HealthIssueSeverity.Critical, result.Error ?? "Health check failed");
                     systemReport.ComponentReports[componentName] = failedReport;
                 }
             }
@@ -124,7 +124,7 @@ public class HealthCheckService : IHealthCheckService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to perform system health check");
-            return Result<SystemHealthReport>.Failure($"System health check failed: {ex.Message}");
+            return Result<SystemHealthReport>.WithFailure($"System health check failed: {ex.Message}");
         }
     }
 
@@ -133,12 +133,12 @@ public class HealthCheckService : IHealthCheckService
     {
         if (string.IsNullOrEmpty(componentName))
         {
-            return Result<ComponentHealthReport>.Failure("Component name cannot be null or empty");
+            return Result<ComponentHealthReport>.WithFailure("Component name cannot be null or empty");
         }
 
         if (!_healthCheckProviders.TryGetValue(componentName, out var provider))
         {
-            return Result<ComponentHealthReport>.Failure($"No health check provider registered for component '{componentName}'");
+            return Result<ComponentHealthReport>.WithFailure($"No health check provider registered for component '{componentName}'");
         }
 
         try
@@ -154,16 +154,16 @@ public class HealthCheckService : IHealthCheckService
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
         {
-            return Result<ComponentHealthReport>.Failure($"Health check cancelled for component '{componentName}'");
+            return Result<ComponentHealthReport>.WithFailure($"Health check cancelled for component '{componentName}'");
         }
         catch (OperationCanceledException)
         {
-            return Result<ComponentHealthReport>.Failure($"Health check timeout for component '{componentName}' after {provider.Timeout}");
+            return Result<ComponentHealthReport>.WithFailure($"Health check timeout for component '{componentName}' after {provider.Timeout}");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error during health check for component {ComponentName}", componentName);
-            return Result<ComponentHealthReport>.Failure($"Health check failed for component '{componentName}': {ex.Message}");
+            return Result<ComponentHealthReport>.WithFailure($"Health check failed for component '{componentName}': {ex.Message}");
         }
     }
 
@@ -218,7 +218,7 @@ public class HealthCheckService : IHealthCheckService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get health status summary");
-            return Result<Dictionary<string, HealthStatus>>.Failure($"Failed to get health status summary: {ex.Message}");
+            return Result<Dictionary<string, HealthStatus>>.WithFailure($"Failed to get health status summary: {ex.Message}");
         }
     }
 
@@ -235,14 +235,14 @@ public class HealthCheckService : IHealthCheckService
             while (!cancellationToken.IsCancellationRequested)
             {
                 var healthResult = await CheckSystemHealthAsync(cancellationToken);
-                
+
                 if (healthResult.IsSuccess)
                 {
                     reportCallback(healthResult.Value);
                 }
                 else
                 {
-                    _logger.LogWarning("Health check failed during monitoring: {Error}", healthResult.ErrorMessage);
+                    _logger.LogWarning("Health check failed during monitoring: {Error}", healthResult.Error);
                 }
 
                 await Task.Delay(checkInterval, cancellationToken);
@@ -300,7 +300,7 @@ public class HealthCheckService : IHealthCheckService
         {
             // Gather system performance metrics
             var process = Process.GetCurrentProcess();
-            
+
             metrics.MemoryUsageBytes = process.WorkingSet64;
             metrics.ThreadCount = process.Threads.Count;
             metrics.HandleCount = process.HandleCount;

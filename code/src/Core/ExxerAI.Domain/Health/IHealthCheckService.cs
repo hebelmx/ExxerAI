@@ -1,6 +1,6 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Operations;
 
-namespace ExxerAI.Application.Interfaces;
+namespace ExxerAI.Domain.Health;
 
 /// <summary>
 /// Service for monitoring and reporting system health status across all components

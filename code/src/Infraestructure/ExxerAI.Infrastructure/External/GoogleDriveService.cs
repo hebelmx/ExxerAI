@@ -2,6 +2,7 @@ using Google.Apis.Auth.OAuth2;
 using Google.Apis.Drive.v3;
 using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Application.Interfaces;
+using ExxerAI.Domain.Health;
 using ExxerAI.Domain;
 using Microsoft.Extensions.Logging;
 using ExxerAI.Domain.Operations;

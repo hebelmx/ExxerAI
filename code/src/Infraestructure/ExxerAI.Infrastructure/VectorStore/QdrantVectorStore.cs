@@ -109,7 +109,7 @@ public class QdrantVectorStore : IVectorStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize Qdrant vector store");
-            return Result.Failure($"Vector store initialization failed: {ex.Message}");
+            return Result.WithFailure($"Vector store initialization failed: {ex.Message}");
         }
     }
 
@@ -126,10 +126,10 @@ public class QdrantVectorStore : IVectorStore
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure("Document ID cannot be null or empty");
+                return Result.WithFailure("Document ID cannot be null or empty");
 
             if (embeddings == null || embeddings.Length != _vectorSize)
-                return Result.Failure($"Embeddings must be exactly {_vectorSize} dimensions");
+                return Result.WithFailure($"Embeddings must be exactly {_vectorSize} dimensions");
 
             await EnsureInitializedAsync(cancellationToken);
 
@@ -156,7 +156,7 @@ public class QdrantVectorStore : IVectorStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store embedding for document: {DocumentId}", documentId);
-            return Result.Failure($"Failed to store embedding: {ex.Message}");
+            return Result.WithFailure($"Failed to store embedding: {ex.Message}");
         }
     }
 
@@ -173,7 +173,7 @@ public class QdrantVectorStore : IVectorStore
         try
         {
             if (queryEmbedding == null || queryEmbedding.Length != _vectorSize)
-                return Result.Failure<IEnumerable<VectorSearchResult>>(
+                return Result<IEnumerable<VectorSearchResult>>.WithFailure(
                     $"Query embedding must be exactly {_vectorSize} dimensions");
 
             await EnsureInitializedAsync(cancellationToken);
@@ -215,7 +215,7 @@ public class QdrantVectorStore : IVectorStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to search similar documents");
-            return Result.Failure<IEnumerable<VectorSearchResult>>($"Search failed: {ex.Message}");
+            return Result<IEnumerable<VectorSearchResult>>.WithFailure($"Search failed: {ex.Message}");
         }
     }
 
@@ -227,7 +227,7 @@ public class QdrantVectorStore : IVectorStore
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure("Document ID cannot be null or empty");
+                return Result.WithFailure("Document ID cannot be null or empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
@@ -257,7 +257,7 @@ public class QdrantVectorStore : IVectorStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to delete embedding for document: {DocumentId}", documentId);
-            return Result.Failure($"Failed to delete embedding: {ex.Message}");
+            return Result.WithFailure($"Failed to delete embedding: {ex.Message}");
         }
     }
 
@@ -301,12 +301,12 @@ public class QdrantVectorStore : IVectorStore
                 }
             };
 
-            return Result.Success(stats);
+            return Result<VectorStoreStats>.Success(stats);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get vector store statistics");
-            return Result.Failure<VectorStoreStats>($"Failed to get stats: {ex.Message}");
+            return Result<VectorStoreStats>.WithFailure($"Failed to get stats: {ex.Message}");
         }
     }
 
@@ -355,7 +355,7 @@ public class QdrantVectorStore : IVectorStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store batch embeddings");
-            return Result.Failure($"Batch store failed: {ex.Message}");
+            return Result.WithFailure($"Batch store failed: {ex.Message}");
         }
     }
 

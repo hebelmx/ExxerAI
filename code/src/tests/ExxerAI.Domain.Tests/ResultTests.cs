@@ -155,7 +155,7 @@ public class ResultTests
         successResult.IsFailure.ShouldBeFalse();
         successResult.Errors.ShouldBeEmpty();
 
-        // Assert - Failure result properties
+        // Assert - WithFailure result properties
         failureResult.IsSuccess.ShouldBeFalse();
         failureResult.IsFailure.ShouldBeTrue();
         failureResult.Errors.ShouldContain("Test failure");
@@ -802,8 +802,8 @@ public class ResultTests
         }
         else
         {
-            mappedSuccess.Errors.ShouldNotBeNull("Failure results should never have null collections");
-            mappedSuccess.Errors.ShouldNotBeEmpty("Failure results should contain error messages");
+            mappedSuccess.Errors.ShouldNotBeNull("WithFailure results should never have null collections");
+            mappedSuccess.Errors.ShouldNotBeEmpty("WithFailure results should contain error messages");
         }
 
         // Test boundSuccess
@@ -814,8 +814,8 @@ public class ResultTests
         }
         else
         {
-            boundSuccess.Errors.ShouldNotBeNull("Failure results should never have null collections");
-            boundSuccess.Errors.ShouldNotBeEmpty("Failure results should contain error messages");
+            boundSuccess.Errors.ShouldNotBeNull("WithFailure results should never have null collections");
+            boundSuccess.Errors.ShouldNotBeEmpty("WithFailure results should contain error messages");
         }
 
         // Assert - Failures should propagate errors correctly
@@ -862,8 +862,8 @@ public class ResultTests
 
         // ✅ FAILURE BEHAVIOR: Always non-null collections with content
         var failure = Result<string>.WithFailure("error");
-        failure.Errors.ShouldNotBeNull("✅ Failure results must have non-null collections");
-        failure.Errors.ShouldNotBeEmpty("✅ Failure results must contain error messages");
+        failure.Errors.ShouldNotBeNull("✅ WithFailure results must have non-null collections");
+        failure.Errors.ShouldNotBeEmpty("✅ WithFailure results must contain error messages");
 
         // ✅ NULL INPUT HANDLING: Always converted to appropriate defaults
         var nullInputResult = Result<string>.WithFailure((IEnumerable<string>?)null);

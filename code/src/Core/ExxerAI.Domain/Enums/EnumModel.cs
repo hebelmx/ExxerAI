@@ -54,7 +54,7 @@ public class EnumModel : IComparable, IEnumModel
     /// <summary>
     /// Gets or sets the name of the enumeration.
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// Gets the display name of the enumeration.

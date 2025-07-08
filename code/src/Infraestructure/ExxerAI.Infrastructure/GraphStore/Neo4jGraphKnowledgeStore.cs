@@ -1,6 +1,7 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Operations;
 using Microsoft.Extensions.Logging;
+using Neo4j.Driver;
 using Neo4jClient;
 using Neo4jClient.Cypher;
 
@@ -14,7 +15,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 {
     private readonly IGraphClient _graphClient;
     private readonly ILogger<Neo4jGraphKnowledgeStore> _logger;
-    
+
     private static readonly object _initLock = new();
     private bool _isInitialized = false;
 
@@ -49,7 +50,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             // Create unique constraints
             await CreateConstraintsAsync(cancellationToken);
-            
+
             // Create indexes for performance
             await CreateIndexesAsync(cancellationToken);
 
@@ -64,7 +65,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize Neo4j graph knowledge store");
-            return Result.Failure($"Graph store initialization failed: {ex.Message}");
+            return Result.WithFailure($"Graph store initialization failed: {ex.Message}");
         }
     }
 
@@ -75,8 +76,8 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         try
         {
-            if (document == null) return Result.Failure("Document cannot be null");
-            if (string.IsNullOrWhiteSpace(document.DocumentId)) return Result.Failure("Document ID cannot be empty");
+            if (document == null) return Result.WithFailure("Document cannot be null");
+            if (string.IsNullOrWhiteSpace(document.DocumentId)) return Result.WithFailure("Document ID cannot be empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
@@ -116,7 +117,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store document: {DocumentId}", document?.DocumentId);
-            return Result.Failure($"Failed to store document: {ex.Message}");
+            return Result.WithFailure($"Failed to store document: {ex.Message}");
         }
     }
 
@@ -171,7 +172,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store concepts");
-            return Result.Failure($"Failed to store concepts: {ex.Message}");
+            return Result.WithFailure($"Failed to store concepts: {ex.Message}");
         }
     }
 
@@ -191,7 +192,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             foreach (var relationship in relationshipList)
             {
-                if (string.IsNullOrWhiteSpace(relationship.FromNodeId) || 
+                if (string.IsNullOrWhiteSpace(relationship.FromNodeId) ||
                     string.IsNullOrWhiteSpace(relationship.ToNodeId)) continue;
 
                 var relationshipType = SanitizeRelationshipType(relationship.RelationshipType);
@@ -226,7 +227,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to create relationships");
-            return Result.Failure($"Failed to create relationships: {ex.Message}");
+            return Result.WithFailure($"Failed to create relationships: {ex.Message}");
         }
     }
 
@@ -243,13 +244,13 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         try
         {
             if (string.IsNullOrWhiteSpace(conceptName))
-                return Result.Failure<IEnumerable<GraphDocument>>("Concept name cannot be empty");
+                return Result<IEnumerable<GraphDocument>>.WithFailure("Concept name cannot be empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
             _logger.LogDebug("Finding documents related to concept: {ConceptName}", conceptName);
 
-            var relationshipFilter = relationshipTypes?.Any() == true 
+            var relationshipFilter = relationshipTypes?.Any() == true
                 ? $":{string.Join("|", relationshipTypes.Select(SanitizeRelationshipType))}"
                 : "";
 
@@ -277,15 +278,15 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 Tags = r.tags?.ToList() ?? new List<string>()
             });
 
-            _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}", 
+            _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}",
                 documents.Count(), conceptName);
 
-            return Result.Success(documents);
+            return Result<IEnumerable<GraphDocument>>.Success(documents);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to find related documents for concept: {ConceptName}", conceptName);
-            return Result.Failure<IEnumerable<GraphDocument>>($"Failed to find related documents: {ex.Message}");
+            return Result<IEnumerable<GraphDocument>>.WithFailure($"Failed to find related documents: {ex.Message}");
         }
     }
 
@@ -302,13 +303,13 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure<IEnumerable<GraphConcept>>("Document ID cannot be empty");
+                return Result<IEnumerable<GraphConcept>>.WithFailure("Document ID cannot be empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
             _logger.LogDebug("Finding concepts related to document: {DocumentId}", documentId);
 
-            var relationshipFilter = relationshipTypes?.Any() == true 
+            var relationshipFilter = relationshipTypes?.Any() == true
                 ? $":{string.Join("|", relationshipTypes.Select(SanitizeRelationshipType))}"
                 : "";
 
@@ -335,15 +336,15 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 Aliases = r.aliases?.ToList() ?? new List<string>()
             });
 
-            _logger.LogInformation("Found {Count} concepts related to document: {DocumentId}", 
+            _logger.LogInformation("Found {Count} concepts related to document: {DocumentId}",
                 concepts.Count(), documentId);
 
-            return Result.Success(concepts);
+            return Result<IEnumerable<GraphConcept>>.Success(concepts);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to find related concepts for document: {DocumentId}", documentId);
-            return Result.Failure<IEnumerable<GraphConcept>>($"Failed to find related concepts: {ex.Message}");
+            return Result<IEnumerable<GraphConcept>>.WithFailure($"Failed to find related concepts: {ex.Message}");
         }
     }
 
@@ -358,7 +359,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         try
         {
             if (string.IsNullOrWhiteSpace(cypherQuery))
-                return Result.Failure<IEnumerable<Dictionary<string, object>>>("Cypher query cannot be empty");
+                return Result<IEnumerable<Dictionary<string, object>>>.WithFailure("Cypher query cannot be empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
@@ -377,12 +378,12 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             var results = await query.Return<Dictionary<string, object>>("*").ResultsAsync;
 
             _logger.LogDebug("Custom query returned {Count} results", results.Count());
-            return Result.Success(results);
+            return Result<IEnumerable<Dictionary<string, object>>>.Success(results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to execute custom Cypher query");
-            return Result.Failure<IEnumerable<Dictionary<string, object>>>($"Query execution failed: {ex.Message}");
+            return Result<IEnumerable<Dictionary<string, object>>>.WithFailure($"Query execution failed: {ex.Message}");
         }
     }
 
@@ -399,13 +400,13 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         try
         {
             if (string.IsNullOrWhiteSpace(fromEntityId) || string.IsNullOrWhiteSpace(toEntityId))
-                return Result.Failure<GraphPath>("Entity IDs cannot be empty");
+                return Result<GraphPath>.WithFailure("Entity IDs cannot be empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
             _logger.LogDebug("Finding shortest path from {From} to {To}", fromEntityId, toEntityId);
 
-            var relationshipFilter = relationshipTypes?.Any() == true 
+            var relationshipFilter = relationshipTypes?.Any() == true
                 ? $":{string.Join("|", relationshipTypes.Select(SanitizeRelationshipType))}"
                 : "";
 
@@ -424,20 +425,20 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             var path = results.FirstOrDefault();
             if (path == null)
             {
-                return Result.Success(new GraphPath { Length = -1 }); // No path found
+                return Result<GraphPath>.Success(new GraphPath { Length = -1 }); // No path found
             }
 
             var graphPath = ConvertToGraphPath(path);
-            
-            _logger.LogInformation("Found shortest path of length {Length} from {From} to {To}", 
+
+            _logger.LogInformation("Found shortest path of length {Length} from {From} to {To}",
                 graphPath.Length, fromEntityId, toEntityId);
 
-            return Result.Success(graphPath);
+            return Result<GraphPath>.Success(graphPath);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to find shortest path from {From} to {To}", fromEntityId, toEntityId);
-            return Result.Failure<GraphPath>($"Shortest path search failed: {ex.Message}");
+            return Result<GraphPath>.WithFailure($"Shortest path search failed: {ex.Message}");
         }
     }
 
@@ -481,15 +482,15 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 LastUpdated = DateTime.UtcNow
             };
 
-            _logger.LogInformation("Graph stats: {TotalNodes} nodes, {TotalRelationships} relationships", 
+            _logger.LogInformation("Graph stats: {TotalNodes} nodes, {TotalRelationships} relationships",
                 stats.TotalNodes, stats.TotalRelationships);
 
-            return Result.Success(stats);
+            return Result<GraphKnowledgeStats>.Success(stats);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get graph statistics");
-            return Result.Failure<GraphKnowledgeStats>($"Stats retrieval failed: {ex.Message}");
+            return Result<GraphKnowledgeStats>.WithFailure($"Stats retrieval failed: {ex.Message}");
         }
     }
 
@@ -501,7 +502,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure("Document ID cannot be empty");
+                return Result.WithFailure("Document ID cannot be empty");
 
             await EnsureInitializedAsync(cancellationToken);
 
@@ -519,7 +520,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to delete document: {DocumentId}", documentId);
-            return Result.Failure($"Failed to delete document: {ex.Message}");
+            return Result.WithFailure($"Failed to delete document: {ex.Message}");
         }
     }
 
@@ -571,7 +572,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to complete batch store operation");
-            return Result.Failure($"Batch store failed: {ex.Message}");
+            return Result.WithFailure($"Batch store failed: {ex.Message}");
         }
     }
 
@@ -646,7 +647,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         // In a real implementation, you'd extract nodes and relationships from the Neo4j path
         return new GraphPath
         {
-            Length = path?.Length ?? 0,
+            Length = path?.Nodes.Count ?? 0,
             Nodes = new List<GraphNode>(),
             Relationships = new List<GraphRelationship>(),
             TotalWeight = 0

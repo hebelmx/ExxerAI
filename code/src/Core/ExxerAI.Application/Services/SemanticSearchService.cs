@@ -32,7 +32,7 @@ public class SemanticSearchService
         try
         {
             _logger.LogInformation("Initializing semantic search service");
-            
+
             var result = await _vectorStore.InitializeAsync(cancellationToken);
             if (result.IsFailure)
                 return result;
@@ -43,7 +43,7 @@ public class SemanticSearchService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize semantic search service");
-            return Result.Failure($"Initialization failed: {ex.Message}");
+            return Result.WithFailure($"Initialization failed: {ex.Message}");
         }
     }
 
@@ -63,10 +63,10 @@ public class SemanticSearchService
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure("Document ID cannot be null or empty");
+                return Result.WithFailure("Document ID cannot be null or empty");
 
             if (string.IsNullOrWhiteSpace(content))
-                return Result.Failure("Document content cannot be null or empty");
+                return Result.WithFailure("Document content cannot be null or empty");
 
             _logger.LogDebug("Indexing document: {DocumentId}", documentId);
 
@@ -74,9 +74,9 @@ public class SemanticSearchService
             var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(content, cancellationToken);
             if (embeddingResult.IsFailure)
             {
-                _logger.LogError("Failed to generate embedding for document {DocumentId}: {Error}", 
+                _logger.LogError("Failed to generate embedding for document {DocumentId}: {Error}",
                     documentId, embeddingResult.Error);
-                return Result.Failure($"Embedding generation failed: {embeddingResult.Error}");
+                return Result.WithFailure($"Embedding generation failed: {embeddingResult.Error}");
             }
 
             // Store in vector database
@@ -85,9 +85,9 @@ public class SemanticSearchService
 
             if (storeResult.IsFailure)
             {
-                _logger.LogError("Failed to store embedding for document {DocumentId}: {Error}", 
+                _logger.LogError("Failed to store embedding for document {DocumentId}: {Error}",
                     documentId, storeResult.Error);
-                return Result.Failure($"Vector storage failed: {storeResult.Error}");
+                return Result.WithFailure($"Vector storage failed: {storeResult.Error}");
             }
 
             _logger.LogInformation("Successfully indexed document: {DocumentId}", documentId);
@@ -96,7 +96,7 @@ public class SemanticSearchService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to index document: {DocumentId}", documentId);
-            return Result.Failure($"Document indexing failed: {ex.Message}");
+            return Result.WithFailure($"Document indexing failed: {ex.Message}");
         }
     }
 
@@ -110,9 +110,9 @@ public class SemanticSearchService
         try
         {
             var documentList = documents?.ToList() ?? new List<DocumentToIndex>();
-            
+
             if (!documentList.Any())
-                return Result.Success(new BatchIndexingResult());
+                return Result<BatchIndexingResult>.Success(new BatchIndexingResult());
 
             _logger.LogInformation("Starting batch indexing of {Count} documents", documentList.Count);
 
@@ -123,7 +123,7 @@ public class SemanticSearchService
             if (embeddingsResult.IsFailure)
             {
                 _logger.LogError("Failed to generate batch embeddings: {Error}", embeddingsResult.Error);
-                return Result.Failure<BatchIndexingResult>($"Batch embedding generation failed: {embeddingsResult.Error}");
+                return Result<BatchIndexingResult>.WithFailure($"Batch embedding generation failed: {embeddingsResult.Error}");
             }
 
             // Create vector store items
@@ -158,16 +158,16 @@ public class SemanticSearchService
             if (storeResult.IsFailure)
             {
                 _logger.LogError("Failed to store batch embeddings: {Error}", storeResult.Error);
-                return Result.Failure<BatchIndexingResult>($"Batch vector storage failed: {storeResult.Error}");
+                return Result<BatchIndexingResult>.WithFailure($"Batch vector storage failed: {storeResult.Error}");
             }
 
             _logger.LogInformation("Successfully indexed {Count} documents in batch", documentList.Count);
-            return Result.Success(batchResult);
+            return Result<BatchIndexingResult>.Success(batchResult);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to index documents in batch");
-            return Result.Failure<BatchIndexingResult>($"Batch indexing failed: {ex.Message}");
+            return Result<BatchIndexingResult>.WithFailure($"Batch indexing failed: {ex.Message}");
         }
     }
 
@@ -184,7 +184,7 @@ public class SemanticSearchService
         try
         {
             if (string.IsNullOrWhiteSpace(query))
-                return Result.Failure<SemanticSearchResults>("Query cannot be null or empty");
+                return Result<SemanticSearchResults>.WithFailure("Query cannot be null or empty");
 
             _logger.LogDebug("Performing semantic search for query: {Query}", query);
 
@@ -193,7 +193,7 @@ public class SemanticSearchService
             if (queryEmbeddingResult.IsFailure)
             {
                 _logger.LogError("Failed to generate query embedding: {Error}", queryEmbeddingResult.Error);
-                return Result.Failure<SemanticSearchResults>($"Query embedding failed: {queryEmbeddingResult.Error}");
+                return Result<SemanticSearchResults>.WithFailure($"Query embedding failed: {queryEmbeddingResult.Error}");
             }
 
             // Search vector store
@@ -203,7 +203,7 @@ public class SemanticSearchService
             if (searchResult.IsFailure)
             {
                 _logger.LogError("Vector search failed: {Error}", searchResult.Error);
-                return Result.Failure<SemanticSearchResults>($"Vector search failed: {searchResult.Error}");
+                return Result<SemanticSearchResults>.WithFailure($"Vector search failed: {searchResult.Error}");
             }
 
             var results = new SemanticSearchResults
@@ -221,12 +221,12 @@ public class SemanticSearchService
             };
 
             _logger.LogInformation("Semantic search completed. Found {Count} results for query", results.TotalFound);
-            return Result.Success(results);
+            return Result<SemanticSearchResults>.Success(results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to perform semantic search");
-            return Result.Failure<SemanticSearchResults>($"Semantic search failed: {ex.Message}");
+            return Result<SemanticSearchResults>.WithFailure($"Semantic search failed: {ex.Message}");
         }
     }
 
@@ -238,12 +238,12 @@ public class SemanticSearchService
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure("Document ID cannot be null or empty");
+                return Result.WithFailure("Document ID cannot be null or empty");
 
             _logger.LogDebug("Removing document from index: {DocumentId}", documentId);
 
             var result = await _vectorStore.DeleteEmbeddingAsync(documentId, cancellationToken);
-            
+
             if (result.IsSuccess)
                 _logger.LogInformation("Successfully removed document: {DocumentId}", documentId);
             else
@@ -254,7 +254,7 @@ public class SemanticSearchService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to remove document: {DocumentId}", documentId);
-            return Result.Failure($"Document removal failed: {ex.Message}");
+            return Result.WithFailure($"Document removal failed: {ex.Message}");
         }
     }
 
@@ -266,7 +266,7 @@ public class SemanticSearchService
         try
         {
             var result = await _vectorStore.GetStatsAsync(cancellationToken);
-            
+
             if (result.IsSuccess)
                 _logger.LogDebug("Retrieved index stats: {TotalVectors} vectors", result.Value.TotalVectors);
             else
@@ -277,7 +277,7 @@ public class SemanticSearchService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get index statistics");
-            return Result.Failure<VectorStoreStats>($"Stats retrieval failed: {ex.Message}");
+            return Result<VectorStoreStats>.WithFailure($"Stats retrieval failed: {ex.Message}");
         }
     }
 }

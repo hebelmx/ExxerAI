@@ -1,4 +1,4 @@
-namespace ExxerAI.Application.Interfaces;
+namespace ExxerAI.Domain.Health;
 
 /// <summary>
 /// Enumeration of system health statuses.
@@ -24,4 +24,4 @@ public enum HealthStatus
     /// System is not functional.
     /// </summary>
     Critical
-}
+} 

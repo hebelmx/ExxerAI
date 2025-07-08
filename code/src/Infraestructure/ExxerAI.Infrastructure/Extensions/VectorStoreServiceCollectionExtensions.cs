@@ -78,7 +78,7 @@ public static class VectorStoreServiceCollectionExtensions
         });
 
         // Register our wrapper
-        services.AddScoped<IEmbeddingGenerator>(provider =>
+        services.AddScoped<ExxerAI.Application.Interfaces.IEmbeddingGenerator>(provider =>
         {
             var embeddingGenerator = provider.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
             var logger = provider.GetRequiredService<ILogger<OpenAIEmbeddingGenerator>>();
@@ -270,9 +270,9 @@ public static class ServiceProviderExtensions
     /// <summary>
     /// Get the embedding generator from DI container
     /// </summary>
-    public static IEmbeddingGenerator GetEmbeddingGenerator(this IServiceProvider serviceProvider)
+    public static ExxerAI.Application.Interfaces.IEmbeddingGenerator GetEmbeddingGenerator(this IServiceProvider serviceProvider)
     {
-        return serviceProvider.GetRequiredService<IEmbeddingGenerator>();
+        return serviceProvider.GetRequiredService<ExxerAI.Application.Interfaces.IEmbeddingGenerator>();
     }
 
     /// <summary>

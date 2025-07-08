@@ -257,7 +257,7 @@ public class SecureKeyStoreTests : IDisposable
     [InlineData("special@key#name", "value-with-special!@#characters")]
     [InlineData("unicode-key-🔑", "unicode-value-🔐")]
     [InlineData("very-long-key-name-that-exceeds-normal-length", "very-long-value-with-lots-of-content-that-tests-encryption-with-larger-data")]
-    public async Task EncryptionDecryption_WithVariousInputs_ShouldMaintainDataIntegrity(string keyName, string value)
+    public async Task EncryptionDecryption_WithVariousInputs_ShouldMaintainDataIntegrity(string keyName, string value, CancellationToken cancellationToken = default)
     {
         // Act
         await _keyStore.SetKeyAsync(keyName, value);

@@ -1,6 +1,6 @@
-using ExxerAI.Domain;
+using ExxerAI.Domain.Operations;
 
-namespace ExxerAI.Application.Interfaces;
+namespace ExxerAI.Domain.Health;
 
 /// <summary>
 /// Provider interface for component-specific health checks

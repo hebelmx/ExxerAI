@@ -58,7 +58,7 @@ public class HybridKnowledgeService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize hybrid knowledge service");
-            return Result.Failure($"Initialization failed: {ex.Message}");
+            return Result.WithFailure($"Initialization failed: {ex.Message}");
         }
     }
 
@@ -71,8 +71,8 @@ public class HybridKnowledgeService
     {
         try
         {
-            if (document == null) return Result.Failure("Document cannot be null");
-            if (string.IsNullOrWhiteSpace(document.DocumentId)) return Result.Failure("Document ID cannot be empty");
+            if (document == null) return Result.WithFailure("Document cannot be null");
+            if (string.IsNullOrWhiteSpace(document.DocumentId)) return Result.WithFailure("Document ID cannot be empty");
 
             _logger.LogInformation("Storing document with knowledge: {DocumentId}", document.DocumentId);
 
@@ -80,9 +80,9 @@ public class HybridKnowledgeService
             var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(document.Content, cancellationToken);
             if (embeddingResult.IsFailure)
             {
-                _logger.LogError("Failed to generate embeddings for document {DocumentId}: {Error}", 
+                _logger.LogError("Failed to generate embeddings for document {DocumentId}: {Error}",
                     document.DocumentId, embeddingResult.Error);
-                return Result.Failure($"Embedding generation failed: {embeddingResult.Error}");
+                return Result.WithFailure($"Embedding generation failed: {embeddingResult.Error}");
             }
 
             // Store in vector database
@@ -126,7 +126,7 @@ public class HybridKnowledgeService
                 var conceptsResult = await _graphStore.StoreConceptsAsync(document.ExtractedConcepts, cancellationToken);
                 if (conceptsResult.IsFailure)
                 {
-                    _logger.LogWarning("Failed to store concepts for document {DocumentId}: {Error}", 
+                    _logger.LogWarning("Failed to store concepts for document {DocumentId}: {Error}",
                         document.DocumentId, conceptsResult.Error);
                 }
 
@@ -147,7 +147,7 @@ public class HybridKnowledgeService
                 var relationshipsResult = await _graphStore.CreateRelationshipsAsync(relationships, cancellationToken);
                 if (relationshipsResult.IsFailure)
                 {
-                    _logger.LogWarning("Failed to create concept relationships for document {DocumentId}: {Error}", 
+                    _logger.LogWarning("Failed to create concept relationships for document {DocumentId}: {Error}",
                         document.DocumentId, relationshipsResult.Error);
                 }
             }
@@ -158,7 +158,7 @@ public class HybridKnowledgeService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store document with knowledge: {DocumentId}", document?.DocumentId);
-            return Result.Failure($"Document storage failed: {ex.Message}");
+            return Result.WithFailure($"Document storage failed: {ex.Message}");
         }
     }
 
@@ -173,7 +173,7 @@ public class HybridKnowledgeService
         try
         {
             if (string.IsNullOrWhiteSpace(query))
-                return Result.Failure<HybridSearchResults>("Query cannot be empty");
+                return Result<HybridSearchResults>.WithFailure("Query cannot be empty");
 
             options ??= new HybridSearchOptions();
 
@@ -216,12 +216,12 @@ public class HybridKnowledgeService
             _logger.LogInformation("Hybrid search completed. Combined {SemanticCount} semantic + {GraphCount} graph results into {CombinedCount} final results",
                 results.SemanticResults.Count, results.RelationshipResults.Count, results.CombinedResults.Count);
 
-            return Result.Success(results);
+            return Result<HybridSearchResults>.Success(results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to perform hybrid search");
-            return Result.Failure<HybridSearchResults>($"Hybrid search failed: {ex.Message}");
+            return Result<HybridSearchResults>.WithFailure($"Hybrid search failed: {ex.Message}");
         }
     }
 
@@ -243,7 +243,7 @@ public class HybridKnowledgeService
 
             if (result.IsSuccess)
             {
-                _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}", 
+                _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}",
                     result.Value.Count(), conceptName);
             }
 
@@ -252,7 +252,8 @@ public class HybridKnowledgeService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to explore concept relationships for: {ConceptName}", conceptName);
-            return Result.Failure<IEnumerable<GraphDocument>>($"Concept exploration failed: {ex.Message}");
+            //wrong usage       //  return Result.WithFailure<IEnumerable<GraphDocument>>($"Concept exploration failed: {ex.Message}");
+            return Result<IEnumerable<GraphDocument>>.WithFailure($"Concept exploration failed: {ex.Message}");  //<<---Correct usage
         }
     }
 
@@ -280,12 +281,12 @@ public class HybridKnowledgeService
                 LastUpdated = DateTime.UtcNow
             };
 
-            return Result.Success(hybridStats);
+            return Result<HybridKnowledgeStats>.Success(hybridStats);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get hybrid knowledge statistics");
-            return Result.Failure<HybridKnowledgeStats>($"Stats retrieval failed: {ex.Message}");
+            return Result<HybridKnowledgeStats>.WithFailure($"Stats retrieval failed: {ex.Message}");
         }
     }
 
@@ -297,7 +298,7 @@ public class HybridKnowledgeService
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
-                return Result.Failure("Document ID cannot be empty");
+                return Result.WithFailure("Document ID cannot be empty");
 
             _logger.LogInformation("Removing document from hybrid knowledge store: {DocumentId}", documentId);
 
@@ -318,7 +319,7 @@ public class HybridKnowledgeService
             {
                 var errorMessage = string.Join("; ", errors);
                 _logger.LogError("Partial failure removing document {DocumentId}: {Errors}", documentId, errorMessage);
-                return Result.Failure($"Partial removal failure: {errorMessage}");
+                return Result.WithFailure($"Partial removal failure: {errorMessage}");
             }
 
             _logger.LogInformation("Successfully removed document from hybrid knowledge store: {DocumentId}", documentId);
@@ -327,7 +328,7 @@ public class HybridKnowledgeService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to remove document: {DocumentId}", documentId);
-            return Result.Failure($"Document removal failed: {ex.Message}");
+            return Result.WithFailure($"Document removal failed: {ex.Message}");
         }
     }
 
@@ -338,7 +339,7 @@ public class HybridKnowledgeService
     {
         var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(query, cancellationToken);
         if (embeddingResult.IsFailure)
-            return Result.Failure<IEnumerable<VectorSearchResult>>(embeddingResult.Error);
+            return Result<IEnumerable<VectorSearchResult>>.WithFailure(embeddingResult.Error);
 
         return await _vectorStore.SearchSimilarAsync(
             embeddingResult.Value,
@@ -392,7 +393,7 @@ public class HybridKnowledgeService
             {
                 // Boost existing result with graph evidence
                 existing.GraphScore = 1.0f;
-                existing.CombinedScore = (existing.SemanticScore * options.SemanticWeight) + 
+                existing.CombinedScore = (existing.SemanticScore * options.SemanticWeight) +
                                         (1.0f * options.GraphWeight);
                 existing.ResultType = "Hybrid";
             }

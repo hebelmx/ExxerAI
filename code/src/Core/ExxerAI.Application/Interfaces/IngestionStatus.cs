@@ -1,3 +1,5 @@
+using ExxerAI.Domain.Health;
+
 namespace ExxerAI.Application.Interfaces;
 
 /// <summary>

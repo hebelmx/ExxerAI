@@ -29,12 +29,12 @@ public static class ResultConstants
     /// <summary>
     /// Prefix used in ToString() representation for failed results.
     /// </summary>
-    public const string FailurePrefix = "Failure";
+    public const string FailurePrefix = "WithFailure";
     
     /// <summary>
     /// Default ToString() representation for failed results with no specific errors.
     /// </summary>
-    public const string DefaultFailureString = "Failure";
+    public const string DefaultFailureString = "WithFailure";
     
     /// <summary>
     /// Error message template for RecoverWith type conversion failures.

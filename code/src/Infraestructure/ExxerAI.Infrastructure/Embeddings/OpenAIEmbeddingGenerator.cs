@@ -9,7 +9,7 @@ namespace ExxerAI.Infrastructure.Embeddings;
 /// OpenAI implementation for generating text embeddings
 /// Uses Microsoft.Extensions.AI abstractions for consistent interface
 /// </summary>
-public class OpenAIEmbeddingGenerator : IEmbeddingGenerator
+public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddingGenerator
 {
     private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
     private readonly ILogger<OpenAIEmbeddingGenerator> _logger;
@@ -51,7 +51,7 @@ public class OpenAIEmbeddingGenerator : IEmbeddingGenerator
         try
         {
             if (string.IsNullOrWhiteSpace(text))
-                return Result.Failure<float[]>("Text cannot be null or empty");
+                return Result<float[]>.WithFailure("Text cannot be null or empty");
 
             // Check token limit (rough estimation: 4 chars per token)
             var estimatedTokens = text.Length / 4;
@@ -71,35 +71,35 @@ public class OpenAIEmbeddingGenerator : IEmbeddingGenerator
                 var vector = embedding.Vector.ToArray();
 
                 _logger.LogDebug("Generated embedding with {Dimensions} dimensions", vector.Length);
-                return Result.Success(vector);
+                return Result<float[]>.Success(vector);
             }
 
-            return Result.Failure<float[]>("Failed to generate embedding - empty result");
+            return Result<float[]>.WithFailure("Failed to generate embedding - empty result");
         }
         catch (ArgumentException ex)
         {
             _logger.LogError(ex, "Invalid argument for embedding generation");
-            return Result.Failure<float[]>($"Invalid input: {ex.Message}");
+            return Result<float[]>.WithFailure($"Invalid input: {ex.Message}");
         }
         catch (InvalidOperationException ex)
         {
             _logger.LogError(ex, "Invalid operation during embedding generation");
-            return Result.Failure<float[]>($"Operation failed: {ex.Message}");
+            return Result<float[]>.WithFailure($"Operation failed: {ex.Message}");
         }
         catch (HttpRequestException ex)
         {
             _logger.LogError(ex, "HTTP error during embedding generation");
-            return Result.Failure<float[]>($"Network error: {ex.Message}");
+            return Result<float[]>.WithFailure($"Network error: {ex.Message}");
         }
         catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
         {
             _logger.LogError(ex, "Timeout during embedding generation");
-            return Result.Failure<float[]>("Request timed out");
+            return Result<float[]>.WithFailure("Request timed out");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unexpected error during embedding generation");
-            return Result.Failure<float[]>($"Unexpected error: {ex.Message}");
+            return Result<float[]>.WithFailure($"Unexpected error: {ex.Message}");
         }
     }
 
@@ -115,13 +115,13 @@ public class OpenAIEmbeddingGenerator : IEmbeddingGenerator
             var textList = texts?.ToList() ?? new List<string>();
             
             if (!textList.Any())
-                return Result.Success(Enumerable.Empty<EmbeddingResult>());
+                return Result<IEnumerable<EmbeddingResult>>.Success(Enumerable.Empty<EmbeddingResult>());
 
             // Filter out null/empty texts
             var validTexts = textList.Where(t => !string.IsNullOrWhiteSpace(t)).ToList();
             
             if (!validTexts.Any())
-                return Result.Failure<IEnumerable<EmbeddingResult>>("No valid texts provided");
+                return Result<IEnumerable<EmbeddingResult>>.WithFailure("No valid texts provided");
 
             _logger.LogDebug("Generating embeddings for {Count} texts", validTexts.Count);
 
@@ -135,18 +135,18 @@ public class OpenAIEmbeddingGenerator : IEmbeddingGenerator
                 var batchResults = await GenerateBatchInternalAsync(batch, cancellationToken);
                 
                 if (batchResults.IsFailure)
-                    return Result.Failure<IEnumerable<EmbeddingResult>>(batchResults.Error);
+                    return Result<IEnumerable<EmbeddingResult>>.WithFailure(batchResults.Error);
                 
                 allResults.AddRange(batchResults.Value);
             }
 
             _logger.LogInformation("Generated {Count} embeddings successfully", allResults.Count);
-            return Result.Success(allResults.AsEnumerable());
+            return Result<IEnumerable<EmbeddingResult>>.Success(allResults.AsEnumerable());
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to generate batch embeddings");
-            return Result.Failure<IEnumerable<EmbeddingResult>>($"Batch embedding generation failed: {ex.Message}");
+            return Result<IEnumerable<EmbeddingResult>>.WithFailure($"Batch embedding generation failed: {ex.Message}");
         }
     }
 
@@ -172,12 +172,12 @@ public class OpenAIEmbeddingGenerator : IEmbeddingGenerator
                 });
             }
 
-            return Result.Success(results);
+            return Result<List<EmbeddingResult>>.Success(results);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to generate batch embeddings");
-            return Result.Failure<List<EmbeddingResult>>($"Batch generation failed: {ex.Message}");
+            return Result<List<EmbeddingResult>>.WithFailure($"Batch generation failed: {ex.Message}");
         }
     }
 

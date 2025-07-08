@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Grpc.Core;
 using MongoDB.Driver;
 using NorthernNerds.Aspire.Hosting.Neo4j;
 
@@ -226,10 +227,10 @@ var seq = builder.AddSeq("seq")
 var neo4jUser = builder.AddParameter("neo4jUser", "neo4j");
 var neo4jPass = builder.AddParameter("neo4jPass", "secret");
 
+//Basic version of neo4J only support one datbase for user
+//So no need at this time to add more databases
+//At least until the app grow and need this or the app is becoming multittenant
 var neo4jDb = builder.AddNeo4j("graph-db", neo4jUser, neo4jPass);
-
-var db = neo4jDb.AddDatabase(databaseName)
-    .WithCreationScript(creationScript);
 
 // Client Side configuration for Neo4j
 /*NorthernNerds.Aspire.Neo4j	NuGet	Downloads
@@ -263,6 +264,8 @@ https://github.com/terle/aspire-neo4j?tab=readme-ov-file
 https://github.com/terle/aspire-neo4j/blob/main/example/README.md
  *
  */
+
+var ollama = builder.AddOllama("Ollama", 1342, "llama3:latest");
 
 // Monitoring - Prometheus
 builder.AddContainer("prometheus", "prom/prometheus", "latest")

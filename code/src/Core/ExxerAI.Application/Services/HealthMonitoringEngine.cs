@@ -1,4 +1,5 @@
 using ExxerAI.Application.Interfaces;
+using ExxerAI.Domain.Health;
 
 namespace ExxerAI.Application.Services;
 

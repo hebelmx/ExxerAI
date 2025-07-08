@@ -145,7 +145,7 @@ public class MCPTypesTests
 
 		[Theory]
 		[InlineData(true, "Success")]
-		[InlineData(false, "Failure")]
+		[InlineData(false, "WithFailure")]
 		public void Should_HandleSuccessAndFailure_When_StatusSet(bool isSuccess, string message)
 		{
 			// Arrange
