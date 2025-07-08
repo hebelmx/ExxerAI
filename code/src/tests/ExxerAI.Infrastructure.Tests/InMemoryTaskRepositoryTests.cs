@@ -122,7 +122,7 @@ public class InMemoryTaskRepositoryTests
             var taskId = addResult.Data!.Id;
 
             // Act
-            var result = await _repository.GetByIdAsync(taskId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+            var result = await _repository.GetByIdAsync(taskId,  TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
