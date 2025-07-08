@@ -173,7 +173,7 @@ public class SecureKeyStoreTests : IDisposable
         // Arrange
         var scope1 = "scope1";
         var scope2 = "scope2";
-        
+
         await _keyStore.SetKeyAsync("key1", "value1", scope1);
         await _keyStore.SetKeyAsync("key2", "value2", scope1);
         await _keyStore.SetKeyAsync("key3", "value3", scope2);
@@ -240,13 +240,13 @@ public class SecureKeyStoreTests : IDisposable
 
         // Act
         await _keyStore.SetKeyAsync(keyName, value, null, expiration);
-        
+
         // Verify key exists initially
         var initialValue = await _keyStore.GetKeyAsync(keyName);
         initialValue.ShouldBe(value);
 
         // Wait for expiration
-        await Task.Delay(expiration.Add(TimeSpan.FromMilliseconds(50, TestContext.Current.CancellationToken);
+        await Task.Delay(expiration.Add(TimeSpan.FromMilliseconds(50)), TestContext.Current.CancellationToken);
 
         // Assert key has expired
         var expiredValue = await _keyStore.GetKeyAsync(keyName);

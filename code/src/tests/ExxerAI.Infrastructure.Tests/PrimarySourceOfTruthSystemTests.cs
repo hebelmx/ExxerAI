@@ -183,7 +183,7 @@ public class PrimarySourceOfTruthSystemTests
         [Theory]
         [InlineData("")]
         [InlineData("   ")]
-        [InlineData(null!!)]
+        [InlineData(null!)]
         public async Task Should_ReturnFailure_When_InvalidRecordIdProvided(string invalidId)
         {
             // Arrange

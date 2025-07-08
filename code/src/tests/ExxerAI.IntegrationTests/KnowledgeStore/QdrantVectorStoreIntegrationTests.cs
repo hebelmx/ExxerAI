@@ -65,7 +65,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
 
         // Act - Search
         var searchResult = await _vectorStore.SearchSimilarAsync(
-            embeddings, limit: 5, threshold: 0.9f, TestContext.Current.CancellationToken);
+            embeddings, limit: 5, threshold: 0.9f, null!, TestContext.Current.CancellationToken);
 
         // Assert
         storeResult.IsSuccess.ShouldBeTrue();
@@ -90,14 +90,15 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         var batchItems = GenerateTestBatch(batchSize);
 
         // Act
-        var result = await _vectorStore.StoreBatchAsync(batchItems);
+        var result = await _vectorStore.StoreBatchAsync(batchItems, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
 
         // Verify batch was stored
         var searchResult = await _vectorStore.SearchSimilarAsync(
-            batchItems.First().Embeddings, limit: batchSize, TestContext.Current.CancellationToken);
+            batchItems.First().Embeddings, limit: batchSize, 0.7f,
+            null!, TestContext.Current.CancellationToken);
 
         searchResult.IsSuccess.ShouldBeTrue();
         searchResult.Value!.Count().ShouldBeGreaterThan(50); // At least half should be similar
@@ -114,7 +115,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         var content = "Document to be deleted";
         var embeddings = GenerateTestEmbedding(1536);
 
-        await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, TestContext.Current.CancellationToken);
+        await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, null!, TestContext.Current.CancellationToken);
 
         // Act
         var deleteResult = await _vectorStore.DeleteEmbeddingAsync(documentId, TestContext.Current.CancellationToken);
@@ -123,7 +124,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         deleteResult.IsSuccess.ShouldBeTrue();
 
         // Verify deletion by searching
-        var searchResult = await _vectorStore.SearchSimilarAsync(embeddings, threshold: 0.95f, TestContext.Current.CancellationToken);
+        var searchResult = await _vectorStore.SearchSimilarAsync(embeddings, threshold: 0.95f, cancellationToken: TestContext.Current.CancellationToken);
         searchResult.IsSuccess.ShouldBeTrue();
         searchResult.Value!.Any(r => r.DocumentId == documentId).ShouldBeFalse();
     }
@@ -195,7 +196,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         // Act
         var initResult = await customStore.InitializeAsync(TestContext.Current.CancellationToken);
         var embeddings = GenerateTestEmbedding(dimensions);
-        var storeResult = await customStore.StoreEmbeddingAsync("test-doc", "content", embeddings, TestContext.Current.CancellationToken);
+        var storeResult = await customStore.StoreEmbeddingAsync("test-doc", "content", embeddings, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         initResult.IsSuccess.ShouldBeTrue();
@@ -217,7 +218,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
 
         // Act & Assert - Batch indexing performance
         var indexingStopwatch = System.Diagnostics.Stopwatch.StartNew();
-        var batchResult = await _vectorStore.StoreBatchAsync(batchItems);
+        var batchResult = await _vectorStore.StoreBatchAsync(batchItems, TestContext.Current.CancellationToken);
         indexingStopwatch.Stop();
 
         batchResult.IsSuccess.ShouldBeTrue();
@@ -226,7 +227,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         // Act & Assert - Search performance
         var searchStopwatch = System.Diagnostics.Stopwatch.StartNew();
         var searchResult = await _vectorStore.SearchSimilarAsync(
-            batchItems.First().Embeddings, limit: 50, TestContext.Current.CancellationToken);
+            batchItems.First().Embeddings, limit: 50, cancellationToken: TestContext.Current.CancellationToken);
         searchStopwatch.Stop();
 
         searchResult.IsSuccess.ShouldBeTrue();
@@ -287,7 +288,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         var dict = new Dictionary<string, object>();
         foreach (var prop in metadata.GetType().GetProperties())
         {
-            dict[prop.Name] = prop.GetValue(metadata);
+            dict[prop.Name] ??= prop.GetValue(metadata)!;
         }
         return dict;
     }

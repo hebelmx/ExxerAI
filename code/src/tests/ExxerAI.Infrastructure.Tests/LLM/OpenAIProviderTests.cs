@@ -42,14 +42,14 @@ public class OpenAIProviderTests : IDisposable
     public void Constructor_WithNullHttpClient_ShouldThrowArgumentNullException()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(null!!!!, _config));
+        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(null!, _config));
     }
 
     [Fact]
     public void Constructor_WithNullConfiguration_ShouldThrowArgumentNullException()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(_httpClient, null!!!!));
+        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(_httpClient, null!));
     }
 
     [Theory]
@@ -207,7 +207,7 @@ public class OpenAIProviderTests : IDisposable
         var prompt = "Test prompt";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -222,7 +222,7 @@ public class OpenAIProviderTests : IDisposable
         var prompt = "";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -237,7 +237,7 @@ public class OpenAIProviderTests : IDisposable
         var prompt = "Test prompt";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -252,7 +252,7 @@ public class OpenAIProviderTests : IDisposable
         var messages = new List<ChatMessage>();
 
         // Act
-        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, null, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -270,7 +270,7 @@ public class OpenAIProviderTests : IDisposable
         };
 
         // Act
-        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, null, TestContext.Current.CancellationToken);
 
         // Note: This will fail without a real API key, but we can test the structure
         // In a real scenario, you'd mock the HttpClient or use integration tests

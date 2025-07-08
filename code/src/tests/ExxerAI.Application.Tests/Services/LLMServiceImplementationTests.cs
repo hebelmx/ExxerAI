@@ -24,7 +24,7 @@ _service = new LLMService(_mockModelRepository, _mockConversationRepository);
 public void Constructor_Should_ThrowArgumentNullException_When_ModelRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new LLMService(null!!!!, _mockConversationRepository))
+Should.Throw<ArgumentNullException>(() => new LLMService(null!, _mockConversationRepository))
 .ParamName.ShouldBe("modelRepository");
 }
 
@@ -32,7 +32,7 @@ Should.Throw<ArgumentNullException>(() => new LLMService(null!!!!, _mockConversa
 public void Constructor_Should_ThrowArgumentNullException_When_ConversationRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new LLMService(_mockModelRepository, null!!!!))
+Should.Throw<ArgumentNullException>(() => new LLMService(_mockModelRepository, null!))
 .ParamName.ShouldBe("conversationRepository");
 }
 

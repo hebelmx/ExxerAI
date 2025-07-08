@@ -51,7 +51,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                null!!!!, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, _logger))
+                null!, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("directTextExtractor");
         }
 
@@ -60,7 +60,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, null!!!!, _regionOCR, _patternDictionary, _learningEngine, _logger))
+                _directTextExtractor, null!, _regionOCR, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("ocrProcessor");
         }
 
@@ -69,7 +69,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, null!!!!, _patternDictionary, _learningEngine, _logger))
+                _directTextExtractor, _ocrProcessor, null!, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("regionOCR");
         }
 
@@ -78,7 +78,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, null!!!!, _learningEngine, _logger))
+                _directTextExtractor, _ocrProcessor, _regionOCR, null!, _learningEngine, _logger))
                 .ParamName.ShouldBe("patternDictionary");
         }
 
@@ -87,7 +87,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, null!!!!, _logger))
+                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, null!, _logger))
                 .ParamName.ShouldBe("learningEngine");
         }
 
@@ -96,7 +96,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, null!!!!))
+                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, null!))
                 .ParamName.ShouldBe("logger");
         }
     }
@@ -139,7 +139,7 @@ public class HybridDocumentProcessorTests
             var successfulOCRResult = CreateSuccessfulOCRResult();
             var patterns = CreateSamplePatterns();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
                 .Returns(failedDirectTextResult);
             _ocrProcessor.ProcessDocumentWithOCRAsync(documentData, "spa", Arg.Any<CancellationToken>())
                 .Returns(successfulOCRResult);
@@ -147,7 +147,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -166,13 +166,13 @@ public class HybridDocumentProcessorTests
             var failedDirectTextResult = CreateFailedDirectTextResult();
             var failedOCRResult = CreateFailedOCRResult();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
                 .Returns(failedDirectTextResult);
             _ocrProcessor.ProcessDocumentWithOCRAsync(documentData, "spa", Arg.Any<CancellationToken>())
                 .Returns(failedOCRResult);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -188,13 +188,13 @@ public class HybridDocumentProcessorTests
             var directTextResult = CreateSuccessfulDirectTextResult();
             var patterns = CreateSamplePatternsWithMockExtraction();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
                 .Returns(directTextResult);
             _patternDictionary.GetPatternsForDocumentTypeAsync(metadata.DocumentType.ToString(), Arg.Any<CancellationToken>())
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();

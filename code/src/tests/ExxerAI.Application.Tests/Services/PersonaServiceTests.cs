@@ -704,8 +704,8 @@ public class PersonaServiceTests
             .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
 
         _personaRepository.FindByKnowledgeDomainsAsync(
-            Arg.Any<IEnumerable<string>>(), 
-            Arg.Any<bool>(), 
+            Arg.Any<IEnumerable<string>>(),
+            Arg.Any<bool>(),
             Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
 
@@ -744,8 +744,8 @@ public class PersonaServiceTests
     public void Constructor_Should_ThrowException_When_PersonaRepositoryIsNull()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => 
-            new PersonaService(null!!!, _promptTemplateRepository));
+        Should.Throw<ArgumentNullException>(() =>
+            new PersonaService(null!, _promptTemplateRepository));
     }
 
     /// <summary>
@@ -755,7 +755,7 @@ public class PersonaServiceTests
     public void Constructor_Should_ThrowException_When_PromptTemplateRepositoryIsNull()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => 
-            new PersonaService(_personaRepository, null!!!));
+        Should.Throw<ArgumentNullException>(() =>
+            new PersonaService(_personaRepository, null!));
     }
 }

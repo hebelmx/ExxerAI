@@ -23,7 +23,7 @@ public class WorkflowServiceImplementationTests
     public void Constructor_Should_ThrowArgumentNullException_When_WorkflowRepositoryIsNull()
     {
         // Arrange & Act & Assert
-        Should.Throw<ArgumentNullException>(() => new WorkflowService(null!!!!))
+        Should.Throw<ArgumentNullException>(() => new WorkflowService(null!))
             .ParamName.ShouldBe("workflowRepository");
     }
 

@@ -381,7 +381,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(expectedProcessingResult));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -412,7 +412,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.WithFailure(processingErrors));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -433,7 +433,7 @@ public class ComprehensiveUnitTestExample
             cts.Cancel(); // Cancel immediately
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, cts.Token, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -480,7 +480,7 @@ public class ComprehensiveUnitTestExample
 
             // Act - Complete workflow
             var watchResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
-            var ingestResult = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+            var ingestResult = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
             var statusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
             // Assert - All operations successful
@@ -500,7 +500,8 @@ public class ComprehensiveUnitTestExample
         {
             return new DocumentProcessingResult
             {
-                DocumentId = documentId, ExtractionMethod = ExtractionMethod.DirectText,
+                DocumentId = documentId,
+                ExtractionMethod = ExtractionMethod.DirectText,
                 ExtractedText = "Sample business document content for ExxerAI processing",
                 Confidence = 0.95f,
                 LLMConfidence = 0.92f,
@@ -510,7 +511,7 @@ public class ComprehensiveUnitTestExample
                 {
                     ["document_type"] = "FinancialReport",
                     ["company"] = "ExxerPro Solutions",
-                    ["date_created"] = DateTime.UtcNow.AddDays(-1, TestContext.Current.CancellationToken),
+                    ["date_created"] = DateTime.UtcNow.AddDays(-1),
                     ["page_count"] = 5
                 },
                 ValidationResultDocument = new ValidationResultDocument

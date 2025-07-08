@@ -180,7 +180,7 @@ public class DocumentIngestionServiceTests
         SetupMockProcessing(documentData, documentMetadata, expectedResult);
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -197,7 +197,7 @@ public class DocumentIngestionServiceTests
         const string? documentId = null!;
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId!, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId!, false, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();

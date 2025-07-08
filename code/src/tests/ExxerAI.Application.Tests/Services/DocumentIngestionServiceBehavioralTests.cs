@@ -89,7 +89,7 @@ public class DocumentIngestionServiceBehavioralTests
         _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
             .Returns(Result<DocumentProcessingResult>.WithFailure("Ingestion failed"));
 
-        var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error!.ShouldContain("Ingestion failed");

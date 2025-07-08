@@ -58,7 +58,7 @@ public class EnhancedLLMServiceTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
-            null!!!!,
+            null!,
             _mockModelRepository,
             _mockConversationRepository,
             _configuration));
@@ -70,7 +70,7 @@ public class EnhancedLLMServiceTests
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
             new List<ILLMProvider> { _mockProvider },
-            null!!!!,
+            null!,
             _mockConversationRepository,
             _configuration));
     }
@@ -82,7 +82,7 @@ public class EnhancedLLMServiceTests
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
             new List<ILLMProvider> { _mockProvider },
             _mockModelRepository,
-            null!!!!,
+            null!,
             _configuration));
     }
 
@@ -94,7 +94,7 @@ public class EnhancedLLMServiceTests
             new List<ILLMProvider> { _mockProvider },
             _mockModelRepository,
             _mockConversationRepository,
-            null!!!!));
+            null!));
     }
 
     [Fact]

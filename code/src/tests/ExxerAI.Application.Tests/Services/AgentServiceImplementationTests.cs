@@ -24,7 +24,7 @@ _agentService = new AgentService(_mockAgentRepository, _mockTaskRepository);
 public void Constructor_Should_ThrowArgumentNullException_When_AgentRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new AgentService(null!!!!, _mockTaskRepository))
+Should.Throw<ArgumentNullException>(() => new AgentService(null!, _mockTaskRepository))
 .ParamName.ShouldBe("agentRepository");
 }
 
@@ -32,7 +32,7 @@ Should.Throw<ArgumentNullException>(() => new AgentService(null!!!!, _mockTaskRe
 public void Constructor_Should_ThrowArgumentNullException_When_TaskRepositoryIsNull()
 {
 // Act & Assert
-Should.Throw<ArgumentNullException>(() => new AgentService(_mockAgentRepository, null!!!!))
+Should.Throw<ArgumentNullException>(() => new AgentService(_mockAgentRepository, null!))
 .ParamName.ShouldBe("taskRepository");
 }
 
