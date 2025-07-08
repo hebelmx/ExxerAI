@@ -148,7 +148,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
     public async Task<BatchProcessingResult> ProcessDocumentBatchAsync(
         IEnumerable<DocumentBatchItem> documents,
         BatchProcessingOptions options,
-        IProgress<BatchProgressReport> progress = null,
+        IProgress<BatchProgressReport>? progress = null,
         CancellationToken cancellationToken = default)
     {
         var documentsList = documents.ToList();
@@ -177,7 +177,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                 }
                 else
                 {
-                    var failedResult = DocumentProcessingResult.Failed(result.Error);
+                    var failedResult = DocumentProcessingResult.Failed(result.Error ?? "Unknown processing error");
                     results.Add(failedResult);
                 }
 
@@ -191,7 +191,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
                     EstimatedTimeRemaining = CalculateETA(currentProcessed, documentsList.Count, startTime)
                 });
 
-                return result.IsSuccess ? result.Value! : DocumentProcessingResult.Failed(result.Error);
+                return result.IsSuccess ? result.Value! : DocumentProcessingResult.Failed(result.Error ?? "Unknown processing error");
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -312,7 +312,7 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
 
                     foreach (var rule in rules)
                     {
-                        if (!ValidateFieldWithRule(fieldValueStr, rule))
+                        if (!ValidateFieldWithRule(fieldValueStr ?? string.Empty, rule))
                         {
                             validation.IsValid = false;
                             validation.Errors.Add($"Field '{fieldName}' failed validation: {rule.ErrorMessage}");

@@ -78,6 +78,9 @@ public class PersonaService : IPersonaService
             if (!result.IsSuccess)
                 return Result<Persona>.WithFailure($"Failed to create persona: {result.Error}");
 
+            if (result.Value is null)
+                return Result<Persona>.WithFailure("Created persona is null");
+
             return Result<Persona>.WithSuccess(result.Value);
         }
         catch (Exception ex)
@@ -115,6 +118,8 @@ public class PersonaService : IPersonaService
                 return Result<Persona>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<Persona>.WithFailure("Persona not found: Retrieved persona is null");
 
             // Update provided fields
             if (!string.IsNullOrWhiteSpace(name))
@@ -136,6 +141,9 @@ public class PersonaService : IPersonaService
 
             if (!updateResult.IsSuccess)
                 return Result<Persona>.WithFailure($"Failed to update persona: {updateResult.Error}");
+
+            if (updateResult.Value is null)
+                return Result<Persona>.WithFailure("Updated persona is null");
 
             return Result<Persona>.WithSuccess(updateResult.Value);
         }
@@ -209,6 +217,9 @@ public class PersonaService : IPersonaService
             if (!personasResult.IsSuccess)
                 return personasResult;
 
+            if (personasResult.Value is null)
+                return Result<IEnumerable<Persona>>.WithFailure("Retrieved personas collection is null");
+
             var personas = personasResult.Value.AsQueryable();
 
             // Apply name pattern filter
@@ -219,7 +230,7 @@ public class PersonaService : IPersonaService
                     false,
                     cancellationToken).ConfigureAwait(false);
 
-                if (nameResult.IsSuccess)
+                if (nameResult.IsSuccess && nameResult.Value is not null)
                 {
                     var nameMatchIds = nameResult.Value.Select(p => p.Id).ToHashSet();
                     personas = personas.Where(p => nameMatchIds.Contains(p.Id));
@@ -233,7 +244,7 @@ public class PersonaService : IPersonaService
                     searchCriteria.Role,
                     cancellationToken).ConfigureAwait(false);
 
-                if (roleResult.IsSuccess)
+                if (roleResult.IsSuccess && roleResult.Value is not null)
                 {
                     var roleMatchIds = roleResult.Value.Select(p => p.Id).ToHashSet();
                     personas = personas.Where(p => roleMatchIds.Contains(p.Id));
@@ -346,6 +357,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             var removed = persona.Traits.Remove(traitKey.Trim());
 
             if (removed)
@@ -390,6 +404,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             persona.AddKnowledgeDomain(knowledgeDomain.Trim());
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
@@ -428,6 +445,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             var removed = persona.RemoveKnowledgeDomain(knowledgeDomain.Trim());
 
             if (removed)
@@ -471,6 +491,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             template.PersonaId = personaId;
             template.Persona = persona;
 
@@ -478,6 +501,9 @@ public class PersonaService : IPersonaService
             var templateResult = await _promptTemplateRepository.AddAsync(template, cancellationToken).ConfigureAwait(false);
             if (!templateResult.IsSuccess)
                 return Result<bool>.WithFailure($"Failed to save template: {templateResult.Error}");
+
+            if (templateResult.Value is null)
+                return Result<bool>.WithFailure("Created template is null");
 
             // Add to persona's template collection
             persona.AddTemplate(templateResult.Value);
@@ -544,6 +570,9 @@ public class PersonaService : IPersonaService
                 PersonaId = personaId,
                 Persona = personaResult.Value
             };
+
+            if (personaResult.Value is null)
+                return Result<PromptTemplate>.WithFailure("Retrieved persona is null");
 
             // Validate template
             var validation = template.Validate();
@@ -652,6 +681,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             persona.Activate();
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
@@ -685,6 +717,9 @@ public class PersonaService : IPersonaService
                 return Result<bool>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<bool>.WithFailure("Persona not found: Retrieved persona is null");
+
             persona.Deactivate();
 
             var updateResult = await _personaRepository.UpdateAsync(persona, cancellationToken).ConfigureAwait(false);
@@ -715,7 +750,7 @@ public class PersonaService : IPersonaService
 
             // First, delete associated templates
             var templatesResult = await _promptTemplateRepository.GetByPersonaIdAsync(personaId, true, cancellationToken).ConfigureAwait(false);
-            if (templatesResult.IsSuccess)
+            if (templatesResult.IsSuccess && templatesResult.Value is not null)
             {
                 foreach (var template in templatesResult.Value)
                 {
@@ -770,6 +805,9 @@ public class PersonaService : IPersonaService
                 return Result<PersonaValidationResult>.WithFailure($"Persona not found: {getResult.Error}");
 
             var persona = getResult.Value;
+            if (persona is null)
+                return Result<PersonaValidationResult>.WithFailure("Persona not found: Retrieved persona is null");
+
             var validation = new PersonaValidationResult();
 
             // Basic validation
@@ -794,7 +832,7 @@ public class PersonaService : IPersonaService
 
             // Template validation
             var templatesResult = await GetPersonaTemplatesAsync(personaId, true, cancellationToken).ConfigureAwait(false);
-            if (templatesResult.IsSuccess)
+            if (templatesResult.IsSuccess && templatesResult.Value is not null)
             {
                 var templates = templatesResult.Value.ToList();
                 if (!templates.Any())

@@ -21,7 +21,7 @@ public class ConfigurationServiceTests : IDisposable
     public ConfigurationServiceTests()
     {
         _mockLogger = Substitute.For<ILogger<ConfigurationService>>();
-        
+
         // Create a real key manager for testing with a temporary store
         _tempStorePath = Path.Combine(Path.GetTempPath(), $"config_test_{Guid.NewGuid()}.json");
         var mockKeyStoreLogger = Substitute.For<ILogger<SecureKeyStore>>();
@@ -95,10 +95,10 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
         // Act
-        await service.InitializeAsync();
+        await service.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Assert
-        await _keyManager.Received(1).InitializeKeysAsync(Arg.Any<LocalAIStackConfiguration>());
+        await _keyManager.Received(1).InitializeKeysAsync(Arg.Any<LocalAIStackConfiguration>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null, _mockLogger);
 
         // Act
-        await service.InitializeAsync();
+        await service.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Assert
         _mockLogger.Received().LogWarning(Arg.Any<string>());
@@ -191,15 +191,15 @@ public class ConfigurationServiceTests : IDisposable
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
-        _keyManager.GetLocalAIApiKeyAsync()
+        _keyManager.GetLocalAIApiKeyAsync(TestContext.Current.CancellationToken)
             .Returns(Task.FromResult<string?>(expectedApiKey));
 
         // Act
-        var apiKey = await service.GetSecureLocalAIApiKeyAsync();
+        var apiKey = await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
 
         // Assert
         apiKey.ShouldBe(expectedApiKey);
-        await _keyManager.Received(1).GetLocalAIApiKeyAsync();
+        await _keyManager.Received(1).GetLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -210,7 +210,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null, _mockLogger);
 
         // Act
-        var apiKey = await service.GetSecureLocalAIApiKeyAsync();
+        var apiKey = await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
 
         // Assert
         apiKey.ShouldBe("default-api-key");

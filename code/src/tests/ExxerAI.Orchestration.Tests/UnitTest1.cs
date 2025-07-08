@@ -67,7 +67,7 @@ public class OrchestrationIntegrationTests
             // Assert
             retrievedKey.ShouldBe("test-value");
             externalKey.ShouldNotBeNull();
-            
+
             // Test service URLs
             var serviceUrls = configService.GetServiceUrls();
             serviceUrls.ShouldContainKey("LocalAI API");

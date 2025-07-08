@@ -57,7 +57,7 @@ public class SemanticSearchService
     public async Task<Result> IndexDocumentAsync(
         string documentId,
         string content,
-        Dictionary<string, object> metadata = null,
+        Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -77,6 +77,12 @@ public class SemanticSearchService
                 _logger.LogError("Failed to generate embedding for document {DocumentId}: {Error}",
                     documentId, embeddingResult.Error);
                 return Result.WithFailure($"Embedding generation failed: {embeddingResult.Error}");
+            }
+
+            if (embeddingResult.Value is null)
+            {
+                _logger.LogError("Generated embedding is null for document {DocumentId}", documentId);
+                return Result.WithFailure("Generated embedding cannot be null");
             }
 
             // Store in vector database
@@ -124,6 +130,12 @@ public class SemanticSearchService
             {
                 _logger.LogError("Failed to generate batch embeddings: {Error}", embeddingsResult.Error);
                 return Result<BatchIndexingResult>.WithFailure($"Batch embedding generation failed: {embeddingsResult.Error}");
+            }
+
+            if (embeddingsResult.Value is null)
+            {
+                _logger.LogError("Generated batch embeddings result is null");
+                return Result<BatchIndexingResult>.WithFailure("Generated batch embeddings cannot be null");
             }
 
             // Create vector store items
@@ -178,7 +190,7 @@ public class SemanticSearchService
         string query,
         int maxResults = 10,
         float similarityThreshold = 0.7f,
-        Dictionary<string, object> filter = null,
+        Dictionary<string, object>? filter = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -196,6 +208,12 @@ public class SemanticSearchService
                 return Result<SemanticSearchResults>.WithFailure($"Query embedding failed: {queryEmbeddingResult.Error}");
             }
 
+            if (queryEmbeddingResult.Value is null)
+            {
+                _logger.LogError("Generated query embedding is null");
+                return Result<SemanticSearchResults>.WithFailure("Generated query embedding cannot be null");
+            }
+
             // Search vector store
             var searchResult = await _vectorStore.SearchSimilarAsync(
                 queryEmbeddingResult.Value, maxResults, similarityThreshold, filter, cancellationToken);
@@ -204,6 +222,12 @@ public class SemanticSearchService
             {
                 _logger.LogError("Vector search failed: {Error}", searchResult.Error);
                 return Result<SemanticSearchResults>.WithFailure($"Vector search failed: {searchResult.Error}");
+            }
+
+            if (searchResult.Value is null)
+            {
+                _logger.LogError("Vector search returned null results");
+                return Result<SemanticSearchResults>.WithFailure("Vector search returned null results");
             }
 
             var results = new SemanticSearchResults
@@ -247,7 +271,7 @@ public class SemanticSearchService
             if (result.IsSuccess)
                 _logger.LogInformation("Successfully removed document: {DocumentId}", documentId);
             else
-                _logger.LogError("Failed to remove document {DocumentId}: {Error}", documentId, result.Error);
+                _logger.LogError("Failed to remove document {DocumentId}: {Error}", documentId, result.Error ?? "Unknown error");
 
             return result;
         }

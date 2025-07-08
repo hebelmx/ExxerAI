@@ -207,6 +207,9 @@ public class EnhancedLLMService : ILLMService
             };
 
             // Create assistant message
+            if (response.Value is null)
+                return Result<ConversationMessage>.WithFailure("Generated response is null");
+
             var assistantMessage = new ConversationMessage
             {
                 Id = Guid.NewGuid(),
@@ -291,6 +294,9 @@ public class EnhancedLLMService : ILLMService
             if (!result.IsSuccess)
                 return Result<Conversation>.WithFailure($"Failed to create conversation: {result.Error}");
 
+            if (result.Value is null)
+                return Result<Conversation>.WithFailure("Created conversation is null");
+
             return Result<Conversation>.WithSuccess(result.Value);
         }
         catch (Exception ex)
@@ -324,6 +330,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<decimal>.WithFailure($"Model not found: {modelResult.Error}");
 
             var model = modelResult.Value;
+            if (model is null)
+                return Result<decimal>.WithFailure("Model not found: Retrieved model is null");
 
             // Get provider
             var providerResult = await GetProviderForModelAsync(model, cancellationToken).ConfigureAwait(false);
@@ -331,6 +339,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<decimal>.WithFailure($"Provider not available: {providerResult.Error}");
 
             var provider = providerResult.Value;
+            if (provider is null)
+                return Result<decimal>.WithFailure("Provider not found: Retrieved provider is null");
 
             return await provider.EstimateCostAsync(model.Name, inputTokens, outputTokens, cancellationToken).ConfigureAwait(false);
         }
@@ -366,6 +376,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<int>.WithFailure($"Model not found: {modelResult.Error}");
 
             var model = modelResult.Value;
+            if (model is null)
+                return Result<int>.WithFailure("Model not found: Retrieved model is null");
 
             // Get provider
             var providerResult = await GetProviderForModelAsync(model, cancellationToken).ConfigureAwait(false);
@@ -373,6 +385,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<int>.WithFailure($"Provider not available: {providerResult.Error}");
 
             var provider = providerResult.Value;
+            if (provider is null)
+                return Result<int>.WithFailure("Provider not found: Retrieved provider is null");
 
             return await provider.CountTokensAsync(model.Name, text, cancellationToken).ConfigureAwait(false);
         }
@@ -405,6 +419,8 @@ public class EnhancedLLMService : ILLMService
             yield break;
 
         var model = modelResult.Value;
+        if (model is null)
+            yield break;
 
         // Get provider
         var providerResult = await GetProviderForModelAsync(model, cancellationToken).ConfigureAwait(false);
@@ -412,6 +428,8 @@ public class EnhancedLLMService : ILLMService
             yield break;
 
         var provider = providerResult.Value;
+        if (provider is null)
+            yield break;
 
         if (!provider.SupportsStreaming)
             yield break;
@@ -447,6 +465,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<bool>.WithFailure($"Model not found: {modelResult.Error}");
 
             var model = modelResult.Value;
+            if (model is null)
+                return Result<bool>.WithFailure("Model not found: Retrieved model is null");
 
             // Get provider
             var providerResult = await GetProviderForModelAsync(model, cancellationToken).ConfigureAwait(false);
@@ -454,6 +474,8 @@ public class EnhancedLLMService : ILLMService
                 return Result<bool>.WithFailure($"Provider not available: {providerResult.Error}");
 
             var provider = providerResult.Value;
+            if (provider is null)
+                return Result<bool>.WithFailure("Provider not found: Retrieved provider is null");
 
             // Validate provider and model
             var validationResult = await provider.ValidateAsync(model.Name, cancellationToken).ConfigureAwait(false);

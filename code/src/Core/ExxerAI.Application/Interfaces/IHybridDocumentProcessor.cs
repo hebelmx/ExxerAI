@@ -38,7 +38,7 @@ public interface IHybridDocumentProcessor
     Task<BatchProcessingResult> ProcessDocumentBatchAsync(
         IEnumerable<DocumentBatchItem> documents,
         BatchProcessingOptions options,
-        IProgress<BatchProgressReport> progress = null,
+        IProgress<BatchProgressReport>? progress = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>

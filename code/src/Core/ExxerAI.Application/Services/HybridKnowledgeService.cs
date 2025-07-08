@@ -86,6 +86,12 @@ public class HybridKnowledgeService
             }
 
             // Store in vector database
+            if (embeddingResult.Value == null)
+            {
+                _logger.LogError("Generated embedding is null for document {DocumentId}", document.DocumentId);
+                return Result.WithFailure("Generated embedding cannot be null");
+            }
+
             var vectorStoreResult = await _vectorStore.StoreEmbeddingAsync(
                 document.DocumentId,
                 document.Content,
@@ -167,7 +173,7 @@ public class HybridKnowledgeService
     /// </summary>
     public async Task<Result<HybridSearchResults>> SearchHybridAsync(
         string query,
-        HybridSearchOptions options = null,
+        HybridSearchOptions? options = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -192,7 +198,15 @@ public class HybridKnowledgeService
 
             if (vectorResults.IsSuccess)
             {
-                results.SemanticResults = vectorResults.Value.ToList();
+                if (vectorResults.Value == null)
+                {
+                    _logger.LogWarning("Vector search returned null results");
+                    results.SemanticResults = new List<VectorSearchResult>();
+                }
+                else
+                {
+                    results.SemanticResults = vectorResults.Value.ToList();
+                }
                 _logger.LogDebug("Vector search found {Count} results", results.SemanticResults.Count);
             }
             else
@@ -202,7 +216,15 @@ public class HybridKnowledgeService
 
             if (conceptResults.IsSuccess)
             {
-                results.RelationshipResults = conceptResults.Value.ToList();
+                if (conceptResults.Value == null)
+                {
+                    _logger.LogWarning("Graph search returned null results");
+                    results.RelationshipResults = new List<GraphDocument>();
+                }
+                else
+                {
+                    results.RelationshipResults = conceptResults.Value.ToList();
+                }
                 _logger.LogDebug("Graph search found {Count} results", results.RelationshipResults.Count);
             }
             else
@@ -243,8 +265,15 @@ public class HybridKnowledgeService
 
             if (result.IsSuccess)
             {
-                _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}",
-                    result.Value.Count(), conceptName);
+                if (result.Value == null)
+                {
+                    _logger.LogWarning("Graph store returned null results for concept: {ConceptName}", conceptName);
+                }
+                else
+                {
+                    _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}",
+                        result.Value.Count(), conceptName);
+                }
             }
 
             return result;
@@ -339,7 +368,15 @@ public class HybridKnowledgeService
     {
         var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(query, cancellationToken);
         if (embeddingResult.IsFailure)
-            return Result<IEnumerable<VectorSearchResult>>.WithFailure(embeddingResult.Error);
+        {
+            var errorMessage = embeddingResult.Error ?? "Unknown embedding generation error";
+            return Result<IEnumerable<VectorSearchResult>>.WithFailure(errorMessage);
+        }
+
+        if (embeddingResult.Value == null)
+        {
+            return Result<IEnumerable<VectorSearchResult>>.WithFailure("Generated embedding is null");
+        }
 
         return await _vectorStore.SearchSimilarAsync(
             embeddingResult.Value,
@@ -450,7 +487,7 @@ public class HybridSearchOptions
     public float GraphWeight { get; set; } = 0.3f;
     public int GraphTraversalDepth { get; set; } = 2;
     public Dictionary<string, object> VectorFilter { get; set; } = new();
-    public IEnumerable<string> RelationshipTypes { get; set; } = null;
+    public IEnumerable<string>? RelationshipTypes { get; set; } = null;
 }
 
 /// <summary>
@@ -484,7 +521,7 @@ public class HybridSearchResult
 /// </summary>
 public class HybridKnowledgeStats
 {
-    public VectorStoreStats VectorStats { get; set; }
-    public GraphKnowledgeStats GraphStats { get; set; }
+    public VectorStoreStats? VectorStats { get; set; }
+    public GraphKnowledgeStats? GraphStats { get; set; }
     public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 }

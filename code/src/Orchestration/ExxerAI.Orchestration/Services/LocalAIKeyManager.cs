@@ -77,7 +77,7 @@ public class LocalAIKeyManager
     /// <summary>
     /// Initialize all required keys with secure defaults or generate new ones
     /// </summary>
-    public async Task InitializeKeysAsync(LocalAIStackConfiguration config, bool regenerateSecrets = false)
+    public async Task InitializeKeysAsync(LocalAIStackConfiguration config, CancellationToken cancellationToken, bool regenerateSecrets = false)
     {
         _logger.LogInformation("Initializing LocalAI key store...");
 
@@ -116,9 +116,9 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get LocalAI API key
     /// </summary>
-    public async Task<string?> GetLocalAIApiKeyAsync()
+    public async Task<string?> GetLocalAIApiKeyAsync(CancellationToken cancellationToken)
     {
-        return await _keyStore.GetKeyAsync(KeyNames.LocalAIApiKey, Scopes.Internal);
+        return await _keyStore.GetKeyAsync(KeyNames.LocalAIApiKey, Scopes.Internal).ConfigureAwait(false);
     }
 
     /// <summary>

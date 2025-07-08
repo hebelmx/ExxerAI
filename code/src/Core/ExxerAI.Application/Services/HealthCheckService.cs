@@ -148,7 +148,7 @@ public class HealthCheckService : IHealthCheckService
 
             var result = await provider.CheckHealthAsync(timeoutCts.Token);
             _logger.LogDebug("Health check completed for component {ComponentName} with status {Status}",
-                componentName, result.IsSuccess ? result.Value.Status : "Failed");
+                componentName, result.IsSuccess ? result.Value?.Status : "Failed");
 
             return result;
         }
@@ -236,7 +236,7 @@ public class HealthCheckService : IHealthCheckService
             {
                 var healthResult = await CheckSystemHealthAsync(cancellationToken);
 
-                if (healthResult.IsSuccess)
+                if (healthResult.IsSuccess && healthResult.Value is not null)
                 {
                     reportCallback(healthResult.Value);
                 }

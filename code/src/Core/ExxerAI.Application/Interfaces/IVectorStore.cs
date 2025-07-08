@@ -25,7 +25,7 @@ public interface IVectorStore
         string documentId,
         string content,
         float[] embeddings,
-        Dictionary<string, object> metadata = null,
+        Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -40,7 +40,7 @@ public interface IVectorStore
         float[] queryEmbedding,
         int limit = 10,
         float threshold = 0.7f,
-        Dictionary<string, object> filter = null,
+        Dictionary<string, object>? filter = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -62,7 +62,7 @@ public interface IVectorStore
         string documentId,
         string content,
         float[] embeddings,
-        Dictionary<string, object> metadata = null,
+        Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>

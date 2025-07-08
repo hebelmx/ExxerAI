@@ -18,7 +18,7 @@ public class ConfigurationService
         configuration.GetSection(LocalAIStackConfiguration.SectionName).Bind(Configuration);
         _keyManager = keyManager;
         _logger = logger;
-        
+
         // Apply environment variable overrides if key manager is not available
         if (_keyManager == null)
         {
@@ -29,11 +29,11 @@ public class ConfigurationService
     /// <summary>
     /// Initialize the service with key management
     /// </summary>
-    public async Task InitializeAsync()
+    public async Task InitializeAsync(CancellationToken cancellationToken)
     {
         if (_keyManager != null)
         {
-            await _keyManager.InitializeKeysAsync(Configuration);
+            await _keyManager.InitializeKeysAsync(Configuration, cancellationToken);
             _logger?.LogInformation("Configuration service initialized with secure key management");
         }
         else
@@ -50,14 +50,14 @@ public class ConfigurationService
         // Database overrides
         if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("LOCALAI_DB_PASSWORD")))
             Configuration.Database.Password = Environment.GetEnvironmentVariable("LOCALAI_DB_PASSWORD")!;
-            
+
         if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("LOCALAI_DB_USERNAME")))
             Configuration.Database.Username = Environment.GetEnvironmentVariable("LOCALAI_DB_USERNAME")!;
 
         // Supabase overrides
         if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SUPABASE_JWT_SECRET")))
             Configuration.Database.Supabase.JwtSecret = Environment.GetEnvironmentVariable("SUPABASE_JWT_SECRET")!;
-            
+
         if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SUPABASE_ANON_KEY")))
             Configuration.Database.Supabase.AnonKey = Environment.GetEnvironmentVariable("SUPABASE_ANON_KEY")!;
 
@@ -104,12 +104,12 @@ public class ConfigurationService
     {
         Console.WriteLine();
         Console.WriteLine("🌐 Service URLs (available after startup):");
-        
+
         foreach (var service in GetServiceUrls())
         {
             Console.WriteLine($"  • {service.Key,-20}: {service.Value}");
         }
-        
+
         Console.WriteLine();
         Console.WriteLine("⏳ Starting Aspire orchestrator...");
         Console.WriteLine("   This will download Docker images on first run (may take several minutes)");
@@ -124,7 +124,7 @@ public class ConfigurationService
         {
             return await _keyManager.GetDatabaseConnectionStringAsync(Configuration.Database);
         }
-        
+
         // Fallback to configuration values
         return GetDatabaseConnectionString();
     }
@@ -132,13 +132,13 @@ public class ConfigurationService
     /// <summary>
     /// Get LocalAI API key from secure store
     /// </summary>
-    public async Task<string?> GetSecureLocalAIApiKeyAsync()
+    public async Task<string?> GetSecureLocalAIApiKeyAsync(CancellationToken cancellationToken)
     {
         if (_keyManager != null)
         {
-            return await _keyManager.GetLocalAIApiKeyAsync();
+            return await _keyManager.GetLocalAIApiKeyAsync(cancellationToken);
         }
-        
+
         return Configuration.LocalAI.ApiKey;
     }
 
@@ -151,7 +151,7 @@ public class ConfigurationService
         {
             return await _keyManager.GetExternalApiKeyAsync(provider);
         }
-        
+
         // Fallback to environment variables
         var envVarName = $"LOCALAI_EXTERNAL_{provider.ToUpperInvariant()}_API_KEY";
         return Environment.GetEnvironmentVariable(envVarName);
