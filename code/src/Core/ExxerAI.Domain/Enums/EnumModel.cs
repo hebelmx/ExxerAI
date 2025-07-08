@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace ExxerAI.Domain.Enums;
 
 /// <summary>
@@ -10,6 +12,9 @@ public class EnumModel : IComparable, IEnumModel
     /// </summary>
     public EnumModel()
     {
+        Value = 0;
+        Name = string.Empty;
+        DisplayName = string.Empty;
     }
 
     IEnumModel IEnumModel.Invalid => Invalid;
@@ -30,7 +35,7 @@ public class EnumModel : IComparable, IEnumModel
     {
         Value = value;
         Name = name;
-        DisplayName = !string.IsNullOrWhiteSpace(displayName) ? DisplayName! : Name;
+        DisplayName = !string.IsNullOrWhiteSpace(displayName) ? displayName : name;
     }
 
     /// <summary>
@@ -43,26 +48,26 @@ public class EnumModel : IComparable, IEnumModel
     {
         value = Value;
         name = Name;
-        displayName = DisplayName ?? Name;
+        displayName = DisplayName;
     }
 
     /// <summary>
     /// Gets the integer value of the enumeration.
     /// </summary>
-    public int Value { get; }
+    public int Value { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the enumeration.
     /// </summary>
-    public string? Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets the display name of the enumeration.
     /// </summary>
-    public string DisplayName { get; }
+    public string DisplayName { get; set; } = string.Empty;
 
     int IEnumModel.Value { get; set; }
-    string IEnumModel.DisplayName { get; set; }
+    string IEnumModel.DisplayName { get; set; } = string.Empty;
 
     /// <summary>
     /// Implicitly converts an enumeration to its integer value.
@@ -76,7 +81,7 @@ public class EnumModel : IComparable, IEnumModel
     /// <returns>The display name or name of the enumeration.</returns>
     public override string ToString()
     {
-        return DisplayName ?? Name;
+        return string.IsNullOrWhiteSpace(DisplayName) ? Name : DisplayName;
     }
 
     /// <summary>

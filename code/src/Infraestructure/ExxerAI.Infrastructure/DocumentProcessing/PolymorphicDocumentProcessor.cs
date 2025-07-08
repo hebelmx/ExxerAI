@@ -253,6 +253,8 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
 
         try
         {
+            await Task.Yield(); // Allow cooperative cancellation
+            
             var patterns = new List<string>();
             var schemaUpdates = new List<string>();
 

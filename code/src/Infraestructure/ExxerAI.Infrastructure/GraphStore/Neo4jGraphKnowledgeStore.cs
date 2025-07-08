@@ -236,7 +236,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<IEnumerable<GraphDocument>>> FindRelatedDocumentsAsync(
         string conceptName,
-        IEnumerable<string> relationshipTypes = null,
+        IEnumerable<string>? relationshipTypes = null,
         int maxDepth = 2,
         int limit = 50,
         CancellationToken cancellationToken = default)
@@ -295,7 +295,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<IEnumerable<GraphConcept>>> FindRelatedConceptsAsync(
         string documentId,
-        IEnumerable<string> relationshipTypes = null,
+        IEnumerable<string>? relationshipTypes = null,
         int maxDepth = 2,
         int limit = 50,
         CancellationToken cancellationToken = default)
@@ -353,7 +353,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<IEnumerable<Dictionary<string, object>>>> ExecuteQueryAsync(
         string cypherQuery,
-        Dictionary<string, object> parameters = null,
+        Dictionary<string, object>? parameters = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -393,7 +393,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     public async Task<Result<GraphPath>> FindShortestPathAsync(
         string fromEntityId,
         string toEntityId,
-        IEnumerable<string> relationshipTypes = null,
+        IEnumerable<string>? relationshipTypes = null,
         int maxLength = 10,
         CancellationToken cancellationToken = default)
     {

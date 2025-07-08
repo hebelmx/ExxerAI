@@ -48,9 +48,16 @@ public class DocumentIngestionService : IDocumentIngestionService
 
     public DocumentIngestionService(IDocumentWatchService watchService, IVersionDetectionEngine versionEngine, IDocumentHashGenerator hashGenerator, IPolymorphicDocumentProcessor documentProcessor, IPrimarySourceOfTruthSystem truthSystem, IDocumentNotificationService notificationService, ILogger<DocumentIngestionService> logger)
     {
-        _hashGenerator = hashGenerator;
-        _documentProcessor = documentProcessor;
-        _logger = logger;
+        _hashGenerator = hashGenerator ?? throw new ArgumentNullException(nameof(hashGenerator));
+        _documentProcessor = documentProcessor ?? throw new ArgumentNullException(nameof(documentProcessor));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
+        // Initialize focused engine components
+        var loggerFactory = Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance;
+        _googleDriveEngine = new GoogleDriveEngine(loggerFactory.CreateLogger<GoogleDriveEngine>());
+        _processingEngine = new DocumentProcessingEngine(loggerFactory.CreateLogger<DocumentProcessingEngine>());
+        _metricsEngine = new MetricsEngine(loggerFactory.CreateLogger<MetricsEngine>());
+        _healthEngine = new HealthMonitoringEngine(loggerFactory.CreateLogger<HealthMonitoringEngine>());
     }
 
     /// <summary>
@@ -144,6 +151,8 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // In a real implementation, this would poll the Google Drive API for changes
             // For demonstration, we'll return any pending simulated changes
+            await Task.Delay(1, cancellationToken); // Simulate async operation
+            
             var changes = new List<DocumentChangeEvent>(_pendingChanges);
             _pendingChanges.Clear();
 

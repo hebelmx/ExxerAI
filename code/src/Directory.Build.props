@@ -48,4 +48,12 @@
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
+
+	<!-- Exclude AppHost project when EXCLUDE_APPHOST is set -->
+	<PropertyGroup Condition="'$(EXCLUDE_APPHOST)' == 'true' AND '$(MSBuildProjectName)' == 'ExxerAI.Aspire.AppHost'">
+		<IsPublishable>false</IsPublishable>
+		<IsPackable>false</IsPackable>
+		<IsTestProject>false</IsTestProject>
+		<ExcludeFromBuild>true</ExcludeFromBuild>
+	</PropertyGroup>
 </Project>

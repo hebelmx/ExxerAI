@@ -40,6 +40,8 @@ public class GoogleDriveService : IDocumentIngestionService
         try
         {
             // TODO: Implement actual Google Drive folder watching
+            await Task.Delay(1, cancellationToken); // Simulate async Google Drive API call
+            
             var watchId = Guid.NewGuid().ToString();
             _logger.LogInformation("Started watching folder {FolderId} with watch ID {WatchId}", folderId, watchId);
 

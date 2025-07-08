@@ -1,4 +1,5 @@
 ﻿using Aspire.Hosting;
+using Aspire.Hosting.Lifecycle;
 using Grpc.Core;
 using MongoDB.Driver;
 using Nextended.Aspire;
@@ -274,7 +275,7 @@ https://github.com/terle/aspire-neo4j/blob/main/example/README.md
  *
  */
 
-var ollama = builder.AddOllama("Ollama", 1342, "llama3:latest");
+var ollama = builder.AddOllama("Ollama", 1342);
 
 // Monitoring - PrometheusVAR
 var prometheus = builder.AddContainer("prometheus", "prom/prometheus", "latest")

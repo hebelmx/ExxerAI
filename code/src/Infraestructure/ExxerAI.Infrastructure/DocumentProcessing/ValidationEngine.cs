@@ -95,6 +95,8 @@ internal class ValidationEngine
         {
             // LLM verification would analyze the extracted data for consistency
             // This is a placeholder implementation
+            await Task.Delay(10, cancellationToken); // Simulate async LLM call
+            
             var llmConfidence = Math.Min(result.Confidence + 0.1f, 1.0f);
 
             _logger.LogDebug("LLM verification completed with confidence {Confidence:F2}", llmConfidence);

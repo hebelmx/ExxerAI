@@ -164,7 +164,7 @@ public class SemanticSearchService
                 TotalDocuments = documentList.Count,
                 SuccessfullyIndexed = storeResult.IsSuccess ? documentList.Count : 0,
                 Failed = storeResult.IsSuccess ? 0 : documentList.Count,
-                Errors = storeResult.IsFailure ? new[] { storeResult.Error } : Array.Empty<string>()
+                Errors = storeResult.IsFailure ? new[] { storeResult.Error ?? "Unknown error" } : Array.Empty<string>()
             };
 
             if (storeResult.IsFailure)

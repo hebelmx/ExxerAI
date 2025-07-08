@@ -10,6 +10,8 @@ public class EnumLookUpTable : ILookUpTable
     /// </summary>
     public EnumLookUpTable()
     {
+        Name = string.Empty;
+        DisplayName = string.Empty;
     }
 
     /// <summary>
@@ -58,10 +60,10 @@ public class EnumLookUpTable : ILookUpTable
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
-    public string? Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 
     /// <summary>
     /// Gets or sets the display name.
     /// </summary>
-    public string? DisplayName { get; set; }
+    public string DisplayName { get; set; } = string.Empty;
 }

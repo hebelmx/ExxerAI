@@ -483,7 +483,7 @@ public class EnhancedLLMService : ILLMService
             if (!validationResult.IsSuccess)
                 return Result<bool>.WithFailure($"Validation failed: {validationResult.Error}");
 
-            return Result<bool>.WithSuccess(validationResult.Value.IsValid);
+            return Result<bool>.WithSuccess(validationResult.Value?.IsValid ?? false);
         }
         catch (Exception ex)
         {
@@ -522,6 +522,8 @@ public class EnhancedLLMService : ILLMService
             // Try to find a provider that supports this model
             foreach (var provider in _providers)
             {
+                await Task.Yield(); // Allow cooperative cancellation
+                
                 if (provider.SupportedModels.Contains(model.Name))
                 {
                     _providerCache[model.Name] = provider;
@@ -561,7 +563,7 @@ public class EnhancedLLMService : ILLMService
 
                 _lastRateLimitCheck[cacheKey] = now;
 
-                if (rateLimitResult.Value.IsLimitExceeded)
+                if (rateLimitResult.Value?.IsLimitExceeded == true)
                     return Result<bool>.WithFailure("Rate limit exceeded");
             }
 
@@ -615,6 +617,8 @@ public class EnhancedLLMService : ILLMService
     {
         try
         {
+            await Task.Yield(); // Allow cooperative cancellation
+            
             var today = DateTime.UtcNow.Date.ToString("yyyy-MM-dd");
 
             if (!_dailyCostTracker.ContainsKey(today))
