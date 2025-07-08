@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -38,7 +39,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Name.ShouldBe(name);
+        result.Data!.Name.ShouldBe(name);
         result.Data.Description.ShouldBe(description);
     }
 
@@ -106,7 +107,7 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("cancelled");
+        result.Error!.ShouldContain("cancelled");
     }
 
     #endregion
@@ -131,7 +132,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Id.ShouldBe(agentId);
+        result.Data!.Id.ShouldBe(agentId);
     }
 
     [Fact]
@@ -198,7 +199,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(3);
+        result.Data!.Count().ShouldBe(3);
     }
 
     [Fact]
@@ -218,7 +219,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.ShouldBeEmpty();
+        result.Data!.ShouldBeEmpty();
     }
 
     #endregion
@@ -246,7 +247,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(2);
+        result.Data!.Count().ShouldBe(2);
         result.Data.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
     }
 
@@ -267,7 +268,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.ShouldBeEmpty();
+        result.Data!.ShouldBeEmpty();
     }
 
     #endregion
@@ -466,7 +467,7 @@ public class AgentServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Id.ShouldBe(bestAgent.Id);
+        result.Data!.Id.ShouldBe(bestAgent.Id);
     }
 
     [Theory]

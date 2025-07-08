@@ -1,5 +1,6 @@
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
+using Xunit;
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsControllerTests;
 

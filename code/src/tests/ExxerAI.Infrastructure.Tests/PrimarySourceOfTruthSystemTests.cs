@@ -4,6 +4,7 @@ using ExxerAI.Domain.Operations;
 using ExxerAI.Domain;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -19,7 +20,7 @@ public class PrimarySourceOfTruthSystemTests
     public PrimarySourceOfTruthSystemTests()
     {
         _truthSystem = Substitute.For<IPrimarySourceOfTruthSystem>();
-        _cancellationToken = CancellationToken.None;
+        _cancellationToken = TestContext.Current.CancellationToken;
     }
 
     public class StoreExtractedDataAsyncTests : PrimarySourceOfTruthSystemTests

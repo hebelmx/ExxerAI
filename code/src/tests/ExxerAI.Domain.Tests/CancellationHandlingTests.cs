@@ -1,5 +1,6 @@
 using ExxerAI.Domain.Operations;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 
@@ -46,7 +47,7 @@ public class CancellationHandlingTests
         genericResult.IsFailure.ShouldBeTrue();
         genericResult.IsCancelled().ShouldBeTrue();
         genericResult.Errors.ShouldContain(ResultErrors.OperationCancelled);
-        genericResult.Value.ShouldBeNull();
+        genericResult.Value!.ShouldBeNull();
     }
 
     /// <summary>
@@ -111,7 +112,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.ShortDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.ShortDelayMs, TestContext.Current.CancellationToken);
                 return expectedValue;
             });
 
@@ -151,7 +152,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.LongDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.LongDelayMs, TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             cts.Token);
@@ -175,7 +176,7 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.LongDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.LongDelayMs, TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             cts.Token);
@@ -204,7 +205,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.ShortDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.ShortDelayMs, TestContext.Current.CancellationToken);
                 operationExecuted = true;
             });
 
@@ -227,7 +228,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapResultOperation<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.ShortDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.ShortDelayMs, TestContext.Current.CancellationToken);
                 return Result<string>.Success(expectedValue);
             });
 
@@ -250,7 +251,7 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapResultOperation<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.LongDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.LongDelayMs, TestContext.Current.CancellationToken);
                 return Result<string>.Success(CancellationTestConstants.TestValue);
             },
             cts.Token);
@@ -283,7 +284,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapWithTimeout<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.ShortDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.ShortDelayMs, TestContext.Current.CancellationToken);
                 return expectedValue;
             },
             timeout);
@@ -307,7 +308,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapWithTimeout<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.LongDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.LongDelayMs, TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             timeout);
@@ -332,7 +333,7 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapWithTimeout<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.LongDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.LongDelayMs, TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             timeout,
@@ -366,7 +367,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
                 async ct =>
                 {
-                    await Task.Delay(CancellationTestConstants.ShortDelayMs, ct);
+                    await Task.Delay(CancellationTestConstants.ShortDelayMs, TestContext.Current.CancellationToken);
                     return "Step 1 Complete";
                 },
                 cts.Token)
@@ -381,7 +382,7 @@ public class CancellationHandlingTests
                 return await CancellationAwareResult.WrapCancellationAware<string>(
                     async ct =>
                     {
-                        await Task.Delay(CancellationTestConstants.ShortDelayMs, ct);
+                        await Task.Delay(CancellationTestConstants.ShortDelayMs, TestContext.Current.CancellationToken);
                         return "Step 2 Complete";
                     },
                     cts.Token);
@@ -448,7 +449,7 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(CancellationTestConstants.LongDelayMs, ct);
+                await Task.Delay(CancellationTestConstants.LongDelayMs, TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             combinedCts.Token);

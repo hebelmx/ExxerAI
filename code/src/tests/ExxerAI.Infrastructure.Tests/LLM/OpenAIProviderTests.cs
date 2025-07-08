@@ -2,6 +2,7 @@ using ExxerAI.Infrastructure.LLM;
 using ExxerAI.Application.Interfaces;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Infrastructure.Tests.LLM;
 
@@ -69,7 +70,7 @@ public class OpenAIProviderTests
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.CountTokensAsync(modelName, text);
+        var result = await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -85,7 +86,7 @@ public class OpenAIProviderTests
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.CountTokensAsync(modelName, text);
+        var result = await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -100,7 +101,7 @@ public class OpenAIProviderTests
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.CountTokensAsync(modelName, text!);
+        var result = await _provider.CountTokensAsync(modelName, text!, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -115,7 +116,7 @@ public class OpenAIProviderTests
         string modelName, int inputTokens, int outputTokens, decimal expectedCost)
     {
         // Act
-        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens);
+        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -131,11 +132,11 @@ public class OpenAIProviderTests
         var outputTokens = 500;
 
         // Act
-        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens);
+        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Unknown model");
+        result.Error!.ShouldContain("Unknown model");
     }
 
     [Fact]
@@ -145,7 +146,7 @@ public class OpenAIProviderTests
         var modelName = "gpt-4-turbo";
 
         // Act
-        var result = await _provider.GetRateLimitInfoAsync(modelName);
+        var result = await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -161,7 +162,7 @@ public class OpenAIProviderTests
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.GetRateLimitInfoAsync(modelName);
+        var result = await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -174,7 +175,7 @@ public class OpenAIProviderTests
     public async Task ListModelsAsync_ShouldReturnAvailableModels()
     {
         // Act
-        var result = await _provider.ListModelsAsync();
+        var result = await _provider.ListModelsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -189,7 +190,7 @@ public class OpenAIProviderTests
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.ValidateAsync(modelName);
+        var result = await _provider.ValidateAsync(modelName, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -206,11 +207,11 @@ public class OpenAIProviderTests
         var prompt = "Test prompt";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Model name cannot be empty");
+        result.Error!.ShouldContain("Model name cannot be empty");
     }
 
     [Fact]
@@ -221,11 +222,11 @@ public class OpenAIProviderTests
         var prompt = "";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Prompt cannot be empty");
+        result.Error!.ShouldContain("Prompt cannot be empty");
     }
 
     [Fact]
@@ -236,11 +237,11 @@ public class OpenAIProviderTests
         var prompt = "Test prompt";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Unsupported model");
+        result.Error!.ShouldContain("Unsupported model");
     }
 
     [Fact]
@@ -251,11 +252,11 @@ public class OpenAIProviderTests
         var messages = new List<ChatMessage>();
 
         // Act
-        var result = await _provider.GenerateChatCompletionAsync(modelName, messages);
+        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Messages cannot be empty");
+        result.Error!.ShouldContain("Messages cannot be empty");
     }
 
     [Fact]
@@ -269,7 +270,7 @@ public class OpenAIProviderTests
         };
 
         // Act
-        var result = await _provider.GenerateChatCompletionAsync(modelName, messages);
+        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, TestContext.Current.CancellationToken);
 
         // Note: This will fail without a real API key, but we can test the structure
         // In a real scenario, you'd mock the HttpClient or use integration tests

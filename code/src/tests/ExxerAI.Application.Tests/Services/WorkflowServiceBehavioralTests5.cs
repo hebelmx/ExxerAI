@@ -1,4 +1,5 @@
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 

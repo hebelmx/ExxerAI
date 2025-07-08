@@ -4,6 +4,7 @@ using ExxerAI.Domain.Operations;
 using ExxerAI.Domain;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -19,7 +20,7 @@ public class DocumentNotificationServiceTests
     public DocumentNotificationServiceTests()
     {
         _notificationService = Substitute.For<IDocumentNotificationService>();
-        _cancellationToken = CancellationToken.None;
+        _cancellationToken = TestContext.Current.CancellationToken;
     }
 
     public class NotifyDocumentAddedAsyncTests : DocumentNotificationServiceTests
@@ -528,7 +529,7 @@ public class DocumentNotificationServiceTests
         return async notification =>
         {
             // Simulate processing notification
-            await Task.Delay(10);
+            await Task.Delay(10, TestContext.Current.CancellationToken);
             Console.WriteLine($"Notification received: {notification.Type}");
         };
     }
@@ -537,7 +538,7 @@ public class DocumentNotificationServiceTests
     {
         return async notification =>
         {
-            await Task.Delay(10);
+            await Task.Delay(10, TestContext.Current.CancellationToken);
             throw new InvalidOperationException("Callback failed");
         };
     }

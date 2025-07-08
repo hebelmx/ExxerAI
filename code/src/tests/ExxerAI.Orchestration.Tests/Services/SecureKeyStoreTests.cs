@@ -3,6 +3,7 @@ using ExxerAI.Orchestration.Interfaces;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Orchestration.Tests.Services;
 
@@ -245,7 +246,7 @@ public class SecureKeyStoreTests : IDisposable
         initialValue.ShouldBe(value);
 
         // Wait for expiration
-        await Task.Delay(expiration.Add(TimeSpan.FromMilliseconds(50)), TestContext.Current.CancellationToken);
+        await Task.Delay(expiration.Add(TimeSpan.FromMilliseconds(50, TestContext.Current.CancellationToken);
 
         // Assert key has expired
         var expiredValue = await _keyStore.GetKeyAsync(keyName);

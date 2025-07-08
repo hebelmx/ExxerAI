@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -48,7 +49,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Name.ShouldBe(name);
+        result.Data!.Name.ShouldBe(name);
         result.Data.Description.ShouldBe(description);
         result.Data.Status.ShouldBe(WorkflowStatus.Draft);
     }
@@ -123,7 +124,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Id.ShouldBe(workflowId);
+        result.Data!.Id.ShouldBe(workflowId);
     }
 
     [Fact]
@@ -190,7 +191,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(3);
+        result.Data!.Count().ShouldBe(3);
         result.Data.All(w => w.Status == WorkflowStatus.Active || w.Status == WorkflowStatus.Running).ShouldBeTrue();
     }
 
@@ -211,7 +212,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.ShouldBeEmpty();
+        result.Data!.ShouldBeEmpty();
     }
 
     #endregion GetActiveWorkflowsAsync Tests
@@ -243,7 +244,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.WorkflowId.ShouldBe(workflowId);
+        result.Data!.WorkflowId.ShouldBe(workflowId);
         result.Data.Status.ShouldBe(WorkflowExecutionStatus.Starting);
     }
 
@@ -313,7 +314,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(2);
+        result.Data!.Count().ShouldBe(2);
         result.Data.All(e => e.WorkflowId == workflowId).ShouldBeTrue();
     }
 
@@ -338,7 +339,7 @@ public class WorkflowServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
+        result.Data!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
     }
 
     #endregion GetWorkflowExecutionsAsync Tests

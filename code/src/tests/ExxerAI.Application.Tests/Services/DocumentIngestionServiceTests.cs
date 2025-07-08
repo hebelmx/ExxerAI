@@ -3,6 +3,7 @@ using ExxerAI.Domain.Health;
 using ExxerAI.Domain.Operations;
 using System.ComponentModel.DataAnnotations;
 using VersionStatus = ExxerAI.Application.Interfaces.VersionStatus;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -48,7 +49,7 @@ public class DocumentIngestionServiceTests
         const string folderId = "folder123";
 
         // Act
-        var result = await _service.StartWatchingFolderAsync(folderId);
+        var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -66,11 +67,11 @@ public class DocumentIngestionServiceTests
         const string? folderId = null;
 
         // Act
-        var result = await _service.StartWatchingFolderAsync(folderId!);
+        var result = await _service.StartWatchingFolderAsync(folderId!, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("folder");
+        result.Error!.ShouldContain("folder");
     }
 
     /// <summary>
@@ -81,7 +82,7 @@ public class DocumentIngestionServiceTests
     {
         // Arrange - First start a session to get a valid watch ID
         const string folderId = "folder123";
-        var startResult = await _service.StartWatchingFolderAsync(folderId);
+        var startResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
         var watchId = startResult.Data!;
 
         // Act
@@ -179,7 +180,7 @@ public class DocumentIngestionServiceTests
         SetupMockProcessing(documentData, documentMetadata, expectedResult);
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId);
+        var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -196,11 +197,11 @@ public class DocumentIngestionServiceTests
         const string? documentId = null;
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId!);
+        var result = await _service.IngestDocumentAsync(documentId!, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("document");
+        result.Error!.ShouldContain("document");
     }
 
     /// <summary>
@@ -234,10 +235,10 @@ public class DocumentIngestionServiceTests
     {
         // Arrange - Start a watch session to get an active system
         const string folderId = "folder123";
-        await _service.StartWatchingFolderAsync(folderId);
+        await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
 
         // Act
-        var result = await _service.GetIngestionStatusAsync();
+        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
         // Assert - Verify Result<T> pattern and agentStatus data
         result.IsSuccess.ShouldBeTrue();
@@ -269,7 +270,7 @@ public class DocumentIngestionServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Processing failed");
+        result.Error!.ShouldContain("Processing failed");
     }
 
     /// <summary>
@@ -386,7 +387,7 @@ public class DocumentIngestionServiceTests
         // Assert - With Result<T> pattern, cancellation is returned as a failure result
         // This is the expected behavior since the service catches all exceptions and converts them to Result
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("cancel", Case.Insensitive);
+        result.Error!.ShouldContain("cancel", Case.Insensitive);
     }
 
     // Helper Methods

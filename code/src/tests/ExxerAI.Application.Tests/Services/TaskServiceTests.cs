@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -49,7 +50,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Title.ShouldBe(title);
+        result.Data!.Title.ShouldBe(title);
         result.Data.Description.ShouldBe(description);
         result.Data.TaskType.ShouldBe(taskType);
         result.Data.Priority.ShouldBe(priority);
@@ -135,7 +136,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Id.ShouldBe(taskId);
+        result.Data!.Id.ShouldBe(taskId);
     }
 
     [Fact]
@@ -203,7 +204,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(3);
+        result.Data!.Count().ShouldBe(3);
         result.Data.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
     }
 
@@ -225,7 +226,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.ShouldBeEmpty();
+        result.Data!.ShouldBeEmpty();
     }
 
     [Theory]
@@ -281,7 +282,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(2);
+        result.Data!.Count().ShouldBe(2);
         result.Data.All(t => t.AssignedAgentId == agentId).ShouldBeTrue();
     }
 
@@ -310,7 +311,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.All(t => t.AgentStatus == agentStatus).ShouldBeTrue();
+        result.Data!.All(t => t.AgentStatus == agentStatus).ShouldBeTrue();
     }
 
     [Fact]
@@ -596,7 +597,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Count().ShouldBe(2);
+        result.Data!.Count().ShouldBe(2);
         result.Data.All(t => t.Deadline < DateTime.UtcNow).ShouldBeTrue();
     }
 
@@ -617,7 +618,7 @@ public class TaskServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.ShouldBeEmpty();
+        result.Data!.ShouldBeEmpty();
     }
 
     #endregion GetOverdueTasksAsync Tests

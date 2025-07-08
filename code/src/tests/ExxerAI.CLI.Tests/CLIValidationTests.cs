@@ -197,7 +197,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Parameter 'agentService' cannot be null");
+            result.Error!.ShouldContain("Parameter 'agentService' cannot be null");
         }
 
         [Fact]
@@ -211,7 +211,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Parameter 'agentRepository' cannot be null");
+            result.Error!.ShouldContain("Parameter 'agentRepository' cannot be null");
         }
 
         [Fact]
@@ -222,7 +222,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Multiple null parameters: agentService, agentRepository");
+            result.Error!.ShouldContain("Multiple null parameters: agentService, agentRepository");
         }
 
         [Fact]
@@ -278,7 +278,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Parameter 'taskRepository' cannot be null");
+            result.Error!.ShouldContain("Parameter 'taskRepository' cannot be null");
         }
 
         [Fact]
@@ -292,7 +292,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Parameter 'agentRepository' cannot be null");
+            result.Error!.ShouldContain("Parameter 'agentRepository' cannot be null");
         }
 
         [Fact]
@@ -303,7 +303,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Multiple null parameters: taskRepository, agentRepository");
+            result.Error!.ShouldContain("Multiple null parameters: taskRepository, agentRepository");
         }
 
         [Fact]
@@ -376,7 +376,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Parameter 'taskCommands' cannot be null");
+            result.Error!.ShouldContain("Parameter 'taskCommands' cannot be null");
         }
 
         [Fact]
@@ -391,7 +391,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Parameter 'workflowCommands' cannot be null");
+            result.Error!.ShouldContain("Parameter 'workflowCommands' cannot be null");
         }
 
         [Fact]
@@ -405,7 +405,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Multiple null parameters: agentCommands, taskCommands");
+            result.Error!.ShouldContain("Multiple null parameters: agentCommands, taskCommands");
         }
 
         [Fact]
@@ -416,7 +416,7 @@ public class CLIValidationTests
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("Multiple null parameters: agentCommands, taskCommands, workflowCommands");
+            result.Error!.ShouldContain("Multiple null parameters: agentCommands, taskCommands, workflowCommands");
         }
 
         [Fact]

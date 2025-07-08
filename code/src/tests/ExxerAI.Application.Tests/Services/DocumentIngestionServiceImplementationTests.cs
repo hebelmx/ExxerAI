@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -49,7 +50,7 @@ Should.Throw<ArgumentNullException>(() => new DocumentIngestionService(_mockDocu
 public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsEmpty()
 {
 // Act
-var result = await _service.StartWatchingFolderAsync("");
+var result = await _service.StartWatchingFolderAsync("", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -60,7 +61,7 @@ result.Error.ShouldBe("Folder ID cannot be empty");
 public async Task StartWatchingFolderAsync_Should_ReturnSuccess_When_ValidFolderId()
 {
 // Act
-var result = await _service.StartWatchingFolderAsync("test-folder-id");
+var result = await _service.StartWatchingFolderAsync("test-folder-id", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -73,7 +74,7 @@ Guid.TryParse(result.Value, out _).ShouldBeTrue(); // Should be a valid GUID
 public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsWhitespace()
 {
 // Act
-var result = await _service.StartWatchingFolderAsync("   ");
+var result = await _service.StartWatchingFolderAsync("   ", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -95,7 +96,7 @@ result.Error.ShouldBe("Watch session nonexistent-watch-id not found");
 public async Task StopWatchingFolderAsync_Should_ReturnSuccess_When_ValidWatchId()
 {
 // Arrange
-var startResult = await _service.StartWatchingFolderAsync("test-folder");
+var startResult = await _service.StartWatchingFolderAsync("test-folder", TestContext.Current.CancellationToken);
 var watchId = startResult.Value!;
 
 // Act
@@ -213,7 +214,7 @@ result.Value.ShouldBe(expectedResult);
 public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsEmpty()
 {
 // Act
-var result = await _service.IngestDocumentAsync("");
+var result = await _service.IngestDocumentAsync("", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -224,7 +225,7 @@ result.Error.ShouldBe("Document ID cannot be empty");
 public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsWhitespace()
 {
 // Act
-var result = await _service.IngestDocumentAsync("   ");
+var result = await _service.IngestDocumentAsync("   ", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -251,7 +252,7 @@ Arg.Any<CancellationToken>())
 .Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
 
 // Act
-var result = await _service.IngestDocumentAsync(documentId);
+var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -265,20 +266,19 @@ public async Task IngestDocumentAsync_Should_ForceReprocessWhenRequested()
 var documentId = "existing-document-id";
 var expectedResult = new DocumentProcessingResult
 {
-DocumentId = documentId,
-Confidence = 0.85f,
+DocumentId = documentId, Confidence = 0.85f,
 LLMConfidence = 0.85f,
 GroundingConfidence = 0.85f
 };
 
-_mockDocumentProcessor.ProcessDocumentAsync(
-Arg.Any<byte[]>(),
-Arg.Any<DocumentMetadata>(),
-Arg.Any<CancellationToken>())
-.Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
+        _mockDocumentProcessor.ProcessDocumentAsync(
+            Arg.Any<byte[]>(),
+            Arg.Any<DocumentMetadata>(),
+            Arg.Any<CancellationToken>())
+            .Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
 
 // Act
-var result = await _service.IngestDocumentAsync(documentId, forceReprocess: true);
+var result = await _service.IngestDocumentAsync(documentId, forceReprocess: true, TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -305,7 +305,7 @@ result.Value.ShouldBeTrue();
 public async Task GetIngestionStatusAsync_Should_ReturnValidStatus()
 {
 // Act
-var result = await _service.GetIngestionStatusAsync();
+var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -319,11 +319,11 @@ result.Value.PendingChanges.ShouldBeGreaterThanOrEqualTo(0);
 public async Task GetIngestionStatusAsync_Should_IncludeActiveSessionsInStatus()
 {
 // Arrange
-var startResult = await _service.StartWatchingFolderAsync("test-folder");
+var startResult = await _service.StartWatchingFolderAsync("test-folder", TestContext.Current.CancellationToken);
 startResult.IsSuccess.ShouldBeTrue();
 
 // Act
-var result = await _service.GetIngestionStatusAsync();
+var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -337,11 +337,11 @@ public async Task Integration_StartWatch_ProcessChange_StopWatch_Should_WorkCorr
 var folderId = "integration-test-folder";
 
 // Act 1: Start watching
-var watchResult = await _service.StartWatchingFolderAsync(folderId);
+var watchResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
 watchResult.IsSuccess.ShouldBeTrue();
 
 // Act 2: Get agentStatus
-var statusResult = await _service.GetIngestionStatusAsync();
+var statusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 statusResult.IsSuccess.ShouldBeTrue();
 statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
 
@@ -350,7 +350,7 @@ var stopResult = await _service.StopWatchingFolderAsync(watchResult.Value!);
 stopResult.IsSuccess.ShouldBeTrue();
 
 // Act 4: Verify agentStatus updated
-var finalStatusResult = await _service.GetIngestionStatusAsync();
+var finalStatusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 finalStatusResult.IsSuccess.ShouldBeTrue();
 finalStatusResult.Value!.ActiveWatchSessions.ShouldBe(0);
 

@@ -1,6 +1,7 @@
 using ExxerAI.Domain;
 using ExxerAI.Infrastructure.Repositories;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -40,7 +41,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Id.ShouldNotBe(Guid.Empty);
+            result.Data!.Id.ShouldNotBe(Guid.Empty);
             result.Data.Title.ShouldBe(task.Title);
             result.Data.CreatedAt.ShouldBeGreaterThan(DateTime.MinValue);
         }
@@ -62,7 +63,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Id.ShouldNotBe(Guid.Empty);
+            result.Data!.Id.ShouldNotBe(Guid.Empty);
             result.Data.Id.ShouldNotBe(task.Id); // Should have new ID
         }
 
@@ -84,7 +85,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Id.ShouldBe(taskId);
+            result.Data!.Id.ShouldBe(taskId);
         }
 
         [Fact]
@@ -121,12 +122,12 @@ public class InMemoryTaskRepositoryTests
             var taskId = addResult.Data!.Id;
 
             // Act
-            var result = await _repository.GetByIdAsync(taskId, TestContext.Current.CancellationToken);
+            var result = await _repository.GetByIdAsync(taskId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Id.ShouldBe(taskId);
+            result.Data!.Id.ShouldBe(taskId);
             result.Data.Title.ShouldBe(task.Title);
         }
 
@@ -166,7 +167,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Title.ShouldBe("Updated Task");
+            result.Data!.Title.ShouldBe("Updated Task");
             result.Data.Description.ShouldBe("Updated Description");
             result.Data.AgentStatus.ShouldBe(TaskAgentStatus.InProgress);
         }
@@ -217,7 +218,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBeGreaterThanOrEqualTo(3);
+            result.Data!.Count().ShouldBeGreaterThanOrEqualTo(3);
         }
     }
 
@@ -249,7 +250,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBeGreaterThanOrEqualTo(2);
+            result.Data!.Count().ShouldBeGreaterThanOrEqualTo(2);
             result.Data.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
         }
 
@@ -279,7 +280,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBe(2);
+            result.Data!.Count().ShouldBe(2);
             result.Data.All(t => t.AssignedAgentId == agentId1).ShouldBeTrue();
         }
 
@@ -307,7 +308,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBe(1);
+            result.Data!.Count().ShouldBe(1);
             result.Data.First().AgentStatus.ShouldBe(TaskAgentStatus.InProgress);
             result.Data.First().AssignedAgentId.ShouldBe(agentId);
         }
@@ -335,7 +336,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBe(2);
+            result.Data!.Count().ShouldBe(2);
             result.Data.All(t => t.TaskType == "DataAnalysis").ShouldBeTrue();
         }
 
@@ -387,7 +388,7 @@ public class InMemoryTaskRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBe(2);
+            result.Data!.Count().ShouldBe(2);
             result.Data.All(t => t.Deadline < now).ShouldBeTrue();
             result.Data.All(t => t.AgentStatus != TaskAgentStatus.Completed).ShouldBeTrue();
         }

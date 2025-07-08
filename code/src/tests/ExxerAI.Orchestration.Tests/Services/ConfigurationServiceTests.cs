@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Orchestration.Tests.Services;
 

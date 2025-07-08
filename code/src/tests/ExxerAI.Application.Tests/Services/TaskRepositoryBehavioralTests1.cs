@@ -64,7 +64,7 @@ namespace ExxerAI.Application.Tests.Services
             // Arrange - Create a task first
             var createResult = await _service.CreateTaskAsync("Test Task", "Test Description", "TestType", TaskPriority.Normal);
             createResult.IsSuccess.ShouldBeTrue();
-            var taskId = createResult.Value.Id;
+            var taskId = createResult.Value!.Id;
             var newStatus = TaskAgentStatus.Completed;
 
             // Act

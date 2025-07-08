@@ -3,6 +3,7 @@ using ExxerAI.Application.Services;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.Operations;
 using NSubstitute;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -87,7 +88,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("name cannot be empty");
+        result.Error!.ShouldContain("name cannot be empty");
 
         await _personaRepository.DidNotReceive()
             .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
@@ -113,7 +114,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("role cannot be empty");
+        result.Error!.ShouldContain("role cannot be empty");
 
         await _personaRepository.DidNotReceive()
             .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
@@ -140,7 +141,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Failed to create persona");
+        result.Error!.ShouldContain("Failed to create persona");
     }
 
     /// <summary>
@@ -199,7 +200,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid persona identifier");
+        result.Error!.ShouldContain("Invalid persona identifier");
 
         await _personaRepository.DidNotReceive()
             .GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
@@ -307,7 +308,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid persona identifier");
+        result.Error!.ShouldContain("Invalid persona identifier");
     }
 
     /// <summary>
@@ -328,7 +329,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Trait key cannot be empty");
+        result.Error!.ShouldContain("Trait key cannot be empty");
     }
 
     /// <summary>
@@ -499,7 +500,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Template name cannot be empty");
+        result.Error!.ShouldContain("Template name cannot be empty");
 
         await _promptTemplateRepository.DidNotReceive()
             .AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>());
@@ -730,7 +731,7 @@ public class PersonaServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Search criteria cannot be null");
+        result.Error!.ShouldContain("Search criteria cannot be null");
 
         await _personaRepository.DidNotReceive()
             .GetActivePersonasAsync(Arg.Any<CancellationToken>());

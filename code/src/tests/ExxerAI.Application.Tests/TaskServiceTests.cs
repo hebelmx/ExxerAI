@@ -4,6 +4,7 @@ using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.ValueObjects;
 using NSubstitute;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Application.Tests;
 
@@ -19,7 +20,7 @@ public class TaskServiceTests
     public TaskServiceTests()
     {
         _taskService = Substitute.For<ITaskService>();
-        _cancellationToken = CancellationToken.None;
+        _cancellationToken = TestContext.Current.CancellationToken;
     }
 
     public class CreateTaskAsyncTests : TaskServiceTests

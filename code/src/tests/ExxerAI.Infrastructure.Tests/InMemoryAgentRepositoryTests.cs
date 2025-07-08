@@ -2,6 +2,7 @@ using ExxerAI.Domain;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Infrastructure.Repositories;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -40,7 +41,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Id.ShouldNotBe(Guid.Empty);
+            result.Data!.Id.ShouldNotBe(Guid.Empty);
             result.Data.Name.ShouldBe(agent.Name);
             result.Data.CreatedAt.ShouldBeGreaterThan(DateTime.MinValue);
         }
@@ -66,7 +67,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Id.ShouldBe(agentId);
+            result.Data!.Id.ShouldBe(agentId);
             result.Data.Name.ShouldBe(agent.Name);
         }
 
@@ -105,7 +106,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Name.ShouldBe("Updated Agent Name");
+            result.Data!.Name.ShouldBe("Updated Agent Name");
             result.Data.Description.ShouldBe("Updated Description");
             result.Data.UpdatedAt.ShouldBeGreaterThan(addedAgent.CreatedAt);
         }
@@ -152,7 +153,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBeGreaterThanOrEqualTo(2);
+            result.Data!.Count().ShouldBeGreaterThanOrEqualTo(2);
         }
     }
 
@@ -189,7 +190,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
+            result.Data!.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
             result.Data.Any(a => a.Name == "Active Agent").ShouldBeTrue();
             result.Data.Any(a => a.Name == "Inactive Agent").ShouldBeFalse();
         }
@@ -222,7 +223,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBe(1);
+            result.Data!.Count().ShouldBe(1);
             result.Data.First().Name.ShouldBe("Web Agent");
         }
 
@@ -246,7 +247,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBe(0);
+            result.Data!.Count().ShouldBe(0);
         }
 
         [Fact]
@@ -269,7 +270,7 @@ public class InMemoryAgentRepositoryTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.Count().ShouldBeGreaterThanOrEqualTo(1);
+            result.Data!.Count().ShouldBeGreaterThanOrEqualTo(1);
 
             var agentWithCount = result.Data.FirstOrDefault(atc => atc.Agent.Name == "Test Agent");
             agentWithCount.Agent.ShouldNotBeNull();
@@ -354,7 +355,7 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             existsResult.IsSuccess.ShouldBeTrue();
-            existsResult.Data.ShouldBeTrue();
+            existsResult.Data!.ShouldBeTrue();
         }
 
         [Fact]
@@ -365,7 +366,7 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             existsResult.IsSuccess.ShouldBeTrue();
-            existsResult.Data.ShouldBeFalse();
+            existsResult.Data!.ShouldBeFalse();
         }
     }
 }

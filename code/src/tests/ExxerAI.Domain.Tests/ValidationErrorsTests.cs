@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 
@@ -312,7 +313,7 @@ public class ValidationErrorsTests
         [Fact]
         public void FailForNullArgument_Generic_WithNullOrEmptyName_ShouldReturnFailure()
         {
-            var resultNull = ResultExtensions.FailForNullArgument<string>(null);
+            var resultNull = ResultExtensions.FailForNullArgument<string>(null!);
             var resultEmpty = ResultExtensions.FailForNullArgument<string>("");
             resultNull.IsFailure.ShouldBeTrue();
             resultNull.Error!.ShouldContain("Parameter name cannot be null or empty");
@@ -323,7 +324,7 @@ public class ValidationErrorsTests
         [Fact]
         public void FailForNullArguments_Generic_WithNullOrEmptyNames_ShouldReturnFailure()
         {
-            var resultNull = ResultExtensions.FailForNullArguments<string>(null);
+            var resultNull = ResultExtensions.FailForNullArguments<string>(null!);
             var resultEmpty = ResultExtensions.FailForNullArguments<string>();
             var resultWithEmpty = ResultExtensions.FailForNullArguments<string>("param1", "");
             resultNull.IsFailure.ShouldBeTrue();
@@ -337,7 +338,7 @@ public class ValidationErrorsTests
         [Fact]
         public void FailForNullArgument_NonGeneric_WithNullOrEmptyName_ShouldReturnFailure()
         {
-            var resultNull = ResultExtensions.FailForNullArgument(null);
+            var resultNull = ResultExtensions.FailForNullArgument(null!);
             var resultEmpty = ResultExtensions.FailForNullArgument("");
             resultNull.IsFailure.ShouldBeTrue();
             resultNull.Error!.ShouldContain("Parameter name cannot be null or empty");
@@ -348,7 +349,7 @@ public class ValidationErrorsTests
         [Fact]
         public void FailForNullArguments_NonGeneric_WithNullOrEmptyNames_ShouldReturnFailure()
         {
-            var resultNull = ResultExtensions.FailForNullArguments(null);
+            var resultNull = ResultExtensions.FailForNullArguments(null!);
             var resultEmpty = ResultExtensions.FailForNullArguments();
             var resultWithEmpty = ResultExtensions.FailForNullArguments("param1", "");
             resultNull.IsFailure.ShouldBeTrue();
@@ -356,13 +357,13 @@ public class ValidationErrorsTests
             resultEmpty.IsFailure.ShouldBeTrue();
             resultEmpty.Error!.ShouldContain("Parameter names cannot be null, empty, or contain empty values");
             resultWithEmpty.IsFailure.ShouldBeTrue();
-            resultWithEmpty.Error.ShouldContain("Parameter names cannot be null, empty, or contain empty values");
+            resultWithEmpty.Error!.ShouldContain("Parameter names cannot be null, empty, or contain empty values");
         }
 
         [Fact]
         public void EnsureNotNull_WithNullOrEmptyParameterName_ShouldReturnFailure()
         {
-            var resultNull = ResultExtensions.EnsureNotNull("value", null);
+            var resultNull = ResultExtensions.EnsureNotNull("value", null!);
             var resultEmpty = ResultExtensions.EnsureNotNull("value", "");
             resultNull.IsFailure.ShouldBeTrue();
             resultNull.Error!.ShouldContain("Parameter name cannot be null or empty");
@@ -374,7 +375,7 @@ public class ValidationErrorsTests
         public void EnsureNotNull_Nullable_WithNullOrEmptyParameterName_ShouldReturnFailure()
         {
             int? value = 1;
-            var resultNull = ResultExtensions.EnsureNotNull(value, null);
+            var resultNull = ResultExtensions.EnsureNotNull(value, null!);
             var resultEmpty = ResultExtensions.EnsureNotNull(value, "");
             resultNull.IsFailure.ShouldBeTrue();
             resultNull.Error!.ShouldContain("Parameter name cannot be null or empty");
@@ -385,7 +386,7 @@ public class ValidationErrorsTests
         [Fact]
         public void ValidateNotNull_WithNullOrEmptyValidations_ShouldReturnFailure()
         {
-            var resultNull = ResultExtensions.ValidateNotNull(null);
+            var resultNull = ResultExtensions.ValidateNotNull(null!);
             var resultEmpty = ResultExtensions.ValidateNotNull();
             resultNull.IsFailure.ShouldBeTrue();
             resultNull.Error!.ShouldContain("Validations cannot be null or empty");
@@ -397,7 +398,7 @@ public class ValidationErrorsTests
         public void CreateIfValid_WithNullFactory_ShouldReturnFailure()
         {
             var validations = new[] { ((object?)"value", "param") };
-            var result = ResultExtensions.CreateIfValid<string>(null, validations);
+            var result = ResultExtensions.CreateIfValid<string>(null!, validations);
             result.IsFailure.ShouldBeTrue();
             result.Error!.ShouldContain("Factory function cannot be null");
         }
@@ -405,7 +406,7 @@ public class ValidationErrorsTests
         [Fact]
         public void CreateIfValid_WithNullValidations_ShouldReturnFailure()
         {
-            var result = ResultExtensions.CreateIfValid(() => "value", null);
+            var result = ResultExtensions.CreateIfValid(() => "value", null!);
             result.IsFailure.ShouldBeTrue();
             result.Error!.ShouldContain("Validations cannot be null");
         }

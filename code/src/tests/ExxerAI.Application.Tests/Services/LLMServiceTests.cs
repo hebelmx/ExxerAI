@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -44,7 +45,7 @@ public class LLMServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Content.ShouldBe("Generated text");
+        result.Data!.Content.ShouldBe("Generated text");
         result.Data.InputTokens.ShouldBe(5);
         result.Data.OutputTokens.ShouldBe(10);
     }
@@ -119,7 +120,7 @@ public class LLMServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.Content.ShouldBe("Hello there!");
+        result.Data!.Content.ShouldBe("Hello there!");
         result.Data.Role.ShouldBe(MessageRole.Assistant);
     }
 
@@ -156,7 +157,7 @@ public class LLMServiceTests
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Data.ShouldNotBeNull();
-        result.Data.AgentId.ShouldBe(agentId);
+        result.Data!.AgentId.ShouldBe(agentId);
         result.Data.LanguageModelId.ShouldBe(modelId);
         result.Data.Title.ShouldBe(title);
     }

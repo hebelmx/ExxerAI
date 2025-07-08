@@ -1,4 +1,5 @@
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.CLI.Tests;
 
@@ -72,7 +73,7 @@ public class CommandRouterTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Error.ShouldContain("agentCommands");
+        result.Error!.ShouldContain("agentCommands");
     }
 
     [Fact]
@@ -89,7 +90,7 @@ public class CommandRouterTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Error.ShouldContain("taskCommands");
+        result.Error!.ShouldContain("taskCommands");
     }
 
     [Fact]
@@ -107,7 +108,7 @@ public class CommandRouterTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Error.ShouldContain("workflowCommands");
+        result.Error!.ShouldContain("workflowCommands");
     }
 
     [Fact]

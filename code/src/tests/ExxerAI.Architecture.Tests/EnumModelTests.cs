@@ -1,5 +1,6 @@
 using System.Reflection;
 using NetArchTest.Rules;
+using Xunit;
 
 namespace ExxerAI.Architecture.Tests;
 

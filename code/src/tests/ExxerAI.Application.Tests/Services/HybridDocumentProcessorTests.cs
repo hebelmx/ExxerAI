@@ -1,4 +1,5 @@
 using ExxerAI.Domain;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -138,7 +139,7 @@ public class HybridDocumentProcessorTests
             var successfulOCRResult = CreateSuccessfulOCRResult();
             var patterns = CreateSamplePatterns();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
                 .Returns(failedDirectTextResult);
             _ocrProcessor.ProcessDocumentWithOCRAsync(documentData, "spa", Arg.Any<CancellationToken>())
                 .Returns(successfulOCRResult);
@@ -165,7 +166,7 @@ public class HybridDocumentProcessorTests
             var failedDirectTextResult = CreateFailedDirectTextResult();
             var failedOCRResult = CreateFailedOCRResult();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
                 .Returns(failedDirectTextResult);
             _ocrProcessor.ProcessDocumentWithOCRAsync(documentData, "spa", Arg.Any<CancellationToken>())
                 .Returns(failedOCRResult);
@@ -187,7 +188,7 @@ public class HybridDocumentProcessorTests
             var directTextResult = CreateSuccessfulDirectTextResult();
             var patterns = CreateSamplePatternsWithMockExtraction();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
                 .Returns(directTextResult);
             _patternDictionary.GetPatternsForDocumentTypeAsync(metadata.DocumentType.ToString(), Arg.Any<CancellationToken>())
                 .Returns(patterns);
@@ -319,7 +320,7 @@ public class HybridDocumentProcessorTests
             _directTextExtractor.ExtractTextAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
                 .Returns(async callInfo =>
                 {
-                    await Task.Delay(10, callInfo.Arg<CancellationToken>()); // Small delay to ensure progress reporting
+                    await Task.Delay(10); // Small delay to ensure progress reporting
                     return CreateSuccessfulDirectTextResult();
                 });
             _patternDictionary.GetPatternsForDocumentTypeAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())

@@ -1,4 +1,5 @@
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.CLI.Tests;
 
@@ -53,7 +54,7 @@ public class TaskCommandsTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Error.ShouldContain("taskRepository");
+        result.Error!.ShouldContain("taskRepository");
     }
 
     [Fact]
@@ -67,7 +68,7 @@ public class TaskCommandsTests
 
         // Assert
         result.IsFailure.ShouldBeTrue();
-        result.Error.ShouldContain("agentRepository");
+        result.Error!.ShouldContain("agentRepository");
     }
 
     [Fact]

@@ -7,6 +7,7 @@ using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Services;
 using ExxerAi.MCPServer.Application.Interfaces;
+using Xunit;
 
 namespace ExxerAi.MCPServer.Tests.Services;
 
@@ -91,11 +92,11 @@ public class GoogleDriveServiceTests
             _mockConfiguration["GoogleDrive:ClientId"].Returns((string?)null);
 
             // Act
-            var result = await _sut.InitializeAsync();
+            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("OAuth credentials not configured");
+            result.Error!.ShouldContain("OAuth credentials not configured");
         }
 
         [Fact]
@@ -105,11 +106,11 @@ public class GoogleDriveServiceTests
             _mockConfiguration["GoogleDrive:ClientSecret"].Returns((string?)null);
 
             // Act
-            var result = await _sut.InitializeAsync();
+            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("OAuth credentials not configured");
+            result.Error!.ShouldContain("OAuth credentials not configured");
         }
 
         [Fact]
@@ -123,7 +124,7 @@ public class GoogleDriveServiceTests
             // In a real scenario, you'd test with actual environment variables
 
             // Act
-            var result = await _sut.InitializeAsync();
+            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse(); // Expected to fail without env vars in test environment
@@ -133,7 +134,7 @@ public class GoogleDriveServiceTests
         public async Task Should_LogInformation_When_InitializationStarts()
         {
             // Arrange & Act
-            await _sut.InitializeAsync();
+            await _sut.InitializeAsync(TestContext.Current.CancellationToken);
 
             // Assert
             _mockLogger.Received().LogInformation("Initializing Google Drive service...");
@@ -159,7 +160,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("Drive service not initialized");
+            result.Error!.ShouldContain("Drive service not initialized");
         }
 
         [Fact]
@@ -216,7 +217,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("Drive service not initialized");
+            result.Error!.ShouldContain("Drive service not initialized");
         }
 
         [Fact]
@@ -252,7 +253,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("Drive service not initialized");
+            result.Error!.ShouldContain("Drive service not initialized");
         }
 
         [Fact]
@@ -316,7 +317,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("not found");
+            result.Error!.ShouldContain("not found");
         }
 
         [Fact]
@@ -330,7 +331,7 @@ public class GoogleDriveServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("not found");
+            result.Error!.ShouldContain("not found");
         }
 
         [Fact]

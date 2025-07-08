@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using ExxerAI.Domain.Operations;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 

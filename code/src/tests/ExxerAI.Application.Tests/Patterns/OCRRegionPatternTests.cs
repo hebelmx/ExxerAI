@@ -3,6 +3,7 @@ using ExxerAI.Application.Enums;
 using ExxerAI.Application.Patterns;
 using ExxerAI.Domain.DocumentProcessing;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Patterns;
 

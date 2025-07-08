@@ -2,6 +2,7 @@ using ExxerAI.Application.Services;
 using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Domain.Health;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Api.Tests;
 
@@ -337,7 +338,7 @@ public class ComprehensiveUnitTestExample
             const string folderId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
 
             // Act
-            var result = await _service.StartWatchingFolderAsync(folderId);
+            var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -355,11 +356,11 @@ public class ComprehensiveUnitTestExample
         public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvided(string? invalidFolderId)
         {
             // Act
-            var result = await _service.StartWatchingFolderAsync(invalidFolderId!);
+            var result = await _service.StartWatchingFolderAsync(invalidFolderId!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("Folder ID");
+            result.Error!.ShouldContain("Folder ID");
         }
 
         /// <summary>
@@ -380,17 +381,16 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(expectedProcessingResult));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId);
+            var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.DocumentId.ShouldBe(documentId);
+            result.Data!.DocumentId.ShouldBe(documentId);
 
             // Verify dependencies were called
             await _documentProcessor.Received(1).ProcessDocumentAsync(
-                Arg.Any<byte[]>(),
-                Arg.Any<DocumentMetadata>(),
+                Arg.Any<byte[]>(), Arg.Any<DocumentMetadata>(),
                 Arg.Any<CancellationToken>());
         }
 
@@ -412,7 +412,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.WithFailure(processingErrors));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId);
+            var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -433,11 +433,11 @@ public class ComprehensiveUnitTestExample
             cts.Cancel(); // Cancel immediately
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, cts.Token);
+            var result = await _service.IngestDocumentAsync(documentId, false, cts.Token, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
-            result.Error.ShouldContain("cancel", Case.Insensitive);
+            result.Error!.ShouldContain("cancel", Case.Insensitive);
         }
 
         /// <summary>
@@ -448,17 +448,17 @@ public class ComprehensiveUnitTestExample
         {
             // Arrange - Start a watch session first to create active state
             const string folderId = "active-folder";
-            await _service.StartWatchingFolderAsync(folderId);
+            await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _service.GetIngestionStatusAsync();
+            var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Data.ShouldNotBeNull();
-            result.Data.ActiveWatchSessions.ShouldBeGreaterThan(0);
-            result.Data.SystemHealth.ShouldBe(HealthStatus.Healthy);
-            result.Data.Metrics.ShouldNotBeNull();
+            result.Data!.ActiveWatchSessions.ShouldBeGreaterThan(0);
+            result.Data!.SystemHealth.ShouldBe(HealthStatus.Healthy);
+            result.Data!.Metrics.ShouldNotBeNull();
         }
 
         /// <summary>
@@ -479,9 +479,9 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(processingResult));
 
             // Act - Complete workflow
-            var watchResult = await _service.StartWatchingFolderAsync(folderId);
-            var ingestResult = await _service.IngestDocumentAsync(documentId);
-            var statusResult = await _service.GetIngestionStatusAsync();
+            var watchResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            var ingestResult = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+            var statusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
             // Assert - All operations successful
             watchResult.IsSuccess.ShouldBeTrue();
@@ -489,8 +489,8 @@ public class ComprehensiveUnitTestExample
             statusResult.IsSuccess.ShouldBeTrue();
 
             // Verify end-to-end state
-            statusResult.Data.ActiveWatchSessions.ShouldBe(1);
-            ingestResult.Data.DocumentId.ShouldBe(documentId);
+            statusResult.Data!.ActiveWatchSessions.ShouldBe(1);
+            ingestResult.Data!.DocumentId.ShouldBe(documentId);
         }
 
         /// <summary>
@@ -500,8 +500,7 @@ public class ComprehensiveUnitTestExample
         {
             return new DocumentProcessingResult
             {
-                DocumentId = documentId,
-                ExtractionMethod = ExtractionMethod.DirectText,
+                DocumentId = documentId, ExtractionMethod = ExtractionMethod.DirectText,
                 ExtractedText = "Sample business document content for ExxerAI processing",
                 Confidence = 0.95f,
                 LLMConfidence = 0.92f,
@@ -511,7 +510,7 @@ public class ComprehensiveUnitTestExample
                 {
                     ["document_type"] = "FinancialReport",
                     ["company"] = "ExxerPro Solutions",
-                    ["date_created"] = DateTime.UtcNow.AddDays(-1),
+                    ["date_created"] = DateTime.UtcNow.AddDays(-1, TestContext.Current.CancellationToken),
                     ["page_count"] = 5
                 },
                 ValidationResultDocument = new ValidationResultDocument
@@ -578,7 +577,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<string>.Success(expectedSessionId));
 
             // Act
-            var result = await _service.StartWatchingFolderAsync(folderId);
+            var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -706,7 +705,7 @@ public class ComprehensiveUnitTestExample
             try
             {
                 // Simulate processing time
-                await Task.Delay(100);
+                await Task.Delay(100, TestContext.Current.CancellationToken);
                 return true;
             }
             finally

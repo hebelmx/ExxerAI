@@ -1,5 +1,6 @@
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.AspNetCore.Mvc;
+using Xunit;
 
 namespace ExxerAI.Api.Tests.Controllers.AgentsControllerTests;
 
@@ -39,7 +40,7 @@ public class GetActiveAgentsEndpointTests
         var actionResult = result.Result;
         actionResult.ShouldBeOfType<OkObjectResult>();
         var okResult = (OkObjectResult)actionResult;
-        okResult.Value.ShouldBeOfType<ApiResponse<IEnumerable<AgentResponse>>>();
+        okResult.Value!.ShouldBeOfType<ApiResponse<IEnumerable<AgentResponse>>>();
 
         var response = (ApiResponse<IEnumerable<AgentResponse>>)okResult.Value!;
         response.Success.ShouldBeTrue();

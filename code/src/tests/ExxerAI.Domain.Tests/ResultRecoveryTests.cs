@@ -1,5 +1,6 @@
 using ExxerAI.Domain.Operations;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 
@@ -51,7 +52,7 @@ public class ResultRecoveryTests
 
         // Assert
         recoveredResult.IsSuccess.ShouldBeTrue();
-        recoveredResult.Value.ShouldBe("Recovered value");
+        recoveredResult.Value!.ShouldBe("Recovered value");
     }
 
     [Fact]
@@ -66,7 +67,7 @@ public class ResultRecoveryTests
 
         // Assert
         recoveredResult.IsSuccess.ShouldBeTrue();
-        recoveredResult.Value.ShouldBe("Original value");
+        recoveredResult.Value!.ShouldBe("Original value");
     }
 
     [Fact]
@@ -81,7 +82,7 @@ public class ResultRecoveryTests
 
         // Assert
         recoveredResult.IsSuccess.ShouldBeTrue();
-        recoveredResult.Value.ShouldBe(42);
+        recoveredResult.Value!.ShouldBe(42);
     }
 
     [Fact]
@@ -95,7 +96,7 @@ public class ResultRecoveryTests
 
         // Assert
         convertedResult.IsSuccess.ShouldBeTrue();
-        convertedResult.Value.ShouldBe("test string");
+        convertedResult.Value!.ShouldBe("test string");
     }
 
     /// <summary>
@@ -173,7 +174,7 @@ public class ResultRecoveryTests
         );
 
         // Assert  
-        matchResult.Value.ShouldBe("Success: test value");
+        matchResult.Value!.ShouldBe("Success: test value");
     }
 
     [Fact]
@@ -189,7 +190,7 @@ public class ResultRecoveryTests
         );
 
         // Assert
-        matchResult.Value.ShouldBe("Failed: test error");
+        matchResult.Value!.ShouldBe("Failed: test error");
     }
 
     [Fact]
@@ -241,7 +242,7 @@ public class ResultRecoveryTests
 
         // Assert - Should succeed because null is a valid success value
         combinedResult.IsSuccess.ShouldBeTrue();
-        combinedResult.Value.ShouldBeNull();
+        combinedResult.Value!.ShouldBeNull();
     }
 
     [Fact]
@@ -257,7 +258,7 @@ public class ResultRecoveryTests
         );
 
         // Assert - Should call success function with null value (industry standard behavior)
-        matchResult.Value.ShouldBe(-1); // Success function called with null value
+        matchResult.Value!.ShouldBe(-1); // Success function called with null value
     }
 
     [Fact]

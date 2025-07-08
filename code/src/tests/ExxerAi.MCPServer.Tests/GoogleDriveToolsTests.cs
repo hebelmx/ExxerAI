@@ -118,7 +118,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
-			result.Error.ShouldContain(expectedError);
+			result.Error!.ShouldContain(expectedError);
 		}
 
 		[Theory]
@@ -210,7 +210,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
-			result.Error.ShouldContain(expectedError);
+			result.Error!.ShouldContain(expectedError);
 		}
 	}
 
@@ -331,7 +331,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
-			result.Error.ShouldContain(expectedError);
+			result.Error!.ShouldContain(expectedError);
 		}
 	}
 
@@ -391,7 +391,7 @@ public class GoogleDriveToolsTests
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
-			result.Error.ShouldContain(expectedError);
+			result.Error!.ShouldContain(expectedError);
 		}
 	}
 }

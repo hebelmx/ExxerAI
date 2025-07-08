@@ -36,7 +36,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         SetupQdrantClient();
 
         // Act
-        var result = await _vectorStore.InitializeAsync();
+        var result = await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -48,7 +48,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         SetupQdrantClient();
-        await _vectorStore.InitializeAsync();
+        await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         var documentId = "test-doc-001";
         var content = "This is a test document about machine learning and artificial intelligence.";
@@ -61,17 +61,17 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         };
 
         // Act - Store
-        var storeResult = await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, metadata);
+        var storeResult = await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, metadata, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
 
         // Act - Search
         var searchResult = await _vectorStore.SearchSimilarAsync(
-            embeddings, limit: 5, threshold: 0.9f);
+            embeddings, limit: 5, threshold: 0.9f, TestContext.Current.CancellationToken);
 
         // Assert
         storeResult.IsSuccess.ShouldBeTrue();
         searchResult.IsSuccess.ShouldBeTrue();
         
-        var results = searchResult.Value.ToList();
+        var results = searchResult.Value!.ToList();
         results.Count.ShouldBeGreaterThan(0);
         results.First().DocumentId.ShouldBe(documentId);
         results.First().Content.ShouldBe(content);
@@ -84,7 +84,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         SetupQdrantClient();
-        await _vectorStore.InitializeAsync();
+        await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         var batchSize = 100;
         var batchItems = GenerateTestBatch(batchSize);
@@ -97,10 +97,10 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
 
         // Verify batch was stored
         var searchResult = await _vectorStore.SearchSimilarAsync(
-            batchItems.First().Embeddings, limit: batchSize);
+            batchItems.First().Embeddings, limit: batchSize, TestContext.Current.CancellationToken);
 
         searchResult.IsSuccess.ShouldBeTrue();
-        searchResult.Value.Count().ShouldBeGreaterThan(50); // At least half should be similar
+        searchResult.Value!.Count().ShouldBeGreaterThan(50); // At least half should be similar
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
@@ -108,24 +108,24 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         SetupQdrantClient();
-        await _vectorStore.InitializeAsync();
+        await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         var documentId = "deletable-doc";
         var content = "Document to be deleted";
         var embeddings = GenerateTestEmbedding(1536);
 
-        await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings);
+        await _vectorStore.StoreEmbeddingAsync(documentId, content, embeddings, TestContext.Current.CancellationToken);
 
         // Act
-        var deleteResult = await _vectorStore.DeleteEmbeddingAsync(documentId);
+        var deleteResult = await _vectorStore.DeleteEmbeddingAsync(documentId, TestContext.Current.CancellationToken);
 
         // Assert
         deleteResult.IsSuccess.ShouldBeTrue();
 
         // Verify deletion by searching
-        var searchResult = await _vectorStore.SearchSimilarAsync(embeddings, threshold: 0.95f);
+        var searchResult = await _vectorStore.SearchSimilarAsync(embeddings, threshold: 0.95f, TestContext.Current.CancellationToken);
         searchResult.IsSuccess.ShouldBeTrue();
-        searchResult.Value.Any(r => r.DocumentId == documentId).ShouldBeFalse();
+        searchResult.Value!.Any(r => r.DocumentId == documentId).ShouldBeFalse();
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
@@ -133,7 +133,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         SetupQdrantClient();
-        await _vectorStore.InitializeAsync();
+        await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         var concurrentTasks = new List<Task>();
         var documentCount = 50;
@@ -151,7 +151,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         await Task.WhenAll(concurrentTasks);
 
         // Assert - Verify all documents were stored
-        var stats = await _vectorStore.GetStatsAsync();
+        var stats = await _vectorStore.GetStatsAsync(TestContext.Current.CancellationToken);
         stats.IsSuccess.ShouldBeTrue();
         stats.Value.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
     }
@@ -161,7 +161,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         SetupQdrantClient();
-        await _vectorStore.InitializeAsync();
+        await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Store documents with different categories
         var techDoc = await StoreTestDocument("tech-doc", "Technical content", new { category = "technology" });
@@ -171,14 +171,12 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
 
         // Act - Search with metadata filter
         var filteredResult = await _vectorStore.SearchSimilarAsync(
-            queryEmbedding,
-            limit: 10,
-            threshold: 0.1f,
-            filter: new Dictionary<string, object> { ["category"] = "technology" });
+            queryEmbedding, limit: 10, threshold: 0.1f,
+            filter: new Dictionary<string, object> { ["category"] = "technology" }, TestContext.Current.CancellationToken);
 
         // Assert
         filteredResult.IsSuccess.ShouldBeTrue();
-        var results = filteredResult.Value.ToList();
+        var results = filteredResult.Value!.ToList();
         results.All(r => r.Metadata.ContainsKey("meta_category") && 
                         r.Metadata["meta_category"].ToString() == "technology").ShouldBeTrue();
     }
@@ -195,9 +193,9 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         var customStore = new QdrantVectorStore(customClient, _logger, customCollectionName, dimensions);
 
         // Act
-        var initResult = await customStore.InitializeAsync();
+        var initResult = await customStore.InitializeAsync(TestContext.Current.CancellationToken);
         var embeddings = GenerateTestEmbedding(dimensions);
-        var storeResult = await customStore.StoreEmbeddingAsync("test-doc", "content", embeddings);
+        var storeResult = await customStore.StoreEmbeddingAsync("test-doc", "content", embeddings, TestContext.Current.CancellationToken);
 
         // Assert
         initResult.IsSuccess.ShouldBeTrue();
@@ -212,7 +210,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         SetupQdrantClient();
-        await _vectorStore.InitializeAsync();
+        await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         var documentsToIndex = 1000;
         var batchItems = GenerateTestBatch(documentsToIndex);
@@ -228,7 +226,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         // Act & Assert - Search performance
         var searchStopwatch = System.Diagnostics.Stopwatch.StartNew();
         var searchResult = await _vectorStore.SearchSimilarAsync(
-            batchItems.First().Embeddings, limit: 50);
+            batchItems.First().Embeddings, limit: 50, TestContext.Current.CancellationToken);
         searchStopwatch.Stop();
 
         searchResult.IsSuccess.ShouldBeTrue();
@@ -245,7 +243,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         var embeddings = GenerateTestEmbedding(1536);
         var metadataDict = ConvertToMetadataDictionary(metadata);
-        var result = await _vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict);
+        var result = await _vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
         return result.IsSuccess;
     }
 

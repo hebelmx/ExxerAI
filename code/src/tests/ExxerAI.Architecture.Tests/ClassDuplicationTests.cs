@@ -3,6 +3,7 @@ using NetArchTest.Rules;
 using Shouldly;
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.Extensions.Logging;
+using Xunit;
 
 namespace ExxerAI.Architecture.Tests;
 

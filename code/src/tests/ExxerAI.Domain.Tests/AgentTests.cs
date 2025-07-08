@@ -1,5 +1,6 @@
-﻿using ExxerAI.Domain;
+using ExxerAI.Domain;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 

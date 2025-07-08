@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using ExxerAI.Domain.Operations;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.Domain.Tests;
 
@@ -142,7 +143,7 @@ public class ResultTests
         var genericCombineResult = Result<string>.CombineErrors<string>(null, null);
         genericCombineResult.IsFailure.ShouldBeTrue();
         genericCombineResult.Errors.ShouldContain("No errors were found");
-        genericCombineResult.Value.ShouldBeNull();
+        genericCombineResult.Value!.ShouldBeNull();
     }
 
     [Fact]
@@ -169,13 +170,13 @@ public class ResultTests
         // Assert - Generic success result properties
         successGenericResult.IsSuccess.ShouldBeTrue();
         successGenericResult.IsFailure.ShouldBeFalse();
-        successGenericResult.Value.ShouldBe(42);
+        successGenericResult.Value!.ShouldBe(42);
         successGenericResult.Errors.ShouldBeEmpty(); // Success results have empty collections (regression fix)
 
         // Assert - Generic failure result properties
         failureGenericResult.IsSuccess.ShouldBeFalse();
         failureGenericResult.IsFailure.ShouldBeTrue();
-        failureGenericResult.Value.ShouldBe("fallback value");
+        failureGenericResult.Value!.ShouldBe("fallback value");
         failureGenericResult.Errors.ShouldContain("Generic failure");
 
         // Arrange & Act - Test warning properties
@@ -185,7 +186,7 @@ public class ResultTests
         warningResult.IsSuccess.ShouldBeTrue(); // Fixed: Warnings are now successful operations
         warningResult.HasWarnings.ShouldBeTrue(); // Should have warnings since we used WithWarnings
         warningResult.IsRecoverable.ShouldBeTrue(); // Should be recoverable since the operation succeeded
-        warningResult.Value.ShouldBe("success value");
+        warningResult.Value!.ShouldBe("success value");
         warningResult.Errors.ShouldContain("Warning 1");
 
         // Arrange & Act - Test enumerable value handling
@@ -229,7 +230,7 @@ public class ResultTests
 
         // Assert - Map method results
         mappedResult.IsSuccess.ShouldBeTrue();
-        mappedResult.Value.ShouldBe("Mapped value");
+        mappedResult.Value!.ShouldBe("Mapped value");
         failedMappedResult.IsFailure.ShouldBeTrue();
         failedMappedResult.Errors.ShouldContain(TestMessages.InitialFailure);
 
@@ -239,7 +240,7 @@ public class ResultTests
 
         // Assert - Bind method results
         boundResult.IsSuccess.ShouldBeTrue();
-        boundResult.Value.ShouldBe(100);
+        boundResult.Value!.ShouldBe(100);
         failedBoundResult.IsFailure.ShouldBeTrue();
         failedBoundResult.Errors.ShouldContain(TestMessages.InitialFailure);
 
@@ -311,7 +312,7 @@ public class ResultTests
 
         validationResult.IsSuccess.ShouldBeTrue();
         validationResult.Value!.PartNumber.ShouldBe(validPartNumber);
-        validationResult.Value.Quality.ShouldBe(validQuality);
+        validationResult.Value!.Quality.ShouldBe(validQuality);
 
         // Act & Assert - Test failing validation business rules
         var failedValidationResult = Result.Success()
@@ -363,7 +364,7 @@ public class ResultTests
         // Act & Assert - Test implicit conversions and deconstruction
         Result<string> implicitResult = "Test Value"; // Implicit conversion from T to Result<T>
         implicitResult.IsSuccess.ShouldBeTrue();
-        implicitResult.Value.ShouldBe("Test Value");
+        implicitResult.Value!.ShouldBe("Test Value");
 
         Result nonGenericResult = implicitResult; // Implicit conversion from Result<T> to Result
         nonGenericResult.IsSuccess.ShouldBeTrue();
@@ -779,7 +780,7 @@ public class ResultTests
         // Assert - Both should have identical behavior
         jsonConstructorResult.IsSuccess.ShouldBe(regularConstructorResult.IsSuccess);
         jsonConstructorResult.IsFailure.ShouldBe(regularConstructorResult.IsFailure);
-        jsonConstructorResult.Value.ShouldBe(regularConstructorResult.Value);
+        jsonConstructorResult.Value!.ShouldBe(regularConstructorResult.Value);
     }
 
     [Fact]
@@ -839,17 +840,17 @@ public class ResultTests
         stringResult.Errors.ShouldNotBeNull();
         stringResult.Errors.ShouldBeEmpty();
         stringResult.IsSuccess.ShouldBeTrue();
-        stringResult.Value.ShouldBe("test-string");
+        stringResult.Value!.ShouldBe("test-string");
 
         intResult.Errors.ShouldNotBeNull();
         intResult.Errors.ShouldBeEmpty();
         intResult.IsSuccess.ShouldBeTrue();
-        intResult.Value.ShouldBe(42);
+        intResult.Value!.ShouldBe(42);
 
         boolResult.Errors.ShouldNotBeNull();
         boolResult.Errors.ShouldBeEmpty();
         boolResult.IsSuccess.ShouldBeTrue();
-        boolResult.Value.ShouldBe(true);
+        boolResult.Value!.ShouldBe(true);
     }
 
     [Fact]
@@ -1061,9 +1062,9 @@ public class ResultTests
         receivedHashSetErrors.Count().ShouldBe(2);
 
         // Assert - All should preserve the value
-        listResult.Value.ShouldBe(42);
-        arrayResult.Value.ShouldBe(42);
-        hashSetResult.Value.ShouldBe(42);
+        listResult.Value!.ShouldBe(42);
+        arrayResult.Value!.ShouldBe(42);
+        hashSetResult.Value!.ShouldBe(42);
     }
 
     [Fact]
@@ -1399,7 +1400,7 @@ public class ResultTests
             value => value is null ? "NULL_SUCCESS" : "NOT_NULL",
             errors => "FAILURE"
         );
-        matchResult.Value.ShouldBe("NULL_SUCCESS");
+        matchResult.Value!.ShouldBe("NULL_SUCCESS");
 
         // Deconstruction should work
         var (succeeded, data, errors) = nullResult;
@@ -1700,7 +1701,7 @@ public class ResultTests
             if (!userNotFoundResult.IsSuccessNotNull)
             {
                 // Handle the "successful but null" case
-                userNotFoundResult.Value.ShouldBeNull("Operation succeeded but returned null");
+                userNotFoundResult.Value!.ShouldBeNull("Operation succeeded but returned null");
             }
         }
 

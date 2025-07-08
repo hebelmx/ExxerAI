@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -226,7 +227,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
 // Act
-var result = await _service.EstimateCostAsync(modelId, 100, 50);
+var result = await _service.EstimateCostAsync(modelId, 100, 50, TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -244,7 +245,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.EstimateCostAsync(modelId, 1000, 500);
+var result = await _service.EstimateCostAsync(modelId, 1000, 500, TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -263,7 +264,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.CountTokensAsync(modelId, "");
+var result = await _service.CountTokensAsync(modelId, "", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -282,7 +283,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.CountTokensAsync(modelId, text);
+var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -299,7 +300,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
 // Act
-var result = await _service.CountTokensAsync(modelId, "test text");
+var result = await _service.CountTokensAsync(modelId, "test text", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();

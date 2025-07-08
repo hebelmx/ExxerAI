@@ -6,6 +6,7 @@ using ExxerAI.Domain.ValueObjects;
 using NSubstitute;
 using Shouldly;
 using System.Linq;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -108,7 +109,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid model identifier");
+        result.Error!.ShouldContain("Invalid model identifier");
     }
 
     [Fact]
@@ -123,7 +124,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Prompt cannot be empty");
+        result.Error!.ShouldContain("Prompt cannot be empty");
     }
 
     [Fact]
@@ -142,7 +143,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Model not found");
+        result.Error!.ShouldContain("Model not found");
     }
 
     [Fact]
@@ -206,7 +207,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid agent identifier");
+        result.Error!.ShouldContain("Invalid agent identifier");
     }
 
     [Fact]
@@ -221,7 +222,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid model identifier");
+        result.Error!.ShouldContain("Invalid model identifier");
     }
 
     [Fact]
@@ -276,7 +277,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid conversation identifier");
+        result.Error!.ShouldContain("Invalid conversation identifier");
     }
 
     [Fact]
@@ -291,7 +292,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Message cannot be empty");
+        result.Error!.ShouldContain("Message cannot be empty");
     }
 
     [Fact]
@@ -363,11 +364,11 @@ public class EnhancedLLMServiceTests
         var outputTokens = 50;
 
         // Act
-        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens);
+        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid model identifier");
+        result.Error!.ShouldContain("Invalid model identifier");
     }
 
     [Fact]
@@ -392,7 +393,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<decimal>.WithSuccess(expectedCost));
 
         // Act
-        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens);
+        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -407,11 +408,11 @@ public class EnhancedLLMServiceTests
         var text = "Test text";
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text);
+        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid model identifier");
+        result.Error!.ShouldContain("Invalid model identifier");
     }
 
     [Fact]
@@ -422,7 +423,7 @@ public class EnhancedLLMServiceTests
         var text = "";
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text);
+        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -450,7 +451,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<int>.WithSuccess(expectedTokenCount));
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text);
+        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -468,7 +469,7 @@ public class EnhancedLLMServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Invalid model identifier");
+        result.Error!.ShouldContain("Invalid model identifier");
     }
 
     [Fact]

@@ -1,5 +1,6 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
+using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
 
@@ -38,7 +39,7 @@ public class DocumentIngestionServiceBehavioralTests
         var result = await _service.DetectDocumentChangesAsync();
 
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Drive API error");
+        result.Error!.ShouldContain("Drive API error");
     }
 
     [Fact]
@@ -48,7 +49,7 @@ public class DocumentIngestionServiceBehavioralTests
         _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IngestionStatus>.WithSuccess(expectedStatus));
 
-        var result = await _service.GetIngestionStatusAsync();
+        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -61,10 +62,10 @@ public class DocumentIngestionServiceBehavioralTests
         _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IngestionStatus>.WithFailure("Timeout during agentStatus retrieval"));
 
-        var result = await _service.GetIngestionStatusAsync();
+        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Timeout during agentStatus retrieval");
+        result.Error!.ShouldContain("Timeout during agentStatus retrieval");
     }
 
     [Fact]
@@ -88,9 +89,9 @@ public class DocumentIngestionServiceBehavioralTests
         _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
             .Returns(Result<DocumentProcessingResult>.WithFailure("Ingestion failed"));
 
-        var result = await _service.IngestDocumentAsync(documentId);
+        var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeFalse();
-        result.Error.ShouldContain("Ingestion failed");
+        result.Error!.ShouldContain("Ingestion failed");
     }
 }

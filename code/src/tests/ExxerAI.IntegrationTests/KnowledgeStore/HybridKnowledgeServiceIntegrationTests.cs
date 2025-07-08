@@ -51,7 +51,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         SetupHybridService();
 
         // Act
-        var result = await _hybridService.InitializeAsync();
+        var result = await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -63,7 +63,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         var knowledgeDocument = new KnowledgeDocument
         {
@@ -135,7 +135,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Store multiple related documents
         await StoreTestKnowledgeBase();
@@ -179,7 +179,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
         await StoreTestKnowledgeBase();
 
         // Act
@@ -206,7 +206,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
         await StoreTestKnowledgeBase();
 
         // Act
@@ -228,7 +228,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         var documentId = "removable-doc-001";
         var knowledgeDocument = CreateTestKnowledgeDocument(documentId, "Document to be removed");
@@ -247,7 +247,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             new HybridSearchOptions { SemanticThreshold = 0.5f });
 
         searchResult.IsSuccess.ShouldBeTrue();
-        searchResult.Value.CombinedResults.Any(r => r.DocumentId == documentId).ShouldBeFalse();
+        searchResult.Value!.CombinedResults.Any(r => r.DocumentId == documentId).ShouldBeFalse();
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
@@ -255,7 +255,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         var concurrentTasks = new List<Task>();
         var documentCount = 20;
@@ -285,7 +285,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
         await StoreTestKnowledgeBase();
 
         var searchOptions = new HybridSearchOptions
@@ -318,7 +318,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         var documents = GenerateLargeKnowledgeBase(100);
 
@@ -348,7 +348,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync();
+        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
 
         var documents = new[]
         {
