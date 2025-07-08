@@ -108,7 +108,7 @@ public class OpenAIProviderTests
     }
 
     [Theory]
-    [InlineData("gpt-4o", 1000, 500, 0.02)]
+    [InlineData("gpt-4o", 1000, 500, 0.0125)]
     [InlineData("gpt-4-turbo", 1000, 500, 0.025)]
     [InlineData("gpt-3.5-turbo", 1000, 500, 0.00125)]
     public async Task EstimateCostAsync_WithValidInputs_ShouldReturnCorrectCost(

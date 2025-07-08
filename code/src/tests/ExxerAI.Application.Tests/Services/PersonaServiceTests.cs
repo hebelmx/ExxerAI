@@ -695,7 +695,17 @@ public class PersonaServiceTests
             new() { Id = Guid.NewGuid(), Name = "Developer 2", Role = "Developer" }
         };
 
+        // Mock all repository methods that will be called
         _personaRepository.GetActivePersonasAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
+
+        _personaRepository.GetByRoleAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
+
+        _personaRepository.FindByKnowledgeDomainsAsync(
+            Arg.Any<IEnumerable<string>>(), 
+            Arg.Any<bool>(), 
+            Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
 
         // Act
