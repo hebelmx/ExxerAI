@@ -313,7 +313,7 @@ public class SecureKeyStoreTests : IDisposable
             var value = $"value-{i}";
             expectedValues[keyName] = value;
 
-            tasks.Add(_keyStore.SetKeyAsync(keyName, value));
+            tasks.Add(_keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         // Act

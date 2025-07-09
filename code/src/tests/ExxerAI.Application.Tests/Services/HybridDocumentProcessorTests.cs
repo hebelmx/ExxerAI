@@ -217,9 +217,7 @@ public class HybridDocumentProcessorTests
             // The implementation checks cancellation token in multiple places
 
             // Act & Assert
-            var result = #pragma warning disable xUnit1051
- await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
- #pragma warning restore xUnit1051
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token);
 
             // Either the result should be a failure due to cancellation, or an exception should be thrown
             // Both are valid responses to cancellation
@@ -359,9 +357,7 @@ public class HybridDocumentProcessorTests
             // Act & Assert - Should handle cancellation gracefully without throwing unhandled exceptions
             try
             {
-                var result = #pragma warning disable xUnit1051
- await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
- #pragma warning restore xUnit1051
+                var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token);
 
                 // If we get a result, validate it
                 result.ShouldNotBeNull();
@@ -389,7 +385,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             await _patternDictionary.Received(processingResult.ExtractedFields.Count)
-                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
         }
 
         [Fact]
@@ -403,7 +399,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             await _patternDictionary.DidNotReceive()
-                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
         }
 
         [Fact]
@@ -417,7 +413,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             await _patternDictionary.DidNotReceive()
-                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
         }
 
         [Fact]
@@ -432,7 +428,7 @@ public class HybridDocumentProcessorTests
 
             // Assert
             await _patternDictionary.DidNotReceive()
-                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+                .UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
         }
 
         [Fact]

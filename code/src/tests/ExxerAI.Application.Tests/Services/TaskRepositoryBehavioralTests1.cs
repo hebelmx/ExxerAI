@@ -32,7 +32,7 @@ namespace ExxerAI.Application.Tests.Services
         {
             // Arrange - Create tasks in the service first
             await _service.CreateTaskAsync("Task 1", "Description 1", "Type1", TaskPriority.Normal, cancellationToken: TestContext.Current.CancellationToken);
-            await _service.CreateTaskAsync("Task 2", "Description 2", "Type2", TaskPriority.High, TestContext.Current.CancellationToken);
+            await _service.CreateTaskAsync("Task 2", "Description 2", "Type2", TaskPriority.High, cancellationToken: TestContext.Current.CancellationToken);
 
             // Act
             var result = await _service.GetPendingTasksAsync(10, cancellationToken: TestContext.Current.CancellationToken);

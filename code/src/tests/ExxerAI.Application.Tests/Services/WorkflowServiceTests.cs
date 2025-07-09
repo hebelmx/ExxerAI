@@ -185,7 +185,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetActiveWorkflowsAsync( TestContext.Current.CancellationToken);
+        var result = await _workflowService.GetActiveWorkflowsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -206,7 +206,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetActiveWorkflowsAsync( TestContext.Current.CancellationToken);
+        var result = await _workflowService.GetActiveWorkflowsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -567,11 +567,11 @@ public class WorkflowServiceTests
         // Verify method signatures return Result<T>
         var createTask = _workflowService.CreateWorkflowAsync("test", "test", steps, TestContext.Current.CancellationToken);
         var getTask = _workflowService.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
-        var getActiveTask = _workflowService.GetActiveWorkflowsAsync( TestContext.Current.CancellationToken);
+        var getActiveTask = _workflowService.GetActiveWorkflowsAsync(TestContext.Current.CancellationToken);
         var updateConfigTask = _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, TestContext.Current.CancellationToken);
         var executeTask = _workflowService.ExecuteWorkflowAsync(workflowId, input, TestContext.Current.CancellationToken);
         var getExecutionTask = _workflowService.GetWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
-        var getExecutionsTask = _workflowService.GetWorkflowExecutionsAsync(workflowId, TestContext.Current.CancellationToken);
+        var getExecutionsTask = _workflowService.GetWorkflowExecutionsAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
         var pauseTask = _workflowService.PauseWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
         var resumeTask = _workflowService.ResumeWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
         var cancelTask = _workflowService.CancelWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
