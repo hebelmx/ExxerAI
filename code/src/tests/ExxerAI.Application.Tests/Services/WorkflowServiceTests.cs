@@ -48,10 +48,10 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Name.ShouldBe(name);
-        result.Data.Description.ShouldBe(description);
-        result.Data.Status.ShouldBe(WorkflowStatus.Draft);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Name.ShouldBe(name);
+        result.Value.Description.ShouldBe(description);
+        result.Value.Status.ShouldBe(WorkflowStatus.Draft);
     }
 
     [Theory]
@@ -123,8 +123,8 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Id.ShouldBe(workflowId);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Id.ShouldBe(workflowId);
     }
 
     [Fact]
@@ -190,9 +190,9 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(3);
-        result.Data.All(w => w.Status == WorkflowStatus.Active || w.Status == WorkflowStatus.Running).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(3);
+        result.Value.All(w => w.Status == WorkflowStatus.Active || w.Status == WorkflowStatus.Running).ShouldBeTrue();
     }
 
     [Fact]
@@ -211,8 +211,8 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.ShouldBeEmpty();
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
     }
 
     #endregion GetActiveWorkflowsAsync Tests
@@ -243,9 +243,9 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.WorkflowId.ShouldBe(workflowId);
-        result.Data.Status.ShouldBe(WorkflowExecutionStatus.Starting);
+        result.Value.ShouldNotBeNull();
+        result.Value!.WorkflowId.ShouldBe(workflowId);
+        result.Value.Status.ShouldBe(WorkflowExecutionStatus.Starting);
     }
 
     [Fact]
@@ -313,9 +313,9 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(2);
-        result.Data.All(e => e.WorkflowId == workflowId).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(2);
+        result.Value.All(e => e.WorkflowId == workflowId).ShouldBeTrue();
     }
 
     [Fact]
@@ -338,8 +338,8 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
     }
 
     #endregion GetWorkflowExecutionsAsync Tests
@@ -386,7 +386,7 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Theory]
@@ -457,7 +457,7 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -500,7 +500,7 @@ public class WorkflowServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]

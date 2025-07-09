@@ -38,9 +38,9 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Name.ShouldBe(name);
-        result.Data.Description.ShouldBe(description);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Name.ShouldBe(name);
+        result.Value.Description.ShouldBe(description);
     }
 
     [Theory]
@@ -132,8 +132,8 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Id.ShouldBe(agentId);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Id.ShouldBe(agentId);
     }
 
     [Fact]
@@ -199,8 +199,8 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(3);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(3);
     }
 
     [Fact]
@@ -219,8 +219,8 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.ShouldBeEmpty();
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
     }
 
     #endregion GetAllAgentsAsync Tests
@@ -247,9 +247,9 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(2);
-        result.Data.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(2);
+        result.Value.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
     }
 
     [Fact]
@@ -268,8 +268,8 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.ShouldBeEmpty();
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
     }
 
     #endregion GetActiveAgentsAsync Tests
@@ -293,7 +293,7 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -359,7 +359,7 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -403,7 +403,7 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -467,8 +467,8 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Id.ShouldBe(bestAgent.Id);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Id.ShouldBe(bestAgent.Id);
     }
 
     [Theory]
@@ -530,7 +530,7 @@ public class AgentServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]

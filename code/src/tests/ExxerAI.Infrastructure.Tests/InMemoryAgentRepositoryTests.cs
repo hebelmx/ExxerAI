@@ -40,10 +40,10 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Id.ShouldNotBe(Guid.Empty);
-            result.Data.Name.ShouldBe(agent.Name);
-            result.Data.CreatedAt.ShouldBeGreaterThan(DateTime.MinValue);
+            result.Value.ShouldNotBeNull();
+            result.Value!.Id.ShouldNotBe(Guid.Empty);
+            result.Value.Name.ShouldBe(agent.Name);
+            result.Value.CreatedAt.ShouldBeGreaterThan(DateTime.MinValue);
         }
 
         [Fact]
@@ -59,16 +59,16 @@ public class InMemoryAgentRepositoryTests
             };
 
             var addResult = await _repository.AddAsync(agent, cancellationToken: TestContext.Current.CancellationToken);
-            var agentId = addResult.Data!.Id;
+            var agentId = addResult.Value!.Id;
 
             // Act
             var result = await _repository.GetByIdAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Id.ShouldBe(agentId);
-            result.Data.Name.ShouldBe(agent.Name);
+            result.Value.ShouldNotBeNull();
+            result.Value!.Id.ShouldBe(agentId);
+            result.Value.Name.ShouldBe(agent.Name);
         }
 
         [Fact]
@@ -95,7 +95,7 @@ public class InMemoryAgentRepositoryTests
             };
 
             var addResult = await _repository.AddAsync(agent, cancellationToken: TestContext.Current.CancellationToken);
-            var addedAgent = addResult.Data!;
+            var addedAgent = addResult.Value!;
 
             addedAgent.Name = "Updated Agent Name";
             addedAgent.Description = "Updated Description";
@@ -105,10 +105,10 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Name.ShouldBe("Updated Agent Name");
-            result.Data.Description.ShouldBe("Updated Description");
-            result.Data.UpdatedAt.ShouldBeGreaterThan(addedAgent.CreatedAt);
+            result.Value.ShouldNotBeNull();
+            result.Value!.Name.ShouldBe("Updated Agent Name");
+            result.Value.Description.ShouldBe("Updated Description");
+            result.Value.UpdatedAt.ShouldBeGreaterThan(addedAgent.CreatedAt);
         }
 
         [Fact]
@@ -124,7 +124,7 @@ public class InMemoryAgentRepositoryTests
             };
 
             var addResult = await _repository.AddAsync(agent, cancellationToken: TestContext.Current.CancellationToken);
-            var agentId = addResult.Data!.Id;
+            var agentId = addResult.Value!.Id;
 
             // Act
             var deleteResult = await _repository.DeleteAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
@@ -152,8 +152,8 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Count().ShouldBeGreaterThanOrEqualTo(2);
+            result.Value.ShouldNotBeNull();
+            result.Value!.Count().ShouldBeGreaterThanOrEqualTo(2);
         }
     }
 
@@ -189,10 +189,10 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
-            result.Data.Any(a => a.Name == "Active Agent").ShouldBeTrue();
-            result.Data.Any(a => a.Name == "Inactive Agent").ShouldBeFalse();
+            result.Value.ShouldNotBeNull();
+            result.Value!.All(a => a.Status == AgentStatus.Active).ShouldBeTrue();
+            result.Value.Any(a => a.Name == "Active Agent").ShouldBeTrue();
+            result.Value.Any(a => a.Name == "Inactive Agent").ShouldBeFalse();
         }
 
         [Fact]
@@ -222,9 +222,9 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Count().ShouldBe(1);
-            result.Data.First().Name.ShouldBe("Web Agent");
+            result.Value.ShouldNotBeNull();
+            result.Value!.Count().ShouldBe(1);
+            result.Value.First().Name.ShouldBe("Web Agent");
         }
 
         [Fact]
@@ -246,8 +246,8 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Count().ShouldBe(0);
+            result.Value.ShouldNotBeNull();
+            result.Value!.Count().ShouldBe(0);
         }
 
         [Fact]
@@ -269,10 +269,10 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.Count().ShouldBeGreaterThanOrEqualTo(1);
+            result.Value.ShouldNotBeNull();
+            result.Value!.Count().ShouldBeGreaterThanOrEqualTo(1);
 
-            var agentWithCount = result.Data.FirstOrDefault(atc => atc.Agent.Name == "Test Agent");
+            var agentWithCount = result.Value.FirstOrDefault(atc => atc.Agent.Name == "Test Agent");
             agentWithCount.Agent.ShouldNotBeNull();
             agentWithCount.TaskCount.ShouldBe(0); // No tasks initially
         }
@@ -348,14 +348,14 @@ public class InMemoryAgentRepositoryTests
             };
 
             var addResult = await _repository.AddAsync(agent, cancellationToken: TestContext.Current.CancellationToken);
-            var agentId = addResult.Data!.Id;
+            var agentId = addResult.Value!.Id;
 
             // Act
             var existsResult = await _repository.ExistsAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             existsResult.IsSuccess.ShouldBeTrue();
-            existsResult.Data!.ShouldBeTrue();
+            existsResult.Value!.ShouldBeTrue();
         }
 
         [Fact]
@@ -366,7 +366,7 @@ public class InMemoryAgentRepositoryTests
 
             // Assert
             existsResult.IsSuccess.ShouldBeTrue();
-            existsResult.Data!.ShouldBeFalse();
+            existsResult.Value!.ShouldBeFalse();
         }
     }
 }

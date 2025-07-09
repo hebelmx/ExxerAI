@@ -482,7 +482,7 @@ public class DocumentNotificationServiceTests
         }
     }
 
-    // Test Data Factory Methods
+    // Test Value Factory Methods
     private static DocumentAsset CreateValidDocumentAsset()
     {
         var content = System.Text.Encoding.UTF8.GetBytes("Test document content");

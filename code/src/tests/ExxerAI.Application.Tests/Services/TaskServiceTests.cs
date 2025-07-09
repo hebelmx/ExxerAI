@@ -49,12 +49,12 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Title.ShouldBe(title);
-        result.Data.Description.ShouldBe(description);
-        result.Data.TaskType.ShouldBe(taskType);
-        result.Data.Priority.ShouldBe(priority);
-        result.Data.Deadline.ShouldBe(deadline);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Title.ShouldBe(title);
+        result.Value.Description.ShouldBe(description);
+        result.Value.TaskType.ShouldBe(taskType);
+        result.Value.Priority.ShouldBe(priority);
+        result.Value.Deadline.ShouldBe(deadline);
     }
 
     [Theory]
@@ -111,7 +111,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.Priority.ShouldBe(priority);
+        result.Value.Priority.ShouldBe(priority);
     }
 
     #endregion CreateTaskAsync Tests
@@ -135,8 +135,8 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Id.ShouldBe(taskId);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Id.ShouldBe(taskId);
     }
 
     [Fact]
@@ -203,9 +203,9 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(3);
-        result.Data.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(3);
+        result.Value.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
     }
 
     [Fact]
@@ -225,8 +225,8 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.ShouldBeEmpty();
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
     }
 
     [Theory]
@@ -253,7 +253,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.Count().ShouldBeLessThanOrEqualTo(maxCount);
+        result.Value!.Count().ShouldBeLessThanOrEqualTo(maxCount);
     }
 
     #endregion GetPendingTasksAsync Tests
@@ -281,9 +281,9 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(2);
-        result.Data.All(t => t.AssignedAgentId == agentId).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(2);
+        result.Value.All(t => t.AssignedAgentId == agentId).ShouldBeTrue();
     }
 
     [Theory]
@@ -310,8 +310,8 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.All(t => t.AgentStatus == agentStatus).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.All(t => t.AgentStatus == agentStatus).ShouldBeTrue();
     }
 
     [Fact]
@@ -358,7 +358,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -422,7 +422,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -486,7 +486,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -505,7 +505,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -548,7 +548,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Theory]
@@ -596,9 +596,9 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(2);
-        result.Data.All(t => t.Deadline < DateTime.UtcNow).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(2);
+        result.Value.All(t => t.Deadline < DateTime.UtcNow).ShouldBeTrue();
     }
 
     [Fact]
@@ -617,8 +617,8 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.ShouldBeEmpty();
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
     }
 
     #endregion GetOverdueTasksAsync Tests
@@ -641,7 +641,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
@@ -696,28 +696,28 @@ public class TaskServiceTests
         // Act & Assert - All methods should accept and handle cancellation tokens
         await Should.NotThrowAsync(async () =>
         {
-            #pragma warning disable xUnit1051
+#pragma warning disable xUnit1051
 
             await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token);
 
-            #pragma warning restore xUnit1051
+#pragma warning restore xUnit1051
             await _taskService.GetTaskAsync(Guid.NewGuid(), cts.Token);
-            #pragma warning disable xUnit1051
+#pragma warning disable xUnit1051
 
             await _taskService.GetPendingTasksAsync(100, cts.Token);
 
-            #pragma warning restore xUnit1051
+#pragma warning restore xUnit1051
             await _taskService.GetAgentTasksAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), TaskAgentStatus.Completed, cts.Token);
             await _taskService.AssignTaskToAgentAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
             await _taskService.CompleteTaskAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.FailTaskAsync(Guid.NewGuid(), "error", cts.Token);
             await _taskService.CancelTaskAsync(Guid.NewGuid(), cts.Token);
-            #pragma warning disable xUnit1051
+#pragma warning disable xUnit1051
 
             await _taskService.GetOverdueTasksAsync(cts.Token);
 
-            #pragma warning restore xUnit1051
+#pragma warning restore xUnit1051
             await _taskService.DeleteTaskAsync(Guid.NewGuid(), cts.Token);
         });
     }

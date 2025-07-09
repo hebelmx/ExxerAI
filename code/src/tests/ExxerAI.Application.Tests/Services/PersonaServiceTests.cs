@@ -378,7 +378,7 @@ public class PersonaServiceTests
         {
             Id = personaId,
             Name = "AI Expert",
-            Role = "Data Scientist"
+            Role = "Value Scientist"
         };
 
         _personaRepository.GetByIdAsync(personaId, Arg.Any<CancellationToken>())
@@ -411,7 +411,7 @@ public class PersonaServiceTests
         {
             Id = personaId,
             Name = "AI Expert",
-            Role = "Data Scientist"
+            Role = "Value Scientist"
         };
         persona.AddKnowledgeDomain("machine_learning");
 

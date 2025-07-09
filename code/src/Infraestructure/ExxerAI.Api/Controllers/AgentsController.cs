@@ -85,8 +85,8 @@ public class AgentsController : ControllerBase
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agent = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agent = result.Value!;
             var response = new ApiResponse<AgentResponse>
             {
                 Success = true,
@@ -143,8 +143,8 @@ public class AgentsController : ControllerBase
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agent = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agent = result.Value!;
             var response = new ApiResponse<AgentResponse>
             {
                 Success = true,
@@ -196,8 +196,8 @@ public class AgentsController : ControllerBase
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agents = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agents = result.Value!;
             var response = new ApiResponse<IEnumerable<AgentResponse>>
             {
                 Success = true,
@@ -493,8 +493,8 @@ public class AgentsController : ControllerBase
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agent = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agent = result.Value!;
             var response = new ApiResponse<AgentResponse>
             {
                 Success = true,

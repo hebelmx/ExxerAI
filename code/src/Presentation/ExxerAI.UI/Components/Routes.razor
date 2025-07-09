@@ -1,6 +1,6 @@
 ﻿@using ExxerAI.UI.Components.Account.Shared
 <Router AppAssembly="typeof(Program).Assembly">
-    <Found Context="routeData">
+    <Found Context="routeValue">
         <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)">
             <NotAuthorized>
                 <RedirectToLogin />

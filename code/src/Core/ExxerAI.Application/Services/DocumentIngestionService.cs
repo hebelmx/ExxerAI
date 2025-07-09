@@ -219,7 +219,7 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // Process through the polymorphic document processor
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
-                documentData.Data!,
+                documentData.Value!,
                 changeEvent.Metadata,
                 cancellationToken);
 
@@ -233,7 +233,7 @@ public class DocumentIngestionService : IDocumentIngestionService
                 }
 
                 _logger.LogInformation("Successfully processed document {DocumentId} with confidence {Confidence:F2}",
-                    changeEvent.DocumentId, processingResult.Data!.OverallConfidence);
+                    changeEvent.DocumentId, processingResult.Value!.OverallConfidence);
             }
             else
             {
@@ -276,10 +276,10 @@ public class DocumentIngestionService : IDocumentIngestionService
             if (!forceReprocess)
             {
                 var existingResult = await _processingEngine.CheckExistingDocumentAsync(documentId, cancellationToken);
-                if (existingResult.IsSuccess && existingResult.Data != null)
+                if (existingResult.IsSuccess && existingResult.Value != null)
                 {
                     _logger.LogDebug("Document {DocumentId} already processed, returning existing result", documentId);
-                    return Result<DocumentProcessingResult>.WithSuccess(existingResult.Data);
+                    return Result<DocumentProcessingResult>.WithSuccess(existingResult.Value);
                 }
             }
 
@@ -298,8 +298,8 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // Process through the polymorphic document processor
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
-                documentData.Data!,
-                metadataResult.Data!,
+                documentData.Value!,
+                metadataResult.Value!,
                 cancellationToken);
 
             _logger.LogInformation("Completed ingestion of document {DocumentId} with result: {IsSuccess}",
@@ -336,10 +336,10 @@ public class DocumentIngestionService : IDocumentIngestionService
                 return Result<bool>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
             }
 
-            var isModified = metadataResult.Data!.ModifiedDate > lastProcessed;
+            var isModified = metadataResult.Value!.ModifiedDate > lastProcessed;
 
             _logger.LogDebug("Document {DocumentId} modified check: {IsModified} (Last processed: {LastProcessed}, Modified: {ModifiedDate})",
-                documentId, isModified, lastProcessed, metadataResult.Data.ModifiedDate);
+                documentId, isModified, lastProcessed, metadataResult.Value.ModifiedDate);
 
             return Result<bool>.WithSuccess(isModified);
         }

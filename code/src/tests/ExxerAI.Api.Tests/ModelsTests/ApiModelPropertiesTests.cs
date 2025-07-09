@@ -219,13 +219,13 @@ public class ApiModelPropertiesTests
 
         // Act
         response.Success = true;
-        response.Data = "Test Data";
+        response.Data = "Test Value";
         response.Errors = errors;
         response.Message = "Success message";
 
         // Assert
         response.Success.ShouldBeTrue();
-        response.Data.ShouldBe("Test Data");
+        response.Data.ShouldBe("Test Value");
         response.Errors.ShouldBe(errors);
         response.Message.ShouldBe("Success message");
     }

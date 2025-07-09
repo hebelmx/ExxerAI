@@ -35,7 +35,7 @@ public class TaskServiceTests
             var priority = TaskPriority.High;
             var deadline = DateTime.UtcNow.AddDays(7);
             var expectedTask = CreateValidAgentTask();
-            
+
             _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, _cancellationToken)
                 .Returns(Result<AgentTask>.Success(expectedTask));
 
@@ -59,12 +59,12 @@ public class TaskServiceTests
             // Arrange
             var description = "Test task description";
             var taskType = "DocumentProcessing";
-            
-            _taskService.CreateTaskAsync(invalidTitle, description, taskType, TaskPriority.Normal, null, _cancellationToken)
+
+            _taskService.CreateTaskAsync(invalidTitle!, description, taskType, TaskPriority.Normal, null, _cancellationToken)
                 .Returns(Result<AgentTask>.WithFailure("Task title cannot be empty"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(invalidTitle, description, taskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _taskService.CreateTaskAsync(invalidTitle!, description, taskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -80,12 +80,12 @@ public class TaskServiceTests
             // Arrange
             var title = "Test Task";
             var taskType = "DocumentProcessing";
-            
-            _taskService.CreateTaskAsync(title, invalidDescription, taskType, TaskPriority.Normal, null, _cancellationToken)
+
+            _taskService.CreateTaskAsync(title, invalidDescription!, taskType, TaskPriority.Normal, null, _cancellationToken)
                 .Returns(Result<AgentTask>.WithFailure("Task description cannot be empty"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(title, invalidDescription, taskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _taskService.CreateTaskAsync(title, invalidDescription!, taskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -101,12 +101,12 @@ public class TaskServiceTests
             // Arrange
             var title = "Test Task";
             var description = "Test task description";
-            
-            _taskService.CreateTaskAsync(title, description, invalidTaskType, TaskPriority.Normal, null, _cancellationToken)
+
+            _taskService.CreateTaskAsync(title, description, invalidTaskType!, TaskPriority.Normal, null, _cancellationToken)
                 .Returns(Result<AgentTask>.WithFailure("Task type cannot be empty"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(title, description, invalidTaskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _taskService.CreateTaskAsync(title, description, invalidTaskType!, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -121,7 +121,7 @@ public class TaskServiceTests
             var description = "Test task description";
             var taskType = "DocumentProcessing";
             var pastDeadline = DateTime.UtcNow.AddDays(-1);
-            
+
             _taskService.CreateTaskAsync(title, description, taskType, TaskPriority.Normal, pastDeadline, _cancellationToken)
                 .Returns(Result<AgentTask>.WithFailure("Deadline cannot be in the past"));
 
@@ -142,7 +142,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var expectedTask = CreateValidAgentTask();
-            
+
             _taskService.GetTaskAsync(taskId, _cancellationToken)
                 .Returns(Result<AgentTask>.Success(expectedTask));
 
@@ -160,7 +160,7 @@ public class TaskServiceTests
         {
             // Arrange
             var nonExistentId = Guid.NewGuid();
-            
+
             _taskService.GetTaskAsync(nonExistentId, _cancellationToken)
                 .Returns(Result<AgentTask>.WithFailure("Task not found"));
 
@@ -177,7 +177,7 @@ public class TaskServiceTests
         {
             // Arrange
             var emptyId = Guid.Empty;
-            
+
             _taskService.GetTaskAsync(emptyId, _cancellationToken)
                 .Returns(Result<AgentTask>.WithFailure("Task ID cannot be empty"));
 
@@ -197,7 +197,7 @@ public class TaskServiceTests
         {
             // Arrange
             var expectedTasks = CreatePendingTasks();
-            
+
             _taskService.GetPendingTasksAsync(100, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
@@ -217,7 +217,7 @@ public class TaskServiceTests
             // Arrange
             var maxCount = 5;
             var expectedTasks = CreatePendingTasks().Take(maxCount);
-            
+
             _taskService.GetPendingTasksAsync(maxCount, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
@@ -256,7 +256,7 @@ public class TaskServiceTests
             // Arrange
             var agentId = Guid.NewGuid();
             var expectedTasks = CreateAgentTasks(agentId);
-            
+
             _taskService.GetAgentTasksAsync(agentId, null, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
@@ -276,7 +276,7 @@ public class TaskServiceTests
             var agentId = Guid.NewGuid();
             var status = TaskAgentStatus.InProgress;
             var expectedTasks = CreateAgentTasks(agentId).Where(t => t.AgentStatus == status);
-            
+
             _taskService.GetAgentTasksAsync(agentId, status, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
@@ -293,7 +293,7 @@ public class TaskServiceTests
         {
             // Arrange
             var emptyId = Guid.Empty;
-            
+
             _taskService.GetAgentTasksAsync(emptyId, null, _cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.WithFailure("Agent ID cannot be empty"));
 
@@ -314,7 +314,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var newStatus = TaskAgentStatus.InProgress;
-            
+
             _taskService.UpdateTaskStatusAsync(taskId, newStatus, _cancellationToken)
                 .Returns(Result<bool>.Success(true));
 
@@ -332,7 +332,7 @@ public class TaskServiceTests
             // Arrange
             var emptyId = Guid.Empty;
             var newStatus = TaskAgentStatus.InProgress;
-            
+
             _taskService.UpdateTaskStatusAsync(emptyId, newStatus, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Task ID cannot be empty"));
 
@@ -350,7 +350,7 @@ public class TaskServiceTests
             // Arrange
             var nonExistentId = Guid.NewGuid();
             var newStatus = TaskAgentStatus.InProgress;
-            
+
             _taskService.UpdateTaskStatusAsync(nonExistentId, newStatus, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Task not found"));
 
@@ -371,7 +371,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var agentId = Guid.NewGuid();
-            
+
             _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken)
                 .Returns(Result<bool>.Success(true));
 
@@ -389,7 +389,7 @@ public class TaskServiceTests
             // Arrange
             var emptyTaskId = Guid.Empty;
             var agentId = Guid.NewGuid();
-            
+
             _taskService.AssignTaskToAgentAsync(emptyTaskId, agentId, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Task ID cannot be empty"));
 
@@ -407,7 +407,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var emptyAgentId = Guid.Empty;
-            
+
             _taskService.AssignTaskToAgentAsync(taskId, emptyAgentId, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Agent ID cannot be empty"));
 
@@ -425,7 +425,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var agentId = Guid.NewGuid();
-            
+
             _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Task is already assigned to another agent"));
 
@@ -446,7 +446,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var outputData = CreateValidTaskData();
-            
+
             _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken)
                 .Returns(Result<bool>.Success(true));
 
@@ -463,7 +463,7 @@ public class TaskServiceTests
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            
+
             _taskService.CompleteTaskAsync(taskId, null, _cancellationToken)
                 .Returns(Result<bool>.Success(true));
 
@@ -481,7 +481,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var outputData = CreateValidTaskData();
-            
+
             _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Task is not in progress"));
 
@@ -502,7 +502,7 @@ public class TaskServiceTests
             // Arrange
             var taskId = Guid.NewGuid();
             var errorMessage = "Processing failed due to invalid input";
-            
+
             _taskService.FailTaskAsync(taskId, errorMessage, _cancellationToken)
                 .Returns(Result<bool>.Success(true));
 
@@ -522,12 +522,12 @@ public class TaskServiceTests
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            
-            _taskService.FailTaskAsync(taskId, invalidMessage, _cancellationToken)
+
+            _taskService.FailTaskAsync(taskId, invalidMessage!, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Error message cannot be empty"));
 
             // Act
-            var result = await _taskService.FailTaskAsync(taskId, invalidMessage, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _taskService.FailTaskAsync(taskId, invalidMessage!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -542,7 +542,7 @@ public class TaskServiceTests
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            
+
             _taskService.CancelTaskAsync(taskId, _cancellationToken)
                 .Returns(Result<bool>.Success(true));
 
@@ -559,7 +559,7 @@ public class TaskServiceTests
         {
             // Arrange
             var taskId = Guid.NewGuid();
-            
+
             _taskService.CancelTaskAsync(taskId, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Task cannot be cancelled in current state"));
 
@@ -579,7 +579,7 @@ public class TaskServiceTests
         {
             // Arrange
             var expectedTasks = CreateOverdueTasks();
-            
+
             _taskService.GetOverdueTasksAsync(_cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
@@ -597,7 +597,7 @@ public class TaskServiceTests
         {
             // Arrange
             var emptyTasks = Array.Empty<AgentTask>();
-            
+
             _taskService.GetOverdueTasksAsync(_cancellationToken)
                 .Returns(Result<IEnumerable<AgentTask>>.Success(emptyTasks));
 
@@ -611,7 +611,7 @@ public class TaskServiceTests
         }
     }
 
-    // Test Data Factory Methods
+    // Test Value Factory Methods
     private static AgentTask CreateValidAgentTask()
     {
         return new AgentTask
@@ -733,4 +733,4 @@ public class TaskServiceTests
             }
         };
     }
-} 
+}

@@ -1720,7 +1720,8 @@ public class ResultTests
             .ToList();
 
         validUsers.Count.ShouldBe(1);
-        validUsers[0].Name!.ShouldBe("John");
+        //Valid user is not null because we setup ??
+        validUsers![0]!.Name!.ShouldBe("John");
     }
 
     #endregion Null Safety Properties Tests (Kotlin-Style)

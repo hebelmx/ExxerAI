@@ -44,10 +44,10 @@ public class LLMServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Content.ShouldBe("Generated text");
-        result.Data.InputTokens.ShouldBe(5);
-        result.Data.OutputTokens.ShouldBe(10);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Content.ShouldBe("Generated text");
+        result.Value.InputTokens.ShouldBe(5);
+        result.Value.OutputTokens.ShouldBe(10);
     }
 
     [Fact]
@@ -119,9 +119,9 @@ public class LLMServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Content.ShouldBe("Hello there!");
-        result.Data.Role.ShouldBe(MessageRole.Assistant);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Content.ShouldBe("Hello there!");
+        result.Value.Role.ShouldBe(MessageRole.Assistant);
     }
 
     #endregion ContinueConversationAsync Tests
@@ -156,10 +156,10 @@ public class LLMServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.AgentId.ShouldBe(agentId);
-        result.Data.LanguageModelId.ShouldBe(modelId);
-        result.Data.Title.ShouldBe(title);
+        result.Value.ShouldNotBeNull();
+        result.Value!.AgentId.ShouldBe(agentId);
+        result.Value.LanguageModelId.ShouldBe(modelId);
+        result.Value.Title.ShouldBe(title);
     }
 
     #endregion CreateConversationAsync Tests

@@ -53,8 +53,8 @@ public class DocumentIngestionServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNullOrEmpty();
-        result.Data!.Length.ShouldBe(36); // GUID length
+        result.Value.ShouldNotBeNullOrEmpty();
+        result.Value!.Length.ShouldBe(36); // GUID length
     }
 
     /// <summary>
@@ -83,14 +83,14 @@ public class DocumentIngestionServiceTests
         // Arrange - First start a session to get a valid watch ID
         const string folderId = "folder123";
         var startResult = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
-        var watchId = startResult.Data!;
+        var watchId = startResult.Value!;
 
         // Act
         var result = await _service.StopWatchingFolderAsync(watchId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ public class DocumentIngestionServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var changes = result.Data!.ToList();
+        var changes = result.Value!.ToList();
         changes.Count.ShouldBe(1);
         changes[0].ChangeType.ShouldBe(DocumentChangeType.Created);
     }
@@ -138,7 +138,7 @@ public class DocumentIngestionServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var processingResult = result.Data!;
+        var processingResult = result.Value!;
         processingResult.DocumentId.ShouldBe("doc123");
         processingResult.IsSuccessful.ShouldBeTrue();
     }
@@ -160,8 +160,8 @@ public class DocumentIngestionServiceTests
 
         // Assert - The service should successfully process the change using Result<T> pattern
         result.IsSuccess.ShouldBeTrue();
-        result.Data!.DocumentId.ShouldBe("doc123");
-        result.Data.IsSuccessful.ShouldBeTrue();
+        result.Value!.DocumentId.ShouldBe("doc123");
+        result.Value.IsSuccessful.ShouldBeTrue();
     }
 
     /// <summary>
@@ -184,7 +184,7 @@ public class DocumentIngestionServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data!.DocumentId.ShouldBe(documentId);
+        result.Value!.DocumentId.ShouldBe(documentId);
     }
 
     /// <summary>
@@ -224,7 +224,7 @@ public class DocumentIngestionServiceTests
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     /// <summary>
@@ -242,7 +242,7 @@ public class DocumentIngestionServiceTests
 
         // Assert - Verify Result<T> pattern and agentStatus data
         result.IsSuccess.ShouldBeTrue();
-        var status = result.Data!;
+        var status = result.Value!;
         status.ShouldNotBeNull();
         status.ActiveWatchSessions.ShouldBe(1);
         // SystemHealth can be Warning or Healthy, both are valid for a functioning system
@@ -287,8 +287,8 @@ public class DocumentIngestionServiceTests
 
         // Assert - Should return success with Result<T> pattern for non-processing changes
         result.IsSuccess.ShouldBeTrue();
-        result.Data!.DocumentId.ShouldBe("doc123");
-        result.Data.Confidence.ShouldBe(1.0f); // Non-processing changes get full confidence
+        result.Value!.DocumentId.ShouldBe("doc123");
+        result.Value.Confidence.ShouldBe(1.0f); // Non-processing changes get full confidence
     }
 
     /// <summary>
@@ -330,7 +330,7 @@ public class DocumentIngestionServiceTests
 
         foreach (var successResult in successfulResults)
         {
-            successResult.Data!.IsSuccessful.ShouldBeTrue();
+            successResult.Value!.IsSuccessful.ShouldBeTrue();
         }
     }
 

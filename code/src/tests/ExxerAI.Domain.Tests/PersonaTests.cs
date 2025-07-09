@@ -191,7 +191,7 @@ public class PersonaTests
         var persona = new Persona
         {
             Name = "AI Expert",
-            Role = "Data Scientist",
+            Role = "Value Scientist",
             Description = "Expert in AI and ML",
             SystemPrompt = "You are an AI expert."
         };
@@ -215,7 +215,7 @@ public class PersonaTests
         var persona = new Persona
         {
             Name = "AI Expert",
-            Role = "Data Scientist",
+            Role = "Value Scientist",
             Description = "Expert in AI and ML",
             SystemPrompt = "You are an AI expert."
         };
@@ -261,7 +261,7 @@ public class PersonaTests
         var persona = new Persona
         {
             Name = "AI Expert",
-            Role = "Data Scientist",
+            Role = "Value Scientist",
             Description = "Expert in AI and ML",
             SystemPrompt = "You are an AI expert."
         };
@@ -289,7 +289,7 @@ public class PersonaTests
         var persona = new Persona
         {
             Name = "AI Expert",
-            Role = "Data Scientist",
+            Role = "Value Scientist",
             Description = "Expert in AI and ML",
             SystemPrompt = "You are an AI expert."
         };
@@ -311,7 +311,7 @@ public class PersonaTests
         var persona = new Persona
         {
             Name = "AI Expert",
-            Role = "Data Scientist",
+            Role = "Value Scientist",
             Description = "Expert in AI and ML",
             SystemPrompt = "You are an AI expert."
         };
@@ -334,7 +334,7 @@ public class PersonaTests
         var persona = new Persona
         {
             Name = "AI Expert",
-            Role = "Data Scientist",
+            Role = "Value Scientist",
             Description = "Expert in AI and ML",
             SystemPrompt = "You are an AI expert."
         };

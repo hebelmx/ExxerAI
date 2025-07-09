@@ -269,7 +269,7 @@ function updateServiceStatus(status) {
     document.getElementById('last-checked').textContent = new Date(status.lastChecked).toLocaleTimeString();
     
     // Update service lists
-    updateServiceList('core-services', status.services.filter(s => s.isCritical && (s.category === 0 || s.category === 1))); // Database, Cache
+    updateServiceList('core-services', status.services.filter(s => s.isCritical && (s.category === 0 || s.category === 1))); // Valuebase, Cache
     updateServiceList('ai-services', status.services.filter(s => s.category === 2 || s.category === 3)); // AI, VectorDB
     updateServiceList('optional-services', status.services.filter(s => !s.isCritical && s.category === 4)); // Search
     updateServiceList('monitoring-services', status.services.filter(s => s.category === 5 || s.category === 6)); // Monitoring, Gateway

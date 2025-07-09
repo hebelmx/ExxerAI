@@ -52,13 +52,13 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             if (data is null)
             {
                 _logger.LogWarning("Attempted to store null extracted data");
-                return Result<TruthRecord>.WithFailure("Data cannot be null");
+                return Result<TruthRecord>.WithFailure("Value cannot be null");
             }
 
             if (source is null)
             {
                 _logger.LogWarning("Attempted to store data with null data source");
-                return Result<TruthRecord>.WithFailure("Data source cannot be null");
+                return Result<TruthRecord>.WithFailure("Value source cannot be null");
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -110,7 +110,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             if (data is null)
             {
                 _logger.LogWarning("Attempted to validate null extracted data");
-                return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure("Data cannot be null");
+                return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure("Value cannot be null");
             }
 
             cancellationToken.ThrowIfCancellationRequested();
@@ -247,8 +247,8 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 return Result<DataLineage>.Success(lineage);
             }
 
-            _logger.LogWarning("Data lineage for record {RecordId} not found", recordId);
-            return Result<DataLineage>.WithFailure("Data lineage not found");
+            _logger.LogWarning("Value lineage for record {RecordId} not found", recordId);
+            return Result<DataLineage>.WithFailure("Value lineage not found");
         }
         catch (OperationCanceledException)
         {
@@ -320,7 +320,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
             if (data is null)
             {
                 _logger.LogWarning("Attempted to find similar records with null data");
-                return Result<IEnumerable<TruthRecord>>.WithFailure("Data cannot be null");
+                return Result<IEnumerable<TruthRecord>>.WithFailure("Value cannot be null");
             }
 
             if (similarityThreshold is < 0.0f or > 1.0f || float.IsNaN(similarityThreshold))

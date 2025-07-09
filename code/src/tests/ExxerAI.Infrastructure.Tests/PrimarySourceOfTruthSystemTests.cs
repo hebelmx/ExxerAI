@@ -47,14 +47,14 @@ public class PrimarySourceOfTruthSystemTests
             var dataSource = CreateValidDataSource();
 
             _truthSystem.StoreExtractedDataAsync(nullData, dataSource, cancellationToken: Arg.Any<CancellationToken>())
-                .Returns(Result<TruthRecord>.WithFailure("Data cannot be null"));
+                .Returns(Result<TruthRecord>.WithFailure("Value cannot be null"));
 
             // Act
             var result = await _truthSystem.StoreExtractedDataAsync(nullData, dataSource, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Errors.ShouldContain("Data cannot be null");
+            result.Errors.ShouldContain("Value cannot be null");
         }
 
         [Fact]
@@ -65,14 +65,14 @@ public class PrimarySourceOfTruthSystemTests
             DataSource nullSource = null!;
 
             _truthSystem.StoreExtractedDataAsync(extractedData, nullSource, cancellationToken: Arg.Any<CancellationToken>())
-                .Returns(Result<TruthRecord>.WithFailure("Data source cannot be null"));
+                .Returns(Result<TruthRecord>.WithFailure("Value source cannot be null"));
 
             // Act
             var result = await _truthSystem.StoreExtractedDataAsync(extractedData, nullSource, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
-            result.Errors.ShouldContain("Data source cannot be null");
+            result.Errors.ShouldContain("Value source cannot be null");
         }
 
         [Fact]
@@ -370,7 +370,7 @@ public class PrimarySourceOfTruthSystemTests
         {
             // Arrange
             var recordId = "valid-record-id";
-            var reason = "Data quality concerns";
+            var reason = "Value quality concerns";
 
             _truthSystem.RequireHumanReviewAsync(recordId, reason, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
@@ -428,7 +428,7 @@ public class PrimarySourceOfTruthSystemTests
         }
     }
 
-    // Test Data Factory Methods
+    // Test Value Factory Methods
     private static ExtractedData CreateValidExtractedData()
     {
         return new ExtractedData

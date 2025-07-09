@@ -84,7 +84,7 @@ public class AgentCommands
                 return 1;
             }
 
-            var agents = result.Data!;
+            var agents = result.Value!;
 
             // Parse filtering options
             string? statusFilter = null;
@@ -177,7 +177,7 @@ public class AgentCommands
                 return 1;
             }
 
-            var createdAgent = result.Data!;
+            var createdAgent = result.Value!;
             Console.WriteLine($"Agent '{name}' created successfully with ID: {createdAgent.Id}");
             return 0;
         }
@@ -256,7 +256,7 @@ public class AgentCommands
                 return 1;
             }
 
-            var agent = result.Data!;
+            var agent = result.Value!;
             if (agent == null)
             {
                 Console.WriteLine($"Agent {agentId} not found.");
@@ -312,13 +312,13 @@ public class AgentCommands
         try
         {
             var result = await _agentRepository.GetByIdAsync(agentId);
-            if (result.IsFailure || result.Data == null)
+            if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
                 return 1;
             }
 
-            var agent = result.Data;
+            var agent = result.Value;
 
             // Parse update options
             for (int i = 1; i < args.Length - 1; i++)
@@ -393,13 +393,13 @@ public class AgentCommands
         try
         {
             var result = await _agentRepository.GetByIdAsync(agentId);
-            if (result.IsFailure || result.Data == null)
+            if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
                 return 1;
             }
 
-            var agent = result.Data;
+            var agent = result.Value;
             agent.Status = newStatus;
             agent.UpdatedAt = DateTime.UtcNow;
 

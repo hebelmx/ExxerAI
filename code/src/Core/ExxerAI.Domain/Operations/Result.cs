@@ -778,7 +778,7 @@ public sealed class Result
 /// // Creating results
 /// var success = Result&lt;string&gt;.Success("Hello World");
 /// var failure = Result&lt;string&gt;.WithFailure("Something went wrong");
-/// var withWarnings = Result&lt;string&gt;.WithWarnings(["Warning"], "Data");
+/// var withWarnings = Result&lt;string&gt;.WithWarnings(["Warning"], "Value");
 ///
 /// // Implicit conversion
 /// Result&lt;string&gt; result = "Hello World"; // Automatically wraps as success
@@ -814,7 +814,7 @@ public sealed class Result
 ///         .Map(s =&gt; s.Trim())
 ///         .Bind(ValidateFormat)
 ///         .Map(s =&gt; new ProcessedData(s))
-///         .Tap(data =&gt; logger.LogInformation("Processed: {Data}", data));
+///         .Tap(data =&gt; logger.LogInformation("Processed: {Value}", data));
 /// }
 /// </code>
 ///
@@ -897,7 +897,6 @@ public sealed class Result<T>
     /// <summary>
     /// Gets the data associated with the result (alias for Value).
     /// </summary>
-    public T? Data => _value;
 
     private readonly T? _value;
     private readonly bool _isSuccess;

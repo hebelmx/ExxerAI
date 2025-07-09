@@ -149,7 +149,7 @@ public class ComprehensiveUnitTestExample
             // Arrange
             var agent = new Agent { Name = "TaskAgent" };
             var task1 = new AgentTask { Title = "Process Document 1", TaskType = "DocumentProcessing" };
-            var task2 = new AgentTask { Title = "Extract Data", TaskType = "DataExtraction" };
+            var task2 = new AgentTask { Title = "Extract Value", TaskType = "DataExtraction" };
 
             // Act
             agent.Tasks.Add(task1);
@@ -160,7 +160,7 @@ public class ComprehensiveUnitTestExample
             agent.Tasks.ShouldContain(task1);
             agent.Tasks.ShouldContain(task2);
             agent.Tasks.First().Title.ShouldBe("Process Document 1");
-            agent.Tasks.Last().Title.ShouldBe("Extract Data");
+            agent.Tasks.Last().Title.ShouldBe("Extract Value");
         }
     }
 
@@ -189,7 +189,7 @@ public class ComprehensiveUnitTestExample
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Data.ShouldBe(testData);
+            result.Value.ShouldBe(testData);
             result.Value!.ShouldBe(testData); // Both properties should work
             result.Errors.ShouldBeEmpty(); // Successful results have empty collections (after regression fix)
             result.Error.ShouldBeNull();
@@ -210,7 +210,7 @@ public class ComprehensiveUnitTestExample
             // Assert
             result.IsSuccess.ShouldBeFalse();
             result.IsFailure.ShouldBeTrue();
-            result.Data.ShouldBeNull();
+            result.Value.ShouldBeNull();
             result.Value!.ShouldBeNull();
             result.Errors.ShouldNotBeEmpty();
             result.Errors.ShouldBe(errors);
@@ -282,7 +282,7 @@ public class ComprehensiveUnitTestExample
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(testData);
+            result.Value.ShouldBe(testData);
             result.Value!.ShouldBe(testData);
         }
 
@@ -298,7 +298,7 @@ public class ComprehensiveUnitTestExample
             // Assert - In ExxerAI, null values make the result fail
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Data.ShouldBeNull();
+            result.Value.ShouldBeNull();
         }
     }
 
@@ -342,8 +342,8 @@ public class ComprehensiveUnitTestExample
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNullOrEmpty();
-            Guid.TryParse(result.Data, out _).ShouldBeTrue(); // Should be valid GUID
+            result.Value.ShouldNotBeNullOrEmpty();
+            Guid.TryParse(result.Value, out _).ShouldBeTrue(); // Should be valid GUID
         }
 
         /// <summary>
@@ -385,8 +385,8 @@ public class ComprehensiveUnitTestExample
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.DocumentId.ShouldBe(documentId);
+            result.Value.ShouldNotBeNull();
+            result.Value!.DocumentId.ShouldBe(documentId);
 
             // Verify dependencies were called
             await _documentProcessor.Received(1).ProcessDocumentAsync(
@@ -455,10 +455,10 @@ public class ComprehensiveUnitTestExample
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.ActiveWatchSessions.ShouldBeGreaterThan(0);
-            result.Data!.SystemHealth.ShouldBe(HealthStatus.Healthy);
-            result.Data!.Metrics.ShouldNotBeNull();
+            result.Value.ShouldNotBeNull();
+            result.Value!.ActiveWatchSessions.ShouldBeGreaterThan(0);
+            result.Value!.SystemHealth.ShouldBe(HealthStatus.Healthy);
+            result.Value!.Metrics.ShouldNotBeNull();
         }
 
         /// <summary>
@@ -489,8 +489,8 @@ public class ComprehensiveUnitTestExample
             statusResult.IsSuccess.ShouldBeTrue();
 
             // Verify end-to-end state
-            statusResult.Data!.ActiveWatchSessions.ShouldBe(1);
-            ingestResult.Data!.DocumentId.ShouldBe(documentId);
+            statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
+            ingestResult.Value!.DocumentId.ShouldBe(documentId);
         }
 
         /// <summary>
@@ -582,7 +582,7 @@ public class ComprehensiveUnitTestExample
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(expectedSessionId);
+            result.Value.ShouldBe(expectedSessionId);
 
             // Verify mock was called
             await _service.Received(1).StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>());
@@ -830,11 +830,11 @@ public class ComprehensiveUnitTestExample
 ///
 /// 5. **Result<T> Pattern Testing**
 ///    - Always test both IsSuccess and IsFailure paths
-///    - Verify Data/Value and Errors properties
+///    - Verify Value/Value and Errors properties
 ///    - Test method chaining with OnSuccess/OnFailure
 ///    - Use proper Result<T> creation methods
 ///
-/// 6. **Theory Tests and Data**
+/// 6. **Theory Tests and Value**
 ///    - Use [Theory] with [InlineData] for multiple test cases
 ///    - Use nameof() for enum values to avoid compilation errors
 ///    - Create test fixtures with MemberData for complex scenarios

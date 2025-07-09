@@ -392,12 +392,14 @@ public class HybridKnowledgeService
         CancellationToken cancellationToken)
     {
         // Use the query as a concept name for graph traversal
-        return await _graphStore.FindRelatedDocumentsAsync(
+        var result = await _graphStore.FindRelatedDocumentsAsync(
             query,
             options.RelationshipTypes,
             options.GraphTraversalDepth,
             options.MaxGraphResults,
             cancellationToken);
+
+        return result;
     }
 
     private static List<HybridSearchResult> CombineAndRankResults(
