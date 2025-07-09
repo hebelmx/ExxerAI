@@ -1,5 +1,4 @@
 using ExxerAI.Aspire.ServiceDefaults;
-using ExxerAI.UI.Components;
 using ExxerAI.UI.Components.Account;
 using ExxerAI.UI.Data;
 using Microsoft.AspNetCore.Components.Authorization;
