@@ -33,7 +33,7 @@ public class PrimarySourceOfTruthSystemTests
             var dataSource = CreateValidDataSource();
             var expectedTruthRecord = CreateValidTruthRecord();
 
-            _truthSystem.StoreExtractedDataAsync(extractedData, dataSource, _cancellationToken)
+            _truthSystem.StoreExtractedDataAsync(extractedData, dataSource, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.Success(expectedTruthRecord));
 
             // Act
@@ -52,7 +52,7 @@ public class PrimarySourceOfTruthSystemTests
             ExtractedData nullData = null!;
             var dataSource = CreateValidDataSource();
 
-            _truthSystem.StoreExtractedDataAsync(nullData, dataSource, _cancellationToken)
+            _truthSystem.StoreExtractedDataAsync(nullData, dataSource, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.WithFailure("Data cannot be null"));
 
             // Act
@@ -70,7 +70,7 @@ public class PrimarySourceOfTruthSystemTests
             var extractedData = CreateValidExtractedData();
             DataSource nullSource = null!;
 
-            _truthSystem.StoreExtractedDataAsync(extractedData, nullSource, _cancellationToken)
+            _truthSystem.StoreExtractedDataAsync(extractedData, nullSource, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.WithFailure("Data source cannot be null"));
 
             // Act
@@ -110,7 +110,7 @@ public class PrimarySourceOfTruthSystemTests
             var extractedData = CreateValidExtractedData();
             var expectedValidationResult = CreateValidValidationResult();
 
-            _truthSystem.ValidateAgainstTruthAsync(extractedData, _cancellationToken)
+            _truthSystem.ValidateAgainstTruthAsync(extractedData, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.Success(expectedValidationResult));
 
             // Act
@@ -129,7 +129,7 @@ public class PrimarySourceOfTruthSystemTests
             var conflictingData = CreateConflictingExtractedData();
             var validationResult = CreateInvalidValidationResult();
 
-            _truthSystem.ValidateAgainstTruthAsync(conflictingData, _cancellationToken)
+            _truthSystem.ValidateAgainstTruthAsync(conflictingData, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.Success(validationResult));
 
             // Act
@@ -151,7 +151,7 @@ public class PrimarySourceOfTruthSystemTests
             var recordId = "valid-record-id";
             var expectedRecord = CreateValidTruthRecord();
 
-            _truthSystem.GetAuthoritativeRecordAsync(recordId, _cancellationToken)
+            _truthSystem.GetAuthoritativeRecordAsync(recordId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.Success(expectedRecord));
 
             // Act
@@ -169,7 +169,7 @@ public class PrimarySourceOfTruthSystemTests
             // Arrange
             var nonExistentId = "non-existent-id";
 
-            _truthSystem.GetAuthoritativeRecordAsync(nonExistentId, _cancellationToken)
+            _truthSystem.GetAuthoritativeRecordAsync(nonExistentId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.WithFailure("Record not found"));
 
             // Act
@@ -184,10 +184,10 @@ public class PrimarySourceOfTruthSystemTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidRecordIdProvided(string invalidId)
+        public async Task Should_ReturnFailure_When_InvalidRecordIdProvided(string? invalidId)
         {
             // Arrange
-            _truthSystem.GetAuthoritativeRecordAsync(invalidId, _cancellationToken)
+            _truthSystem.GetAuthoritativeRecordAsync(invalidId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.WithFailure("Record ID cannot be empty"));
 
             // Act
@@ -208,7 +208,7 @@ public class PrimarySourceOfTruthSystemTests
             var conflictingData = CreateConflictingDataSet();
             var expectedResolution = CreateValidConflictResolution();
 
-            _truthSystem.ResolveDataConflictAsync(conflictingData, _cancellationToken)
+            _truthSystem.ResolveDataConflictAsync(conflictingData, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ConflictResolution>.Success(expectedResolution));
 
             // Act
@@ -226,7 +226,7 @@ public class PrimarySourceOfTruthSystemTests
             // Arrange
             var emptyData = Array.Empty<ExtractedData>();
 
-            _truthSystem.ResolveDataConflictAsync(emptyData, _cancellationToken)
+            _truthSystem.ResolveDataConflictAsync(emptyData, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ConflictResolution>.WithFailure("No conflicting data provided"));
 
             // Act
@@ -247,7 +247,7 @@ public class PrimarySourceOfTruthSystemTests
             var recordId = "valid-record-id";
             var expectedLineage = CreateValidDataLineage();
 
-            _truthSystem.GetDataLineageAsync(recordId, _cancellationToken)
+            _truthSystem.GetDataLineageAsync(recordId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<DataLineage>.Success(expectedLineage));
 
             // Act
@@ -270,7 +270,7 @@ public class PrimarySourceOfTruthSystemTests
             var toDate = DateTime.UtcNow;
             var expectedReport = CreateValidGroundingReport(fromDate, toDate);
 
-            _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken)
+            _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.Success(expectedReport));
 
             // Act
@@ -290,7 +290,7 @@ public class PrimarySourceOfTruthSystemTests
             var fromDate = DateTime.UtcNow;
             var toDate = DateTime.UtcNow.AddDays(-30); // Invalid: to date before from date
 
-            _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken)
+            _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure("Invalid date range"));
 
             // Act
@@ -312,7 +312,7 @@ public class PrimarySourceOfTruthSystemTests
             var similarityThreshold = 0.85f;
             var expectedRecords = CreateSimilarTruthRecords();
 
-            _truthSystem.FindSimilarRecordsAsync(extractedData, similarityThreshold, _cancellationToken)
+            _truthSystem.FindSimilarRecordsAsync(extractedData, similarityThreshold, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<IEnumerable<TruthRecord>>.Success(expectedRecords));
 
             // Act
@@ -333,7 +333,7 @@ public class PrimarySourceOfTruthSystemTests
             // Arrange
             var extractedData = CreateValidExtractedData();
 
-            _truthSystem.FindSimilarRecordsAsync(extractedData, invalidThreshold, _cancellationToken)
+            _truthSystem.FindSimilarRecordsAsync(extractedData, invalidThreshold, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<IEnumerable<TruthRecord>>.WithFailure("Invalid similarity threshold"));
 
             // Act
@@ -356,7 +356,7 @@ public class PrimarySourceOfTruthSystemTests
             var updatedBy = "test-user";
             var expectedRecord = CreateValidTruthRecord(recordId);
 
-            _truthSystem.UpdateTruthRecordAsync(recordId, updatedData, updatedBy, _cancellationToken)
+            _truthSystem.UpdateTruthRecordAsync(recordId, updatedData, updatedBy, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.Success(expectedRecord));
 
             // Act
@@ -378,7 +378,7 @@ public class PrimarySourceOfTruthSystemTests
             var recordId = "valid-record-id";
             var reason = "Data quality concerns";
 
-            _truthSystem.RequireHumanReviewAsync(recordId, reason, _cancellationToken)
+            _truthSystem.RequireHumanReviewAsync(recordId, reason, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -398,7 +398,7 @@ public class PrimarySourceOfTruthSystemTests
             // Arrange
             var expectedRecords = CreateRecordsRequiringReview();
 
-            _truthSystem.GetRecordsRequiringReviewAsync(_cancellationToken)
+            _truthSystem.GetRecordsRequiringReviewAsync(cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<IEnumerable<TruthRecord>>.Success(expectedRecords));
 
             // Act
@@ -420,7 +420,7 @@ public class PrimarySourceOfTruthSystemTests
             var toDate = DateTime.UtcNow;
             var expectedMetrics = CreateValidDataQualityMetrics(fromDate, toDate);
 
-            _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, _cancellationToken)
+            _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.Success(expectedMetrics));
 
             // Act

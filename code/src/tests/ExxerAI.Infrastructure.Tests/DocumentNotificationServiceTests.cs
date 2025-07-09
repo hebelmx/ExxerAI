@@ -31,7 +31,7 @@ public class DocumentNotificationServiceTests
             // Arrange
             var document = CreateValidDocumentAsset();
 
-            _notificationService.NotifyDocumentAddedAsync(document, _cancellationToken)
+            _notificationService.NotifyDocumentAddedAsync(document, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -48,7 +48,7 @@ public class DocumentNotificationServiceTests
             // Arrange
             DocumentAsset nullDocument = null!;
 
-            _notificationService.NotifyDocumentAddedAsync(nullDocument, _cancellationToken)
+            _notificationService.NotifyDocumentAddedAsync(nullDocument, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document cannot be null"));
 
             // Act
@@ -87,7 +87,7 @@ public class DocumentNotificationServiceTests
             var document = CreateValidDocumentAsset();
             var previousVersion = "v1.0";
 
-            _notificationService.NotifyDocumentModifiedAsync(document, previousVersion, _cancellationToken)
+            _notificationService.NotifyDocumentModifiedAsync(document, previousVersion, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -120,7 +120,7 @@ public class DocumentNotificationServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null)]
-        public async Task Should_ReturnFailure_When_InvalidPreviousVersionProvided(string invalidVersion)
+        public async Task Should_ReturnFailure_When_InvalidPreviousVersionProvided(string? invalidVersion)
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -146,7 +146,7 @@ public class DocumentNotificationServiceTests
             var documentId = "doc-123";
             var documentName = "test-document.pdf";
 
-            _notificationService.NotifyDocumentRemovedAsync(documentId, documentName, _cancellationToken)
+            _notificationService.NotifyDocumentRemovedAsync(documentId, documentName, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -161,10 +161,10 @@ public class DocumentNotificationServiceTests
         [InlineData("", "test-document.pdf")]
         [InlineData("   ", "test-document.pdf")]
         [InlineData(null!, "test-document.pdf")]
-        public async Task Should_ReturnFailure_When_InvalidDocumentIdProvided(string invalidId, string documentName)
+        public async Task Should_ReturnFailure_When_InvalidDocumentIdProvided(string? invalidId, string documentName)
         {
             // Arrange
-            _notificationService.NotifyDocumentRemovedAsync(invalidId, documentName, _cancellationToken)
+            _notificationService.NotifyDocumentRemovedAsync(invalidId, documentName, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document ID cannot be empty"));
 
             // Act
@@ -179,10 +179,10 @@ public class DocumentNotificationServiceTests
         [InlineData("doc-123", "")]
         [InlineData("doc-123", "   ")]
         [InlineData("doc-123", null!)]
-        public async Task Should_ReturnFailure_When_InvalidDocumentNameProvided(string documentId, string invalidName)
+        public async Task Should_ReturnFailure_When_InvalidDocumentNameProvided(string documentId, string? invalidName)
         {
             // Arrange
-            _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName, _cancellationToken)
+            _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document name cannot be empty"));
 
             // Act
@@ -203,7 +203,7 @@ public class DocumentNotificationServiceTests
             var document = CreateValidDocumentAsset();
             var error = new InvalidOperationException("Processing failed");
 
-            _notificationService.NotifyProcessingFailedAsync(document, error, _cancellationToken)
+            _notificationService.NotifyProcessingFailedAsync(document, error, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -221,7 +221,7 @@ public class DocumentNotificationServiceTests
             DocumentAsset nullDocument = null!;
             var error = new InvalidOperationException("Processing failed");
 
-            _notificationService.NotifyProcessingFailedAsync(nullDocument, error, _cancellationToken)
+            _notificationService.NotifyProcessingFailedAsync(nullDocument, error, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document cannot be null"));
 
             // Act
@@ -239,7 +239,7 @@ public class DocumentNotificationServiceTests
             var document = CreateValidDocumentAsset();
             Exception nullError = null!;
 
-            _notificationService.NotifyProcessingFailedAsync(document, nullError, _cancellationToken)
+            _notificationService.NotifyProcessingFailedAsync(document, nullError, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Error cannot be null"));
 
             // Act
@@ -260,7 +260,7 @@ public class DocumentNotificationServiceTests
             var document = CreateValidDocumentAsset();
             var processingResult = CreateValidDocumentProcessingResult();
 
-            _notificationService.NotifyProcessingCompletedAsync(document, processingResult, _cancellationToken)
+            _notificationService.NotifyProcessingCompletedAsync(document, processingResult, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -278,7 +278,7 @@ public class DocumentNotificationServiceTests
             DocumentAsset nullDocument = null!;
             var processingResult = CreateValidDocumentProcessingResult();
 
-            _notificationService.NotifyProcessingCompletedAsync(nullDocument, processingResult, _cancellationToken)
+            _notificationService.NotifyProcessingCompletedAsync(nullDocument, processingResult, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document cannot be null"));
 
             // Act
@@ -296,7 +296,7 @@ public class DocumentNotificationServiceTests
             var document = CreateValidDocumentAsset();
             DocumentProcessingResult nullResult = null!;
 
-            _notificationService.NotifyProcessingCompletedAsync(document, nullResult, _cancellationToken)
+            _notificationService.NotifyProcessingCompletedAsync(document, nullResult, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Processing result cannot be null"));
 
             // Act
@@ -317,7 +317,7 @@ public class DocumentNotificationServiceTests
             var subscriberId = "subscriber-123";
             var callback = CreateValidNotificationCallback();
 
-            _notificationService.RegisterSubscriberAsync(subscriberId, callback)
+            _notificationService.RegisterSubscriberAsync(subscriberId, callback, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -332,12 +332,12 @@ public class DocumentNotificationServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string invalidId)
+        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string? invalidId)
         {
             // Arrange
             var callback = CreateValidNotificationCallback();
 
-            _notificationService.RegisterSubscriberAsync(invalidId, callback)
+            _notificationService.RegisterSubscriberAsync(invalidId, callback, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber ID cannot be empty"));
 
             // Act
@@ -355,7 +355,7 @@ public class DocumentNotificationServiceTests
             var subscriberId = "subscriber-123";
             Func<DocumentNotification, Task> nullCallback = null!;
 
-            _notificationService.RegisterSubscriberAsync(subscriberId, nullCallback)
+            _notificationService.RegisterSubscriberAsync(subscriberId, nullCallback, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Callback cannot be null"));
 
             // Act
@@ -373,7 +373,7 @@ public class DocumentNotificationServiceTests
             var subscriberId = "existing-subscriber";
             var callback = CreateValidNotificationCallback();
 
-            _notificationService.RegisterSubscriberAsync(subscriberId, callback)
+            _notificationService.RegisterSubscriberAsync(subscriberId, callback, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber already exists"));
 
             // Act
@@ -393,7 +393,7 @@ public class DocumentNotificationServiceTests
             // Arrange
             var subscriberId = "subscriber-123";
 
-            _notificationService.UnregisterSubscriberAsync(subscriberId)
+            _notificationService.UnregisterSubscriberAsync(subscriberId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
@@ -408,10 +408,10 @@ public class DocumentNotificationServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string invalidId)
+        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string? invalidId)
         {
             // Arrange
-            _notificationService.UnregisterSubscriberAsync(invalidId)
+            _notificationService.UnregisterSubscriberAsync(invalidId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber ID cannot be empty"));
 
             // Act
@@ -428,7 +428,7 @@ public class DocumentNotificationServiceTests
             // Arrange
             var nonExistentId = "non-existent-subscriber";
 
-            _notificationService.UnregisterSubscriberAsync(nonExistentId)
+            _notificationService.UnregisterSubscriberAsync(nonExistentId, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber not found"));
 
             // Act
@@ -449,13 +449,13 @@ public class DocumentNotificationServiceTests
             var document = CreateValidDocumentAsset();
             var processingResult = CreateValidDocumentProcessingResult();
 
-            _notificationService.NotifyDocumentAddedAsync(document, _cancellationToken)
+            _notificationService.NotifyDocumentAddedAsync(document, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
-            _notificationService.NotifyProcessingCompletedAsync(document, processingResult, _cancellationToken)
+            _notificationService.NotifyProcessingCompletedAsync(document, processingResult, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var addResult = await _notificationService.NotifyDocumentAddedAsync(document, _cancellationToken);
+            var addResult = await _notificationService.NotifyDocumentAddedAsync(document, cancellationToken: TestContext.Current.CancellationToken);
             var completeResult = await _notificationService.NotifyProcessingCompletedAsync(document, processingResult, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
@@ -470,7 +470,7 @@ public class DocumentNotificationServiceTests
             var subscriberId = "faulty-subscriber";
             var faultyCallback = CreateFaultyNotificationCallback();
 
-            _notificationService.RegisterSubscriberAsync(subscriberId, faultyCallback)
+            _notificationService.RegisterSubscriberAsync(subscriberId, faultyCallback, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber callback failed"));
 
             // Act

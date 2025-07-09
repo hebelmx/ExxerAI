@@ -126,7 +126,7 @@ public class QdrantVectorStore : IVectorStore
 
             await EnsureInitializedAsync(cancellationToken);
 
-            var payload = CreatePayload(documentId, content, metadata);
+            var payload = CreatePayload(documentId, content, metadata ?? new Dictionary<string, object>());
             var pointId = Guid.NewGuid().ToString();
 
             var pointStruct = new PointStruct

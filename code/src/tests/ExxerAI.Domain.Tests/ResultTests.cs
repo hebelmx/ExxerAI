@@ -1434,7 +1434,7 @@ public class ResultTests
     public void IndustryStandardDocumentation_ShouldExplainNullHandling()
     {
         // Arrange - Create comprehensive null handling scenarios for documentation
-        var nullStringResult = Result<string>.Success(null);
+        var nullStringResult = Result<string>.Success(null!);
         var validStringResult = Result<string>.Success("hello");
         var failureResult = Result<string>.WithFailure("error");
 
@@ -1514,7 +1514,7 @@ public class ResultTests
         successWithValue.IsSuccess.ShouldBeTrue("IsSuccess and IsSuccessNotNull should be equivalent");
 
         // Arrange & Act & Assert - Success with null value
-        var successWithNull = Result<string>.Success(null);
+        var successWithNull = Result<string>.Success(null!);
         successWithNull.IsSuccessNotNull.ShouldBeFalse("Null value should make this false");
         successWithNull.IsSuccess.ShouldBeFalse("IsSuccess should also be false for null values");
 
@@ -1551,7 +1551,7 @@ public class ResultTests
     {
         // Arrange & Act & Assert - Reference types
         var stringSuccess = Result<string>.Success("test");
-        var stringNull = Result<string>.Success(null);
+        var stringNull = Result<string>.Success(null!);
 
         stringSuccess.IsSuccessNotNull.ShouldBeTrue();
         stringNull.IsSuccessNotNull.ShouldBeFalse();
@@ -1596,7 +1596,7 @@ public class ResultTests
         warningWithValue.HasWarnings.ShouldBeTrue();
 
         // Arrange - Success with warnings and null value (edge case)
-        var warningWithNull = Result<string>.WithWarnings(["Warning: incomplete data"], null);
+        var warningWithNull = Result<string>.WithWarnings(["Warning: incomplete data"], null!);
 
         // Act & Assert - Warnings with null value
         warningWithNull.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful despite warnings");
@@ -1611,7 +1611,7 @@ public class ResultTests
     {
         // Arrange
         var initialSuccess = Result<string>.Success("hello");
-        var initialNull = Result<string>.Success(null);
+        var initialNull = Result<string>.Success(null!);
         var failure = Result<string>.WithFailure("error");
 
         // Act & Assert - Map operations
@@ -1646,7 +1646,7 @@ public class ResultTests
     public void NullSafetyProperties_ShouldHaveConsistentBehavior(string? value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
     {
         // Arrange
-        var result = Result<string>.Success(value);
+        var result = Result<string>.Success(value!);
 
         // Act & Assert - All properties should be consistent
         result.IsSuccess.ShouldBe(expectedIsSuccess);
@@ -1679,7 +1679,7 @@ public class ResultTests
     {
         // Arrange - Simulate repository method that might return null
         var userFoundResult = Result<User>.Success(new User { Name = "John" });
-        var userNotFoundResult = Result<User>.Success(null); // Found operation succeeded, but no user exists
+        var userNotFoundResult = Result<User>.Success(null!); // Found operation succeeded, but no user exists
         var databaseErrorResult = Result<User>.WithFailure("Database connection failed");
 
         // Act & Assert - Kotlin-style null safety pattern
@@ -1720,7 +1720,7 @@ public class ResultTests
             .ToList();
 
         validUsers.Count.ShouldBe(1);
-        validUsers[0].Name.ShouldBe("John");
+        validUsers[0].Name!.ShouldBe("John");
     }
 
     #endregion Null Safety Properties Tests (Kotlin-Style)

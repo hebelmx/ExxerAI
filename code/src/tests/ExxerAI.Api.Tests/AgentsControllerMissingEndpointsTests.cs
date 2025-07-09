@@ -277,7 +277,7 @@ public class AgentsControllerMissingEndpointsTests
             var okResult = (OkObjectResult)actionResult;
             var response = (ApiResponse<AgentResponse>)okResult.Value!;
             response.Success.ShouldBeTrue();
-            response.Data.Name.ShouldBe($"Agent for {taskType}");
+            response.Data!.Name.ShouldBe($"Agent for {taskType}");
         }
 
         [Fact]

@@ -133,14 +133,14 @@ public class CommandRouterTests
         {
             new Agent { Name = "Test Agent", Description = "Test Description", Capabilities = new AgentCapabilities() }
         };
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -149,7 +149,7 @@ public class CommandRouterTests
         // Arrange
         var args = new[] { "agents", "create", "TestAgent" };
         var testAgent = new Agent { Name = "TestAgent", Description = "Test Description", Capabilities = new AgentCapabilities() };
-        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
+        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>())
             .Returns(Result<Agent>.Success(testAgent));
 
         // Act
@@ -166,14 +166,14 @@ public class CommandRouterTests
         // Arrange
         var args = new[] { "task", "list" };
         var testTasks = new List<AgentTask>();
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -181,7 +181,7 @@ public class CommandRouterTests
     {
         // Arrange
         var args = new[] { "tasks", "create", "TestTask", "--type", "DataProcessing" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -314,14 +314,14 @@ public class CommandRouterTests
         // Arrange
         var args = new[] { "AGENT", "list" };
         var testAgents = new List<Agent>();
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -330,14 +330,14 @@ public class CommandRouterTests
         // Arrange
         var args = new[] { "TaSk", "list" };
         var testTasks = new List<AgentTask>();
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -345,7 +345,7 @@ public class CommandRouterTests
     {
         // Arrange
         var args = new[] { "agent", "list" };
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.WithFailure("Test error"));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.WithFailure("Test error"));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -359,7 +359,7 @@ public class CommandRouterTests
     {
         // Arrange
         var args = new[] { "task", "create", "TestTask", "--type", "DataProcessing" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -373,7 +373,7 @@ public class CommandRouterTests
     {
         // Arrange
         var args = new[] { "agent", "list" };
-        _mockAgentRepository.GetAllAsync().Returns(Task.FromException<Result<IEnumerable<Agent>>>(new InvalidOperationException("Test exception")));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Task.FromException<Result<IEnumerable<Agent>>>(new InvalidOperationException("Test exception")));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -388,7 +388,7 @@ public class CommandRouterTests
         // Arrange
         var args = new[] { "agent", "create", "TestAgent", "--description", "Test description" };
         var testAgent = new Agent { Name = "TestAgent", Description = "Test description", Capabilities = new AgentCapabilities() };
-        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
+        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>())
             .Returns(Result<Agent>.Success(testAgent));
 
         // Act
@@ -425,8 +425,8 @@ public class CommandRouterTests
         var args = new[] { command, subCommand };
         var testAgents = new List<Agent>();
         var testTasks = new List<AgentTask>();
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.Success(testAgents));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
         var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);

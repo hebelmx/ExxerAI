@@ -114,7 +114,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             if (extractionResult.IsSuccess)
             {
                 // Cannot assign to init-only ExtractedFields, but can assign to regular GroundedData property
-                result.GroundedData = extractionResult.Value;
+                result.GroundedData = extractionResult.Value!;
                 // Note: ExtractedFields is init-only, would need to create new object to modify it
                 // For now, data is accessible through GroundedData.Fields
             }
@@ -135,11 +135,11 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             }
 
             // Stage 5: Value Validation and Grounding
-            var validationResult = await _validator.ValidateExtractedDataAsync(result.GroundedData, metadata, cancellationToken);
+            var validationResult = await _validator.ValidateExtractedDataAsync(result.GroundedData!, metadata, cancellationToken);
             if (validationResult.IsSuccess)
             {
                 result.ValidationResultDocument = validationResult.Value!;
-                result.GroundingConfidence = validationResult.Value.Confidence;
+                result.GroundingConfidence = validationResult.Value!.Confidence;
             }
 
             stopwatch.Stop();
@@ -196,7 +196,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             var extractedDataResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(textResult.Value!, schemaDefinition, cancellationToken);
             if (!extractedDataResult.IsSuccess)
             {
-                return Result<ExtractionResult>.WithFailure(extractedDataResult.Error);
+                return Result<ExtractionResult>.WithFailure(extractedDataResult.Error ?? "Extraction failed");
             }
 
             // Convert ExtractedData to ExtractionResult

@@ -130,7 +130,7 @@ public class PersonaTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => persona.AddTrait(invalidKey, "value"));
+        Should.Throw<ArgumentException>(() => persona.AddTrait(invalidKey!, "value"));
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public class PersonaTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => persona.AddKnowledgeDomain(invalidDomain));
+        Should.Throw<ArgumentException>(() => persona.AddKnowledgeDomain(invalidDomain!));
     }
 
     /// <summary>
@@ -395,7 +395,7 @@ public class PersonaTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => persona.AddTemplate(null));
+        Should.Throw<ArgumentNullException>(() => persona.AddTemplate(null!));
     }
 
     /// <summary>
@@ -531,7 +531,7 @@ public class PersonaTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => persona.SetMetadata(invalidKey, "value"));
+        Should.Throw<ArgumentException>(() => persona.SetMetadata(invalidKey!, "value"));
     }
 
     /// <summary>

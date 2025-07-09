@@ -133,9 +133,9 @@ internal class Program
 
         // AI Inference container
         // I am not sure we need this container at all
-        builder.AddContainer("localai", "localai/localai", "v2.0.0")
-            .WithHttpEndpoint(port: 8081, targetPort: 8080)
-            .WithEnvironment("THREADS", "1");
+        var localai = builder.AddContainer("localai", "localai/localai", "v2.0.0")
+              .WithHttpEndpoint(port: 8081, targetPort: 8080)
+              .WithEnvironment("THREADS", "1");
 
         // SearXNG search engine
         // This is a go, but i does it have a conector to N8N
@@ -310,6 +310,7 @@ https://learn.microsoft.com/en-us/dotnet/aspire/database/qdrant-integration?tabs
             .WithBindMount("./monitoring/prometheus.yml", "/etc/prometheus/prometheus.yml", isReadOnly: true);
 
         // Monitoring - Grafana
+        //Add a Container to a buildr
         var grafana = builder.AddContainer("grafana", "grafana/grafana", "latest")
             .WithHttpEndpoint(port: 3002, targetPort: 3000)
             .WithEnvironment("GF_SECURITY_ADMIN_USER", "admin")

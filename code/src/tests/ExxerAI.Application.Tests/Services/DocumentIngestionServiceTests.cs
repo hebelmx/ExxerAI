@@ -106,7 +106,7 @@ public class DocumentIngestionServiceTests
         {
             CreateTestDocumentChangeEvent("doc1", DocumentChangeType.Created)
         };
-        service.DetectDocumentChangesAsync().Returns(Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(expectedChanges));
+        service.DetectDocumentChangesAsync(cancellationToken: Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(expectedChanges));
 
         // Act
         var result = await service.DetectDocumentChangesAsync(TestContext.Current.CancellationToken);
@@ -216,7 +216,7 @@ public class DocumentIngestionServiceTests
 
         // Mock the service directly since IsDocumentModifiedAsync is on IDocumentIngestionService
         var service = Substitute.For<IDocumentIngestionService>();
-        service.IsDocumentModifiedAsync(documentId, lastProcessed)
+        service.IsDocumentModifiedAsync(documentId, lastProcessed, cancellationToken: Arg.Any<CancellationToken>())
             .Returns(Result<bool>.WithSuccess(true));
 
         // Act

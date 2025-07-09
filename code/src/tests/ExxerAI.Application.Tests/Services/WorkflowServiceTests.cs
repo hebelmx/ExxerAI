@@ -377,9 +377,9 @@ public class WorkflowServiceTests
         // Act
         Result<bool> result = methodName switch
         {
-            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId),
+            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
             _ => throw new ArgumentException($"Unknown method: {methodName}")
         };
 
@@ -420,9 +420,9 @@ public class WorkflowServiceTests
         // Act
         Result<bool> result = methodName switch
         {
-            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId),
+            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
             _ => throw new ArgumentException($"Unknown method: {methodName}")
         };
 

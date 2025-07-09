@@ -146,7 +146,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
             var content = $"Concurrent document {i} with unique content";
             var embeddings = GenerateTestEmbedding(1536);
 
-            concurrentTasks.Add(_vectorStore.StoreEmbeddingAsync(docId, content, embeddings));
+            concurrentTasks.Add(_vectorStore.StoreEmbeddingAsync(docId, content, embeddings, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         await Task.WhenAll(concurrentTasks);
@@ -154,7 +154,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         // Assert - Verify all documents were stored
         var stats = await _vectorStore.GetStatsAsync(cancellationToken: TestContext.Current.CancellationToken);
         stats.IsSuccess.ShouldBeTrue();
-        stats.Value.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
+        stats.Value!.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
@@ -165,8 +165,8 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         await _vectorStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Store documents with different categories
-        var techDoc = await StoreTestDocument("tech-doc", "Technical content", new { category = "technology" }, cancellationToken: TestContext.Current.CancellationToken);
-        var scienceDoc = await StoreTestDocument("science-doc", "Scientific content", new { category = "science" }, cancellationToken: TestContext.Current.CancellationToken);
+        var techDoc = await StoreTestDocumentAsync("tech-doc", "Technical content", new { category = "technology" }, cancellationToken: TestContext.Current.CancellationToken);
+        var scienceDoc = await StoreTestDocumentAsync("science-doc", "Scientific content", new { category = "science" }, cancellationToken: TestContext.Current.CancellationToken);
 
         var queryEmbedding = GenerateTestEmbedding(1536);
 
@@ -240,7 +240,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         _vectorStore = new QdrantVectorStore(_qdrantClient, _logger, _testCollectionName, 1536);
     }
 
-    private async Task<bool> StoreTestDocument(string docId, string content, object metadata, CancellationToken cancellationToken)
+    private async Task<bool> StoreTestDocumentAsync(string docId, string content, object metadata, CancellationToken cancellationToken)
     {
         var embeddings = GenerateTestEmbedding(1536);
         var metadataDict = ConvertToMetadataDictionary(metadata);

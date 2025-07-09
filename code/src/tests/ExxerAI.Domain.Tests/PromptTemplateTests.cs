@@ -168,7 +168,7 @@ public class PromptTemplateTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => template.RenderTemplate(null));
+        Should.Throw<ArgumentNullException>(() => template.RenderTemplate(null!));
     }
 
     /// <summary>
@@ -256,7 +256,7 @@ public class PromptTemplateTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => template.CreateNewVersion(invalidText));
+        Should.Throw<ArgumentException>(() => template.CreateNewVersion(invalidText!));
     }
 
     /// <summary>
@@ -407,7 +407,7 @@ public class PromptTemplateTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => template.AddExpectedParameter(invalidName, "description"));
+        Should.Throw<ArgumentException>(() => template.AddExpectedParameter(invalidName!, "description"));
     }
 
     /// <summary>

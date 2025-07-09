@@ -317,7 +317,7 @@ public class LLMServiceImplementationTests
 
         // Act
         var chunks = new List<LLMResponseChunk>();
-        await foreach (var chunk in _service.StreamTextAsync(modelId, "test prompt"))
+        await foreach (var chunk in _service.StreamTextAsync(modelId, "test prompt", cancellationToken: TestContext.Current.CancellationToken))
         {
             chunks.Add(chunk);
         }
@@ -338,7 +338,7 @@ public class LLMServiceImplementationTests
 
         // Act
         var chunks = new List<LLMResponseChunk>();
-        await foreach (var chunk in _service.StreamTextAsync(modelId, "test prompt"))
+        await foreach (var chunk in _service.StreamTextAsync(modelId, "test prompt", cancellationToken: TestContext.Current.CancellationToken))
         {
             chunks.Add(chunk);
         }

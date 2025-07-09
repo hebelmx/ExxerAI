@@ -180,7 +180,7 @@ public class ResultSpanOptimizationTests
     public void FormatErrorsString_NullErrorsInCollection_ShouldHandleGracefully()
     {
         // Arrange - Collection with null entries
-        var errors = new[] { SpanTestConstants.SmallError1, null, SpanTestConstants.SmallError2 };
+        var errors = new[] { SpanTestConstants.SmallError1, null!, SpanTestConstants.SmallError2 };
         var prefix = ResultConstants.FailurePrefix;
 
         // Act

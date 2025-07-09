@@ -89,7 +89,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "list" };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -104,7 +104,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "ls" };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -120,7 +120,7 @@ public class TaskCommandsTests
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing" };
         var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -141,9 +141,9 @@ public class TaskCommandsTests
         var testAgent = new Agent { Id = agentId, Name = "TestAgent" };
         var testTask = new AgentTask { Id = taskId, Title = "TestTask" };
 
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
-        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(testAgent));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -161,8 +161,8 @@ public class TaskCommandsTests
         var args = new[] { "update", taskId.ToString(), "--agentStatus", "Completed" };
         var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus = TaskAgentStatus.InProgress };
 
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
-        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -178,7 +178,7 @@ public class TaskCommandsTests
         // Arrange
         var taskId = Guid.NewGuid();
         var args = new[] { "delete", taskId.ToString() };
-        _mockTaskRepository.DeleteAsync(taskId).Returns(Task.FromResult(Result<bool>.Success(true)));
+        _mockTaskRepository.DeleteAsync(taskId, Arg.Any<CancellationToken>()).Returns(Task.FromResult(Result<bool>.Success(true)));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -195,7 +195,7 @@ public class TaskCommandsTests
         var taskId = Guid.NewGuid();
         var args = new[] { "agentStatus", taskId.ToString() };
         var testTask = new AgentTask { Id = taskId, Title = "TestTask" };
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -218,7 +218,7 @@ public class TaskCommandsTests
         };
         _mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
         // Mock agent lookup for assigned tasks
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -258,7 +258,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "list" };
-        _mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>())));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>())));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -277,7 +277,7 @@ public class TaskCommandsTests
             new() { Id = Guid.NewGuid(), Title = "Task1", TaskType = "DataProcessing", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
             new() { Id = Guid.NewGuid(), Title = "Task2", TaskType = "Analysis", AgentStatus =TaskAgentStatus.InProgress, Priority = TaskPriority.High, CreatedAt = DateTime.UtcNow }
         };
-        _mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(tasks)));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(tasks)));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -296,7 +296,7 @@ public class TaskCommandsTests
             new() { Id = Guid.NewGuid(), Title = "PendingTask", AgentStatus =TaskAgentStatus.Pending, TaskType = "Test", Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
             new() { Id = Guid.NewGuid(), Title = "CompletedTask", AgentStatus =TaskAgentStatus.Completed, TaskType = "Test", Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
         };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -315,7 +315,7 @@ public class TaskCommandsTests
             new() { Id = Guid.NewGuid(), Title = "HighPriorityTask", Priority = TaskPriority.High, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, CreatedAt = DateTime.UtcNow },
             new() { Id = Guid.NewGuid(), Title = "NormalPriorityTask", Priority = TaskPriority.Normal, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, CreatedAt = DateTime.UtcNow }
         };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -334,7 +334,7 @@ public class TaskCommandsTests
             new() { Id = Guid.NewGuid(), Title = "DataTask", TaskType = "DataProcessing", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
             new() { Id = Guid.NewGuid(), Title = "AnalysisTask", TaskType = "Analysis", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
         };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -354,9 +354,9 @@ public class TaskCommandsTests
             new() { Id = Guid.NewGuid(), Title = "AssignedTask", AssignedAgentId = agentId, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow },
             new() { Id = Guid.NewGuid(), Title = "UnassignedTask", AssignedAgentId = null, TaskType = "Test", AgentStatus =TaskAgentStatus.Pending, Priority = TaskPriority.Normal, CreatedAt = DateTime.UtcNow }
         };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
         // Mock agent lookup for agent name display
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -370,7 +370,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "list", "--agentStatus", "InvalidStatus" };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -384,7 +384,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "list", "--priority", "InvalidPriority" };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -398,7 +398,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "list", "--agent", "invalid-agent-id" };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -412,7 +412,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "list" };
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.WithFailure("Database error"));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.WithFailure("Database error"));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -453,7 +453,7 @@ public class TaskCommandsTests
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing" };
         var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -469,7 +469,7 @@ public class TaskCommandsTests
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--priority", "High" };
         var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -485,7 +485,7 @@ public class TaskCommandsTests
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--description", "Custom description" };
         var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -501,7 +501,7 @@ public class TaskCommandsTests
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--deadline", "2025-12-31" };
         var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -542,7 +542,7 @@ public class TaskCommandsTests
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.WithFailure("Repository error"));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.WithFailure("Repository error"));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -597,7 +597,7 @@ public class TaskCommandsTests
         var taskId = Guid.NewGuid();
         var agentId = Guid.NewGuid();
         var args = new[] { "assign", taskId.ToString(), agentId.ToString() };
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.WithFailure("Agent not found"));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.WithFailure("Agent not found"));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -614,8 +614,8 @@ public class TaskCommandsTests
         var agentId = Guid.NewGuid();
         var args = new[] { "assign", taskId.ToString(), agentId.ToString() };
         var testAgent = new Agent { Id = agentId, Name = "TestAgent" };
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.WithFailure("Task not found"));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(testAgent));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.WithFailure("Task not found"));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -634,9 +634,9 @@ public class TaskCommandsTests
         var testAgent = new Agent { Id = agentId, Name = "TestAgent" };
         var testTask = new AgentTask { Id = taskId, Title = "TestTask" };
 
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
-        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.WithFailure("Update failed"));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(testAgent));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.WithFailure("Update failed"));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -679,16 +679,16 @@ public class TaskCommandsTests
         if (alias == "new")
         {
             var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-            _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
+            _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
         }
         else if (alias == "remove" || alias == "rm")
         {
-            _mockTaskRepository.DeleteAsync(Arg.Any<Guid>()).Returns(Task.FromResult(Result<bool>.Success(true)));
+            _mockTaskRepository.DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(Task.FromResult(Result<bool>.Success(true)));
         }
         else if (alias == "info")
         {
             var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-            _mockTaskRepository.GetByIdAsync(Arg.Any<Guid>()).Returns(Result<AgentTask>.Success(testTask));
+            _mockTaskRepository.GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
         }
 
         // Act
@@ -734,11 +734,11 @@ public class TaskCommandsTests
         if (shortFlag == "-d")
         {
             var testTask = new AgentTask { Id = Guid.NewGuid(), Title = "TestTask" };
-            _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+            _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
         }
         else
         {
-            _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
+            _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
         }
 
         // Act
@@ -768,8 +768,8 @@ public class TaskCommandsTests
         };
         var testAgent = new Agent { Id = agentId, Name = "TestAgent" };
 
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(testAgent));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -787,8 +787,8 @@ public class TaskCommandsTests
         var args = new[] { "update", taskId.ToString(), "--agentStatus", "InProgress" };
         var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus = TaskAgentStatus.Pending, StartedAt = null };
 
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
-        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -807,8 +807,8 @@ public class TaskCommandsTests
         var args = new[] { "update", taskId.ToString(), "--agentStatus", "Completed" };
         var testTask = new AgentTask { Id = taskId, Title = "TestTask", AgentStatus = TaskAgentStatus.InProgress, CompletedAt = null };
 
-        _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.Success(testTask));
-        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.GetByIdAsync(taskId, Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
+        _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
@@ -832,7 +832,7 @@ public class TaskCommandsTests
         };
         _mockTaskRepository.GetOverdueTasksAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
         // Mock agent lookup for assigned tasks
-        _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
+        _mockAgentRepository.GetByIdAsync(agentId, Arg.Any<CancellationToken>()).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
         // Act
         var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);

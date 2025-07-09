@@ -84,7 +84,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreatePersonaAsync(
-            invalidName, role, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
+            invalidName!, role, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -110,7 +110,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreatePersonaAsync(
-            name, invalidRole, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
+            name, invalidRole!, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -325,7 +325,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.AddPersonaTraitAsync(
-            personaId, invalidKey, "value", cancellationToken: TestContext.Current.CancellationToken);
+            personaId, invalidKey!, "value", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -496,7 +496,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreateTemplateForPersonaAsync(
-            personaId, invalidName, "Template text", "context", cancellationToken: TestContext.Current.CancellationToken);
+            personaId, invalidName!, "Template text", "context", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -727,7 +727,7 @@ public class PersonaServiceTests
     public async Task SearchPersonasAsync_Should_ReturnFailure_When_CriteriaIsNull()
     {
         // Act
-        var result = await _personaService.SearchPersonasAsync(null, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _personaService.SearchPersonasAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();

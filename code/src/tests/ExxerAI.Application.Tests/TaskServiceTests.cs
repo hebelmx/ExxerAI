@@ -54,7 +54,7 @@ public class TaskServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidTitleProvided(string invalidTitle)
+        public async Task Should_ReturnFailure_When_InvalidTitleProvided(string? invalidTitle)
         {
             // Arrange
             var description = "Test task description";
@@ -75,7 +75,7 @@ public class TaskServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidDescriptionProvided(string invalidDescription)
+        public async Task Should_ReturnFailure_When_InvalidDescriptionProvided(string? invalidDescription)
         {
             // Arrange
             var title = "Test Task";
@@ -96,7 +96,7 @@ public class TaskServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidTaskTypeProvided(string invalidTaskType)
+        public async Task Should_ReturnFailure_When_InvalidTaskTypeProvided(string? invalidTaskType)
         {
             // Arrange
             var title = "Test Task";
@@ -207,7 +207,7 @@ public class TaskServiceTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Value!.ShouldNotBeNull();
-            result.Value!.Count().ShouldBeGreaterThan(0);
+            result.Value?.Count().ShouldBeGreaterThan(0);
             result.Value!.All(t => t.AgentStatus == TaskAgentStatus.Pending).ShouldBeTrue();
         }
 
@@ -226,7 +226,7 @@ public class TaskServiceTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Value!.Count().ShouldBeLessThanOrEqualTo(maxCount);
+            result.Value?.Count().ShouldBeLessThanOrEqualTo(maxCount);
         }
 
         [Theory]
@@ -518,7 +518,7 @@ public class TaskServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidErrorMessageProvided(string invalidMessage)
+        public async Task Should_ReturnFailure_When_InvalidErrorMessageProvided(string? invalidMessage)
         {
             // Arrange
             var taskId = Guid.NewGuid();
@@ -607,7 +607,7 @@ public class TaskServiceTests
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.Value!.ShouldNotBeNull();
-            result.Value!.Count().ShouldBe(0);
+            result.Value?.Count().ShouldBe(0);
         }
     }
 
@@ -626,7 +626,7 @@ public class TaskServiceTests
             Deadline = DateTime.UtcNow.AddDays(7),
             AssignedAgentId = null,
             Input = CreateValidTaskData(),
-            Output = null
+            Output = null!
         };
     }
 

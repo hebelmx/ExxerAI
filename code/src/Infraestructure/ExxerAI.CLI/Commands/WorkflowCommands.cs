@@ -30,10 +30,10 @@ public class WorkflowCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListWorkflows(),
-            "create" or "new" => await CreateWorkflow(commandArgs),
-            "execute" or "run" => await ExecuteWorkflow(commandArgs),
-            "agentstatus" or "info" => await ShowWorkflowStatus(commandArgs),
+            "list" or "ls" => await ListWorkflowsAsync(),
+            "create" or "new" => await CreateWorkflowAsync(commandArgs),
+            "execute" or "run" => await ExecuteWorkflowAsync(commandArgs),
+            "agentstatus" or "info" => await ShowWorkflowStatusAsync(commandArgs),
             "help" or "--help" or "-h" => ShowWorkflowHelp(),
             _ => ShowUnknownWorkflowCommand(subCommand)
         };
@@ -43,7 +43,7 @@ public class WorkflowCommands
     /// Lists available workflows
     /// </summary>
     /// <returns>Exit code</returns>
-    private async Task<int> ListWorkflows()
+    private async Task<int> ListWorkflowsAsync()
     {
         await Task.Delay(1); // Placeholder for async operation
 
@@ -67,7 +67,7 @@ public class WorkflowCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> CreateWorkflow(string[] args)
+    private async Task<int> CreateWorkflowAsync(string[] args)
     {
         await Task.Delay(1); // Placeholder for async operation
 
@@ -100,7 +100,7 @@ public class WorkflowCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ExecuteWorkflow(string[] args)
+    private async Task<int> ExecuteWorkflowAsync(string[] args)
     {
         await Task.Delay(1); // Placeholder for async operation
 
@@ -134,7 +134,7 @@ public class WorkflowCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ShowWorkflowStatus(string[] args)
+    private async Task<int> ShowWorkflowStatusAsync(string[] args)
     {
         await Task.Delay(1); // Placeholder for async operation
 

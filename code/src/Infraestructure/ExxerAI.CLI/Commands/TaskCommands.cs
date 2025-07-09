@@ -56,13 +56,13 @@ public class TaskCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListTasks(commandArgs),
-            "create" or "new" => await CreateTask(commandArgs),
-            "assign" => await AssignTask(commandArgs),
-            "update" => await UpdateTaskStatus(commandArgs),
-            "delete" or "remove" or "rm" => await DeleteTask(commandArgs),
-            "agentstatus" or "info" => await ShowTaskStatus(commandArgs),
-            "overdue" => await ListOverdueTasks(),
+            "list" or "ls" => await ListTasksAsync(commandArgs),
+            "create" or "new" => await CreateTaskAsync(commandArgs),
+            "assign" => await AssignTaskAsync(commandArgs),
+            "update" => await UpdateTaskStatusAsync(commandArgs),
+            "delete" or "remove" or "rm" => await DeleteTaskAsync(commandArgs),
+            "agentstatus" or "info" => await ShowTaskStatusAsync(commandArgs),
+            "overdue" => await ListOverdueTasksAsync(),
             "help" or "--help" or "-h" => ShowTaskHelp(),
             _ => ShowUnknownTaskCommand(subCommand)
         };
@@ -73,7 +73,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ListTasks(string[] args)
+    private async Task<int> ListTasksAsync(string[] args)
     {
         try
         {
@@ -185,7 +185,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> CreateTask(string[] args)
+    private async Task<int> CreateTaskAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -277,7 +277,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> AssignTask(string[] args)
+    private async Task<int> AssignTaskAsync(string[] args)
     {
         if (args.Length < 2)
         {
@@ -343,7 +343,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> UpdateTaskStatus(string[] args)
+    private async Task<int> UpdateTaskStatusAsync(string[] args)
     {
         if (args.Length < 2)
         {
@@ -420,7 +420,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> DeleteTask(string[] args)
+    private async Task<int> DeleteTaskAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -459,7 +459,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ShowTaskStatus(string[] args)
+    private async Task<int> ShowTaskStatusAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -537,7 +537,7 @@ public class TaskCommands
     /// Lists overdue tasks
     /// </summary>
     /// <returns>Exit code</returns>
-    private async Task<int> ListOverdueTasks()
+    private async Task<int> ListOverdueTasksAsync()
     {
         try
         {

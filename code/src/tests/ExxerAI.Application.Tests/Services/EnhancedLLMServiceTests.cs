@@ -537,7 +537,7 @@ public class EnhancedLLMServiceTests
 
         // Act
         var chunks = new List<LLMResponseChunk>();
-        await foreach (var chunk in _service.StreamTextAsync(modelId, prompt))
+        await foreach (var chunk in _service.StreamTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken))
         {
             chunks.Add(chunk);
         }
