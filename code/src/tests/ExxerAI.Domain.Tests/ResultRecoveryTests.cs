@@ -129,7 +129,7 @@ public class ResultRecoveryTests
         // Arrange - Test various incompatible type scenarios
         var stringResult = Result<string>.Success("text");
         var intResult = Result<int>.Success(42);
-        var listResult = Result<List<string>>.Success(new List<string> { "item" });
+        var listResult = Result<List<string>>.Success(["item"]);
 
         // Act & Assert - All should return failures, not throw exceptions
         var stringToInt = stringResult.RecoverWith<int>(() => Result<int>.Success(0));

@@ -19,9 +19,9 @@ public class DocumentIngestionService : IDocumentIngestionService
     private readonly HealthMonitoringEngine _healthEngine;
 
     // Simulated watch sessions for demonstration (in real implementation this would be persistent storage)
-    private readonly Dictionary<string, WatchSession> _activeSessions = new();
+    private readonly Dictionary<string, WatchSession> _activeSessions = [];
 
-    private readonly List<DocumentChangeEvent> _pendingChanges = new();
+    private readonly List<DocumentChangeEvent> _pendingChanges = [];
 
     /// <summary>
     /// Initializes a new instance of the DocumentIngestionService class.
@@ -48,9 +48,16 @@ public class DocumentIngestionService : IDocumentIngestionService
 
     public DocumentIngestionService(IDocumentWatchService watchService, IVersionDetectionEngine versionEngine, IDocumentHashGenerator hashGenerator, IPolymorphicDocumentProcessor documentProcessor, IPrimarySourceOfTruthSystem truthSystem, IDocumentNotificationService notificationService, ILogger<DocumentIngestionService> logger)
     {
-        _hashGenerator = hashGenerator;
-        _documentProcessor = documentProcessor;
-        _logger = logger;
+        _hashGenerator = hashGenerator ?? throw new ArgumentNullException(nameof(hashGenerator));
+        _documentProcessor = documentProcessor ?? throw new ArgumentNullException(nameof(documentProcessor));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        
+        // Initialize focused engine components
+        var loggerFactory = Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance;
+        _googleDriveEngine = new GoogleDriveEngine(loggerFactory.CreateLogger<GoogleDriveEngine>());
+        _processingEngine = new DocumentProcessingEngine(loggerFactory.CreateLogger<DocumentProcessingEngine>());
+        _metricsEngine = new MetricsEngine(loggerFactory.CreateLogger<MetricsEngine>());
+        _healthEngine = new HealthMonitoringEngine(loggerFactory.CreateLogger<HealthMonitoringEngine>());
     }
 
     /// <summary>
@@ -144,6 +151,8 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // In a real implementation, this would poll the Google Drive API for changes
             // For demonstration, we'll return any pending simulated changes
+            await Task.Delay(1, cancellationToken); // Simulate async operation
+            
             var changes = new List<DocumentChangeEvent>(_pendingChanges);
             _pendingChanges.Clear();
 
@@ -210,7 +219,7 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // Process through the polymorphic document processor
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
-                documentData.Data!,
+                documentData.Value!,
                 changeEvent.Metadata,
                 cancellationToken);
 
@@ -224,7 +233,7 @@ public class DocumentIngestionService : IDocumentIngestionService
                 }
 
                 _logger.LogInformation("Successfully processed document {DocumentId} with confidence {Confidence:F2}",
-                    changeEvent.DocumentId, processingResult.Data!.OverallConfidence);
+                    changeEvent.DocumentId, processingResult.Value!.OverallConfidence);
             }
             else
             {
@@ -267,10 +276,10 @@ public class DocumentIngestionService : IDocumentIngestionService
             if (!forceReprocess)
             {
                 var existingResult = await _processingEngine.CheckExistingDocumentAsync(documentId, cancellationToken);
-                if (existingResult.IsSuccess && existingResult.Data != null)
+                if (existingResult.IsSuccess && existingResult.Value != null)
                 {
                     _logger.LogDebug("Document {DocumentId} already processed, returning existing result", documentId);
-                    return Result<DocumentProcessingResult>.WithSuccess(existingResult.Data);
+                    return Result<DocumentProcessingResult>.WithSuccess(existingResult.Value);
                 }
             }
 
@@ -289,8 +298,8 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // Process through the polymorphic document processor
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
-                documentData.Data!,
-                metadataResult.Data!,
+                documentData.Value!,
+                metadataResult.Value!,
                 cancellationToken);
 
             _logger.LogInformation("Completed ingestion of document {DocumentId} with result: {IsSuccess}",
@@ -327,10 +336,10 @@ public class DocumentIngestionService : IDocumentIngestionService
                 return Result<bool>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
             }
 
-            var isModified = metadataResult.Data!.ModifiedDate > lastProcessed;
+            var isModified = metadataResult.Value!.ModifiedDate > lastProcessed;
 
             _logger.LogDebug("Document {DocumentId} modified check: {IsModified} (Last processed: {LastProcessed}, Modified: {ModifiedDate})",
-                documentId, isModified, lastProcessed, metadataResult.Data.ModifiedDate);
+                documentId, isModified, lastProcessed, metadataResult.Value.ModifiedDate);
 
             return Result<bool>.WithSuccess(isModified);
         }

@@ -14,5 +14,5 @@ public class WatchSession
     public DateTime StartTime { get; set; }
     public DateTime LastCheck { get; set; }
     public bool IsActive { get; set; }
-    public List<DocumentChange> DetectedChanges { get; set; } = new();
+    public List<DocumentChange> DetectedChanges { get; set; } = [];
 }

@@ -32,7 +32,7 @@ public class WorkflowStep
     /// <summary>
     /// Gets or sets the step configuration
     /// </summary>
-    public Dictionary<string, object> Configuration { get; init; } = new();
+    public Dictionary<string, object> Configuration { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the conditions for step execution
@@ -42,5 +42,5 @@ public class WorkflowStep
     /// <summary>
     /// Gets or sets the next steps to execute
     /// </summary>
-    public ICollection<Guid> NextSteps { get; init; } = new List<Guid>();
+    public ICollection<Guid> NextSteps { get; init; } = [];
 }

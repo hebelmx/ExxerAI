@@ -42,14 +42,14 @@ public class OpenAIProviderTests : IDisposable
     public void Constructor_WithNullHttpClient_ShouldThrowArgumentNullException()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(null!!!!, _config));
+        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(null!, _config));
     }
 
     [Fact]
     public void Constructor_WithNullConfiguration_ShouldThrowArgumentNullException()
     {
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(_httpClient, null!!!!));
+        Should.Throw<ArgumentNullException>(() => new OpenAIProvider(_httpClient, null!));
     }
 
     [Theory]
@@ -63,14 +63,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithValidText_ShouldReturnApproximateCount()
+    public async Task CountTokensAsync_WithValidText_ShouldReturnApproximateCountAsync()
     {
         // Arrange
         var text = "Hello, this is a test message for token counting.";
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken);
+        var result = await _provider.CountTokensAsync(modelName, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -79,14 +79,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZero()
+    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZeroAsync()
     {
         // Arrange
         var text = "";
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken);
+        var result = await _provider.CountTokensAsync(modelName, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -94,14 +94,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithNullText_ShouldReturnZero()
+    public async Task CountTokensAsync_WithNullText_ShouldReturnZeroAsync()
     {
         // Arrange
         string? text = null!;
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.CountTokensAsync(modelName, text!, TestContext.Current.CancellationToken);
+        var result = await _provider.CountTokensAsync(modelName, text!, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -112,11 +112,11 @@ public class OpenAIProviderTests : IDisposable
     [InlineData("gpt-4o", 1000, 500, 0.0125)]
     [InlineData("gpt-4-turbo", 1000, 500, 0.025)]
     [InlineData("gpt-3.5-turbo", 1000, 500, 0.00125)]
-    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnCorrectCost(
+    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnCorrectCostAsync(
         string modelName, int inputTokens, int outputTokens, decimal expectedCost)
     {
         // Act
-        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -124,7 +124,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task EstimateCostAsync_WithUnknownModel_ShouldReturnFailure()
+    public async Task EstimateCostAsync_WithUnknownModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "unknown-model";
@@ -132,7 +132,7 @@ public class OpenAIProviderTests : IDisposable
         var outputTokens = 500;
 
         // Act
-        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+        var result = await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -140,13 +140,13 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GetRateLimitInfoAsync_WithGpt4Model_ShouldReturnCorrectLimits()
+    public async Task GetRateLimitInfoAsync_WithGpt4Model_ShouldReturnCorrectLimitsAsync()
     {
         // Arrange
         var modelName = "gpt-4-turbo";
 
         // Act
-        var result = await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken);
+        var result = await _provider.GetRateLimitInfoAsync(modelName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -156,13 +156,13 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GetRateLimitInfoAsync_WithGpt35Model_ShouldReturnCorrectLimits()
+    public async Task GetRateLimitInfoAsync_WithGpt35Model_ShouldReturnCorrectLimitsAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken);
+        var result = await _provider.GetRateLimitInfoAsync(modelName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -172,10 +172,10 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task ListModelsAsync_ShouldReturnAvailableModels()
+    public async Task ListModelsAsync_ShouldReturnAvailableModelsAsync()
     {
         // Act
-        var result = await _provider.ListModelsAsync(TestContext.Current.CancellationToken);
+        var result = await _provider.ListModelsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -184,13 +184,13 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task ValidateAsync_WithValidModel_ShouldReturnValidationResult()
+    public async Task ValidateAsync_WithValidModel_ShouldReturnValidationResultAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
 
         // Act
-        var result = await _provider.ValidateAsync(modelName, TestContext.Current.CancellationToken);
+        var result = await _provider.ValidateAsync(modelName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -200,14 +200,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateCompletionAsync_WithEmptyModel_ShouldReturnFailure()
+    public async Task GenerateCompletionAsync_WithEmptyModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "";
         var prompt = "Test prompt";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, null, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -215,14 +215,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateCompletionAsync_WithEmptyPrompt_ShouldReturnFailure()
+    public async Task GenerateCompletionAsync_WithEmptyPrompt_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
         var prompt = "";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, null, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -230,14 +230,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateCompletionAsync_WithUnsupportedModel_ShouldReturnFailure()
+    public async Task GenerateCompletionAsync_WithUnsupportedModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "unsupported-model";
         var prompt = "Test prompt";
 
         // Act
-        var result = await _provider.GenerateCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateCompletionAsync(modelName, prompt, null, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -245,14 +245,14 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateChatCompletionAsync_WithEmptyMessages_ShouldReturnFailure()
+    public async Task GenerateChatCompletionAsync_WithEmptyMessages_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
         var messages = new List<ChatMessage>();
 
         // Act
-        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, null, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -260,7 +260,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateChatCompletionAsync_WithValidMessages_ShouldReturnStructuredResponse()
+    public async Task GenerateChatCompletionAsync_WithValidMessages_ShouldReturnStructuredResponseAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
@@ -270,7 +270,7 @@ public class OpenAIProviderTests : IDisposable
         };
 
         // Act
-        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, TestContext.Current.CancellationToken);
+        var result = await _provider.GenerateChatCompletionAsync(modelName, messages, null, cancellationToken: TestContext.Current.CancellationToken);
 
         // Note: This will fail without a real API key, but we can test the structure
         // In a real scenario, you'd mock the HttpClient or use integration tests
@@ -285,7 +285,7 @@ public class OpenAIProviderTests : IDisposable
         var prompt = "Test prompt";
 
         // Act
-        var stream = _provider.StreamCompletionAsync(modelName, prompt);
+        var stream = _provider.StreamCompletionAsync(modelName, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         // The stream should be empty for invalid inputs

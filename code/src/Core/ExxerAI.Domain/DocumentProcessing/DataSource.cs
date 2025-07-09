@@ -38,7 +38,7 @@ public class DataSource
     /// <summary>
     /// Gets or sets additional source metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Gets or sets when the source was accessed

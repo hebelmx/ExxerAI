@@ -330,7 +330,7 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <param name="subscriberId">The subscriber identifier</param>
     /// <param name="callback">The callback to invoke for notifications</param>
     /// <returns>Result indicating success or failure</returns>
-    public async Task<Result<bool>> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback)
+    public async Task<Result<bool>> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -372,7 +372,7 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// </summary>
     /// <param name="subscriberId">The subscriber identifier</param>
     /// <returns>Result indicating success or failure</returns>
-    public async Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId)
+    public async Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -446,4 +446,4 @@ public class DocumentNotificationService : IDocumentNotificationService
         _subscribers.Clear();
         GC.SuppressFinalize(this);
     }
-} 
+}

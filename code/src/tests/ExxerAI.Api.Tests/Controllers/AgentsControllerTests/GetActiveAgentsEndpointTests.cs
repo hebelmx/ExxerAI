@@ -21,7 +21,7 @@ public class GetActiveAgentsEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnOkWithAgents_When_AgentsExist()
+    public async Task Should_ReturnOkWithAgents_When_AgentsExistAsync()
     {
         // Arrange
         var agents = new[]
@@ -34,7 +34,7 @@ public class GetActiveAgentsEndpointTests
             .Returns(Result<IEnumerable<Agent>>.Success(agents));
 
         // Act
-        var result = await _controller.GetActiveAgents();
+        var result = await _controller.GetActiveAgentsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -49,14 +49,14 @@ public class GetActiveAgentsEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnOkWithEmptyList_When_NoAgentsExist()
+    public async Task Should_ReturnOkWithEmptyList_When_NoAgentsExistAsync()
     {
         // Arrange - Use null result to simulate the actual behavior seen in logs
         _mockAgentService.GetActiveAgentsAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<Agent>>.WithFailure(""));
 
         // Act
-        var result = await _controller.GetActiveAgents();
+        var result = await _controller.GetActiveAgentsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -68,14 +68,14 @@ public class GetActiveAgentsEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_ServiceFails()
+    public async Task Should_ReturnBadRequest_When_ServiceFailsAsync()
     {
         // Arrange
         _mockAgentService.GetActiveAgentsAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<Agent>>.WithFailure("Service error"));
 
         // Act
-        var result = await _controller.GetActiveAgents();
+        var result = await _controller.GetActiveAgentsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;

@@ -25,5 +25,5 @@ public class OCRResult
     /// <summary>
     /// Gets or sets the processed OCR regions
     /// </summary>
-    public List<OCRRegion> ProcessedRegions { get; set; } = new();
+    public List<OCRRegion> ProcessedRegions { get; set; } = [];
 } 

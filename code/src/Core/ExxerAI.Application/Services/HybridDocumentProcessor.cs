@@ -357,6 +357,9 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
             {
                 try
                 {
+                    // Add yield to allow cooperative cancellation
+                    await Task.Yield();
+                    
                     var extractedValue = pattern.ExtractValue(text, new ExtractionContext());
 
                     if (!string.IsNullOrWhiteSpace(extractedValue))

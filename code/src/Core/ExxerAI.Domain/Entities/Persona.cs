@@ -36,13 +36,13 @@ public class Persona
     /// Gets or sets the persona's behavioral traits as key-value pairs
     /// Examples: "tone": "professional", "expertise_level": "expert", "communication_style": "concise"
     /// </summary>
-    public Dictionary<string, string> Traits { get; set; } = new();
+    public Dictionary<string, string> Traits { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the knowledge domains this persona specializes in
     /// Examples: "software_development", "financial_analysis", "medical_research"
     /// </summary>
-    public List<string> KnowledgeDomains { get; set; } = new();
+    public List<string> KnowledgeDomains { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the system prompt that defines the persona's base behavior
@@ -68,12 +68,12 @@ public class Persona
     /// <summary>
     /// Gets the collection of prompt templates associated with this persona
     /// </summary>
-    public ICollection<PromptTemplate> Templates { get; init; } = new List<PromptTemplate>();
+    public ICollection<PromptTemplate> Templates { get; init; } = [];
 
     /// <summary>
     /// Gets or sets metadata for the persona including version, author, and configuration
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 
     /// <summary>
     /// Adds a behavioral trait to the persona

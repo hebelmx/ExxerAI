@@ -24,7 +24,7 @@ public static class VectorStoreServiceCollectionExtensions
         string qdrantHost = "localhost",
         int qdrantPort = 6333,
         bool useHttps = false,
-        string apiKey = null,
+        string? apiKey = null,
         string collectionName = "exxerai_documents",
         int embeddingDimensions = 1536)
     {
@@ -62,7 +62,7 @@ public static class VectorStoreServiceCollectionExtensions
         this IServiceCollection services,
         string apiKey,
         string modelName = "text-embedding-3-small",
-        string organizationId = null)
+        string? organizationId = null)
     {
         // Register the Microsoft.Extensions.AI embedding generator
         services.AddScoped<IEmbeddingGenerator<string, Embedding<float>>>(provider =>
@@ -220,7 +220,7 @@ public class QdrantVectorStoreOptions
     public string Host { get; set; } = "localhost";
     public int Port { get; set; } = 6333;
     public bool UseHttps { get; set; } = false;
-    public string ApiKey { get; set; } = null;
+    public string? ApiKey { get; set; } = null;
     public string CollectionName { get; set; } = "exxerai_documents";
     public int EmbeddingDimensions { get; set; } = 1536;
 }
@@ -232,7 +232,7 @@ public class OpenAIEmbeddingOptions
 {
     public string ApiKey { get; set; } = string.Empty;
     public string ModelName { get; set; } = "text-embedding-3-small";
-    public string OrganizationId { get; set; } = null;
+    public string? OrganizationId { get; set; } = null;
 }
 
 /// <summary>

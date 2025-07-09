@@ -43,31 +43,31 @@ public class DocumentIngestionServiceTests
     /// Contract Test: StartWatchingFolderAsync should return Result with watch ID
     /// </summary>
     [Fact]
-    public async Task StartWatchingFolderAsync_ShouldReturnResultWithWatchId_When_ValidFolderProvided()
+    public async Task StartWatchingFolderAsync_ShouldReturnResultWithWatchId_When_ValidFolderProvidedAsync()
     {
         // Arrange
         const string folderId = "folder123";
 
         // Act
-        var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+        var result = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNullOrEmpty();
-        result.Data!.Length.ShouldBe(36); // GUID length
+        result.Value.ShouldNotBeNullOrEmpty();
+        result.Value!.Length.ShouldBe(36); // GUID length
     }
 
     /// <summary>
     /// Contract Test: StartWatchingFolderAsync should return failure for null folder ID
     /// </summary>
     [Fact]
-    public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_FolderIdIsNull()
+    public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_FolderIdIsNullAsync()
     {
         // Arrange
         const string? folderId = null!;
 
         // Act
-        var result = await _service.StartWatchingFolderAsync(folderId!, TestContext.Current.CancellationToken);
+        var result = await _service.StartWatchingFolderAsync(folderId!, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -78,26 +78,26 @@ public class DocumentIngestionServiceTests
     /// Contract Test: StopWatchingFolderAsync should return success when watch exists
     /// </summary>
     [Fact]
-    public async Task StopWatchingFolderAsync_ShouldReturnSuccess_When_ValidWatchId()
+    public async Task StopWatchingFolderAsync_ShouldReturnSuccess_When_ValidWatchIdAsync()
     {
         // Arrange - First start a session to get a valid watch ID
         const string folderId = "folder123";
-        var startResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
-        var watchId = startResult.Data!;
+        var startResult = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
+        var watchId = startResult.Value!;
 
         // Act
-        var result = await _service.StopWatchingFolderAsync(watchId);
+        var result = await _service.StopWatchingFolderAsync(watchId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     /// <summary>
     /// Contract Test: DetectDocumentChangesAsync should return changes collection
     /// </summary>
     [Fact]
-    public async Task DetectDocumentChangesAsync_ShouldReturnChanges_When_ChangesExist()
+    public async Task DetectDocumentChangesAsync_ShouldReturnChanges_When_ChangesExistAsync()
     {
         // Arrange
         // Mock the service to return test changes
@@ -106,14 +106,14 @@ public class DocumentIngestionServiceTests
         {
             CreateTestDocumentChangeEvent("doc1", DocumentChangeType.Created)
         };
-        service.DetectDocumentChangesAsync().Returns(Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(expectedChanges));
+        service.DetectDocumentChangesAsync(cancellationToken: Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(expectedChanges));
 
         // Act
-        var result = await service.DetectDocumentChangesAsync();
+        var result = await service.DetectDocumentChangesAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var changes = result.Data!.ToList();
+        var changes = result.Value!.ToList();
         changes.Count.ShouldBe(1);
         changes[0].ChangeType.ShouldBe(DocumentChangeType.Created);
     }
@@ -122,7 +122,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: ProcessDocumentChangeAsync should handle document creation
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldProcessDocument_When_DocumentCreated()
+    public async Task ProcessDocumentChangeAsync_ShouldProcessDocument_When_DocumentCreatedAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);
@@ -134,11 +134,11 @@ public class DocumentIngestionServiceTests
         SetupMockProcessing(documentData, documentMetadata, expectedResult);
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        var processingResult = result.Data!;
+        var processingResult = result.Value!;
         processingResult.DocumentId.ShouldBe("doc123");
         processingResult.IsSuccessful.ShouldBeTrue();
     }
@@ -147,7 +147,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: ProcessDocumentChangeAsync should handle document modification with Result pattern
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldDetectVersion_When_DocumentModified()
+    public async Task ProcessDocumentChangeAsync_ShouldDetectVersion_When_DocumentModifiedAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Modified);
@@ -156,19 +156,19 @@ public class DocumentIngestionServiceTests
         SetupMockProcessing(new byte[0], changeEvent.Metadata, expectedResult);
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert - The service should successfully process the change using Result<T> pattern
         result.IsSuccess.ShouldBeTrue();
-        result.Data!.DocumentId.ShouldBe("doc123");
-        result.Data.IsSuccessful.ShouldBeTrue();
+        result.Value!.DocumentId.ShouldBe("doc123");
+        result.Value.IsSuccessful.ShouldBeTrue();
     }
 
     /// <summary>
     /// Contract Test: IngestDocumentAsync should process document by ID
     /// </summary>
     [Fact]
-    public async Task IngestDocumentAsync_ShouldProcessDocument_When_ValidDocumentId()
+    public async Task IngestDocumentAsync_ShouldProcessDocument_When_ValidDocumentIdAsync()
     {
         // Arrange
         const string documentId = "doc123";
@@ -180,24 +180,24 @@ public class DocumentIngestionServiceTests
         SetupMockProcessing(documentData, documentMetadata, expectedResult);
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data!.DocumentId.ShouldBe(documentId);
+        result.Value!.DocumentId.ShouldBe(documentId);
     }
 
     /// <summary>
     /// Contract Test: IngestDocumentAsync should return failure for invalid document ID
     /// </summary>
     [Fact]
-    public async Task IngestDocumentAsync_ShouldReturnFailure_When_DocumentIdIsNull()
+    public async Task IngestDocumentAsync_ShouldReturnFailure_When_DocumentIdIsNullAsync()
     {
         // Arrange
         const string? documentId = null!;
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId!, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId!, false, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -208,7 +208,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: IsDocumentModifiedAsync should detect document changes
     /// </summary>
     [Fact]
-    public async Task IsDocumentModifiedAsync_ShouldReturnTrue_When_DocumentWasModified()
+    public async Task IsDocumentModifiedAsync_ShouldReturnTrue_When_DocumentWasModifiedAsync()
     {
         // Arrange
         const string documentId = "doc123";
@@ -216,33 +216,33 @@ public class DocumentIngestionServiceTests
 
         // Mock the service directly since IsDocumentModifiedAsync is on IDocumentIngestionService
         var service = Substitute.For<IDocumentIngestionService>();
-        service.IsDocumentModifiedAsync(documentId, lastProcessed)
+        service.IsDocumentModifiedAsync(documentId, lastProcessed, cancellationToken: Arg.Any<CancellationToken>())
             .Returns(Result<bool>.WithSuccess(true));
 
         // Act
-        var result = await service.IsDocumentModifiedAsync(documentId, lastProcessed);
+        var result = await service.IsDocumentModifiedAsync(documentId, lastProcessed, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     /// <summary>
     /// Contract Test: GetIngestionStatusAsync should return agentStatus information
     /// </summary>
     [Fact]
-    public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_Requested()
+    public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_RequestedAsync()
     {
         // Arrange - Start a watch session to get an active system
         const string folderId = "folder123";
-        await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+        await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
-        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert - Verify Result<T> pattern and agentStatus data
         result.IsSuccess.ShouldBeTrue();
-        var status = result.Data!;
+        var status = result.Value!;
         status.ShouldNotBeNull();
         status.ActiveWatchSessions.ShouldBe(1);
         // SystemHealth can be Warning or Healthy, both are valid for a functioning system
@@ -253,7 +253,7 @@ public class DocumentIngestionServiceTests
     /// Edge Case: ProcessDocumentChangeAsync should handle processing failures gracefully
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldHandleFailure_When_ProcessingFails()
+    public async Task ProcessDocumentChangeAsync_ShouldHandleFailure_When_ProcessingFailsAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);
@@ -266,7 +266,7 @@ public class DocumentIngestionServiceTests
             .Returns(Result<DocumentProcessingResult>.WithFailure("Processing failed"));
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -277,25 +277,25 @@ public class DocumentIngestionServiceTests
     /// Edge Case: Should handle non-processing changes gracefully using Result pattern
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldHandleSkip_When_VersionDetectionSaysSkip()
+    public async Task ProcessDocumentChangeAsync_ShouldHandleSkip_When_VersionDetectionSaysSkipAsync()
     {
         // Arrange - Create a change event that doesn't require processing
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Moved);
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert - Should return success with Result<T> pattern for non-processing changes
         result.IsSuccess.ShouldBeTrue();
-        result.Data!.DocumentId.ShouldBe("doc123");
-        result.Data.Confidence.ShouldBe(1.0f); // Non-processing changes get full confidence
+        result.Value!.DocumentId.ShouldBe("doc123");
+        result.Value.Confidence.ShouldBe(1.0f); // Non-processing changes get full confidence
     }
 
     /// <summary>
     /// Integration Test: Complete end-to-end document processing workflow
     /// </summary>
     [Fact]
-    public async Task CompleteWorkflow_ShouldProcessNewDocument_EndToEnd()
+    public async Task CompleteWorkflow_ShouldProcessNewDocument_EndToEndAsync()
     {
         // Arrange - A complete scenario with multiple change types
         var changes = new List<DocumentChangeEvent>
@@ -320,7 +320,7 @@ public class DocumentIngestionServiceTests
         var results = new List<Result<DocumentProcessingResult>>();
         foreach (var change in changes)
         {
-            var result = await _service.ProcessDocumentChangeAsync(change);
+            var result = await _service.ProcessDocumentChangeAsync(change, cancellationToken: TestContext.Current.CancellationToken);
             results.Add(result);
         }
 
@@ -330,7 +330,7 @@ public class DocumentIngestionServiceTests
 
         foreach (var successResult in successfulResults)
         {
-            successResult.Data!.IsSuccessful.ShouldBeTrue();
+            successResult.Value!.IsSuccessful.ShouldBeTrue();
         }
     }
 
@@ -338,7 +338,7 @@ public class DocumentIngestionServiceTests
     /// Performance Test: Should handle high volume of document changes efficiently
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChanges_ShouldHandleHighVolume_Efficiently()
+    public async Task ProcessDocumentChanges_ShouldHandleHighVolume_EfficientlyAsync()
     {
         // Arrange - Generate many document changes
         const int changeCount = 50;
@@ -374,7 +374,7 @@ public class DocumentIngestionServiceTests
     /// Cancellation Test: Should respect cancellation tokens with Result pattern
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldRespectCancellation_When_TokenCancelled()
+    public async Task ProcessDocumentChangeAsync_ShouldRespectCancellation_When_TokenCancelledAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);

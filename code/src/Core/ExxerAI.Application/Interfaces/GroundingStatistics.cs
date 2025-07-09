@@ -35,5 +35,5 @@ public class GroundingStatistics
     /// <summary>
     /// Gets or sets field-specific extraction statistics
     /// </summary>
-    public Dictionary<string, FieldStatistics> FieldStats { get; init; } = new();
+    public Dictionary<string, FieldStatistics> FieldStats { get; init; } = [];
 }

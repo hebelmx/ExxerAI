@@ -8,7 +8,7 @@ public class ExtractionResult
     /// <summary>
     /// Gets or sets the extracted fields with their values and confidence scores
     /// </summary>
-    public Dictionary<string, FieldValue> ExtractedFields { get; set; } = new();
+    public Dictionary<string, FieldValue> ExtractedFields { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the overall extraction confidence score (0.0 to 1.0)
@@ -23,7 +23,7 @@ public class ExtractionResult
     /// <summary>
     /// Gets or sets any warnings or issues encountered during extraction
     /// </summary>
-    public List<string> Warnings { get; set; } = new();
+    public List<string> Warnings { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the schema used for extraction

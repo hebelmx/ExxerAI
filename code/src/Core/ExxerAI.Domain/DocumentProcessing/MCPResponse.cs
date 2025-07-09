@@ -28,5 +28,5 @@ public class MCPResponse
     /// <summary>
     /// Gets or sets additional response data
     /// </summary>
-    public Dictionary<string, object> Data { get; set; } = new();
+    public Dictionary<string, object> Data { get; set; } = [];
 }

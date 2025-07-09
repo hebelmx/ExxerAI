@@ -128,7 +128,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         try
         {
-            var conceptList = concepts?.ToList() ?? new List<GraphConcept>();
+            var conceptList = concepts?.ToList() ?? [];
             if (!conceptList.Any()) return Result.Success();
 
             await EnsureInitializedAsync(cancellationToken);
@@ -183,7 +183,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         try
         {
-            var relationshipList = relationships?.ToList() ?? new List<GraphRelationship>();
+            var relationshipList = relationships?.ToList() ?? [];
             if (!relationshipList.Any()) return Result.Success();
 
             await EnsureInitializedAsync(cancellationToken);
@@ -236,7 +236,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<IEnumerable<GraphDocument>>> FindRelatedDocumentsAsync(
         string conceptName,
-        IEnumerable<string> relationshipTypes = null,
+        IEnumerable<string>? relationshipTypes = null,
         int maxDepth = 2,
         int limit = 50,
         CancellationToken cancellationToken = default)
@@ -275,7 +275,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 DocumentType = r.documentType ?? string.Empty,
                 CreatedAt = DateTime.TryParse(r.createdAt, out var created) ? created : DateTime.UtcNow,
                 ModifiedAt = DateTime.TryParse(r.modifiedAt, out var modified) ? modified : DateTime.UtcNow,
-                Tags = r.tags?.ToList() ?? new List<string>()
+                Tags = r.tags?.ToList() ?? []
             });
 
             _logger.LogInformation("Found {Count} documents related to concept: {ConceptName}",
@@ -295,7 +295,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<IEnumerable<GraphConcept>>> FindRelatedConceptsAsync(
         string documentId,
-        IEnumerable<string> relationshipTypes = null,
+        IEnumerable<string>? relationshipTypes = null,
         int maxDepth = 2,
         int limit = 50,
         CancellationToken cancellationToken = default)
@@ -333,7 +333,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 Type = r.type ?? string.Empty,
                 Description = r.description ?? string.Empty,
                 Confidence = r.confidence,
-                Aliases = r.aliases?.ToList() ?? new List<string>()
+                Aliases = r.aliases?.ToList() ?? []
             });
 
             _logger.LogInformation("Found {Count} concepts related to document: {DocumentId}",
@@ -353,7 +353,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<IEnumerable<Dictionary<string, object>>>> ExecuteQueryAsync(
         string cypherQuery,
-        Dictionary<string, object> parameters = null,
+        Dictionary<string, object>? parameters = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -393,7 +393,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     public async Task<Result<GraphPath>> FindShortestPathAsync(
         string fromEntityId,
         string toEntityId,
-        IEnumerable<string> relationshipTypes = null,
+        IEnumerable<string>? relationshipTypes = null,
         int maxLength = 10,
         CancellationToken cancellationToken = default)
     {
@@ -648,8 +648,8 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         return new GraphPath
         {
             Length = path?.Nodes.Count ?? 0,
-            Nodes = new List<GraphNode>(),
-            Relationships = new List<GraphRelationship>(),
+            Nodes = [],
+            Relationships = [],
             TotalWeight = 0
         };
     }

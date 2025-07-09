@@ -46,7 +46,7 @@ public class ValidationRule
     /// <summary>
     /// Gets or sets additional validation parameters
     /// </summary>
-    public Dictionary<string, object> Parameters { get; set; } = new();
+    public Dictionary<string, object> Parameters { get; set; } = [];
 
     /// <summary>
     /// Initializes a new instance of the ValidationRule class.

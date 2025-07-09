@@ -43,5 +43,5 @@ public class MCPDocumentMetadata
     /// <summary>
     /// Gets or sets additional metadata properties
     /// </summary>
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
 }

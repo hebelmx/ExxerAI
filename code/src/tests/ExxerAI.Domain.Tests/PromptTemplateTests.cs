@@ -168,7 +168,7 @@ public class PromptTemplateTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => template.RenderTemplate(null));
+        Should.Throw<ArgumentNullException>(() => template.RenderTemplate(null!));
     }
 
     /// <summary>
@@ -242,10 +242,10 @@ public class PromptTemplateTests
     /// Tests creating new version with null or empty text throws exception
     /// </summary>
     [Theory]
-    [InlineData(null!)]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Should_ThrowException_When_CreatingVersionWithInvalidText(string invalidText)
+    public void Should_ThrowException_When_CreatingVersionWithInvalidText(string? invalidText)
     {
         // Arrange
         var template = new PromptTemplate
@@ -256,7 +256,7 @@ public class PromptTemplateTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => template.CreateNewVersion(invalidText));
+        Should.Throw<ArgumentException>(() => template.CreateNewVersion(invalidText!));
     }
 
     /// <summary>
@@ -393,10 +393,10 @@ public class PromptTemplateTests
     /// Tests adding expected parameter with null name throws exception
     /// </summary>
     [Theory]
-    [InlineData(null!)]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public void Should_ThrowException_When_AddingParameterWithInvalidName(string invalidName)
+    public void Should_ThrowException_When_AddingParameterWithInvalidName(string? invalidName)
     {
         // Arrange
         var template = new PromptTemplate
@@ -407,7 +407,7 @@ public class PromptTemplateTests
         };
 
         // Act & Assert
-        Should.Throw<ArgumentException>(() => template.AddExpectedParameter(invalidName, "description"));
+        Should.Throw<ArgumentException>(() => template.AddExpectedParameter(invalidName!, "description"));
     }
 
     /// <summary>

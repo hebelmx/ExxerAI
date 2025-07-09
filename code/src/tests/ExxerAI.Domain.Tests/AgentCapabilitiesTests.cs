@@ -189,7 +189,7 @@ public class AgentCapabilitiesTests
         // Act
         var capabilities = new AgentCapabilities
         {
-            SupportedTaskTypes = new List<string> { "Task1", "Task2", "Task3" }
+            SupportedTaskTypes = ["Task1", "Task2", "Task3"]
         };
 
         // Assert

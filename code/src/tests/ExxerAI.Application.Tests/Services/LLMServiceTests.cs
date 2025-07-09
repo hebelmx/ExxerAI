@@ -20,7 +20,7 @@ public class LLMServiceTests
     #region GenerateTextAsync Tests
 
     [Fact]
-    public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -39,19 +39,19 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.GenerateTextAsync(modelId, prompt, parameters);
+        var result = await _llmService.GenerateTextAsync(modelId, prompt, parameters, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Content.ShouldBe("Generated text");
-        result.Data.InputTokens.ShouldBe(5);
-        result.Data.OutputTokens.ShouldBe(10);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Content.ShouldBe("Generated text");
+        result.Value.InputTokens.ShouldBe(5);
+        result.Value.OutputTokens.ShouldBe(10);
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithEmptyGuid_ShouldReturnFailureResult()
+    public async Task GenerateTextAsync_WithEmptyGuid_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -62,7 +62,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.GenerateTextAsync(modelId, prompt);
+        var result = await _llmService.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);//, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -73,7 +73,7 @@ public class LLMServiceTests
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task GenerateTextAsync_WithInvalidPrompt_ShouldReturnFailureResult(string prompt)
+    public async Task GenerateTextAsync_WithInvalidPrompt_ShouldReturnFailureResultAsync(string prompt)
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -83,7 +83,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.GenerateTextAsync(modelId, prompt);
+        var result = await _llmService.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -96,7 +96,7 @@ public class LLMServiceTests
     #region ContinueConversationAsync Tests
 
     [Fact]
-    public async Task ContinueConversationAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task ContinueConversationAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -114,14 +114,14 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.ContinueConversationAsync(conversationId, message);
+        var result = await _llmService.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Content.ShouldBe("Hello there!");
-        result.Data.Role.ShouldBe(MessageRole.Assistant);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Content.ShouldBe("Hello there!");
+        result.Value.Role.ShouldBe(MessageRole.Assistant);
     }
 
     #endregion ContinueConversationAsync Tests
@@ -129,7 +129,7 @@ public class LLMServiceTests
     #region CreateConversationAsync Tests
 
     [Fact]
-    public async Task CreateConversationAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task CreateConversationAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -151,15 +151,15 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+        var result = await _llmService.CreateConversationAsync(agentId, modelId, title, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.AgentId.ShouldBe(agentId);
-        result.Data.LanguageModelId.ShouldBe(modelId);
-        result.Data.Title.ShouldBe(title);
+        result.Value.ShouldNotBeNull();
+        result.Value!.AgentId.ShouldBe(agentId);
+        result.Value.LanguageModelId.ShouldBe(modelId);
+        result.Value.Title.ShouldBe(title);
     }
 
     #endregion CreateConversationAsync Tests
@@ -167,7 +167,7 @@ public class LLMServiceTests
     #region Contract Validation Tests
 
     [Fact]
-    public async Task ILLMService_AllMethods_ShouldRespectCancellationToken()
+    public async Task ILLMService_AllMethods_ShouldRespectCancellationTokenAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();
@@ -196,12 +196,12 @@ public class LLMServiceTests
         var agentId = Guid.NewGuid();
 
         // Verify method signatures return Result<T>
-        var generateTask = _llmService.GenerateTextAsync(modelId, "test");
-        var continueTask = _llmService.ContinueConversationAsync(conversationId, "test");
-        var createTask = _llmService.CreateConversationAsync(agentId, modelId);
-        var estimateTask = _llmService.EstimateCostAsync(modelId, 10, 20);
-        var countTask = _llmService.CountTokensAsync(modelId, "test");
-        var validateTask = _llmService.ValidateModelAsync(modelId);
+        var generateTask = _llmService.GenerateTextAsync(modelId, "test", cancellationToken: TestContext.Current.CancellationToken);
+        var continueTask = _llmService.ContinueConversationAsync(conversationId, "test", cancellationToken: TestContext.Current.CancellationToken);
+        var createTask = _llmService.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
+        var estimateTask = _llmService.EstimateCostAsync(modelId, 10, 20, TestContext.Current.CancellationToken);
+        var countTask = _llmService.CountTokensAsync(modelId, "test", TestContext.Current.CancellationToken);
+        var validateTask = _llmService.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
 
         generateTask.ShouldBeOfType<Task<Result<LLMResponse>>>();
         continueTask.ShouldBeOfType<Task<Result<ConversationMessage>>>();

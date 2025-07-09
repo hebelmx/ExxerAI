@@ -15,7 +15,7 @@ public class WorkflowServiceBehavioralTests5
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_Should_Return_Success_When_WorkflowExists()
+    public async Task GetWorkflowAsync_Should_Return_Success_When_WorkflowExistsAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -24,7 +24,7 @@ public class WorkflowServiceBehavioralTests5
             .Returns(Result<Workflow>.WithSuccess(expectedWorkflow));
 
         // Act
-        var result = await _service.GetWorkflowAsync(workflowId);
+        var result = await _service.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -32,7 +32,7 @@ public class WorkflowServiceBehavioralTests5
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_Should_Return_Failure_When_WorkflowNotFound()
+    public async Task GetWorkflowAsync_Should_Return_Failure_When_WorkflowNotFoundAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -40,7 +40,7 @@ public class WorkflowServiceBehavioralTests5
             .Returns(Result<Workflow>.WithFailure("Workflow not found"));
 
         // Act
-        var result = await _service.GetWorkflowAsync(workflowId);
+        var result = await _service.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();

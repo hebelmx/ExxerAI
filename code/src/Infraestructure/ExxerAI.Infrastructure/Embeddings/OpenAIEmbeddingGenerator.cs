@@ -112,7 +112,7 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
     {
         try
         {
-            var textList = texts?.ToList() ?? new List<string>();
+            var textList = texts?.ToList() ?? [];
             
             if (!textList.Any())
                 return Result<IEnumerable<EmbeddingResult>>.Success(Enumerable.Empty<EmbeddingResult>());
@@ -135,9 +135,9 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
                 var batchResults = await GenerateBatchInternalAsync(batch, cancellationToken);
                 
                 if (batchResults.IsFailure)
-                    return Result<IEnumerable<EmbeddingResult>>.WithFailure(batchResults.Error);
+                    return Result<IEnumerable<EmbeddingResult>>.WithFailure(batchResults.Error ?? "Batch generation failed");
                 
-                allResults.AddRange(batchResults.Value);
+                allResults.AddRange(batchResults.Value!);
             }
 
             _logger.LogInformation("Generated {Count} embeddings successfully", allResults.Count);

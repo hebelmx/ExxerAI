@@ -43,7 +43,7 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    public async Task<int> ExecuteAsync(string[] args)
+    public async Task<int> ExecuteAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {
@@ -56,13 +56,13 @@ public class AgentCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListAgents(commandArgs),
-            "create" or "new" => await CreateAgent(commandArgs),
-            "delete" or "remove" or "rm" => await DeleteAgent(commandArgs),
-            "agentstatus" or "info" => await ShowAgentStatus(commandArgs),
-            "update" => await UpdateAgent(commandArgs),
-            "activate" => await ActivateAgent(commandArgs),
-            "deactivate" => await DeactivateAgent(commandArgs),
+            "list" or "ls" => await ListAgentsAsync(commandArgs),
+            "create" or "new" => await CreateAgentAsync(commandArgs),
+            "delete" or "remove" or "rm" => await DeleteAgentAsync(commandArgs),
+            "agentstatus" or "info" => await ShowAgentStatusAsync(commandArgs),
+            "update" => await UpdateAgentAsync(commandArgs),
+            "activate" => await ActivateAgentAsync(commandArgs),
+            "deactivate" => await DeactivateAgentAsync(commandArgs),
             "help" or "--help" or "-h" => ShowAgentHelp(),
             _ => ShowUnknownAgentCommand(subCommand)
         };
@@ -73,7 +73,7 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ListAgents(string[] args)
+    private async Task<int> ListAgentsAsync(string[] args)
     {
         try
         {
@@ -84,7 +84,7 @@ public class AgentCommands
                 return 1;
             }
 
-            var agents = result.Data!;
+            var agents = result.Value!;
 
             // Parse filtering options
             string? statusFilter = null;
@@ -139,7 +139,7 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> CreateAgent(string[] args)
+    private async Task<int> CreateAgentAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -177,7 +177,7 @@ public class AgentCommands
                 return 1;
             }
 
-            var createdAgent = result.Data!;
+            var createdAgent = result.Value!;
             Console.WriteLine($"Agent '{name}' created successfully with ID: {createdAgent.Id}");
             return 0;
         }
@@ -193,7 +193,7 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> DeleteAgent(string[] args)
+    private async Task<int> DeleteAgentAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -232,7 +232,7 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ShowAgentStatus(string[] args)
+    private async Task<int> ShowAgentStatusAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -256,7 +256,7 @@ public class AgentCommands
                 return 1;
             }
 
-            var agent = result.Data!;
+            var agent = result.Value!;
             if (agent == null)
             {
                 Console.WriteLine($"Agent {agentId} not found.");
@@ -294,7 +294,7 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> UpdateAgent(string[] args)
+    private async Task<int> UpdateAgentAsync(string[] args)
     {
         if (args.Length == 0)
         {
@@ -312,13 +312,13 @@ public class AgentCommands
         try
         {
             var result = await _agentRepository.GetByIdAsync(agentId);
-            if (result.IsFailure || result.Data == null)
+            if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
                 return 1;
             }
 
-            var agent = result.Data;
+            var agent = result.Value;
 
             // Parse update options
             for (int i = 1; i < args.Length - 1; i++)
@@ -353,9 +353,9 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ActivateAgent(string[] args)
+    private async Task<int> ActivateAgentAsync(string[] args)
     {
-        return await ChangeAgentStatus(args, AgentStatus.Active, "activated");
+        return await ChangeAgentStatusAsync(args, AgentStatus.Active, "activated");
     }
 
     /// <summary>
@@ -363,9 +363,9 @@ public class AgentCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    private async Task<int> DeactivateAgent(string[] args)
+    private async Task<int> DeactivateAgentAsync(string[] args)
     {
-        return await ChangeAgentStatus(args, AgentStatus.Inactive, "deactivated");
+        return await ChangeAgentStatusAsync(args, AgentStatus.Inactive, "deactivated");
     }
 
     /// <summary>
@@ -375,7 +375,7 @@ public class AgentCommands
     /// <param name="newStatus">New agentStatus</param>
     /// <param name="action">Action description</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ChangeAgentStatus(string[] args, AgentStatus newStatus, string action)
+    private async Task<int> ChangeAgentStatusAsync(string[] args, AgentStatus newStatus, string action)
     {
         if (args.Length == 0)
         {
@@ -393,13 +393,13 @@ public class AgentCommands
         try
         {
             var result = await _agentRepository.GetByIdAsync(agentId);
-            if (result.IsFailure || result.Data == null)
+            if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
                 return 1;
             }
 
-            var agent = result.Data;
+            var agent = result.Value;
             agent.Status = newStatus;
             agent.UpdatedAt = DateTime.UtcNow;
 

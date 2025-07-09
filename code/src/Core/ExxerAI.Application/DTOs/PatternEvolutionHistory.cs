@@ -18,5 +18,5 @@ public class PatternEvolutionHistory
     /// <summary>
     /// Gets or sets the history entries
     /// </summary>
-    public List<PatternHistoryEntry> History { get; set; } = new();
+    public List<PatternHistoryEntry> History { get; set; } = [];
 }

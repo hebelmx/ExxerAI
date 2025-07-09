@@ -64,12 +64,12 @@ public class DocumentAsset
     /// <summary>
     /// Gets or sets the list of related document IDs (version chain).
     /// </summary>
-    public List<string> RelatedDocuments { get; set; } = new();
+    public List<string> RelatedDocuments { get; set; } = [];
 
     /// <summary>
     /// Gets or sets additional metadata as key-value pairs.
     /// </summary>
-    public Dictionary<string, string> Metadata { get; set; } = new();
+    public Dictionary<string, string> Metadata { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the document type classification.
@@ -110,7 +110,7 @@ public class DocumentAsset
     /// <summary>
     /// Gets or sets any processing errors encountered.
     /// </summary>
-    public List<string> ProcessingErrors { get; set; } = new();
+    public List<string> ProcessingErrors { get; set; } = [];
 
     /// <summary>
     /// Initializes a new instance of the DocumentAsset class.

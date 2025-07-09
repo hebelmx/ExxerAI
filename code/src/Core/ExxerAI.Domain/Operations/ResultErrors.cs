@@ -11,12 +11,12 @@ public static class ResultErrors
     /// Used to maintain functional purity by avoiding OperationCanceledException in control flow.
     /// </summary>
     public const string OperationCancelled = "Operation was cancelled by the user.";
-    
+
     /// <summary>
     /// Error message for timeout scenarios.
     /// </summary>
     public const string OperationTimedOut = "Operation exceeded the specified timeout";
-    
+
     /// <summary>
     /// Error message for operations that are no longer valid due to state changes.
     /// </summary>

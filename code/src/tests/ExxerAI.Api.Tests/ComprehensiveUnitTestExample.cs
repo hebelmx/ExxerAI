@@ -149,7 +149,7 @@ public class ComprehensiveUnitTestExample
             // Arrange
             var agent = new Agent { Name = "TaskAgent" };
             var task1 = new AgentTask { Title = "Process Document 1", TaskType = "DocumentProcessing" };
-            var task2 = new AgentTask { Title = "Extract Data", TaskType = "DataExtraction" };
+            var task2 = new AgentTask { Title = "Extract Value", TaskType = "DataExtraction" };
 
             // Act
             agent.Tasks.Add(task1);
@@ -160,7 +160,7 @@ public class ComprehensiveUnitTestExample
             agent.Tasks.ShouldContain(task1);
             agent.Tasks.ShouldContain(task2);
             agent.Tasks.First().Title.ShouldBe("Process Document 1");
-            agent.Tasks.Last().Title.ShouldBe("Extract Data");
+            agent.Tasks.Last().Title.ShouldBe("Extract Value");
         }
     }
 
@@ -189,7 +189,7 @@ public class ComprehensiveUnitTestExample
             // Assert
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Data.ShouldBe(testData);
+            result.Value.ShouldBe(testData);
             result.Value!.ShouldBe(testData); // Both properties should work
             result.Errors.ShouldBeEmpty(); // Successful results have empty collections (after regression fix)
             result.Error.ShouldBeNull();
@@ -210,7 +210,7 @@ public class ComprehensiveUnitTestExample
             // Assert
             result.IsSuccess.ShouldBeFalse();
             result.IsFailure.ShouldBeTrue();
-            result.Data.ShouldBeNull();
+            result.Value.ShouldBeNull();
             result.Value!.ShouldBeNull();
             result.Errors.ShouldNotBeEmpty();
             result.Errors.ShouldBe(errors);
@@ -282,7 +282,7 @@ public class ComprehensiveUnitTestExample
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(testData);
+            result.Value.ShouldBe(testData);
             result.Value!.ShouldBe(testData);
         }
 
@@ -293,12 +293,12 @@ public class ComprehensiveUnitTestExample
         public void Success_ShouldBeFailed_When_NullValueProvided()
         {
             // Act
-            var result = Result<string>.Success(null);
+            var result = Result<string>.Success(null!);
 
             // Assert - In ExxerAI, null values make the result fail
             result.IsSuccess.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
-            result.Data.ShouldBeNull();
+            result.Value.ShouldBeNull();
         }
     }
 
@@ -332,18 +332,18 @@ public class ComprehensiveUnitTestExample
         /// Contract Test: StartWatchingFolderAsync should return success with valid folder ID
         /// </summary>
         [Fact]
-        public async Task StartWatchingFolderAsync_ShouldReturnWatchSessionId_When_ValidFolderIdProvided()
+        public async Task StartWatchingFolderAsync_ShouldReturnWatchSessionId_When_ValidFolderIdProvidedAsync()
         {
             // Arrange
             const string folderId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
 
             // Act
-            var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            var result = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNullOrEmpty();
-            Guid.TryParse(result.Data, out _).ShouldBeTrue(); // Should be valid GUID
+            result.Value.ShouldNotBeNullOrEmpty();
+            Guid.TryParse(result.Value, out _).ShouldBeTrue(); // Should be valid GUID
         }
 
         /// <summary>
@@ -353,10 +353,10 @@ public class ComprehensiveUnitTestExample
         [InlineData(null!)]
         [InlineData("")]
         [InlineData("   ")]
-        public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvided(string? invalidFolderId)
+        public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvidedAsync(string? invalidFolderId)
         {
             // Act
-            var result = await _service.StartWatchingFolderAsync(invalidFolderId!, TestContext.Current.CancellationToken);
+            var result = await _service.StartWatchingFolderAsync(invalidFolderId!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -367,7 +367,7 @@ public class ComprehensiveUnitTestExample
         /// Business Logic Test: IngestDocumentAsync should process document through complete pipeline
         /// </summary>
         [Fact]
-        public async Task IngestDocumentAsync_ShouldProcessThroughPipeline_When_ValidDocumentProvided()
+        public async Task IngestDocumentAsync_ShouldProcessThroughPipeline_When_ValidDocumentProvidedAsync()
         {
             // Arrange
             const string documentId = "doc123-business-report";
@@ -381,12 +381,12 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(expectedProcessingResult));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.DocumentId.ShouldBe(documentId);
+            result.Value.ShouldNotBeNull();
+            result.Value!.DocumentId.ShouldBe(documentId);
 
             // Verify dependencies were called
             await _documentProcessor.Received(1).ProcessDocumentAsync(
@@ -398,7 +398,7 @@ public class ComprehensiveUnitTestExample
         /// Error Handling Test: IngestDocumentAsync should handle processing failures gracefully
         /// </summary>
         [Fact]
-        public async Task IngestDocumentAsync_ShouldReturnFailure_When_ProcessingFails()
+        public async Task IngestDocumentAsync_ShouldReturnFailure_When_ProcessingFailsAsync()
         {
             // Arrange
             const string documentId = "doc456-corrupted";
@@ -412,7 +412,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.WithFailure(processingErrors));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -425,7 +425,7 @@ public class ComprehensiveUnitTestExample
         /// Cancellation Test: IngestDocumentAsync should respect cancellation tokens
         /// </summary>
         [Fact]
-        public async Task IngestDocumentAsync_ShouldHandleCancellation_When_CancellationRequested()
+        public async Task IngestDocumentAsync_ShouldHandleCancellation_When_CancellationRequestedAsync()
         {
             // Arrange
             const string documentId = "doc789-cancelled";
@@ -433,7 +433,7 @@ public class ComprehensiveUnitTestExample
             cts.Cancel(); // Cancel immediately
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, cts.Token, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -444,28 +444,28 @@ public class ComprehensiveUnitTestExample
         /// Performance Test: GetIngestionStatusAsync should return comprehensive agentStatus
         /// </summary>
         [Fact]
-        public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_SystemActive()
+        public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_SystemActiveAsync()
         {
             // Arrange - Start a watch session first to create active state
             const string folderId = "active-folder";
-            await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+            var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldNotBeNull();
-            result.Data!.ActiveWatchSessions.ShouldBeGreaterThan(0);
-            result.Data!.SystemHealth.ShouldBe(HealthStatus.Healthy);
-            result.Data!.Metrics.ShouldNotBeNull();
+            result.Value.ShouldNotBeNull();
+            result.Value!.ActiveWatchSessions.ShouldBeGreaterThan(0);
+            result.Value!.SystemHealth.ShouldBe(HealthStatus.Healthy);
+            result.Value!.Metrics.ShouldNotBeNull();
         }
 
         /// <summary>
         /// Integration Test: Complete document processing workflow
         /// </summary>
         [Fact]
-        public async Task CompleteWorkflow_ShouldProcessDocumentEndToEnd_When_AllComponentsWorking()
+        public async Task CompleteWorkflow_ShouldProcessDocumentEndToEnd_When_AllComponentsWorkingAsync()
         {
             // Arrange
             const string folderId = "integration-folder";
@@ -479,9 +479,9 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(processingResult));
 
             // Act - Complete workflow
-            var watchResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
-            var ingestResult = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
-            var statusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+            var watchResult = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
+            var ingestResult = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
+            var statusResult = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - All operations successful
             watchResult.IsSuccess.ShouldBeTrue();
@@ -489,8 +489,8 @@ public class ComprehensiveUnitTestExample
             statusResult.IsSuccess.ShouldBeTrue();
 
             // Verify end-to-end state
-            statusResult.Data!.ActiveWatchSessions.ShouldBe(1);
-            ingestResult.Data!.DocumentId.ShouldBe(documentId);
+            statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
+            ingestResult.Value!.DocumentId.ShouldBe(documentId);
         }
 
         /// <summary>
@@ -500,7 +500,8 @@ public class ComprehensiveUnitTestExample
         {
             return new DocumentProcessingResult
             {
-                DocumentId = documentId, ExtractionMethod = ExtractionMethod.DirectText,
+                DocumentId = documentId,
+                ExtractionMethod = ExtractionMethod.DirectText,
                 ExtractedText = "Sample business document content for ExxerAI processing",
                 Confidence = 0.95f,
                 LLMConfidence = 0.92f,
@@ -510,14 +511,14 @@ public class ComprehensiveUnitTestExample
                 {
                     ["document_type"] = "FinancialReport",
                     ["company"] = "ExxerPro Solutions",
-                    ["date_created"] = DateTime.UtcNow.AddDays(-1, TestContext.Current.CancellationToken),
+                    ["date_created"] = DateTime.UtcNow.AddDays(-1),
                     ["page_count"] = 5
                 },
                 ValidationResultDocument = new ValidationResultDocument
                 {
                     IsValid = true,
                     Confidence = 0.95f,
-                    Errors = new List<string>()
+                    Errors = []
                 }
             };
         }
@@ -567,7 +568,7 @@ public class ComprehensiveUnitTestExample
         /// Mock Test: Interface should support proper mocking for testing
         /// </summary>
         [Fact]
-        public async Task MockedInterface_ShouldWorkCorrectly_When_SetupWithNSubstitute()
+        public async Task MockedInterface_ShouldWorkCorrectly_When_SetupWithNSubstituteAsync()
         {
             // Arrange
             const string folderId = "mock-folder";
@@ -577,11 +578,11 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<string>.Success(expectedSessionId));
 
             // Act
-            var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            var result = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(expectedSessionId);
+            result.Value.ShouldBe(expectedSessionId);
 
             // Verify mock was called
             await _service.Received(1).StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>());
@@ -653,7 +654,7 @@ public class ComprehensiveUnitTestExample
         /// Error Handling Test: Concurrent processing limits
         /// </summary>
         [Fact]
-        public async Task ConcurrentProcessing_ShouldRespectLimits_When_MultipleRequestsReceived()
+        public async Task ConcurrentProcessing_ShouldRespectLimits_When_MultipleRequestsReceivedAsync()
         {
             // Arrange
             const int maxConcurrent = 3;
@@ -699,13 +700,13 @@ public class ComprehensiveUnitTestExample
         /// <summary>
         /// Helper method for simulating document processing with concurrency control
         /// </summary>
-        private static async Task<bool> SimulateDocumentProcessing(SemaphoreSlim semaphore, int taskIndex)
+        private static async Task<bool> SimulateDocumentProcessingAsync(SemaphoreSlim semaphore, int taskIndex)
         {
-            await semaphore.WaitAsync();
+            await semaphore.WaitAsync(TestContext.Current.CancellationToken);
             try
             {
                 // Simulate processing time
-                await Task.Delay(TimeSpan.FromMilliseconds(100), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: TestContext.Current.CancellationToken);
                 return true;
             }
             finally
@@ -829,11 +830,11 @@ public class ComprehensiveUnitTestExample
 ///
 /// 5. **Result<T> Pattern Testing**
 ///    - Always test both IsSuccess and IsFailure paths
-///    - Verify Data/Value and Errors properties
+///    - Verify Value/Value and Errors properties
 ///    - Test method chaining with OnSuccess/OnFailure
 ///    - Use proper Result<T> creation methods
 ///
-/// 6. **Theory Tests and Data**
+/// 6. **Theory Tests and Value**
 ///    - Use [Theory] with [InlineData] for multiple test cases
 ///    - Use nameof() for enum values to avoid compilation errors
 ///    - Create test fixtures with MemberData for complex scenarios

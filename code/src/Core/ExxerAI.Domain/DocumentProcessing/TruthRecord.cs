@@ -74,7 +74,7 @@ public class TruthRecord
     /// <summary>
     /// Gets or sets additional metadata for this truth record
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the user or system that created this record

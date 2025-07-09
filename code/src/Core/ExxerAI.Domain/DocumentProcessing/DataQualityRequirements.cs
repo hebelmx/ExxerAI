@@ -28,5 +28,5 @@ public class DataQualityRequirements
     /// <summary>
     /// Gets or sets field-specific quality requirements.
     /// </summary>
-    public Dictionary<string, FieldQualityRequirement> FieldRequirements { get; set; } = new();
+    public Dictionary<string, FieldQualityRequirement> FieldRequirements { get; set; } = [];
 }

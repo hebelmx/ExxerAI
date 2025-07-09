@@ -29,7 +29,7 @@ public abstract class ExtractionPattern
     /// <summary>
     /// Gets or sets additional pattern metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Attempts to extract a value using this pattern

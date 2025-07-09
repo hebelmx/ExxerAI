@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <SamplesDir>$(MSBuildThisFileDirectory)../samples/</SamplesDir>
+        <NodeModules>$(SamplesDir)**/node_modules/**/*.*</NodeModules>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <SampleSln Include="$(SamplesDir)**/*.sln" />
+        <SampleSln Remove="$(NodeModules)" />
+        <AppHostProjects Include="$(SamplesDir)**/*.AppHost/*.AppHost.csproj" />
+        <AppHostProjects Remove="$(NodeModules)" />
+    </ItemGroup>
+
+    <Target Name="BuildSamples" BeforeTargets="Build">
+        <Message Text="Building @(SampleSln->Count()) samples" Importance="High" />
+
+        <MSBuild Projects="@(SampleSln)" Targets="Restore" />
+        <MSBuild Projects="@(SampleSln)" Targets="Build" BuildInParallel="True" />
+
+        <Message Text="@(SampleSln->Count()) samples successfully built" Importance="High" />
+    </Target>
+
+    <!-- Disabling solution publish until fix for https://github.com/dotnet/aspire-samples/pull/214#issuecomment-2067099667 is found -->
+    <!-- <Target Name="PublishSamples" AfterTargets="BuildSamples">
+        <Message Text="Publishing @(SampleSln->Count()) samples" Importance="High" />
+
+        <MSBuild Projects="@(SampleSln)" Targets="Restore" />
+        <MSBuild Projects="@(SampleSln)" Targets="Publish" BuildInParallel="True" />
+
+        <Message Text="@(SampleSln->Count()) samples successfully published" Importance="High" />
+    </Target> -->
+
+    <Target Name="GenerateAppHostManifests" AfterTargets="PublishSamples">
+        <Message Text="Generating manifests for @(AppHostProjects->Count()) AppHost projects" Importance="High" />
+
+        <MSBuild Projects="@(AppHostProjects)" Targets="GenerateAspireManifest" BuildInParallel="True">
+            <Output TaskParameter="TargetOutputs" ItemName="GeneratedManifestFiles" />
+        </MSBuild>
+
+        <Message Text="Generated manifest for '%(GeneratedManifestFiles.MSBuildSourceProjectFile)'" Importance="High" />
+        <Message Text="@(AppHostProjects->Count()) manifests generated" Importance="High" />
+    </Target>
+</Project>

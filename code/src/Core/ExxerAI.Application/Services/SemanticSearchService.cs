@@ -115,7 +115,7 @@ public class SemanticSearchService
     {
         try
         {
-            var documentList = documents?.ToList() ?? new List<DocumentToIndex>();
+            var documentList = documents?.ToList() ?? [];
 
             if (!documentList.Any())
                 return Result<BatchIndexingResult>.Success(new BatchIndexingResult());
@@ -152,7 +152,7 @@ public class SemanticSearchService
                     DocumentId = doc.DocumentId,
                     Content = doc.Content,
                     Embeddings = embedding.Embedding,
-                    Metadata = doc.Metadata ?? new Dictionary<string, object>()
+                    Metadata = doc.Metadata ?? []
                 });
             }
 
@@ -164,7 +164,7 @@ public class SemanticSearchService
                 TotalDocuments = documentList.Count,
                 SuccessfullyIndexed = storeResult.IsSuccess ? documentList.Count : 0,
                 Failed = storeResult.IsSuccess ? 0 : documentList.Count,
-                Errors = storeResult.IsFailure ? new[] { storeResult.Error } : Array.Empty<string>()
+                Errors = storeResult.IsFailure ? new[] { storeResult.Error ?? "Unknown error" } : Array.Empty<string>()
             };
 
             if (storeResult.IsFailure)
@@ -313,7 +313,7 @@ public class DocumentToIndex
 {
     public string DocumentId { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }
 
 /// <summary>
@@ -322,7 +322,7 @@ public class DocumentToIndex
 public class SemanticSearchResults
 {
     public string Query { get; set; } = string.Empty;
-    public List<SemanticSearchResult> Results { get; set; } = new();
+    public List<SemanticSearchResult> Results { get; set; } = [];
     public int TotalFound { get; set; }
     public DateTime SearchTime { get; set; }
 }
@@ -335,7 +335,7 @@ public class SemanticSearchResult
     public string DocumentId { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public float SimilarityScore { get; set; }
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }
 
 /// <summary>

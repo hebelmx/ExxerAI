@@ -40,6 +40,8 @@ public class GoogleDriveService : IDocumentIngestionService
         try
         {
             // TODO: Implement actual Google Drive folder watching
+            await Task.Delay(1, cancellationToken); // Simulate async Google Drive API call
+            
             var watchId = Guid.NewGuid().ToString();
             _logger.LogInformation("Started watching folder {FolderId} with watch ID {WatchId}", folderId, watchId);
 
@@ -124,7 +126,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 ExtractedText = "Sample extracted text",
                 Confidence = 0.9f,
                 ProcessingTimeMs = 100,
-                ExtractedFields = new Dictionary<string, object>(),
+                ExtractedFields = [],
                 ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 0.9f }
             };
 
@@ -238,7 +240,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 AverageProcessingTimeMs = 125.0,
                 SystemHealth = HealthStatus.Healthy,
                 LastProcessingTime = DateTime.UtcNow,
-                SystemMessages = new List<string> { "System is operating normally" },
+                SystemMessages = ["System is operating normally"],
                 Metrics = new Dictionary<string, object>
                 {
                     ["uptime_hours"] = 24.0,

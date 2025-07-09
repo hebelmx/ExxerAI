@@ -17,13 +17,13 @@ public class DocumentIngestionServiceBehavioralTests
     }
 
     [Fact]
-    public async Task DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist()
+    public async Task DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExistAsync()
     {
         var changes = new List<DocumentChangeEvent> { new() { DocumentId = "doc1" }, new() { DocumentId = "doc2" } };
         _service.DetectDocumentChangesAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(changes));
 
-        var result = await _service.DetectDocumentChangesAsync();
+        var result = await _service.DetectDocumentChangesAsync( TestContext.Current.CancellationToken);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -31,25 +31,25 @@ public class DocumentIngestionServiceBehavioralTests
     }
 
     [Fact]
-    public async Task DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs()
+    public async Task DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccursAsync()
     {
         _service.DetectDocumentChangesAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<DocumentChangeEvent>>.WithFailure("Drive API error"));
 
-        var result = await _service.DetectDocumentChangesAsync();
+        var result = await _service.DetectDocumentChangesAsync( TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error!.ShouldContain("Drive API error");
     }
 
     [Fact]
-    public async Task GetIngestionStatusAsync_Should_Return_Status_When_Successful()
+    public async Task GetIngestionStatusAsync_Should_Return_Status_When_SuccessfulAsync()
     {
         var expectedStatus = new IngestionStatus { DocumentsWatched = 5 };
         _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IngestionStatus>.WithSuccess(expectedStatus));
 
-        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -57,39 +57,39 @@ public class DocumentIngestionServiceBehavioralTests
     }
 
     [Fact]
-    public async Task GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs()
+    public async Task GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccursAsync()
     {
         _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IngestionStatus>.WithFailure("Timeout during agentStatus retrieval"));
 
-        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error!.ShouldContain("Timeout during agentStatus retrieval");
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed()
+    public async Task IngestDocumentAsync_Should_Return_Success_When_DocumentProcessedAsync()
     {
         var documentId = "ingest-001";
         var processingResult = new DocumentProcessingResult { DocumentId = documentId, Confidence = 0.9f };
         _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
             .Returns(Result<DocumentProcessingResult>.WithSuccess(processingResult));
 
-        var result = await _service.IngestDocumentAsync(documentId);
+        var result = await _service.IngestDocumentAsync(documentId, cancellationToken: TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeTrue();
         result.Value!.DocumentId.ShouldBe(documentId);
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs()
+    public async Task IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccursAsync()
     {
         var documentId = "ingest-fail";
         _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
             .Returns(Result<DocumentProcessingResult>.WithFailure("Ingestion failed"));
 
-        var result = await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
         result.IsSuccess.ShouldBeFalse();
         result.Error!.ShouldContain("Ingestion failed");

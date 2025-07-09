@@ -89,28 +89,28 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task InitializeAsync_WithKeyManager_ShouldInitializeSecurely()
+    public async Task InitializeAsync_WithKeyManager_ShouldInitializeSecurelyAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
         // Act
-        await service.InitializeAsync(TestContext.Current.CancellationToken);
+        await service.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         await _keyManager.Received(1).InitializeKeysAsync(Arg.Any<LocalAIStackConfiguration>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
-    public async Task InitializeAsync_WithoutKeyManager_ShouldLogWarning()
+    public async Task InitializeAsync_WithoutKeyManager_ShouldLogWarningAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        await service.InitializeAsync(TestContext.Current.CancellationToken);
+        await service.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         _mockLogger.Received().LogWarning(Arg.Any<string>());
@@ -149,33 +149,33 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureDatabaseConnectionStringAsync_WithKeyManager_ShouldUseSecureMethod()
+    public async Task GetSecureDatabaseConnectionStringAsync_WithKeyManager_ShouldUseSecureMethodAsync()
     {
         // Arrange
         var expectedConnectionString = "Host=localhost;Port=5432;Database=test;Username=secure_user;Password=secure_pass";
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
-        _keyManager.GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>())
+        _keyManager.GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(expectedConnectionString));
 
         // Act
-        var connectionString = await service.GetSecureDatabaseConnectionStringAsync();
+        var connectionString = await service.GetSecureDatabaseConnectionStringAsync(TestContext.Current.CancellationToken);
 
         // Assert
         connectionString.ShouldBe(expectedConnectionString);
-        await _keyManager.Received(1).GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>());
+        await _keyManager.Received(1).GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task GetSecureDatabaseConnectionStringAsync_WithoutKeyManager_ShouldUseFallback()
+    public async Task GetSecureDatabaseConnectionStringAsync_WithoutKeyManager_ShouldUseFallbackAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        var connectionString = await service.GetSecureDatabaseConnectionStringAsync();
+        var connectionString = await service.GetSecureDatabaseConnectionStringAsync(TestContext.Current.CancellationToken);
 
         // Assert
         connectionString.ShouldNotBeNullOrEmpty();
@@ -185,7 +185,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureLocalAIApiKeyAsync_WithKeyManager_ShouldUseSecureMethod()
+    public async Task GetSecureLocalAIApiKeyAsync_WithKeyManager_ShouldUseSecureMethodAsync()
     {
         // Arrange
         var expectedApiKey = "secure-api-key-123";
@@ -204,14 +204,14 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureLocalAIApiKeyAsync_WithoutKeyManager_ShouldUseFallback()
+    public async Task GetSecureLocalAIApiKeyAsync_WithoutKeyManager_ShouldUseFallbackAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        var apiKey = await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
+        var apiKey = await service.GetSecureLocalAIApiKeyAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         apiKey.ShouldBe("default-api-key");
@@ -221,26 +221,26 @@ public class ConfigurationServiceTests : IDisposable
     [InlineData("openai")]
     [InlineData("anthropic")]
     [InlineData("huggingface")]
-    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethod(string provider, CancellationToken cancellationToken = default)
+    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethodAsync(string provider)
     {
         // Arrange
         var expectedApiKey = $"secure-{provider}-key";
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
-        _keyManager.GetExternalApiKeyAsync(provider)
+        _keyManager.GetExternalApiKeyAsync(provider, TestContext.Current.CancellationToken)
             .Returns(Task.FromResult<string?>(expectedApiKey));
 
         // Act
-        var apiKey = await service.GetExternalApiKeyAsync(provider);
+        var apiKey = await service.GetExternalApiKeyAsync(provider, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         apiKey.ShouldBe(expectedApiKey);
-        await _keyManager.Received(1).GetExternalApiKeyAsync(provider);
+        await _keyManager.Received(1).GetExternalApiKeyAsync(provider, cancellationToken: TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task GetExternalApiKeyAsync_WithoutKeyManager_ShouldCheckEnvironmentVariable()
+    public async Task GetExternalApiKeyAsync_WithoutKeyManager_ShouldCheckEnvironmentVariableAsync()
     {
         // Arrange
         var provider = "openai";
@@ -255,7 +255,7 @@ public class ConfigurationServiceTests : IDisposable
             var service = new ConfigurationService(config, null!, _mockLogger);
 
             // Act
-            var apiKey = await service.GetExternalApiKeyAsync(provider);
+            var apiKey = await service.GetExternalApiKeyAsync(provider, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             apiKey.ShouldBe(expectedApiKey);
@@ -267,7 +267,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task SetExternalApiKeyAsync_WithKeyManager_ShouldStoreSecurely()
+    public async Task SetExternalApiKeyAsync_WithKeyManager_ShouldStoreSecurelyAsync()
     {
         // Arrange
         var provider = "openai";
@@ -276,14 +276,14 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
         // Act
-        await service.SetExternalApiKeyAsync(provider, apiKey);
+        await service.SetExternalApiKeyAsync(provider, apiKey, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
-        await _keyManager.Received(1).SetExternalApiKeyAsync(provider, apiKey);
+        await _keyManager.Received(1).SetExternalApiKeyAsync(provider, apiKey, TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task SetExternalApiKeyAsync_WithoutKeyManager_ShouldLogWarning()
+    public async Task SetExternalApiKeyAsync_WithoutKeyManager_ShouldLogWarningAsync()
     {
         // Arrange
         var provider = "openai";
@@ -292,7 +292,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        await service.SetExternalApiKeyAsync(provider, apiKey);
+        await service.SetExternalApiKeyAsync(provider, apiKey, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         _mockLogger.Received().LogWarning(Arg.Any<string>());

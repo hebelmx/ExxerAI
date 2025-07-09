@@ -86,13 +86,13 @@ public class GoogleDriveServiceTests
     public class InitializeAsync : GoogleDriveServiceTests
     {
         [Fact]
-        public async Task Should_ReturnFailure_When_ClientIdIsNotConfigured()
+        public async Task Should_ReturnFailure_When_ClientIdIsNotConfiguredAsync()
         {
             // Arrange
             _mockConfiguration["GoogleDrive:ClientId"].Returns((string?)null);
 
             // Act
-            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -100,13 +100,13 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_ClientSecretIsNotConfigured()
+        public async Task Should_ReturnFailure_When_ClientSecretIsNotConfiguredAsync()
         {
             // Arrange
             _mockConfiguration["GoogleDrive:ClientSecret"].Returns((string?)null);
 
             // Act
-            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -114,7 +114,7 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_UseEnvironmentVariables_When_ConfigurationIsEmpty()
+        public async Task Should_UseEnvironmentVariables_When_ConfigurationIsEmptyAsync()
         {
             // Arrange
             _mockConfiguration["GoogleDrive:ClientId"].Returns((string?)null);
@@ -124,17 +124,17 @@ public class GoogleDriveServiceTests
             // In a real scenario, you'd test with actual environment variables
 
             // Act
-            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+            var result = await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse(); // Expected to fail without env vars in test environment
         }
 
         [Fact]
-        public async Task Should_LogInformation_When_InitializationStarts()
+        public async Task Should_LogInformation_When_InitializationStartsAsync()
         {
             // Arrange & Act
-            await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+            await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
 
             // Assert
             _mockLogger.Received().LogInformation("Initializing Google Drive service...");
@@ -150,13 +150,13 @@ public class GoogleDriveServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
-        public async Task Should_ReturnFailure_When_FolderIdIsInvalid(string invalidFolderId)
+        public async Task Should_ReturnFailure_When_FolderIdIsInvalidAsync(string invalidFolderId)
         {
             // Arrange
             var actualFolderId = invalidFolderId == "null-placeholder" ? null : invalidFolderId;
 
             // Act
-            var result = await _sut.StartFolderWatchAsync(actualFolderId!);
+            var result = await _sut.StartFolderWatchAsync(actualFolderId!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -164,13 +164,13 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_LogInformation_When_StartingFolderWatch()
+        public async Task Should_LogInformation_When_StartingFolderWatchAsync()
         {
             // Arrange
             var testFolderId = "test-folder-123";
 
             // Act
-            await _sut.StartFolderWatchAsync(testFolderId);
+            await _sut.StartFolderWatchAsync(testFolderId, TestContext.Current.CancellationToken);
 
             // Assert
             _mockLogger.Received().LogInformation("Starting folder watch for {FolderId}", testFolderId);
@@ -180,7 +180,7 @@ public class GoogleDriveServiceTests
         [InlineData(true, true, 30)]
         [InlineData(false, false, 120)]
         [InlineData(true, false, 60)]
-        public async Task Should_AcceptValidParameters_When_StartingFolderWatch(
+        public async Task Should_AcceptValidParameters_When_StartingFolderWatchAsync(
             bool includeSubdirectories, 
             bool autoProcess, 
             int pollingInterval)
@@ -189,7 +189,7 @@ public class GoogleDriveServiceTests
             var testFolderId = "test-folder-123";
 
             // Act
-            var result = await _sut.StartFolderWatchAsync(testFolderId, includeSubdirectories, autoProcess, pollingInterval);
+            var result = await _sut.StartFolderWatchAsync(testFolderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldNotBeNull();
@@ -207,13 +207,13 @@ public class GoogleDriveServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
-        public async Task Should_ReturnFailure_When_DocumentIdIsInvalid(string invalidDocumentId)
+        public async Task Should_ReturnFailure_When_DocumentIdIsInvalidAsync(string invalidDocumentId)
         {
             // Arrange
             var actualDocumentId = invalidDocumentId == "null-placeholder" ? null : invalidDocumentId;
 
             // Act
-            var result = await _sut.DownloadDocumentAsync(actualDocumentId!);
+            var result = await _sut.DownloadDocumentAsync(actualDocumentId!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -221,13 +221,13 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_LogInformation_When_DownloadingDocument()
+        public async Task Should_LogInformation_When_DownloadingDocumentAsync()
         {
             // Arrange
             var testDocumentId = "test-document-123";
 
             // Act
-            await _sut.DownloadDocumentAsync(testDocumentId);
+            await _sut.DownloadDocumentAsync(testDocumentId, TestContext.Current.CancellationToken);
 
             // Assert
             _mockLogger.Received().LogInformation("Downloading document {DocumentId}", testDocumentId);
@@ -243,13 +243,13 @@ public class GoogleDriveServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
-        public async Task Should_ReturnFailure_When_DocumentIdIsInvalid(string invalidDocumentId)
+        public async Task Should_ReturnFailure_When_DocumentIdIsInvalidAsync(string invalidDocumentId)
         {
             // Arrange
             var actualDocumentId = invalidDocumentId == "null-placeholder" ? null : invalidDocumentId;
 
             // Act
-            var result = await _sut.GetDocumentMetadataAsync(actualDocumentId!);
+            var result = await _sut.GetDocumentMetadataAsync(actualDocumentId!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -257,13 +257,13 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_LogInformation_When_GettingMetadata()
+        public async Task Should_LogInformation_When_GettingMetadataAsync()
         {
             // Arrange
             var testDocumentId = "test-document-123";
 
             // Act
-            await _sut.GetDocumentMetadataAsync(testDocumentId);
+            await _sut.GetDocumentMetadataAsync(testDocumentId, TestContext.Current.CancellationToken);
 
             // Assert
             _mockLogger.Received().LogInformation("Getting metadata for document {DocumentId}", testDocumentId);
@@ -276,10 +276,10 @@ public class GoogleDriveServiceTests
     public class GetActiveWatchesAsync : GoogleDriveServiceTests
     {
         [Fact]
-        public async Task Should_ReturnNoActiveSessions_When_NoWatchesStarted()
+        public async Task Should_ReturnNoActiveSessions_When_NoWatchesStartedAsync()
         {
             // Arrange & Act
-            var result = await _sut.GetActiveWatchesAsync();
+            var result = await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -287,10 +287,10 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnSuccess_When_CalledWithoutWatches()
+        public async Task Should_ReturnSuccess_When_CalledWithoutWatchesAsync()
         {
             // Arrange & Act
-            var result = await _sut.GetActiveWatchesAsync();
+            var result = await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -307,13 +307,13 @@ public class GoogleDriveServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData("null!-placeholder")] // Using placeholder instead of null for xUnit
-        public async Task Should_ReturnFailure_When_WatchIdIsInvalid(string invalidWatchId)
+        public async Task Should_ReturnFailure_When_WatchIdIsInvalidAsync(string invalidWatchId)
         {
             // Arrange
             var actualWatchId = invalidWatchId == "null-placeholder" ? null : invalidWatchId;
 
             // Act
-            var result = await _sut.StopWatchingAsync(actualWatchId!);
+            var result = await _sut.StopWatchingAsync(actualWatchId!, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -321,13 +321,13 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_WatchIdDoesNotExist()
+        public async Task Should_ReturnFailure_When_WatchIdDoesNotExistAsync()
         {
             // Arrange
             var nonExistentWatchId = "watch_12345678";
 
             // Act
-            var result = await _sut.StopWatchingAsync(nonExistentWatchId);
+            var result = await _sut.StopWatchingAsync(nonExistentWatchId, TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -335,13 +335,13 @@ public class GoogleDriveServiceTests
         }
 
         [Fact]
-        public async Task Should_LogInformation_When_StoppingWatch()
+        public async Task Should_LogInformation_When_StoppingWatchAsync()
         {
             // Arrange
             var testWatchId = "watch_12345678";
 
             // Act
-            await _sut.StopWatchingAsync(testWatchId);
+            await _sut.StopWatchingAsync(testWatchId, TestContext.Current.CancellationToken);
 
             // Assert
             _mockLogger.Received().LogInformation("✅ Successfully stopped watch session {WatchId}", testWatchId);

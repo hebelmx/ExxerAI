@@ -51,7 +51,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                null!!!!, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, _logger))
+                null!, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("directTextExtractor");
         }
 
@@ -60,7 +60,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, null!!!!, _regionOCR, _patternDictionary, _learningEngine, _logger))
+                _directTextExtractor, null!, _regionOCR, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("ocrProcessor");
         }
 
@@ -69,7 +69,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, null!!!!, _patternDictionary, _learningEngine, _logger))
+                _directTextExtractor, _ocrProcessor, null!, _patternDictionary, _learningEngine, _logger))
                 .ParamName.ShouldBe("regionOCR");
         }
 
@@ -78,7 +78,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, null!!!!, _learningEngine, _logger))
+                _directTextExtractor, _ocrProcessor, _regionOCR, null!, _learningEngine, _logger))
                 .ParamName.ShouldBe("patternDictionary");
         }
 
@@ -87,7 +87,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, null!!!!, _logger))
+                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, null!, _logger))
                 .ParamName.ShouldBe("learningEngine");
         }
 
@@ -96,7 +96,7 @@ public class HybridDocumentProcessorTests
         {
             // Act & Assert
             Should.Throw<ArgumentNullException>(() => new HybridDocumentProcessor(
-                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, null!!!!))
+                _directTextExtractor, _ocrProcessor, _regionOCR, _patternDictionary, _learningEngine, null!))
                 .ParamName.ShouldBe("logger");
         }
     }
@@ -104,7 +104,7 @@ public class HybridDocumentProcessorTests
     public class ProcessDocumentAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task ProcessDocumentAsync_WithSuccessfulDirectTextExtraction_ShouldReturnSuccessResult()
+        public async Task ProcessDocumentAsync_WithSuccessfulDirectTextExtraction_ShouldReturnSuccessResultAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -118,7 +118,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -130,7 +130,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithFailedDirectTextButSuccessfulOCR_ShouldReturnOCRResult()
+        public async Task ProcessDocumentAsync_WithFailedDirectTextButSuccessfulOCR_ShouldReturnOCRResultAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -139,7 +139,7 @@ public class HybridDocumentProcessorTests
             var successfulOCRResult = CreateSuccessfulOCRResult();
             var patterns = CreateSamplePatterns();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
                 .Returns(failedDirectTextResult);
             _ocrProcessor.ProcessDocumentWithOCRAsync(documentData, "spa", Arg.Any<CancellationToken>())
                 .Returns(successfulOCRResult);
@@ -147,7 +147,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -158,7 +158,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithBothDirectTextAndOCRFailure_ShouldReturnFailureResult()
+        public async Task ProcessDocumentAsync_WithBothDirectTextAndOCRFailure_ShouldReturnFailureResultAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -166,13 +166,13 @@ public class HybridDocumentProcessorTests
             var failedDirectTextResult = CreateFailedDirectTextResult();
             var failedOCRResult = CreateFailedOCRResult();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
                 .Returns(failedDirectTextResult);
             _ocrProcessor.ProcessDocumentWithOCRAsync(documentData, "spa", Arg.Any<CancellationToken>())
                 .Returns(failedOCRResult);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -180,7 +180,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithPatternMatching_ShouldExtractFieldsCorrectly()
+        public async Task ProcessDocumentAsync_WithPatternMatching_ShouldExtractFieldsCorrectlyAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -188,13 +188,13 @@ public class HybridDocumentProcessorTests
             var directTextResult = CreateSuccessfulDirectTextResult();
             var patterns = CreateSamplePatternsWithMockExtraction();
 
-            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>(, TestContext.Current.CancellationToken))
+            _directTextExtractor.ExtractTextAsync(documentData, Arg.Any<CancellationToken>())
                 .Returns(directTextResult);
             _patternDictionary.GetPatternsForDocumentTypeAsync(metadata.DocumentType.ToString(), Arg.Any<CancellationToken>())
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -205,7 +205,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithCancellationToken_ShouldRespectCancellation()
+        public async Task ProcessDocumentAsync_WithCancellationToken_ShouldRespectCancellationAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -234,7 +234,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithException_ShouldReturnFailureResultWithErrorMessage()
+        public async Task ProcessDocumentAsync_WithException_ShouldReturnFailureResultWithErrorMessageAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -245,7 +245,7 @@ public class HybridDocumentProcessorTests
                 .Returns<Task<DirectTextResult>>(callInfo => throw new InvalidOperationException(exceptionMessage));
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -257,7 +257,7 @@ public class HybridDocumentProcessorTests
     public class ProcessDocumentBatchAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithValidDocuments_ShouldProcessAllSuccessfully()
+        public async Task ProcessDocumentBatchAsync_WithValidDocuments_ShouldProcessAllSuccessfullyAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(3);
@@ -271,7 +271,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentBatchAsync(documents, options);
+            var result = await _processor.ProcessDocumentBatchAsync(documents, options, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldNotBeNull();
@@ -282,7 +282,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithMixedResults_ShouldReportCorrectStatistics()
+        public async Task ProcessDocumentBatchAsync_WithMixedResults_ShouldReportCorrectStatisticsAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(3);
@@ -299,7 +299,7 @@ public class HybridDocumentProcessorTests
                 .Returns(CreateSamplePatterns());
 
             // Act
-            var result = await _processor.ProcessDocumentBatchAsync(documents, options);
+            var result = await _processor.ProcessDocumentBatchAsync(documents, options, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.TotalDocuments.ShouldBe(3);
@@ -308,7 +308,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithProgressReporting_ShouldReportProgress()
+        public async Task ProcessDocumentBatchAsync_WithProgressReporting_ShouldReportProgressAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(3); // Use 3 documents for better progress visibility
@@ -320,14 +320,14 @@ public class HybridDocumentProcessorTests
             _directTextExtractor.ExtractTextAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
                 .Returns(async callInfo =>
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(10), TestContext.Current.CancellationToken); // Small delay to ensure progress reporting
+                    await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken: TestContext.Current.CancellationToken); // Small delay to ensure progress reporting
                     return CreateSuccessfulDirectTextResult();
                 });
             _patternDictionary.GetPatternsForDocumentTypeAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(CreateSamplePatterns());
 
             // Act
-            var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress);
+            var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldNotBeNull();
@@ -344,7 +344,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithCancellation_ShouldHandleCancellationGracefully()
+        public async Task ProcessDocumentBatchAsync_WithCancellation_ShouldHandleCancellationGracefullyAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(1); // Use single document for predictable behavior
@@ -375,13 +375,13 @@ public class HybridDocumentProcessorTests
     public class UpdatePatternsFromSuccessfulProcessingAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithHighConfidenceResult_ShouldUpdatePatterns()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithHighConfidenceResult_ShouldUpdatePatternsAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.95f);
 
             // Act
-            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
 
             // Assert
             await _patternDictionary.Received(processingResult.ExtractedFields.Count)
@@ -389,13 +389,13 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithLowConfidenceResult_ShouldSkipUpdate()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithLowConfidenceResult_ShouldSkipUpdateAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.7f); // Below 0.8 threshold
 
             // Act
-            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
 
             // Assert
             await _patternDictionary.DidNotReceive()
@@ -403,13 +403,13 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithFailedResult_ShouldSkipUpdate()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithFailedResult_ShouldSkipUpdateAsync()
         {
             // Arrange
             var processingResult = CreateFailedProcessingResult();
 
             // Act
-            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
 
             // Assert
             await _patternDictionary.DidNotReceive()
@@ -417,14 +417,14 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithEmptyFields_ShouldNotUpdatePatterns()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithEmptyFields_ShouldNotUpdatePatternsAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.9f);
             processingResult.ExtractedFields.Clear(); // Remove all fields
 
             // Act
-            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
 
             // Assert
             await _patternDictionary.DidNotReceive()
@@ -432,7 +432,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithException_ShouldLogErrorAndContinue()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithException_ShouldLogErrorAndContinueAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.95f);
@@ -440,21 +440,21 @@ public class HybridDocumentProcessorTests
                 .Returns<Task>(callInfo => throw new InvalidOperationException("Test exception"));
 
             // Act & Assert - Should not throw
-            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+            await _processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
         }
     }
 
     public class ValidateExtractedFieldsAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithValidFields_ShouldReturnValidResult()
+        public async Task ValidateExtractedFieldsAsync_WithValidFields_ShouldReturnValidResultAsync()
         {
             // Arrange
             var extractedFields = CreateValidExtractedFields();
             var validationRules = CreateValidationRules();
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -464,14 +464,14 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithMissingRequiredFields_ShouldReturnInvalidResult()
+        public async Task ValidateExtractedFieldsAsync_WithMissingRequiredFields_ShouldReturnInvalidResultAsync()
         {
             // Arrange
             var extractedFields = new Dictionary<string, object>(); // Empty fields
             var validationRules = CreateValidationRulesWithRequiredFields();
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -482,14 +482,14 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithInvalidFieldValues_ShouldReturnInvalidResult()
+        public async Task ValidateExtractedFieldsAsync_WithInvalidFieldValues_ShouldReturnInvalidResultAsync()
         {
             // Arrange
             var extractedFields = CreateInvalidExtractedFields();
             var validationRules = CreateStrictValidationRules();
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -499,14 +499,14 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithMalformedRegex_ShouldHandleGracefully()
+        public async Task ValidateExtractedFieldsAsync_WithMalformedRegex_ShouldHandleGracefullyAsync()
         {
             // Arrange
             var extractedFields = new Dictionary<string, object> { ["test_field"] = "some_value" };
             var validationRules = CreateMalformedValidationRules(); // Rules with invalid regex
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - The method handles regex exceptions gracefully and returns success with invalid validation
             result.IsSuccess.ShouldBeTrue();
@@ -549,7 +549,7 @@ public class HybridDocumentProcessorTests
         IsSuccessful = true,
         Text = "OCR EXTRACTED: REGISTRO PATRONAL: RFC: OCR123456 PERIODO: FEBRERO 2024",
         Confidence = 0.85f,
-        ProcessedRegions = new List<OCRRegion>()
+        ProcessedRegions = []
     };
 
     private static OCRResult CreateFailedOCRResult() => new()
@@ -557,7 +557,7 @@ public class HybridDocumentProcessorTests
         IsSuccessful = false,
         Text = "",
         Confidence = 0.0f,
-        ProcessedRegions = new List<OCRRegion>()
+        ProcessedRegions = []
     };
 
     private static Dictionary<string, List<ExtractionPattern>> CreateSamplePatterns()
@@ -566,7 +566,7 @@ public class HybridDocumentProcessorTests
 
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "");
 
-        patterns["registro_patronal"] = new List<ExtractionPattern> { registroPattern };
+        patterns["registro_patronal"] = [registroPattern];
         return patterns;
     }
 
@@ -577,8 +577,8 @@ public class HybridDocumentProcessorTests
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "TEST123456");
         var periodoPattern = new TestExtractionPattern("Regex", 0.90f, "ENERO 2024");
 
-        patterns["registro_patronal"] = new List<ExtractionPattern> { registroPattern };
-        patterns["periodo_imss"] = new List<ExtractionPattern> { periodoPattern };
+        patterns["registro_patronal"] = [registroPattern];
+        patterns["periodo_imss"] = [periodoPattern];
         return patterns;
     }
 
@@ -662,56 +662,56 @@ public class HybridDocumentProcessorTests
 
     private static DocumentValidationRules CreateValidationRules() => new()
     {
-        RequiredFields = new List<string>(),
-        FieldRules = new Dictionary<string, List<DocumentValidationRule>>()
+        RequiredFields = [],
+        FieldRules = []
     };
 
     private static DocumentValidationRules CreateValidationRulesWithRequiredFields() => new()
     {
-        RequiredFields = new List<string> { "registro_patronal", "periodo_imss" },
-        FieldRules = new Dictionary<string, List<DocumentValidationRule>>()
+        RequiredFields = ["registro_patronal", "periodo_imss"],
+        FieldRules = []
     };
 
     private static DocumentValidationRules CreateStrictValidationRules() => new()
     {
-        RequiredFields = new List<string> { "registro_patronal" },
+        RequiredFields = ["registro_patronal"],
         FieldRules = new Dictionary<string, List<DocumentValidationRule>>
         {
-            ["registro_patronal"] = new List<DocumentValidationRule>
-            {
+            ["registro_patronal"] =
+            [
                 new DocumentValidationRule
                 {
                     RuleType = "NotEmpty",
                     Expression = "",
                     ErrorMessage = "Registro patronal cannot be empty"
                 }
-            },
-            ["total_pagar"] = new List<DocumentValidationRule>
-            {
+            ],
+            ["total_pagar"] =
+            [
                 new DocumentValidationRule
                 {
                     RuleType = "Numeric",
                     Expression = "",
                     ErrorMessage = "Total must be numeric"
                 }
-            }
+            ]
         }
     };
 
     private static DocumentValidationRules CreateMalformedValidationRules() => new()
     {
-        RequiredFields = new List<string>(),
+        RequiredFields = [],
         FieldRules = new Dictionary<string, List<DocumentValidationRule>>
         {
-            ["test_field"] = new List<DocumentValidationRule>
-            {
+            ["test_field"] =
+            [
                 new DocumentValidationRule
                 {
                     RuleType = "Regex",
                     Expression = "[", // Invalid regex that will cause RegexException
                     ErrorMessage = "Malformed regex"
                 }
-            }
+            ]
         }
     };
 }

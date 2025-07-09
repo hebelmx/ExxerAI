@@ -33,7 +33,7 @@ public class ValidationResult
     /// <summary>
     /// Gets or sets additional validation metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Creates a successful validation result

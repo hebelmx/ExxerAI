@@ -23,7 +23,7 @@ public class WorkflowServiceImplementationTests
     public void Constructor_Should_ThrowArgumentNullException_When_WorkflowRepositoryIsNull()
     {
         // Arrange & Act & Assert
-        Should.Throw<ArgumentNullException>(() => new WorkflowService(null!!!!))
+        Should.Throw<ArgumentNullException>(() => new WorkflowService(null!))
             .ParamName.ShouldBe("workflowRepository");
     }
 
@@ -41,14 +41,14 @@ public class WorkflowServiceImplementationTests
     [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreateWorkflowAsync_Should_ReturnFailure_When_NameIsNullOrWhiteSpace(string invalidName)
+    public async Task CreateWorkflowAsync_Should_ReturnFailure_When_NameIsNullOrWhiteSpaceAsync(string? invalidName)
     {
         // Arrange
         var description = "Test workflow";
         var steps = new List<WorkflowStep>();
 
         // Act
-        var result = await _service.CreateWorkflowAsync(invalidName, description, steps);
+        var result = await _service.CreateWorkflowAsync(invalidName!, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -56,7 +56,7 @@ public class WorkflowServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateWorkflowAsync_Should_CreateWorkflow_When_ValidNameProvided()
+    public async Task CreateWorkflowAsync_Should_CreateWorkflow_When_ValidNameProvidedAsync()
     {
         // Arrange
         var name = "Test Workflow";
@@ -70,7 +70,7 @@ public class WorkflowServiceImplementationTests
             .Returns(callInfo => Task.FromResult(Result<Workflow>.WithSuccess(callInfo.Arg<Workflow>())));
 
         // Act
-        var result = await _service.CreateWorkflowAsync(name, description, steps);
+        var result = await _service.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();

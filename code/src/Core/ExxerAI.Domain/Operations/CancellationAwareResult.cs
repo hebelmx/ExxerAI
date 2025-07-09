@@ -14,12 +14,12 @@ public static class CancellationAwareResult
     /// <param name="cancellationToken">The cancellation token to monitor.</param>
     /// <returns>A Result&lt;T&gt; representing success, failure, or cancellation.</returns>
     public static async Task<Result<T>> WrapCancellationAware<T>(
-        Func<CancellationToken, Task<T>> operation, 
+        Func<CancellationToken, Task<T>> operation,
         CancellationToken cancellationToken = default)
     {
         // Validate arguments
         if (operation is null)
-            throw new ArgumentNullException(nameof(operation));
+            return Result<T>.WithFailure($"Operation was null name of {operation} type Typeof {operation}");
 
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
@@ -150,4 +150,4 @@ public static class CancellationAwareResult
             return Result<T>.WithFailure($"Operation failed: {ex.Message}");
         }
     }
-} 
+}

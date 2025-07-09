@@ -12,6 +12,6 @@ public class ServiceStackStatus
     public int HealthyServices { get; set; }
     public int UnhealthyServices { get; set; }
     public int UnknownServices { get; set; }
-    public List<ServiceStatus> Services { get; set; } = new();
+    public List<ServiceStatus> Services { get; set; } = [];
     public DateTime LastChecked { get; set; }
 }

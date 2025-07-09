@@ -15,7 +15,7 @@ public class OpenAIProvider : ILLMProvider
 {
     private readonly HttpClient _httpClient;
     private readonly OpenAIConfiguration _configuration;
-    private Dictionary<string, LLMModelInfo> _modelInfo;
+    private Dictionary<string, LLMModelInfo> _modelInfo = [];
 
     /// <summary>
     /// Initializes a new instance of the OpenAIProvider class
@@ -300,6 +300,8 @@ public class OpenAIProvider : ILLMProvider
 
             // Simple approximation: 1 token ≈ 4 characters for English text
             // This is a fallback implementation - ideally use tiktoken or similar
+            await Task.Yield(); // Allow cooperative cancellation
+
             var approximateTokens = (int)Math.Ceiling(text.Length / 4.0);
 
             // Apply model-specific adjustments
@@ -338,6 +340,8 @@ public class OpenAIProvider : ILLMProvider
         {
             if (!_modelInfo.TryGetValue(modelName, out var modelInfo))
                 return Result<decimal>.WithFailure($"Unknown model: {modelName}");
+
+            await Task.Yield(); // Allow cooperative cancellation
 
             var inputCost = (inputTokens / 1000m) * modelInfo.InputTokenCostPer1K;
             var outputCost = (outputTokens / 1000m) * modelInfo.OutputTokenCostPer1K;
@@ -420,6 +424,8 @@ public class OpenAIProvider : ILLMProvider
         {
             // OpenAI rate limits vary by tier and model
             // These are conservative defaults - should be updated based on actual account limits
+            await Task.Yield(); // Allow cooperative cancellation
+
             var rateLimitInfo = modelName.ToLowerInvariant() switch
             {
                 var name when name.Contains("gpt-4") => new RateLimitInfo
@@ -469,6 +475,7 @@ public class OpenAIProvider : ILLMProvider
     {
         try
         {
+            await Task.Yield(); // Allow cooperative cancellation
             return Result<IEnumerable<LLMModelInfo>>.WithSuccess(_modelInfo.Values);
         }
         catch (Exception ex)
@@ -510,7 +517,7 @@ public class OpenAIProvider : ILLMProvider
                 OutputTokenCostPer1K = 0.015m,
                 SupportsFunctionCalling = true,
                 SupportsStreaming = true,
-                Capabilities = new List<string> { "text", "function_calling", "json_mode" }
+                Capabilities = ["text", "function_calling", "json_mode"]
             },
             ["gpt-4-turbo"] = new()
             {
@@ -523,7 +530,7 @@ public class OpenAIProvider : ILLMProvider
                 OutputTokenCostPer1K = 0.03m,
                 SupportsFunctionCalling = true,
                 SupportsStreaming = true,
-                Capabilities = new List<string> { "text", "function_calling", "json_mode" }
+                Capabilities = ["text", "function_calling", "json_mode"]
             },
             ["gpt-3.5-turbo"] = new()
             {
@@ -536,7 +543,7 @@ public class OpenAIProvider : ILLMProvider
                 OutputTokenCostPer1K = 0.0015m,
                 SupportsFunctionCalling = true,
                 SupportsStreaming = true,
-                Capabilities = new List<string> { "text", "function_calling" }
+                Capabilities = ["text", "function_calling"]
             }
         };
     }
@@ -639,7 +646,7 @@ internal class OpenAIChatCompletionRequest
     public string Model { get; set; } = string.Empty;
 
     [JsonPropertyName("messages")]
-    public List<OpenAIMessage> Messages { get; set; } = new();
+    public List<OpenAIMessage> Messages { get; set; } = [];
 
     [JsonPropertyName("max_tokens")]
     public int? MaxTokens { get; set; }
@@ -687,7 +694,7 @@ internal class OpenAIChatCompletionResponse
     public string? Id { get; set; }
 
     [JsonPropertyName("choices")]
-    public List<OpenAIChoice> Choices { get; set; } = new();
+    public List<OpenAIChoice> Choices { get; set; } = [];
 
     [JsonPropertyName("usage")]
     public OpenAIUsage? Usage { get; set; }
@@ -729,7 +736,7 @@ internal class OpenAIStreamResponse
     public string? Id { get; set; }
 
     [JsonPropertyName("choices")]
-    public List<OpenAIStreamChoice> Choices { get; set; } = new();
+    public List<OpenAIStreamChoice> Choices { get; set; } = [];
 }
 
 /// <summary>

@@ -68,8 +68,8 @@ public class PersonaService : IPersonaService
                 Role = role.Trim(),
                 Description = description.Trim(),
                 SystemPrompt = systemPrompt.Trim(),
-                Traits = traits ?? new Dictionary<string, string>(),
-                KnowledgeDomains = knowledgeDomains ?? new List<string>()
+                Traits = traits ?? [],
+                KnowledgeDomains = knowledgeDomains ?? []
             };
 
             // Save to repository
@@ -566,7 +566,7 @@ public class PersonaService : IPersonaService
                 TemplateText = templateText.Trim(),
                 ContextTag = contextTag.Trim(),
                 Description = description?.Trim() ?? string.Empty,
-                ExpectedParameters = expectedParameters ?? new Dictionary<string, string>(),
+                ExpectedParameters = expectedParameters ?? [],
                 PersonaId = personaId,
                 Persona = personaResult.Value
             };

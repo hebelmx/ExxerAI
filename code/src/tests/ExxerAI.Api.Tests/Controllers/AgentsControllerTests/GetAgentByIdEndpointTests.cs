@@ -21,7 +21,7 @@ public class GetAgentByIdEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnOkWithAgent_When_AgentExists()
+    public async Task Should_ReturnOkWithAgent_When_AgentExistsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -31,7 +31,7 @@ public class GetAgentByIdEndpointTests
             .Returns(Result<Agent>.Success(agent));
 
         // Act
-        var result = await _controller.GetAgent(agentId);
+        var result = await _controller.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -44,7 +44,7 @@ public class GetAgentByIdEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnNotFound_When_AgentDoesNotExist()
+    public async Task Should_ReturnNotFound_When_AgentDoesNotExistAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -53,7 +53,7 @@ public class GetAgentByIdEndpointTests
             .Returns(Result<Agent>.WithFailure("Agent not found"));
 
         // Act
-        var result = await _controller.GetAgent(agentId);
+        var result = await _controller.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -65,10 +65,10 @@ public class GetAgentByIdEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_EmptyGuidProvided()
+    public async Task Should_ReturnBadRequest_When_EmptyGuidProvidedAsync()
     {
         // Act
-        var result = await _controller.GetAgent(Guid.Empty);
+        var result = await _controller.GetAgentAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;

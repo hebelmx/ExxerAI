@@ -1,7 +1,8 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Application.Services;
-using ExxerAI.Infrastructure.Repositories;
 using ExxerAI.CLI.Commands;
+using ExxerAI.Infrastructure.Repositories;
+using Microsoft.Extensions.AI;
 
 namespace ExxerAI.CLI;
 
@@ -42,7 +43,7 @@ public static class Program
             // Create command router
             var commandRouter = new CommandRouter(agentCommands, taskCommands, workflowCommands);
 
-            return await commandRouter.ExecuteAsync(args);
+            return await commandRouter.ExecuteAsync(args, CancellationToken.None);
         }
         catch (Exception ex)
         {

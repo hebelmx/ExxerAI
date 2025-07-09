@@ -162,7 +162,7 @@ public class ChatMessage
     /// <summary>
     /// Gets or sets additional metadata for the message
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Creates a system message
@@ -199,12 +199,12 @@ public class ProviderValidationResult
     /// <summary>
     /// Gets or sets validation error messages
     /// </summary>
-    public List<string> Errors { get; set; } = new();
+    public List<string> Errors { get; set; } = [];
 
     /// <summary>
     /// Gets or sets validation warnings
     /// </summary>
-    public List<string> Warnings { get; set; } = new();
+    public List<string> Warnings { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the tested model information
@@ -306,10 +306,10 @@ public class LLMModelInfo
     /// <summary>
     /// Gets or sets the model capabilities
     /// </summary>
-    public List<string> Capabilities { get; set; } = new();
+    public List<string> Capabilities { get; set; } = [];
 
     /// <summary>
     /// Gets or sets additional model metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }

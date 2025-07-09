@@ -13,12 +13,12 @@ public class PatternDictionaryExport
     /// <summary>
     /// Gets or sets the collection of exported patterns
     /// </summary>
-    public List<PatternDictionaryEntity> Patterns { get; set; } = new();
+    public List<PatternDictionaryEntity> Patterns { get; set; } = [];
 
     /// <summary>
     /// Gets or sets export metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the export format version

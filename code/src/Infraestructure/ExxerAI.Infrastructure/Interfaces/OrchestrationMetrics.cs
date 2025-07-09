@@ -38,5 +38,5 @@ public class OrchestrationMetrics
     /// <summary>
     /// Gets or sets custom metrics
     /// </summary>
-    public Dictionary<string, object> CustomMetrics { get; init; } = new();
+    public Dictionary<string, object> CustomMetrics { get; init; } = [];
 }

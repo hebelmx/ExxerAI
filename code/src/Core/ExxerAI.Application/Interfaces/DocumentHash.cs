@@ -28,7 +28,7 @@ public class DocumentHash
     /// <summary>
     /// Gets or sets additional hash metadata.
     /// </summary>
-    public Dictionary<string, string> Properties { get; set; } = new();
+    public Dictionary<string, string> Properties { get; set; } = [];
 
     /// <summary>
     /// Gets the combined hash representing both content and metadata.

@@ -58,7 +58,7 @@ public class EnhancedLLMServiceTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
-            null!!!!,
+            null!,
             _mockModelRepository,
             _mockConversationRepository,
             _configuration));
@@ -70,7 +70,7 @@ public class EnhancedLLMServiceTests
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
             new List<ILLMProvider> { _mockProvider },
-            null!!!!,
+            null!,
             _mockConversationRepository,
             _configuration));
     }
@@ -82,7 +82,7 @@ public class EnhancedLLMServiceTests
         Should.Throw<ArgumentNullException>(() => new EnhancedLLMService(
             new List<ILLMProvider> { _mockProvider },
             _mockModelRepository,
-            null!!!!,
+            null!,
             _configuration));
     }
 
@@ -94,18 +94,18 @@ public class EnhancedLLMServiceTests
             new List<ILLMProvider> { _mockProvider },
             _mockModelRepository,
             _mockConversationRepository,
-            null!!!!));
+            null!));
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task GenerateTextAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
         var prompt = "Test prompt";
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -113,14 +113,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithEmptyPrompt_ShouldReturnFailure()
+    public async Task GenerateTextAsync_WithEmptyPrompt_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
         var prompt = "";
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -128,7 +128,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithNonExistentModel_ShouldReturnFailure()
+    public async Task GenerateTextAsync_WithNonExistentModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -139,7 +139,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -147,7 +147,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task GenerateTextAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -185,7 +185,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<LLMResponse>.WithSuccess(expectedResponse));
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -196,14 +196,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_WithEmptyAgentId_ShouldReturnFailure()
+    public async Task CreateConversationAsync_WithEmptyAgentId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
         var modelId = Guid.NewGuid();
 
         // Act
-        var result = await _service.CreateConversationAsync(agentId, modelId);
+        var result = await _service.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -211,14 +211,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task CreateConversationAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
         var modelId = Guid.Empty;
 
         // Act
-        var result = await _service.CreateConversationAsync(agentId, modelId);
+        var result = await _service.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -226,7 +226,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task CreateConversationAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -255,7 +255,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<Conversation>.WithSuccess(expectedConversation));
 
         // Act
-        var result = await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+        var result = await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -266,14 +266,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_WithEmptyConversationId_ShouldReturnFailure()
+    public async Task ContinueConversationAsync_WithEmptyConversationId_ShouldReturnFailureAsync()
     {
         // Arrange
         var conversationId = Guid.Empty;
         var message = "Test message";
 
         // Act
-        var result = await _service.ContinueConversationAsync(conversationId, message);
+        var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -281,14 +281,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_WithEmptyMessage_ShouldReturnFailure()
+    public async Task ContinueConversationAsync_WithEmptyMessage_ShouldReturnFailureAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
         var message = "";
 
         // Act
-        var result = await _service.ContinueConversationAsync(conversationId, message);
+        var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -296,7 +296,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task ContinueConversationAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -312,7 +312,7 @@ public class EnhancedLLMServiceTests
             Title = "Test Conversation",
             SystemPrompt = "You are a helpful assistant",
             Status = ConversationStatus.Active,
-            Messages = new List<ConversationMessage>()
+            Messages = []
         };
 
         var expectedResponse = new LLMResponse
@@ -346,7 +346,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<Conversation>.WithSuccess(conversation));
 
         // Act
-        var result = await _service.ContinueConversationAsync(conversationId, message);
+        var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -356,7 +356,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task EstimateCostAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task EstimateCostAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -364,7 +364,7 @@ public class EnhancedLLMServiceTests
         var outputTokens = 50;
 
         // Act
-        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -372,7 +372,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -393,7 +393,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<decimal>.WithSuccess(expectedCost));
 
         // Act
-        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -401,14 +401,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task CountTokensAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
         var text = "Test text";
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+        var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -416,14 +416,14 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZero()
+    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZeroAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
         var text = "";
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+        var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -431,7 +431,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task CountTokensAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -451,7 +451,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<int>.WithSuccess(expectedTokenCount));
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+        var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -459,13 +459,13 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ValidateModelAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task ValidateModelAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
 
         // Act
-        var result = await _service.ValidateModelAsync(modelId);
+        var result = await _service.ValidateModelAsync(modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -473,7 +473,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ValidateModelAsync_WithValidModel_ShouldReturnSuccess()
+    public async Task ValidateModelAsync_WithValidModel_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -498,7 +498,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<ProviderValidationResult>.WithSuccess(validationResult));
 
         // Act
-        var result = await _service.ValidateModelAsync(modelId);
+        var result = await _service.ValidateModelAsync(modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -506,7 +506,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task StreamTextAsync_WithValidInputs_ShouldReturnStream()
+    public async Task StreamTextAsync_WithValidInputs_ShouldReturnStreamAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -537,7 +537,7 @@ public class EnhancedLLMServiceTests
 
         // Act
         var chunks = new List<LLMResponseChunk>();
-        await foreach (var chunk in _service.StreamTextAsync(modelId, prompt))
+        await foreach (var chunk in _service.StreamTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken))
         {
             chunks.Add(chunk);
         }

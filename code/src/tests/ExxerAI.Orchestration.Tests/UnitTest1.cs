@@ -42,7 +42,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task FullOrchestrationStack_WithSecureKeyStore_ShouldWorkTogether()
+    public async Task FullOrchestrationStack_WithSecureKeyStore_ShouldWorkTogetherAsync()
     {
         // Arrange
         var tempStorePath = Path.Combine(Path.GetTempPath(), $"integration_test_{Guid.NewGuid()}.json");
@@ -54,15 +54,15 @@ public class OrchestrationIntegrationTests
         try
         {
             // Act
-            await configService.InitializeAsync(TestContext.Current.CancellationToken);
+            await configService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Store some test keys
-            await keyStore.SetKeyAsync("test-api-key", "test-value", "integration-test");
-            await keyStore.SetKeyAsync("openai-key", "sk-test123", "external");
+            await keyStore.SetKeyAsync("test-api-key", "test-value", "integration-test", cancellationToken: TestContext.Current.CancellationToken);
+            await keyStore.SetKeyAsync("openai-key", "sk-test123", "external", cancellationToken: TestContext.Current.CancellationToken);
 
             // Test retrieval
-            var retrievedKey = await keyStore.GetKeyAsync("test-api-key", "integration-test");
-            var externalKey = await configService.GetExternalApiKeyAsync("openai");
+            var retrievedKey = await keyStore.GetKeyAsync("test-api-key", "integration-test", cancellationToken: TestContext.Current.CancellationToken);
+            var externalKey = await configService.GetExternalApiKeyAsync("openai", cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             retrievedKey.ShouldBe("test-value");
@@ -84,7 +84,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task ConfigurationService_WithEnvironmentOverrides_ShouldPrioritizeEnvironmentVariables()
+    public async Task ConfigurationService_WithEnvironmentOverrides_ShouldPrioritizeEnvironmentVariablesAsync()
     {
         // Arrange
         var testApiKey = "env-override-api-key";
@@ -100,7 +100,7 @@ public class OrchestrationIntegrationTests
 
             // Act
             await configService.InitializeAsync(TestContext.Current.CancellationToken);
-            var apiKey = await configService.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
+            var apiKey = await configService.GetSecureLocalAIApiKeyAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             apiKey.ShouldBe(testApiKey);
@@ -114,7 +114,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task KeyManager_DatabaseConnectionString_ShouldConstructCorrectly()
+    public async Task KeyManager_DatabaseConnectionString_ShouldConstructCorrectlyAsync()
     {
         // Arrange
         var tempStorePath = Path.Combine(Path.GetTempPath(), $"db_test_{Guid.NewGuid()}.json");
@@ -133,7 +133,7 @@ public class OrchestrationIntegrationTests
         try
         {
             // Act
-            var connectionString = await keyManager.GetDatabaseConnectionStringAsync(dbConfig);
+            var connectionString = await keyManager.GetDatabaseConnectionStringAsync(dbConfig, TestContext.Current.CancellationToken);
 
             // Assert
             connectionString.ShouldNotBeNullOrEmpty();
@@ -153,14 +153,14 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task EndToEndConfiguration_AllServices_ShouldProvideValidEndpoints()
+    public async Task EndToEndConfiguration_AllServices_ShouldProvideValidEndpointsAsync()
     {
         // Arrange
         var configuration = CreateTestConfiguration();
         var configService = new ConfigurationService(configuration, null!, _mockConfigLogger);
 
         // Act
-        await configService.InitializeAsync(TestContext.Current.CancellationToken);
+        await configService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
         var serviceUrls = configService.GetServiceUrls();
         var dbConnectionString = configService.GetDatabaseConnectionString();
         var localAIUrl = configService.GetLocalAIApiUrl();
@@ -196,7 +196,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task ConcurrentKeyOperations_AcrossMultipleServices_ShouldBeSafe()
+    public async Task ConcurrentKeyOperations_AcrossMultipleServices_ShouldBeSafeAsync()
     {
         // Arrange
         var tempStorePath = Path.Combine(Path.GetTempPath(), $"concurrent_test_{Guid.NewGuid()}.json");
@@ -208,27 +208,31 @@ public class OrchestrationIntegrationTests
         try
         {
             // Act - Simulate concurrent operations from multiple services
-            var tasks = new List<Task>();
+            var tasks = new List<Task>
+            {
+                // Configuration service operations
+                configService.InitializeAsync(TestContext.Current.CancellationToken),
+                configService.SetExternalApiKeyAsync("openai", "openai-key-123", TestContext.Current.CancellationToken),
+                configService.SetExternalApiKeyAsync("anthropic", "anthropic-key-456", TestContext.Current.CancellationToken),
 
-            // Configuration service operations
-            tasks.Add(configService.InitializeAsync(TestContext.Current.CancellationToken));
-            tasks.Add(configService.SetExternalApiKeyAsync("openai", "openai-key-123"));
-            tasks.Add(configService.SetExternalApiKeyAsync("anthropic", "anthropic-key-456"));
-
-            // Direct key store operations
-            tasks.Add(keyStore.SetKeyAsync("localai-key", "localai-value", "ai"));
-            tasks.Add(keyStore.SetKeyAsync("vector-db-key", "vector-value", "database"));
-            tasks.Add(keyStore.SetKeyAsync("monitoring-key", "monitoring-value", "ops"));
+                // Direct key store operations
+                keyStore.SetKeyAsync("localai-key", "localai-value", "ai",
+               cancellationToken: TestContext.Current.CancellationToken),
+                keyStore.SetKeyAsync("vector-db-key", "vector-value", "database"
+                , cancellationToken: TestContext.Current.CancellationToken),
+                keyStore.SetKeyAsync("monitoring-key", "monitoring-value", "ops"
+                , cancellationToken: TestContext.Current.CancellationToken)
+            };
 
             // Wait for all operations to complete
             await Task.WhenAll(tasks);
 
             // Verify all keys were stored correctly
-            var openaiKey = await configService.GetExternalApiKeyAsync("openai");
-            var anthropicKey = await configService.GetExternalApiKeyAsync("anthropic");
-            var localaiKey = await keyStore.GetKeyAsync("localai-key", "ai");
-            var vectorKey = await keyStore.GetKeyAsync("vector-db-key", "database");
-            var monitoringKey = await keyStore.GetKeyAsync("monitoring-key", "ops");
+            var openaiKey = await configService.GetExternalApiKeyAsync("openai", cancellationToken: TestContext.Current.CancellationToken);
+            var anthropicKey = await configService.GetExternalApiKeyAsync("anthropic", cancellationToken: TestContext.Current.CancellationToken);
+            var localaiKey = await keyStore.GetKeyAsync("localai-key", "ai", TestContext.Current.CancellationToken);
+            var vectorKey = await keyStore.GetKeyAsync("vector-db-key", "database", cancellationToken: TestContext.Current.CancellationToken);
+            var monitoringKey = await keyStore.GetKeyAsync("monitoring-key", "ops", cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             openaiKey.ShouldBe("openai-key-123");

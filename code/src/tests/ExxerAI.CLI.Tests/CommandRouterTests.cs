@@ -112,20 +112,20 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvidedAsync()
     {
         // Arrange
         var args = Array.Empty<string>();
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "list" };
@@ -133,280 +133,280 @@ public class CommandRouterTests
         {
             new Agent { Name = "Test Agent", Description = "Test Description", Capabilities = new AgentCapabilities() }
         };
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync();
+        await _mockAgentRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentsCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentsCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "agents", "create", "TestAgent" };
         var testAgent = new Agent { Name = "TestAgent", Description = "Test Description", Capabilities = new AgentCapabilities() };
-        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
+        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>())
             .Returns(Result<Agent>.Success(testAgent));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", Arg.Any<string>(), Arg.Any<AgentCapabilities>());
+        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", Arg.Any<string>(), Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TaskCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TaskCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "task", "list" };
         var testTasks = new List<AgentTask>();
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync();
+        await _mockTaskRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TasksCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TasksCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "tasks", "create", "TestTask", "--type", "DataProcessing" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Any<AgentTask>());
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Any<AgentTask>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflow", "list" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowsCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowsCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflows", "create", "TestWorkflow" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "--help" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_ShortHelpFlagProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_ShortHelpFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "-h" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowVersion_When_VersionCommandProvided()
+    public async Task ExecuteAsync_Should_ShowVersion_When_VersionCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "version" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowVersion_When_VersionFlagProvided()
+    public async Task ExecuteAsync_Should_ShowVersion_When_VersionFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "--version" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowVersion_When_ShortVersionFlagProvided()
+    public async Task ExecuteAsync_Should_ShowVersion_When_ShortVersionFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "-v" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvided()
+    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "invalid" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_UpperCaseProvided()
+    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_UpperCaseProvidedAsync()
     {
         // Arrange
         var args = new[] { "AGENT", "list" };
         var testAgents = new List<Agent>();
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync();
+        await _mockAgentRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_MixedCaseProvided()
+    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_MixedCaseProvidedAsync()
     {
         // Arrange
         var args = new[] { "TaSk", "list" };
         var testTasks = new List<AgentTask>();
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync();
+        await _mockTaskRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandFails()
+    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandFailsAsync()
     {
         // Arrange
         var args = new[] { "agent", "list" };
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.WithFailure("Test error"));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.WithFailure("Test error"));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandSucceeds()
+    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandSucceedsAsync()
     {
         // Arrange
         var args = new[] { "task", "create", "TestTask", "--type", "DataProcessing" };
-        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
+        _mockTaskRepository.AddAsync(Arg.Any<AgentTask>(), Arg.Any<CancellationToken>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleExceptions_When_CommandThrows()
+    public async Task ExecuteAsync_Should_HandleExceptions_When_CommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "agent", "list" };
-        _mockAgentRepository.GetAllAsync().Returns(Task.FromException<Result<IEnumerable<Agent>>>(new InvalidOperationException("Test exception")));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Task.FromException<Result<IEnumerable<Agent>>>(new InvalidOperationException("Test exception")));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PassCorrectArguments_When_MultipleArgumentsProvided()
+    public async Task ExecuteAsync_Should_PassCorrectArguments_When_MultipleArgumentsProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "create", "TestAgent", "--description", "Test description" };
         var testAgent = new Agent { Name = "TestAgent", Description = "Test description", Capabilities = new AgentCapabilities() };
-        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>())
+        _mockAgentService.CreateAgentAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>())
             .Returns(Result<Agent>.Success(testAgent));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", "Test description", Arg.Any<AgentCapabilities>());
+        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", "Test description", Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PassEmptyArguments_When_OnlyCommandProvided()
+    public async Task ExecuteAsync_Should_PassEmptyArguments_When_OnlyCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflow" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -419,17 +419,17 @@ public class CommandRouterTests
     [InlineData("tasks", "list")]
     [InlineData("workflow", "list")]
     [InlineData("workflows", "list")]
-    public async Task ExecuteAsync_Should_RouteCorrectly_When_CommandAliasesProvided(string command, string subCommand)
+    public async Task ExecuteAsync_Should_RouteCorrectly_When_CommandAliasesProvidedAsync(string command, string subCommand)
     {
         // Arrange
         var args = new[] { command, subCommand };
         var testAgents = new List<Agent>();
         var testTasks = new List<AgentTask>();
-        _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
-        _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
+        _mockAgentRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<Agent>>.Success(testAgents));
+        _mockTaskRepository.GetAllAsync(Arg.Any<CancellationToken>()).Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -439,13 +439,13 @@ public class CommandRouterTests
     [InlineData("help")]
     [InlineData("--help")]
     [InlineData("-h")]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpVariantsProvided(string helpCommand)
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpVariantsProvidedAsync(string helpCommand)
     {
         // Arrange
         var args = new[] { helpCommand };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -455,13 +455,13 @@ public class CommandRouterTests
     [InlineData("version")]
     [InlineData("--version")]
     [InlineData("-v")]
-    public async Task ExecuteAsync_Should_ShowVersion_When_VersionVariantsProvided(string versionCommand)
+    public async Task ExecuteAsync_Should_ShowVersion_When_VersionVariantsProvidedAsync(string versionCommand)
     {
         // Arrange
         var args = new[] { versionCommand };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -472,52 +472,52 @@ public class CommandRouterTests
     [InlineData("invalid")]
     [InlineData("badcommand")]
     [InlineData("")]
-    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandsProvided(string invalidCommand)
+    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandsProvidedAsync(string invalidCommand)
     {
         // Arrange
         var args = string.IsNullOrEmpty(invalidCommand) ? new[] { "" } : new[] { invalidCommand };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_AgentCommandThrows()
+    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_AgentCommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "agent", "agentStatus", "invalid-guid" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_TaskCommandThrows()
+    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_TaskCommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "task", "agentStatus", "invalid-guid" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_WorkflowCommandThrows()
+    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_WorkflowCommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "workflow", "invalid-subcommand" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1); // WorkflowCommands returns 1 for unknown commands

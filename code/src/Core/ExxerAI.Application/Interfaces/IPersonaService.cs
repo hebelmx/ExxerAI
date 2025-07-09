@@ -252,12 +252,12 @@ public class PersonaSearchCriteria
     /// <summary>
     /// Gets or sets required knowledge domains
     /// </summary>
-    public List<string> RequiredKnowledgeDomains { get; set; } = new();
+    public List<string> RequiredKnowledgeDomains { get; set; } = [];
 
     /// <summary>
     /// Gets or sets required traits
     /// </summary>
-    public Dictionary<string, string> RequiredTraits { get; set; } = new();
+    public Dictionary<string, string> RequiredTraits { get; set; } = [];
 
     /// <summary>
     /// Gets or sets whether all knowledge domains must match (true) or at least one (false)
@@ -293,15 +293,15 @@ public class PersonaValidationResult
     /// <summary>
     /// Gets or sets validation errors
     /// </summary>
-    public List<string> Errors { get; set; } = new();
+    public List<string> Errors { get; set; } = [];
 
     /// <summary>
     /// Gets or sets validation warnings
     /// </summary>
-    public List<string> Warnings { get; set; } = new();
+    public List<string> Warnings { get; set; } = [];
 
     /// <summary>
     /// Gets or sets suggestions for improvement
     /// </summary>
-    public List<string> Suggestions { get; set; } = new();
+    public List<string> Suggestions { get; set; } = [];
 }

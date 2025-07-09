@@ -64,18 +64,18 @@ public class PromptTemplate
     /// Gets or sets the expected parameters for this template with their descriptions
     /// Key: parameter name, Value: parameter description/type information
     /// </summary>
-    public Dictionary<string, string> ExpectedParameters { get; set; } = new();
+    public Dictionary<string, string> ExpectedParameters { get; set; } = [];
 
     /// <summary>
     /// Gets or sets default values for template parameters
     /// Key: parameter name, Value: default value
     /// </summary>
-    public Dictionary<string, string> DefaultParameters { get; set; } = new();
+    public Dictionary<string, string> DefaultParameters { get; set; } = [];
 
     /// <summary>
     /// Gets or sets metadata for the template including author, tags, and configuration
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the foreign key to the associated persona
@@ -301,15 +301,15 @@ public class TemplateValidationResult
     /// <summary>
     /// Gets or sets validation errors that prevent template usage
     /// </summary>
-    public List<string> Errors { get; set; } = new();
+    public List<string> Errors { get; set; } = [];
 
     /// <summary>
     /// Gets or sets validation warnings that should be addressed
     /// </summary>
-    public List<string> Warnings { get; set; } = new();
+    public List<string> Warnings { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the tokens found in the template
     /// </summary>
-    public List<string> TokensFound { get; set; } = new();
+    public List<string> TokensFound { get; set; } = [];
 }

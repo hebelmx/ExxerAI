@@ -61,5 +61,5 @@ public class DocumentMetadata
     /// <summary>
     /// Gets or sets additional metadata properties
     /// </summary>
-    public Dictionary<string, object> Properties { get; init; } = new();
+    public Dictionary<string, object> Properties { get; init; } = [];
 }

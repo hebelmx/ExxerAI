@@ -13,17 +13,17 @@ public class ValidationResultDocument
     /// <summary>
     /// Gets or sets the list of validation errors
     /// </summary>
-    public List<string> Errors { get; init; } = new();
+    public List<string> Errors { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the list of validation warnings
     /// </summary>
-    public List<string> Warnings { get; init; } = new();
+    public List<string> Warnings { get; init; } = [];
 
     /// <summary>
     /// Gets or sets field-specific validation results
     /// </summary>
-    public Dictionary<string, FieldValidationResult> FieldResults { get; init; } = new();
+    public Dictionary<string, FieldValidationResult> FieldResults { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the validation confidence score

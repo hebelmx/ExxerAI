@@ -56,5 +56,5 @@ public class Workflow
     /// <summary>
     /// Gets the collection of workflow executions
     /// </summary>
-    public ICollection<WorkflowExecution> Executions { get; init; } = new List<WorkflowExecution>();
+    public ICollection<WorkflowExecution> Executions { get; init; } = [];
 }

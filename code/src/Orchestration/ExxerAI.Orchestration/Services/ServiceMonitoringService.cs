@@ -33,6 +33,7 @@ public class ServiceMonitoringService
         var services = new List<ServiceStatus>();
 
         // Core services
+        await Task.Yield(); // Allow cooperative cancellation
 
         var coreServices = services.Where(s => s.IsCritical).ToList();
         var optionalServices = services.Where(s => !s.IsCritical).ToList();

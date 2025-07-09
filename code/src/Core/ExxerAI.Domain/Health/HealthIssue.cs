@@ -43,7 +43,7 @@ public class HealthIssue
     /// <summary>
     /// Additional metadata about the issue
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }
 
 /// <summary>

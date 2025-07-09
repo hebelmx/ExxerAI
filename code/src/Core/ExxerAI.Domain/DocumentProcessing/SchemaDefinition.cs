@@ -29,7 +29,7 @@ public class SchemaDefinition
     /// <summary>
     /// Gets or sets the list of field definitions
     /// </summary>
-    public List<FieldDefinition> Fields { get; init; } = new();
+    public List<FieldDefinition> Fields { get; init; } = [];
 
     /// <summary>
     /// Gets or sets when this schema was created
@@ -54,7 +54,7 @@ public class SchemaDefinition
     /// <summary>
     /// Gets or sets additional schema metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Gets the required fields from this schema

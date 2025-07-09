@@ -33,7 +33,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task SetKeyAsync_WithValidData_ShouldStoreSuccessfully()
+    public async Task SetKeyAsync_WithValidData_ShouldStoreSuccessfullyAsync()
     {
         // Arrange
         var keyName = "test-api-key";
@@ -41,28 +41,28 @@ public class SecureKeyStoreTests : IDisposable
         var scope = "openai";
 
         // Act
-        await _keyStore.SetKeyAsync(keyName, value, scope);
+        await _keyStore.SetKeyAsync(keyName, value, scope, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
-        var retrievedValue = await _keyStore.GetKeyAsync(keyName, scope);
+        var retrievedValue = await _keyStore.GetKeyAsync(keyName, scope, cancellationToken: TestContext.Current.CancellationToken);
         retrievedValue.ShouldBe(value);
     }
 
     [Fact]
-    public async Task GetKeyAsync_WithNonExistentKey_ShouldReturnNull()
+    public async Task GetKeyAsync_WithNonExistentKey_ShouldReturnNullAsync()
     {
         // Arrange
         var keyName = "non-existent-key";
 
         // Act
-        var result = await _keyStore.GetKeyAsync(keyName);
+        var result = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeNull();
     }
 
     [Fact]
-    public async Task GetKeyAsync_WithScopeFilter_ShouldReturnCorrectKey()
+    public async Task GetKeyAsync_WithScopeFilter_ShouldReturnCorrectKeyAsync()
     {
         // Arrange
         var keyName = "api-key";
@@ -72,28 +72,28 @@ public class SecureKeyStoreTests : IDisposable
         var scope2 = "anthropic";
 
         // Act
-        await _keyStore.SetKeyAsync(keyName, value1, scope1);
-        await _keyStore.SetKeyAsync(keyName, value2, scope2);
+        await _keyStore.SetKeyAsync(keyName, value1, scope1, cancellationToken: TestContext.Current.CancellationToken);
+        await _keyStore.SetKeyAsync(keyName, value2, scope2, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
-        var result1 = await _keyStore.GetKeyAsync(keyName, scope1);
-        var result2 = await _keyStore.GetKeyAsync(keyName, scope2);
+        var result1 = await _keyStore.GetKeyAsync(keyName, scope1, cancellationToken: TestContext.Current.CancellationToken);
+        var result2 = await _keyStore.GetKeyAsync(keyName, scope2, cancellationToken: TestContext.Current.CancellationToken);
 
         result1.ShouldBe(value1);
         result2.ShouldBe(value2);
     }
 
     [Fact]
-    public async Task DeleteKeyAsync_WithExistingKey_ShouldReturnTrueAndRemoveKey()
+    public async Task DeleteKeyAsync_WithExistingKey_ShouldReturnTrueAndRemoveKeyAsync()
     {
         // Arrange
         var keyName = "deletable-key";
         var value = "test-value";
-        await _keyStore.SetKeyAsync(keyName, value);
+        await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
-        var deleted = await _keyStore.DeleteKeyAsync(keyName);
-        var retrievedAfterDelete = await _keyStore.GetKeyAsync(keyName);
+        var deleted = await _keyStore.DeleteKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
+        var retrievedAfterDelete = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         deleted.ShouldBeTrue();
@@ -101,48 +101,48 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task DeleteKeyAsync_WithNonExistentKey_ShouldReturnFalse()
+    public async Task DeleteKeyAsync_WithNonExistentKey_ShouldReturnFalseAsync()
     {
         // Arrange
         var keyName = "non-existent-key";
 
         // Act
-        var deleted = await _keyStore.DeleteKeyAsync(keyName);
+        var deleted = await _keyStore.DeleteKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         deleted.ShouldBeFalse();
     }
 
     [Fact]
-    public async Task KeyExistsAsync_WithExistingKey_ShouldReturnTrue()
+    public async Task KeyExistsAsync_WithExistingKey_ShouldReturnTrueAsync()
     {
         // Arrange
         var keyName = "existing-key";
         var value = "test-value";
-        await _keyStore.SetKeyAsync(keyName, value);
+        await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
-        var exists = await _keyStore.KeyExistsAsync(keyName);
+        var exists = await _keyStore.KeyExistsAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exists.ShouldBeTrue();
     }
 
     [Fact]
-    public async Task KeyExistsAsync_WithNonExistentKey_ShouldReturnFalse()
+    public async Task KeyExistsAsync_WithNonExistentKey_ShouldReturnFalseAsync()
     {
         // Arrange
         var keyName = "non-existent-key";
 
         // Act
-        var exists = await _keyStore.KeyExistsAsync(keyName);
+        var exists = await _keyStore.KeyExistsAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exists.ShouldBeFalse();
     }
 
     [Fact]
-    public async Task ListKeysAsync_WithMultipleKeys_ShouldReturnAllKeys()
+    public async Task ListKeysAsync_WithMultipleKeys_ShouldReturnAllKeysAsync()
     {
         // Arrange
         var keys = new Dictionary<string, string>
@@ -154,11 +154,11 @@ public class SecureKeyStoreTests : IDisposable
 
         foreach (var kvp in keys)
         {
-            await _keyStore.SetKeyAsync(kvp.Key, kvp.Value);
+            await _keyStore.SetKeyAsync(kvp.Key, kvp.Value, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         // Act
-        var listedKeys = await _keyStore.ListKeysAsync();
+        var listedKeys = await _keyStore.ListKeysAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         listedKeys.ShouldContain("key1");
@@ -168,19 +168,19 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task ListKeysAsync_WithScopeFilter_ShouldReturnOnlyKeysInScope()
+    public async Task ListKeysAsync_WithScopeFilter_ShouldReturnOnlyKeysInScopeAsync()
     {
         // Arrange
         var scope1 = "scope1";
         var scope2 = "scope2";
-        
-        await _keyStore.SetKeyAsync("key1", "value1", scope1);
-        await _keyStore.SetKeyAsync("key2", "value2", scope1);
-        await _keyStore.SetKeyAsync("key3", "value3", scope2);
+
+        await _keyStore.SetKeyAsync("key1", "value1", scope1, cancellationToken: TestContext.Current.CancellationToken);
+        await _keyStore.SetKeyAsync("key2", "value2", scope1, cancellationToken: TestContext.Current.CancellationToken);
+        await _keyStore.SetKeyAsync("key3", "value3", scope2, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
-        var scope1Keys = await _keyStore.ListKeysAsync(scope1);
-        var scope2Keys = await _keyStore.ListKeysAsync(scope2);
+        var scope1Keys = await _keyStore.ListKeysAsync(scope1, cancellationToken: TestContext.Current.CancellationToken);
+        var scope2Keys = await _keyStore.ListKeysAsync(scope2, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         scope1Keys.Count().ShouldBe(2);
@@ -191,47 +191,47 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task RotateKeyAsync_WithExistingKey_ShouldCreateBackupAndUpdateKey()
+    public async Task RotateKeyAsync_WithExistingKey_ShouldCreateBackupAndUpdateKeyAsync()
     {
         // Arrange
         var keyName = "rotatable-key";
         var originalValue = "original-value";
         var newValue = "new-value";
-        await _keyStore.SetKeyAsync(keyName, originalValue);
+        await _keyStore.SetKeyAsync(keyName, originalValue, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
-        await _keyStore.RotateKeyAsync(keyName, newValue);
+        await _keyStore.RotateKeyAsync(keyName, newValue, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
-        var currentValue = await _keyStore.GetKeyAsync(keyName);
+        var currentValue = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
         currentValue.ShouldBe(newValue);
 
         // Verify backup was created
-        var allKeys = await _keyStore.ListKeysAsync();
+        var allKeys = await _keyStore.ListKeysAsync(cancellationToken: TestContext.Current.CancellationToken);
         allKeys.ShouldContain(k => k.Contains("_backup_"));
     }
 
     [Fact]
-    public async Task GenerateApiKeyAsync_ShouldCreateRandomKeyWithCorrectLength()
+    public async Task GenerateApiKeyAsync_ShouldCreateRandomKeyWithCorrectLengthAsync()
     {
         // Arrange
         var keyName = "generated-key";
         var length = 48;
 
         // Act
-        var generatedKey = await _keyStore.GenerateApiKeyAsync(keyName, null, length);
+        var generatedKey = await _keyStore.GenerateApiKeyAsync(keyName, null, length, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         generatedKey.ShouldNotBeNullOrEmpty();
         generatedKey.Length.ShouldBe(length);
 
         // Verify it was stored
-        var storedKey = await _keyStore.GetKeyAsync(keyName);
+        var storedKey = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
         storedKey.ShouldBe(generatedKey);
     }
 
     [Fact]
-    public async Task SetKeyAsync_WithExpiration_ShouldExpireAfterTimeout()
+    public async Task SetKeyAsync_WithExpiration_ShouldExpireAfterTimeoutAsync()
     {
         // Arrange
         var keyName = "expiring-key";
@@ -239,17 +239,17 @@ public class SecureKeyStoreTests : IDisposable
         var expiration = TimeSpan.FromMilliseconds(100);
 
         // Act
-        await _keyStore.SetKeyAsync(keyName, value, null, expiration);
-        
+        await _keyStore.SetKeyAsync(keyName, value, null, expiration, cancellationToken: TestContext.Current.CancellationToken);
+
         // Verify key exists initially
-        var initialValue = await _keyStore.GetKeyAsync(keyName);
+        var initialValue = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
         initialValue.ShouldBe(value);
 
         // Wait for expiration
-        await Task.Delay(expiration.Add(TimeSpan.FromMilliseconds(50, TestContext.Current.CancellationToken);
+        await Task.Delay(expiration.Add(TimeSpan.FromMilliseconds(50)), cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert key has expired
-        var expiredValue = await _keyStore.GetKeyAsync(keyName);
+        var expiredValue = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
         expiredValue.ShouldBeNull();
     }
 
@@ -258,18 +258,18 @@ public class SecureKeyStoreTests : IDisposable
     [InlineData("special@key#name", "value-with-special!@#characters")]
     [InlineData("unicode-key-🔑", "unicode-value-🔐")]
     [InlineData("very-long-key-name-that-exceeds-normal-length", "very-long-value-with-lots-of-content-that-tests-encryption-with-larger-data")]
-    public async Task EncryptionDecryption_WithVariousInputs_ShouldMaintainDataIntegrity(string keyName, string value, CancellationToken cancellationToken = default)
+    public async Task EncryptionDecryption_WithVariousInputs_ShouldMaintainDataIntegrityAsync(string keyName, string value)
     {
         // Act
-        await _keyStore.SetKeyAsync(keyName, value);
-        var retrievedValue = await _keyStore.GetKeyAsync(keyName);
+        await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
+        var retrievedValue = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         retrievedValue.ShouldBe(value);
     }
 
     [Fact]
-    public async Task GetKeyAsync_WithEnvironmentVariableSet_ShouldPreferEnvironmentValue()
+    public async Task GetKeyAsync_WithEnvironmentVariableSet_ShouldPreferEnvironmentValueAsync()
     {
         // Arrange
         var keyName = "env-test-key";
@@ -283,10 +283,10 @@ public class SecureKeyStoreTests : IDisposable
         try
         {
             // Store value in key store
-            await _keyStore.SetKeyAsync(keyName, storedValue);
+            await _keyStore.SetKeyAsync(keyName, storedValue, cancellationToken: TestContext.Current.CancellationToken);
 
             // Act
-            var retrievedValue = await _keyStore.GetKeyAsync(keyName);
+            var retrievedValue = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - should return environment value
             retrievedValue.ShouldBe(envValue);
@@ -299,7 +299,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task ConcurrentOperations_ShouldBeSafeAndConsistent()
+    public async Task ConcurrentOperations_ShouldBeSafeAndConsistentAsync()
     {
         // Arrange
         var tasks = new List<Task>();
@@ -313,7 +313,7 @@ public class SecureKeyStoreTests : IDisposable
             var value = $"value-{i}";
             expectedValues[keyName] = value;
 
-            tasks.Add(_keyStore.SetKeyAsync(keyName, value));
+            tasks.Add(_keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken));
         }
 
         // Act
@@ -322,29 +322,29 @@ public class SecureKeyStoreTests : IDisposable
         // Assert - verify all keys were stored correctly
         foreach (var kvp in expectedValues)
         {
-            var retrievedValue = await _keyStore.GetKeyAsync(kvp.Key);
+            var retrievedValue = await _keyStore.GetKeyAsync(kvp.Key, cancellationToken: TestContext.Current.CancellationToken);
             retrievedValue.ShouldBe(kvp.Value);
         }
     }
 
     [Fact]
-    public async Task PersistenceTest_ShouldMaintainDataAcrossInstances()
+    public async Task PersistenceTest_ShouldMaintainDataAcrossInstancesAsync()
     {
         // Arrange
         var keyName = "persistence-test";
         var value = "persistent-value";
 
         // Store in first instance
-        await _keyStore.SetKeyAsync(keyName, value);
+        await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
 
         // Create new instance with same store path
         var newKeyStore = new SecureKeyStore(_mockLogger, _testStorePath, "test-encryption-key");
 
         // Wait a moment for initialization
-        await Task.Delay(TimeSpan.FromMilliseconds(100), TestContext.Current.CancellationToken);
+        await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
-        var retrievedValue = await newKeyStore.GetKeyAsync(keyName);
+        var retrievedValue = await newKeyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         retrievedValue.ShouldBe(value);

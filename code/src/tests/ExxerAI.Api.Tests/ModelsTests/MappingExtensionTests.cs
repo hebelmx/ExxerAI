@@ -17,7 +17,7 @@ public class MappingExtensionTests
             CanProcessNaturalLanguage = true,
             CanGenerateCode = false,
             MaxConcurrentTasks = 5,
-            SupportedTaskTypes = new List<string> { "NLP" }
+            SupportedTaskTypes = ["NLP"]
         };
 
         var configuration = new AgentConfiguration
@@ -69,7 +69,7 @@ public class MappingExtensionTests
             CanAnalyzeData = true,
             CanCallExternalAPIs = true,
             MaxConcurrentTasks = 10,
-            SupportedTaskTypes = new List<string> { "CodeGen", "API" }
+            SupportedTaskTypes = ["CodeGen", "API"]
         };
 
         // Act
@@ -180,7 +180,7 @@ public class MappingExtensionTests
             CanAnalyzeData = false,
             CanCallExternalAPIs = true,
             MaxConcurrentTasks = 7,
-            SupportedTaskTypes = new List<string> { "NLP", "CodeGen" }
+            SupportedTaskTypes = ["NLP", "CodeGen"]
         };
 
         // Act
@@ -294,7 +294,7 @@ public class MappingExtensionTests
             CanAnalyzeData = canAnalyzeData,
             CanCallExternalAPIs = canCallAPIs,
             MaxConcurrentTasks = 3,
-            SupportedTaskTypes = new List<string>()
+            SupportedTaskTypes = []
         };
 
         // Act

@@ -23,10 +23,10 @@ public class MCPWatchOptions
     /// <summary>
     /// Gets the collection of file types to monitor
     /// </summary>
-    public List<string> FileTypes { get; set; } = new() { ".pdf", ".docx", ".xlsx" };
+    public List<string> FileTypes { get; set; } = [".pdf", ".docx", ".xlsx"];
 
     /// <summary>
     /// Gets or sets additional watch parameters
     /// </summary>
-    public Dictionary<string, object> CustomParameters { get; set; } = new();
+    public Dictionary<string, object> CustomParameters { get; set; } = [];
 }

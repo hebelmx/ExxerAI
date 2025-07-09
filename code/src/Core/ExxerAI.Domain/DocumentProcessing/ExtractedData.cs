@@ -13,7 +13,7 @@ public class ExtractedData
     /// <summary>
     /// Gets or sets the extracted field values
     /// </summary>
-    public Dictionary<string, object> ExtractedFields { get; set; } = new();
+    public Dictionary<string, object> ExtractedFields { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the overall confidence score for the extraction
@@ -28,22 +28,22 @@ public class ExtractedData
     /// <summary>
     /// Gets or sets the extracted field values (legacy property)
     /// </summary>
-    public Dictionary<string, object> Fields { get; init; } = new();
+    public Dictionary<string, object> Fields { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the confidence scores for each field
     /// </summary>
-    public Dictionary<string, float> FieldConfidences { get; init; } = new();
+    public Dictionary<string, float> FieldConfidences { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the source regions where each field was found
     /// </summary>
-    public Dictionary<string, string> FieldSources { get; init; } = new();
+    public Dictionary<string, string> FieldSources { get; init; } = [];
 
     /// <summary>
     /// Gets or sets additional metadata about the extraction
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 
     /// <summary>
     /// Gets the overall confidence for all extracted fields

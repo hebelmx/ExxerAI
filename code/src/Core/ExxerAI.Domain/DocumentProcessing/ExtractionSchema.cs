@@ -29,7 +29,7 @@ public class ExtractionSchema
     /// <summary>
     /// Gets or sets the list of field definitions to extract
     /// </summary>
-    public List<FieldDefinition> Fields { get; set; } = new();
+    public List<FieldDefinition> Fields { get; set; } = [];
 
     /// <summary>
     /// Gets or sets when this schema was created
@@ -54,7 +54,7 @@ public class ExtractionSchema
     /// <summary>
     /// Gets or sets additional schema metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the minimum confidence threshold for successful extraction

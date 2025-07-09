@@ -33,7 +33,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnNoContent_When_TaskAssignedSuccessfully()
+        public async Task Should_ReturnNoContent_When_TaskAssignedSuccessfullyAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -44,14 +44,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<NoContentResult>();
         }
 
         [Fact]
-        public async Task Should_ReturnBadRequest_When_InvalidModelState()
+        public async Task Should_ReturnBadRequest_When_InvalidModelStateAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -60,7 +60,7 @@ public class AgentsControllerMissingEndpointsTests
             _controller.ModelState.AddModelError("TaskId", "Invalid task ID");
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
@@ -71,7 +71,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnNotFound_When_AgentNotFound()
+        public async Task Should_ReturnNotFound_When_AgentNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -82,7 +82,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Agent not found"));
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var notFoundResult = result.ShouldBeOfType<NotFoundObjectResult>();
@@ -92,7 +92,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnBadRequest_When_AssignmentFails()
+        public async Task Should_ReturnBadRequest_When_AssignmentFailsAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -103,7 +103,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Assignment failed - agent at capacity"));
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
@@ -114,7 +114,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleEmptyTaskId_When_EmptyGuidProvided()
+        public async Task Should_HandleEmptyTaskId_When_EmptyGuidProvidedAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -124,14 +124,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Invalid task ID"));
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - Controller should process the request and let service handle validation
             await _mockAgentService.Received(1).AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>());
         }
 
         [Fact]
-        public async Task Should_HandleMultipleValidationErrors_When_ModelStateInvalid()
+        public async Task Should_HandleMultipleValidationErrors_When_ModelStateInvalidAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -141,7 +141,7 @@ public class AgentsControllerMissingEndpointsTests
             _controller.ModelState.AddModelError("Priority", "Priority must be set");
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
@@ -151,7 +151,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_FilterEmptyErrorMessages_When_ModelStateHasEmptyErrors()
+        public async Task Should_FilterEmptyErrorMessages_When_ModelStateHasEmptyErrorsAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -161,7 +161,7 @@ public class AgentsControllerMissingEndpointsTests
             _controller.ModelState.AddModelError("Priority", "Priority is required");
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTaskAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var badRequestResult = result.ShouldBeOfType<BadRequestObjectResult>();
@@ -182,7 +182,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnOkWithAgent_When_SuitableAgentFound()
+        public async Task Should_ReturnOkWithAgent_When_SuitableAgentFoundAsync()
         {
             // Arrange
             var taskType = "document-processing";
@@ -198,7 +198,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.Success(agent));
 
             // Act
-            var result = await _controller.FindBestAgentForTask(taskType);
+            var result = await _controller.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -212,7 +212,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnNotFound_When_NoSuitableAgentFound()
+        public async Task Should_ReturnNotFound_When_NoSuitableAgentFoundAsync()
         {
             // Arrange
             var taskType = "quantum-computing";
@@ -221,7 +221,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.WithFailure("No suitable agent found"));
 
             // Act
-            var result = await _controller.FindBestAgentForTask(taskType);
+            var result = await _controller.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -236,14 +236,14 @@ public class AgentsControllerMissingEndpointsTests
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("  \t  ")]
-        public async Task Should_HandleEmptyOrWhitespaceTaskType_When_InvalidTaskTypeProvided(string taskType)
+        public async Task Should_HandleEmptyOrWhitespaceTaskType_When_InvalidTaskTypeProvidedAsync(string taskType)
         {
             // Arrange
             _mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
                 .Returns(Result<Agent>.WithFailure("Invalid task type"));
 
             // Act
-            var result = await _controller.FindBestAgentForTask(taskType);
+            var result = await _controller.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -255,7 +255,7 @@ public class AgentsControllerMissingEndpointsTests
         [InlineData("data-analysis")]
         [InlineData("ai-training")]
         [InlineData("document-processing")]
-        public async Task Should_HandleDifferentTaskTypes_When_ValidTaskTypesProvided(string taskType)
+        public async Task Should_HandleDifferentTaskTypes_When_ValidTaskTypesProvidedAsync(string taskType)
         {
             // Arrange
             var agent = new Agent
@@ -269,7 +269,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.Success(agent));
 
             // Act
-            var result = await _controller.FindBestAgentForTask(taskType);
+            var result = await _controller.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -277,11 +277,11 @@ public class AgentsControllerMissingEndpointsTests
             var okResult = (OkObjectResult)actionResult;
             var response = (ApiResponse<AgentResponse>)okResult.Value!;
             response.Success.ShouldBeTrue();
-            response.Data.Name.ShouldBe($"Agent for {taskType}");
+            response.Data!.Name.ShouldBe($"Agent for {taskType}");
         }
 
         [Fact]
-        public async Task Should_HandleVeryLongTaskType_When_ExtremeInputProvided()
+        public async Task Should_HandleVeryLongTaskType_When_ExtremeInputProvidedAsync()
         {
             // Arrange
             var taskType = new string('x', 1000); // 1000 character task type
@@ -296,7 +296,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.Success(agent));
 
             // Act
-            var result = await _controller.FindBestAgentForTask(taskType);
+            var result = await _controller.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -305,7 +305,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleSpecialCharactersInTaskType_When_EncodedStringProvided()
+        public async Task Should_HandleSpecialCharactersInTaskType_When_EncodedStringProvidedAsync()
         {
             // Arrange
             var taskType = "data-analysis&processing+visualization";
@@ -315,7 +315,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.Success(agent));
 
             // Act
-            var result = await _controller.FindBestAgentForTask(taskType);
+            var result = await _controller.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -333,7 +333,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task UpdateAgentConfiguration_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+        public async Task UpdateAgentConfiguration_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -343,14 +343,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Agent not found with specified ID"));
 
             // Act
-            var result = await _controller.UpdateAgentConfiguration(agentId, request);
+            var result = await _controller.UpdateAgentConfigurationAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<NotFoundObjectResult>();
         }
 
         [Fact]
-        public async Task UpdateAgentConfiguration_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFound()
+        public async Task UpdateAgentConfiguration_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -360,14 +360,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Configuration validation failed"));
 
             // Act
-            var result = await _controller.UpdateAgentConfiguration(agentId, request);
+            var result = await _controller.UpdateAgentConfigurationAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
-        public async Task UpdateAgentStatus_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+        public async Task UpdateAgentStatus_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -377,14 +377,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Agent not found in database"));
 
             // Act
-            var result = await _controller.UpdateAgentStatus(agentId, request);
+            var result = await _controller.UpdateAgentStatusAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<NotFoundObjectResult>();
         }
 
         [Fact]
-        public async Task DeleteAgent_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+        public async Task DeleteAgent_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -393,14 +393,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Agent not found for deletion"));
 
             // Act
-            var result = await _controller.DeleteAgent(agentId);
+            var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<NotFoundObjectResult>();
         }
 
         [Fact]
-        public async Task DeleteAgent_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFound()
+        public async Task DeleteAgent_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -409,14 +409,14 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Cannot delete agent with active tasks"));
 
             // Act
-            var result = await _controller.DeleteAgent(agentId);
+            var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<BadRequestObjectResult>();
         }
 
         [Fact]
-        public async Task Should_HandleNullErrorInResult_When_ServiceReturnsNullError()
+        public async Task Should_HandleNullErrorInResult_When_ServiceReturnsNullErrorAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -425,7 +425,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.WithFailure((string)null!));
 
             // Act
-            var result = await _controller.GetAgent(agentId);
+            var result = await _controller.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -436,7 +436,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleEmptyStringErrorInResult_When_ServiceReturnsEmptyError()
+        public async Task Should_HandleEmptyStringErrorInResult_When_ServiceReturnsEmptyErrorAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -445,7 +445,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.WithFailure(""));
 
             // Act
-            var result = await _controller.GetAgent(agentId);
+            var result = await _controller.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;

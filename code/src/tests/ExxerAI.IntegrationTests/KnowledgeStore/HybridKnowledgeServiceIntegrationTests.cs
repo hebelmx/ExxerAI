@@ -24,9 +24,9 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     private readonly ILogger<Neo4jGraphKnowledgeStore> _graphLogger;
     private readonly ILogger<OpenAIEmbeddingGenerator> _embeddingLogger;
 
-    private QdrantClient _qdrantClient;
-    private IGraphClient _neo4jClient;
-    private HybridKnowledgeService _hybridService;
+    private QdrantClient _qdrantClient = null!;
+    private IGraphClient _neo4jClient = null!;
+    private HybridKnowledgeService _hybridService = null!;
     private readonly string _testCollectionName;
 
     public HybridKnowledgeServiceIntegrationTests()
@@ -45,13 +45,13 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_Initialize_ShouldSetupBothStores()
+    public async Task HybridKnowledgeService_Initialize_ShouldSetupBothStoresAsync()
     {
         // Arrange
         SetupHybridService();
 
         // Act
-        var result = await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        var result = await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -59,7 +59,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_StoreDocumentWithKnowledge_ShouldIndexInBothStores()
+    public async Task HybridKnowledgeService_StoreDocumentWithKnowledge_ShouldIndexInBothStoresAsync()
     {
         // Arrange
         SetupHybridService();
@@ -75,7 +75,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             DocumentType = "research-article",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "healthcare", "ML", "AI", "predictive-analytics" },
+            Tags = ["healthcare", "ML", "AI", "predictive-analytics"],
             Metadata = new Dictionary<string, object>
             {
                 ["category"] = "healthcare-tech",
@@ -83,8 +83,8 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                 ["word_count"] = 250,
                 ["publication_year"] = 2024
             },
-            ExtractedConcepts = new List<GraphConcept>
-            {
+            ExtractedConcepts =
+            [
                 new GraphConcept
                 {
                     ConceptId = "concept-ml-healthcare",
@@ -109,11 +109,11 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                     Description = "AI systems that assist in medical diagnosis",
                     Confidence = 0.92f
                 }
-            }
+            ]
         };
 
         // Act
-        var result = await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
+        var result = await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -121,24 +121,24 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Verify document is in both stores by performing searches
         var searchResult = await _hybridService.SearchHybridAsync(
             "machine learning healthcare",
-            new HybridSearchOptions { MaxCombinedResults = 5 });
+            new HybridSearchOptions { MaxCombinedResults = 5 }, cancellationToken: TestContext.Current.CancellationToken);
 
         searchResult.IsSuccess.ShouldBeTrue();
         var hybridResults = searchResult.Value;
 
-        hybridResults.CombinedResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
-        hybridResults.SemanticResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
+        hybridResults!.CombinedResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
+        hybridResults!.SemanticResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_SearchHybrid_ShouldCombineSemanticAndGraphResults()
+    public async Task HybridKnowledgeService_SearchHybrid_ShouldCombineSemanticAndGraphResultsAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Store multiple related documents
-        await StoreTestKnowledgeBase();
+        await StoreTestKnowledgeBaseAsync();
 
         var searchOptions = new HybridSearchOptions
         {
@@ -154,16 +154,16 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Act
         var result = await _hybridService.SearchHybridAsync(
             "artificial intelligence applications",
-            searchOptions);
+            searchOptions, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
         var hybridResults = result.Value;
 
         // Should have results from both semantic and graph searches
-        hybridResults.SemanticResults.Count.ShouldBeGreaterThan(0);
-        hybridResults.RelationshipResults.Count.ShouldBeGreaterThan(0);
-        hybridResults.CombinedResults.Count.ShouldBeGreaterThan(0);
+        hybridResults!.SemanticResults.Count.ShouldBeGreaterThan(0);
+        hybridResults!.RelationshipResults.Count.ShouldBeGreaterThan(0);
+        hybridResults!.CombinedResults.Count.ShouldBeGreaterThan(0);
 
         // Combined results should be ranked by combined score
         var combinedScores = hybridResults.CombinedResults.Select(r => r.CombinedScore).ToList();
@@ -175,18 +175,18 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_ExploreConceptRelationships_ShouldTraverseKnowledgeGraph()
+    public async Task HybridKnowledgeService_ExploreConceptRelationships_ShouldTraverseKnowledgeGraphAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
-        await StoreTestKnowledgeBase();
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
+        await StoreTestKnowledgeBaseAsync();
 
         // Act
         var result = await _hybridService.ExploreConceptRelationshipsAsync(
             "Machine Learning",
             maxDepth: 3,
-            limit: 20);
+            limit: 20, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -202,41 +202,41 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_GetKnowledgeStats_ShouldReturnCombinedStatistics()
+    public async Task HybridKnowledgeService_GetKnowledgeStats_ShouldReturnCombinedStatisticsAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
-        await StoreTestKnowledgeBase();
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
+        await StoreTestKnowledgeBaseAsync();
 
         // Act
-        var result = await _hybridService.GetKnowledgeStatsAsync();
+        var result = await _hybridService.GetKnowledgeStatsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
         var stats = result.Value;
 
-        stats.VectorStats.ShouldNotBeNull();
-        stats.GraphStats.ShouldNotBeNull();
-        stats.VectorStats.TotalVectors.ShouldBeGreaterThan(0);
-        stats.GraphStats.TotalNodes.ShouldBeGreaterThan(0);
-        stats.GraphStats.TotalRelationships.ShouldBeGreaterThan(0);
+        stats!.VectorStats.ShouldNotBeNull();
+        stats!.GraphStats.ShouldNotBeNull();
+        stats!.VectorStats.TotalVectors.ShouldBeGreaterThan(0);
+        stats!.GraphStats.TotalNodes.ShouldBeGreaterThan(0);
+        stats!.GraphStats.TotalRelationships.ShouldBeGreaterThan(0);
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_RemoveDocument_ShouldDeleteFromBothStores()
+    public async Task HybridKnowledgeService_RemoveDocument_ShouldDeleteFromBothStoresAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documentId = "removable-doc-001";
         var knowledgeDocument = CreateTestKnowledgeDocument(documentId, "Document to be removed");
 
-        await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
+        await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument, TestContext.Current.CancellationToken);
 
         // Act
-        var result = await _hybridService.RemoveDocumentAsync(documentId);
+        var result = await _hybridService.RemoveDocumentAsync(documentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -244,18 +244,18 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Verify removal by searching
         var searchResult = await _hybridService.SearchHybridAsync(
             knowledgeDocument.Content,
-            new HybridSearchOptions { SemanticThreshold = 0.5f });
+            new HybridSearchOptions { SemanticThreshold = 0.5f }, cancellationToken: TestContext.Current.CancellationToken);
 
         searchResult.IsSuccess.ShouldBeTrue();
         searchResult.Value!.CombinedResults.Any(r => r.DocumentId == documentId).ShouldBeFalse();
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_ConcurrentOperations_ShouldMaintainConsistency()
+    public async Task HybridKnowledgeService_ConcurrentOperations_ShouldMaintainConsistencyAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var concurrentTasks = new List<Task>();
         var documentCount = 20;
@@ -264,29 +264,29 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         for (int i = 0; i < documentCount; i++)
         {
             var doc = CreateTestKnowledgeDocument($"concurrent-hybrid-{i}", $"Concurrent document {i} about AI technology");
-            concurrentTasks.Add(_hybridService.StoreDocumentWithKnowledgeAsync(doc));
+            concurrentTasks.Add(_hybridService.StoreDocumentWithKnowledgeAsync(doc, TestContext.Current.CancellationToken));
         }
 
         await Task.WhenAll(concurrentTasks);
 
         // Assert
-        var stats = await _hybridService.GetKnowledgeStatsAsync();
+        var stats = await _hybridService.GetKnowledgeStatsAsync(TestContext.Current.CancellationToken);
         stats.IsSuccess.ShouldBeTrue();
-        stats.Value.VectorStats.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
-        stats.Value.GraphStats.DocumentNodes.ShouldBeGreaterThanOrEqualTo(documentCount);
+        stats.Value!.VectorStats!.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
+        stats.Value!.GraphStats!.DocumentNodes.ShouldBeGreaterThanOrEqualTo(documentCount);
     }
 
     [Theory(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
     [InlineData(0.8f, 0.2f)] // Vector-heavy weighting
     [InlineData(0.5f, 0.5f)] // Balanced weighting
     [InlineData(0.3f, 0.7f)] // Graph-heavy weighting
-    public async Task HybridKnowledgeService_DifferentWeightings_ShouldProduceDifferentRankings(
+    public async Task HybridKnowledgeService_DifferentWeightings_ShouldProduceDifferentRankingsAsync(
         float semanticWeight, float graphWeight)
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
-        await StoreTestKnowledgeBase();
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
+        await StoreTestKnowledgeBaseAsync();
 
         var searchOptions = new HybridSearchOptions
         {
@@ -296,7 +296,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         };
 
         // Act
-        var result = await _hybridService.SearchHybridAsync("machine learning", searchOptions);
+        var result = await _hybridService.SearchHybridAsync("machine learning", searchOptions, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -314,11 +314,11 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_PerformanceTest_ShouldMeetResponseTimeRequirements()
+    public async Task HybridKnowledgeService_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documents = GenerateLargeKnowledgeBase(100);
 
@@ -326,7 +326,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var storageStopwatch = System.Diagnostics.Stopwatch.StartNew();
         foreach (var doc in documents)
         {
-            await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+            await _hybridService.StoreDocumentWithKnowledgeAsync(doc, cancellationToken: TestContext.Current.CancellationToken);
         }
         storageStopwatch.Stop();
 
@@ -336,7 +336,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var searchStopwatch = System.Diagnostics.Stopwatch.StartNew();
         var searchResult = await _hybridService.SearchHybridAsync(
             "artificial intelligence machine learning",
-            new HybridSearchOptions { MaxCombinedResults = 20 });
+            new HybridSearchOptions { MaxCombinedResults = 20 }, cancellationToken: TestContext.Current.CancellationToken);
         searchStopwatch.Stop();
 
         searchResult.IsSuccess.ShouldBeTrue();
@@ -344,11 +344,11 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_DataConsistency_ShouldMaintainVectorGraphAlignment()
+    public async Task HybridKnowledgeService_DataConsistency_ShouldMaintainVectorGraphAlignmentAsync()
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documents = new[]
         {
@@ -360,7 +360,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Act - Store documents
         foreach (var doc in documents)
         {
-            var result = await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+            var result = await _hybridService.StoreDocumentWithKnowledgeAsync(doc, cancellationToken: TestContext.Current.CancellationToken);
             result.IsSuccess.ShouldBeTrue();
         }
 
@@ -368,15 +368,15 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         foreach (var doc in documents)
         {
             // Search by exact content should find the document in vector store
-            var vectorSearch = await _hybridService.SearchHybridAsync(doc.Content.Substring(0, 50));
+            var vectorSearch = await _hybridService.SearchHybridAsync(doc.Content.Substring(0, 50), cancellationToken: TestContext.Current.CancellationToken);
             vectorSearch.IsSuccess.ShouldBeTrue();
-            vectorSearch.Value.SemanticResults.Any(r => r.DocumentId == doc.DocumentId).ShouldBeTrue();
+            vectorSearch.Value!.SemanticResults.Any(r => r.DocumentId == doc.DocumentId).ShouldBeTrue();
 
             // Explore concepts should find the document in graph store
             if (doc.ExtractedConcepts.Any())
             {
                 var conceptExploration = await _hybridService.ExploreConceptRelationshipsAsync(
-                    doc.ExtractedConcepts.First().Name);
+                    doc.ExtractedConcepts.First().Name, cancellationToken: TestContext.Current.CancellationToken);
                 conceptExploration.IsSuccess.ShouldBeTrue();
             }
         }
@@ -408,7 +408,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         _hybridService = new HybridKnowledgeService(vectorStore, graphStore, mockEmbeddingGenerator, _hybridLogger);
     }
 
-    private async Task StoreTestKnowledgeBase()
+    private async Task StoreTestKnowledgeBaseAsync()
     {
         var knowledgeBase = new[]
         {
@@ -421,7 +421,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         foreach (var doc in knowledgeBase)
         {
-            await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+            await _hybridService.StoreDocumentWithKnowledgeAsync(doc, cancellationToken: TestContext.Current.CancellationToken);
         }
     }
 
@@ -435,15 +435,15 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             DocumentType = "test-article",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "test", "AI", "technology" },
+            Tags = ["test", "AI", "technology"],
             Metadata = new Dictionary<string, object>
             {
                 ["category"] = "test-category",
                 ["author"] = "Integration Test",
                 ["word_count"] = content.Length
             },
-            ExtractedConcepts = new List<GraphConcept>
-            {
+            ExtractedConcepts =
+            [
                 new GraphConcept
                 {
                     ConceptId = $"concept-{id}",
@@ -452,7 +452,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                     Description = "Technology domain concept",
                     Confidence = 0.8f
                 }
-            }
+            ]
         };
     }
 
@@ -474,15 +474,15 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                 DocumentType = "article",
                 CreatedAt = DateTime.UtcNow.AddDays(-random.Next(30)),
                 ModifiedAt = DateTime.UtcNow,
-                Tags = new List<string> { topic, "technology", "research" },
+                Tags = [topic, "technology", "research"],
                 Metadata = new Dictionary<string, object>
                 {
                     ["category"] = topic,
                     ["batch"] = "large-test",
                     ["index"] = i
                 },
-                ExtractedConcepts = new List<GraphConcept>
-                {
+                ExtractedConcepts =
+                [
                     new GraphConcept
                     {
                         ConceptId = $"concept-{topic}-{i}",
@@ -491,7 +491,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                         Description = $"Concept related to {topic}",
                         Confidence = 0.7f + (float)(random.NextDouble() * 0.3)
                     }
-                }
+                ]
             });
         }
 

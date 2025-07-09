@@ -87,7 +87,7 @@ public class HealthCheckService : IHealthCheckService
             // Process component results
             foreach (var (componentName, result) in componentResults)
             {
-                if (result.IsSuccess)
+                if (result.IsSuccess && result.Value != null)
                 {
                     systemReport.ComponentReports[componentName] = result.Value;
                 }

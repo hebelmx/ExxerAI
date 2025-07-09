@@ -8,7 +8,7 @@ public class DashboardHub : Hub
     /// <summary>
     /// Join a monitoring group for real-time updates
     /// </summary>
-    public async Task JoinMonitoringGroup()
+    public async Task JoinMonitoringGroupAsync()
     {
         await Groups.AddToGroupAsync(Context.ConnectionId, "monitoring");
     }
@@ -16,7 +16,7 @@ public class DashboardHub : Hub
     /// <summary>
     /// Leave the monitoring group
     /// </summary>
-    public async Task LeaveMonitoringGroup()
+    public async Task LeaveMonitoringGroupAsync()
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, "monitoring");
     }

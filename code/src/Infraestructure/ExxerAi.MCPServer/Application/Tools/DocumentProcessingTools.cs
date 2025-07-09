@@ -97,7 +97,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
                         $"📊 Schema: {schemaName}\n" +
                         $"🎯 Fields: {fieldsToExtract}\n" +
                         $"🕐 Extraction Time: 1.8 seconds\n\n" +
-                        $"📈 Extracted Data:\n" +
+                        $"📈 Extracted Value:\n" +
                         $"  • Invoice Number: INV-2024-567890 (Confidence: 94%)\n" +
                         $"  • Total Amount: $2,850.75 (Confidence: 97%)\n" +
                         $"  • Due Date: {DateTime.UtcNow.AddDays(30):yyyy-MM-dd} (Confidence: 89%)\n" +
@@ -137,7 +137,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
             var isValid = Random.Shared.NextDouble() > 0.15; // 85% success rate
             var confidence = Random.Shared.Next(80, 98) / 100.0f;
 
-            var result = $"✅ Data Validation Complete - ID: {validationId}\n" +
+            var result = $"✅ Value Validation Complete - ID: {validationId}\n" +
                         $"🔗 Extraction ID: {extractionId}\n" +
                         $"📋 Business Rules: {businessRules}\n" +
                         $"🎯 Context: {(string.IsNullOrWhiteSpace(contextData) ? "Standard validation" : contextData)}\n" +
@@ -148,20 +148,20 @@ public class DocumentProcessingTools : IDocumentProcessingTools
             {
                 result += $"✅ AgentStatus: VALID\n" +
                          $"📈 Validation Results:\n" +
-                         $"  • Data Format: ✅ Valid\n" +
+                         $"  • Value Format: ✅ Valid\n" +
                          $"  • Business Rules: ✅ Compliant\n" +
                          $"  • Cross-references: ✅ Verified\n" +
-                         $"  • Data Integrity: ✅ Confirmed\n" +
+                         $"  • Value Integrity: ✅ Confirmed\n" +
                          $"  • Completeness: ✅ 95% complete";
             }
             else
             {
                 result += $"⚠️ AgentStatus: VALIDATION ISSUES\n" +
                          $"📈 Validation Results:\n" +
-                         $"  • Data Format: ✅ Valid\n" +
+                         $"  • Value Format: ✅ Valid\n" +
                          $"  • Business Rules: ⚠️ Minor violations\n" +
                          $"  • Cross-references: ✅ Verified\n" +
-                         $"  • Data Integrity: ⚠️ Needs review\n" +
+                         $"  • Value Integrity: ⚠️ Needs review\n" +
                          $"  • Completeness: ⚠️ 78% complete\n\n" +
                          $"🔍 Issues Found:\n" +
                          $"  • Amount exceeds typical range for vendor\n" +
@@ -271,7 +271,7 @@ public class DocumentProcessingTools : IDocumentProcessingTools
                         $"🕐 Assessment Time: 0.3 seconds\n\n" +
                         $"📊 Capability Analysis:\n" +
                         $"  • Field Extraction: {Math.Min(0.99f, finalConfidence + 0.02f):P1}\n" +
-                        $"  • Data Validation: {Math.Min(0.97f, finalConfidence - 0.01f):P1}\n" +
+                        $"  • Value Validation: {Math.Min(0.97f, finalConfidence - 0.01f):P1}\n" +
                         $"  • Schema Recognition: {Math.Min(0.95f, finalConfidence - 0.03f):P1}\n" +
                         $"  • Format Handling: {Math.Min(0.93f, finalConfidence - 0.05f):P1}\n\n" +
                         $"🔍 Recommendations:\n" +

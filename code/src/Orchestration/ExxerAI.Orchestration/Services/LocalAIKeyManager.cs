@@ -1,6 +1,7 @@
 using ExxerAI.Orchestration.Configuration;
 using ExxerAI.Orchestration.Interfaces;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace ExxerAI.Orchestration.Services;
 
@@ -93,7 +94,7 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get a database connection string with secure credentials
     /// </summary>
-    public async Task<string> GetDatabaseConnectionStringAsync(DatabaseConfiguration config)
+    public async Task<string> GetDatabaseConnectionStringAsync(DatabaseConfiguration config, CancellationToken cancellationToken = default)
     {
         var username = await _keyStore.GetKeyAsync(KeyNames.DatabaseUsername, Scopes.Internal) ?? config.Username;
         var password = await _keyStore.GetKeyAsync(KeyNames.DatabasePassword, Scopes.Internal) ?? config.Password;
@@ -147,7 +148,7 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get external API key for third-party integrations
     /// </summary>
-    public async Task<string?> GetExternalApiKeyAsync(string provider)
+    public async Task<string?> GetExternalApiKeyAsync(string provider, CancellationToken cancellationToken = default)
     {
         var keyName = provider.ToLowerInvariant() switch
         {
@@ -171,7 +172,7 @@ public class LocalAIKeyManager
     /// <summary>
     /// Set external API key for third-party integrations
     /// </summary>
-    public async Task SetExternalApiKeyAsync(string provider, string apiKey)
+    public async Task SetExternalApiKeyAsync(string provider, string apiKey, CancellationToken cancellationToken)
     {
         var keyName = provider.ToLowerInvariant() switch
         {

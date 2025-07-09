@@ -8,11 +8,20 @@ namespace ExxerAI.Domain.Operations
     /// </summary>
     public static class ResultExtensions
     {
+        /// <summary>
+        /// Creates a result indicating that an operation was cancelled.
+        /// </summary>
+        /// <returns>A <see cref="Result"/> object representing a cancelled operation.</returns>
         public static Result Cancelled()
         {
             return Result.WithFailure(ResultErrors.OperationCancelled);
         }
 
+        /// <summary>
+        /// /// Creates a generic result indicating that an operation was cancelled.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static Result<T> Cancelled<T>()
         {
             return Result<T>.WithFailure(ResultErrors.OperationCancelled);
@@ -106,7 +115,7 @@ namespace ExxerAI.Domain.Operations
         {
             if (string.IsNullOrEmpty(parameterName))
                 return Result<T>.WithFailure("Parameter name cannot be null or empty.");
-            return value is null 
+            return value is null
                 ? FailForNullArgument<T>(parameterName)
                 : Result<T>.Success(value);
         }
@@ -122,7 +131,7 @@ namespace ExxerAI.Domain.Operations
         {
             if (string.IsNullOrEmpty(parameterName))
                 return Result<T>.WithFailure("Parameter name cannot be null or empty.");
-            return value.HasValue 
+            return value.HasValue
                 ? Result<T>.Success(value.Value)
                 : FailForNullArgument<T>(parameterName);
         }

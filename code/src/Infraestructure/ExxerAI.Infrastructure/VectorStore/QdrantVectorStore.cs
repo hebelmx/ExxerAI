@@ -53,7 +53,7 @@ public class QdrantVectorStore : IVectorStore
 
             if (!collectionExists)
             {
-                _logger.LogInformation("Creating new collection: {CollectionName} with vector size: {VectorSize}", 
+                _logger.LogInformation("Creating new collection: {CollectionName} with vector size: {VectorSize}",
                     _collectionName, _vectorSize);
 
                 // Create collection with optimized settings for document search
@@ -113,7 +113,7 @@ public class QdrantVectorStore : IVectorStore
         string documentId,
         string content,
         float[] embeddings,
-        Dictionary<string, object> metadata = null,
+        Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -126,7 +126,7 @@ public class QdrantVectorStore : IVectorStore
 
             await EnsureInitializedAsync(cancellationToken);
 
-            var payload = CreatePayload(documentId, content, metadata);
+            var payload = CreatePayload(documentId, content, metadata ?? []);
             var pointId = Guid.NewGuid().ToString();
 
             var pointStruct = new PointStruct
@@ -141,7 +141,7 @@ public class QdrantVectorStore : IVectorStore
                 points: new[] { pointStruct },
                 cancellationToken: cancellationToken);
 
-            _logger.LogDebug("Stored embedding for document: {DocumentId} with {Dimensions} dimensions", 
+            _logger.LogDebug("Stored embedding for document: {DocumentId} with {Dimensions} dimensions",
                 documentId, embeddings.Length);
 
             return Result.Success();
@@ -160,7 +160,7 @@ public class QdrantVectorStore : IVectorStore
         float[] queryEmbedding,
         int limit = 10,
         float threshold = 0.7f,
-        Dictionary<string, object> filter = null,
+        Dictionary<string, object>? filter = null,
         CancellationToken cancellationToken = default)
     {
         try
@@ -177,7 +177,7 @@ public class QdrantVectorStore : IVectorStore
                 Exact = false // Use approximate search for speed
             };
 
-            Filter searchFilter = null;
+            Filter searchFilter = null!;
             if (filter != null && filter.Any())
             {
                 searchFilter = BuildFilter(filter);
@@ -260,7 +260,7 @@ public class QdrantVectorStore : IVectorStore
         string documentId,
         string content,
         float[] embeddings,
-        Dictionary<string, object> metadata = null,
+        Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default)
     {
         // For Qdrant, update is the same as upsert

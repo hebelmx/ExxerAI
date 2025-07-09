@@ -1,0 +1,3659 @@
+
+>> 2 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\AgentsControllerMissingEndpointsTests.cs
+Original:
+await _controller.AssignTask(agentId, request);
+Modified:
+await _controller.AssignTask(agentId, request, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _controller.AssignTask(agentId, request);
+Modified:
+await _controller.AssignTask(agentId, request, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 10 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs
+Original:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync(invalidFolderId!, TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync(invalidFolderId!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.WhenAll(activeTasks);
+Modified:
+await Task.WhenAll(activeTasks, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await semaphore.WaitAsync();
+Modified:
+await semaphore.WaitAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 1 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\Controllers\AgentsControllerTests\DeleteAgentEndpointTests.cs
+Original:
+await _controller.DeleteAgent(agentId);
+Modified:
+await _controller.DeleteAgent(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 30 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\TaskServiceTests.cs
+Original:
+await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, _cancellationToken);
+Modified:
+await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync(invalidTitle, description, taskType, TaskPriority.Normal, null, _cancellationToken);
+Modified:
+await _taskService.CreateTaskAsync(invalidTitle, description, taskType, TaskPriority.Normal, null, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync(title, invalidDescription, taskType, TaskPriority.Normal, null, _cancellationToken);
+Modified:
+await _taskService.CreateTaskAsync(title, invalidDescription, taskType, TaskPriority.Normal, null, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync(title, description, invalidTaskType, TaskPriority.Normal, null, _cancellationToken);
+Modified:
+await _taskService.CreateTaskAsync(title, description, invalidTaskType, TaskPriority.Normal, null, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync(title, description, taskType, TaskPriority.Normal, pastDeadline, _cancellationToken);
+Modified:
+await _taskService.CreateTaskAsync(title, description, taskType, TaskPriority.Normal, pastDeadline, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetTaskAsync(taskId, _cancellationToken);
+Modified:
+await _taskService.GetTaskAsync(taskId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetTaskAsync(nonExistentId, _cancellationToken);
+Modified:
+await _taskService.GetTaskAsync(nonExistentId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetTaskAsync(emptyId, _cancellationToken);
+Modified:
+await _taskService.GetTaskAsync(emptyId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(100, _cancellationToken);
+Modified:
+await _taskService.GetPendingTasksAsync(100, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(maxCount, _cancellationToken);
+Modified:
+await _taskService.GetPendingTasksAsync(maxCount, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(invalidCount, _cancellationToken);
+Modified:
+await _taskService.GetPendingTasksAsync(invalidCount, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetAgentTasksAsync(agentId, null, _cancellationToken);
+Modified:
+await _taskService.GetAgentTasksAsync(agentId, null, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetAgentTasksAsync(agentId, status, _cancellationToken);
+Modified:
+await _taskService.GetAgentTasksAsync(agentId, status, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetAgentTasksAsync(emptyId, null, _cancellationToken);
+Modified:
+await _taskService.GetAgentTasksAsync(emptyId, null, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.UpdateTaskStatusAsync(taskId, newStatus, _cancellationToken);
+Modified:
+await _taskService.UpdateTaskStatusAsync(taskId, newStatus, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.UpdateTaskStatusAsync(emptyId, newStatus, _cancellationToken);
+Modified:
+await _taskService.UpdateTaskStatusAsync(emptyId, newStatus, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.UpdateTaskStatusAsync(nonExistentId, newStatus, _cancellationToken);
+Modified:
+await _taskService.UpdateTaskStatusAsync(nonExistentId, newStatus, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken);
+Modified:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(emptyTaskId, agentId, _cancellationToken);
+Modified:
+await _taskService.AssignTaskToAgentAsync(emptyTaskId, agentId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(taskId, emptyAgentId, _cancellationToken);
+Modified:
+await _taskService.AssignTaskToAgentAsync(taskId, emptyAgentId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken);
+Modified:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken);
+Modified:
+await _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CompleteTaskAsync(taskId, null, _cancellationToken);
+Modified:
+await _taskService.CompleteTaskAsync(taskId, null, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken);
+Modified:
+await _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.FailTaskAsync(taskId, errorMessage, _cancellationToken);
+Modified:
+await _taskService.FailTaskAsync(taskId, errorMessage, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.FailTaskAsync(taskId, invalidMessage, _cancellationToken);
+Modified:
+await _taskService.FailTaskAsync(taskId, invalidMessage, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CancelTaskAsync(taskId, _cancellationToken);
+Modified:
+await _taskService.CancelTaskAsync(taskId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CancelTaskAsync(taskId, _cancellationToken);
+Modified:
+await _taskService.CancelTaskAsync(taskId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetOverdueTasksAsync(_cancellationToken);
+Modified:
+await _taskService.GetOverdueTasksAsync(_cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetOverdueTasksAsync(_cancellationToken);
+Modified:
+await _taskService.GetOverdueTasksAsync(_cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 7 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceImplementationTests.cs
+Original:
+await _agentService.CreateAgentAsync("", "description", capabilities);
+Modified:
+await _agentService.CreateAgentAsync("", "description", capabilities, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.CreateAgentAsync("TestAgent", "Test Description", capabilities);
+Modified:
+await _agentService.CreateAgentAsync("TestAgent", "Test Description", capabilities, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAgentAsync(Guid.Empty);
+Modified:
+await _agentService.GetAgentAsync(Guid.Empty, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAllAgentsAsync();
+Modified:
+await _agentService.GetAllAgentsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.AssignTaskAsync(agentId, taskId);
+Modified:
+await _agentService.AssignTaskAsync(agentId, taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.DeleteAgentAsync(Guid.Empty);
+Modified:
+await _agentService.DeleteAgentAsync(Guid.Empty, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.DeleteAgentAsync(agentId);
+Modified:
+await _agentService.DeleteAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 27 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceTests.cs
+Original:
+await _agentService.CreateAgentAsync(name, description, capabilities);
+Modified:
+await _agentService.CreateAgentAsync(name, description, capabilities, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.CreateAgentAsync(name, description, capabilities);
+Modified:
+await _agentService.CreateAgentAsync(name, description, capabilities, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.CreateAgentAsync(name, description, capabilities);
+Modified:
+await _agentService.CreateAgentAsync(name, description, capabilities, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.CreateAgentAsync(name, description, capabilities, cts.Token);
+Modified:
+await _agentService.CreateAgentAsync(name, description, capabilities, cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAgentAsync(agentId);
+Modified:
+await _agentService.GetAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAgentAsync(agentId);
+Modified:
+await _agentService.GetAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAgentAsync(agentId);
+Modified:
+await _agentService.GetAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAllAgentsAsync();
+Modified:
+await _agentService.GetAllAgentsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetAllAgentsAsync();
+Modified:
+await _agentService.GetAllAgentsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetActiveAgentsAsync();
+Modified:
+await _agentService.GetActiveAgentsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetActiveAgentsAsync();
+Modified:
+await _agentService.GetActiveAgentsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.UpdateAgentConfigurationAsync(agentId, configuration);
+Modified:
+await _agentService.UpdateAgentConfigurationAsync(agentId, configuration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.UpdateAgentConfigurationAsync(agentId, configuration);
+Modified:
+await _agentService.UpdateAgentConfigurationAsync(agentId, configuration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.UpdateAgentConfigurationAsync(agentId, configuration);
+Modified:
+await _agentService.UpdateAgentConfigurationAsync(agentId, configuration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.UpdateAgentStatusAsync(agentId, status);
+Modified:
+await _agentService.UpdateAgentStatusAsync(agentId, status, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.UpdateAgentStatusAsync(agentId, status);
+Modified:
+await _agentService.UpdateAgentStatusAsync(agentId, status, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.AssignTaskAsync(agentId, taskId);
+Modified:
+await _agentService.AssignTaskAsync(agentId, taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.AssignTaskAsync(agentId, taskId);
+Modified:
+await _agentService.AssignTaskAsync(agentId, taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.AssignTaskAsync(agentId, taskId);
+Modified:
+await _agentService.AssignTaskAsync(agentId, taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.FindBestAgentForTaskAsync(taskType);
+Modified:
+await _agentService.FindBestAgentForTaskAsync(taskType, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.FindBestAgentForTaskAsync(taskType);
+Modified:
+await _agentService.FindBestAgentForTaskAsync(taskType, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.FindBestAgentForTaskAsync(taskType);
+Modified:
+await _agentService.FindBestAgentForTaskAsync(taskType, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.DeleteAgentAsync(agentId);
+Modified:
+await _agentService.DeleteAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.DeleteAgentAsync(agentId);
+Modified:
+await _agentService.DeleteAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.DeleteAgentAsync(agentId);
+Modified:
+await _agentService.DeleteAgentAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.GetActiveAgentsAsync(cts.Token);
+Modified:
+await _agentService.GetActiveAgentsAsync(cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentService.FindBestAgentForTaskAsync("test", cts.Token);
+Modified:
+await _agentService.FindBestAgentForTaskAsync("test", cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 6 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\DocumentIngestionServiceBehavioralTests.cs
+Original:
+await _service.DetectDocumentChangesAsync();
+Modified:
+await _service.DetectDocumentChangesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.DetectDocumentChangesAsync();
+Modified:
+await _service.DetectDocumentChangesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId);
+Modified:
+await _service.IngestDocumentAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 23 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\DocumentIngestionServiceImplementationTests.cs
+Original:
+await _service.StartWatchingFolderAsync("", TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync("", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync("test-folder-id", TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync("test-folder-id", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync("   ", TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync("   ", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StopWatchingFolderAsync("nonexistent-watch-id");
+Modified:
+await _service.StopWatchingFolderAsync("nonexistent-watch-id", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StopWatchingFolderAsync(watchId);
+Modified:
+await _service.StopWatchingFolderAsync(watchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.DetectDocumentChangesAsync();
+Modified:
+await _service.DetectDocumentChangesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(null!);
+Modified:
+await _service.ProcessDocumentChangeAsync(null!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync("", false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync("", false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync("   ", false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync("   ", false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, forceReprocess: true, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, forceReprocess: true, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IsDocumentModifiedAsync(documentId, lastProcessed);
+Modified:
+await _service.IsDocumentModifiedAsync(documentId, lastProcessed, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync("test-folder", TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync("test-folder", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StopWatchingFolderAsync(watchResult.Value!);
+Modified:
+await _service.StopWatchingFolderAsync(watchResult.Value!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 14 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\DocumentIngestionServiceTests.cs
+Original:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StartWatchingFolderAsync(folderId!, TestContext.Current.CancellationToken);
+Modified:
+await _service.StartWatchingFolderAsync(folderId!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.StopWatchingFolderAsync(watchId);
+Modified:
+await _service.StopWatchingFolderAsync(watchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await service.DetectDocumentChangesAsync();
+Modified:
+await service.DetectDocumentChangesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId!, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId!, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await service.IsDocumentModifiedAsync(documentId, lastProcessed);
+Modified:
+await service.IsDocumentModifiedAsync(documentId, lastProcessed, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(changeEvent);
+Modified:
+await _service.ProcessDocumentChangeAsync(changeEvent, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ProcessDocumentChangeAsync(change);
+Modified:
+await _service.ProcessDocumentChangeAsync(change, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.WhenAll(tasks);
+Modified:
+await Task.WhenAll(tasks, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 17 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\EnhancedLLMServiceTests.cs
+Original:
+await _service.GenerateTextAsync(modelId, prompt);
+Modified:
+await _service.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GenerateTextAsync(modelId, prompt);
+Modified:
+await _service.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GenerateTextAsync(modelId, prompt);
+Modified:
+await _service.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GenerateTextAsync(modelId, prompt);
+Modified:
+await _service.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateConversationAsync(agentId, modelId);
+Modified:
+await _service.CreateConversationAsync(agentId, modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateConversationAsync(agentId, modelId);
+Modified:
+await _service.CreateConversationAsync(agentId, modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+Modified:
+await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ContinueConversationAsync(conversationId, message);
+Modified:
+await _service.ContinueConversationAsync(conversationId, message, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ContinueConversationAsync(conversationId, message);
+Modified:
+await _service.ContinueConversationAsync(conversationId, message, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ContinueConversationAsync(conversationId, message);
+Modified:
+await _service.ContinueConversationAsync(conversationId, message, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+Modified:
+await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+Modified:
+await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+Modified:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+Modified:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+Modified:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ValidateModelAsync(modelId);
+Modified:
+await _service.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ValidateModelAsync(modelId);
+Modified:
+await _service.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 14 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+await _processor.ProcessDocumentAsync(documentData, metadata);
+Modified:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+Modified:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+Modified:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+Modified:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token);
+Modified:
+await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentAsync(documentData, metadata);
+Modified:
+await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentBatchAsync(documents, options);
+Modified:
+await _processor.ProcessDocumentBatchAsync(documents, options, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentBatchAsync(documents, options);
+Modified:
+await _processor.ProcessDocumentBatchAsync(documents, options, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentBatchAsync(documents, options, progress);
+Modified:
+await _processor.ProcessDocumentBatchAsync(documents, options, progress, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token);
+Modified:
+await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+Modified:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+Modified:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+Modified:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+Modified:
+await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 14 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceImplementationTests.cs
+Original:
+await _service.GenerateTextAsync(modelId, "test prompt");
+Modified:
+await _service.GenerateTextAsync(modelId, "test prompt", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GenerateTextAsync(modelId, prompt);
+Modified:
+await _service.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ContinueConversationAsync(conversationId, "test message");
+Modified:
+await _service.ContinueConversationAsync(conversationId, "test message", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ContinueConversationAsync(conversationId, message);
+Modified:
+await _service.ContinueConversationAsync(conversationId, message, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+Modified:
+await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateConversationAsync(agentId, modelId);
+Modified:
+await _service.CreateConversationAsync(agentId, modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateConversationAsync(agentId, modelId);
+Modified:
+await _service.CreateConversationAsync(agentId, modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.EstimateCostAsync(modelId, 100, 50, TestContext.Current.CancellationToken);
+Modified:
+await _service.EstimateCostAsync(modelId, 100, 50, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.EstimateCostAsync(modelId, 1000, 500, TestContext.Current.CancellationToken);
+Modified:
+await _service.EstimateCostAsync(modelId, 1000, 500, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CountTokensAsync(modelId, "", TestContext.Current.CancellationToken);
+Modified:
+await _service.CountTokensAsync(modelId, "", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+Modified:
+await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CountTokensAsync(modelId, "test text", TestContext.Current.CancellationToken);
+Modified:
+await _service.CountTokensAsync(modelId, "test text", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ValidateModelAsync(modelId);
+Modified:
+await _service.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.ValidateModelAsync(modelId);
+Modified:
+await _service.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 5 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+await _llmService.GenerateTextAsync(modelId, prompt, parameters);
+Modified:
+await _llmService.GenerateTextAsync(modelId, prompt, parameters, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _llmService.GenerateTextAsync(modelId, prompt);
+Modified:
+await _llmService.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _llmService.GenerateTextAsync(modelId, prompt);
+Modified:
+await _llmService.GenerateTextAsync(modelId, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _llmService.ContinueConversationAsync(conversationId, message);
+Modified:
+await _llmService.ContinueConversationAsync(conversationId, message, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _llmService.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+Modified:
+await _llmService.CreateConversationAsync(agentId, modelId, title, systemPrompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 23 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+await _personaService.CreatePersonaAsync(
+            name, role, description, systemPrompt, traits, domains);
+Modified:
+await _personaService.CreatePersonaAsync(
+            name, role, description, systemPrompt, traits, domains, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.CreatePersonaAsync(
+            invalidName, role, description, systemPrompt);
+Modified:
+await _personaService.CreatePersonaAsync(
+            invalidName, role, description, systemPrompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.CreatePersonaAsync(
+            name, invalidRole, description, systemPrompt);
+Modified:
+await _personaService.CreatePersonaAsync(
+            name, invalidRole, description, systemPrompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.CreatePersonaAsync(
+            name, role, description, systemPrompt);
+Modified:
+await _personaService.CreatePersonaAsync(
+            name, role, description, systemPrompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.UpdatePersonaAsync(
+            personaId, "New Name", "New Role", "New description", "New prompt");
+Modified:
+await _personaService.UpdatePersonaAsync(
+            personaId, "New Name", "New Role", "New description", "New prompt", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.UpdatePersonaAsync(Guid.Empty);
+Modified:
+await _personaService.UpdatePersonaAsync(Guid.Empty, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.GetPersonaByIdAsync(personaId);
+Modified:
+await _personaService.GetPersonaByIdAsync(personaId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.GetActivePersonasAsync();
+Modified:
+await _personaService.GetActivePersonasAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.AddPersonaTraitAsync(
+            personaId, "tone", "professional");
+Modified:
+await _personaService.AddPersonaTraitAsync(
+            personaId, "tone", "professional", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.AddPersonaTraitAsync(
+            Guid.Empty, "tone", "professional");
+Modified:
+await _personaService.AddPersonaTraitAsync(
+            Guid.Empty, "tone", "professional", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.AddPersonaTraitAsync(
+            personaId, invalidKey, "value");
+Modified:
+await _personaService.AddPersonaTraitAsync(
+            personaId, invalidKey, "value", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.RemovePersonaTraitAsync(
+            personaId, "tone");
+Modified:
+await _personaService.RemovePersonaTraitAsync(
+            personaId, "tone", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.AddKnowledgeDomainAsync(
+            personaId, "machine_learning");
+Modified:
+await _personaService.AddKnowledgeDomainAsync(
+            personaId, "machine_learning", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.RemoveKnowledgeDomainAsync(
+            personaId, "machine_learning");
+Modified:
+await _personaService.RemoveKnowledgeDomainAsync(
+            personaId, "machine_learning", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.CreateTemplateForPersonaAsync(
+            personaId,
+            "Code Review Template",
+            "Please review this {{language}} code: {{code}}",
+            "code_review");
+Modified:
+await _personaService.CreateTemplateForPersonaAsync(
+            personaId,
+            "Code Review Template",
+            "Please review this {{language}} code: {{code}}",
+            "code_review", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.CreateTemplateForPersonaAsync(
+            personaId, invalidName, "Template text", "context");
+Modified:
+await _personaService.CreateTemplateForPersonaAsync(
+            personaId, invalidName, "Template text", "context", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.GetPersonaTemplatesAsync(personaId);
+Modified:
+await _personaService.GetPersonaTemplatesAsync(personaId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.ActivatePersonaAsync(personaId);
+Modified:
+await _personaService.ActivatePersonaAsync(personaId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.DeactivatePersonaAsync(personaId);
+Modified:
+await _personaService.DeactivatePersonaAsync(personaId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.DeletePersonaAsync(personaId);
+Modified:
+await _personaService.DeletePersonaAsync(personaId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.ValidatePersonaAsync(personaId);
+Modified:
+await _personaService.ValidatePersonaAsync(personaId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.SearchPersonasAsync(searchCriteria);
+Modified:
+await _personaService.SearchPersonasAsync(searchCriteria, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _personaService.SearchPersonasAsync(null);
+Modified:
+await _personaService.SearchPersonasAsync(null, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 6 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskRepositoryBehavioralTests1.cs
+Original:
+await _service.CreateTaskAsync("Task 1", "Description 1", "Type1", TaskPriority.Normal);
+Modified:
+await _service.CreateTaskAsync("Task 1", "Description 1", "Type1", TaskPriority.Normal, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetPendingTasksAsync(10);
+Modified:
+await _service.GetPendingTasksAsync(10, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetPendingTasksAsync(5);
+Modified:
+await _service.GetPendingTasksAsync(5, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateTaskAsync("Test Task", "Test Description", "TestType", TaskPriority.Normal);
+Modified:
+await _service.CreateTaskAsync("Test Task", "Test Description", "TestType", TaskPriority.Normal, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.UpdateTaskStatusAsync(taskId, newStatus);
+Modified:
+await _service.UpdateTaskStatusAsync(taskId, newStatus, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.UpdateTaskStatusAsync(taskId, TaskAgentStatus.Completed);
+Modified:
+await _service.UpdateTaskStatusAsync(taskId, TaskAgentStatus.Completed, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 31 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServiceTests.cs
+Original:
+await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline);
+Modified:
+await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync(title, description, taskType, priority);
+Modified:
+await _taskService.CreateTaskAsync(title, description, taskType, priority, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync(title, description, taskType, priority);
+Modified:
+await _taskService.CreateTaskAsync(title, description, taskType, priority, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetTaskAsync(taskId);
+Modified:
+await _taskService.GetTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetTaskAsync(taskId);
+Modified:
+await _taskService.GetTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetTaskAsync(taskId);
+Modified:
+await _taskService.GetTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(maxCount);
+Modified:
+await _taskService.GetPendingTasksAsync(maxCount, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(maxCount);
+Modified:
+await _taskService.GetPendingTasksAsync(maxCount, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(maxCount);
+Modified:
+await _taskService.GetPendingTasksAsync(maxCount, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetAgentTasksAsync(agentId);
+Modified:
+await _taskService.GetAgentTasksAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetAgentTasksAsync(agentId, agentStatus);
+Modified:
+await _taskService.GetAgentTasksAsync(agentId, agentStatus, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetAgentTasksAsync(agentId);
+Modified:
+await _taskService.GetAgentTasksAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.UpdateTaskStatusAsync(taskId, agentStatus);
+Modified:
+await _taskService.UpdateTaskStatusAsync(taskId, agentStatus, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.UpdateTaskStatusAsync(taskId, status);
+Modified:
+await _taskService.UpdateTaskStatusAsync(taskId, status, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.UpdateTaskStatusAsync(taskId, status);
+Modified:
+await _taskService.UpdateTaskStatusAsync(taskId, status, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId);
+Modified:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId);
+Modified:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId);
+Modified:
+await _taskService.AssignTaskToAgentAsync(taskId, agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CompleteTaskAsync(taskId, outputData);
+Modified:
+await _taskService.CompleteTaskAsync(taskId, outputData, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CompleteTaskAsync(taskId);
+Modified:
+await _taskService.CompleteTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CompleteTaskAsync(taskId);
+Modified:
+await _taskService.CompleteTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.FailTaskAsync(taskId, errorMessage);
+Modified:
+await _taskService.FailTaskAsync(taskId, errorMessage, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.FailTaskAsync(taskId, errorMessage);
+Modified:
+await _taskService.FailTaskAsync(taskId, errorMessage, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetOverdueTasksAsync();
+Modified:
+await _taskService.GetOverdueTasksAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetOverdueTasksAsync();
+Modified:
+await _taskService.GetOverdueTasksAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.DeleteTaskAsync(taskId);
+Modified:
+await _taskService.DeleteTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.DeleteTaskAsync(taskId);
+Modified:
+await _taskService.DeleteTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.DeleteTaskAsync(taskId);
+Modified:
+await _taskService.DeleteTaskAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token);
+Modified:
+await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetPendingTasksAsync(100, cts.Token);
+Modified:
+await _taskService.GetPendingTasksAsync(100, cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskService.GetOverdueTasksAsync(cts.Token);
+Modified:
+await _taskService.GetOverdueTasksAsync(cts.Token, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 2 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceBehavioralTests5.cs
+Original:
+await _service.GetWorkflowAsync(workflowId);
+Modified:
+await _service.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetWorkflowAsync(workflowId);
+Modified:
+await _service.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 2 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceImplementationTests.cs
+Original:
+await _service.CreateWorkflowAsync(invalidName, description, steps);
+Modified:
+await _service.CreateWorkflowAsync(invalidName, description, steps, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.CreateWorkflowAsync(name, description, steps);
+Modified:
+await _service.CreateWorkflowAsync(name, description, steps, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 17 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+await _workflowService.CreateWorkflowAsync(name, description, steps);
+Modified:
+await _workflowService.CreateWorkflowAsync(name, description, steps, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.CreateWorkflowAsync(name, description, steps);
+Modified:
+await _workflowService.CreateWorkflowAsync(name, description, steps, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.CreateWorkflowAsync(name, description, steps);
+Modified:
+await _workflowService.CreateWorkflowAsync(name, description, steps, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetWorkflowAsync(workflowId);
+Modified:
+await _workflowService.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetWorkflowAsync(workflowId);
+Modified:
+await _workflowService.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetWorkflowAsync(workflowId);
+Modified:
+await _workflowService.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetActiveWorkflowsAsync();
+Modified:
+await _workflowService.GetActiveWorkflowsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetActiveWorkflowsAsync();
+Modified:
+await _workflowService.GetActiveWorkflowsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+Modified:
+await _workflowService.ExecuteWorkflowAsync(workflowId, input, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+Modified:
+await _workflowService.ExecuteWorkflowAsync(workflowId, input, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+Modified:
+await _workflowService.ExecuteWorkflowAsync(workflowId, input, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetWorkflowExecutionsAsync(workflowId);
+Modified:
+await _workflowService.GetWorkflowExecutionsAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.GetWorkflowExecutionsAsync(workflowId, WorkflowExecutionStatus.Completed);
+Modified:
+await _workflowService.GetWorkflowExecutionsAsync(workflowId, WorkflowExecutionStatus.Completed, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+Modified:
+await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+Modified:
+await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.DeleteWorkflowAsync(workflowId);
+Modified:
+await _workflowService.DeleteWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowService.DeleteWorkflowAsync(workflowId);
+Modified:
+await _workflowService.DeleteWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 41 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _agentCommands.ExecuteAsync(args);
+Modified:
+await _agentCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 5 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CLIValidationTests.cs
+Original:
+await commands.ExecuteAsync(args);
+Modified:
+await commands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await router.ExecuteAsync(new[] { "version" });
+Modified:
+await router.ExecuteAsync(new[] { "version" }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await router.ExecuteAsync(new[] { "invalidcommand" });
+Modified:
+await router.ExecuteAsync(new[] { "invalidcommand" }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await workflowCommands.ExecuteAsync(new[] { "help" });
+Modified:
+await workflowCommands.ExecuteAsync(new[] { "help" }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await workflowCommands.ExecuteAsync(new[] { "unknown" });
+Modified:
+await workflowCommands.ExecuteAsync(new[] { "unknown" }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 28 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _commandRouter.ExecuteAsync(args);
+Modified:
+await _commandRouter.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 28 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\ProgramTests.cs
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args!);
+Modified:
+await CallMainMethod(args!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(validArgs);
+Modified:
+await CallMainMethod(validArgs, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(invalidArgs);
+Modified:
+await CallMainMethod(invalidArgs, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await CallMainMethod(args);
+Modified:
+await CallMainMethod(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 44 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _taskCommands.ExecuteAsync(args);
+Modified:
+await _taskCommands.ExecuteAsync(args, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 28 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\WorkflowCommandsTests.cs
+Original:
+await _workflowCommands.ExecuteAsync([]);
+Modified:
+await _workflowCommands.ExecuteAsync([], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync([helpCommand]);
+Modified:
+await _workflowCommands.ExecuteAsync([helpCommand], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["invalidcommand"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["invalidcommand"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync([command]);
+Modified:
+await _workflowCommands.ExecuteAsync([command], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync([command, "TestWorkflow"]);
+Modified:
+await _workflowCommands.ExecuteAsync([command, "TestWorkflow"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["create"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["create"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["delete", "invalid-id"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["delete", "invalid-id"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["execute", "invalid-id"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["execute", "invalid-id"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["agentStatus", "invalid-id"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["agentStatus", "invalid-id"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["create", "TestWorkflow", "--description", "Test Description"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["create", "TestWorkflow", "--description", "Test Description"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["create", "TestWorkflow", descriptionFlag, "Test Description"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["create", "TestWorkflow", descriptionFlag, "Test Description"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["stop", "invalid-id"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["stop", "invalid-id"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["list", "--agentStatus", "Running"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["list", "--agentStatus", "Running"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["list", statusFlag, "Completed"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["list", statusFlag, "Completed"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["delete"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["delete"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["execute"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["execute"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["agentStatus"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["agentStatus"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["stop"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["stop"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["pause"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["pause"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["resume"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["resume"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["update"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["update"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["create", "Workflow1"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["create", "Workflow1"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["list"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["list"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["help"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["help"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync([command, "TestWorkflow"]);
+Modified:
+await _workflowCommands.ExecuteAsync([command, "TestWorkflow"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["create", "Workflow!@#$%", "--description", "Test with spaces & symbols"]);
+Modified:
+await _workflowCommands.ExecuteAsync(["create", "Workflow!@#$%", "--description", "Test with spaces & symbols"], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(["create", "", "--description", ""]);
+Modified:
+await _workflowCommands.ExecuteAsync(["create", "", "--description", ""], TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _workflowCommands.ExecuteAsync(longArgList);
+Modified:
+await _workflowCommands.ExecuteAsync(longArgList, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 10 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultAsyncSafetyTests.cs
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await SimulateAsyncOperationWithSpanOptimizations(false);
+Modified:
+await SimulateAsyncOperationWithSpanOptimizations(false, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.WhenAll(tasks);
+Modified:
+await Task.WhenAll(tasks, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+Modified:
+await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 24 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\DocumentNotificationServiceTests.cs
+Original:
+await _notificationService.NotifyDocumentAddedAsync(document, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentAddedAsync(document, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentAddedAsync(nullDocument, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentAddedAsync(nullDocument, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentAddedAsync(document, cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentAddedAsync(document, cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentModifiedAsync(document, previousVersion, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentModifiedAsync(document, previousVersion, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentModifiedAsync(nullDocument, previousVersion, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentModifiedAsync(nullDocument, previousVersion, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentModifiedAsync(document, invalidVersion, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentModifiedAsync(document, invalidVersion, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentRemovedAsync(documentId, documentName, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentRemovedAsync(documentId, documentName, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentRemovedAsync(invalidId, documentName, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentRemovedAsync(invalidId, documentName, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName, _cancellationToken);
+Modified:
+await _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingFailedAsync(document, error, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingFailedAsync(document, error, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingFailedAsync(nullDocument, error, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingFailedAsync(nullDocument, error, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingFailedAsync(document, nullError, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingFailedAsync(document, nullError, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingCompletedAsync(document, processingResult, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingCompletedAsync(document, processingResult, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingCompletedAsync(nullDocument, processingResult, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingCompletedAsync(nullDocument, processingResult, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingCompletedAsync(document, nullResult, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingCompletedAsync(document, nullResult, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.RegisterSubscriberAsync(subscriberId, callback);
+Modified:
+await _notificationService.RegisterSubscriberAsync(subscriberId, callback, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.RegisterSubscriberAsync(invalidId, callback);
+Modified:
+await _notificationService.RegisterSubscriberAsync(invalidId, callback, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.RegisterSubscriberAsync(subscriberId, nullCallback);
+Modified:
+await _notificationService.RegisterSubscriberAsync(subscriberId, nullCallback, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.RegisterSubscriberAsync(subscriberId, callback);
+Modified:
+await _notificationService.RegisterSubscriberAsync(subscriberId, callback, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.UnregisterSubscriberAsync(subscriberId);
+Modified:
+await _notificationService.UnregisterSubscriberAsync(subscriberId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.UnregisterSubscriberAsync(invalidId);
+Modified:
+await _notificationService.UnregisterSubscriberAsync(invalidId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.UnregisterSubscriberAsync(nonExistentId);
+Modified:
+await _notificationService.UnregisterSubscriberAsync(nonExistentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.NotifyProcessingCompletedAsync(document, processingResult, _cancellationToken);
+Modified:
+await _notificationService.NotifyProcessingCompletedAsync(document, processingResult, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _notificationService.RegisterSubscriberAsync(subscriberId, faultyCallback);
+Modified:
+await _notificationService.RegisterSubscriberAsync(subscriberId, faultyCallback, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 14 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\InMemoryAgentRepositoryTests.cs
+Original:
+await _repository.AddAsync(agent, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(agent, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByIdAsync(agentId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(addedAgent, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(addedAgent, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.DeleteAsync(agentId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.DeleteAsync(agentId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByIdAsync(agentId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByStatusAsync(AgentStatus.Active, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByStatusAsync(AgentStatus.Active, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.FindByTaskTypeAsync("web", TestContext.Current.CancellationToken);
+Modified:
+await _repository.FindByTaskTypeAsync("web", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.FindByTaskTypeAsync("nonexistent", TestContext.Current.CancellationToken);
+Modified:
+await _repository.FindByTaskTypeAsync("nonexistent", TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetAgentsWithTaskCountAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetAgentsWithTaskCountAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(null!, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(null!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(null!, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(null!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(agent, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(agent, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.ExistsAsync(agentId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.ExistsAsync(agentId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 34 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\InMemoryTaskRepositoryTests.cs
+Original:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(task2, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(task2, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByIdAsync(taskId,  TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByIdAsync(taskId,  TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(addedTask, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(addedTask, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.DeleteAsync(taskId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.DeleteAsync(taskId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByIdAsync(taskId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByIdAsync(taskId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByStatusAsync(TaskAgentStatus.Pending, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByStatusAsync(TaskAgentStatus.Pending, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByAgentAsync(agentId1, null, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByAgentAsync(agentId1, null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByAgentAsync(agentId, TaskAgentStatus.InProgress, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByAgentAsync(agentId, TaskAgentStatus.InProgress, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByTypeAsync("DataAnalysis", null, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByTypeAsync("DataAnalysis", null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(null!, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(null!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(null!, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(null!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.UpdateAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.UpdateAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.DeleteAsync(Guid.Empty, TestContext.Current.CancellationToken);
+Modified:
+await _repository.DeleteAsync(Guid.Empty, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByAgentAsync(Guid.Empty, null, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByAgentAsync(Guid.Empty, null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByTypeAsync("", null, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByTypeAsync("", null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.ExistsAsync(Guid.Empty, TestContext.Current.CancellationToken);
+Modified:
+await _repository.ExistsAsync(Guid.Empty, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.ExistsAsync(taskId, TestContext.Current.CancellationToken);
+Modified:
+await _repository.ExistsAsync(taskId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.WhenAll(addTasks);
+Modified:
+await Task.WhenAll(addTasks, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.WhenAll(readTasks);
+Modified:
+await Task.WhenAll(readTasks, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetByStatusAsync(TaskAgentStatus.Pending, TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetByStatusAsync(TaskAgentStatus.Pending, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetOverdueTasksAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken);
+Modified:
+await _repository.AddAsync(task, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken);
+Modified:
+await _repository.GetAllAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 20 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\PrimarySourceOfTruthSystemTests.cs
+Original:
+await _truthSystem.StoreExtractedDataAsync(extractedData, dataSource, _cancellationToken);
+Modified:
+await _truthSystem.StoreExtractedDataAsync(extractedData, dataSource, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.StoreExtractedDataAsync(nullData, dataSource, _cancellationToken);
+Modified:
+await _truthSystem.StoreExtractedDataAsync(nullData, dataSource, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.StoreExtractedDataAsync(extractedData, nullSource, _cancellationToken);
+Modified:
+await _truthSystem.StoreExtractedDataAsync(extractedData, nullSource, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.StoreExtractedDataAsync(extractedData, dataSource, cancellationToken);
+Modified:
+await _truthSystem.StoreExtractedDataAsync(extractedData, dataSource, cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.ValidateAgainstTruthAsync(extractedData, _cancellationToken);
+Modified:
+await _truthSystem.ValidateAgainstTruthAsync(extractedData, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.ValidateAgainstTruthAsync(conflictingData, _cancellationToken);
+Modified:
+await _truthSystem.ValidateAgainstTruthAsync(conflictingData, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GetAuthoritativeRecordAsync(recordId, _cancellationToken);
+Modified:
+await _truthSystem.GetAuthoritativeRecordAsync(recordId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GetAuthoritativeRecordAsync(nonExistentId, _cancellationToken);
+Modified:
+await _truthSystem.GetAuthoritativeRecordAsync(nonExistentId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GetAuthoritativeRecordAsync(invalidId, _cancellationToken);
+Modified:
+await _truthSystem.GetAuthoritativeRecordAsync(invalidId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.ResolveDataConflictAsync(conflictingData, _cancellationToken);
+Modified:
+await _truthSystem.ResolveDataConflictAsync(conflictingData, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.ResolveDataConflictAsync(emptyData, _cancellationToken);
+Modified:
+await _truthSystem.ResolveDataConflictAsync(emptyData, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GetDataLineageAsync(recordId, _cancellationToken);
+Modified:
+await _truthSystem.GetDataLineageAsync(recordId, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken);
+Modified:
+await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken);
+Modified:
+await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.FindSimilarRecordsAsync(extractedData, similarityThreshold, _cancellationToken);
+Modified:
+await _truthSystem.FindSimilarRecordsAsync(extractedData, similarityThreshold, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.FindSimilarRecordsAsync(extractedData, invalidThreshold, _cancellationToken);
+Modified:
+await _truthSystem.FindSimilarRecordsAsync(extractedData, invalidThreshold, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.UpdateTruthRecordAsync(recordId, updatedData, updatedBy, _cancellationToken);
+Modified:
+await _truthSystem.UpdateTruthRecordAsync(recordId, updatedData, updatedBy, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.RequireHumanReviewAsync(recordId, reason, _cancellationToken);
+Modified:
+await _truthSystem.RequireHumanReviewAsync(recordId, reason, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GetRecordsRequiringReviewAsync(_cancellationToken);
+Modified:
+await _truthSystem.GetRecordsRequiringReviewAsync(_cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, _cancellationToken);
+Modified:
+await _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 13 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\LLM\OpenAIProviderTests.cs
+Original:
+await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken);
+Modified:
+await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken);
+Modified:
+await _provider.CountTokensAsync(modelName, text, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.CountTokensAsync(modelName, text!, TestContext.Current.CancellationToken);
+Modified:
+await _provider.CountTokensAsync(modelName, text!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+Modified:
+await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+Modified:
+await _provider.EstimateCostAsync(modelName, inputTokens, outputTokens, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken);
+Modified:
+await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken);
+Modified:
+await _provider.GetRateLimitInfoAsync(modelName, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.ListModelsAsync(TestContext.Current.CancellationToken);
+Modified:
+await _provider.ListModelsAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.ValidateAsync(modelName, TestContext.Current.CancellationToken);
+Modified:
+await _provider.ValidateAsync(modelName, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken);
+Modified:
+await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken);
+Modified:
+await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken);
+Modified:
+await _provider.GenerateCompletionAsync(modelName, prompt, null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _provider.GenerateChatCompletionAsync(modelName, messages, null, TestContext.Current.CancellationToken);
+Modified:
+await _provider.GenerateChatCompletionAsync(modelName, messages, null, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 6 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\GoogleDriveServiceBehavioralTests4.cs
+Original:
+await _service.DetectDocumentChangesAsync();
+Modified:
+await _service.DetectDocumentChangesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.DetectDocumentChangesAsync();
+Modified:
+await _service.DetectDocumentChangesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+Modified:
+await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+Modified:
+await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 23 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
+Modified:
+await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.SearchHybridAsync(
+            "machine learning healthcare",
+            new HybridSearchOptions { MaxCombinedResults = 5 });
+Modified:
+await _hybridService.SearchHybridAsync(
+            "machine learning healthcare",
+            new HybridSearchOptions { MaxCombinedResults = 5 }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.SearchHybridAsync(
+            "artificial intelligence applications",
+            searchOptions);
+Modified:
+await _hybridService.SearchHybridAsync(
+            "artificial intelligence applications",
+            searchOptions, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.ExploreConceptRelationshipsAsync(
+            "Machine Learning",
+            maxDepth: 3,
+            limit: 20);
+Modified:
+await _hybridService.ExploreConceptRelationshipsAsync(
+            "Machine Learning",
+            maxDepth: 3,
+            limit: 20, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.GetKnowledgeStatsAsync();
+Modified:
+await _hybridService.GetKnowledgeStatsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.RemoveDocumentAsync(documentId);
+Modified:
+await _hybridService.RemoveDocumentAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.SearchHybridAsync(
+            knowledgeDocument.Content,
+            new HybridSearchOptions { SemanticThreshold = 0.5f });
+Modified:
+await _hybridService.SearchHybridAsync(
+            knowledgeDocument.Content,
+            new HybridSearchOptions { SemanticThreshold = 0.5f }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await Task.WhenAll(concurrentTasks);
+Modified:
+await Task.WhenAll(concurrentTasks, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.GetKnowledgeStatsAsync();
+Modified:
+await _hybridService.GetKnowledgeStatsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.SearchHybridAsync("machine learning", searchOptions);
+Modified:
+await _hybridService.SearchHybridAsync("machine learning", searchOptions, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+Modified:
+await _hybridService.StoreDocumentWithKnowledgeAsync(doc, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.SearchHybridAsync(
+            "artificial intelligence machine learning",
+            new HybridSearchOptions { MaxCombinedResults = 20 });
+Modified:
+await _hybridService.SearchHybridAsync(
+            "artificial intelligence machine learning",
+            new HybridSearchOptions { MaxCombinedResults = 20 }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _hybridService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+Modified:
+await _hybridService.StoreDocumentWithKnowledgeAsync(doc, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+Modified:
+await _hybridService.StoreDocumentWithKnowledgeAsync(doc, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 24 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.StoreDocumentAsync(document);
+Modified:
+await _graphStore.StoreDocumentAsync(document, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.StoreConceptsAsync(concepts);
+Modified:
+await _graphStore.StoreConceptsAsync(concepts, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.StoreDocumentAsync(document);
+Modified:
+await _graphStore.StoreDocumentAsync(document, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.CreateRelationshipsAsync(relationships);
+Modified:
+await _graphStore.CreateRelationshipsAsync(relationships, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.FindRelatedDocumentsAsync(
+            "Machine Learning", 
+            relationshipTypes: new[] { "DISCUSSES", "MENTIONS" },
+            maxDepth: 2,
+            limit: 10);
+Modified:
+await _graphStore.FindRelatedDocumentsAsync(
+            "Machine Learning", 
+            relationshipTypes: new[] { "DISCUSSES", "MENTIONS" },
+            maxDepth: 2,
+            limit: 10, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.FindRelatedConceptsAsync(
+            "ml-doc-001",
+            relationshipTypes: new[] { "DISCUSSES" },
+            maxDepth: 1,
+            limit: 5);
+Modified:
+await _graphStore.FindRelatedConceptsAsync(
+            "ml-doc-001",
+            relationshipTypes: new[] { "DISCUSSES" },
+            maxDepth: 1,
+            limit: 5, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.FindShortestPathAsync(
+            "ml-doc-001",
+            "ai-doc-002",
+            relationshipTypes: new[] { "DISCUSSES", "RELATED_TO" },
+            maxLength: 5);
+Modified:
+await _graphStore.FindShortestPathAsync(
+            "ml-doc-001",
+            "ai-doc-002",
+            relationshipTypes: new[] { "DISCUSSES", "RELATED_TO" },
+            maxLength: 5, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.GetStatsAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.GetStatsAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.DeleteDocumentAsync(document.DocumentId);
+Modified:
+await _graphStore.DeleteDocumentAsync(document.DocumentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.GetStatsAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.GetStatsAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.ExecuteQueryAsync(cypherQuery);
+Modified:
+await _graphStore.ExecuteQueryAsync(cypherQuery, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.FindRelatedDocumentsAsync("Technology", maxDepth: 2, limit: 20);
+Modified:
+await _graphStore.FindRelatedDocumentsAsync("Technology", maxDepth: 2, limit: 20, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken);
+Modified:
+await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 19 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\QdrantVectorStoreIntegrationTests.cs
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.SearchSimilarAsync(
+            embeddings, limit: 5, threshold: 0.9f, null!, TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.SearchSimilarAsync(
+            embeddings, limit: 5, threshold: 0.9f, null!, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.StoreBatchAsync(batchItems, TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.StoreBatchAsync(batchItems, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.DeleteEmbeddingAsync(documentId, TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.DeleteEmbeddingAsync(documentId, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.SearchSimilarAsync(embeddings, threshold: 0.95f, cancellationToken: TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.SearchSimilarAsync(embeddings, threshold: 0.95f, cancellationToken: TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.GetStatsAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.GetStatsAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await StoreTestDocument("tech-doc", "Technical content", new { category = "technology" });
+Modified:
+await StoreTestDocument("tech-doc", "Technical content", new { category = "technology" }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await StoreTestDocument("science-doc", "Scientific content", new { category = "science" });
+Modified:
+await StoreTestDocument("science-doc", "Scientific content", new { category = "science" }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.SearchSimilarAsync(
+            queryEmbedding, limit: 10, threshold: 0.1f,
+            filter: new Dictionary<string, object> { ["category"] = "technology" }, TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.SearchSimilarAsync(
+            queryEmbedding, limit: 10, threshold: 0.1f,
+            filter: new Dictionary<string, object> { ["category"] = "technology" }, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await customStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await customStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await customStore.StoreEmbeddingAsync("test-doc", "content", embeddings, cancellationToken: TestContext.Current.CancellationToken);
+Modified:
+await customStore.StoreEmbeddingAsync("test-doc", "content", embeddings, cancellationToken: TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.StoreBatchAsync(batchItems, TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.StoreBatchAsync(batchItems, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, TestContext.Current.CancellationToken);
+Modified:
+await _vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 16 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+Modified:
+await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StartFolderWatchAsync(folderId);
+Modified:
+await _sut.StartFolderWatchAsync(folderId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StartFolderWatchAsync(folderId);
+Modified:
+await _sut.StartFolderWatchAsync(folderId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+Modified:
+await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.DownloadDocumentAsync(documentId);
+Modified:
+await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.DownloadDocumentAsync(documentId);
+Modified:
+await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.DownloadDocumentAsync(documentId);
+Modified:
+await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.CheckHealthStatusAsync();
+Modified:
+await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.CheckHealthStatusAsync();
+Modified:
+await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.CheckHealthStatusAsync();
+Modified:
+await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetActiveWatchesAsync();
+Modified:
+await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetActiveWatchesAsync();
+Modified:
+await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetActiveWatchesAsync();
+Modified:
+await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StopWatchingAsync(watchId);
+Modified:
+await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StopWatchingAsync(watchId);
+Modified:
+await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StopWatchingAsync(watchId);
+Modified:
+await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 16 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\Services\GoogleDriveServiceTests.cs
+Original:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await _sut.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StartFolderWatchAsync(actualFolderId!);
+Modified:
+await _sut.StartFolderWatchAsync(actualFolderId!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StartFolderWatchAsync(testFolderId);
+Modified:
+await _sut.StartFolderWatchAsync(testFolderId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StartFolderWatchAsync(testFolderId, includeSubdirectories, autoProcess, pollingInterval);
+Modified:
+await _sut.StartFolderWatchAsync(testFolderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.DownloadDocumentAsync(actualDocumentId!);
+Modified:
+await _sut.DownloadDocumentAsync(actualDocumentId!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.DownloadDocumentAsync(testDocumentId);
+Modified:
+await _sut.DownloadDocumentAsync(testDocumentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetDocumentMetadataAsync(actualDocumentId!);
+Modified:
+await _sut.GetDocumentMetadataAsync(actualDocumentId!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetDocumentMetadataAsync(testDocumentId);
+Modified:
+await _sut.GetDocumentMetadataAsync(testDocumentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetActiveWatchesAsync();
+Modified:
+await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.GetActiveWatchesAsync();
+Modified:
+await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StopWatchingAsync(actualWatchId!);
+Modified:
+await _sut.StopWatchingAsync(actualWatchId!, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StopWatchingAsync(nonExistentWatchId);
+Modified:
+await _sut.StopWatchingAsync(nonExistentWatchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _sut.StopWatchingAsync(testWatchId);
+Modified:
+await _sut.StopWatchingAsync(testWatchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 11 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\UnitTest1.cs
+Original:
+await configService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await configService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await keyStore.SetKeyAsync("test-api-key", "test-value", "integration-test");
+Modified:
+await keyStore.SetKeyAsync("test-api-key", "test-value", "integration-test", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await keyStore.SetKeyAsync("openai-key", "sk-test123", "external");
+Modified:
+await keyStore.SetKeyAsync("openai-key", "sk-test123", "external", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await keyStore.GetKeyAsync("test-api-key", "integration-test");
+Modified:
+await keyStore.GetKeyAsync("test-api-key", "integration-test", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await configService.GetExternalApiKeyAsync("openai");
+Modified:
+await configService.GetExternalApiKeyAsync("openai", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await configService.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
+Modified:
+await configService.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await configService.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await configService.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await configService.GetExternalApiKeyAsync("openai");
+Modified:
+await configService.GetExternalApiKeyAsync("openai", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await configService.GetExternalApiKeyAsync("anthropic");
+Modified:
+await configService.GetExternalApiKeyAsync("anthropic", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await keyStore.GetKeyAsync("vector-db-key", "database");
+Modified:
+await keyStore.GetKeyAsync("vector-db-key", "database", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await keyStore.GetKeyAsync("monitoring-key", "ops");
+Modified:
+await keyStore.GetKeyAsync("monitoring-key", "ops", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 5 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\ConfigurationServiceTests.cs
+Original:
+await service.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await service.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await service.InitializeAsync(TestContext.Current.CancellationToken);
+Modified:
+await service.InitializeAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
+Modified:
+await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await service.SetExternalApiKeyAsync(provider, apiKey);
+Modified:
+await service.SetExternalApiKeyAsync(provider, apiKey, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await service.SetExternalApiKeyAsync(provider, apiKey);
+Modified:
+await service.SetExternalApiKeyAsync(provider, apiKey, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.
+
+>> 31 match(es) in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\SecureKeyStoreTests.cs
+Original:
+await _keyStore.SetKeyAsync(keyName, value, scope);
+Modified:
+await _keyStore.SetKeyAsync(keyName, value, scope, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName, scope);
+Modified:
+await _keyStore.GetKeyAsync(keyName, scope, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync(keyName, value1, scope1);
+Modified:
+await _keyStore.SetKeyAsync(keyName, value1, scope1, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync(keyName, value2, scope2);
+Modified:
+await _keyStore.SetKeyAsync(keyName, value2, scope2, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName, scope1);
+Modified:
+await _keyStore.GetKeyAsync(keyName, scope1, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName, scope2);
+Modified:
+await _keyStore.GetKeyAsync(keyName, scope2, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.DeleteKeyAsync(keyName);
+Modified:
+await _keyStore.DeleteKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.DeleteKeyAsync(keyName);
+Modified:
+await _keyStore.DeleteKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.KeyExistsAsync(keyName);
+Modified:
+await _keyStore.KeyExistsAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.KeyExistsAsync(keyName);
+Modified:
+await _keyStore.KeyExistsAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.ListKeysAsync();
+Modified:
+await _keyStore.ListKeysAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync("key1", "value1", scope1);
+Modified:
+await _keyStore.SetKeyAsync("key1", "value1", scope1, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync("key2", "value2", scope1);
+Modified:
+await _keyStore.SetKeyAsync("key2", "value2", scope1, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.ListKeysAsync(scope1);
+Modified:
+await _keyStore.ListKeysAsync(scope1, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.ListKeysAsync(scope2);
+Modified:
+await _keyStore.ListKeysAsync(scope2, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.RotateKeyAsync(keyName, newValue);
+Modified:
+await _keyStore.RotateKeyAsync(keyName, newValue, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.ListKeysAsync();
+Modified:
+await _keyStore.ListKeysAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GenerateApiKeyAsync(keyName, null, length);
+Modified:
+await _keyStore.GenerateApiKeyAsync(keyName, null, length, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync(keyName, value, null, expiration);
+Modified:
+await _keyStore.SetKeyAsync(keyName, value, null, expiration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync(keyName, value);
+Modified:
+await _keyStore.SetKeyAsync(keyName, value, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(keyName);
+Modified:
+await _keyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.GetKeyAsync(kvp.Key);
+Modified:
+await _keyStore.GetKeyAsync(kvp.Key, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await _keyStore.SetKeyAsync(keyName, value);
+Modified:
+await _keyStore.SetKeyAsync(keyName, value, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+Original:
+await newKeyStore.GetKeyAsync(keyName);
+Modified:
+await newKeyStore.GetKeyAsync(keyName, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+>> File updated.

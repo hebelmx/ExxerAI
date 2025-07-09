@@ -50,7 +50,7 @@ public class GroundingReport
     /// <summary>
     /// Gets or sets detailed grounding statistics by document type
     /// </summary>
-    public Dictionary<DocumentType, GroundingStatistics> StatsByDocumentType { get; init; } = new();
+    public Dictionary<DocumentType, GroundingStatistics> StatsByDocumentType { get; init; } = [];
 
     /// <summary>
     /// Gets or sets when the report was generated

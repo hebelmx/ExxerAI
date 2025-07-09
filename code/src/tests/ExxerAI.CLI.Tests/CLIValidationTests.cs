@@ -20,9 +20,9 @@ public class CLIValidationTests
     public void AgentCommands_Constructor_WithNullArguments_ShouldCreateInstance()
     {
         // Arrange & Act - Following Result<T> pattern, constructors don't validate
-        var withNullService = new AgentCommands(null!!, _agentRepository);
-        var withNullRepo = new AgentCommands(_agentService, null!!);
-        var withBothNull = new AgentCommands(null!, null!!);
+        var withNullService = new AgentCommands(null!, _agentRepository);
+        var withNullRepo = new AgentCommands(_agentService, null!);
+        var withBothNull = new AgentCommands(null!, null!);
 
         // Assert - Constructors succeed, validation happens at execution
         withNullService.ShouldNotBeNull();
@@ -34,8 +34,8 @@ public class CLIValidationTests
     public void TaskCommands_Constructor_WithNullArguments_ShouldCreateInstance()
     {
         // Arrange & Act - Following Result<T> pattern
-        var withNullTaskRepo = new TaskCommands(null!!, _agentRepository);
-        var withNullAgentRepo = new TaskCommands(_taskRepository, null!!);
+        var withNullTaskRepo = new TaskCommands(null!, _agentRepository);
+        var withNullAgentRepo = new TaskCommands(_taskRepository, null!);
 
         // Assert
         withNullTaskRepo.ShouldNotBeNull();
@@ -61,9 +61,9 @@ public class CLIValidationTests
         var workflowCommands = new WorkflowCommands();
 
         // Act - Following Result<T> pattern
-        var withNullAgent = new CommandRouter(null!!, taskCommands, workflowCommands);
-        var withNullTask = new CommandRouter(agentCommands, null!!, workflowCommands);
-        var withNullWorkflow = new CommandRouter(agentCommands, taskCommands, null!!);
+        var withNullAgent = new CommandRouter(null!, taskCommands, workflowCommands);
+        var withNullTask = new CommandRouter(agentCommands, null!, workflowCommands);
+        var withNullWorkflow = new CommandRouter(agentCommands, taskCommands, null!);
 
         // Assert
         withNullAgent.ShouldNotBeNull();
@@ -72,10 +72,10 @@ public class CLIValidationTests
     }
 
     [Fact]
-    public async Task AgentCommands_ExecuteAsync_WithNullDependency_ShouldReturnErrorExitCode()
+    public async Task AgentCommands_ExecuteAsync_WithNullDependency_ShouldReturnErrorExitCodeAsync()
     {
         // Arrange - CLI with null service dependency
-        var commands = new AgentCommands(null!!, _agentRepository);
+        var commands = new AgentCommands(null!, _agentRepository);
         var args = new[] { "create", "TestAgent" };
 
         // Capture console output - Linux style with proper restoration
@@ -83,11 +83,10 @@ public class CLIValidationTests
         try
         {
             using var consoleCapture = new StringWriter();
-            using Xunit;
-Console.SetOut(consoleCapture);
+            Console.SetOut(consoleCapture);
 
             // Act - Execution should handle null gracefully and return error
-            var result = await commands.ExecuteAsync(args);
+            var result = await commands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
             // Restore console before assertions
             Console.SetOut(originalOut);
@@ -103,7 +102,7 @@ Console.SetOut(consoleCapture);
     }
 
     [Fact]
-    public async Task CommandRouter_ExecuteAsync_WithEmptyArgs_ShouldShowHelpAndReturnSuccess()
+    public async Task CommandRouter_ExecuteAsync_WithEmptyArgs_ShouldShowHelpAndReturnSuccessAsync()
     {
         // Arrange
         var agentCommands = new AgentCommands(_agentService, _agentRepository);
@@ -112,14 +111,14 @@ Console.SetOut(consoleCapture);
         var router = new CommandRouter(agentCommands, taskCommands, workflowCommands);
 
         // Act
-        var result = await router.ExecuteAsync(Array.Empty<string>());
+        var result = await router.ExecuteAsync(Array.Empty<string>(), cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBe(0); // Help returns success
     }
 
     [Fact]
-    public async Task CommandRouter_ExecuteAsync_WithVersionCommand_ShouldShowVersionAndReturnSuccess()
+    public async Task CommandRouter_ExecuteAsync_WithVersionCommand_ShouldShowVersionAndReturnSuccessAsync()
     {
         // Arrange
         var agentCommands = new AgentCommands(_agentService, _agentRepository);
@@ -128,14 +127,14 @@ Console.SetOut(consoleCapture);
         var router = new CommandRouter(agentCommands, taskCommands, workflowCommands);
 
         // Act
-        var result = await router.ExecuteAsync(new[] { "version" });
+        var result = await router.ExecuteAsync(new[] { "version" }, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBe(0);
     }
 
     [Fact]
-    public async Task CommandRouter_ExecuteAsync_WithUnknownCommand_ShouldReturnErrorExitCode()
+    public async Task CommandRouter_ExecuteAsync_WithUnknownCommand_ShouldReturnErrorExitCodeAsync()
     {
         // Arrange
         var agentCommands = new AgentCommands(_agentService, _agentRepository);
@@ -148,11 +147,11 @@ Console.SetOut(consoleCapture);
         try
         {
             using var consoleCapture = new StringWriter();
-            using Xunit;
-Console.SetOut(consoleCapture);
+
+            Console.SetOut(consoleCapture);
 
             // Act - await fully before reading output
-            var result = await router.ExecuteAsync(new[] { "invalidcommand" });
+            var result = await router.ExecuteAsync(new[] { "invalidcommand" }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Restore console before reading capture
             Console.SetOut(originalOut);
@@ -245,7 +244,7 @@ Console.SetOut(consoleCapture);
         public void Constructor_WithNullParameters_ShouldStillCreateInstance()
         {
             // Act & Assert - Following the rule of not throwing exceptions
-            var agentCommands = new AgentCommands(null!, null!!);
+            var agentCommands = new AgentCommands(null!, null!);
             agentCommands.ShouldNotBeNull();
         }
     }
@@ -326,7 +325,7 @@ Console.SetOut(consoleCapture);
         public void Constructor_WithNullParameters_ShouldStillCreateInstance()
         {
             // Act & Assert - Following the rule of not throwing exceptions
-            var taskCommands = new TaskCommands(null!, null!!);
+            var taskCommands = new TaskCommands(null!, null!);
             taskCommands.ShouldNotBeNull();
         }
     }
@@ -340,8 +339,8 @@ Console.SetOut(consoleCapture);
         public void ValidateConstructorParameters_WithValidParameters_ShouldReturnSuccess()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!!);
-            var taskCommands = new TaskCommands(null!, null!!);
+            var agentCommands = new AgentCommands(null!, null!);
+            var taskCommands = new TaskCommands(null!, null!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -355,7 +354,7 @@ Console.SetOut(consoleCapture);
         public void ValidateConstructorParameters_WithNullAgentCommands_ShouldReturnFailure()
         {
             // Arrange
-            var taskCommands = new TaskCommands(null!, null!!);
+            var taskCommands = new TaskCommands(null!, null!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -370,7 +369,7 @@ Console.SetOut(consoleCapture);
         public void ValidateConstructorParameters_WithNullTaskCommands_ShouldReturnFailure()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!!);
+            var agentCommands = new AgentCommands(null!, null!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -385,8 +384,8 @@ Console.SetOut(consoleCapture);
         public void ValidateConstructorParameters_WithNullWorkflowCommands_ShouldReturnFailure()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!!);
-            var taskCommands = new TaskCommands(null!, null!!);
+            var agentCommands = new AgentCommands(null!, null!);
+            var taskCommands = new TaskCommands(null!, null!);
 
             // Act
             var result = CommandRouter.ValidateConstructorParameters(agentCommands, taskCommands, null!);
@@ -425,8 +424,8 @@ Console.SetOut(consoleCapture);
         public void Constructor_WithValidParameters_ShouldCreateInstance()
         {
             // Arrange
-            var agentCommands = new AgentCommands(null!, null!!);
-            var taskCommands = new TaskCommands(null!, null!!);
+            var agentCommands = new AgentCommands(null!, null!);
+            var taskCommands = new TaskCommands(null!, null!);
             var workflowCommands = new WorkflowCommands();
 
             // Act
@@ -440,7 +439,7 @@ Console.SetOut(consoleCapture);
         public void Constructor_WithNullParameters_ShouldStillCreateInstance()
         {
             // Act & Assert - Following the rule of not throwing exceptions
-            var commandRouter = new CommandRouter(null!, null!, null!!);
+            var commandRouter = new CommandRouter(null!, null!, null!);
             commandRouter.ShouldNotBeNull();
         }
     }
@@ -461,39 +460,39 @@ Console.SetOut(consoleCapture);
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithEmptyArgs_ShouldReturnZero()
+        public async Task ExecuteAsync_WithEmptyArgs_ShouldReturnZeroAsync()
         {
             // Arrange
             var workflowCommands = new WorkflowCommands();
 
             // Act
-            var result = await workflowCommands.ExecuteAsync(Array.Empty<string>());
+            var result = await workflowCommands.ExecuteAsync(Array.Empty<string>(), cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBe(0);
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithHelpCommand_ShouldReturnZero()
+        public async Task ExecuteAsync_WithHelpCommand_ShouldReturnZeroAsync()
         {
             // Arrange
             var workflowCommands = new WorkflowCommands();
 
             // Act
-            var result = await workflowCommands.ExecuteAsync(new[] { "help" });
+            var result = await workflowCommands.ExecuteAsync(new[] { "help" }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBe(0);
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithUnknownCommand_ShouldReturnOne()
+        public async Task ExecuteAsync_WithUnknownCommand_ShouldReturnOneAsync()
         {
             // Arrange
             var workflowCommands = new WorkflowCommands();
 
             // Act
-            var result = await workflowCommands.ExecuteAsync(new[] { "unknown" });
+            var result = await workflowCommands.ExecuteAsync(new[] { "unknown" }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBe(1);

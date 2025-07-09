@@ -20,7 +20,7 @@ public class WorkflowServiceTests
     #region CreateWorkflowAsync Tests
 
     [Fact]
-    public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var name = "Test Workflow";
@@ -43,22 +43,22 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.CreateWorkflowAsync(name, description, steps);
+        var result = await _workflowService.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Name.ShouldBe(name);
-        result.Data.Description.ShouldBe(description);
-        result.Data.Status.ShouldBe(WorkflowStatus.Draft);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Name.ShouldBe(name);
+        result.Value.Description.ShouldBe(description);
+        result.Value.Status.ShouldBe(WorkflowStatus.Draft);
     }
 
     [Theory]
     [InlineData("", "Valid Description")]
     [InlineData("   ", "Valid Description")]
     [InlineData("Valid Name", "")]
-    public async Task CreateWorkflowAsync_WithInvalidInput_ShouldReturnFailureResult(string name, string description)
+    public async Task CreateWorkflowAsync_WithInvalidInput_ShouldReturnFailureResultAsync(string name, string description)
     {
         // Arrange
         var steps = new List<WorkflowStep> { new() { Name = "Step1", StepType = "Action" } };
@@ -68,7 +68,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.CreateWorkflowAsync(name, description, steps);
+        var result = await _workflowService.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -77,7 +77,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task CreateWorkflowAsync_WithNullSteps_ShouldReturnFailureResult()
+    public async Task CreateWorkflowAsync_WithNullSteps_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var name = "Test Workflow";
@@ -89,7 +89,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.CreateWorkflowAsync(name, description, steps);
+        var result = await _workflowService.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -102,7 +102,7 @@ public class WorkflowServiceTests
     #region GetWorkflowAsync Tests
 
     [Fact]
-    public async Task GetWorkflowAsync_WithValidId_ShouldReturnWorkflow()
+    public async Task GetWorkflowAsync_WithValidId_ShouldReturnWorkflowAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -118,17 +118,17 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowAsync(workflowId);
+        var result = await _workflowService.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Id.ShouldBe(workflowId);
+        result.Value.ShouldNotBeNull();
+        result.Value!.Id.ShouldBe(workflowId);
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_WithEmptyGuid_ShouldReturnFailureResult()
+    public async Task GetWorkflowAsync_WithEmptyGuid_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.Empty;
@@ -138,7 +138,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowAsync(workflowId);
+        var result = await _workflowService.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -147,7 +147,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_WithNonExistentId_ShouldReturnFailureResult()
+    public async Task GetWorkflowAsync_WithNonExistentId_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -157,7 +157,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowAsync(workflowId);
+        var result = await _workflowService.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -170,7 +170,7 @@ public class WorkflowServiceTests
     #region GetActiveWorkflowsAsync Tests
 
     [Fact]
-    public async Task GetActiveWorkflowsAsync_WhenActiveWorkflowsExist_ShouldReturnAllActiveWorkflows()
+    public async Task GetActiveWorkflowsAsync_WhenActiveWorkflowsExist_ShouldReturnAllActiveWorkflowsAsync()
     {
         // Arrange
         var activeWorkflows = new List<Workflow>
@@ -185,18 +185,18 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetActiveWorkflowsAsync();
+        var result = await _workflowService.GetActiveWorkflowsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(3);
-        result.Data.All(w => w.Status == WorkflowStatus.Active || w.Status == WorkflowStatus.Running).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(3);
+        result.Value.All(w => w.Status == WorkflowStatus.Active || w.Status == WorkflowStatus.Running).ShouldBeTrue();
     }
 
     [Fact]
-    public async Task GetActiveWorkflowsAsync_WhenNoActiveWorkflows_ShouldReturnEmptyList()
+    public async Task GetActiveWorkflowsAsync_WhenNoActiveWorkflows_ShouldReturnEmptyListAsync()
     {
         // Arrange
         var emptyWorkflows = new List<Workflow>();
@@ -206,13 +206,13 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetActiveWorkflowsAsync();
+        var result = await _workflowService.GetActiveWorkflowsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.ShouldBeEmpty();
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
     }
 
     #endregion GetActiveWorkflowsAsync Tests
@@ -220,7 +220,7 @@ public class WorkflowServiceTests
     #region ExecuteWorkflowAsync Tests
 
     [Fact]
-    public async Task ExecuteWorkflowAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task ExecuteWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -238,18 +238,18 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.WorkflowId.ShouldBe(workflowId);
-        result.Data.Status.ShouldBe(WorkflowExecutionStatus.Starting);
+        result.Value.ShouldNotBeNull();
+        result.Value!.WorkflowId.ShouldBe(workflowId);
+        result.Value.Status.ShouldBe(WorkflowExecutionStatus.Starting);
     }
 
     [Fact]
-    public async Task ExecuteWorkflowAsync_WithEmptyWorkflowId_ShouldReturnFailureResult()
+    public async Task ExecuteWorkflowAsync_WithEmptyWorkflowId_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.Empty;
@@ -260,7 +260,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -269,7 +269,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task ExecuteWorkflowAsync_WithNullInput_ShouldReturnFailureResult()
+    public async Task ExecuteWorkflowAsync_WithNullInput_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -280,7 +280,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -293,7 +293,7 @@ public class WorkflowServiceTests
     #region GetWorkflowExecutionsAsync Tests
 
     [Fact]
-    public async Task GetWorkflowExecutionsAsync_WithValidWorkflowId_ShouldReturnExecutions()
+    public async Task GetWorkflowExecutionsAsync_WithValidWorkflowId_ShouldReturnExecutionsAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -308,18 +308,18 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId);
+        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.Count().ShouldBe(2);
-        result.Data.All(e => e.WorkflowId == workflowId).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.Count().ShouldBe(2);
+        result.Value.All(e => e.WorkflowId == workflowId).ShouldBeTrue();
     }
 
     [Fact]
-    public async Task GetWorkflowExecutionsAsync_WithStatusFilter_ShouldReturnFilteredExecutions()
+    public async Task GetWorkflowExecutionsAsync_WithStatusFilter_ShouldReturnFilteredExecutionsAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -333,13 +333,13 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId, WorkflowExecutionStatus.Completed);
+        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId, WorkflowExecutionStatus.Completed, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldNotBeNull();
-        result.Data!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
+        result.Value.ShouldNotBeNull();
+        result.Value!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
     }
 
     #endregion GetWorkflowExecutionsAsync Tests
@@ -350,7 +350,7 @@ public class WorkflowServiceTests
     [InlineData(nameof(IWorkflowService.PauseWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.ResumeWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.CancelWorkflowExecutionAsync))]
-    public async Task ExecutionControlMethods_WithValidId_ShouldReturnSuccess(string methodName)
+    public async Task ExecutionControlMethods_WithValidId_ShouldReturnSuccessAsync(string methodName)
     {
         // Arrange
         var executionId = Guid.NewGuid();
@@ -377,23 +377,23 @@ public class WorkflowServiceTests
         // Act
         Result<bool> result = methodName switch
         {
-            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId),
+            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
             _ => throw new ArgumentException($"Unknown method: {methodName}")
         };
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Theory]
     [InlineData(nameof(IWorkflowService.PauseWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.ResumeWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.CancelWorkflowExecutionAsync))]
-    public async Task ExecutionControlMethods_WithEmptyGuid_ShouldReturnFailure(string methodName)
+    public async Task ExecutionControlMethods_WithEmptyGuid_ShouldReturnFailureAsync(string methodName)
     {
         // Arrange
         var executionId = Guid.Empty;
@@ -420,9 +420,9 @@ public class WorkflowServiceTests
         // Act
         Result<bool> result = methodName switch
         {
-            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId),
-            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId),
+            nameof(IWorkflowService.PauseWorkflowExecutionAsync) => await _workflowService.PauseWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.ResumeWorkflowExecutionAsync) => await _workflowService.ResumeWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
+            nameof(IWorkflowService.CancelWorkflowExecutionAsync) => await _workflowService.CancelWorkflowExecutionAsync(executionId, cancellationToken: TestContext.Current.CancellationToken),
             _ => throw new ArgumentException($"Unknown method: {methodName}")
         };
 
@@ -437,7 +437,7 @@ public class WorkflowServiceTests
     #region UpdateWorkflowConfigurationAsync Tests
 
     [Fact]
-    public async Task UpdateWorkflowConfigurationAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task UpdateWorkflowConfigurationAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -452,16 +452,16 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
-    public async Task UpdateWorkflowConfigurationAsync_WithNullConfiguration_ShouldReturnFailure()
+    public async Task UpdateWorkflowConfigurationAsync_WithNullConfiguration_ShouldReturnFailureAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -472,7 +472,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -485,7 +485,7 @@ public class WorkflowServiceTests
     #region DeleteWorkflowAsync Tests
 
     [Fact]
-    public async Task DeleteWorkflowAsync_WithValidId_ShouldReturnSuccess()
+    public async Task DeleteWorkflowAsync_WithValidId_ShouldReturnSuccessAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -495,16 +495,16 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.DeleteWorkflowAsync(workflowId);
+        var result = await _workflowService.DeleteWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Data.ShouldBeTrue();
+        result.Value.ShouldBeTrue();
     }
 
     [Fact]
-    public async Task DeleteWorkflowAsync_WithNonExistentWorkflow_ShouldReturnFailure()
+    public async Task DeleteWorkflowAsync_WithNonExistentWorkflow_ShouldReturnFailureAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -514,7 +514,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.DeleteWorkflowAsync(workflowId);
+        var result = await _workflowService.DeleteWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -527,7 +527,7 @@ public class WorkflowServiceTests
     #region Contract Validation Tests
 
     [Fact]
-    public async Task IWorkflowService_AllMethods_ShouldRespectCancellationToken()
+    public async Task IWorkflowService_AllMethods_ShouldRespectCancellationTokenAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();
@@ -565,17 +565,17 @@ public class WorkflowServiceTests
         var configuration = new WorkflowConfiguration();
 
         // Verify method signatures return Result<T>
-        var createTask = _workflowService.CreateWorkflowAsync("test", "test", steps);
-        var getTask = _workflowService.GetWorkflowAsync(workflowId);
-        var getActiveTask = _workflowService.GetActiveWorkflowsAsync();
-        var updateConfigTask = _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
-        var executeTask = _workflowService.ExecuteWorkflowAsync(workflowId, input);
-        var getExecutionTask = _workflowService.GetWorkflowExecutionAsync(executionId);
-        var getExecutionsTask = _workflowService.GetWorkflowExecutionsAsync(workflowId);
-        var pauseTask = _workflowService.PauseWorkflowExecutionAsync(executionId);
-        var resumeTask = _workflowService.ResumeWorkflowExecutionAsync(executionId);
-        var cancelTask = _workflowService.CancelWorkflowExecutionAsync(executionId);
-        var deleteTask = _workflowService.DeleteWorkflowAsync(workflowId);
+        var createTask = _workflowService.CreateWorkflowAsync("test", "test", steps, TestContext.Current.CancellationToken);
+        var getTask = _workflowService.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+        var getActiveTask = _workflowService.GetActiveWorkflowsAsync(TestContext.Current.CancellationToken);
+        var updateConfigTask = _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, TestContext.Current.CancellationToken);
+        var executeTask = _workflowService.ExecuteWorkflowAsync(workflowId, input, TestContext.Current.CancellationToken);
+        var getExecutionTask = _workflowService.GetWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+        var getExecutionsTask = _workflowService.GetWorkflowExecutionsAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
+        var pauseTask = _workflowService.PauseWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+        var resumeTask = _workflowService.ResumeWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+        var cancelTask = _workflowService.CancelWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+        var deleteTask = _workflowService.DeleteWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
 
         createTask.ShouldBeOfType<Task<Result<Workflow>>>();
         getTask.ShouldBeOfType<Task<Result<Workflow>>>();

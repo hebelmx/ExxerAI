@@ -51,5 +51,5 @@ public class Agent
     /// <summary>
     /// Gets the collection of tasks assigned to this agent
     /// </summary>
-    public ICollection<AgentTask> Tasks { get; init; } = new List<AgentTask>();
+    public ICollection<AgentTask> Tasks { get; init; } = [];
 }

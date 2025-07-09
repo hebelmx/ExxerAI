@@ -86,7 +86,7 @@ public class VectorSearchResult
     public string DocumentId { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public float Score { get; set; }
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }
 
 /// <summary>
@@ -97,7 +97,7 @@ public class VectorStoreItem
     public string DocumentId { get; set; } = string.Empty;
     public string Content { get; set; } = string.Empty;
     public float[] Embeddings { get; set; } = Array.Empty<float>();
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }
 
 /// <summary>
@@ -110,5 +110,5 @@ public class VectorStoreStats
     public int VectorDimensions { get; set; }
     public string IndexingStatus { get; set; } = string.Empty;
     public DateTime LastUpdated { get; set; }
-    public Dictionary<string, object> AdditionalStats { get; set; } = new();
+    public Dictionary<string, object> AdditionalStats { get; set; } = [];
 }

@@ -191,7 +191,7 @@ public class ValidationErrorsTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(validValue);
+            result.Value.ShouldBe(validValue);
         }
 
         [Fact]
@@ -219,7 +219,7 @@ public class ValidationErrorsTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(42);
+            result.Value.ShouldBe(42);
         }
 
         [Fact]
@@ -289,7 +289,7 @@ public class ValidationErrorsTests
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
-            result.Data.ShouldBe(expectedValue);
+            result.Value.ShouldBe(expectedValue);
         }
 
         [Fact]

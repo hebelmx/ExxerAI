@@ -61,7 +61,7 @@ public class Conversation
     /// <summary>
     /// Gets the collection of messages in this conversation
     /// </summary>
-    public ICollection<ConversationMessage> Messages { get; init; } = new List<ConversationMessage>();
+    public ICollection<ConversationMessage> Messages { get; init; } = [];
 
     /// <summary>
     /// Gets or sets conversation metadata

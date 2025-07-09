@@ -18,5 +18,5 @@ public class TaskData
     /// <summary>
     /// Gets or sets additional properties for the data
     /// </summary>
-    public Dictionary<string, object> Properties { get; init; } = new();
+    public Dictionary<string, object> Properties { get; init; } = [];
 }

@@ -14,8 +14,8 @@ namespace ExxerAI.IntegrationTests.KnowledgeStore;
 public class Neo4jGraphStoreIntegrationTests : IDisposable
 {
     private readonly ILogger<Neo4jGraphKnowledgeStore> _logger;
-    private IGraphClient _graphClient;
-    private Neo4jGraphKnowledgeStore _graphStore;
+    private IGraphClient _graphClient = null!;
+    private Neo4jGraphKnowledgeStore _graphStore = null!;
 
     public Neo4jGraphStoreIntegrationTests()
     {
@@ -28,13 +28,13 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_Initialize_ShouldCreateConstraintsAndIndexes()
+    public async Task Neo4jGraphStore_Initialize_ShouldCreateConstraintsAndIndexesAsync()
     {
         // Arrange
         SetupGraphClient();
 
         // Act
-        var result = await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        var result = await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -42,7 +42,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_StoreDocument_ShouldCreateDocumentNodeWithProperties()
+    public async Task Neo4jGraphStore_StoreDocument_ShouldCreateDocumentNodeWithPropertiesAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -56,7 +56,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             DocumentType = "research-paper",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "AI", "ML", "research" },
+            Tags = ["AI", "ML", "research"],
             Properties = new Dictionary<string, object>
             {
                 ["author"] = "Dr. Test Author",
@@ -66,7 +66,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         };
 
         // Act
-        var result = await _graphStore.StoreDocumentAsync(document);
+        var result = await _graphStore.StoreDocumentAsync(document, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -74,7 +74,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         // Verify document was stored by querying
         var queryResult = await _graphStore.ExecuteQueryAsync(
             "MATCH (d:Document {documentId: $docId}) RETURN d.title as title, d.documentType as type",
-            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+            new Dictionary<string, object> { ["docId"] = document.DocumentId }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var results = queryResult.Value!.ToList();
@@ -84,7 +84,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_StoreConcepts_ShouldCreateConceptNodesWithMetadata()
+    public async Task Neo4jGraphStore_StoreConcepts_ShouldCreateConceptNodesWithMetadataAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -99,7 +99,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
                 Type = "technology",
                 Description = "A subset of artificial intelligence focusing on algorithms that learn from data",
                 Confidence = 0.95f,
-                Aliases = new List<string> { "ML", "Statistical Learning" },
+                Aliases = ["ML", "Statistical Learning"],
                 Properties = new Dictionary<string, object>
                 {
                     ["domain"] = "computer_science",
@@ -113,12 +113,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
                 Type = "technology",
                 Description = "Intelligence demonstrated by machines",
                 Confidence = 0.98f,
-                Aliases = new List<string> { "AI" }
+                Aliases = ["AI"]
             }
         };
 
         // Act
-        var result = await _graphStore.StoreConceptsAsync(concepts);
+        var result = await _graphStore.StoreConceptsAsync(concepts, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -126,11 +126,11 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         // Verify concepts were stored
         var queryResult = await _graphStore.ExecuteQueryAsync(
             "MATCH (c:Concept) WHERE c.conceptId IN [$id1, $id2] RETURN c.name as name, c.confidence as confidence",
-            new Dictionary<string, object> 
-            { 
-                ["id1"] = "concept-ml", 
-                ["id2"] = "concept-ai" 
-            });
+            new Dictionary<string, object>
+            {
+                ["id1"] = "concept-ml",
+                ["id2"] = "concept-ai"
+            }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var results = queryResult.Value!.ToList();
@@ -140,18 +140,18 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_CreateRelationships_ShouldLinkDocumentsAndConcepts()
+    public async Task Neo4jGraphStore_CreateRelationships_ShouldLinkDocumentsAndConceptsAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // First create document and concept
         var document = CreateTestDocument("rel-doc-001", "Document about AI");
         var concept = CreateTestConcept("rel-concept-ai", "Artificial Intelligence");
 
-        await _graphStore.StoreDocumentAsync(document);
-        await _graphStore.StoreConceptsAsync(new[] { concept });
+        await _graphStore.StoreDocumentAsync(document, cancellationToken: TestContext.Current.CancellationToken);
+        await _graphStore.StoreConceptsAsync(new[] { concept }, TestContext.Current.CancellationToken);
 
         var relationships = new List<GraphRelationship>
         {
@@ -170,7 +170,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         };
 
         // Act
-        var result = await _graphStore.CreateRelationshipsAsync(relationships);
+        var result = await _graphStore.CreateRelationshipsAsync(relationships, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -178,11 +178,11 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         // Verify relationship was created
         var queryResult = await _graphStore.ExecuteQueryAsync(
             "MATCH (d:Document {documentId: $docId})-[r:DISCUSSES]->(c:Concept {conceptId: $conceptId}) RETURN r.weight as weight",
-            new Dictionary<string, object> 
-            { 
-                ["docId"] = document.DocumentId, 
-                ["conceptId"] = concept.ConceptId 
-            });
+            new Dictionary<string, object>
+            {
+                ["docId"] = document.DocumentId,
+                ["conceptId"] = concept.ConceptId
+            }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var results = queryResult.Value!.ToList();
@@ -191,20 +191,20 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_FindRelatedDocuments_ShouldTraverseGraphCorrectly()
+    public async Task Neo4jGraphStore_FindRelatedDocuments_ShouldTraverseGraphCorrectlyAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
-        await SetupTestGraphData();
+        await SetupTestGraphDataAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await _graphStore.FindRelatedDocumentsAsync(
-            "Machine Learning", 
+            "Machine Learning",
             relationshipTypes: new[] { "DISCUSSES", "MENTIONS" },
             maxDepth: 2,
-            limit: 10);
+            limit: 10, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -215,20 +215,20 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_FindRelatedConcepts_ShouldDiscoverConceptualConnections()
+    public async Task Neo4jGraphStore_FindRelatedConcepts_ShouldDiscoverConceptualConnectionsAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
-        await SetupTestGraphData();
+        await SetupTestGraphDataAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await _graphStore.FindRelatedConceptsAsync(
             "ml-doc-001",
             relationshipTypes: new[] { "DISCUSSES" },
             maxDepth: 1,
-            limit: 5);
+            limit: 5, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -239,29 +239,29 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_FindShortestPath_ShouldDiscoverConnectionPaths()
+    public async Task Neo4jGraphStore_FindShortestPath_ShouldDiscoverConnectionPathsAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
-        await SetupTestGraphData();
+        await SetupTestGraphDataAsync(TestContext.Current.CancellationToken);
 
         // Act
         var result = await _graphStore.FindShortestPathAsync(
             "ml-doc-001",
             "ai-doc-002",
             relationshipTypes: new[] { "DISCUSSES", "RELATED_TO" },
-            maxLength: 5);
+            maxLength: 5, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
         var path = result.Value;
-        
-        if (path.Length > 0) // Path exists
+
+        if (path!.Length > 0) // Path exists
         {
-            path.Length.ShouldBeGreaterThan(0);
-            path.Length.ShouldBeLessThanOrEqualTo(5);
+            path!.Length.ShouldBeGreaterThan(0);
+            path!.Length.ShouldBeLessThanOrEqualTo(5);
         }
         else // No path found
         {
@@ -270,42 +270,42 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_BatchOperations_ShouldHandleLargeDataSetsEfficiently()
+    public async Task Neo4jGraphStore_BatchOperations_ShouldHandleLargeDataSetsEfficientlyAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documents = GenerateTestDocuments(50);
         var concepts = GenerateTestConcepts(20);
         var relationships = GenerateTestRelationships(documents, concepts, 100);
 
         // Act
-        var result = await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken);
+        var result = await _graphStore.StoreBatchAsync(documents, concepts, relationships, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
 
         // Verify data was stored
-        var stats = await _graphStore.GetStatsAsync(TestContext.Current.CancellationToken);
+        var stats = await _graphStore.GetStatsAsync(cancellationToken: TestContext.Current.CancellationToken);
         stats.IsSuccess.ShouldBeTrue();
-        stats.Value.DocumentNodes.ShouldBeGreaterThanOrEqualTo(50);
-        stats.Value.ConceptNodes.ShouldBeGreaterThanOrEqualTo(20);
-        stats.Value.TotalRelationships.ShouldBeGreaterThanOrEqualTo(100);
+        stats.Value!.DocumentNodes.ShouldBeGreaterThanOrEqualTo(50);
+        stats.Value!.ConceptNodes.ShouldBeGreaterThanOrEqualTo(20);
+        stats.Value!.TotalRelationships.ShouldBeGreaterThanOrEqualTo(100);
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_DeleteDocument_ShouldRemoveNodeAndRelationships()
+    public async Task Neo4jGraphStore_DeleteDocument_ShouldRemoveNodeAndRelationshipsAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var document = CreateTestDocument("deletable-doc", "Document to be deleted");
-        await _graphStore.StoreDocumentAsync(document);
+        await _graphStore.StoreDocumentAsync(document, TestContext.Current.CancellationToken);
 
         // Act
-        var result = await _graphStore.DeleteDocumentAsync(document.DocumentId);
+        var result = await _graphStore.DeleteDocumentAsync(document.DocumentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -313,7 +313,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         // Verify deletion
         var queryResult = await _graphStore.ExecuteQueryAsync(
             "MATCH (d:Document {documentId: $docId}) RETURN count(d) as count",
-            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+            new Dictionary<string, object> { ["docId"] = document.DocumentId }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var count = Convert.ToInt32(queryResult.Value!.First()["count"]);
@@ -321,11 +321,11 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_ConcurrentOperations_ShouldMaintainDataIntegrity()
+    public async Task Neo4jGraphStore_ConcurrentOperations_ShouldMaintainDataIntegrityAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var concurrentTasks = new List<Task>();
         var documentCount = 30;
@@ -334,29 +334,29 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         for (int i = 0; i < documentCount; i++)
         {
             var doc = CreateTestDocument($"concurrent-doc-{i}", $"Concurrent document {i}");
-            concurrentTasks.Add(_graphStore.StoreDocumentAsync(doc));
+            concurrentTasks.Add(_graphStore.StoreDocumentAsync(doc, TestContext.Current.CancellationToken));
         }
 
         await Task.WhenAll(concurrentTasks);
 
         // Assert
-        var stats = await _graphStore.GetStatsAsync(TestContext.Current.CancellationToken);
+        var stats = await _graphStore.GetStatsAsync(cancellationToken: TestContext.Current.CancellationToken);
         stats.IsSuccess.ShouldBeTrue();
-        stats.Value.DocumentNodes.ShouldBeGreaterThanOrEqualTo(documentCount);
+        stats.Value!.DocumentNodes.ShouldBeGreaterThanOrEqualTo(documentCount);
     }
 
     [Theory(Skip = "Integration test - requires Neo4j orchestration to be ready")]
     [InlineData("MATCH (d:Document) RETURN count(d) as documentCount")]
     [InlineData("MATCH (c:Concept) RETURN count(c) as conceptCount")]
     [InlineData("MATCH ()-[r]->() RETURN count(r) as relationshipCount")]
-    public async Task Neo4jGraphStore_ExecuteQuery_ShouldHandleVariousCypherQueries(string cypherQuery)
+    public async Task Neo4jGraphStore_ExecuteQuery_ShouldHandleVariousCypherQueriesAsync(string cypherQuery)
     {
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
 
         // Act
-        var result = await _graphStore.ExecuteQueryAsync(cypherQuery);
+        var result = await _graphStore.ExecuteQueryAsync(cypherQuery, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -365,11 +365,11 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_PerformanceTest_ShouldMeetResponseTimeRequirements()
+    public async Task Neo4jGraphStore_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
         // Arrange
         SetupGraphClient();
-        await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
+        await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documents = GenerateTestDocuments(200);
         var concepts = GenerateTestConcepts(50);
@@ -377,7 +377,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
 
         // Act & Assert - Batch storage performance
         var storageStopwatch = System.Diagnostics.Stopwatch.StartNew();
-        var batchResult = await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken);
+        var batchResult = await _graphStore.StoreBatchAsync(documents, concepts, relationships, cancellationToken: TestContext.Current.CancellationToken);
         storageStopwatch.Stop();
 
         batchResult.IsSuccess.ShouldBeTrue();
@@ -385,7 +385,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
 
         // Act & Assert - Query performance
         var queryStopwatch = System.Diagnostics.Stopwatch.StartNew();
-        var queryResult = await _graphStore.FindRelatedDocumentsAsync("Technology", maxDepth: 2, limit: 20);
+        var queryResult = await _graphStore.FindRelatedDocumentsAsync("Technology", maxDepth: 2, limit: 20, cancellationToken: TestContext.Current.CancellationToken);
         queryStopwatch.Stop();
 
         queryResult.IsSuccess.ShouldBeTrue();
@@ -398,7 +398,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         _graphStore = new Neo4jGraphKnowledgeStore(_graphClient, _logger);
     }
 
-    private async Task SetupTestGraphData()
+    private async Task SetupTestGraphDataAsync(CancellationToken cancellationToken = default)
     {
         // Create test documents
         var documents = new[]
@@ -442,7 +442,11 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             }
         };
 
-        await _graphStore.StoreBatchAsync(documents, concepts, relationships, TestContext.Current.CancellationToken);
+        await _graphStore.StoreBatchAsync(documents, concepts, relationships, cancellationToken: TestContext.Current.CancellationToken);
+
+        //Simulate waiting for batch operation to complete
+        await Task.Delay(0, TestContext.Current.CancellationToken);
+        return;
     }
 
     private static GraphDocument CreateTestDocument(string id, string content)
@@ -455,7 +459,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             DocumentType = "test-document",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "test", "integration" }
+            Tags = ["test", "integration"]
         };
     }
 
@@ -485,7 +489,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     {
         var concepts = new List<GraphConcept>();
         var conceptTypes = new[] { "Technology", "Science", "Business", "Research", "Development" };
-        
+
         for (int i = 0; i < count; i++)
         {
             concepts.Add(new GraphConcept
@@ -501,8 +505,8 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     private static List<GraphRelationship> GenerateTestRelationships(
-        List<GraphDocument> documents, 
-        List<GraphConcept> concepts, 
+        List<GraphDocument> documents,
+        List<GraphConcept> concepts,
         int count)
     {
         var relationships = new List<GraphRelationship>();

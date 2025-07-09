@@ -43,7 +43,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<AgentResponse>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ApiResponse<AgentResponse>>> CreateAgent(
+    public async Task<ActionResult<ApiResponse<AgentResponse>>> CreateAgentAsync(
         [FromBody] CreateAgentRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -85,8 +85,8 @@ public class AgentsController : ControllerBase
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agent = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agent = result.Value!;
             var response = new ApiResponse<AgentResponse>
             {
                 Success = true,
@@ -95,7 +95,7 @@ public class AgentsController : ControllerBase
             };
 
             _logger.LogInformation("Successfully created agent with ID: {AgentId}", agent.Id);
-            return CreatedAtAction(nameof(GetAgent), new { id = agent.Id }, response);
+            return CreatedAtAction(nameof(GetAgentAsync), new { id = agent.Id }, response);
         }
         catch (Exception ex)
         {
@@ -104,7 +104,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -122,7 +122,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<AgentResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ApiResponse<AgentResponse>>> GetAgent(
+    public async Task<ActionResult<ApiResponse<AgentResponse>>> GetAgentAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {
@@ -139,12 +139,12 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "Agent not found",
-                    Errors = new List<string> { result.Error ?? "Agent not found" }
+                    Errors = [result.Error ?? "Agent not found"]
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agent = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agent = result.Value!;
             var response = new ApiResponse<AgentResponse>
             {
                 Success = true,
@@ -161,7 +161,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -176,7 +176,7 @@ public class AgentsController : ControllerBase
     [HttpGet]
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<AgentResponse>>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ApiResponse<IEnumerable<AgentResponse>>>> GetActiveAgents(
+    public async Task<ActionResult<ApiResponse<IEnumerable<AgentResponse>>>> GetActiveAgentsAsync(
         CancellationToken cancellationToken = default)
     {
         try
@@ -192,12 +192,12 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "Failed to retrieve agents",
-                    Errors = new List<string> { result.Error ?? "Unknown error" }
+                    Errors = [result.Error ?? "Unknown error"]
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agents = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agents = result.Value!;
             var response = new ApiResponse<IEnumerable<AgentResponse>>
             {
                 Success = true,
@@ -214,7 +214,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -235,7 +235,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> UpdateAgentConfiguration(
+    public async Task<ActionResult> UpdateAgentConfigurationAsync(
         Guid id,
         [FromBody] UpdateAgentConfigurationRequest request,
         CancellationToken cancellationToken = default)
@@ -274,7 +274,7 @@ public class AgentsController : ControllerBase
                     {
                         Success = false,
                         Message = "Agent not found",
-                        Errors = new List<string> { result.Error ?? "Agent not found" }
+                        Errors = [result.Error ?? "Agent not found"]
                     });
                 }
 
@@ -282,7 +282,7 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "Failed to update agent configuration",
-                    Errors = new List<string> { result.Error ?? "Configuration update failed" }
+                    Errors = [result.Error ?? "Configuration update failed"]
                 });
             }
 
@@ -296,7 +296,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -317,7 +317,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> UpdateAgentStatus(
+    public async Task<ActionResult> UpdateAgentStatusAsync(
         Guid id,
         [FromBody] UpdateAgentStatusRequest request,
         CancellationToken cancellationToken = default)
@@ -353,7 +353,7 @@ public class AgentsController : ControllerBase
                     {
                         Success = false,
                         Message = "Agent not found",
-                        Errors = new List<string> { result.Error ?? "Agent not found" }
+                        Errors = [result.Error ?? "Agent not found"]
                     });
                 }
 
@@ -361,7 +361,7 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "Failed to update agent agentStatus",
-                    Errors = new List<string> { result.Error ?? "AgentStatus update failed" }
+                    Errors = [result.Error ?? "AgentStatus update failed"]
                 });
             }
 
@@ -375,7 +375,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -396,7 +396,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> AssignTask(
+    public async Task<ActionResult> AssignTaskAsync(
         Guid id,
         [FromBody] AssignTaskRequest request,
         CancellationToken cancellationToken = default)
@@ -432,7 +432,7 @@ public class AgentsController : ControllerBase
                     {
                         Success = false,
                         Message = "Agent or task not found",
-                        Errors = new List<string> { result.Error ?? "Agent or task not found" }
+                        Errors = [result.Error ?? "Agent or task not found"]
                     });
                 }
 
@@ -440,7 +440,7 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "Failed to assign task",
-                    Errors = new List<string> { result.Error ?? "Task assignment failed" }
+                    Errors = [result.Error ?? "Task assignment failed"]
                 });
             }
 
@@ -454,7 +454,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -472,7 +472,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<AgentResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult<ApiResponse<AgentResponse>>> FindBestAgentForTask(
+    public async Task<ActionResult<ApiResponse<AgentResponse>>> FindBestAgentForTaskAsync(
         string taskType,
         CancellationToken cancellationToken = default)
     {
@@ -489,12 +489,12 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "No suitable agent found",
-                    Errors = new List<string> { result.Error ?? "No suitable agent found" }
+                    Errors = [result.Error ?? "No suitable agent found"]
                 });
             }
 
-            // Contract: IsSuccess guarantees Data is not null (enforced in Result<T>.IsSuccess property)
-            var agent = result.Data!;
+            // Contract: IsSuccess guarantees Value is not null (enforced in Result<T>.IsSuccess property)
+            var agent = result.Value!;
             var response = new ApiResponse<AgentResponse>
             {
                 Success = true,
@@ -511,7 +511,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }
@@ -531,7 +531,7 @@ public class AgentsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ApiResponse<object>), StatusCodes.Status500InternalServerError)]
-    public async Task<ActionResult> DeleteAgent(
+    public async Task<ActionResult> DeleteAgentAsync(
         Guid id,
         CancellationToken cancellationToken = default)
     {
@@ -549,7 +549,7 @@ public class AgentsController : ControllerBase
                     {
                         Success = false,
                         Message = "Agent not found",
-                        Errors = new List<string> { result.Error ?? "Agent not found" }
+                        Errors = [result.Error ?? "Agent not found"]
                     });
                 }
 
@@ -557,7 +557,7 @@ public class AgentsController : ControllerBase
                 {
                     Success = false,
                     Message = "Failed to delete agent",
-                    Errors = new List<string> { result.Error ?? "Agent deletion failed" }
+                    Errors = [result.Error ?? "Agent deletion failed"]
                 });
             }
 
@@ -571,7 +571,7 @@ public class AgentsController : ControllerBase
             {
                 Success = false,
                 Message = "An internal error occurred",
-                Errors = new List<string> { ex.Message }
+                Errors = [ex.Message]
             });
         }
     }

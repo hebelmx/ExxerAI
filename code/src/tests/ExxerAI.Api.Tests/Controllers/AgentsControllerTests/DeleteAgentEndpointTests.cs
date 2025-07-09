@@ -21,7 +21,7 @@ public class DeleteAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnOk_When_AgentDeletedSuccessfully()
+    public async Task Should_ReturnOk_When_AgentDeletedSuccessfullyAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -30,14 +30,14 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.Success(true));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NoContentResult>();
     }
 
     [Fact]
-    public async Task Should_ReturnNotFound_When_AgentDoesNotExist()
+    public async Task Should_ReturnNotFound_When_AgentDoesNotExistAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -46,17 +46,17 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.WithFailure("Agent not found"));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NotFoundObjectResult>();
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_EmptyGuidProvided()
+    public async Task Should_ReturnBadRequest_When_EmptyGuidProvidedAsync()
     {
         // Act
-        var result = await _controller.DeleteAgent(Guid.Empty);
+        var result = await _controller.DeleteAgentAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<ObjectResult>();
@@ -65,7 +65,7 @@ public class DeleteAgentEndpointTests
     }
 
     [Fact]
-    public async Task DeleteAgent_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+    public async Task DeleteAgent_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -73,14 +73,14 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.WithFailure("not found"));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NotFoundObjectResult>();
     }
 
     [Fact]
-    public async Task DeleteAgent_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFound()
+    public async Task DeleteAgent_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFoundAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -88,7 +88,7 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.WithFailure("Generic error"));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<BadRequestObjectResult>();

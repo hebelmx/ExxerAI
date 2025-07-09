@@ -38,5 +38,5 @@ public class DataQualityMetrics
     /// <summary>
     /// Gets or sets quality metrics by field
     /// </summary>
-    public Dictionary<string, FieldQualityMetrics> FieldMetrics { get; init; } = new();
+    public Dictionary<string, FieldQualityMetrics> FieldMetrics { get; init; } = [];
 }

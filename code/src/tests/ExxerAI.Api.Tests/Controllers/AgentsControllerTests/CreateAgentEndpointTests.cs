@@ -21,7 +21,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnCreatedWithAgent_When_ValidRequestProvided()
+    public async Task Should_ReturnCreatedWithAgent_When_ValidRequestProvidedAsync()
     {
         // Arrange
         var request = new CreateAgentRequest
@@ -51,7 +51,7 @@ public class CreateAgentEndpointTests
             .Returns(Result<Agent>.Success(createdAgent));
 
         // Act
-        var result = await _controller.CreateAgent(request);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -63,12 +63,12 @@ public class CreateAgentEndpointTests
         response.Data.Name.ShouldBe(createdAgent.Name);
 
         // Verify route values
-        createdResult.ActionName.ShouldBe(nameof(AgentsController.GetAgent));
+        createdResult.ActionName.ShouldBe(nameof(AgentsController.GetAgentAsync));
         createdResult.RouteValues!["id"].ShouldBe(createdAgent.Id);
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_InvalidRequestProvided()
+    public async Task Should_ReturnBadRequest_When_InvalidRequestProvidedAsync()
     {
         // Arrange
         var request = new CreateAgentRequest(); // Invalid - missing required fields
@@ -77,7 +77,7 @@ public class CreateAgentEndpointTests
         _controller.ModelState.AddModelError("Name", "Name is required");
 
         // Act
-        var result = await _controller.CreateAgent(request);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -85,7 +85,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_ServiceFails()
+    public async Task Should_ReturnBadRequest_When_ServiceFailsAsync()
     {
         // Arrange
         var request = new CreateAgentRequest
@@ -106,7 +106,7 @@ public class CreateAgentEndpointTests
             .Returns(Result<Agent>.WithFailure("Service error"));
 
         // Act
-        var result = await _controller.CreateAgent(request);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -118,7 +118,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_HandleMultipleModelStateErrors_When_ValidationFails()
+    public async Task Should_HandleMultipleModelStateErrors_When_ValidationFailsAsync()
     {
         // Arrange
         var request = new CreateAgentRequest();
@@ -127,7 +127,7 @@ public class CreateAgentEndpointTests
         _controller.ModelState.AddModelError("Capabilities", "Capabilities cannot be null");
 
         // Act
-        var result = await _controller.CreateAgent(request);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;

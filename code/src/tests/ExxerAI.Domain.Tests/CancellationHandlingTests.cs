@@ -103,7 +103,7 @@ public class CancellationHandlingTests
     /// Tests wrapping a successful async operation.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_WithSuccessfulOperation_ShouldReturnSuccess()
+    public async Task WrapCancellationAware_WithSuccessfulOperation_ShouldReturnSuccessAsync()
     {
         // Arrange
         var expectedValue = CancellationTestConstants.TestValue;
@@ -112,9 +112,9 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return expectedValue;
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -126,11 +126,11 @@ public class CancellationHandlingTests
     /// Tests wrapping an operation that throws a regular exception.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_WithException_ShouldReturnFailure()
+    public async Task WrapCancellationAware_WithException_ShouldReturnFailureAsync()
     {
         // Act
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
-            ct => throw new InvalidOperationException(CancellationTestConstants.TestError));
+            ct => throw new InvalidOperationException(CancellationTestConstants.TestError), cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -142,7 +142,7 @@ public class CancellationHandlingTests
     /// Tests wrapping an operation with pre-cancelled token.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_WithPreCancelledToken_ShouldReturnCancellation()
+    public async Task WrapCancellationAware_WithPreCancelledToken_ShouldReturnCancellationAsync()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -152,7 +152,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             cts.Token);
@@ -167,7 +167,7 @@ public class CancellationHandlingTests
     /// Tests wrapping an operation that gets cancelled during execution.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_WithCancellationDuringExecution_ShouldReturnCancellation()
+    public async Task WrapCancellationAware_WithCancellationDuringExecution_ShouldReturnCancellationAsync()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -176,13 +176,13 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             cts.Token);
 
         // Cancel after a short delay
-        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel());
+        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel(), cancellationToken: TestContext.Current.CancellationToken);
 
         var result = await operationTask;
 
@@ -196,7 +196,7 @@ public class CancellationHandlingTests
     /// Tests wrapping a non-generic async operation.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_NonGeneric_WithSuccessfulOperation_ShouldReturnSuccess()
+    public async Task WrapCancellationAware_NonGeneric_WithSuccessfulOperation_ShouldReturnSuccessAsync()
     {
         // Arrange
         var operationExecuted = false;
@@ -205,9 +205,9 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 operationExecuted = true;
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -219,7 +219,7 @@ public class CancellationHandlingTests
     /// Tests wrapping an operation that already returns Result&lt;T&gt;.
     /// </summary>
     [Fact]
-    public async Task WrapResultOperation_WithSuccessfulResult_ShouldReturnOriginalResult()
+    public async Task WrapResultOperation_WithSuccessfulResult_ShouldReturnOriginalResultAsync()
     {
         // Arrange
         var expectedValue = CancellationTestConstants.TestValue;
@@ -228,9 +228,9 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapResultOperation<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return Result<string>.Success(expectedValue);
-            });
+            }, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -242,7 +242,7 @@ public class CancellationHandlingTests
     /// Tests wrapping a Result operation that gets cancelled.
     /// </summary>
     [Fact]
-    public async Task WrapResultOperation_WithCancellation_ShouldReturnCancellation()
+    public async Task WrapResultOperation_WithCancellation_ShouldReturnCancellationAsync()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -251,13 +251,13 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapResultOperation<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return Result<string>.Success(CancellationTestConstants.TestValue);
             },
             cts.Token);
 
         // Cancel after short delay
-        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel());
+        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel(), cancellationToken: TestContext.Current.CancellationToken);
 
         var result = await operationTask;
 
@@ -274,7 +274,7 @@ public class CancellationHandlingTests
     /// Tests wrapping an operation with timeout that completes in time.
     /// </summary>
     [Fact]
-    public async Task WrapWithTimeout_CompletesInTime_ShouldReturnSuccess()
+    public async Task WrapWithTimeout_CompletesInTime_ShouldReturnSuccessAsync()
     {
         // Arrange
         var timeout = TimeSpan.FromMilliseconds(CancellationTestConstants.MediumDelayMs);
@@ -284,10 +284,10 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapWithTimeout<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return expectedValue;
             },
-            timeout);
+            timeout, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -299,7 +299,7 @@ public class CancellationHandlingTests
     /// Tests wrapping an operation that times out.
     /// </summary>
     [Fact]
-    public async Task WrapWithTimeout_ExceedsTimeout_ShouldReturnTimeoutError()
+    public async Task WrapWithTimeout_ExceedsTimeout_ShouldReturnTimeoutErrorAsync()
     {
         // Arrange
         var timeout = TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs);
@@ -308,10 +308,10 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapWithTimeout<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
-            timeout);
+            timeout, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -323,7 +323,7 @@ public class CancellationHandlingTests
     /// Tests wrapping with timeout and external cancellation.
     /// </summary>
     [Fact]
-    public async Task WrapWithTimeout_WithExternalCancellation_ShouldReturnCancellation()
+    public async Task WrapWithTimeout_WithExternalCancellation_ShouldReturnCancellationAsync()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -333,14 +333,14 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapWithTimeout<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             timeout,
             cts.Token);
 
         // Cancel externally before timeout
-        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel());
+        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel(), cancellationToken: TestContext.Current.CancellationToken);
 
         var result = await operationTask;
 
@@ -357,7 +357,7 @@ public class CancellationHandlingTests
     /// Tests the complete functional pattern: operation → cancellation check → result chaining.
     /// </summary>
     [Fact]
-    public async Task FunctionalCancellationPattern_ShouldChainOperationsCorrectly()
+    public async Task FunctionalCancellationPattern_ShouldChainOperationsCorrectlyAsync()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -367,7 +367,7 @@ public class CancellationHandlingTests
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
                 async ct =>
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
+                    await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                     return "Step 1 Complete";
                 },
                 cts.Token)
@@ -382,7 +382,7 @@ public class CancellationHandlingTests
                 return await CancellationAwareResult.WrapCancellationAware<string>(
                     async ct =>
                     {
-                        await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
+                        await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                         return "Step 2 Complete";
                     },
                     cts.Token);
@@ -399,7 +399,7 @@ public class CancellationHandlingTests
     /// Tests semantic assertions as recommended in the rule.
     /// </summary>
     [Fact]
-    public async Task SemanticAssertions_ShouldExpressIntentClearly()
+    public async Task SemanticAssertions_ShouldExpressIntentClearlyAsync()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
@@ -427,7 +427,7 @@ public class CancellationHandlingTests
     /// Tests null operation handling.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_WithNullOperation_ShouldHandleGracefully()
+    public async Task WrapCancellationAware_WithNullOperation_ShouldHandleGracefullyAsync()
     {
         // Act & Assert
         await Should.ThrowAsync<ArgumentNullException>(async () =>
@@ -438,7 +438,7 @@ public class CancellationHandlingTests
     /// Tests multiple cancellation sources.
     /// </summary>
     [Fact]
-    public async Task WrapCancellationAware_WithMultipleCancellationSources_ShouldHandleCorrectly()
+    public async Task WrapCancellationAware_WithMultipleCancellationSources_ShouldHandleCorrectlyAsync()
     {
         // Arrange
         using var cts1 = new CancellationTokenSource();
@@ -449,13 +449,13 @@ public class CancellationHandlingTests
         var operationTask = CancellationAwareResult.WrapCancellationAware<string>(
             async ct =>
             {
-                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.LongDelayMs), cancellationToken: TestContext.Current.CancellationToken);
                 return CancellationTestConstants.TestValue;
             },
             combinedCts.Token);
 
         // Cancel one of the sources
-        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts1.Cancel());
+        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts1.Cancel(), cancellationToken: TestContext.Current.CancellationToken);
 
         var result = await operationTask;
 
