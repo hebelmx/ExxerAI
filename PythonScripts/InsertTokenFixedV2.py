@@ -36,21 +36,14 @@ def context_is_mock_or_stub(code: str) -> bool:
 def already_has_token(args: str) -> bool:
     return re.search(r'\.\s*(Token|CancellationToken)\b', args)
 
-def has_named_cancellation_token(args: str) -> bool:
-    return re.search(r'\bcancellationToken\s*:', args)
+def has_any_cancellation_token(args: str) -> bool:
+    return re.search(r'\b[\w]*cancellationtoken\b', args, re.IGNORECASE)
 
-def has_named_cancellation(args: str) -> bool:
-    return re.search(r'\bancellation\s*:', args)
-
-def has_named_token(args: str) -> bool:
-    return re.search(r'\btoken\s*:', args)
 
 def needs_named_token(args: str, full_line: str) -> bool:
     return (
         not already_has_token(args)
-        and not has_named_cancellation_token(args)
-        and not has_named_token(args)
-        and not has_named_cancellation(args)
+        and not has_any_cancellation_token(args)
         and not context_is_mock_or_stub(full_line)
         and args.strip() != ''
     )

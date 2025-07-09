@@ -122,7 +122,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            return await _keyManager.GetDatabaseConnectionStringAsync(Configuration.Database);
+            return await _keyManager.GetDatabaseConnectionStringAsync(Configuration.Database, cancellationToken);
         }
 
         // Fallback to configuration values
@@ -164,7 +164,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            await _keyManager.SetExternalApiKeyAsync(provider, apiKey);
+            await _keyManager.SetExternalApiKeyAsync(provider, apiKey, cancellationToken);
         }
         else
         {

@@ -94,7 +94,7 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get a database connection string with secure credentials
     /// </summary>
-    public async Task<string> GetDatabaseConnectionStringAsync(DatabaseConfiguration config, CancellationToken cancellationToken)
+    public async Task<string> GetDatabaseConnectionStringAsync(DatabaseConfiguration config, CancellationToken cancellationToken = default)
     {
         var username = await _keyStore.GetKeyAsync(KeyNames.DatabaseUsername, Scopes.Internal) ?? config.Username;
         var password = await _keyStore.GetKeyAsync(KeyNames.DatabasePassword, Scopes.Internal) ?? config.Password;
