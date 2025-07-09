@@ -33,5 +33,5 @@ public class ProcessedDocument
     /// <summary>
     /// Gets or sets additional processing metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }

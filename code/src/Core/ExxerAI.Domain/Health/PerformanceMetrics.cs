@@ -31,7 +31,7 @@ public class PerformanceMetrics
     /// <summary>
     /// Disk usage information
     /// </summary>
-    public Dictionary<string, DiskUsage> DiskUsage { get; set; } = new();
+    public Dictionary<string, DiskUsage> DiskUsage { get; set; } = [];
 
     /// <summary>
     /// Active thread count

@@ -36,5 +36,5 @@ public class AgentCapabilitiesDto
     /// <summary>
     /// Gets or sets the supported task types for this agent
     /// </summary>
-    public List<string> SupportedTaskTypes { get; set; } = new();
+    public List<string> SupportedTaskTypes { get; set; } = [];
 }

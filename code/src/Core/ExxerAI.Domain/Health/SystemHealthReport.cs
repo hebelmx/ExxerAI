@@ -23,17 +23,17 @@ public class SystemHealthReport
     /// <summary>
     /// Health reports for individual components
     /// </summary>
-    public Dictionary<string, ComponentHealthReport> ComponentReports { get; set; } = new();
+    public Dictionary<string, ComponentHealthReport> ComponentReports { get; set; } = [];
 
     /// <summary>
     /// Summary of critical issues found
     /// </summary>
-    public List<string> CriticalIssues { get; set; } = new();
+    public List<string> CriticalIssues { get; set; } = [];
 
     /// <summary>
     /// Summary of warnings found
     /// </summary>
-    public List<string> Warnings { get; set; } = new();
+    public List<string> Warnings { get; set; } = [];
 
     /// <summary>
     /// System uptime information

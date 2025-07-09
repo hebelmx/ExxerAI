@@ -33,5 +33,5 @@ public class MCPHealthStatus
     /// <summary>
     /// Gets or sets additional health metrics
     /// </summary>
-    public Dictionary<string, object> Metrics { get; set; } = new();
+    public Dictionary<string, object> Metrics { get; set; } = [];
 }

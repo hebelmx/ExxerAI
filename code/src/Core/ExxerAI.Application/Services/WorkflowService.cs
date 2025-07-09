@@ -48,7 +48,7 @@ public class WorkflowService : IWorkflowService
 				Description = description ?? string.Empty,
 				Definition = new WorkflowDefinition
 				{
-					Steps = steps?.ToList() ?? new List<WorkflowStep>()
+					Steps = steps?.ToList() ?? []
 				},
 				Status = WorkflowStatus.Draft,
 				CreatedAt = DateTime.UtcNow
@@ -149,7 +149,7 @@ public class WorkflowService : IWorkflowService
 			var execution = new WorkflowExecution
 			{
 				WorkflowId = workflowId,
-				Input = input ?? new Dictionary<string, object>(),
+				Input = input ?? [],
 				Status = WorkflowExecutionStatus.Running,
 				StartedAt = DateTime.UtcNow
 			};

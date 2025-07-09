@@ -36,9 +36,9 @@ public class EnhancedLLMService : ILLMService
         _conversationRepository = conversationRepository ?? throw new ArgumentNullException(nameof(conversationRepository));
         _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
 
-        _providerCache = new Dictionary<string, ILLMProvider>();
-        _lastRateLimitCheck = new Dictionary<string, DateTime>();
-        _dailyCostTracker = new Dictionary<string, decimal>();
+        _providerCache = [];
+        _lastRateLimitCheck = [];
+        _dailyCostTracker = [];
 
         InitializeProviderCache();
     }
@@ -285,7 +285,7 @@ public class EnhancedLLMService : ILLMService
                 Status = ConversationStatus.Active,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
-                Messages = new List<ConversationMessage>(),
+                Messages = [],
                 Metadata = new ConversationMetadata()
             };
 

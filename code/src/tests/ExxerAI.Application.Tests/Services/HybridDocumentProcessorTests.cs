@@ -549,7 +549,7 @@ public class HybridDocumentProcessorTests
         IsSuccessful = true,
         Text = "OCR EXTRACTED: REGISTRO PATRONAL: RFC: OCR123456 PERIODO: FEBRERO 2024",
         Confidence = 0.85f,
-        ProcessedRegions = new List<OCRRegion>()
+        ProcessedRegions = []
     };
 
     private static OCRResult CreateFailedOCRResult() => new()
@@ -557,7 +557,7 @@ public class HybridDocumentProcessorTests
         IsSuccessful = false,
         Text = "",
         Confidence = 0.0f,
-        ProcessedRegions = new List<OCRRegion>()
+        ProcessedRegions = []
     };
 
     private static Dictionary<string, List<ExtractionPattern>> CreateSamplePatterns()
@@ -566,7 +566,7 @@ public class HybridDocumentProcessorTests
 
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "");
 
-        patterns["registro_patronal"] = new List<ExtractionPattern> { registroPattern };
+        patterns["registro_patronal"] = [registroPattern];
         return patterns;
     }
 
@@ -577,8 +577,8 @@ public class HybridDocumentProcessorTests
         var registroPattern = new TestExtractionPattern("Regex", 0.95f, "TEST123456");
         var periodoPattern = new TestExtractionPattern("Regex", 0.90f, "ENERO 2024");
 
-        patterns["registro_patronal"] = new List<ExtractionPattern> { registroPattern };
-        patterns["periodo_imss"] = new List<ExtractionPattern> { periodoPattern };
+        patterns["registro_patronal"] = [registroPattern];
+        patterns["periodo_imss"] = [periodoPattern];
         return patterns;
     }
 
@@ -662,56 +662,56 @@ public class HybridDocumentProcessorTests
 
     private static DocumentValidationRules CreateValidationRules() => new()
     {
-        RequiredFields = new List<string>(),
-        FieldRules = new Dictionary<string, List<DocumentValidationRule>>()
+        RequiredFields = [],
+        FieldRules = []
     };
 
     private static DocumentValidationRules CreateValidationRulesWithRequiredFields() => new()
     {
-        RequiredFields = new List<string> { "registro_patronal", "periodo_imss" },
-        FieldRules = new Dictionary<string, List<DocumentValidationRule>>()
+        RequiredFields = ["registro_patronal", "periodo_imss"],
+        FieldRules = []
     };
 
     private static DocumentValidationRules CreateStrictValidationRules() => new()
     {
-        RequiredFields = new List<string> { "registro_patronal" },
+        RequiredFields = ["registro_patronal"],
         FieldRules = new Dictionary<string, List<DocumentValidationRule>>
         {
-            ["registro_patronal"] = new List<DocumentValidationRule>
-            {
+            ["registro_patronal"] =
+            [
                 new DocumentValidationRule
                 {
                     RuleType = "NotEmpty",
                     Expression = "",
                     ErrorMessage = "Registro patronal cannot be empty"
                 }
-            },
-            ["total_pagar"] = new List<DocumentValidationRule>
-            {
+            ],
+            ["total_pagar"] =
+            [
                 new DocumentValidationRule
                 {
                     RuleType = "Numeric",
                     Expression = "",
                     ErrorMessage = "Total must be numeric"
                 }
-            }
+            ]
         }
     };
 
     private static DocumentValidationRules CreateMalformedValidationRules() => new()
     {
-        RequiredFields = new List<string>(),
+        RequiredFields = [],
         FieldRules = new Dictionary<string, List<DocumentValidationRule>>
         {
-            ["test_field"] = new List<DocumentValidationRule>
-            {
+            ["test_field"] =
+            [
                 new DocumentValidationRule
                 {
                     RuleType = "Regex",
                     Expression = "[", // Invalid regex that will cause RegexException
                     ErrorMessage = "Malformed regex"
                 }
-            }
+            ]
         }
     };
 }

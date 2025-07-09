@@ -23,5 +23,5 @@ public class AgentConfigurationDto
     /// <summary>
     /// Gets or sets custom configuration properties
     /// </summary>
-    public Dictionary<string, object> CustomProperties { get; set; } = new();
+    public Dictionary<string, object> CustomProperties { get; set; } = [];
 }

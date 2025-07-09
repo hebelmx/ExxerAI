@@ -55,7 +55,7 @@ public class DocumentChangeEvent
     /// <summary>
     /// Gets or sets additional change metadata.
     /// </summary>
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
 
     /// <summary>
     /// Gets whether this change represents a content modification.

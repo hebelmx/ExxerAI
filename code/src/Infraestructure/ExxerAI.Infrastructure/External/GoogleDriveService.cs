@@ -126,7 +126,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 ExtractedText = "Sample extracted text",
                 Confidence = 0.9f,
                 ProcessingTimeMs = 100,
-                ExtractedFields = new Dictionary<string, object>(),
+                ExtractedFields = [],
                 ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 0.9f }
             };
 
@@ -240,7 +240,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 AverageProcessingTimeMs = 125.0,
                 SystemHealth = HealthStatus.Healthy,
                 LastProcessingTime = DateTime.UtcNow,
-                SystemMessages = new List<string> { "System is operating normally" },
+                SystemMessages = ["System is operating normally"],
                 Metrics = new Dictionary<string, object>
                 {
                     ["uptime_hours"] = 24.0,

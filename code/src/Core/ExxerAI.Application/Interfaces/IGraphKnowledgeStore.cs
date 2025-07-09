@@ -123,8 +123,8 @@ public class GraphDocument
     public string DocumentType { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
-    public Dictionary<string, object> Properties { get; set; } = new();
-    public List<string> Tags { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
+    public List<string> Tags { get; set; } = [];
 }
 
 /// <summary>
@@ -137,8 +137,8 @@ public class GraphConcept
     public string Type { get; set; } = string.Empty; // entity, topic, keyword, etc.
     public string Description { get; set; } = string.Empty;
     public float Confidence { get; set; } = 1.0f;
-    public Dictionary<string, object> Properties { get; set; } = new();
-    public List<string> Aliases { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
+    public List<string> Aliases { get; set; } = [];
 }
 
 /// <summary>
@@ -150,7 +150,7 @@ public class GraphRelationship
     public string ToNodeId { get; set; } = string.Empty;
     public string RelationshipType { get; set; } = string.Empty;
     public float Weight { get; set; } = 1.0f;
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
 
@@ -159,8 +159,8 @@ public class GraphRelationship
 /// </summary>
 public class GraphPath
 {
-    public List<GraphNode> Nodes { get; set; } = new();
-    public List<GraphRelationship> Relationships { get; set; } = new();
+    public List<GraphNode> Nodes { get; set; } = [];
+    public List<GraphRelationship> Relationships { get; set; } = [];
     public int Length { get; set; }
     public float TotalWeight { get; set; }
 }
@@ -173,7 +173,7 @@ public class GraphNode
     public string NodeId { get; set; } = string.Empty;
     public string NodeType { get; set; } = string.Empty; // Document, Concept, etc.
     public string Name { get; set; } = string.Empty;
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
 }
 
 /// <summary>
@@ -185,7 +185,7 @@ public class GraphKnowledgeStats
     public long TotalRelationships { get; set; }
     public long DocumentNodes { get; set; }
     public long ConceptNodes { get; set; }
-    public Dictionary<string, long> NodeTypeDistribution { get; set; } = new();
-    public Dictionary<string, long> RelationshipTypeDistribution { get; set; } = new();
+    public Dictionary<string, long> NodeTypeDistribution { get; set; } = [];
+    public Dictionary<string, long> RelationshipTypeDistribution { get; set; } = [];
     public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 }

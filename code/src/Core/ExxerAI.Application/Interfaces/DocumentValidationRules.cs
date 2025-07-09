@@ -8,7 +8,7 @@ public class DocumentValidationRules
     /// <summary>
     /// Gets or sets field-specific validation rules
     /// </summary>
-    public Dictionary<string, List<DocumentValidationRule>> FieldRules { get; set; } = new();
+    public Dictionary<string, List<DocumentValidationRule>> FieldRules { get; set; } = [];
 
     /// <summary>
     /// Gets or sets minimum confidence threshold
@@ -18,5 +18,5 @@ public class DocumentValidationRules
     /// <summary>
     /// Gets or sets required fields that must be present
     /// </summary>
-    public List<string> RequiredFields { get; set; } = new();
+    public List<string> RequiredFields { get; set; } = [];
 }

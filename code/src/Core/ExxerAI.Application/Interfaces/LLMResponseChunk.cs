@@ -28,5 +28,5 @@ public class LLMResponseChunk
     /// <summary>
     /// Gets or sets chunk metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 }

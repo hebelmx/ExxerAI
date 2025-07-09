@@ -33,7 +33,7 @@ public class DocumentFingerprint
     /// <summary>
     /// Gets or sets additional fingerprint metadata.
     /// </summary>
-    public Dictionary<string, string> Properties { get; set; } = new();
+    public Dictionary<string, string> Properties { get; set; } = [];
 
     /// <summary>
     /// Calculates similarity score with another fingerprint.

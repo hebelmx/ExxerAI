@@ -19,7 +19,7 @@ public class ProcessingHistory
     /// <summary>
     /// Gets or sets the collection of processing results.
     /// </summary>
-    public List<DocumentProcessingResult> ProcessingResults { get; set; } = new();
+    public List<DocumentProcessingResult> ProcessingResults { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the time range this history covers.
@@ -29,7 +29,7 @@ public class ProcessingHistory
     /// <summary>
     /// Gets or sets the learned patterns from processing.
     /// </summary>
-    public List<LearnedPattern> LearnedPatterns { get; set; } = new();
+    public List<LearnedPattern> LearnedPatterns { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the performance metrics for this processing history.
@@ -39,12 +39,12 @@ public class ProcessingHistory
     /// <summary>
     /// Gets or sets the schema evolution history.
     /// </summary>
-    public List<SchemaEvolution> SchemaEvolutions { get; set; } = new();
+    public List<SchemaEvolution> SchemaEvolutions { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the adaptation recommendations based on this history.
     /// </summary>
-    public List<AdaptationRecommendation> Recommendations { get; set; } = new();
+    public List<AdaptationRecommendation> Recommendations { get; set; } = [];
 
     /// <summary>
     /// Gets or sets when this history was created.
@@ -59,7 +59,7 @@ public class ProcessingHistory
     /// <summary>
     /// Gets or sets additional history metadata.
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 
     /// <summary>
     /// Initializes a new instance of the ProcessingHistory class.

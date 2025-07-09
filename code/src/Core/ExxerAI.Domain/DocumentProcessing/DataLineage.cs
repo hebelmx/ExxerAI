@@ -38,7 +38,7 @@ public class DataLineage
     /// <summary>
     /// Gets or sets the processing steps that transformed the data
     /// </summary>
-    public List<ProcessingStep> ProcessingSteps { get; init; } = new();
+    public List<ProcessingStep> ProcessingSteps { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the final truth record ID
@@ -49,5 +49,5 @@ public class DataLineage
     /// <summary>
     /// Gets or sets additional lineage metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 }

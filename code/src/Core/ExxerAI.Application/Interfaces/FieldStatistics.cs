@@ -23,5 +23,5 @@ public class FieldStatistics
     /// <summary>
     /// Gets or sets the most common extraction patterns used
     /// </summary>
-    public List<string> CommonPatterns { get; init; } = new();
+    public List<string> CommonPatterns { get; init; } = [];
 }

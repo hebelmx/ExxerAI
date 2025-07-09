@@ -13,12 +13,12 @@ public class MessageMetadata
     /// <summary>
     /// Gets or sets the model parameters used for generation
     /// </summary>
-    public Dictionary<string, object> ModelParameters { get; init; } = new();
+    public Dictionary<string, object> ModelParameters { get; init; } = [];
 
     /// <summary>
     /// Gets or sets custom metadata properties
     /// </summary>
-    public Dictionary<string, object> Properties { get; init; } = new();
+    public Dictionary<string, object> Properties { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the number of tokens used in the message

@@ -29,7 +29,7 @@ public class SchemaEvolution
     /// <summary>
     /// Gets or sets the changes made in this evolution.
     /// </summary>
-    public List<string> Changes { get; set; } = new();
+    public List<string> Changes { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the reason for the evolution.

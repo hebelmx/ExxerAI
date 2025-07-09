@@ -32,13 +32,13 @@ internal class SchemaLearningEngine
         {
             Name = "IMSS_Payment_Schema",
             DocumentType = DocumentType.IMSSPayment,
-            Fields = new List<FieldDefinition>
-            {
+            Fields =
+            [
                 new("PaymentPeriod", FieldType.Date_MMYYYY, true, @"(?:PERIODO|PERIOD)[:\s]*(\d{2}-\d{4})"),
                 new("Amount", FieldType.Currency, true, @"(?:IMPORTE|TOTAL)[:\s]*\$?([0-9,]+\.?\d*)"),
                 new("EmployerNumber", FieldType.AlphaNumeric, true, @"(?:REGISTRO PATRONAL|REG\.?\s*PAT)[:\s]*([A-Z0-9\-]+)"),
                 new("PaymentDate", FieldType.Date, false, @"(?:FECHA)[:\s]*(\d{1,2}\/\d{1,2}\/\d{4})")
-            }
+            ]
         };
         schemas[DocumentType.IMSSPayment] = imssSchema;
 

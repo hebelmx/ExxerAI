@@ -12,5 +12,5 @@ public class ServiceHealth
     public TimeSpan ResponseTime { get; set; }
     public string? ErrorMessage { get; set; }
     public DateTime LastChecked { get; set; }
-    public Dictionary<string, object> AdditionalData { get; set; } = new();
+    public Dictionary<string, object> AdditionalData { get; set; } = [];
 }

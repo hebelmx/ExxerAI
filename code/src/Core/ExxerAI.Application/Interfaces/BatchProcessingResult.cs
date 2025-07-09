@@ -35,7 +35,7 @@ public class BatchProcessingResult
     /// <summary>
     /// Gets or sets individual document processing results
     /// </summary>
-    public List<DocumentProcessingResult> Results { get; set; } = new();
+    public List<DocumentProcessingResult> Results { get; set; } = [];
 
     /// <summary>
     /// Gets the success rate for the batch (0.0 to 1.0)

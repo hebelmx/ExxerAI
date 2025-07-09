@@ -686,7 +686,7 @@ public class PersonaServiceTests
         var searchCriteria = new PersonaSearchCriteria
         {
             Role = "Developer",
-            RequiredKnowledgeDomains = new List<string> { "software_development" },
+            RequiredKnowledgeDomains = ["software_development"],
             IncludeInactive = false
         };
 

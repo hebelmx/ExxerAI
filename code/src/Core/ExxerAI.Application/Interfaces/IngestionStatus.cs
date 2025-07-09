@@ -50,10 +50,10 @@ public class IngestionStatus
     /// <summary>
     /// Gets or sets any current system errors or warnings.
     /// </summary>
-    public List<string> SystemMessages { get; set; } = new();
+    public List<string> SystemMessages { get; set; } = [];
 
     /// <summary>
     /// Gets or sets performance metrics for the ingestion system.
     /// </summary>
-    public Dictionary<string, object> Metrics { get; set; } = new();
+    public Dictionary<string, object> Metrics { get; set; } = [];
 }

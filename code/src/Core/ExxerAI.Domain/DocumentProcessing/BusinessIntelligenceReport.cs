@@ -33,10 +33,10 @@ public class BusinessIntelligenceReport
     /// <summary>
     /// Business insights extracted from the data analysis
     /// </summary>
-    public List<string> Insights { get; set; } = new();
+    public List<string> Insights { get; set; } = [];
 
     /// <summary>
     /// Recommended actions based on the analysis results
     /// </summary>
-    public List<string> RecommendedActions { get; set; } = new();
+    public List<string> RecommendedActions { get; set; } = [];
 }

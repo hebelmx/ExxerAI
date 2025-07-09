@@ -23,5 +23,5 @@ public class MCPDocumentRequest
     /// <summary>
     /// Gets or sets additional request parameters
     /// </summary>
-    public Dictionary<string, object> Parameters { get; init; } = new();
+    public Dictionary<string, object> Parameters { get; init; } = [];
 }

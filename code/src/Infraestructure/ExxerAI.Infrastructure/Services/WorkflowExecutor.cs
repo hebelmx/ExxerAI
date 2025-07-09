@@ -63,7 +63,7 @@ public class WorkflowExecutor : IWorkflowExecutor
                 Status = WorkflowExecutionStatus.Running,
                 StartedAt = DateTime.UtcNow,
                 Input = new Dictionary<string, object>(input),
-                Output = new Dictionary<string, object>()
+                Output = []
             };
 
             _activeExecutions.TryAdd(execution.Id, execution);
@@ -322,7 +322,7 @@ public class WorkflowExecutor : IWorkflowExecutor
                 Status = StepExecutionStatus.Running,
                 StartedAt = DateTime.UtcNow,
                 Input = new Dictionary<string, object>(currentData),
-                Output = new Dictionary<string, object>()
+                Output = []
             };
 
             execution.StepExecutions.Add(stepExecution);

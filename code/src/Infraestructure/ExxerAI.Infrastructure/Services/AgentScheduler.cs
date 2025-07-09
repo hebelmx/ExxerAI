@@ -303,7 +303,7 @@ public class AgentScheduler : IAgentScheduler
         // Simple capability matching based on agent capabilities
         // In a real implementation, this would be more sophisticated
         var requiredCapabilities = GetRequiredCapabilities(task);
-        var agentCapabilities = agent.Capabilities?.SupportedTaskTypes ?? new List<string>();
+        var agentCapabilities = agent.Capabilities?.SupportedTaskTypes ?? [];
 
         if (!requiredCapabilities.Any())
         {

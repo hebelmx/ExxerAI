@@ -15,7 +15,7 @@ public class OpenAIProvider : ILLMProvider
 {
     private readonly HttpClient _httpClient;
     private readonly OpenAIConfiguration _configuration;
-    private Dictionary<string, LLMModelInfo> _modelInfo = new();
+    private Dictionary<string, LLMModelInfo> _modelInfo = [];
 
     /// <summary>
     /// Initializes a new instance of the OpenAIProvider class
@@ -517,7 +517,7 @@ public class OpenAIProvider : ILLMProvider
                 OutputTokenCostPer1K = 0.015m,
                 SupportsFunctionCalling = true,
                 SupportsStreaming = true,
-                Capabilities = new List<string> { "text", "function_calling", "json_mode" }
+                Capabilities = ["text", "function_calling", "json_mode"]
             },
             ["gpt-4-turbo"] = new()
             {
@@ -530,7 +530,7 @@ public class OpenAIProvider : ILLMProvider
                 OutputTokenCostPer1K = 0.03m,
                 SupportsFunctionCalling = true,
                 SupportsStreaming = true,
-                Capabilities = new List<string> { "text", "function_calling", "json_mode" }
+                Capabilities = ["text", "function_calling", "json_mode"]
             },
             ["gpt-3.5-turbo"] = new()
             {
@@ -543,7 +543,7 @@ public class OpenAIProvider : ILLMProvider
                 OutputTokenCostPer1K = 0.0015m,
                 SupportsFunctionCalling = true,
                 SupportsStreaming = true,
-                Capabilities = new List<string> { "text", "function_calling" }
+                Capabilities = ["text", "function_calling"]
             }
         };
     }
@@ -646,7 +646,7 @@ internal class OpenAIChatCompletionRequest
     public string Model { get; set; } = string.Empty;
 
     [JsonPropertyName("messages")]
-    public List<OpenAIMessage> Messages { get; set; } = new();
+    public List<OpenAIMessage> Messages { get; set; } = [];
 
     [JsonPropertyName("max_tokens")]
     public int? MaxTokens { get; set; }
@@ -694,7 +694,7 @@ internal class OpenAIChatCompletionResponse
     public string? Id { get; set; }
 
     [JsonPropertyName("choices")]
-    public List<OpenAIChoice> Choices { get; set; } = new();
+    public List<OpenAIChoice> Choices { get; set; } = [];
 
     [JsonPropertyName("usage")]
     public OpenAIUsage? Usage { get; set; }
@@ -736,7 +736,7 @@ internal class OpenAIStreamResponse
     public string? Id { get; set; }
 
     [JsonPropertyName("choices")]
-    public List<OpenAIStreamChoice> Choices { get; set; } = new();
+    public List<OpenAIStreamChoice> Choices { get; set; } = [];
 }
 
 /// <summary>

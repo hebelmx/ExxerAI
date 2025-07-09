@@ -13,12 +13,12 @@ public class ExtractionContext
     /// <summary>
     /// Gets or sets the OCR regions if available
     /// </summary>
-    public List<OCRRegion> OCRRegions { get; init; } = new();
+    public List<OCRRegion> OCRRegions { get; init; } = [];
 
     /// <summary>
     /// Gets or sets additional context properties
     /// </summary>
-    public Dictionary<string, object> Properties { get; init; } = new();
+    public Dictionary<string, object> Properties { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the confidence threshold for extraction

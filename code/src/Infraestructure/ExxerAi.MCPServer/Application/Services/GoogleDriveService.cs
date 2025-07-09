@@ -21,7 +21,7 @@ public class GoogleDriveService : IGoogleDriveService
     private readonly IConfiguration _configuration;
     private readonly IHybridDocumentProcessor? _documentProcessor;
     private DriveService? _driveService;
-    private readonly Dictionary<string, WatchSession> _activeSessions = new();
+    private readonly Dictionary<string, WatchSession> _activeSessions = [];
 
     /// <summary>
     /// Initializes a new instance of the GoogleDriveService

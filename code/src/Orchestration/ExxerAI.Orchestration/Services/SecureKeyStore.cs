@@ -15,7 +15,7 @@ public class SecureKeyStore : IKeyStore
     private readonly ILogger<SecureKeyStore> _logger;
     private readonly string _storePath;
     private readonly byte[] _encryptionKey;
-    private readonly Dictionary<string, StoredKey> _cache = new();
+    private readonly Dictionary<string, StoredKey> _cache = [];
     private readonly SemaphoreSlim _lock = new(1, 1);
 
     public SecureKeyStore(ILogger<SecureKeyStore> logger, string? storePath = null, string? encryptionKey = null)

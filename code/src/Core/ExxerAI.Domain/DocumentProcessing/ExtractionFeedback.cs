@@ -18,12 +18,12 @@ public class ExtractionFeedback
     /// <summary>
     /// Gets or sets the successfully extracted fields
     /// </summary>
-    public Dictionary<string, object> SuccessfulFields { get; init; } = new();
+    public Dictionary<string, object> SuccessfulFields { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the fields that failed extraction
     /// </summary>
-    public List<string> FailedFields { get; init; } = new();
+    public List<string> FailedFields { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the overall confidence of the extraction

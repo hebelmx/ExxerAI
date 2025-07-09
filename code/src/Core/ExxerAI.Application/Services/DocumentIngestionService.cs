@@ -19,9 +19,9 @@ public class DocumentIngestionService : IDocumentIngestionService
     private readonly HealthMonitoringEngine _healthEngine;
 
     // Simulated watch sessions for demonstration (in real implementation this would be persistent storage)
-    private readonly Dictionary<string, WatchSession> _activeSessions = new();
+    private readonly Dictionary<string, WatchSession> _activeSessions = [];
 
-    private readonly List<DocumentChangeEvent> _pendingChanges = new();
+    private readonly List<DocumentChangeEvent> _pendingChanges = [];
 
     /// <summary>
     /// Initializes a new instance of the DocumentIngestionService class.

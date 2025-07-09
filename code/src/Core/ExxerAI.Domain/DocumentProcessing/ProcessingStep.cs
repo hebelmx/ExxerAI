@@ -30,12 +30,12 @@ public class ProcessingStep
     /// <summary>
     /// Gets or sets the input to this processing step
     /// </summary>
-    public Dictionary<string, object> Input { get; init; } = new();
+    public Dictionary<string, object> Input { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the output from this processing step
     /// </summary>
-    public Dictionary<string, object> Output { get; init; } = new();
+    public Dictionary<string, object> Output { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the duration of this processing step

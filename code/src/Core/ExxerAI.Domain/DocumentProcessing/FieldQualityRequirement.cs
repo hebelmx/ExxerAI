@@ -28,5 +28,5 @@ public class FieldQualityRequirement
     /// <summary>
     /// Gets or sets custom validation rules.
     /// </summary>
-    public List<string> CustomValidationRules { get; set; } = new();
+    public List<string> CustomValidationRules { get; set; } = [];
 }

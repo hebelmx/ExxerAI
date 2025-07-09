@@ -18,5 +18,5 @@ public class NotificationSettings
     /// <summary>
     /// Gets or sets the notification recipients
     /// </summary>
-    public ICollection<string> Recipients { get; init; } = new List<string>();
+    public ICollection<string> Recipients { get; init; } = [];
 }

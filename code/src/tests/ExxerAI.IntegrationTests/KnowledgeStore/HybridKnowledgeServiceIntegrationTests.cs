@@ -75,7 +75,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             DocumentType = "research-article",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "healthcare", "ML", "AI", "predictive-analytics" },
+            Tags = ["healthcare", "ML", "AI", "predictive-analytics"],
             Metadata = new Dictionary<string, object>
             {
                 ["category"] = "healthcare-tech",
@@ -83,8 +83,8 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                 ["word_count"] = 250,
                 ["publication_year"] = 2024
             },
-            ExtractedConcepts = new List<GraphConcept>
-            {
+            ExtractedConcepts =
+            [
                 new GraphConcept
                 {
                     ConceptId = "concept-ml-healthcare",
@@ -109,7 +109,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                     Description = "AI systems that assist in medical diagnosis",
                     Confidence = 0.92f
                 }
-            }
+            ]
         };
 
         // Act
@@ -435,15 +435,15 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             DocumentType = "test-article",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "test", "AI", "technology" },
+            Tags = ["test", "AI", "technology"],
             Metadata = new Dictionary<string, object>
             {
                 ["category"] = "test-category",
                 ["author"] = "Integration Test",
                 ["word_count"] = content.Length
             },
-            ExtractedConcepts = new List<GraphConcept>
-            {
+            ExtractedConcepts =
+            [
                 new GraphConcept
                 {
                     ConceptId = $"concept-{id}",
@@ -452,7 +452,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                     Description = "Technology domain concept",
                     Confidence = 0.8f
                 }
-            }
+            ]
         };
     }
 
@@ -474,15 +474,15 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                 DocumentType = "article",
                 CreatedAt = DateTime.UtcNow.AddDays(-random.Next(30)),
                 ModifiedAt = DateTime.UtcNow,
-                Tags = new List<string> { topic, "technology", "research" },
+                Tags = [topic, "technology", "research"],
                 Metadata = new Dictionary<string, object>
                 {
                     ["category"] = topic,
                     ["batch"] = "large-test",
                     ["index"] = i
                 },
-                ExtractedConcepts = new List<GraphConcept>
-                {
+                ExtractedConcepts =
+                [
                     new GraphConcept
                     {
                         ConceptId = $"concept-{topic}-{i}",
@@ -491,7 +491,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                         Description = $"Concept related to {topic}",
                         Confidence = 0.7f + (float)(random.NextDouble() * 0.3)
                     }
-                }
+                ]
             });
         }
 

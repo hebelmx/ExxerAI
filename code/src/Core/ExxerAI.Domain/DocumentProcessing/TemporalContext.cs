@@ -18,7 +18,7 @@ public class TemporalContext
     /// <summary>
     /// Gets or sets temporal validation rules.
     /// </summary>
-    public List<string> TemporalRules { get; set; } = new();
+    public List<string> TemporalRules { get; set; } = [];
 
     /// <summary>
     /// Gets or sets timezone information.

@@ -23,7 +23,7 @@ public class DocumentProcessingResult
     /// <summary>
     /// Gets or sets the extracted structured fields
     /// </summary>
-    public Dictionary<string, object> ExtractedFields { get; init; } = new();
+    public Dictionary<string, object> ExtractedFields { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the grounded data after dictionary validation
@@ -38,7 +38,7 @@ public class DocumentProcessingResult
     /// <summary>
     /// Gets or sets the OCR regions that were processed
     /// </summary>
-    public List<OCRRegion> OCRRegions { get; init; } = new();
+    public List<OCRRegion> OCRRegions { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the confidence score from direct text extraction (0.0 - 1.0)

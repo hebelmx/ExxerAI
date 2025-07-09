@@ -38,5 +38,5 @@ public class ModelCapabilities
     /// <summary>
     /// Gets or sets the supported response formats
     /// </summary>
-    public ICollection<string> SupportedFormats { get; init; } = new List<string> { "text" };
+    public ICollection<string> SupportedFormats { get; init; } = ["text"];
 }

@@ -208,20 +208,21 @@ public class OrchestrationIntegrationTests
         try
         {
             // Act - Simulate concurrent operations from multiple services
-            var tasks = new List<Task>();
+            var tasks = new List<Task>
+            {
+                // Configuration service operations
+                configService.InitializeAsync(TestContext.Current.CancellationToken),
+                configService.SetExternalApiKeyAsync("openai", "openai-key-123", TestContext.Current.CancellationToken),
+                configService.SetExternalApiKeyAsync("anthropic", "anthropic-key-456", TestContext.Current.CancellationToken),
 
-            // Configuration service operations
-            tasks.Add(configService.InitializeAsync(TestContext.Current.CancellationToken));
-            tasks.Add(configService.SetExternalApiKeyAsync("openai", "openai-key-123", TestContext.Current.CancellationToken));
-            tasks.Add(configService.SetExternalApiKeyAsync("anthropic", "anthropic-key-456", TestContext.Current.CancellationToken));
-
-            // Direct key store operations
-            tasks.Add(keyStore.SetKeyAsync("localai-key", "localai-value", "ai",
-               cancellationToken: TestContext.Current.CancellationToken));
-            tasks.Add(keyStore.SetKeyAsync("vector-db-key", "vector-value", "database"
-                , cancellationToken: TestContext.Current.CancellationToken));
-            tasks.Add(keyStore.SetKeyAsync("monitoring-key", "monitoring-value", "ops"
-                , cancellationToken: TestContext.Current.CancellationToken));
+                // Direct key store operations
+                keyStore.SetKeyAsync("localai-key", "localai-value", "ai",
+               cancellationToken: TestContext.Current.CancellationToken),
+                keyStore.SetKeyAsync("vector-db-key", "vector-value", "database"
+                , cancellationToken: TestContext.Current.CancellationToken),
+                keyStore.SetKeyAsync("monitoring-key", "monitoring-value", "ops"
+                , cancellationToken: TestContext.Current.CancellationToken)
+            };
 
             // Wait for all operations to complete
             await Task.WhenAll(tasks);

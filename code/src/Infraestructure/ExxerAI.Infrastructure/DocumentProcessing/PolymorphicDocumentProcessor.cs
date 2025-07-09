@@ -77,7 +77,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             {
                 DocumentId = metadata.FileName ?? "Unknown",
                 ExtractionMethod = ExtractionMethod.DirectText,
-                ExtractedFields = new Dictionary<string, object>(),
+                ExtractedFields = [],
                 ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 1.0f }
             };
 

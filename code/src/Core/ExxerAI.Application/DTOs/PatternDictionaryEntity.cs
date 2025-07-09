@@ -78,7 +78,7 @@ public class PatternDictionaryEntity
     /// <summary>
     /// Gets or sets additional metadata for the pattern
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 
     /// <summary>
     /// Gets the calculated success rate

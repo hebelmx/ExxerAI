@@ -53,7 +53,7 @@ public class ResourceUtilization
     /// <summary>
     /// Custom resource metrics specific to the component
     /// </summary>
-    public Dictionary<string, object> CustomMetrics { get; set; } = new();
+    public Dictionary<string, object> CustomMetrics { get; set; } = [];
 }
 
 /// <summary>

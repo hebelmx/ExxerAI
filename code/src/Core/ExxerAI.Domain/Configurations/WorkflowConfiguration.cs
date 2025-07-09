@@ -23,5 +23,5 @@ public class WorkflowConfiguration
     /// <summary>
     /// Gets or sets custom configuration properties
     /// </summary>
-    public Dictionary<string, object> CustomProperties { get; init; } = new();
+    public Dictionary<string, object> CustomProperties { get; init; } = [];
 }

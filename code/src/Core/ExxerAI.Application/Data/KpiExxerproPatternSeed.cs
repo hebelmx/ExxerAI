@@ -14,8 +14,8 @@ public static class KpiExxerproPatternSeed
     /// Gets the collection of proven extraction patterns from KpiExxerpro research
     /// These patterns have been validated against 10,000+ real-world documents
     /// </summary>
-    public static readonly List<PatternDictionaryEntity> InitialPatterns = new()
-    {
+    public static readonly List<PatternDictionaryEntity> InitialPatterns =
+    [
         // ========== REGISTRO PATRONAL PATTERNS ==========
         // Primary pattern from OCRV5.py - highest accuracy (95%)
         new PatternDictionaryEntity
@@ -427,7 +427,7 @@ public static class KpiExxerproPatternSeed
             IsActive = true,
             Notes = "Simple total pattern for documents with clear total labeling"
         }
-    };
+    ];
 
     /// <summary>
     /// Gets patterns filtered by document type for efficient lookup

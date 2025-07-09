@@ -56,7 +56,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             DocumentType = "research-paper",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "AI", "ML", "research" },
+            Tags = ["AI", "ML", "research"],
             Properties = new Dictionary<string, object>
             {
                 ["author"] = "Dr. Test Author",
@@ -99,7 +99,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
                 Type = "technology",
                 Description = "A subset of artificial intelligence focusing on algorithms that learn from data",
                 Confidence = 0.95f,
-                Aliases = new List<string> { "ML", "Statistical Learning" },
+                Aliases = ["ML", "Statistical Learning"],
                 Properties = new Dictionary<string, object>
                 {
                     ["domain"] = "computer_science",
@@ -113,7 +113,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
                 Type = "technology",
                 Description = "Intelligence demonstrated by machines",
                 Confidence = 0.98f,
-                Aliases = new List<string> { "AI" }
+                Aliases = ["AI"]
             }
         };
 
@@ -459,7 +459,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             DocumentType = "test-document",
             CreatedAt = DateTime.UtcNow,
             ModifiedAt = DateTime.UtcNow,
-            Tags = new List<string> { "test", "integration" }
+            Tags = ["test", "integration"]
         };
     }
 

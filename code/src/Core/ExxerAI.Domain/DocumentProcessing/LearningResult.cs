@@ -13,7 +13,7 @@ public class LearningResult
     /// <summary>
     /// Gets or sets the list of new patterns discovered
     /// </summary>
-    public List<string> NewPatterns { get; init; } = new();
+    public List<string> NewPatterns { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the confidence improvement from learning
@@ -23,5 +23,5 @@ public class LearningResult
     /// <summary>
     /// Gets or sets the schema updates made
     /// </summary>
-    public List<string> SchemaUpdates { get; init; } = new();
+    public List<string> SchemaUpdates { get; init; } = [];
 }

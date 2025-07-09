@@ -43,12 +43,12 @@ public class StepExecution
     /// <summary>
     /// Gets or sets the step input data
     /// </summary>
-    public Dictionary<string, object> Input { get; init; } = new();
+    public Dictionary<string, object> Input { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the step output data
     /// </summary>
-    public Dictionary<string, object> Output { get; init; } = new();
+    public Dictionary<string, object> Output { get; init; } = [];
 
     /// <summary>
     /// Gets or sets error information if step failed

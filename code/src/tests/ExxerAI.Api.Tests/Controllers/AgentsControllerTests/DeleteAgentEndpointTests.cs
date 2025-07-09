@@ -30,7 +30,7 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.Success(true));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NoContentResult>();
@@ -46,7 +46,7 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.WithFailure("Agent not found"));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NotFoundObjectResult>();
@@ -56,7 +56,7 @@ public class DeleteAgentEndpointTests
     public async Task Should_ReturnBadRequest_When_EmptyGuidProvided()
     {
         // Act
-        var result = await _controller.DeleteAgent(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.DeleteAgentAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<ObjectResult>();
@@ -73,7 +73,7 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.WithFailure("not found"));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NotFoundObjectResult>();
@@ -88,7 +88,7 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.WithFailure("Generic error"));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<BadRequestObjectResult>();

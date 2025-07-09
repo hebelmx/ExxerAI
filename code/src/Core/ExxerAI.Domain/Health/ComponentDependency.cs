@@ -58,5 +58,5 @@ public class ComponentDependency
     /// <summary>
     /// Additional metadata about the dependency
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }

@@ -112,7 +112,7 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
     {
         try
         {
-            var textList = texts?.ToList() ?? new List<string>();
+            var textList = texts?.ToList() ?? [];
             
             if (!textList.Any())
                 return Result<IEnumerable<EmbeddingResult>>.Success(Enumerable.Empty<EmbeddingResult>());

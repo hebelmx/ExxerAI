@@ -201,7 +201,7 @@ public class HybridKnowledgeService
                 if (vectorResults.Value == null)
                 {
                     _logger.LogWarning("Vector search returned null results");
-                    results.SemanticResults = new List<VectorSearchResult>();
+                    results.SemanticResults = [];
                 }
                 else
                 {
@@ -219,7 +219,7 @@ public class HybridKnowledgeService
                 if (conceptResults.Value == null)
                 {
                     _logger.LogWarning("Graph search returned null results");
-                    results.RelationshipResults = new List<GraphDocument>();
+                    results.RelationshipResults = [];
                 }
                 else
                 {
@@ -471,9 +471,9 @@ public class KnowledgeDocument
     public string DocumentType { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime ModifiedAt { get; set; } = DateTime.UtcNow;
-    public Dictionary<string, object> Metadata { get; set; } = new();
-    public List<string> Tags { get; set; } = new();
-    public List<GraphConcept> ExtractedConcepts { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
+    public List<string> Tags { get; set; } = [];
+    public List<GraphConcept> ExtractedConcepts { get; set; } = [];
 }
 
 /// <summary>
@@ -488,7 +488,7 @@ public class HybridSearchOptions
     public float SemanticWeight { get; set; } = 0.7f;
     public float GraphWeight { get; set; } = 0.3f;
     public int GraphTraversalDepth { get; set; } = 2;
-    public Dictionary<string, object> VectorFilter { get; set; } = new();
+    public Dictionary<string, object> VectorFilter { get; set; } = [];
     public IEnumerable<string>? RelationshipTypes { get; set; } = null;
 }
 
@@ -498,9 +498,9 @@ public class HybridSearchOptions
 public class HybridSearchResults
 {
     public string Query { get; set; } = string.Empty;
-    public List<VectorSearchResult> SemanticResults { get; set; } = new();
-    public List<GraphDocument> RelationshipResults { get; set; } = new();
-    public List<HybridSearchResult> CombinedResults { get; set; } = new();
+    public List<VectorSearchResult> SemanticResults { get; set; } = [];
+    public List<GraphDocument> RelationshipResults { get; set; } = [];
+    public List<HybridSearchResult> CombinedResults { get; set; } = [];
     public DateTime SearchTime { get; set; } = DateTime.UtcNow;
 }
 
@@ -515,7 +515,7 @@ public class HybridSearchResult
     public float GraphScore { get; set; }
     public float CombinedScore { get; set; }
     public string ResultType { get; set; } = string.Empty; // Semantic, Graph, Hybrid
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }
 
 /// <summary>

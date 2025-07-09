@@ -38,10 +38,10 @@ public class ProcessingMetrics
     /// <summary>
     /// Gets or sets the distribution of confidence scores.
     /// </summary>
-    public Dictionary<string, int> ConfidenceDistribution { get; set; } = new();
+    public Dictionary<string, int> ConfidenceDistribution { get; set; } = [];
 
     /// <summary>
     /// Gets or sets additional metric properties.
     /// </summary>
-    public Dictionary<string, object> AdditionalMetrics { get; set; } = new();
+    public Dictionary<string, object> AdditionalMetrics { get; set; } = [];
 }

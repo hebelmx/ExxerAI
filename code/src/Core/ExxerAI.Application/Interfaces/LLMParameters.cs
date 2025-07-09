@@ -33,10 +33,10 @@ public class LLMParameters
     /// <summary>
     /// Gets or sets stop sequences
     /// </summary>
-    public ICollection<string> StopSequences { get; init; } = new List<string>();
+    public ICollection<string> StopSequences { get; init; } = [];
 
     /// <summary>
     /// Gets or sets custom parameters
     /// </summary>
-    public Dictionary<string, object> CustomParameters { get; init; } = new();
+    public Dictionary<string, object> CustomParameters { get; init; } = [];
 }

@@ -312,7 +312,7 @@ public class EnhancedLLMServiceTests
             Title = "Test Conversation",
             SystemPrompt = "You are a helpful assistant",
             Status = ConversationStatus.Active,
-            Messages = new List<ConversationMessage>()
+            Messages = []
         };
 
         var expectedResponse = new LLMResponse

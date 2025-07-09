@@ -28,5 +28,5 @@ public class OCRRegion
     /// <summary>
     /// Gets or sets the fields found in this region
     /// </summary>
-    public List<string> FieldsFound { get; init; } = new();
+    public List<string> FieldsFound { get; init; } = [];
 }

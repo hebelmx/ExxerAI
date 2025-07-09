@@ -43,17 +43,17 @@ public class ComponentHealthReport
     /// <summary>
     /// List of issues or errors found
     /// </summary>
-    public List<HealthIssue> Issues { get; set; } = new();
+    public List<HealthIssue> Issues { get; set; } = [];
 
     /// <summary>
     /// Component-specific metrics
     /// </summary>
-    public Dictionary<string, object> Metrics { get; set; } = new();
+    public Dictionary<string, object> Metrics { get; set; } = [];
 
     /// <summary>
     /// Dependencies that this component relies on
     /// </summary>
-    public List<ComponentDependency> Dependencies { get; set; } = new();
+    public List<ComponentDependency> Dependencies { get; set; } = [];
 
     /// <summary>
     /// Resource utilization information

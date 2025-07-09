@@ -114,7 +114,7 @@ public class GoogleDriveServiceBehavioralTests4
 
         numbers.ForEach(n => result.Add(n * 2));
 
-        result.ShouldBe(new List<int> { 2, 4, 6 });
+        result.ShouldBe([2, 4, 6]);
     }
 
     [Fact]

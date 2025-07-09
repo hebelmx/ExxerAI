@@ -15,7 +15,7 @@ public class LearningFeedback
     /// <summary>
     /// Gets or sets the dictionary of extracted fields and their values
     /// </summary>
-    public Dictionary<string, object> ExtractedFields { get; set; } = new();
+    public Dictionary<string, object> ExtractedFields { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the overall confidence score of the processing

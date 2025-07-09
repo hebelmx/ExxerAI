@@ -29,12 +29,12 @@ public class FieldDefinition
     /// <summary>
     /// Gets or sets alternative extraction patterns
     /// </summary>
-    public List<ExtractionPattern> AlternativePatterns { get; init; } = new();
+    public List<ExtractionPattern> AlternativePatterns { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the validation rules for this field
     /// </summary>
-    public List<ValidationRule> ValidationRules { get; init; } = new();
+    public List<ValidationRule> ValidationRules { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the field description
@@ -45,7 +45,7 @@ public class FieldDefinition
     /// <summary>
     /// Gets or sets example values for this field
     /// </summary>
-    public List<string> ExampleValues { get; init; } = new();
+    public List<string> ExampleValues { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the confidence threshold for this field

@@ -19,27 +19,27 @@ public class GroundTruthContext
     /// <summary>
     /// Gets or sets the business rules for validation.
     /// </summary>
-    public List<ValidationRule> BusinessRules { get; set; } = new();
+    public List<ValidationRule> BusinessRules { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the reference data for field validation.
     /// </summary>
-    public Dictionary<string, List<string>> ReferenceData { get; set; } = new();
+    public Dictionary<string, List<string>> ReferenceData { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the known valid patterns for field values.
     /// </summary>
-    public Dictionary<string, List<string>> ValidPatterns { get; set; } = new();
+    public Dictionary<string, List<string>> ValidPatterns { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the confidence thresholds for each field.
     /// </summary>
-    public Dictionary<string, float> ConfidenceThresholds { get; set; } = new();
+    public Dictionary<string, float> ConfidenceThresholds { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the historical successful extractions for comparison.
     /// </summary>
-    public List<ExtractedData> HistoricalData { get; set; } = new();
+    public List<ExtractedData> HistoricalData { get; set; } = [];
 
     /// <summary>
     /// Gets or sets the data quality requirements.
@@ -54,7 +54,7 @@ public class GroundTruthContext
     /// <summary>
     /// Gets or sets additional context properties.
     /// </summary>
-    public Dictionary<string, object> Properties { get; set; } = new();
+    public Dictionary<string, object> Properties { get; set; } = [];
 
     /// <summary>
     /// Gets or sets when this context was created.

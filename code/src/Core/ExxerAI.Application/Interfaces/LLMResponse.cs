@@ -43,5 +43,5 @@ public class LLMResponse
     /// <summary>
     /// Gets or sets response metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; init; } = new();
+    public Dictionary<string, object> Metadata { get; init; } = [];
 }

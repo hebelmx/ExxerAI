@@ -38,12 +38,12 @@ public class WorkflowExecution
     /// <summary>
     /// Gets or sets the execution input data
     /// </summary>
-    public Dictionary<string, object> Input { get; init; } = new();
+    public Dictionary<string, object> Input { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the execution output data
     /// </summary>
-    public Dictionary<string, object> Output { get; init; } = new();
+    public Dictionary<string, object> Output { get; init; } = [];
 
     /// <summary>
     /// Gets or sets the current step being executed
@@ -58,5 +58,5 @@ public class WorkflowExecution
     /// <summary>
     /// Gets the collection of step executions
     /// </summary>
-    public ICollection<StepExecution> StepExecutions { get; init; } = new List<StepExecution>();
+    public ICollection<StepExecution> StepExecutions { get; init; } = [];
 }

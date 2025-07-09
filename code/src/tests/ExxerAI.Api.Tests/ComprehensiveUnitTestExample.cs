@@ -518,7 +518,7 @@ public class ComprehensiveUnitTestExample
                 {
                     IsValid = true,
                     Confidence = 0.95f,
-                    Errors = new List<string>()
+                    Errors = []
                 }
             };
         }

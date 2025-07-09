@@ -19,7 +19,7 @@ public class ApiResponse<T>
     /// <summary>
     /// Gets or sets error messages if the operation failed
     /// </summary>
-    public List<string> Errors { get; set; } = new();
+    public List<string> Errors { get; set; } = [];
 
     /// <summary>
     /// Gets or sets a message describing the result

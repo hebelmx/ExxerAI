@@ -33,5 +33,5 @@ public class AgentCapabilities
     /// <summary>
     /// Gets or sets the supported task types for this agent
     /// </summary>
-    public ICollection<string> SupportedTaskTypes { get; init; } = new List<string>();
+    public ICollection<string> SupportedTaskTypes { get; init; } = [];
 }

@@ -28,5 +28,5 @@ public class MCPUploadResult
     /// <summary>
     /// Gets or sets additional upload metadata
     /// </summary>
-    public Dictionary<string, object> Metadata { get; set; } = new();
+    public Dictionary<string, object> Metadata { get; set; } = [];
 }

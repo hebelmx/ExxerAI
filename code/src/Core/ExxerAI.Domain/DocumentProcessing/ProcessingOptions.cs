@@ -33,10 +33,10 @@ public class ProcessingOptions
     /// <summary>
     /// Gets or sets the OCR language codes to use
     /// </summary>
-    public List<string> OCRLanguages { get; init; } = new() { "spa", "eng" };
+    public List<string> OCRLanguages { get; init; } = ["spa", "eng"];
 
     /// <summary>
     /// Gets or sets custom processing parameters
     /// </summary>
-    public Dictionary<string, object> CustomParameters { get; init; } = new();
+    public Dictionary<string, object> CustomParameters { get; init; } = [];
 }

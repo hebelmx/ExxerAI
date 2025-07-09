@@ -198,7 +198,7 @@ public class TemplateAnalytics
     /// <summary>
     /// Gets or sets the most frequently used parameters
     /// </summary>
-    public Dictionary<string, int> ParameterUsageFrequency { get; set; } = new();
+    public Dictionary<string, int> ParameterUsageFrequency { get; set; } = [];
 
     /// <summary>
     /// Gets or sets error rate as a percentage
