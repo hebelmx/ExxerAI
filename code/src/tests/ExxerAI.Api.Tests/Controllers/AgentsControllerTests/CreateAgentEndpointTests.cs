@@ -51,7 +51,7 @@ public class CreateAgentEndpointTests
             .Returns(Result<Agent>.Success(createdAgent));
 
         // Act
-        var result = await _controller.CreateAgent(request, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -63,7 +63,7 @@ public class CreateAgentEndpointTests
         response.Data.Name.ShouldBe(createdAgent.Name);
 
         // Verify route values
-        createdResult.ActionName.ShouldBe(nameof(AgentsController.GetAgent));
+        createdResult.ActionName.ShouldBe(nameof(AgentsController.GetAgentAsync));
         createdResult.RouteValues!["id"].ShouldBe(createdAgent.Id);
     }
 
@@ -77,7 +77,7 @@ public class CreateAgentEndpointTests
         _controller.ModelState.AddModelError("Name", "Name is required");
 
         // Act
-        var result = await _controller.CreateAgent(request, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -106,7 +106,7 @@ public class CreateAgentEndpointTests
             .Returns(Result<Agent>.WithFailure("Service error"));
 
         // Act
-        var result = await _controller.CreateAgent(request, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -127,7 +127,7 @@ public class CreateAgentEndpointTests
         _controller.ModelState.AddModelError("Capabilities", "Capabilities cannot be null");
 
         // Act
-        var result = await _controller.CreateAgent(request, cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.CreateAgentAsync(request, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;

@@ -40,14 +40,22 @@
 		<PackageOutputPath>$(ArtifactsPackagesDir)</PackageOutputPath>
 	</PropertyGroup>
 
+	<!-- Set the output path for the report to the bin folder -->
 	<PropertyGroup>
-		<VSTestLogger Condition="'$(VSTestLogger)' == ''">trx%3bLogFileName=$(MSBuildProjectName).$(TargetFramework).$(OS).trx</VSTestLogger>
-		<VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(ArtifactsTestResultsDir)</VSTestResultsDirectory>
+		<VSTestResultsDirectory Condition="'$(VSTestResultsDirectory)' == ''">$(BaseOutputPath)</VSTestResultsDirectory>
+		<VSTestLogger Condition="'$(VSTestLogger)' == ''">trx%3bLogFileName=$(BaseOutputPath)$(MSBuildProjectName).$(TargetFramework).$(OS).trx</VSTestLogger>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
+
+	<!-- Just to get riod of MSB3270 -->
+	<!-- [TODO] solver the underlying issue and remove this config -->
+	<PropertyGroup>
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+	</PropertyGroup>
+	<!-- Just to get riod of MSB3270 -->
 
 	<!-- Exclude AppHost project when EXCLUDE_APPHOST is set -->
 	<PropertyGroup Condition="'$(EXCLUDE_APPHOST)' == 'true' AND '$(MSBuildProjectName)' == 'ExxerAI.Aspire.AppHost'">

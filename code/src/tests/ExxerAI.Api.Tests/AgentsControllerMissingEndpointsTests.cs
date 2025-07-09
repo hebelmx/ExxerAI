@@ -343,7 +343,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Agent not found with specified ID"));
 
             // Act
-            var result = await _controller.UpdateAgentConfiguration(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _controller.UpdateAgentConfigurationAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<NotFoundObjectResult>();
@@ -360,7 +360,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Configuration validation failed"));
 
             // Act
-            var result = await _controller.UpdateAgentConfiguration(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _controller.UpdateAgentConfigurationAsync(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<BadRequestObjectResult>();
@@ -425,7 +425,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.WithFailure((string)null!));
 
             // Act
-            var result = await _controller.GetAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _controller.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;
@@ -445,7 +445,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<Agent>.WithFailure(""));
 
             // Act
-            var result = await _controller.GetAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _controller.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             var actionResult = result.Result;

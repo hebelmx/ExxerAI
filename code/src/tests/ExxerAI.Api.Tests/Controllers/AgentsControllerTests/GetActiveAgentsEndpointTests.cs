@@ -34,7 +34,7 @@ public class GetActiveAgentsEndpointTests
             .Returns(Result<IEnumerable<Agent>>.Success(agents));
 
         // Act
-        var result = await _controller.GetActiveAgents(cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.GetActiveAgentsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -56,7 +56,7 @@ public class GetActiveAgentsEndpointTests
             .Returns(Result<IEnumerable<Agent>>.WithFailure(""));
 
         // Act
-        var result = await _controller.GetActiveAgents(cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.GetActiveAgentsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
@@ -75,7 +75,7 @@ public class GetActiveAgentsEndpointTests
             .Returns(Result<IEnumerable<Agent>>.WithFailure("Service error"));
 
         // Act
-        var result = await _controller.GetActiveAgents(cancellationToken: TestContext.Current.CancellationToken);
+        var result = await _controller.GetActiveAgentsAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         var actionResult = result.Result;
