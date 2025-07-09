@@ -29,7 +29,7 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExist()
+    public async Task DetectDocumentChangesAsync_Should_Return_Changes_When_ChangesExistAsync()
     {
         var changes = new List<DocumentChangeEvent> { new() { DocumentId = "doc1" }, new() { DocumentId = "doc2" } };
         _service.DetectDocumentChangesAsync(Arg.Any<CancellationToken>())
@@ -43,7 +43,7 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccurs()
+    public async Task DetectDocumentChangesAsync_Should_Return_Failure_When_ExceptionOccursAsync()
     {
         _service.DetectDocumentChangesAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IEnumerable<DocumentChangeEvent>>.WithFailure("Drive API error"));
@@ -55,7 +55,7 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task GetIngestionStatusAsync_Should_Return_Status_When_Successful()
+    public async Task GetIngestionStatusAsync_Should_Return_Status_When_SuccessfulAsync()
     {
         var expectedStatus = new IngestionStatus { DocumentsWatched = 5 };
         _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
@@ -69,7 +69,7 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccurs()
+    public async Task GetIngestionStatusAsync_Should_Return_Failure_When_ExceptionOccursAsync()
     {
         _service.GetIngestionStatusAsync(Arg.Any<CancellationToken>())
             .Returns(Result<IngestionStatus>.WithFailure("Timeout during agentStatus retrieval"));
@@ -81,7 +81,7 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_Return_Success_When_DocumentProcessed()
+    public async Task IngestDocumentAsync_Should_Return_Success_When_DocumentProcessedAsync()
     {
         var documentId = "ingest-001";
         _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())
@@ -94,7 +94,7 @@ public class GoogleDriveServiceBehavioralTests4
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccurs()
+    public async Task IngestDocumentAsync_Should_Return_Failure_When_ExceptionOccursAsync()
     {
         var documentId = "ingest-fail";
         _service.IngestDocumentAsync(documentId, false, Arg.Any<CancellationToken>())

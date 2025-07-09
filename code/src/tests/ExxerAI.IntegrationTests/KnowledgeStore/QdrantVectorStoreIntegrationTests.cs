@@ -31,7 +31,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_Initialize_ShouldCreateCollectionSuccessfully()
+    public async Task QdrantVectorStore_Initialize_ShouldCreateCollectionSuccessfullyAsync()
     {
         // Arrange
         SetupQdrantClient();
@@ -45,7 +45,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_StoreAndRetrieve_ShouldMaintainEmbeddingIntegrity()
+    public async Task QdrantVectorStore_StoreAndRetrieve_ShouldMaintainEmbeddingIntegrityAsync()
     {
         // Arrange
         SetupQdrantClient();
@@ -81,7 +81,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_BatchOperations_ShouldHandleLargeDatasets()
+    public async Task QdrantVectorStore_BatchOperations_ShouldHandleLargeDatasetsAsync()
     {
         // Arrange
         SetupQdrantClient();
@@ -106,7 +106,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_DeleteOperation_ShouldRemoveDocumentCompletely()
+    public async Task QdrantVectorStore_DeleteOperation_ShouldRemoveDocumentCompletelyAsync()
     {
         // Arrange
         SetupQdrantClient();
@@ -131,7 +131,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_ConcurrentOperations_ShouldMaintainDataConsistency()
+    public async Task QdrantVectorStore_ConcurrentOperations_ShouldMaintainDataConsistencyAsync()
     {
         // Arrange
         SetupQdrantClient();
@@ -159,7 +159,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_MetadataFiltering_ShouldReturnFilteredResults()
+    public async Task QdrantVectorStore_MetadataFiltering_ShouldReturnFilteredResultsAsync()
     {
         // Arrange
         SetupQdrantClient();
@@ -187,7 +187,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     [InlineData(512)]   // text-embedding-ada-002 alternative
     [InlineData(1536)]  // text-embedding-3-small
     [InlineData(3072)]  // text-embedding-3-large
-    public async Task QdrantVectorStore_DifferentEmbeddingDimensions_ShouldHandleCorrectly(int dimensions)
+    public async Task QdrantVectorStore_DifferentEmbeddingDimensions_ShouldHandleCorrectlyAsync(int dimensions)
     {
         // Arrange
         var customCollectionName = $"test_dim_{dimensions}_{Guid.NewGuid():N}";
@@ -208,7 +208,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
-    public async Task QdrantVectorStore_PerformanceTest_ShouldMeetResponseTimeRequirements()
+    public async Task QdrantVectorStore_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
         // Arrange
         SetupQdrantClient();

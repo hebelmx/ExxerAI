@@ -89,7 +89,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task InitializeAsync_WithKeyManager_ShouldInitializeSecurely()
+    public async Task InitializeAsync_WithKeyManager_ShouldInitializeSecurelyAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
@@ -103,7 +103,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task InitializeAsync_WithoutKeyManager_ShouldLogWarning()
+    public async Task InitializeAsync_WithoutKeyManager_ShouldLogWarningAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
@@ -149,7 +149,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureDatabaseConnectionStringAsync_WithKeyManager_ShouldUseSecureMethod()
+    public async Task GetSecureDatabaseConnectionStringAsync_WithKeyManager_ShouldUseSecureMethodAsync()
     {
         // Arrange
         var expectedConnectionString = "Host=localhost;Port=5432;Database=test;Username=secure_user;Password=secure_pass";
@@ -168,7 +168,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureDatabaseConnectionStringAsync_WithoutKeyManager_ShouldUseFallback()
+    public async Task GetSecureDatabaseConnectionStringAsync_WithoutKeyManager_ShouldUseFallbackAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
@@ -185,7 +185,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureLocalAIApiKeyAsync_WithKeyManager_ShouldUseSecureMethod()
+    public async Task GetSecureLocalAIApiKeyAsync_WithKeyManager_ShouldUseSecureMethodAsync()
     {
         // Arrange
         var expectedApiKey = "secure-api-key-123";
@@ -204,7 +204,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetSecureLocalAIApiKeyAsync_WithoutKeyManager_ShouldUseFallback()
+    public async Task GetSecureLocalAIApiKeyAsync_WithoutKeyManager_ShouldUseFallbackAsync()
     {
         // Arrange
         var config = CreateTestConfiguration();
@@ -221,7 +221,7 @@ public class ConfigurationServiceTests : IDisposable
     [InlineData("openai")]
     [InlineData("anthropic")]
     [InlineData("huggingface")]
-    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethod(string provider)
+    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethodAsync(string provider)
     {
         // Arrange
         var expectedApiKey = $"secure-{provider}-key";
@@ -240,7 +240,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task GetExternalApiKeyAsync_WithoutKeyManager_ShouldCheckEnvironmentVariable()
+    public async Task GetExternalApiKeyAsync_WithoutKeyManager_ShouldCheckEnvironmentVariableAsync()
     {
         // Arrange
         var provider = "openai";
@@ -267,7 +267,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task SetExternalApiKeyAsync_WithKeyManager_ShouldStoreSecurely()
+    public async Task SetExternalApiKeyAsync_WithKeyManager_ShouldStoreSecurelyAsync()
     {
         // Arrange
         var provider = "openai";
@@ -283,7 +283,7 @@ public class ConfigurationServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task SetExternalApiKeyAsync_WithoutKeyManager_ShouldLogWarning()
+    public async Task SetExternalApiKeyAsync_WithoutKeyManager_ShouldLogWarningAsync()
     {
         // Arrange
         var provider = "openai";

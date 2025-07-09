@@ -21,7 +21,7 @@ public class GetActiveAgentsEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnOkWithAgents_When_AgentsExist()
+    public async Task Should_ReturnOkWithAgents_When_AgentsExistAsync()
     {
         // Arrange
         var agents = new[]
@@ -49,7 +49,7 @@ public class GetActiveAgentsEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnOkWithEmptyList_When_NoAgentsExist()
+    public async Task Should_ReturnOkWithEmptyList_When_NoAgentsExistAsync()
     {
         // Arrange - Use null result to simulate the actual behavior seen in logs
         _mockAgentService.GetActiveAgentsAsync(Arg.Any<CancellationToken>())
@@ -68,7 +68,7 @@ public class GetActiveAgentsEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_ServiceFails()
+    public async Task Should_ReturnBadRequest_When_ServiceFailsAsync()
     {
         // Arrange
         _mockAgentService.GetActiveAgentsAsync(Arg.Any<CancellationToken>())

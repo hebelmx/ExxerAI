@@ -20,7 +20,7 @@ public class LLMServiceTests
     #region GenerateTextAsync Tests
 
     [Fact]
-    public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -51,7 +51,7 @@ public class LLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithEmptyGuid_ShouldReturnFailureResult()
+    public async Task GenerateTextAsync_WithEmptyGuid_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -73,7 +73,7 @@ public class LLMServiceTests
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task GenerateTextAsync_WithInvalidPrompt_ShouldReturnFailureResult(string prompt)
+    public async Task GenerateTextAsync_WithInvalidPrompt_ShouldReturnFailureResultAsync(string prompt)
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -96,7 +96,7 @@ public class LLMServiceTests
     #region ContinueConversationAsync Tests
 
     [Fact]
-    public async Task ContinueConversationAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task ContinueConversationAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -129,7 +129,7 @@ public class LLMServiceTests
     #region CreateConversationAsync Tests
 
     [Fact]
-    public async Task CreateConversationAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task CreateConversationAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -167,7 +167,7 @@ public class LLMServiceTests
     #region Contract Validation Tests
 
     [Fact]
-    public async Task ILLMService_AllMethods_ShouldRespectCancellationToken()
+    public async Task ILLMService_AllMethods_ShouldRespectCancellationTokenAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();

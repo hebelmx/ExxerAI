@@ -13,7 +13,7 @@ public class AgentTaskEntityTests
     /// Creates a valid AgentTask for testing purposes
     /// </summary>
     /// <returns>A properly initialized AgentTask instance</returns>
-    private static AgentTask CreateValidAgentTask()
+    private static AgentTask CreateValidAgentTaskAsync()
     {
         return new AgentTask
         {

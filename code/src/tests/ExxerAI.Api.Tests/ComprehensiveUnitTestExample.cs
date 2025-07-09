@@ -332,7 +332,7 @@ public class ComprehensiveUnitTestExample
         /// Contract Test: StartWatchingFolderAsync should return success with valid folder ID
         /// </summary>
         [Fact]
-        public async Task StartWatchingFolderAsync_ShouldReturnWatchSessionId_When_ValidFolderIdProvided()
+        public async Task StartWatchingFolderAsync_ShouldReturnWatchSessionId_When_ValidFolderIdProvidedAsync()
         {
             // Arrange
             const string folderId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
@@ -353,7 +353,7 @@ public class ComprehensiveUnitTestExample
         [InlineData(null!)]
         [InlineData("")]
         [InlineData("   ")]
-        public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvided(string? invalidFolderId)
+        public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvidedAsync(string? invalidFolderId)
         {
             // Act
             var result = await _service.StartWatchingFolderAsync(invalidFolderId!, cancellationToken: TestContext.Current.CancellationToken);
@@ -367,7 +367,7 @@ public class ComprehensiveUnitTestExample
         /// Business Logic Test: IngestDocumentAsync should process document through complete pipeline
         /// </summary>
         [Fact]
-        public async Task IngestDocumentAsync_ShouldProcessThroughPipeline_When_ValidDocumentProvided()
+        public async Task IngestDocumentAsync_ShouldProcessThroughPipeline_When_ValidDocumentProvidedAsync()
         {
             // Arrange
             const string documentId = "doc123-business-report";
@@ -398,7 +398,7 @@ public class ComprehensiveUnitTestExample
         /// Error Handling Test: IngestDocumentAsync should handle processing failures gracefully
         /// </summary>
         [Fact]
-        public async Task IngestDocumentAsync_ShouldReturnFailure_When_ProcessingFails()
+        public async Task IngestDocumentAsync_ShouldReturnFailure_When_ProcessingFailsAsync()
         {
             // Arrange
             const string documentId = "doc456-corrupted";
@@ -425,7 +425,7 @@ public class ComprehensiveUnitTestExample
         /// Cancellation Test: IngestDocumentAsync should respect cancellation tokens
         /// </summary>
         [Fact]
-        public async Task IngestDocumentAsync_ShouldHandleCancellation_When_CancellationRequested()
+        public async Task IngestDocumentAsync_ShouldHandleCancellation_When_CancellationRequestedAsync()
         {
             // Arrange
             const string documentId = "doc789-cancelled";
@@ -444,7 +444,7 @@ public class ComprehensiveUnitTestExample
         /// Performance Test: GetIngestionStatusAsync should return comprehensive agentStatus
         /// </summary>
         [Fact]
-        public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_SystemActive()
+        public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_SystemActiveAsync()
         {
             // Arrange - Start a watch session first to create active state
             const string folderId = "active-folder";
@@ -465,7 +465,7 @@ public class ComprehensiveUnitTestExample
         /// Integration Test: Complete document processing workflow
         /// </summary>
         [Fact]
-        public async Task CompleteWorkflow_ShouldProcessDocumentEndToEnd_When_AllComponentsWorking()
+        public async Task CompleteWorkflow_ShouldProcessDocumentEndToEnd_When_AllComponentsWorkingAsync()
         {
             // Arrange
             const string folderId = "integration-folder";
@@ -568,7 +568,7 @@ public class ComprehensiveUnitTestExample
         /// Mock Test: Interface should support proper mocking for testing
         /// </summary>
         [Fact]
-        public async Task MockedInterface_ShouldWorkCorrectly_When_SetupWithNSubstitute()
+        public async Task MockedInterface_ShouldWorkCorrectly_When_SetupWithNSubstituteAsync()
         {
             // Arrange
             const string folderId = "mock-folder";
@@ -654,7 +654,7 @@ public class ComprehensiveUnitTestExample
         /// Error Handling Test: Concurrent processing limits
         /// </summary>
         [Fact]
-        public async Task ConcurrentProcessing_ShouldRespectLimits_When_MultipleRequestsReceived()
+        public async Task ConcurrentProcessing_ShouldRespectLimits_When_MultipleRequestsReceivedAsync()
         {
             // Arrange
             const int maxConcurrent = 3;
@@ -700,7 +700,7 @@ public class ComprehensiveUnitTestExample
         /// <summary>
         /// Helper method for simulating document processing with concurrency control
         /// </summary>
-        private static async Task<bool> SimulateDocumentProcessing(SemaphoreSlim semaphore, int taskIndex)
+        private static async Task<bool> SimulateDocumentProcessingAsync(SemaphoreSlim semaphore, int taskIndex)
         {
             await semaphore.WaitAsync(TestContext.Current.CancellationToken);
             try

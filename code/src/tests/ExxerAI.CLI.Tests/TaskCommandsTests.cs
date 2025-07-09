@@ -72,7 +72,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvidedAsync()
     {
         // Arrange
         var args = Array.Empty<string>();
@@ -85,7 +85,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallListTasks_When_ListCommandProvided()
+    public async Task ExecuteAsync_Should_CallListTasks_When_ListCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -100,7 +100,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallListTasks_When_LsCommandProvided()
+    public async Task ExecuteAsync_Should_CallListTasks_When_LsCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "ls" };
@@ -115,7 +115,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallCreateTask_When_CreateCommandProvided()
+    public async Task ExecuteAsync_Should_CallCreateTask_When_CreateCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing" };
@@ -131,7 +131,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallAssignTask_When_AssignCommandProvided()
+    public async Task ExecuteAsync_Should_CallAssignTask_When_AssignCommandProvidedAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -154,7 +154,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallUpdateTaskStatus_When_UpdateCommandProvided()
+    public async Task ExecuteAsync_Should_CallUpdateTaskStatus_When_UpdateCommandProvidedAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -173,7 +173,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallDeleteTask_When_DeleteCommandProvided()
+    public async Task ExecuteAsync_Should_CallDeleteTask_When_DeleteCommandProvidedAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -189,7 +189,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallShowTaskStatus_When_StatusCommandProvided()
+    public async Task ExecuteAsync_Should_CallShowTaskStatus_When_StatusCommandProvidedAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -206,7 +206,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallListOverdueTasks_When_OverdueCommandProvided()
+    public async Task ExecuteAsync_Should_CallListOverdueTasks_When_OverdueCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "overdue" };
@@ -228,7 +228,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -241,7 +241,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvided()
+    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "invalid" };
@@ -254,7 +254,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_ReturnSuccess_When_NoTasksExist()
+    public async Task ListTasks_Should_ReturnSuccess_When_NoTasksExistAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -268,7 +268,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_DisplayTasks_When_TasksExist()
+    public async Task ListTasks_Should_DisplayTasks_When_TasksExistAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -287,7 +287,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_FilterByStatus_When_StatusFilterProvided()
+    public async Task ListTasks_Should_FilterByStatus_When_StatusFilterProvidedAsync()
     {
         // Arrange
         var args = new[] { "list", "--agentStatus", "Pending" };
@@ -306,7 +306,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_FilterByPriority_When_PriorityFilterProvided()
+    public async Task ListTasks_Should_FilterByPriority_When_PriorityFilterProvidedAsync()
     {
         // Arrange
         var args = new[] { "list", "--priority", "High" };
@@ -325,7 +325,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_FilterByType_When_TypeFilterProvided()
+    public async Task ListTasks_Should_FilterByType_When_TypeFilterProvidedAsync()
     {
         // Arrange
         var args = new[] { "list", "--type", "DataProcessing" };
@@ -344,7 +344,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_FilterByAgent_When_AgentFilterProvided()
+    public async Task ListTasks_Should_FilterByAgent_When_AgentFilterProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -366,7 +366,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_ReturnError_When_InvalidStatusFilter()
+    public async Task ListTasks_Should_ReturnError_When_InvalidStatusFilterAsync()
     {
         // Arrange
         var args = new[] { "list", "--agentStatus", "InvalidStatus" };
@@ -380,7 +380,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_ReturnError_When_InvalidPriorityFilter()
+    public async Task ListTasks_Should_ReturnError_When_InvalidPriorityFilterAsync()
     {
         // Arrange
         var args = new[] { "list", "--priority", "InvalidPriority" };
@@ -394,7 +394,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_ReturnError_When_InvalidAgentIdFormat()
+    public async Task ListTasks_Should_ReturnError_When_InvalidAgentIdFormatAsync()
     {
         // Arrange
         var args = new[] { "list", "--agent", "invalid-agent-id" };
@@ -408,7 +408,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_ReturnError_When_RepositoryFails()
+    public async Task ListTasks_Should_ReturnError_When_RepositoryFailsAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -422,7 +422,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_ReturnError_When_NoTitleProvided()
+    public async Task CreateTask_Should_ReturnError_When_NoTitleProvidedAsync()
     {
         // Arrange
         var args = new[] { "create" };
@@ -435,7 +435,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_ReturnError_When_NoTypeProvided()
+    public async Task CreateTask_Should_ReturnError_When_NoTypeProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask" };
@@ -448,7 +448,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_CreateWithDefaultPriority_When_NoPriorityProvided()
+    public async Task CreateTask_Should_CreateWithDefaultPriority_When_NoPriorityProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing" };
@@ -464,7 +464,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_CreateWithCustomPriority_When_PriorityProvided()
+    public async Task CreateTask_Should_CreateWithCustomPriority_When_PriorityProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--priority", "High" };
@@ -480,7 +480,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_CreateWithDescription_When_DescriptionProvided()
+    public async Task CreateTask_Should_CreateWithDescription_When_DescriptionProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--description", "Custom description" };
@@ -496,7 +496,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_CreateWithDeadline_When_DeadlineProvided()
+    public async Task CreateTask_Should_CreateWithDeadline_When_DeadlineProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--deadline", "2025-12-31" };
@@ -512,7 +512,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_ReturnError_When_InvalidPriority()
+    public async Task CreateTask_Should_ReturnError_When_InvalidPriorityAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--priority", "InvalidPriority" };
@@ -525,7 +525,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_ReturnError_When_InvalidDeadlineFormat()
+    public async Task CreateTask_Should_ReturnError_When_InvalidDeadlineFormatAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--deadline", "invalid-date" };
@@ -538,7 +538,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task CreateTask_Should_ReturnError_When_RepositoryFails()
+    public async Task CreateTask_Should_ReturnError_When_RepositoryFailsAsync()
     {
         // Arrange
         var args = new[] { "create", "TestTask", "--type", "DataProcessing" };
@@ -552,7 +552,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task AssignTask_Should_ReturnError_When_InsufficientArguments()
+    public async Task AssignTask_Should_ReturnError_When_InsufficientArgumentsAsync()
     {
         // Arrange
         var args = new[] { "assign", Guid.NewGuid().ToString() };
@@ -565,7 +565,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task AssignTask_Should_ReturnError_When_InvalidTaskIdFormat()
+    public async Task AssignTask_Should_ReturnError_When_InvalidTaskIdFormatAsync()
     {
         // Arrange
         var args = new[] { "assign", "invalid-task-id", Guid.NewGuid().ToString() };
@@ -578,7 +578,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task AssignTask_Should_ReturnError_When_InvalidAgentIdFormat()
+    public async Task AssignTask_Should_ReturnError_When_InvalidAgentIdFormatAsync()
     {
         // Arrange
         var args = new[] { "assign", Guid.NewGuid().ToString(), "invalid-agent-id" };
@@ -591,7 +591,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task AssignTask_Should_ReturnError_When_AgentNotFound()
+    public async Task AssignTask_Should_ReturnError_When_AgentNotFoundAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -607,7 +607,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task AssignTask_Should_ReturnError_When_TaskNotFound()
+    public async Task AssignTask_Should_ReturnError_When_TaskNotFoundAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -625,7 +625,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task AssignTask_Should_ReturnError_When_UpdateFails()
+    public async Task AssignTask_Should_ReturnError_When_UpdateFailsAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -648,7 +648,7 @@ public class TaskCommandsTests
     [Theory]
     [InlineData("--help")]
     [InlineData("-h")]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagsProvided(string helpFlag)
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagsProvidedAsync(string helpFlag)
     {
         // Arrange
         var args = new[] { helpFlag };
@@ -665,7 +665,7 @@ public class TaskCommandsTests
     [InlineData("remove")]
     [InlineData("rm")]
     [InlineData("info")]
-    public async Task ExecuteAsync_Should_HandleCommandAliases_When_AliasesProvided(string alias)
+    public async Task ExecuteAsync_Should_HandleCommandAliases_When_AliasesProvidedAsync(string alias)
     {
         // Arrange
         var args = alias switch
@@ -699,7 +699,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleExceptions_When_ExceptionThrown()
+    public async Task ExecuteAsync_Should_HandleExceptions_When_ExceptionThrownAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -718,7 +718,7 @@ public class TaskCommandsTests
     [InlineData("-t")]
     [InlineData("-a")]
     [InlineData("-d")]
-    public async Task ExecuteAsync_Should_HandleShortFlags_When_ShortFlagsProvided(string shortFlag)
+    public async Task ExecuteAsync_Should_HandleShortFlags_When_ShortFlagsProvidedAsync(string shortFlag)
     {
         // Arrange
         var args = shortFlag switch
@@ -757,7 +757,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListTasks_Should_ShowAgentNames_When_TasksAreAssigned()
+    public async Task ListTasks_Should_ShowAgentNames_When_TasksAreAssignedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -780,7 +780,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task UpdateTaskStatus_Should_SetStartedAt_When_ChangingToPending()
+    public async Task UpdateTaskStatus_Should_SetStartedAt_When_ChangingToPendingAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -800,7 +800,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task UpdateTaskStatus_Should_SetCompletedAt_When_ChangingToCompleted()
+    public async Task UpdateTaskStatus_Should_SetCompletedAt_When_ChangingToCompletedAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -820,7 +820,7 @@ public class TaskCommandsTests
     }
 
     [Fact]
-    public async Task ListOverdueTasks_Should_FilterOverdueTasks_When_OverdueTasksExist()
+    public async Task ListOverdueTasks_Should_FilterOverdueTasks_When_OverdueTasksExistAsync()
     {
         // Arrange
         var args = new[] { "overdue" };

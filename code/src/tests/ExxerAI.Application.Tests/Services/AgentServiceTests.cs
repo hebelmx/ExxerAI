@@ -20,7 +20,7 @@ public class AgentServiceTests
     #region CreateAgentAsync Tests
 
     [Fact]
-    public async Task CreateAgentAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task CreateAgentAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var name = "TestAgent";
@@ -47,7 +47,7 @@ public class AgentServiceTests
     [InlineData("", "Valid Description")]
     [InlineData("   ", "Valid Description")]
     [InlineData("Valid Name", "")]
-    public async Task CreateAgentAsync_WithInvalidInput_ShouldReturnFailureResult(string name, string description)
+    public async Task CreateAgentAsync_WithInvalidInput_ShouldReturnFailureResultAsync(string name, string description)
     {
         // Arrange
         var capabilities = new AgentCapabilities();
@@ -66,7 +66,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task CreateAgentAsync_WithNullCapabilities_ShouldReturnFailureResult()
+    public async Task CreateAgentAsync_WithNullCapabilities_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var name = "TestAgent";
@@ -87,7 +87,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task CreateAgentAsync_WithCancellationToken_ShouldRespectCancellation()
+    public async Task CreateAgentAsync_WithCancellationToken_ShouldRespectCancellationAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();
@@ -116,7 +116,7 @@ public class AgentServiceTests
     #region GetAgentAsync Tests
 
     [Fact]
-    public async Task GetAgentAsync_WithValidId_ShouldReturnAgent()
+    public async Task GetAgentAsync_WithValidId_ShouldReturnAgentAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -137,7 +137,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task GetAgentAsync_WithEmptyGuid_ShouldReturnFailureResult()
+    public async Task GetAgentAsync_WithEmptyGuid_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
@@ -156,7 +156,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task GetAgentAsync_WithNonExistentId_ShouldReturnFailureResult()
+    public async Task GetAgentAsync_WithNonExistentId_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -179,7 +179,7 @@ public class AgentServiceTests
     #region GetAllAgentsAsync Tests
 
     [Fact]
-    public async Task GetAllAgentsAsync_WhenAgentsExist_ShouldReturnAllAgents()
+    public async Task GetAllAgentsAsync_WhenAgentsExist_ShouldReturnAllAgentsAsync()
     {
         // Arrange
         var agents = new List<Agent>
@@ -204,7 +204,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task GetAllAgentsAsync_WhenNoAgentsExist_ShouldReturnEmptyList()
+    public async Task GetAllAgentsAsync_WhenNoAgentsExist_ShouldReturnEmptyListAsync()
     {
         // Arrange
         var emptyAgents = new List<Agent>();
@@ -228,7 +228,7 @@ public class AgentServiceTests
     #region GetActiveAgentsAsync Tests
 
     [Fact]
-    public async Task GetActiveAgentsAsync_WhenActiveAgentsExist_ShouldReturnActiveAgentsOnly()
+    public async Task GetActiveAgentsAsync_WhenActiveAgentsExist_ShouldReturnActiveAgentsOnlyAsync()
     {
         // Arrange
         var activeAgents = new List<Agent>
@@ -253,7 +253,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task GetActiveAgentsAsync_WhenNoActiveAgents_ShouldReturnEmptyList()
+    public async Task GetActiveAgentsAsync_WhenNoActiveAgents_ShouldReturnEmptyListAsync()
     {
         // Arrange
         var emptyAgents = new List<Agent>();
@@ -277,7 +277,7 @@ public class AgentServiceTests
     #region UpdateAgentConfigurationAsync Tests
 
     [Fact]
-    public async Task UpdateAgentConfigurationAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task UpdateAgentConfigurationAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -297,7 +297,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task UpdateAgentConfigurationAsync_WithEmptyGuid_ShouldReturnFailure()
+    public async Task UpdateAgentConfigurationAsync_WithEmptyGuid_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
@@ -317,7 +317,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task UpdateAgentConfigurationAsync_WithNullConfiguration_ShouldReturnFailure()
+    public async Task UpdateAgentConfigurationAsync_WithNullConfiguration_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -344,7 +344,7 @@ public class AgentServiceTests
     [InlineData(AgentStatus.Active)]
     [InlineData(AgentStatus.Inactive)]
     [InlineData(AgentStatus.Paused)]
-    public async Task UpdateAgentStatusAsync_WithValidInput_ShouldReturnSuccess(AgentStatus status)
+    public async Task UpdateAgentStatusAsync_WithValidInput_ShouldReturnSuccessAsync(AgentStatus status)
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -363,7 +363,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task UpdateAgentStatusAsync_WithNonExistentAgent_ShouldReturnFailure()
+    public async Task UpdateAgentStatusAsync_WithNonExistentAgent_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -387,7 +387,7 @@ public class AgentServiceTests
     #region AssignTaskAsync Tests
 
     [Fact]
-    public async Task AssignTaskAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task AssignTaskAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -407,7 +407,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task AssignTaskAsync_WithEmptyAgentId_ShouldReturnFailure()
+    public async Task AssignTaskAsync_WithEmptyAgentId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
@@ -427,7 +427,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task AssignTaskAsync_WithEmptyTaskId_ShouldReturnFailure()
+    public async Task AssignTaskAsync_WithEmptyTaskId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -451,7 +451,7 @@ public class AgentServiceTests
     #region FindBestAgentForTaskAsync Tests
 
     [Fact]
-    public async Task FindBestAgentForTaskAsync_WithValidTaskType_ShouldReturnBestAgent()
+    public async Task FindBestAgentForTaskAsync_WithValidTaskType_ShouldReturnBestAgentAsync()
     {
         // Arrange
         var taskType = "DocumentProcessing";
@@ -474,7 +474,7 @@ public class AgentServiceTests
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task FindBestAgentForTaskAsync_WithInvalidTaskType_ShouldReturnFailure(string taskType)
+    public async Task FindBestAgentForTaskAsync_WithInvalidTaskType_ShouldReturnFailureAsync(string taskType)
     {
         // Arrange
         var expectedResult = Result<Agent>.WithFailure("Task type cannot be null or empty");
@@ -492,7 +492,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task FindBestAgentForTaskAsync_WithNoSuitableAgent_ShouldReturnFailure()
+    public async Task FindBestAgentForTaskAsync_WithNoSuitableAgent_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskType = "UnknownTaskType";
@@ -515,7 +515,7 @@ public class AgentServiceTests
     #region DeleteAgentAsync Tests
 
     [Fact]
-    public async Task DeleteAgentAsync_WithValidId_ShouldReturnSuccess()
+    public async Task DeleteAgentAsync_WithValidId_ShouldReturnSuccessAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -534,7 +534,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task DeleteAgentAsync_WithEmptyGuid_ShouldReturnFailure()
+    public async Task DeleteAgentAsync_WithEmptyGuid_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
@@ -553,7 +553,7 @@ public class AgentServiceTests
     }
 
     [Fact]
-    public async Task DeleteAgentAsync_WithNonExistentAgent_ShouldReturnFailure()
+    public async Task DeleteAgentAsync_WithNonExistentAgent_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -576,7 +576,7 @@ public class AgentServiceTests
     #region Interface Contract Tests
 
     [Fact]
-    public async Task IAgentService_AllMethods_ShouldRespectCancellationToken()
+    public async Task IAgentService_AllMethods_ShouldRespectCancellationTokenAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();

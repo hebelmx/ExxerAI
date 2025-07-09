@@ -28,7 +28,7 @@ namespace ExxerAI.Application.Tests.Services
         }
 
         [Fact]
-        public async Task GetPendingTasksAsync_Should_Return_CorrectCount_When_TasksExist()
+        public async Task GetPendingTasksAsync_Should_Return_CorrectCount_When_TasksExistAsync()
         {
             // Arrange - Create tasks in the service first
             await _service.CreateTaskAsync("Task 1", "Description 1", "Type1", TaskPriority.Normal, cancellationToken: TestContext.Current.CancellationToken);
@@ -45,7 +45,7 @@ namespace ExxerAI.Application.Tests.Services
         }
 
         [Fact]
-        public async Task GetPendingTasksAsync_Should_Return_Empty_When_NoPendingTasks()
+        public async Task GetPendingTasksAsync_Should_Return_Empty_When_NoPendingTasksAsync()
         {
             // Arrange - No tasks created, so should be empty
 
@@ -59,7 +59,7 @@ namespace ExxerAI.Application.Tests.Services
         }
 
         [Fact]
-        public async Task UpdateTaskStatusAsync_Should_Return_Success_When_UpdateSucceeds()
+        public async Task UpdateTaskStatusAsync_Should_Return_Success_When_UpdateSucceedsAsync()
         {
             // Arrange - Create a task first
             var createResult = await _service.CreateTaskAsync("Test Task", "Test Description", "TestType", TaskPriority.Normal, cancellationToken: TestContext.Current.CancellationToken);
@@ -75,7 +75,7 @@ namespace ExxerAI.Application.Tests.Services
         }
 
         [Fact]
-        public async Task UpdateTaskStatusAsync_Should_Return_Failure_When_TaskNotFound()
+        public async Task UpdateTaskStatusAsync_Should_Return_Failure_When_TaskNotFoundAsync()
         {
             // Arrange - Use a non-existent task ID
             var taskId = Guid.NewGuid();

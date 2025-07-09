@@ -72,7 +72,7 @@ public class CLIValidationTests
     }
 
     [Fact]
-    public async Task AgentCommands_ExecuteAsync_WithNullDependency_ShouldReturnErrorExitCode()
+    public async Task AgentCommands_ExecuteAsync_WithNullDependency_ShouldReturnErrorExitCodeAsync()
     {
         // Arrange - CLI with null service dependency
         var commands = new AgentCommands(null!, _agentRepository);
@@ -102,7 +102,7 @@ public class CLIValidationTests
     }
 
     [Fact]
-    public async Task CommandRouter_ExecuteAsync_WithEmptyArgs_ShouldShowHelpAndReturnSuccess()
+    public async Task CommandRouter_ExecuteAsync_WithEmptyArgs_ShouldShowHelpAndReturnSuccessAsync()
     {
         // Arrange
         var agentCommands = new AgentCommands(_agentService, _agentRepository);
@@ -118,7 +118,7 @@ public class CLIValidationTests
     }
 
     [Fact]
-    public async Task CommandRouter_ExecuteAsync_WithVersionCommand_ShouldShowVersionAndReturnSuccess()
+    public async Task CommandRouter_ExecuteAsync_WithVersionCommand_ShouldShowVersionAndReturnSuccessAsync()
     {
         // Arrange
         var agentCommands = new AgentCommands(_agentService, _agentRepository);
@@ -134,7 +134,7 @@ public class CLIValidationTests
     }
 
     [Fact]
-    public async Task CommandRouter_ExecuteAsync_WithUnknownCommand_ShouldReturnErrorExitCode()
+    public async Task CommandRouter_ExecuteAsync_WithUnknownCommand_ShouldReturnErrorExitCodeAsync()
     {
         // Arrange
         var agentCommands = new AgentCommands(_agentService, _agentRepository);
@@ -460,7 +460,7 @@ public class CLIValidationTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithEmptyArgs_ShouldReturnZero()
+        public async Task ExecuteAsync_WithEmptyArgs_ShouldReturnZeroAsync()
         {
             // Arrange
             var workflowCommands = new WorkflowCommands();
@@ -473,7 +473,7 @@ public class CLIValidationTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithHelpCommand_ShouldReturnZero()
+        public async Task ExecuteAsync_WithHelpCommand_ShouldReturnZeroAsync()
         {
             // Arrange
             var workflowCommands = new WorkflowCommands();
@@ -486,7 +486,7 @@ public class CLIValidationTests
         }
 
         [Fact]
-        public async Task ExecuteAsync_WithUnknownCommand_ShouldReturnOne()
+        public async Task ExecuteAsync_WithUnknownCommand_ShouldReturnOneAsync()
         {
             // Arrange
             var workflowCommands = new WorkflowCommands();

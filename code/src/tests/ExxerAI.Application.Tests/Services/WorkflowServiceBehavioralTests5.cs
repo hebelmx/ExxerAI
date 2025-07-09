@@ -15,7 +15,7 @@ public class WorkflowServiceBehavioralTests5
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_Should_Return_Success_When_WorkflowExists()
+    public async Task GetWorkflowAsync_Should_Return_Success_When_WorkflowExistsAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -32,7 +32,7 @@ public class WorkflowServiceBehavioralTests5
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_Should_Return_Failure_When_WorkflowNotFound()
+    public async Task GetWorkflowAsync_Should_Return_Failure_When_WorkflowNotFoundAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();

@@ -72,7 +72,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvidedAsync()
     {
         // Arrange
         var args = Array.Empty<string>();
@@ -85,7 +85,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallListAgents_When_ListCommandProvided()
+    public async Task ExecuteAsync_Should_CallListAgents_When_ListCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -100,7 +100,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallListAgents_When_LsCommandProvided()
+    public async Task ExecuteAsync_Should_CallListAgents_When_LsCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "ls" };
@@ -115,7 +115,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallCreateAgent_When_CreateCommandProvided()
+    public async Task ExecuteAsync_Should_CallCreateAgent_When_CreateCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestAgent" };
@@ -135,7 +135,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallDeleteAgent_When_DeleteCommandProvided()
+    public async Task ExecuteAsync_Should_CallDeleteAgent_When_DeleteCommandProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -151,7 +151,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallShowAgentStatus_When_StatusCommandProvided()
+    public async Task ExecuteAsync_Should_CallShowAgentStatus_When_StatusCommandProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -173,7 +173,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallUpdateAgent_When_UpdateCommandProvided()
+    public async Task ExecuteAsync_Should_CallUpdateAgent_When_UpdateCommandProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -193,7 +193,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallActivateAgent_When_ActivateCommandProvided()
+    public async Task ExecuteAsync_Should_CallActivateAgent_When_ActivateCommandProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -212,7 +212,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_CallDeactivateAgent_When_DeactivateCommandProvided()
+    public async Task ExecuteAsync_Should_CallDeactivateAgent_When_DeactivateCommandProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -231,7 +231,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -244,7 +244,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvided()
+    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "invalid" };
@@ -257,7 +257,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ListAgents_Should_ReturnSuccess_When_NoAgentsExist()
+    public async Task ListAgents_Should_ReturnSuccess_When_NoAgentsExistAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -271,7 +271,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ListAgents_Should_DisplayAgents_When_AgentsExist()
+    public async Task ListAgents_Should_DisplayAgents_When_AgentsExistAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -290,7 +290,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ListAgents_Should_FilterByStatus_When_StatusFilterProvided()
+    public async Task ListAgents_Should_FilterByStatus_When_StatusFilterProvidedAsync()
     {
         // Arrange
         var args = new[] { "list", "--agentStatus", "Active" };
@@ -309,7 +309,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ListAgents_Should_ReturnError_When_InvalidStatusFilter()
+    public async Task ListAgents_Should_ReturnError_When_InvalidStatusFilterAsync()
     {
         // Arrange
         var args = new[] { "list", "--agentStatus", "InvalidStatus" };
@@ -323,7 +323,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ListAgents_Should_ReturnError_When_RepositoryFails()
+    public async Task ListAgents_Should_ReturnError_When_RepositoryFailsAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -337,7 +337,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task CreateAgent_Should_ReturnError_When_NoNameProvided()
+    public async Task CreateAgent_Should_ReturnError_When_NoNameProvidedAsync()
     {
         // Arrange
         var args = new[] { "create" };
@@ -350,7 +350,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task CreateAgent_Should_CreateWithDescription_When_DescriptionProvided()
+    public async Task CreateAgent_Should_CreateWithDescription_When_DescriptionProvidedAsync()
     {
         // Arrange
         var args = new[] { "create", "TestAgent", "--description", "Custom description" };
@@ -367,7 +367,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task CreateAgent_Should_ReturnError_When_ServiceFails()
+    public async Task CreateAgent_Should_ReturnError_When_ServiceFailsAsync()
     {
         // Arrange
         var args = new[] { "create", "TestAgent" };
@@ -382,7 +382,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task DeleteAgent_Should_ReturnError_When_NoIdProvided()
+    public async Task DeleteAgent_Should_ReturnError_When_NoIdProvidedAsync()
     {
         // Arrange
         var args = new[] { "delete" };
@@ -395,7 +395,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task DeleteAgent_Should_ReturnError_When_InvalidIdFormat()
+    public async Task DeleteAgent_Should_ReturnError_When_InvalidIdFormatAsync()
     {
         // Arrange
         var args = new[] { "delete", "invalid-id" };
@@ -408,7 +408,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task DeleteAgent_Should_ReturnError_When_RepositoryFails()
+    public async Task DeleteAgent_Should_ReturnError_When_RepositoryFailsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -423,7 +423,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ShowAgentStatus_Should_ReturnError_When_NoIdProvided()
+    public async Task ShowAgentStatus_Should_ReturnError_When_NoIdProvidedAsync()
     {
         // Arrange
         var args = new[] { "agentStatus" };
@@ -436,7 +436,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ShowAgentStatus_Should_ReturnError_When_InvalidIdFormat()
+    public async Task ShowAgentStatus_Should_ReturnError_When_InvalidIdFormatAsync()
     {
         // Arrange
         var args = new[] { "agentStatus", "invalid-id" };
@@ -449,7 +449,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ShowAgentStatus_Should_ReturnError_When_AgentNotFound()
+    public async Task ShowAgentStatus_Should_ReturnError_When_AgentNotFoundAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -464,7 +464,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ShowAgentStatus_Should_ReturnError_When_RepositoryFails()
+    public async Task ShowAgentStatus_Should_ReturnError_When_RepositoryFailsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -479,7 +479,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task UpdateAgent_Should_ReturnError_When_NoIdProvided()
+    public async Task UpdateAgent_Should_ReturnError_When_NoIdProvidedAsync()
     {
         // Arrange
         var args = new[] { "update" };
@@ -492,7 +492,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task UpdateAgent_Should_ReturnError_When_InvalidIdFormat()
+    public async Task UpdateAgent_Should_ReturnError_When_InvalidIdFormatAsync()
     {
         // Arrange
         var args = new[] { "update", "invalid-id" };
@@ -505,7 +505,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task UpdateAgent_Should_UpdateDescription_When_DescriptionProvided()
+    public async Task UpdateAgent_Should_UpdateDescription_When_DescriptionProvidedAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -524,7 +524,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task UpdateAgent_Should_ReturnError_When_AgentNotFound()
+    public async Task UpdateAgent_Should_ReturnError_When_AgentNotFoundAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -539,7 +539,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task UpdateAgent_Should_ReturnError_When_UpdateFails()
+    public async Task UpdateAgent_Should_ReturnError_When_UpdateFailsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -556,7 +556,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ActivateAgent_Should_ReturnError_When_NoIdProvided()
+    public async Task ActivateAgent_Should_ReturnError_When_NoIdProvidedAsync()
     {
         // Arrange
         var args = new[] { "activate" };
@@ -569,7 +569,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ActivateAgent_Should_ReturnError_When_InvalidIdFormat()
+    public async Task ActivateAgent_Should_ReturnError_When_InvalidIdFormatAsync()
     {
         // Arrange
         var args = new[] { "activate", "invalid-id" };
@@ -582,7 +582,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task DeactivateAgent_Should_ReturnError_When_NoIdProvided()
+    public async Task DeactivateAgent_Should_ReturnError_When_NoIdProvidedAsync()
     {
         // Arrange
         var args = new[] { "deactivate" };
@@ -595,7 +595,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task DeactivateAgent_Should_ReturnError_When_InvalidIdFormat()
+    public async Task DeactivateAgent_Should_ReturnError_When_InvalidIdFormatAsync()
     {
         // Arrange
         var args = new[] { "deactivate", "invalid-id" };
@@ -608,7 +608,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ChangeAgentStatus_Should_ReturnError_When_GetAgentFails()
+    public async Task ChangeAgentStatus_Should_ReturnError_When_GetAgentFailsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -623,7 +623,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ChangeAgentStatus_Should_ReturnError_When_UpdateFails()
+    public async Task ChangeAgentStatus_Should_ReturnError_When_UpdateFailsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -642,7 +642,7 @@ public class AgentCommandsTests
     [Theory]
     [InlineData("--help")]
     [InlineData("-h")]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagsProvided(string helpFlag)
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagsProvidedAsync(string helpFlag)
     {
         // Arrange
         var args = new[] { helpFlag };
@@ -659,7 +659,7 @@ public class AgentCommandsTests
     [InlineData("remove")]
     [InlineData("rm")]
     [InlineData("info")]
-    public async Task ExecuteAsync_Should_HandleCommandAliases_When_AliasesProvided(string alias)
+    public async Task ExecuteAsync_Should_HandleCommandAliases_When_AliasesProvidedAsync(string alias)
     {
         // Arrange
         var args = alias switch
@@ -694,7 +694,7 @@ public class AgentCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleExceptions_When_ExceptionThrown()
+    public async Task ExecuteAsync_Should_HandleExceptions_When_ExceptionThrownAsync()
     {
         // Arrange
         var args = new[] { "list" };
@@ -711,7 +711,7 @@ public class AgentCommandsTests
     [InlineData("-s")]
     [InlineData("-d")]
     [InlineData("-n")]
-    public async Task ExecuteAsync_Should_HandleShortFlags_When_ShortFlagsProvided(string shortFlag)
+    public async Task ExecuteAsync_Should_HandleShortFlags_When_ShortFlagsProvidedAsync(string shortFlag)
     {
         // Arrange
         var args = shortFlag switch

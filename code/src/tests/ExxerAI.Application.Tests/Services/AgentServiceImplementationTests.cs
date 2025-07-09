@@ -37,7 +37,7 @@ public class AgentServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateAgentAsync_Should_ReturnFailure_When_NameIsEmpty()
+    public async Task CreateAgentAsync_Should_ReturnFailure_When_NameIsEmptyAsync()
     {
         // Arrange
         var capabilities = new AgentCapabilities();
@@ -51,7 +51,7 @@ public class AgentServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateAgentAsync_Should_ReturnSuccess_When_ValidParametersProvided()
+    public async Task CreateAgentAsync_Should_ReturnSuccess_When_ValidParametersProvidedAsync()
     {
         // Arrange
         var capabilities = new AgentCapabilities();
@@ -76,7 +76,7 @@ public class AgentServiceImplementationTests
     }
 
     [Fact]
-    public async Task GetAgentAsync_Should_ReturnFailure_When_AgentIdIsEmpty()
+    public async Task GetAgentAsync_Should_ReturnFailure_When_AgentIdIsEmptyAsync()
     {
         // Act
         var result = await _agentService.GetAgentAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
@@ -87,7 +87,7 @@ public class AgentServiceImplementationTests
     }
 
     [Fact]
-    public async Task GetAllAgentsAsync_Should_ReturnSuccess_When_AgentsExist()
+    public async Task GetAllAgentsAsync_Should_ReturnSuccess_When_AgentsExistAsync()
     {
         // Arrange
         var agents = new List<Agent>
@@ -107,7 +107,7 @@ new() { Id = Guid.NewGuid(), Name = "Agent2" }
     }
 
     [Fact]
-    public async Task AssignTaskAsync_Should_ReturnFailure_When_AgentIdIsEmpty()
+    public async Task AssignTaskAsync_Should_ReturnFailure_When_AgentIdIsEmptyAsync()
     {
         // Act
         var result = await _agentService.AssignTaskAsync(Guid.Empty, Guid.NewGuid(), TestContext.Current.CancellationToken);
@@ -118,7 +118,7 @@ new() { Id = Guid.NewGuid(), Name = "Agent2" }
     }
 
     [Fact]
-    public async Task AssignTaskAsync_Should_ReturnSuccess_When_ValidParameters()
+    public async Task AssignTaskAsync_Should_ReturnSuccess_When_ValidParametersAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -143,7 +143,7 @@ new() { Id = Guid.NewGuid(), Name = "Agent2" }
     }
 
     [Fact]
-    public async Task DeleteAgentAsync_Should_ReturnFailure_When_AgentIdIsEmpty()
+    public async Task DeleteAgentAsync_Should_ReturnFailure_When_AgentIdIsEmptyAsync()
     {
         // Act
         var result = await _agentService.DeleteAgentAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
@@ -154,7 +154,7 @@ new() { Id = Guid.NewGuid(), Name = "Agent2" }
     }
 
     [Fact]
-    public async Task DeleteAgentAsync_Should_ReturnSuccess_When_ValidParameters()
+    public async Task DeleteAgentAsync_Should_ReturnSuccess_When_ValidParametersAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();

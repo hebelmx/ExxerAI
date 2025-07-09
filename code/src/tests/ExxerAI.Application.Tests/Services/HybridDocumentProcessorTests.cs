@@ -104,7 +104,7 @@ public class HybridDocumentProcessorTests
     public class ProcessDocumentAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task ProcessDocumentAsync_WithSuccessfulDirectTextExtraction_ShouldReturnSuccessResult()
+        public async Task ProcessDocumentAsync_WithSuccessfulDirectTextExtraction_ShouldReturnSuccessResultAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -130,7 +130,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithFailedDirectTextButSuccessfulOCR_ShouldReturnOCRResult()
+        public async Task ProcessDocumentAsync_WithFailedDirectTextButSuccessfulOCR_ShouldReturnOCRResultAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -158,7 +158,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithBothDirectTextAndOCRFailure_ShouldReturnFailureResult()
+        public async Task ProcessDocumentAsync_WithBothDirectTextAndOCRFailure_ShouldReturnFailureResultAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -180,7 +180,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithPatternMatching_ShouldExtractFieldsCorrectly()
+        public async Task ProcessDocumentAsync_WithPatternMatching_ShouldExtractFieldsCorrectlyAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -205,7 +205,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithCancellationToken_ShouldRespectCancellation()
+        public async Task ProcessDocumentAsync_WithCancellationToken_ShouldRespectCancellationAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -234,7 +234,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentAsync_WithException_ShouldReturnFailureResultWithErrorMessage()
+        public async Task ProcessDocumentAsync_WithException_ShouldReturnFailureResultWithErrorMessageAsync()
         {
             // Arrange
             var documentData = CreateSampleDocumentData();
@@ -257,7 +257,7 @@ public class HybridDocumentProcessorTests
     public class ProcessDocumentBatchAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithValidDocuments_ShouldProcessAllSuccessfully()
+        public async Task ProcessDocumentBatchAsync_WithValidDocuments_ShouldProcessAllSuccessfullyAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(3);
@@ -282,7 +282,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithMixedResults_ShouldReportCorrectStatistics()
+        public async Task ProcessDocumentBatchAsync_WithMixedResults_ShouldReportCorrectStatisticsAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(3);
@@ -308,7 +308,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithProgressReporting_ShouldReportProgress()
+        public async Task ProcessDocumentBatchAsync_WithProgressReporting_ShouldReportProgressAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(3); // Use 3 documents for better progress visibility
@@ -344,7 +344,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ProcessDocumentBatchAsync_WithCancellation_ShouldHandleCancellationGracefully()
+        public async Task ProcessDocumentBatchAsync_WithCancellation_ShouldHandleCancellationGracefullyAsync()
         {
             // Arrange
             var documents = CreateSampleDocumentBatch(1); // Use single document for predictable behavior
@@ -375,7 +375,7 @@ public class HybridDocumentProcessorTests
     public class UpdatePatternsFromSuccessfulProcessingAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithHighConfidenceResult_ShouldUpdatePatterns()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithHighConfidenceResult_ShouldUpdatePatternsAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.95f);
@@ -389,7 +389,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithLowConfidenceResult_ShouldSkipUpdate()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithLowConfidenceResult_ShouldSkipUpdateAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.7f); // Below 0.8 threshold
@@ -403,7 +403,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithFailedResult_ShouldSkipUpdate()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithFailedResult_ShouldSkipUpdateAsync()
         {
             // Arrange
             var processingResult = CreateFailedProcessingResult();
@@ -417,7 +417,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithEmptyFields_ShouldNotUpdatePatterns()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithEmptyFields_ShouldNotUpdatePatternsAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.9f);
@@ -432,7 +432,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithException_ShouldLogErrorAndContinue()
+        public async Task UpdatePatternsFromSuccessfulProcessingAsync_WithException_ShouldLogErrorAndContinueAsync()
         {
             // Arrange
             var processingResult = CreateSuccessfulProcessingResult(0.95f);
@@ -447,7 +447,7 @@ public class HybridDocumentProcessorTests
     public class ValidateExtractedFieldsAsyncTests : HybridDocumentProcessorTests
     {
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithValidFields_ShouldReturnValidResult()
+        public async Task ValidateExtractedFieldsAsync_WithValidFields_ShouldReturnValidResultAsync()
         {
             // Arrange
             var extractedFields = CreateValidExtractedFields();
@@ -464,7 +464,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithMissingRequiredFields_ShouldReturnInvalidResult()
+        public async Task ValidateExtractedFieldsAsync_WithMissingRequiredFields_ShouldReturnInvalidResultAsync()
         {
             // Arrange
             var extractedFields = new Dictionary<string, object>(); // Empty fields
@@ -482,7 +482,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithInvalidFieldValues_ShouldReturnInvalidResult()
+        public async Task ValidateExtractedFieldsAsync_WithInvalidFieldValues_ShouldReturnInvalidResultAsync()
         {
             // Arrange
             var extractedFields = CreateInvalidExtractedFields();
@@ -499,7 +499,7 @@ public class HybridDocumentProcessorTests
         }
 
         [Fact]
-        public async Task ValidateExtractedFieldsAsync_WithMalformedRegex_ShouldHandleGracefully()
+        public async Task ValidateExtractedFieldsAsync_WithMalformedRegex_ShouldHandleGracefullyAsync()
         {
             // Arrange
             var extractedFields = new Dictionary<string, object> { ["test_field"] = "some_value" };

@@ -28,7 +28,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_Initialize_ShouldCreateConstraintsAndIndexes()
+    public async Task Neo4jGraphStore_Initialize_ShouldCreateConstraintsAndIndexesAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -42,7 +42,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_StoreDocument_ShouldCreateDocumentNodeWithProperties()
+    public async Task Neo4jGraphStore_StoreDocument_ShouldCreateDocumentNodeWithPropertiesAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -84,7 +84,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_StoreConcepts_ShouldCreateConceptNodesWithMetadata()
+    public async Task Neo4jGraphStore_StoreConcepts_ShouldCreateConceptNodesWithMetadataAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -140,7 +140,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_CreateRelationships_ShouldLinkDocumentsAndConcepts()
+    public async Task Neo4jGraphStore_CreateRelationships_ShouldLinkDocumentsAndConceptsAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -191,7 +191,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_FindRelatedDocuments_ShouldTraverseGraphCorrectly()
+    public async Task Neo4jGraphStore_FindRelatedDocuments_ShouldTraverseGraphCorrectlyAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -215,7 +215,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_FindRelatedConcepts_ShouldDiscoverConceptualConnections()
+    public async Task Neo4jGraphStore_FindRelatedConcepts_ShouldDiscoverConceptualConnectionsAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -239,7 +239,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_FindShortestPath_ShouldDiscoverConnectionPaths()
+    public async Task Neo4jGraphStore_FindShortestPath_ShouldDiscoverConnectionPathsAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -270,7 +270,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_BatchOperations_ShouldHandleLargeDataSetsEfficiently()
+    public async Task Neo4jGraphStore_BatchOperations_ShouldHandleLargeDataSetsEfficientlyAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -295,7 +295,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_DeleteDocument_ShouldRemoveNodeAndRelationships()
+    public async Task Neo4jGraphStore_DeleteDocument_ShouldRemoveNodeAndRelationshipsAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -321,7 +321,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_ConcurrentOperations_ShouldMaintainDataIntegrity()
+    public async Task Neo4jGraphStore_ConcurrentOperations_ShouldMaintainDataIntegrityAsync()
     {
         // Arrange
         SetupGraphClient();
@@ -349,7 +349,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     [InlineData("MATCH (d:Document) RETURN count(d) as documentCount")]
     [InlineData("MATCH (c:Concept) RETURN count(c) as conceptCount")]
     [InlineData("MATCH ()-[r]->() RETURN count(r) as relationshipCount")]
-    public async Task Neo4jGraphStore_ExecuteQuery_ShouldHandleVariousCypherQueries(string cypherQuery)
+    public async Task Neo4jGraphStore_ExecuteQuery_ShouldHandleVariousCypherQueriesAsync(string cypherQuery)
     {
         // Arrange
         SetupGraphClient();
@@ -365,7 +365,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
-    public async Task Neo4jGraphStore_PerformanceTest_ShouldMeetResponseTimeRequirements()
+    public async Task Neo4jGraphStore_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
         // Arrange
         SetupGraphClient();

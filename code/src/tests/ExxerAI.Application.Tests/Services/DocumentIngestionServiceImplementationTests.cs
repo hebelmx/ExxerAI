@@ -47,7 +47,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsEmpty()
+    public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsEmptyAsync()
     {
         // Act
         var result = await _service.StartWatchingFolderAsync("", cancellationToken: TestContext.Current.CancellationToken);
@@ -58,7 +58,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task StartWatchingFolderAsync_Should_ReturnSuccess_When_ValidFolderId()
+    public async Task StartWatchingFolderAsync_Should_ReturnSuccess_When_ValidFolderIdAsync()
     {
         // Act
         var result = await _service.StartWatchingFolderAsync("test-folder-id", cancellationToken: TestContext.Current.CancellationToken);
@@ -71,7 +71,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsWhitespace()
+    public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsWhitespaceAsync()
     {
         // Act
         var result = await _service.StartWatchingFolderAsync("   ", cancellationToken: TestContext.Current.CancellationToken);
@@ -82,7 +82,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task StopWatchingFolderAsync_Should_ReturnFailure_When_WatchIdNotFound()
+    public async Task StopWatchingFolderAsync_Should_ReturnFailure_When_WatchIdNotFoundAsync()
     {
         // Act
         var result = await _service.StopWatchingFolderAsync("nonexistent-watch-id", cancellationToken: TestContext.Current.CancellationToken);
@@ -93,7 +93,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task StopWatchingFolderAsync_Should_ReturnSuccess_When_ValidWatchId()
+    public async Task StopWatchingFolderAsync_Should_ReturnSuccess_When_ValidWatchIdAsync()
     {
         // Arrange
         var startResult = await _service.StartWatchingFolderAsync("test-folder", cancellationToken: TestContext.Current.CancellationToken);
@@ -108,7 +108,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task DetectDocumentChangesAsync_Should_ReturnSuccess_When_NoPendingChanges()
+    public async Task DetectDocumentChangesAsync_Should_ReturnSuccess_When_NoPendingChangesAsync()
     {
         // Act
         var result = await _service.DetectDocumentChangesAsync( TestContext.Current.CancellationToken);
@@ -120,7 +120,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task ProcessDocumentChangeAsync_Should_ReturnFailure_When_ChangeEventIsNull()
+    public async Task ProcessDocumentChangeAsync_Should_ReturnFailure_When_ChangeEventIsNullAsync()
     {
         // Act
         var result = await _service.ProcessDocumentChangeAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
@@ -131,7 +131,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task ProcessDocumentChangeAsync_Should_ReturnSuccess_When_RequiresProcessingIsFalse()
+    public async Task ProcessDocumentChangeAsync_Should_ReturnSuccess_When_RequiresProcessingIsFalseAsync()
     {
         // Arrange - create a change event that does not require processing (Renamed or PermissionsChanged)
         var changeEvent = new DocumentChangeEvent
@@ -153,7 +153,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task ProcessDocumentChangeAsync_Should_HandleDeletedDocuments()
+    public async Task ProcessDocumentChangeAsync_Should_HandleDeletedDocumentsAsync()
     {
         // Arrange
         var changeEvent = new DocumentChangeEvent
@@ -176,7 +176,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task ProcessDocumentChangeAsync_Should_ProcessValidChangeEvent()
+    public async Task ProcessDocumentChangeAsync_Should_ProcessValidChangeEventAsync()
     {
         // Arrange
         var changeEvent = new DocumentChangeEvent
@@ -211,7 +211,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsEmpty()
+    public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsEmptyAsync()
     {
         // Act
         var result = await _service.IngestDocumentAsync("", false, cancellationToken: TestContext.Current.CancellationToken);
@@ -222,7 +222,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsWhitespace()
+    public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsWhitespaceAsync()
     {
         // Act
         var result = await _service.IngestDocumentAsync("   ", false, cancellationToken: TestContext.Current.CancellationToken);
@@ -233,7 +233,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_ProcessValidDocument()
+    public async Task IngestDocumentAsync_Should_ProcessValidDocumentAsync()
     {
         // Arrange
         var documentId = "test-document-id";
@@ -260,7 +260,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task IngestDocumentAsync_Should_ForceReprocessWhenRequested()
+    public async Task IngestDocumentAsync_Should_ForceReprocessWhenRequestedAsync()
     {
         // Arrange
         var documentId = "existing-document-id";
@@ -287,7 +287,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task IsDocumentModifiedAsync_Should_ReturnTrueForModifiedDocument()
+    public async Task IsDocumentModifiedAsync_Should_ReturnTrueForModifiedDocumentAsync()
     {
         // Arrange
         var documentId = "test-doc-id";
@@ -303,7 +303,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task GetIngestionStatusAsync_Should_ReturnValidStatus()
+    public async Task GetIngestionStatusAsync_Should_ReturnValidStatusAsync()
     {
         // Act
         var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -317,7 +317,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task GetIngestionStatusAsync_Should_IncludeActiveSessionsInStatus()
+    public async Task GetIngestionStatusAsync_Should_IncludeActiveSessionsInStatusAsync()
     {
         // Arrange
         var startResult = await _service.StartWatchingFolderAsync("test-folder", cancellationToken: TestContext.Current.CancellationToken);
@@ -332,7 +332,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task Integration_StartWatch_ProcessChange_StopWatch_Should_WorkCorrectly()
+    public async Task Integration_StartWatch_ProcessChange_StopWatch_Should_WorkCorrectlyAsync()
     {
         // Arrange
         var folderId = "integration-test-folder";
@@ -361,7 +361,7 @@ public class DocumentIngestionServiceImplementationTests
     }
 
     [Fact]
-    public async Task ProcessDocumentChangeAsync_Should_HandleModifiedDocuments()
+    public async Task ProcessDocumentChangeAsync_Should_HandleModifiedDocumentsAsync()
     {
         // Arrange
         var changeEvent = new DocumentChangeEvent

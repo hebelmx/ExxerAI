@@ -20,7 +20,7 @@ public class WorkflowServiceTests
     #region CreateWorkflowAsync Tests
 
     [Fact]
-    public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var name = "Test Workflow";
@@ -58,7 +58,7 @@ public class WorkflowServiceTests
     [InlineData("", "Valid Description")]
     [InlineData("   ", "Valid Description")]
     [InlineData("Valid Name", "")]
-    public async Task CreateWorkflowAsync_WithInvalidInput_ShouldReturnFailureResult(string name, string description)
+    public async Task CreateWorkflowAsync_WithInvalidInput_ShouldReturnFailureResultAsync(string name, string description)
     {
         // Arrange
         var steps = new List<WorkflowStep> { new() { Name = "Step1", StepType = "Action" } };
@@ -77,7 +77,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task CreateWorkflowAsync_WithNullSteps_ShouldReturnFailureResult()
+    public async Task CreateWorkflowAsync_WithNullSteps_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var name = "Test Workflow";
@@ -102,7 +102,7 @@ public class WorkflowServiceTests
     #region GetWorkflowAsync Tests
 
     [Fact]
-    public async Task GetWorkflowAsync_WithValidId_ShouldReturnWorkflow()
+    public async Task GetWorkflowAsync_WithValidId_ShouldReturnWorkflowAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -128,7 +128,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_WithEmptyGuid_ShouldReturnFailureResult()
+    public async Task GetWorkflowAsync_WithEmptyGuid_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.Empty;
@@ -147,7 +147,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task GetWorkflowAsync_WithNonExistentId_ShouldReturnFailureResult()
+    public async Task GetWorkflowAsync_WithNonExistentId_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -170,7 +170,7 @@ public class WorkflowServiceTests
     #region GetActiveWorkflowsAsync Tests
 
     [Fact]
-    public async Task GetActiveWorkflowsAsync_WhenActiveWorkflowsExist_ShouldReturnAllActiveWorkflows()
+    public async Task GetActiveWorkflowsAsync_WhenActiveWorkflowsExist_ShouldReturnAllActiveWorkflowsAsync()
     {
         // Arrange
         var activeWorkflows = new List<Workflow>
@@ -196,7 +196,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task GetActiveWorkflowsAsync_WhenNoActiveWorkflows_ShouldReturnEmptyList()
+    public async Task GetActiveWorkflowsAsync_WhenNoActiveWorkflows_ShouldReturnEmptyListAsync()
     {
         // Arrange
         var emptyWorkflows = new List<Workflow>();
@@ -220,7 +220,7 @@ public class WorkflowServiceTests
     #region ExecuteWorkflowAsync Tests
 
     [Fact]
-    public async Task ExecuteWorkflowAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task ExecuteWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -249,7 +249,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task ExecuteWorkflowAsync_WithEmptyWorkflowId_ShouldReturnFailureResult()
+    public async Task ExecuteWorkflowAsync_WithEmptyWorkflowId_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.Empty;
@@ -269,7 +269,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task ExecuteWorkflowAsync_WithNullInput_ShouldReturnFailureResult()
+    public async Task ExecuteWorkflowAsync_WithNullInput_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -293,7 +293,7 @@ public class WorkflowServiceTests
     #region GetWorkflowExecutionsAsync Tests
 
     [Fact]
-    public async Task GetWorkflowExecutionsAsync_WithValidWorkflowId_ShouldReturnExecutions()
+    public async Task GetWorkflowExecutionsAsync_WithValidWorkflowId_ShouldReturnExecutionsAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -319,7 +319,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task GetWorkflowExecutionsAsync_WithStatusFilter_ShouldReturnFilteredExecutions()
+    public async Task GetWorkflowExecutionsAsync_WithStatusFilter_ShouldReturnFilteredExecutionsAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -350,7 +350,7 @@ public class WorkflowServiceTests
     [InlineData(nameof(IWorkflowService.PauseWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.ResumeWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.CancelWorkflowExecutionAsync))]
-    public async Task ExecutionControlMethods_WithValidId_ShouldReturnSuccess(string methodName)
+    public async Task ExecutionControlMethods_WithValidId_ShouldReturnSuccessAsync(string methodName)
     {
         // Arrange
         var executionId = Guid.NewGuid();
@@ -393,7 +393,7 @@ public class WorkflowServiceTests
     [InlineData(nameof(IWorkflowService.PauseWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.ResumeWorkflowExecutionAsync))]
     [InlineData(nameof(IWorkflowService.CancelWorkflowExecutionAsync))]
-    public async Task ExecutionControlMethods_WithEmptyGuid_ShouldReturnFailure(string methodName)
+    public async Task ExecutionControlMethods_WithEmptyGuid_ShouldReturnFailureAsync(string methodName)
     {
         // Arrange
         var executionId = Guid.Empty;
@@ -437,7 +437,7 @@ public class WorkflowServiceTests
     #region UpdateWorkflowConfigurationAsync Tests
 
     [Fact]
-    public async Task UpdateWorkflowConfigurationAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task UpdateWorkflowConfigurationAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -461,7 +461,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task UpdateWorkflowConfigurationAsync_WithNullConfiguration_ShouldReturnFailure()
+    public async Task UpdateWorkflowConfigurationAsync_WithNullConfiguration_ShouldReturnFailureAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -485,7 +485,7 @@ public class WorkflowServiceTests
     #region DeleteWorkflowAsync Tests
 
     [Fact]
-    public async Task DeleteWorkflowAsync_WithValidId_ShouldReturnSuccess()
+    public async Task DeleteWorkflowAsync_WithValidId_ShouldReturnSuccessAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -504,7 +504,7 @@ public class WorkflowServiceTests
     }
 
     [Fact]
-    public async Task DeleteWorkflowAsync_WithNonExistentWorkflow_ShouldReturnFailure()
+    public async Task DeleteWorkflowAsync_WithNonExistentWorkflow_ShouldReturnFailureAsync()
     {
         // Arrange
         var workflowId = Guid.NewGuid();
@@ -527,7 +527,7 @@ public class WorkflowServiceTests
     #region Contract Validation Tests
 
     [Fact]
-    public async Task IWorkflowService_AllMethods_ShouldRespectCancellationToken()
+    public async Task IWorkflowService_AllMethods_ShouldRespectCancellationTokenAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();

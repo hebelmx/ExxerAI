@@ -9,7 +9,7 @@ namespace ExxerAI.CLI.Tests;
 public class ProgramTests
 {
     [Fact]
-    public async Task Main_Should_ReturnZero_When_NoArgumentsProvided()
+    public async Task Main_Should_ReturnZero_When_NoArgumentsProvidedAsync()
     {
         // Arrange
         var args = Array.Empty<string>();
@@ -22,7 +22,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_ReturnZero_When_HelpCommandProvided()
+    public async Task Main_Should_ReturnZero_When_HelpCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -35,7 +35,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_ReturnZero_When_VersionCommandProvided()
+    public async Task Main_Should_ReturnZero_When_VersionCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "version" };
@@ -48,7 +48,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_ReturnOne_When_InvalidCommandProvided()
+    public async Task Main_Should_ReturnOne_When_InvalidCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "invalid-command" };
@@ -61,7 +61,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_InitializeRepositories_When_Called()
+    public async Task Main_Should_InitializeRepositories_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -74,7 +74,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_InitializeServices_When_Called()
+    public async Task Main_Should_InitializeServices_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -87,7 +87,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_InitializeCommands_When_Called()
+    public async Task Main_Should_InitializeCommands_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -100,7 +100,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_InitializeCommandRouter_When_Called()
+    public async Task Main_Should_InitializeCommandRouter_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -113,7 +113,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_RouteToAgentCommands_When_AgentCommandProvided()
+    public async Task Main_Should_RouteToAgentCommands_When_AgentCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "help" };
@@ -126,7 +126,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_RouteToTaskCommands_When_TaskCommandProvided()
+    public async Task Main_Should_RouteToTaskCommands_When_TaskCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "task", "help" };
@@ -139,7 +139,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_RouteToWorkflowCommands_When_WorkflowCommandProvided()
+    public async Task Main_Should_RouteToWorkflowCommands_When_WorkflowCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflow", "help" };
@@ -152,7 +152,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleNullArguments_When_NullProvided()
+    public async Task Main_Should_HandleNullArguments_When_NullProvidedAsync()
     {
         // Arrange
         string[]? args = null!;
@@ -166,7 +166,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleEmptyStringArguments_When_EmptyStringsProvided()
+    public async Task Main_Should_HandleEmptyStringArguments_When_EmptyStringsProvidedAsync()
     {
         // Arrange
         var args = new[] { "", "" };
@@ -179,7 +179,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleMultipleArguments_When_ComplexCommandProvided()
+    public async Task Main_Should_HandleMultipleArguments_When_ComplexCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "list", "--agentStatus", "active" };
@@ -192,7 +192,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleCaseInsensitiveCommands_When_UpperCaseProvided()
+    public async Task Main_Should_HandleCaseInsensitiveCommands_When_UpperCaseProvidedAsync()
     {
         // Arrange
         var args = new[] { "HELP" };
@@ -205,7 +205,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleCaseInsensitiveCommands_When_MixedCaseProvided()
+    public async Task Main_Should_HandleCaseInsensitiveCommands_When_MixedCaseProvidedAsync()
     {
         // Arrange
         var args = new[] { "HeLp" };
@@ -224,7 +224,7 @@ public class ProgramTests
     [InlineData("version")]
     [InlineData("--version")]
     [InlineData("-v")]
-    public async Task Main_Should_ReturnZero_When_BuiltInCommandsProvided(string command)
+    public async Task Main_Should_ReturnZero_When_BuiltInCommandsProvidedAsync(string command)
     {
         // Arrange
         var args = new[] { command };
@@ -243,7 +243,7 @@ public class ProgramTests
     [InlineData("tasks")]
     [InlineData("workflow")]
     [InlineData("workflows")]
-    public async Task Main_Should_ReturnZero_When_ValidCommandGroupsProvided(string commandGroup)
+    public async Task Main_Should_ReturnZero_When_ValidCommandGroupsProvidedAsync(string commandGroup)
     {
         // Arrange
         var args = new[] { commandGroup };
@@ -261,7 +261,7 @@ public class ProgramTests
     [InlineData("badcommand")]
     [InlineData("123")]
     [InlineData("@#$")]
-    public async Task Main_Should_ReturnOne_When_InvalidCommandsProvided(string invalidCommand)
+    public async Task Main_Should_ReturnOne_When_InvalidCommandsProvidedAsync(string invalidCommand)
     {
         // Arrange
         var args = new[] { invalidCommand };
@@ -274,7 +274,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_CreateInMemoryRepositories_When_Called()
+    public async Task Main_Should_CreateInMemoryRepositories_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -286,7 +286,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_CreateAgentService_When_Called()
+    public async Task Main_Should_CreateAgentService_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -298,7 +298,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_CreateAllCommandHandlers_When_Called()
+    public async Task Main_Should_CreateAllCommandHandlers_When_CalledAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -310,7 +310,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_PropagateCommandRouterResults_When_CommandExecuted()
+    public async Task Main_Should_PropagateCommandRouterResults_When_CommandExecutedAsync()
     {
         // Arrange
         var validArgs = new[] { "help" };
@@ -326,7 +326,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleLongArgumentLists_When_ManyArgumentsProvided()
+    public async Task Main_Should_HandleLongArgumentLists_When_ManyArgumentsProvidedAsync()
     {
         // Arrange
         var args = new[] {
@@ -343,7 +343,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleSpecialCharactersInArguments_When_SpecialCharsProvided()
+    public async Task Main_Should_HandleSpecialCharactersInArguments_When_SpecialCharsProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "create", "Test-Agent_123" };
@@ -356,7 +356,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleUnicodeArguments_When_UnicodeProvided()
+    public async Task Main_Should_HandleUnicodeArguments_When_UnicodeProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "create", "测试代理" };
@@ -369,7 +369,7 @@ public class ProgramTests
     }
 
     [Fact]
-    public async Task Main_Should_HandleVeryLongArguments_When_LongStringsProvided()
+    public async Task Main_Should_HandleVeryLongArguments_When_LongStringsProvidedAsync()
     {
         // Arrange
         var longString = new string('A', 1000);
@@ -387,7 +387,7 @@ public class ProgramTests
     /// </summary>
     /// <param name="args">Arguments to pass to Main</param>
     /// <returns>Exit code</returns>
-    private static async Task<int> CallMainMethod(string[] args, CancellationToken cancellationToken)
+    private static async Task<int> CallMainMethodAsync(string[] args, CancellationToken cancellationToken)
     {
         try
         {

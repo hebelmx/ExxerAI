@@ -24,7 +24,7 @@ public class InMemoryAgentRepositoryTests
     public class CrudOperationsTests : InMemoryAgentRepositoryTests
     {
         [Fact]
-        public async Task Should_AddAgent_When_ValidAgentProvided()
+        public async Task Should_AddAgent_When_ValidAgentProvidedAsync()
         {
             // Arrange
             var agent = new Agent
@@ -47,7 +47,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetAgentById_When_AgentExists()
+        public async Task Should_GetAgentById_When_AgentExistsAsync()
         {
             // Arrange
             var agent = new Agent
@@ -72,7 +72,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_AgentNotFound()
+        public async Task Should_ReturnFailure_When_AgentNotFoundAsync()
         {
             // Act
             var result = await _repository.GetByIdAsync(Guid.NewGuid(), cancellationToken: TestContext.Current.CancellationToken);
@@ -83,7 +83,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_UpdateAgent_When_AgentExists()
+        public async Task Should_UpdateAgent_When_AgentExistsAsync()
         {
             // Arrange
             var agent = new Agent
@@ -112,7 +112,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_DeleteAgent_When_AgentExists()
+        public async Task Should_DeleteAgent_When_AgentExistsAsync()
         {
             // Arrange
             var agent = new Agent
@@ -138,7 +138,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetAllAgents_When_AgentsExist()
+        public async Task Should_GetAllAgents_When_AgentsExistAsync()
         {
             // Arrange
             var agent1 = new Agent { Name = "Agent 1", Description = "Desc 1", Capabilities = new AgentCapabilities { SupportedTaskTypes = ["test"] } };
@@ -163,7 +163,7 @@ public class InMemoryAgentRepositoryTests
     public class QueryOperationsTests : InMemoryAgentRepositoryTests
     {
         [Fact]
-        public async Task Should_GetAgentsByStatus_When_StatusMatches()
+        public async Task Should_GetAgentsByStatus_When_StatusMatchesAsync()
         {
             // Arrange
             var activeAgent = new Agent
@@ -196,7 +196,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_FindAgentsByTaskType_When_TaskTypeSupported()
+        public async Task Should_FindAgentsByTaskType_When_TaskTypeSupportedAsync()
         {
             // Arrange
             var webAgent = new Agent
@@ -228,7 +228,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnEmptyList_When_NoAgentsMatchTaskType()
+        public async Task Should_ReturnEmptyList_When_NoAgentsMatchTaskTypeAsync()
         {
             // Arrange
             var agent = new Agent
@@ -251,7 +251,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetAgentsWithTaskCount_When_Called()
+        public async Task Should_GetAgentsWithTaskCount_When_CalledAsync()
         {
             // Arrange
             var agent = new Agent
@@ -284,7 +284,7 @@ public class InMemoryAgentRepositoryTests
     public class ValidationTests : InMemoryAgentRepositoryTests
     {
         [Fact]
-        public async Task Should_ReturnFailure_When_AddingNullAgent()
+        public async Task Should_ReturnFailure_When_AddingNullAgentAsync()
         {
             // Act
             var result = await _repository.AddAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
@@ -295,7 +295,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_UpdatingNullAgent()
+        public async Task Should_ReturnFailure_When_UpdatingNullAgentAsync()
         {
             // Act
             var result = await _repository.UpdateAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
@@ -306,7 +306,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_UpdatingNonExistentAgent()
+        public async Task Should_ReturnFailure_When_UpdatingNonExistentAgentAsync()
         {
             // Arrange
             var agent = new Agent
@@ -326,7 +326,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_DeletingNonExistentAgent()
+        public async Task Should_ReturnFailure_When_DeletingNonExistentAgentAsync()
         {
             // Act
             var result = await _repository.DeleteAsync(Guid.NewGuid(), cancellationToken: TestContext.Current.CancellationToken);
@@ -337,7 +337,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_CheckExistence_When_AgentExists()
+        public async Task Should_CheckExistence_When_AgentExistsAsync()
         {
             // Arrange
             var agent = new Agent
@@ -359,7 +359,7 @@ public class InMemoryAgentRepositoryTests
         }
 
         [Fact]
-        public async Task Should_CheckNonExistence_When_AgentDoesNotExist()
+        public async Task Should_CheckNonExistence_When_AgentDoesNotExistAsync()
         {
             // Act
             var existsResult = await _repository.ExistsAsync(Guid.NewGuid(), cancellationToken: TestContext.Current.CancellationToken);

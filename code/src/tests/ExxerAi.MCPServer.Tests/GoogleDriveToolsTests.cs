@@ -66,7 +66,7 @@ public class GoogleDriveToolsTests
 	public class StartFolderWatchAsync : GoogleDriveToolsTests
 	{
 		[Fact]
-		public async Task Should_CallGoogleDriveService_When_ValidParametersProvided()
+		public async Task Should_CallGoogleDriveService_When_ValidParametersProvidedAsync()
 		{
 			// Arrange
 			var folderId = "test-folder-123";
@@ -86,7 +86,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnSuccess_When_GoogleDriveServiceSucceeds()
+		public async Task Should_ReturnSuccess_When_GoogleDriveServiceSucceedsAsync()
 		{
 			// Arrange
 			var folderId = "test-folder-123";
@@ -104,7 +104,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnFailure_When_GoogleDriveServiceFails()
+		public async Task Should_ReturnFailure_When_GoogleDriveServiceFailsAsync()
 		{
 			// Arrange
 			var folderId = "invalid-folder";
@@ -126,7 +126,7 @@ public class GoogleDriveToolsTests
 		[InlineData(false, false, 120)]
 		[InlineData(true, false, 60)]
 		[InlineData(false, true, 300)]
-		public async Task Should_PassCorrectParameters_When_StartingWatch(
+		public async Task Should_PassCorrectParameters_When_StartingWatchAsync(
 			bool includeSubdirectories, 
 			bool autoProcess, 
 			int pollingInterval)
@@ -151,7 +151,7 @@ public class GoogleDriveToolsTests
 	public class DownloadDocumentAsync : GoogleDriveToolsTests
 	{
 		[Fact]
-		public async Task Should_CallGoogleDriveService_When_ValidDocumentIdProvided()
+		public async Task Should_CallGoogleDriveService_When_ValidDocumentIdProvidedAsync()
 		{
 			// Arrange
 			var documentId = "test-document-123";
@@ -173,7 +173,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnSuccess_When_DocumentDownloadedSuccessfully()
+		public async Task Should_ReturnSuccess_When_DocumentDownloadedSuccessfullyAsync()
 		{
 			// Arrange
 			var documentId = "test-document-123";
@@ -196,7 +196,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnFailure_When_MetadataRetrievalFails()
+		public async Task Should_ReturnFailure_When_MetadataRetrievalFailsAsync()
 		{
 			// Arrange
 			var documentId = "invalid-document";
@@ -220,7 +220,7 @@ public class GoogleDriveToolsTests
 	public class CheckHealthStatusAsync : GoogleDriveToolsTests
 	{
 		[Fact]
-		public async Task Should_CallGoogleDriveServiceInitialize_When_CheckingHealth()
+		public async Task Should_CallGoogleDriveServiceInitialize_When_CheckingHealthAsync()
 		{
 			// Arrange
 			_mockGoogleDriveService.InitializeAsync()
@@ -238,7 +238,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnHealthyStatus_When_InitializationSucceeds()
+		public async Task Should_ReturnHealthyStatus_When_InitializationSucceedsAsync()
 		{
 			// Arrange
 			_mockGoogleDriveService.InitializeAsync()
@@ -257,7 +257,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnUnhealthyStatus_When_InitializationFails()
+		public async Task Should_ReturnUnhealthyStatus_When_InitializationFailsAsync()
 		{
 			// Arrange
 			var expectedError = "OAuth credentials not configured";
@@ -284,7 +284,7 @@ public class GoogleDriveToolsTests
 	public class GetActiveWatchesAsync : GoogleDriveToolsTests
 	{
 		[Fact]
-		public async Task Should_CallGoogleDriveService_When_GettingActiveWatches()
+		public async Task Should_CallGoogleDriveService_When_GettingActiveWatchesAsync()
 		{
 			// Arrange
 			var expectedResult = "👁️ Active Google Drive Watch Sessions:\n📊 Total Active Watches: 0";
@@ -301,7 +301,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnSuccess_When_ActiveWatchesRetrievedSuccessfully()
+		public async Task Should_ReturnSuccess_When_ActiveWatchesRetrievedSuccessfullyAsync()
 		{
 			// Arrange
 			var expectedResult = "👁️ Active Google Drive Watch Sessions:\n📊 Total Active Watches: 2";
@@ -318,7 +318,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnFailure_When_ActiveWatchesRetrievalFails()
+		public async Task Should_ReturnFailure_When_ActiveWatchesRetrievalFailsAsync()
 		{
 			// Arrange
 			var expectedError = "Failed to retrieve active watches";
@@ -341,7 +341,7 @@ public class GoogleDriveToolsTests
 	public class StopWatchingAsync : GoogleDriveToolsTests
 	{
 		[Fact]
-		public async Task Should_CallGoogleDriveService_When_ValidWatchIdProvided()
+		public async Task Should_CallGoogleDriveService_When_ValidWatchIdProvidedAsync()
 		{
 			// Arrange
 			var watchId = "watch_12345678";
@@ -359,7 +359,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnSuccess_When_WatchStoppedSuccessfully()
+		public async Task Should_ReturnSuccess_When_WatchStoppedSuccessfullyAsync()
 		{
 			// Arrange
 			var watchId = "watch_12345678";
@@ -377,7 +377,7 @@ public class GoogleDriveToolsTests
 		}
 
 		[Fact]
-		public async Task Should_ReturnFailure_When_WatchNotFound()
+		public async Task Should_ReturnFailure_When_WatchNotFoundAsync()
 		{
 			// Arrange
 			var watchId = "watch_nonexistent";

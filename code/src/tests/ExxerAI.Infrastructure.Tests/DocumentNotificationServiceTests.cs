@@ -26,7 +26,7 @@ public class DocumentNotificationServiceTests
     public class NotifyDocumentAddedAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidDocumentProvided()
+        public async Task Should_ReturnSuccess_When_ValidDocumentProvidedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -43,7 +43,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullDocumentProvided()
+        public async Task Should_ReturnFailure_When_NullDocumentProvidedAsync()
         {
             // Arrange
             DocumentAsset nullDocument = null!;
@@ -60,7 +60,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_HandleCancellation_When_CancellationRequested()
+        public async Task Should_HandleCancellation_When_CancellationRequestedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -81,7 +81,7 @@ public class DocumentNotificationServiceTests
     public class NotifyDocumentModifiedAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidDocumentAndVersionProvided()
+        public async Task Should_ReturnSuccess_When_ValidDocumentAndVersionProvidedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -99,7 +99,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullDocumentProvided()
+        public async Task Should_ReturnFailure_When_NullDocumentProvidedAsync()
         {
             // Arrange
             DocumentAsset nullDocument = null!;
@@ -120,7 +120,7 @@ public class DocumentNotificationServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null)]
-        public async Task Should_ReturnFailure_When_InvalidPreviousVersionProvided(string? invalidVersion)
+        public async Task Should_ReturnFailure_When_InvalidPreviousVersionProvidedAsync(string? invalidVersion)
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -140,7 +140,7 @@ public class DocumentNotificationServiceTests
     public class NotifyDocumentRemovedAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidDocumentInfoProvided()
+        public async Task Should_ReturnSuccess_When_ValidDocumentInfoProvidedAsync()
         {
             // Arrange
             var documentId = "doc-123";
@@ -161,7 +161,7 @@ public class DocumentNotificationServiceTests
         [InlineData("", "test-document.pdf")]
         [InlineData("   ", "test-document.pdf")]
         [InlineData(null!, "test-document.pdf")]
-        public async Task Should_ReturnFailure_When_InvalidDocumentIdProvided(string? invalidId, string documentName)
+        public async Task Should_ReturnFailure_When_InvalidDocumentIdProvidedAsync(string? invalidId, string documentName)
         {
             // Arrange
             _notificationService.NotifyDocumentRemovedAsync(invalidId!, documentName, cancellationToken: Arg.Any<CancellationToken>())
@@ -179,7 +179,7 @@ public class DocumentNotificationServiceTests
         [InlineData("doc-123", "")]
         [InlineData("doc-123", "   ")]
         [InlineData("doc-123", null)]
-        public async Task Should_ReturnFailure_When_InvalidDocumentNameProvided(string documentId, string? invalidName)
+        public async Task Should_ReturnFailure_When_InvalidDocumentNameProvidedAsync(string documentId, string? invalidName)
         {
             // Arrange
             _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName!, cancellationToken: Arg.Any<CancellationToken>())
@@ -197,7 +197,7 @@ public class DocumentNotificationServiceTests
     public class NotifyProcessingFailedAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidDocumentAndErrorProvided()
+        public async Task Should_ReturnSuccess_When_ValidDocumentAndErrorProvidedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -215,7 +215,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullDocumentProvided()
+        public async Task Should_ReturnFailure_When_NullDocumentProvidedAsync()
         {
             // Arrange
             DocumentAsset nullDocument = null!;
@@ -233,7 +233,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullErrorProvided()
+        public async Task Should_ReturnFailure_When_NullErrorProvidedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -254,7 +254,7 @@ public class DocumentNotificationServiceTests
     public class NotifyProcessingCompletedAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidDocumentAndResultProvided()
+        public async Task Should_ReturnSuccess_When_ValidDocumentAndResultProvidedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -272,7 +272,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullDocumentProvided()
+        public async Task Should_ReturnFailure_When_NullDocumentProvidedAsync()
         {
             // Arrange
             DocumentAsset nullDocument = null!;
@@ -290,7 +290,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullProcessingResultProvided()
+        public async Task Should_ReturnFailure_When_NullProcessingResultProvidedAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -311,7 +311,7 @@ public class DocumentNotificationServiceTests
     public class RegisterSubscriberAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidSubscriberProvided()
+        public async Task Should_ReturnSuccess_When_ValidSubscriberProvidedAsync()
         {
             // Arrange
             var subscriberId = "subscriber-123";
@@ -332,7 +332,7 @@ public class DocumentNotificationServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string? invalidId)
+        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvidedAsync(string? invalidId)
         {
             // Arrange
             var callback = CreateValidNotificationCallback();
@@ -349,7 +349,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_NullCallbackProvided()
+        public async Task Should_ReturnFailure_When_NullCallbackProvidedAsync()
         {
             // Arrange
             var subscriberId = "subscriber-123";
@@ -367,7 +367,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_SubscriberAlreadyExists()
+        public async Task Should_ReturnFailure_When_SubscriberAlreadyExistsAsync()
         {
             // Arrange
             var subscriberId = "existing-subscriber";
@@ -388,7 +388,7 @@ public class DocumentNotificationServiceTests
     public class UnregisterSubscriberAsyncTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_ReturnSuccess_When_ValidSubscriberIdProvided()
+        public async Task Should_ReturnSuccess_When_ValidSubscriberIdProvidedAsync()
         {
             // Arrange
             var subscriberId = "subscriber-123";
@@ -408,7 +408,7 @@ public class DocumentNotificationServiceTests
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(null!)]
-        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string? invalidId)
+        public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvidedAsync(string? invalidId)
         {
             // Arrange
             _notificationService.UnregisterSubscriberAsync(invalidId!, cancellationToken: Arg.Any<CancellationToken>())
@@ -423,7 +423,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_SubscriberNotFound()
+        public async Task Should_ReturnFailure_When_SubscriberNotFoundAsync()
         {
             // Arrange
             var nonExistentId = "non-existent-subscriber";
@@ -443,7 +443,7 @@ public class DocumentNotificationServiceTests
     public class NotificationIntegrationTests : DocumentNotificationServiceTests
     {
         [Fact]
-        public async Task Should_HandleMultipleNotifications_When_MultipleEventsOccur()
+        public async Task Should_HandleMultipleNotifications_When_MultipleEventsOccurAsync()
         {
             // Arrange
             var document = CreateValidDocumentAsset();
@@ -464,7 +464,7 @@ public class DocumentNotificationServiceTests
         }
 
         [Fact]
-        public async Task Should_HandleNotificationFailure_When_SubscriberThrowsException()
+        public async Task Should_HandleNotificationFailure_When_SubscriberThrowsExceptionAsync()
         {
             // Arrange
             var subscriberId = "faulty-subscriber";

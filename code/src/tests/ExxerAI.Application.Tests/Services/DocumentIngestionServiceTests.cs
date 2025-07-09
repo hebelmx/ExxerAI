@@ -43,7 +43,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: StartWatchingFolderAsync should return Result with watch ID
     /// </summary>
     [Fact]
-    public async Task StartWatchingFolderAsync_ShouldReturnResultWithWatchId_When_ValidFolderProvided()
+    public async Task StartWatchingFolderAsync_ShouldReturnResultWithWatchId_When_ValidFolderProvidedAsync()
     {
         // Arrange
         const string folderId = "folder123";
@@ -61,7 +61,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: StartWatchingFolderAsync should return failure for null folder ID
     /// </summary>
     [Fact]
-    public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_FolderIdIsNull()
+    public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_FolderIdIsNullAsync()
     {
         // Arrange
         const string? folderId = null!;
@@ -78,7 +78,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: StopWatchingFolderAsync should return success when watch exists
     /// </summary>
     [Fact]
-    public async Task StopWatchingFolderAsync_ShouldReturnSuccess_When_ValidWatchId()
+    public async Task StopWatchingFolderAsync_ShouldReturnSuccess_When_ValidWatchIdAsync()
     {
         // Arrange - First start a session to get a valid watch ID
         const string folderId = "folder123";
@@ -97,7 +97,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: DetectDocumentChangesAsync should return changes collection
     /// </summary>
     [Fact]
-    public async Task DetectDocumentChangesAsync_ShouldReturnChanges_When_ChangesExist()
+    public async Task DetectDocumentChangesAsync_ShouldReturnChanges_When_ChangesExistAsync()
     {
         // Arrange
         // Mock the service to return test changes
@@ -122,7 +122,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: ProcessDocumentChangeAsync should handle document creation
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldProcessDocument_When_DocumentCreated()
+    public async Task ProcessDocumentChangeAsync_ShouldProcessDocument_When_DocumentCreatedAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);
@@ -147,7 +147,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: ProcessDocumentChangeAsync should handle document modification with Result pattern
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldDetectVersion_When_DocumentModified()
+    public async Task ProcessDocumentChangeAsync_ShouldDetectVersion_When_DocumentModifiedAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Modified);
@@ -168,7 +168,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: IngestDocumentAsync should process document by ID
     /// </summary>
     [Fact]
-    public async Task IngestDocumentAsync_ShouldProcessDocument_When_ValidDocumentId()
+    public async Task IngestDocumentAsync_ShouldProcessDocument_When_ValidDocumentIdAsync()
     {
         // Arrange
         const string documentId = "doc123";
@@ -191,7 +191,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: IngestDocumentAsync should return failure for invalid document ID
     /// </summary>
     [Fact]
-    public async Task IngestDocumentAsync_ShouldReturnFailure_When_DocumentIdIsNull()
+    public async Task IngestDocumentAsync_ShouldReturnFailure_When_DocumentIdIsNullAsync()
     {
         // Arrange
         const string? documentId = null!;
@@ -208,7 +208,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: IsDocumentModifiedAsync should detect document changes
     /// </summary>
     [Fact]
-    public async Task IsDocumentModifiedAsync_ShouldReturnTrue_When_DocumentWasModified()
+    public async Task IsDocumentModifiedAsync_ShouldReturnTrue_When_DocumentWasModifiedAsync()
     {
         // Arrange
         const string documentId = "doc123";
@@ -231,7 +231,7 @@ public class DocumentIngestionServiceTests
     /// Contract Test: GetIngestionStatusAsync should return agentStatus information
     /// </summary>
     [Fact]
-    public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_Requested()
+    public async Task GetIngestionStatusAsync_ShouldReturnStatus_When_RequestedAsync()
     {
         // Arrange - Start a watch session to get an active system
         const string folderId = "folder123";
@@ -253,7 +253,7 @@ public class DocumentIngestionServiceTests
     /// Edge Case: ProcessDocumentChangeAsync should handle processing failures gracefully
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldHandleFailure_When_ProcessingFails()
+    public async Task ProcessDocumentChangeAsync_ShouldHandleFailure_When_ProcessingFailsAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);
@@ -277,7 +277,7 @@ public class DocumentIngestionServiceTests
     /// Edge Case: Should handle non-processing changes gracefully using Result pattern
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldHandleSkip_When_VersionDetectionSaysSkip()
+    public async Task ProcessDocumentChangeAsync_ShouldHandleSkip_When_VersionDetectionSaysSkipAsync()
     {
         // Arrange - Create a change event that doesn't require processing
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Moved);
@@ -295,7 +295,7 @@ public class DocumentIngestionServiceTests
     /// Integration Test: Complete end-to-end document processing workflow
     /// </summary>
     [Fact]
-    public async Task CompleteWorkflow_ShouldProcessNewDocument_EndToEnd()
+    public async Task CompleteWorkflow_ShouldProcessNewDocument_EndToEndAsync()
     {
         // Arrange - A complete scenario with multiple change types
         var changes = new List<DocumentChangeEvent>
@@ -338,7 +338,7 @@ public class DocumentIngestionServiceTests
     /// Performance Test: Should handle high volume of document changes efficiently
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChanges_ShouldHandleHighVolume_Efficiently()
+    public async Task ProcessDocumentChanges_ShouldHandleHighVolume_EfficientlyAsync()
     {
         // Arrange - Generate many document changes
         const int changeCount = 50;
@@ -374,7 +374,7 @@ public class DocumentIngestionServiceTests
     /// Cancellation Test: Should respect cancellation tokens with Result pattern
     /// </summary>
     [Fact]
-    public async Task ProcessDocumentChangeAsync_ShouldRespectCancellation_When_TokenCancelled()
+    public async Task ProcessDocumentChangeAsync_ShouldRespectCancellation_When_TokenCancelledAsync()
     {
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);

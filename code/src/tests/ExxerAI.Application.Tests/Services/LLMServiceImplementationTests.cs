@@ -37,7 +37,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_Should_ReturnFailure_When_PromptIsEmpty()
+    public async Task GenerateTextAsync_Should_ReturnFailure_When_PromptIsEmptyAsync()
     {
         // Act
         var result = await _service.GenerateTextAsync(Guid.NewGuid(), "", cancellationToken: TestContext.Current.CancellationToken);
@@ -48,7 +48,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_Should_ReturnFailure_When_PromptIsWhitespace()
+    public async Task GenerateTextAsync_Should_ReturnFailure_When_PromptIsWhitespaceAsync()
     {
         // Act
         var result = await _service.GenerateTextAsync(Guid.NewGuid(), "   ", cancellationToken: TestContext.Current.CancellationToken);
@@ -59,7 +59,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_Should_ReturnFailure_When_ModelNotFound()
+    public async Task GenerateTextAsync_Should_ReturnFailure_When_ModelNotFoundAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -75,7 +75,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_Should_ReturnSuccess_When_ValidInput()
+    public async Task GenerateTextAsync_Should_ReturnSuccess_When_ValidInputAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -98,7 +98,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsEmpty()
+    public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsEmptyAsync()
     {
         // Act
         var result = await _service.ContinueConversationAsync(Guid.NewGuid(), "", TestContext.Current.CancellationToken);
@@ -109,7 +109,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsWhitespace()
+    public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsWhitespaceAsync()
     {
         // Act
         var result = await _service.ContinueConversationAsync(Guid.NewGuid(), "   ", TestContext.Current.CancellationToken);
@@ -120,7 +120,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_Should_ReturnFailure_When_UserMessageAddFails()
+    public async Task ContinueConversationAsync_Should_ReturnFailure_When_UserMessageAddFailsAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -136,7 +136,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_Should_ReturnSuccess_When_ValidInput()
+    public async Task ContinueConversationAsync_Should_ReturnSuccess_When_ValidInputAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -157,7 +157,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_Should_ReturnSuccess_When_ValidParameters()
+    public async Task CreateConversationAsync_Should_ReturnSuccess_When_ValidParametersAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -182,7 +182,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_Should_UseDefaultValues_When_OptionalParametersNull()
+    public async Task CreateConversationAsync_Should_UseDefaultValues_When_OptionalParametersNullAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -201,7 +201,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_Should_ReturnFailure_When_RepositoryFails()
+    public async Task CreateConversationAsync_Should_ReturnFailure_When_RepositoryFailsAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -219,7 +219,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task EstimateCostAsync_Should_ReturnFailure_When_ModelNotFound()
+    public async Task EstimateCostAsync_Should_ReturnFailure_When_ModelNotFoundAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -235,7 +235,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task EstimateCostAsync_Should_ReturnSuccess_When_ValidInput()
+    public async Task EstimateCostAsync_Should_ReturnSuccess_When_ValidInputAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -254,7 +254,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_Should_ReturnZero_When_TextIsEmpty()
+    public async Task CountTokensAsync_Should_ReturnZero_When_TextIsEmptyAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -272,7 +272,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_Should_ReturnTokenCount_When_ValidText()
+    public async Task CountTokensAsync_Should_ReturnTokenCount_When_ValidTextAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -292,7 +292,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_Should_ReturnFailure_When_ModelNotFound()
+    public async Task CountTokensAsync_Should_ReturnFailure_When_ModelNotFoundAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -308,7 +308,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task StreamTextAsync_Should_YieldNothing_When_ModelNotFound()
+    public async Task StreamTextAsync_Should_YieldNothing_When_ModelNotFoundAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -327,7 +327,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task StreamTextAsync_Should_YieldChunks_When_ValidModel()
+    public async Task StreamTextAsync_Should_YieldChunks_When_ValidModelAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -353,7 +353,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task ValidateModelAsync_Should_ReturnTrue_When_ModelExists()
+    public async Task ValidateModelAsync_Should_ReturnTrue_When_ModelExistsAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -371,7 +371,7 @@ public class LLMServiceImplementationTests
     }
 
     [Fact]
-    public async Task ValidateModelAsync_Should_ReturnFalse_When_ModelNotFound()
+    public async Task ValidateModelAsync_Should_ReturnFalse_When_ModelNotFoundAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();

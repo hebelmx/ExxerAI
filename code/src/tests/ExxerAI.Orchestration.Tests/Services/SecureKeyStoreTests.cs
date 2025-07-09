@@ -33,7 +33,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task SetKeyAsync_WithValidData_ShouldStoreSuccessfully()
+    public async Task SetKeyAsync_WithValidData_ShouldStoreSuccessfullyAsync()
     {
         // Arrange
         var keyName = "test-api-key";
@@ -49,7 +49,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task GetKeyAsync_WithNonExistentKey_ShouldReturnNull()
+    public async Task GetKeyAsync_WithNonExistentKey_ShouldReturnNullAsync()
     {
         // Arrange
         var keyName = "non-existent-key";
@@ -62,7 +62,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task GetKeyAsync_WithScopeFilter_ShouldReturnCorrectKey()
+    public async Task GetKeyAsync_WithScopeFilter_ShouldReturnCorrectKeyAsync()
     {
         // Arrange
         var keyName = "api-key";
@@ -84,7 +84,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task DeleteKeyAsync_WithExistingKey_ShouldReturnTrueAndRemoveKey()
+    public async Task DeleteKeyAsync_WithExistingKey_ShouldReturnTrueAndRemoveKeyAsync()
     {
         // Arrange
         var keyName = "deletable-key";
@@ -101,7 +101,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task DeleteKeyAsync_WithNonExistentKey_ShouldReturnFalse()
+    public async Task DeleteKeyAsync_WithNonExistentKey_ShouldReturnFalseAsync()
     {
         // Arrange
         var keyName = "non-existent-key";
@@ -114,7 +114,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task KeyExistsAsync_WithExistingKey_ShouldReturnTrue()
+    public async Task KeyExistsAsync_WithExistingKey_ShouldReturnTrueAsync()
     {
         // Arrange
         var keyName = "existing-key";
@@ -129,7 +129,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task KeyExistsAsync_WithNonExistentKey_ShouldReturnFalse()
+    public async Task KeyExistsAsync_WithNonExistentKey_ShouldReturnFalseAsync()
     {
         // Arrange
         var keyName = "non-existent-key";
@@ -142,7 +142,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task ListKeysAsync_WithMultipleKeys_ShouldReturnAllKeys()
+    public async Task ListKeysAsync_WithMultipleKeys_ShouldReturnAllKeysAsync()
     {
         // Arrange
         var keys = new Dictionary<string, string>
@@ -168,7 +168,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task ListKeysAsync_WithScopeFilter_ShouldReturnOnlyKeysInScope()
+    public async Task ListKeysAsync_WithScopeFilter_ShouldReturnOnlyKeysInScopeAsync()
     {
         // Arrange
         var scope1 = "scope1";
@@ -191,7 +191,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task RotateKeyAsync_WithExistingKey_ShouldCreateBackupAndUpdateKey()
+    public async Task RotateKeyAsync_WithExistingKey_ShouldCreateBackupAndUpdateKeyAsync()
     {
         // Arrange
         var keyName = "rotatable-key";
@@ -212,7 +212,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateApiKeyAsync_ShouldCreateRandomKeyWithCorrectLength()
+    public async Task GenerateApiKeyAsync_ShouldCreateRandomKeyWithCorrectLengthAsync()
     {
         // Arrange
         var keyName = "generated-key";
@@ -231,7 +231,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task SetKeyAsync_WithExpiration_ShouldExpireAfterTimeout()
+    public async Task SetKeyAsync_WithExpiration_ShouldExpireAfterTimeoutAsync()
     {
         // Arrange
         var keyName = "expiring-key";
@@ -258,7 +258,7 @@ public class SecureKeyStoreTests : IDisposable
     [InlineData("special@key#name", "value-with-special!@#characters")]
     [InlineData("unicode-key-🔑", "unicode-value-🔐")]
     [InlineData("very-long-key-name-that-exceeds-normal-length", "very-long-value-with-lots-of-content-that-tests-encryption-with-larger-data")]
-    public async Task EncryptionDecryption_WithVariousInputs_ShouldMaintainDataIntegrity(string keyName, string value)
+    public async Task EncryptionDecryption_WithVariousInputs_ShouldMaintainDataIntegrityAsync(string keyName, string value)
     {
         // Act
         await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
@@ -269,7 +269,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task GetKeyAsync_WithEnvironmentVariableSet_ShouldPreferEnvironmentValue()
+    public async Task GetKeyAsync_WithEnvironmentVariableSet_ShouldPreferEnvironmentValueAsync()
     {
         // Arrange
         var keyName = "env-test-key";
@@ -299,7 +299,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task ConcurrentOperations_ShouldBeSafeAndConsistent()
+    public async Task ConcurrentOperations_ShouldBeSafeAndConsistentAsync()
     {
         // Arrange
         var tasks = new List<Task>();
@@ -328,7 +328,7 @@ public class SecureKeyStoreTests : IDisposable
     }
 
     [Fact]
-    public async Task PersistenceTest_ShouldMaintainDataAcrossInstances()
+    public async Task PersistenceTest_ShouldMaintainDataAcrossInstancesAsync()
     {
         // Arrange
         var keyName = "persistence-test";

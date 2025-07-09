@@ -20,7 +20,7 @@ public class TaskServiceTests
     #region CreateTaskAsync Tests
 
     [Fact]
-    public async Task CreateTaskAsync_WithValidInput_ShouldReturnSuccessResult()
+    public async Task CreateTaskAsync_WithValidInput_ShouldReturnSuccessResultAsync()
     {
         // Arrange
         var title = "Test Task";
@@ -62,7 +62,7 @@ public class TaskServiceTests
     [InlineData("   ", "Valid Description", "ValidType")]
     [InlineData("Valid Title", "", "ValidType")]
     [InlineData("Valid Title", "Valid Description", "")]
-    public async Task CreateTaskAsync_WithInvalidInput_ShouldReturnFailureResult(string title, string description, string taskType)
+    public async Task CreateTaskAsync_WithInvalidInput_ShouldReturnFailureResultAsync(string title, string description, string taskType)
     {
         // Arrange
         var priority = TaskPriority.Normal;
@@ -85,7 +85,7 @@ public class TaskServiceTests
     [InlineData(TaskPriority.Normal)]
     [InlineData(TaskPriority.High)]
     [InlineData(TaskPriority.Critical)]
-    public async Task CreateTaskAsync_WithDifferentPriorities_ShouldHandleAllPriorityLevels(TaskPriority priority)
+    public async Task CreateTaskAsync_WithDifferentPriorities_ShouldHandleAllPriorityLevelsAsync(TaskPriority priority)
     {
         // Arrange
         var title = "Test Task";
@@ -119,7 +119,7 @@ public class TaskServiceTests
     #region GetTaskAsync Tests
 
     [Fact]
-    public async Task GetTaskAsync_WithValidId_ShouldReturnTask()
+    public async Task GetTaskAsync_WithValidId_ShouldReturnTaskAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -140,7 +140,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task GetTaskAsync_WithEmptyGuid_ShouldReturnFailureResult()
+    public async Task GetTaskAsync_WithEmptyGuid_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var taskId = Guid.Empty;
@@ -159,7 +159,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task GetTaskAsync_WithNonExistentId_ShouldReturnFailureResult()
+    public async Task GetTaskAsync_WithNonExistentId_ShouldReturnFailureResultAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -182,7 +182,7 @@ public class TaskServiceTests
     #region GetPendingTasksAsync Tests
 
     [Fact]
-    public async Task GetPendingTasksAsync_WhenPendingTasksExist_ShouldReturnPendingTasks()
+    public async Task GetPendingTasksAsync_WhenPendingTasksExist_ShouldReturnPendingTasksAsync()
     {
         // Arrange
         var maxCount = 50;
@@ -209,7 +209,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task GetPendingTasksAsync_WhenNoPendingTasks_ShouldReturnEmptyList()
+    public async Task GetPendingTasksAsync_WhenNoPendingTasks_ShouldReturnEmptyListAsync()
     {
         // Arrange
         var maxCount = 100;
@@ -234,7 +234,7 @@ public class TaskServiceTests
     [InlineData(10)]
     [InlineData(100)]
     [InlineData(1000)]
-    public async Task GetPendingTasksAsync_WithDifferentMaxCounts_ShouldRespectLimit(int maxCount)
+    public async Task GetPendingTasksAsync_WithDifferentMaxCounts_ShouldRespectLimitAsync(int maxCount)
     {
         // Arrange
         var tasks = new List<AgentTask>();
@@ -261,7 +261,7 @@ public class TaskServiceTests
     #region GetAgentTasksAsync Tests
 
     [Fact]
-    public async Task GetAgentTasksAsync_WithValidAgentId_ShouldReturnAgentTasks()
+    public async Task GetAgentTasksAsync_WithValidAgentId_ShouldReturnAgentTasksAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -291,7 +291,7 @@ public class TaskServiceTests
     [InlineData(TaskAgentStatus.InProgress)]
     [InlineData(TaskAgentStatus.Completed)]
     [InlineData(TaskAgentStatus.Failed)]
-    public async Task GetAgentTasksAsync_WithStatusFilter_ShouldReturnFilteredTasks(TaskAgentStatus agentStatus)
+    public async Task GetAgentTasksAsync_WithStatusFilter_ShouldReturnFilteredTasksAsync(TaskAgentStatus agentStatus)
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -315,7 +315,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task GetAgentTasksAsync_WithEmptyAgentId_ShouldReturnFailure()
+    public async Task GetAgentTasksAsync_WithEmptyAgentId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
@@ -343,7 +343,7 @@ public class TaskServiceTests
     [InlineData(TaskAgentStatus.Completed)]
     [InlineData(TaskAgentStatus.Failed)]
     [InlineData(TaskAgentStatus.Cancelled)]
-    public async Task UpdateTaskStatusAsync_WithValidInput_ShouldReturnSuccess(TaskAgentStatus agentStatus)
+    public async Task UpdateTaskStatusAsync_WithValidInput_ShouldReturnSuccessAsync(TaskAgentStatus agentStatus)
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -362,7 +362,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task UpdateTaskStatusAsync_WithEmptyTaskId_ShouldReturnFailure()
+    public async Task UpdateTaskStatusAsync_WithEmptyTaskId_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.Empty;
@@ -382,7 +382,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task UpdateTaskStatusAsync_WithNonExistentTask_ShouldReturnFailure()
+    public async Task UpdateTaskStatusAsync_WithNonExistentTask_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -406,7 +406,7 @@ public class TaskServiceTests
     #region AssignTaskToAgentAsync Tests
 
     [Fact]
-    public async Task AssignTaskToAgentAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task AssignTaskToAgentAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -426,7 +426,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task AssignTaskToAgentAsync_WithEmptyTaskId_ShouldReturnFailure()
+    public async Task AssignTaskToAgentAsync_WithEmptyTaskId_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.Empty;
@@ -446,7 +446,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task AssignTaskToAgentAsync_WithEmptyAgentId_ShouldReturnFailure()
+    public async Task AssignTaskToAgentAsync_WithEmptyAgentId_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -470,7 +470,7 @@ public class TaskServiceTests
     #region CompleteTaskAsync Tests
 
     [Fact]
-    public async Task CompleteTaskAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task CompleteTaskAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -490,7 +490,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task CompleteTaskAsync_WithoutOutputData_ShouldReturnSuccess()
+    public async Task CompleteTaskAsync_WithoutOutputData_ShouldReturnSuccessAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -509,7 +509,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task CompleteTaskAsync_WithEmptyTaskId_ShouldReturnFailure()
+    public async Task CompleteTaskAsync_WithEmptyTaskId_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.Empty;
@@ -532,7 +532,7 @@ public class TaskServiceTests
     #region FailTaskAsync Tests
 
     [Fact]
-    public async Task FailTaskAsync_WithValidInput_ShouldReturnSuccess()
+    public async Task FailTaskAsync_WithValidInput_ShouldReturnSuccessAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -554,7 +554,7 @@ public class TaskServiceTests
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task FailTaskAsync_WithInvalidErrorMessage_ShouldReturnFailure(string errorMessage)
+    public async Task FailTaskAsync_WithInvalidErrorMessage_ShouldReturnFailureAsync(string errorMessage)
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -577,7 +577,7 @@ public class TaskServiceTests
     #region GetOverdueTasksAsync Tests
 
     [Fact]
-    public async Task GetOverdueTasksAsync_WhenOverdueTasksExist_ShouldReturnOverdueTasks()
+    public async Task GetOverdueTasksAsync_WhenOverdueTasksExist_ShouldReturnOverdueTasksAsync()
     {
         // Arrange
         var overdueTasks = new List<AgentTask>
@@ -602,7 +602,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task GetOverdueTasksAsync_WhenNoOverdueTasks_ShouldReturnEmptyList()
+    public async Task GetOverdueTasksAsync_WhenNoOverdueTasks_ShouldReturnEmptyListAsync()
     {
         // Arrange
         var emptyTasks = new List<AgentTask>();
@@ -626,7 +626,7 @@ public class TaskServiceTests
     #region DeleteTaskAsync Tests
 
     [Fact]
-    public async Task DeleteTaskAsync_WithValidId_ShouldReturnSuccess()
+    public async Task DeleteTaskAsync_WithValidId_ShouldReturnSuccessAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -645,7 +645,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task DeleteTaskAsync_WithEmptyGuid_ShouldReturnFailure()
+    public async Task DeleteTaskAsync_WithEmptyGuid_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.Empty;
@@ -664,7 +664,7 @@ public class TaskServiceTests
     }
 
     [Fact]
-    public async Task DeleteTaskAsync_WithNonExistentTask_ShouldReturnFailure()
+    public async Task DeleteTaskAsync_WithNonExistentTask_ShouldReturnFailureAsync()
     {
         // Arrange
         var taskId = Guid.NewGuid();
@@ -687,7 +687,7 @@ public class TaskServiceTests
     #region Interface Contract Tests
 
     [Fact]
-    public async Task ITaskService_AllMethods_ShouldRespectCancellationToken()
+    public async Task ITaskService_AllMethods_ShouldRespectCancellationTokenAsync()
     {
         // Arrange
         var cts = new CancellationTokenSource();

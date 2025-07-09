@@ -23,7 +23,7 @@ public class InMemoryTaskRepositoryTests
     public class CrudOperationsTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_AddTask_When_ValidTaskProvided()
+        public async Task Should_AddTask_When_ValidTaskProvidedAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -47,7 +47,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GenerateId_When_TaskHasEmptyId()
+        public async Task Should_GenerateId_When_TaskHasEmptyIdAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -68,7 +68,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_PreserveId_When_TaskHasValidId()
+        public async Task Should_PreserveId_When_TaskHasValidIdAsync()
         {
             // Arrange
             var taskId = Guid.NewGuid();
@@ -89,7 +89,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_TaskIdAlreadyExists()
+        public async Task Should_ReturnFailure_When_TaskIdAlreadyExistsAsync()
         {
             // Arrange
             var taskId = Guid.NewGuid();
@@ -107,7 +107,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetTaskById_When_TaskExists()
+        public async Task Should_GetTaskById_When_TaskExistsAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -132,7 +132,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_TaskNotFound()
+        public async Task Should_ReturnFailure_When_TaskNotFoundAsync()
         {
             // Act
             var result = await _repository.GetByIdAsync(Guid.NewGuid(), cancellationToken: TestContext.Current.CancellationToken);
@@ -143,7 +143,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_UpdateTask_When_TaskExists()
+        public async Task Should_UpdateTask_When_TaskExistsAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -173,7 +173,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_DeleteTask_When_TaskExists()
+        public async Task Should_DeleteTask_When_TaskExistsAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -197,7 +197,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetAllTasks_When_TasksExist()
+        public async Task Should_GetAllTasks_When_TasksExistAsync()
         {
             // Arrange
             var tasks = new[]
@@ -228,7 +228,7 @@ public class InMemoryTaskRepositoryTests
     public class QueryOperationsTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_GetTasksByStatus_When_StatusMatches()
+        public async Task Should_GetTasksByStatus_When_StatusMatchesAsync()
         {
             // Arrange
             var pendingTasks = new[]
@@ -255,7 +255,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetTasksByAgent_When_AgentIdMatches()
+        public async Task Should_GetTasksByAgent_When_AgentIdMatchesAsync()
         {
             // Arrange
             var agentId1 = Guid.NewGuid();
@@ -285,7 +285,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetTasksByAgentAndStatus_When_BothFiltersApplied()
+        public async Task Should_GetTasksByAgentAndStatus_When_BothFiltersAppliedAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -314,7 +314,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetTasksByType_When_TaskTypeMatches()
+        public async Task Should_GetTasksByType_When_TaskTypeMatchesAsync()
         {
             // Arrange
             var analysisTasks = new[]
@@ -341,7 +341,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_GetOverdueTasks_When_TasksPastDeadline()
+        public async Task Should_GetOverdueTasks_When_TasksPastDeadlineAsync()
         {
             // Arrange
             var now = DateTime.UtcNow;
@@ -400,7 +400,7 @@ public class InMemoryTaskRepositoryTests
     public class ValidationTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_ReturnFailure_When_AddingNullTask()
+        public async Task Should_ReturnFailure_When_AddingNullTaskAsync()
         {
             // Act
             var result = await _repository.AddAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
@@ -411,7 +411,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_UpdatingNullTask()
+        public async Task Should_ReturnFailure_When_UpdatingNullTaskAsync()
         {
             // Act
             var result = await _repository.UpdateAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
@@ -422,7 +422,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_UpdatingNonExistentTask()
+        public async Task Should_ReturnFailure_When_UpdatingNonExistentTaskAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -441,7 +441,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_UpdatingTaskWithEmptyId()
+        public async Task Should_ReturnFailure_When_UpdatingTaskWithEmptyIdAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -460,7 +460,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_DeletingNonExistentTask()
+        public async Task Should_ReturnFailure_When_DeletingNonExistentTaskAsync()
         {
             // Act
             var result = await _repository.DeleteAsync(Guid.NewGuid(), cancellationToken: TestContext.Current.CancellationToken);
@@ -471,7 +471,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_DeletingWithEmptyId()
+        public async Task Should_ReturnFailure_When_DeletingWithEmptyIdAsync()
         {
             // Act
             var result = await _repository.DeleteAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
@@ -482,7 +482,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_GetByAgentWithEmptyId()
+        public async Task Should_ReturnFailure_When_GetByAgentWithEmptyIdAsync()
         {
             // Act
             var result = await _repository.GetByAgentAsync(Guid.Empty, null, cancellationToken: TestContext.Current.CancellationToken);
@@ -493,7 +493,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_GetByTypeWithEmptyType()
+        public async Task Should_ReturnFailure_When_GetByTypeWithEmptyTypeAsync()
         {
             // Act
             var result = await _repository.GetByTypeAsync("", null, cancellationToken: TestContext.Current.CancellationToken);
@@ -504,7 +504,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFailure_When_ExistsWithEmptyId()
+        public async Task Should_ReturnFailure_When_ExistsWithEmptyIdAsync()
         {
             // Act
             var result = await _repository.ExistsAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
@@ -521,7 +521,7 @@ public class InMemoryTaskRepositoryTests
     public class ExistenceTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_ReturnTrue_When_TaskExists()
+        public async Task Should_ReturnTrue_When_TaskExistsAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -542,7 +542,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_ReturnFalse_When_TaskDoesNotExist()
+        public async Task Should_ReturnFalse_When_TaskDoesNotExistAsync()
         {
             // Act
             var result = await _repository.ExistsAsync(Guid.NewGuid(), cancellationToken: TestContext.Current.CancellationToken);
@@ -559,7 +559,7 @@ public class InMemoryTaskRepositoryTests
     public class ConcurrencyTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_HandleConcurrentAdds_When_MultipleThreadsAddingTasks()
+        public async Task Should_HandleConcurrentAdds_When_MultipleThreadsAddingTasksAsync()
         {
             // Arrange
             var tasks = Enumerable.Range(1, 100)
@@ -583,7 +583,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_HandleConcurrentReads_When_MultipleThreadsReading()
+        public async Task Should_HandleConcurrentReads_When_MultipleThreadsReadingAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -606,7 +606,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_HandleConcurrentUpdates_When_MultipleThreadsUpdating()
+        public async Task Should_HandleConcurrentUpdates_When_MultipleThreadsUpdatingAsync()
         {
             // Arrange
             var task = new AgentTask
@@ -646,7 +646,7 @@ public class InMemoryTaskRepositoryTests
     public class PerformanceTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_HandleLargeTaskCollections_When_ManyTasksAdded()
+        public async Task Should_HandleLargeTaskCollections_When_ManyTasksAddedAsync()
         {
             // Arrange
             var taskCount = 10000;
@@ -679,7 +679,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_HandleComplexQueries_When_LargeDataSet()
+        public async Task Should_HandleComplexQueries_When_LargeDataSetAsync()
         {
             // Arrange - Add a large dataset
             var agentIds = Enumerable.Range(1, 100).Select(_ => Guid.NewGuid()).ToArray();
@@ -728,7 +728,7 @@ public class InMemoryTaskRepositoryTests
     public class EdgeCaseTests : InMemoryTaskRepositoryTests
     {
         [Fact]
-        public async Task Should_HandleEmptyRepository_When_NoTasksAdded()
+        public async Task Should_HandleEmptyRepository_When_NoTasksAddedAsync()
         {
             // Act
             var allTasks = await _repository.GetAllAsync(TestContext.Current.CancellationToken);
@@ -755,7 +755,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_HandleTasksWithNoDeadline_When_CheckingOverdue()
+        public async Task Should_HandleTasksWithNoDeadline_When_CheckingOverdueAsync()
         {
             // Arrange
             var tasksWithoutDeadline = new[]
@@ -780,7 +780,7 @@ public class InMemoryTaskRepositoryTests
         }
 
         [Fact]
-        public async Task Should_HandleTasksWithSameTitle_When_AddingDuplicateTitles()
+        public async Task Should_HandleTasksWithSameTitle_When_AddingDuplicateTitlesAsync()
         {
             // Arrange
             var tasks = new[]

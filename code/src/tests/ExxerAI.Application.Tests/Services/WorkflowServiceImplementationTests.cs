@@ -41,7 +41,7 @@ public class WorkflowServiceImplementationTests
     [InlineData(null!)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreateWorkflowAsync_Should_ReturnFailure_When_NameIsNullOrWhiteSpace(string? invalidName)
+    public async Task CreateWorkflowAsync_Should_ReturnFailure_When_NameIsNullOrWhiteSpaceAsync(string? invalidName)
     {
         // Arrange
         var description = "Test workflow";
@@ -56,7 +56,7 @@ public class WorkflowServiceImplementationTests
     }
 
     [Fact]
-    public async Task CreateWorkflowAsync_Should_CreateWorkflow_When_ValidNameProvided()
+    public async Task CreateWorkflowAsync_Should_CreateWorkflow_When_ValidNameProvidedAsync()
     {
         // Arrange
         var name = "Test Workflow";

@@ -21,7 +21,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnCreatedWithAgent_When_ValidRequestProvided()
+    public async Task Should_ReturnCreatedWithAgent_When_ValidRequestProvidedAsync()
     {
         // Arrange
         var request = new CreateAgentRequest
@@ -68,7 +68,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_InvalidRequestProvided()
+    public async Task Should_ReturnBadRequest_When_InvalidRequestProvidedAsync()
     {
         // Arrange
         var request = new CreateAgentRequest(); // Invalid - missing required fields
@@ -85,7 +85,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_ReturnBadRequest_When_ServiceFails()
+    public async Task Should_ReturnBadRequest_When_ServiceFailsAsync()
     {
         // Arrange
         var request = new CreateAgentRequest
@@ -118,7 +118,7 @@ public class CreateAgentEndpointTests
     }
 
     [Fact]
-    public async Task Should_HandleMultipleModelStateErrors_When_ValidationFails()
+    public async Task Should_HandleMultipleModelStateErrors_When_ValidationFailsAsync()
     {
         // Arrange
         var request = new CreateAgentRequest();

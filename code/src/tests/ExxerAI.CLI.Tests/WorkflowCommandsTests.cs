@@ -21,7 +21,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithEmptyArgs_ShouldReturnZero()
+    public async Task ExecuteAsync_WithEmptyArgs_ShouldReturnZeroAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([], cancellationToken: TestContext.Current.CancellationToken);
@@ -34,7 +34,7 @@ public class WorkflowCommandsTests
     [InlineData("help")]
     [InlineData("--help")]
     [InlineData("-h")]
-    public async Task ExecuteAsync_WithHelpCommands_ShouldReturnZero(string helpCommand)
+    public async Task ExecuteAsync_WithHelpCommands_ShouldReturnZeroAsync(string helpCommand)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([helpCommand], cancellationToken: TestContext.Current.CancellationToken);
@@ -44,7 +44,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithUnknownCommand_ShouldReturnOne()
+    public async Task ExecuteAsync_WithUnknownCommand_ShouldReturnOneAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["invalidcommand"], cancellationToken: TestContext.Current.CancellationToken);
@@ -56,7 +56,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("list")]
     [InlineData("ls")]
-    public async Task ExecuteAsync_WithListCommands_ShouldReturnZero(string command)
+    public async Task ExecuteAsync_WithListCommands_ShouldReturnZeroAsync(string command)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([command], cancellationToken: TestContext.Current.CancellationToken);
@@ -68,7 +68,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("create")]
     [InlineData("new")]
-    public async Task ExecuteAsync_WithCreateCommands_ShouldReturnZero(string command)
+    public async Task ExecuteAsync_WithCreateCommands_ShouldReturnZeroAsync(string command)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([command, "TestWorkflow"], cancellationToken: TestContext.Current.CancellationToken);
@@ -78,7 +78,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_CreateWithoutName_ShouldReturnOne()
+    public async Task ExecuteAsync_CreateWithoutName_ShouldReturnOneAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["create"], cancellationToken: TestContext.Current.CancellationToken);
@@ -91,7 +91,7 @@ public class WorkflowCommandsTests
     [InlineData("delete")]
     [InlineData("remove")]
     [InlineData("rm")]
-    public async Task ExecuteAsync_WithDeleteCommands_ShouldReturnOne(string command)
+    public async Task ExecuteAsync_WithDeleteCommands_ShouldReturnOneAsync(string command)
     {
         // Act - These commands are not implemented yet (under development)
         var result = await _workflowCommands.ExecuteAsync([command, Guid.NewGuid().ToString()], cancellationToken: TestContext.Current.CancellationToken);
@@ -101,7 +101,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_DeleteWithInvalidId_ShouldReturnOne()
+    public async Task ExecuteAsync_DeleteWithInvalidId_ShouldReturnOneAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["delete", "invalid-id"], cancellationToken: TestContext.Current.CancellationToken);
@@ -113,7 +113,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("execute")]
     [InlineData("run")]
-    public async Task ExecuteAsync_WithExecuteCommands_ShouldReturnZero(string command)
+    public async Task ExecuteAsync_WithExecuteCommands_ShouldReturnZeroAsync(string command)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([command, Guid.NewGuid().ToString()], TestContext.Current.CancellationToken);
@@ -123,7 +123,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ExecuteWithInvalidId_ShouldReturnZero()
+    public async Task ExecuteAsync_ExecuteWithInvalidId_ShouldReturnZeroAsync()
     {
         // Act - Execute command shows message but doesn't validate ID (under development)
         var result = await _workflowCommands.ExecuteAsync(["execute", "invalid-id"], cancellationToken: TestContext.Current.CancellationToken);
@@ -135,7 +135,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("agentStatus")]
     [InlineData("info")]
-    public async Task ExecuteAsync_WithStatusCommands_ShouldReturnZero(string command)
+    public async Task ExecuteAsync_WithStatusCommands_ShouldReturnZeroAsync(string command)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([command, Guid.NewGuid().ToString()], cancellationToken: TestContext.Current.CancellationToken);
@@ -145,7 +145,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_StatusWithInvalidId_ShouldReturnZero()
+    public async Task ExecuteAsync_StatusWithInvalidId_ShouldReturnZeroAsync()
     {
         // Act - AgentStatus command shows message but doesn't validate ID (under development)
         var result = await _workflowCommands.ExecuteAsync(["agentStatus", "invalid-id"], cancellationToken: TestContext.Current.CancellationToken);
@@ -155,7 +155,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_CreateWithDescription_ShouldReturnZero()
+    public async Task ExecuteAsync_CreateWithDescription_ShouldReturnZeroAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["create", "TestWorkflow", "--description", "Test Description"], cancellationToken: TestContext.Current.CancellationToken);
@@ -167,7 +167,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("-d")]
     [InlineData("--description")]
-    public async Task ExecuteAsync_CreateWithDescriptionVariants_ShouldReturnZero(string descriptionFlag)
+    public async Task ExecuteAsync_CreateWithDescriptionVariants_ShouldReturnZeroAsync(string descriptionFlag)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["create", "TestWorkflow", descriptionFlag, "Test Description"], cancellationToken: TestContext.Current.CancellationToken);
@@ -177,7 +177,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_StopWithValidId_ShouldReturnOne()
+    public async Task ExecuteAsync_StopWithValidId_ShouldReturnOneAsync()
     {
         // Act - Stop command not implemented yet (under development)
         var result = await _workflowCommands.ExecuteAsync(["stop", Guid.NewGuid().ToString()], TestContext.Current.CancellationToken);
@@ -187,7 +187,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_StopWithInvalidId_ShouldReturnOne()
+    public async Task ExecuteAsync_StopWithInvalidId_ShouldReturnOneAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["stop", "invalid-id"], cancellationToken: TestContext.Current.CancellationToken);
@@ -197,7 +197,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_PauseWithValidId_ShouldReturnOne()
+    public async Task ExecuteAsync_PauseWithValidId_ShouldReturnOneAsync()
     {
         // Act - Pause command not implemented yet (under development)
         var result = await _workflowCommands.ExecuteAsync(["pause", Guid.NewGuid().ToString()], cancellationToken: TestContext.Current.CancellationToken);
@@ -207,7 +207,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ResumeWithValidId_ShouldReturnOne()
+    public async Task ExecuteAsync_ResumeWithValidId_ShouldReturnOneAsync()
     {
         // Act - Resume command not implemented yet (under development)
         var result = await _workflowCommands.ExecuteAsync(["resume", Guid.NewGuid().ToString()], TestContext.Current.CancellationToken);
@@ -217,7 +217,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_UpdateWithValidId_ShouldReturnOne()
+    public async Task ExecuteAsync_UpdateWithValidId_ShouldReturnOneAsync()
     {
         // Act - Update command not implemented yet (under development)
         var result = await _workflowCommands.ExecuteAsync(["update", Guid.NewGuid().ToString(), "--name", "NewName"], TestContext.Current.CancellationToken);
@@ -229,7 +229,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("-n")]
     [InlineData("--name")]
-    public async Task ExecuteAsync_UpdateWithNameVariants_ShouldReturnOne(string nameFlag)
+    public async Task ExecuteAsync_UpdateWithNameVariants_ShouldReturnOneAsync(string nameFlag)
     {
         // Act - Update command not implemented yet (under development)
         var result = await _workflowCommands.ExecuteAsync(["update", Guid.NewGuid().ToString(), nameFlag, "NewName"], cancellationToken: TestContext.Current.CancellationToken);
@@ -239,7 +239,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_ListWithStatusFilter_ShouldReturnZero()
+    public async Task ExecuteAsync_ListWithStatusFilter_ShouldReturnZeroAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["list", "--agentStatus", "Running"], cancellationToken: TestContext.Current.CancellationToken);
@@ -251,7 +251,7 @@ public class WorkflowCommandsTests
     [Theory]
     [InlineData("-s")]
     [InlineData("--agentStatus")]
-    public async Task ExecuteAsync_ListWithStatusFilterVariants_ShouldReturnZero(string statusFlag)
+    public async Task ExecuteAsync_ListWithStatusFilterVariants_ShouldReturnZeroAsync(string statusFlag)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["list", statusFlag, "Completed"], cancellationToken: TestContext.Current.CancellationToken);
@@ -261,7 +261,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithoutRequiredArgs_ShouldReturnOne()
+    public async Task ExecuteAsync_WithoutRequiredArgs_ShouldReturnOneAsync()
     {
         // Act
         var result1 = await _workflowCommands.ExecuteAsync(["delete"], cancellationToken: TestContext.Current.CancellationToken);
@@ -283,7 +283,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_MultipleCommands_ShouldHandleIndependently()
+    public async Task ExecuteAsync_MultipleCommands_ShouldHandleIndependentlyAsync()
     {
         // Act
         var result1 = await _workflowCommands.ExecuteAsync(["create", "Workflow1"], cancellationToken: TestContext.Current.CancellationToken);
@@ -300,7 +300,7 @@ public class WorkflowCommandsTests
     [InlineData("CREATE")]
     [InlineData("Create")]
     [InlineData("cReAtE")]
-    public async Task ExecuteAsync_WithMixedCaseCommands_ShouldWork(string command)
+    public async Task ExecuteAsync_WithMixedCaseCommands_ShouldWorkAsync(string command)
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync([command, "TestWorkflow"], cancellationToken: TestContext.Current.CancellationToken);
@@ -310,7 +310,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithSpecialCharactersInName_ShouldWork()
+    public async Task ExecuteAsync_WithSpecialCharactersInName_ShouldWorkAsync()
     {
         // Act
         var result = await _workflowCommands.ExecuteAsync(["create", "Workflow!@#$%", "--description", "Test with spaces & symbols"], cancellationToken: TestContext.Current.CancellationToken);
@@ -320,7 +320,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithEmptyStringArgs_ShouldHandleGracefully()
+    public async Task ExecuteAsync_WithEmptyStringArgs_ShouldHandleGracefullyAsync()
     {
         // Act - Create command accepts empty name (under development)
         var result = await _workflowCommands.ExecuteAsync(["create", "", "--description", ""], cancellationToken: TestContext.Current.CancellationToken);
@@ -330,7 +330,7 @@ public class WorkflowCommandsTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_WithLongArgumentList_ShouldHandleEfficiently()
+    public async Task ExecuteAsync_WithLongArgumentList_ShouldHandleEfficientlyAsync()
     {
         // Arrange
         var longArgList = new[] { "create", "TestWorkflow" }

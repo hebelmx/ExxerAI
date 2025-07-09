@@ -112,7 +112,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_NoArgumentsProvidedAsync()
     {
         // Arrange
         var args = Array.Empty<string>();
@@ -125,7 +125,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "list" };
@@ -144,7 +144,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentsCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToAgentCommands_When_AgentsCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "agents", "create", "TestAgent" };
@@ -161,7 +161,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TaskCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TaskCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "task", "list" };
@@ -177,7 +177,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TasksCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToTaskCommands_When_TasksCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "tasks", "create", "TestTask", "--type", "DataProcessing" };
@@ -192,7 +192,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflow", "list" };
@@ -205,7 +205,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowsCommandProvided()
+    public async Task ExecuteAsync_Should_RouteToWorkflowCommands_When_WorkflowsCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflows", "create", "TestWorkflow" };
@@ -218,7 +218,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "help" };
@@ -231,7 +231,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "--help" };
@@ -244,7 +244,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowHelp_When_ShortHelpFlagProvided()
+    public async Task ExecuteAsync_Should_ShowHelp_When_ShortHelpFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "-h" };
@@ -257,7 +257,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowVersion_When_VersionCommandProvided()
+    public async Task ExecuteAsync_Should_ShowVersion_When_VersionCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "version" };
@@ -270,7 +270,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowVersion_When_VersionFlagProvided()
+    public async Task ExecuteAsync_Should_ShowVersion_When_VersionFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "--version" };
@@ -283,7 +283,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowVersion_When_ShortVersionFlagProvided()
+    public async Task ExecuteAsync_Should_ShowVersion_When_ShortVersionFlagProvidedAsync()
     {
         // Arrange
         var args = new[] { "-v" };
@@ -296,7 +296,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvided()
+    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "invalid" };
@@ -309,7 +309,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_UpperCaseProvided()
+    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_UpperCaseProvidedAsync()
     {
         // Arrange
         var args = new[] { "AGENT", "list" };
@@ -325,7 +325,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_MixedCaseProvided()
+    public async Task ExecuteAsync_Should_HandleCaseInsensitiveCommands_When_MixedCaseProvidedAsync()
     {
         // Arrange
         var args = new[] { "TaSk", "list" };
@@ -341,7 +341,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandFails()
+    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandFailsAsync()
     {
         // Arrange
         var args = new[] { "agent", "list" };
@@ -355,7 +355,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandSucceeds()
+    public async Task ExecuteAsync_Should_PropagateExitCode_When_CommandSucceedsAsync()
     {
         // Arrange
         var args = new[] { "task", "create", "TestTask", "--type", "DataProcessing" };
@@ -369,7 +369,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleExceptions_When_CommandThrows()
+    public async Task ExecuteAsync_Should_HandleExceptions_When_CommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "agent", "list" };
@@ -383,7 +383,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PassCorrectArguments_When_MultipleArgumentsProvided()
+    public async Task ExecuteAsync_Should_PassCorrectArguments_When_MultipleArgumentsProvidedAsync()
     {
         // Arrange
         var args = new[] { "agent", "create", "TestAgent", "--description", "Test description" };
@@ -400,7 +400,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_PassEmptyArguments_When_OnlyCommandProvided()
+    public async Task ExecuteAsync_Should_PassEmptyArguments_When_OnlyCommandProvidedAsync()
     {
         // Arrange
         var args = new[] { "workflow" };
@@ -419,7 +419,7 @@ public class CommandRouterTests
     [InlineData("tasks", "list")]
     [InlineData("workflow", "list")]
     [InlineData("workflows", "list")]
-    public async Task ExecuteAsync_Should_RouteCorrectly_When_CommandAliasesProvided(string command, string subCommand)
+    public async Task ExecuteAsync_Should_RouteCorrectly_When_CommandAliasesProvidedAsync(string command, string subCommand)
     {
         // Arrange
         var args = new[] { command, subCommand };
@@ -439,7 +439,7 @@ public class CommandRouterTests
     [InlineData("help")]
     [InlineData("--help")]
     [InlineData("-h")]
-    public async Task ExecuteAsync_Should_ShowHelp_When_HelpVariantsProvided(string helpCommand)
+    public async Task ExecuteAsync_Should_ShowHelp_When_HelpVariantsProvidedAsync(string helpCommand)
     {
         // Arrange
         var args = new[] { helpCommand };
@@ -455,7 +455,7 @@ public class CommandRouterTests
     [InlineData("version")]
     [InlineData("--version")]
     [InlineData("-v")]
-    public async Task ExecuteAsync_Should_ShowVersion_When_VersionVariantsProvided(string versionCommand)
+    public async Task ExecuteAsync_Should_ShowVersion_When_VersionVariantsProvidedAsync(string versionCommand)
     {
         // Arrange
         var args = new[] { versionCommand };
@@ -472,7 +472,7 @@ public class CommandRouterTests
     [InlineData("invalid")]
     [InlineData("badcommand")]
     [InlineData("")]
-    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandsProvided(string invalidCommand)
+    public async Task ExecuteAsync_Should_ShowUnknownCommand_When_InvalidCommandsProvidedAsync(string invalidCommand)
     {
         // Arrange
         var args = string.IsNullOrEmpty(invalidCommand) ? new[] { "" } : new[] { invalidCommand };
@@ -485,7 +485,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_AgentCommandThrows()
+    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_AgentCommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "agent", "agentStatus", "invalid-guid" };
@@ -498,7 +498,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_TaskCommandThrows()
+    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_TaskCommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "task", "agentStatus", "invalid-guid" };
@@ -511,7 +511,7 @@ public class CommandRouterTests
     }
 
     [Fact]
-    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_WorkflowCommandThrows()
+    public async Task ExecuteAsync_Should_HandleAsyncExceptions_When_WorkflowCommandThrowsAsync()
     {
         // Arrange
         var args = new[] { "workflow", "invalid-subcommand" };

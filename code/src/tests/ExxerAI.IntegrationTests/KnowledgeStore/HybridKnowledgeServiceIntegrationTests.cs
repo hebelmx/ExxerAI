@@ -45,7 +45,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_Initialize_ShouldSetupBothStores()
+    public async Task HybridKnowledgeService_Initialize_ShouldSetupBothStoresAsync()
     {
         // Arrange
         SetupHybridService();
@@ -59,7 +59,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_StoreDocumentWithKnowledge_ShouldIndexInBothStores()
+    public async Task HybridKnowledgeService_StoreDocumentWithKnowledge_ShouldIndexInBothStoresAsync()
     {
         // Arrange
         SetupHybridService();
@@ -131,7 +131,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_SearchHybrid_ShouldCombineSemanticAndGraphResults()
+    public async Task HybridKnowledgeService_SearchHybrid_ShouldCombineSemanticAndGraphResultsAsync()
     {
         // Arrange
         SetupHybridService();
@@ -175,7 +175,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_ExploreConceptRelationships_ShouldTraverseKnowledgeGraph()
+    public async Task HybridKnowledgeService_ExploreConceptRelationships_ShouldTraverseKnowledgeGraphAsync()
     {
         // Arrange
         SetupHybridService();
@@ -202,7 +202,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_GetKnowledgeStats_ShouldReturnCombinedStatistics()
+    public async Task HybridKnowledgeService_GetKnowledgeStats_ShouldReturnCombinedStatisticsAsync()
     {
         // Arrange
         SetupHybridService();
@@ -224,7 +224,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_RemoveDocument_ShouldDeleteFromBothStores()
+    public async Task HybridKnowledgeService_RemoveDocument_ShouldDeleteFromBothStoresAsync()
     {
         // Arrange
         SetupHybridService();
@@ -251,7 +251,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_ConcurrentOperations_ShouldMaintainConsistency()
+    public async Task HybridKnowledgeService_ConcurrentOperations_ShouldMaintainConsistencyAsync()
     {
         // Arrange
         SetupHybridService();
@@ -280,7 +280,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     [InlineData(0.8f, 0.2f)] // Vector-heavy weighting
     [InlineData(0.5f, 0.5f)] // Balanced weighting
     [InlineData(0.3f, 0.7f)] // Graph-heavy weighting
-    public async Task HybridKnowledgeService_DifferentWeightings_ShouldProduceDifferentRankings(
+    public async Task HybridKnowledgeService_DifferentWeightings_ShouldProduceDifferentRankingsAsync(
         float semanticWeight, float graphWeight)
     {
         // Arrange
@@ -314,7 +314,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_PerformanceTest_ShouldMeetResponseTimeRequirements()
+    public async Task HybridKnowledgeService_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
         // Arrange
         SetupHybridService();
@@ -344,7 +344,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     }
 
     [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
-    public async Task HybridKnowledgeService_DataConsistency_ShouldMaintainVectorGraphAlignment()
+    public async Task HybridKnowledgeService_DataConsistency_ShouldMaintainVectorGraphAlignmentAsync()
     {
         // Arrange
         SetupHybridService();

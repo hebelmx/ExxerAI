@@ -98,7 +98,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task GenerateTextAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -113,7 +113,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithEmptyPrompt_ShouldReturnFailure()
+    public async Task GenerateTextAsync_WithEmptyPrompt_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -128,7 +128,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithNonExistentModel_ShouldReturnFailure()
+    public async Task GenerateTextAsync_WithNonExistentModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -147,7 +147,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task GenerateTextAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task GenerateTextAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -196,7 +196,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_WithEmptyAgentId_ShouldReturnFailure()
+    public async Task CreateConversationAsync_WithEmptyAgentId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.Empty;
@@ -211,7 +211,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task CreateConversationAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -226,7 +226,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CreateConversationAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task CreateConversationAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var agentId = Guid.NewGuid();
@@ -266,7 +266,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_WithEmptyConversationId_ShouldReturnFailure()
+    public async Task ContinueConversationAsync_WithEmptyConversationId_ShouldReturnFailureAsync()
     {
         // Arrange
         var conversationId = Guid.Empty;
@@ -281,7 +281,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_WithEmptyMessage_ShouldReturnFailure()
+    public async Task ContinueConversationAsync_WithEmptyMessage_ShouldReturnFailureAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -296,7 +296,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ContinueConversationAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task ContinueConversationAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var conversationId = Guid.NewGuid();
@@ -356,7 +356,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task EstimateCostAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task EstimateCostAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -372,7 +372,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -401,7 +401,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task CountTokensAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -416,7 +416,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZero()
+    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZeroAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -431,7 +431,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithValidInputs_ShouldReturnSuccess()
+    public async Task CountTokensAsync_WithValidInputs_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -459,7 +459,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ValidateModelAsync_WithEmptyModelId_ShouldReturnFailure()
+    public async Task ValidateModelAsync_WithEmptyModelId_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelId = Guid.Empty;
@@ -473,7 +473,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task ValidateModelAsync_WithValidModel_ShouldReturnSuccess()
+    public async Task ValidateModelAsync_WithValidModel_ShouldReturnSuccessAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();
@@ -506,7 +506,7 @@ public class EnhancedLLMServiceTests
     }
 
     [Fact]
-    public async Task StreamTextAsync_WithValidInputs_ShouldReturnStream()
+    public async Task StreamTextAsync_WithValidInputs_ShouldReturnStreamAsync()
     {
         // Arrange
         var modelId = Guid.NewGuid();

@@ -30,7 +30,7 @@ public class PersonaServiceTests
     /// Tests successful persona creation
     /// </summary>
     [Fact]
-    public async Task CreatePersonaAsync_Should_ReturnSuccess_When_ValidDataProvided()
+    public async Task CreatePersonaAsync_Should_ReturnSuccess_When_ValidDataProvidedAsync()
     {
         // Arrange
         var name = "Technical Expert";
@@ -75,7 +75,7 @@ public class PersonaServiceTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreatePersonaAsync_Should_ReturnFailure_When_NameIsInvalid(string? invalidName)
+    public async Task CreatePersonaAsync_Should_ReturnFailure_When_NameIsInvalidAsync(string? invalidName)
     {
         // Arrange
         var role = "Test Role";
@@ -101,7 +101,7 @@ public class PersonaServiceTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreatePersonaAsync_Should_ReturnFailure_When_RoleIsInvalid(string? invalidRole)
+    public async Task CreatePersonaAsync_Should_ReturnFailure_When_RoleIsInvalidAsync(string? invalidRole)
     {
         // Arrange
         var name = "Test Name";
@@ -124,7 +124,7 @@ public class PersonaServiceTests
     /// Tests persona creation with repository failure
     /// </summary>
     [Fact]
-    public async Task CreatePersonaAsync_Should_ReturnFailure_When_RepositoryFails()
+    public async Task CreatePersonaAsync_Should_ReturnFailure_When_RepositoryFailsAsync()
     {
         // Arrange
         var name = "Test Name";
@@ -148,7 +148,7 @@ public class PersonaServiceTests
     /// Tests successful persona update
     /// </summary>
     [Fact]
-    public async Task UpdatePersonaAsync_Should_ReturnSuccess_When_ValidDataProvided()
+    public async Task UpdatePersonaAsync_Should_ReturnSuccess_When_ValidDataProvidedAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -193,7 +193,7 @@ public class PersonaServiceTests
     /// Tests update with invalid persona ID fails
     /// </summary>
     [Fact]
-    public async Task UpdatePersonaAsync_Should_ReturnFailure_When_PersonaIdIsEmpty()
+    public async Task UpdatePersonaAsync_Should_ReturnFailure_When_PersonaIdIsEmptyAsync()
     {
         // Act
         var result = await _personaService.UpdatePersonaAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
@@ -210,7 +210,7 @@ public class PersonaServiceTests
     /// Tests getting persona by ID successfully
     /// </summary>
     [Fact]
-    public async Task GetPersonaByIdAsync_Should_ReturnSuccess_When_PersonaExists()
+    public async Task GetPersonaByIdAsync_Should_ReturnSuccess_When_PersonaExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -239,7 +239,7 @@ public class PersonaServiceTests
     /// Tests getting active personas successfully
     /// </summary>
     [Fact]
-    public async Task GetActivePersonasAsync_Should_ReturnSuccess_When_PersonasExist()
+    public async Task GetActivePersonasAsync_Should_ReturnSuccess_When_PersonasExistAsync()
     {
         // Arrange
         var personas = new List<Persona>
@@ -266,7 +266,7 @@ public class PersonaServiceTests
     /// Tests adding trait to persona successfully
     /// </summary>
     [Fact]
-    public async Task AddPersonaTraitAsync_Should_ReturnSuccess_When_ValidDataProvided()
+    public async Task AddPersonaTraitAsync_Should_ReturnSuccess_When_ValidDataProvidedAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -300,7 +300,7 @@ public class PersonaServiceTests
     /// Tests adding trait with invalid persona ID fails
     /// </summary>
     [Fact]
-    public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_PersonaIdIsEmpty()
+    public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_PersonaIdIsEmptyAsync()
     {
         // Act
         var result = await _personaService.AddPersonaTraitAsync(
@@ -318,7 +318,7 @@ public class PersonaServiceTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_TraitKeyIsInvalid(string? invalidKey)
+    public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_TraitKeyIsInvalidAsync(string? invalidKey)
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -336,7 +336,7 @@ public class PersonaServiceTests
     /// Tests removing trait from persona successfully
     /// </summary>
     [Fact]
-    public async Task RemovePersonaTraitAsync_Should_ReturnSuccess_When_TraitExists()
+    public async Task RemovePersonaTraitAsync_Should_ReturnSuccess_When_TraitExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -370,7 +370,7 @@ public class PersonaServiceTests
     /// Tests adding knowledge domain to persona successfully
     /// </summary>
     [Fact]
-    public async Task AddKnowledgeDomainAsync_Should_ReturnSuccess_When_ValidDomainProvided()
+    public async Task AddKnowledgeDomainAsync_Should_ReturnSuccess_When_ValidDomainProvidedAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -403,7 +403,7 @@ public class PersonaServiceTests
     /// Tests removing knowledge domain from persona successfully
     /// </summary>
     [Fact]
-    public async Task RemoveKnowledgeDomainAsync_Should_ReturnSuccess_When_DomainExists()
+    public async Task RemoveKnowledgeDomainAsync_Should_ReturnSuccess_When_DomainExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -437,7 +437,7 @@ public class PersonaServiceTests
     /// Tests creating template for persona successfully
     /// </summary>
     [Fact]
-    public async Task CreateTemplateForPersonaAsync_Should_ReturnSuccess_When_ValidDataProvided()
+    public async Task CreateTemplateForPersonaAsync_Should_ReturnSuccess_When_ValidDataProvidedAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -489,7 +489,7 @@ public class PersonaServiceTests
     [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreateTemplateForPersonaAsync_Should_ReturnFailure_When_TemplateNameIsInvalid(string? invalidName)
+    public async Task CreateTemplateForPersonaAsync_Should_ReturnFailure_When_TemplateNameIsInvalidAsync(string? invalidName)
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -510,7 +510,7 @@ public class PersonaServiceTests
     /// Tests getting persona templates successfully
     /// </summary>
     [Fact]
-    public async Task GetPersonaTemplatesAsync_Should_ReturnSuccess_When_TemplatesExist()
+    public async Task GetPersonaTemplatesAsync_Should_ReturnSuccess_When_TemplatesExistAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -538,7 +538,7 @@ public class PersonaServiceTests
     /// Tests activating persona successfully
     /// </summary>
     [Fact]
-    public async Task ActivatePersonaAsync_Should_ReturnSuccess_When_PersonaExists()
+    public async Task ActivatePersonaAsync_Should_ReturnSuccess_When_PersonaExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -570,7 +570,7 @@ public class PersonaServiceTests
     /// Tests deactivating persona successfully
     /// </summary>
     [Fact]
-    public async Task DeactivatePersonaAsync_Should_ReturnSuccess_When_PersonaExists()
+    public async Task DeactivatePersonaAsync_Should_ReturnSuccess_When_PersonaExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -602,7 +602,7 @@ public class PersonaServiceTests
     /// Tests deleting persona successfully
     /// </summary>
     [Fact]
-    public async Task DeletePersonaAsync_Should_ReturnSuccess_When_PersonaExists()
+    public async Task DeletePersonaAsync_Should_ReturnSuccess_When_PersonaExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -635,7 +635,7 @@ public class PersonaServiceTests
     /// Tests validating persona successfully
     /// </summary>
     [Fact]
-    public async Task ValidatePersonaAsync_Should_ReturnValidationResult_When_PersonaExists()
+    public async Task ValidatePersonaAsync_Should_ReturnValidationResult_When_PersonaExistsAsync()
     {
         // Arrange
         var personaId = Guid.NewGuid();
@@ -680,7 +680,7 @@ public class PersonaServiceTests
     /// Tests search personas with criteria successfully
     /// </summary>
     [Fact]
-    public async Task SearchPersonasAsync_Should_ReturnSuccess_When_ValidCriteriaProvided()
+    public async Task SearchPersonasAsync_Should_ReturnSuccess_When_ValidCriteriaProvidedAsync()
     {
         // Arrange
         var searchCriteria = new PersonaSearchCriteria
@@ -724,7 +724,7 @@ public class PersonaServiceTests
     /// Tests search personas with null criteria fails
     /// </summary>
     [Fact]
-    public async Task SearchPersonasAsync_Should_ReturnFailure_When_CriteriaIsNull()
+    public async Task SearchPersonasAsync_Should_ReturnFailure_When_CriteriaIsNullAsync()
     {
         // Act
         var result = await _personaService.SearchPersonasAsync(null!, cancellationToken: TestContext.Current.CancellationToken);

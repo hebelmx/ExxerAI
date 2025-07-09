@@ -42,7 +42,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task FullOrchestrationStack_WithSecureKeyStore_ShouldWorkTogether()
+    public async Task FullOrchestrationStack_WithSecureKeyStore_ShouldWorkTogetherAsync()
     {
         // Arrange
         var tempStorePath = Path.Combine(Path.GetTempPath(), $"integration_test_{Guid.NewGuid()}.json");
@@ -84,7 +84,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task ConfigurationService_WithEnvironmentOverrides_ShouldPrioritizeEnvironmentVariables()
+    public async Task ConfigurationService_WithEnvironmentOverrides_ShouldPrioritizeEnvironmentVariablesAsync()
     {
         // Arrange
         var testApiKey = "env-override-api-key";
@@ -114,7 +114,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task KeyManager_DatabaseConnectionString_ShouldConstructCorrectly()
+    public async Task KeyManager_DatabaseConnectionString_ShouldConstructCorrectlyAsync()
     {
         // Arrange
         var tempStorePath = Path.Combine(Path.GetTempPath(), $"db_test_{Guid.NewGuid()}.json");
@@ -153,7 +153,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task EndToEndConfiguration_AllServices_ShouldProvideValidEndpoints()
+    public async Task EndToEndConfiguration_AllServices_ShouldProvideValidEndpointsAsync()
     {
         // Arrange
         var configuration = CreateTestConfiguration();
@@ -196,7 +196,7 @@ public class OrchestrationIntegrationTests
     }
 
     [Fact]
-    public async Task ConcurrentKeyOperations_AcrossMultipleServices_ShouldBeSafe()
+    public async Task ConcurrentKeyOperations_AcrossMultipleServices_ShouldBeSafeAsync()
     {
         // Arrange
         var tempStorePath = Path.Combine(Path.GetTempPath(), $"concurrent_test_{Guid.NewGuid()}.json");

@@ -33,7 +33,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnNoContent_When_TaskAssignedSuccessfully()
+        public async Task Should_ReturnNoContent_When_TaskAssignedSuccessfullyAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -51,7 +51,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnBadRequest_When_InvalidModelState()
+        public async Task Should_ReturnBadRequest_When_InvalidModelStateAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -71,7 +71,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnNotFound_When_AgentNotFound()
+        public async Task Should_ReturnNotFound_When_AgentNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -92,7 +92,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnBadRequest_When_AssignmentFails()
+        public async Task Should_ReturnBadRequest_When_AssignmentFailsAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -114,7 +114,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleEmptyTaskId_When_EmptyGuidProvided()
+        public async Task Should_HandleEmptyTaskId_When_EmptyGuidProvidedAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -131,7 +131,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleMultipleValidationErrors_When_ModelStateInvalid()
+        public async Task Should_HandleMultipleValidationErrors_When_ModelStateInvalidAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -151,7 +151,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_FilterEmptyErrorMessages_When_ModelStateHasEmptyErrors()
+        public async Task Should_FilterEmptyErrorMessages_When_ModelStateHasEmptyErrorsAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -182,7 +182,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnOkWithAgent_When_SuitableAgentFound()
+        public async Task Should_ReturnOkWithAgent_When_SuitableAgentFoundAsync()
         {
             // Arrange
             var taskType = "document-processing";
@@ -212,7 +212,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_ReturnNotFound_When_NoSuitableAgentFound()
+        public async Task Should_ReturnNotFound_When_NoSuitableAgentFoundAsync()
         {
             // Arrange
             var taskType = "quantum-computing";
@@ -236,7 +236,7 @@ public class AgentsControllerMissingEndpointsTests
         [InlineData("")]
         [InlineData(" ")]
         [InlineData("  \t  ")]
-        public async Task Should_HandleEmptyOrWhitespaceTaskType_When_InvalidTaskTypeProvided(string taskType)
+        public async Task Should_HandleEmptyOrWhitespaceTaskType_When_InvalidTaskTypeProvidedAsync(string taskType)
         {
             // Arrange
             _mockAgentService.FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>())
@@ -255,7 +255,7 @@ public class AgentsControllerMissingEndpointsTests
         [InlineData("data-analysis")]
         [InlineData("ai-training")]
         [InlineData("document-processing")]
-        public async Task Should_HandleDifferentTaskTypes_When_ValidTaskTypesProvided(string taskType)
+        public async Task Should_HandleDifferentTaskTypes_When_ValidTaskTypesProvidedAsync(string taskType)
         {
             // Arrange
             var agent = new Agent
@@ -281,7 +281,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleVeryLongTaskType_When_ExtremeInputProvided()
+        public async Task Should_HandleVeryLongTaskType_When_ExtremeInputProvidedAsync()
         {
             // Arrange
             var taskType = new string('x', 1000); // 1000 character task type
@@ -305,7 +305,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleSpecialCharactersInTaskType_When_EncodedStringProvided()
+        public async Task Should_HandleSpecialCharactersInTaskType_When_EncodedStringProvidedAsync()
         {
             // Arrange
             var taskType = "data-analysis&processing+visualization";
@@ -333,7 +333,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task UpdateAgentConfiguration_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+        public async Task UpdateAgentConfiguration_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -350,7 +350,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task UpdateAgentConfiguration_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFound()
+        public async Task UpdateAgentConfiguration_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -367,7 +367,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task UpdateAgentStatus_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+        public async Task UpdateAgentStatus_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -384,7 +384,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task DeleteAgent_Should_HandleNotFoundError_When_ErrorContainsNotFound()
+        public async Task DeleteAgent_Should_HandleNotFoundError_When_ErrorContainsNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -400,7 +400,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task DeleteAgent_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFound()
+        public async Task DeleteAgent_Should_HandleGenericFailure_When_ErrorDoesNotContainNotFoundAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -416,7 +416,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleNullErrorInResult_When_ServiceReturnsNullError()
+        public async Task Should_HandleNullErrorInResult_When_ServiceReturnsNullErrorAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();
@@ -436,7 +436,7 @@ public class AgentsControllerMissingEndpointsTests
         }
 
         [Fact]
-        public async Task Should_HandleEmptyStringErrorInResult_When_ServiceReturnsEmptyError()
+        public async Task Should_HandleEmptyStringErrorInResult_When_ServiceReturnsEmptyErrorAsync()
         {
             // Arrange
             var agentId = Guid.NewGuid();

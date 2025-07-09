@@ -63,7 +63,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithValidText_ShouldReturnApproximateCount()
+    public async Task CountTokensAsync_WithValidText_ShouldReturnApproximateCountAsync()
     {
         // Arrange
         var text = "Hello, this is a test message for token counting.";
@@ -79,7 +79,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZero()
+    public async Task CountTokensAsync_WithEmptyText_ShouldReturnZeroAsync()
     {
         // Arrange
         var text = "";
@@ -94,7 +94,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task CountTokensAsync_WithNullText_ShouldReturnZero()
+    public async Task CountTokensAsync_WithNullText_ShouldReturnZeroAsync()
     {
         // Arrange
         string? text = null!;
@@ -112,7 +112,7 @@ public class OpenAIProviderTests : IDisposable
     [InlineData("gpt-4o", 1000, 500, 0.0125)]
     [InlineData("gpt-4-turbo", 1000, 500, 0.025)]
     [InlineData("gpt-3.5-turbo", 1000, 500, 0.00125)]
-    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnCorrectCost(
+    public async Task EstimateCostAsync_WithValidInputs_ShouldReturnCorrectCostAsync(
         string modelName, int inputTokens, int outputTokens, decimal expectedCost)
     {
         // Act
@@ -124,7 +124,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task EstimateCostAsync_WithUnknownModel_ShouldReturnFailure()
+    public async Task EstimateCostAsync_WithUnknownModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "unknown-model";
@@ -140,7 +140,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GetRateLimitInfoAsync_WithGpt4Model_ShouldReturnCorrectLimits()
+    public async Task GetRateLimitInfoAsync_WithGpt4Model_ShouldReturnCorrectLimitsAsync()
     {
         // Arrange
         var modelName = "gpt-4-turbo";
@@ -156,7 +156,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GetRateLimitInfoAsync_WithGpt35Model_ShouldReturnCorrectLimits()
+    public async Task GetRateLimitInfoAsync_WithGpt35Model_ShouldReturnCorrectLimitsAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
@@ -172,7 +172,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task ListModelsAsync_ShouldReturnAvailableModels()
+    public async Task ListModelsAsync_ShouldReturnAvailableModelsAsync()
     {
         // Act
         var result = await _provider.ListModelsAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -184,7 +184,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task ValidateAsync_WithValidModel_ShouldReturnValidationResult()
+    public async Task ValidateAsync_WithValidModel_ShouldReturnValidationResultAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
@@ -200,7 +200,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateCompletionAsync_WithEmptyModel_ShouldReturnFailure()
+    public async Task GenerateCompletionAsync_WithEmptyModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "";
@@ -215,7 +215,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateCompletionAsync_WithEmptyPrompt_ShouldReturnFailure()
+    public async Task GenerateCompletionAsync_WithEmptyPrompt_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
@@ -230,7 +230,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateCompletionAsync_WithUnsupportedModel_ShouldReturnFailure()
+    public async Task GenerateCompletionAsync_WithUnsupportedModel_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "unsupported-model";
@@ -245,7 +245,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateChatCompletionAsync_WithEmptyMessages_ShouldReturnFailure()
+    public async Task GenerateChatCompletionAsync_WithEmptyMessages_ShouldReturnFailureAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
@@ -260,7 +260,7 @@ public class OpenAIProviderTests : IDisposable
     }
 
     [Fact]
-    public async Task GenerateChatCompletionAsync_WithValidMessages_ShouldReturnStructuredResponse()
+    public async Task GenerateChatCompletionAsync_WithValidMessages_ShouldReturnStructuredResponseAsync()
     {
         // Arrange
         var modelName = "gpt-3.5-turbo";
