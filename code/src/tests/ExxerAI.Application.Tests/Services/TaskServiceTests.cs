@@ -696,16 +696,28 @@ public class TaskServiceTests
         // Act & Assert - All methods should accept and handle cancellation tokens
         await Should.NotThrowAsync(async () =>
         {
+            #pragma warning disable xUnit1051
+
             await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token);
+
+            #pragma warning restore xUnit1051
             await _taskService.GetTaskAsync(Guid.NewGuid(), cts.Token);
+            #pragma warning disable xUnit1051
+
             await _taskService.GetPendingTasksAsync(100, cts.Token);
+
+            #pragma warning restore xUnit1051
             await _taskService.GetAgentTasksAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), TaskAgentStatus.Completed, cts.Token);
             await _taskService.AssignTaskToAgentAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
             await _taskService.CompleteTaskAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.FailTaskAsync(Guid.NewGuid(), "error", cts.Token);
             await _taskService.CancelTaskAsync(Guid.NewGuid(), cts.Token);
+            #pragma warning disable xUnit1051
+
             await _taskService.GetOverdueTasksAsync(cts.Token);
+
+            #pragma warning restore xUnit1051
             await _taskService.DeleteTaskAsync(Guid.NewGuid(), cts.Token);
         });
     }

@@ -133,7 +133,7 @@ public class OrchestrationIntegrationTests
         try
         {
             // Act
-            var connectionString = await keyManager.GetDatabaseConnectionStringAsync(dbConfig);
+            var connectionString = await keyManager.GetDatabaseConnectionStringAsync(dbConfig, TestContext.Current.CancellationToken);
 
             // Assert
             connectionString.ShouldNotBeNullOrEmpty();
@@ -229,7 +229,7 @@ public class OrchestrationIntegrationTests
             // Verify all keys were stored correctly
             var openaiKey = await configService.GetExternalApiKeyAsync("openai", cancellationToken: TestContext.Current.CancellationToken);
             var anthropicKey = await configService.GetExternalApiKeyAsync("anthropic", cancellationToken: TestContext.Current.CancellationToken);
-            var localaiKey = await keyStore.GetKeyAsync("localai-key", "ai");
+            var localaiKey = await keyStore.GetKeyAsync("localai-key", "ai", TestContext.Current.CancellationToken);
             var vectorKey = await keyStore.GetKeyAsync("vector-db-key", "database", cancellationToken: TestContext.Current.CancellationToken);
             var monitoringKey = await keyStore.GetKeyAsync("monitoring-key", "ops", cancellationToken: TestContext.Current.CancellationToken);
 

@@ -140,7 +140,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync();
+        await _mockAgentRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -157,7 +157,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", Arg.Any<string>(), Arg.Any<AgentCapabilities>());
+        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", Arg.Any<string>(), Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -173,7 +173,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync();
+        await _mockTaskRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -188,7 +188,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Any<AgentTask>());
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Any<AgentTask>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -321,7 +321,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync();
+        await _mockAgentRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -337,7 +337,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync();
+        await _mockTaskRepository.Received(1).GetAllAsync( TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -396,7 +396,7 @@ public class CommandRouterTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", "Test description", Arg.Any<AgentCapabilities>());
+        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", "Test description", Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]

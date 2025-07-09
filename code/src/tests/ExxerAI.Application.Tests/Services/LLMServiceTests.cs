@@ -196,12 +196,12 @@ public class LLMServiceTests
         var agentId = Guid.NewGuid();
 
         // Verify method signatures return Result<T>
-        var generateTask = _llmService.GenerateTextAsync(modelId, "test");
-        var continueTask = _llmService.ContinueConversationAsync(conversationId, "test");
-        var createTask = _llmService.CreateConversationAsync(agentId, modelId);
-        var estimateTask = _llmService.EstimateCostAsync(modelId, 10, 20);
-        var countTask = _llmService.CountTokensAsync(modelId, "test");
-        var validateTask = _llmService.ValidateModelAsync(modelId);
+        var generateTask = _llmService.GenerateTextAsync(modelId, "test", TestContext.Current.CancellationToken);
+        var continueTask = _llmService.ContinueConversationAsync(conversationId, "test", TestContext.Current.CancellationToken);
+        var createTask = _llmService.CreateConversationAsync(agentId, modelId, TestContext.Current.CancellationToken);
+        var estimateTask = _llmService.EstimateCostAsync(modelId, 10, 20, TestContext.Current.CancellationToken);
+        var countTask = _llmService.CountTokensAsync(modelId, "test", TestContext.Current.CancellationToken);
+        var validateTask = _llmService.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
 
         generateTask.ShouldBeOfType<Task<Result<LLMResponse>>>();
         continueTask.ShouldBeOfType<Task<Result<ConversationMessage>>>();

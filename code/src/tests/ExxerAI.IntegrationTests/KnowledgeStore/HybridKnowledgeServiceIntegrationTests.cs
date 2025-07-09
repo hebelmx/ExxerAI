@@ -233,7 +233,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var documentId = "removable-doc-001";
         var knowledgeDocument = CreateTestKnowledgeDocument(documentId, "Document to be removed");
 
-        await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
+        await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument, TestContext.Current.CancellationToken);
 
         // Act
         var result = await _hybridService.RemoveDocumentAsync(documentId, cancellationToken: TestContext.Current.CancellationToken);
@@ -368,7 +368,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         foreach (var doc in documents)
         {
             // Search by exact content should find the document in vector store
-            var vectorSearch = await _hybridService.SearchHybridAsync(doc.Content.Substring(0, 50));
+            var vectorSearch = await _hybridService.SearchHybridAsync(doc.Content.Substring(0, 50), cancellationToken: TestContext.Current.CancellationToken);
             vectorSearch.IsSuccess.ShouldBeTrue();
             vectorSearch.Value.SemanticResults.Any(r => r.DocumentId == doc.DocumentId).ShouldBeTrue();
 
@@ -376,7 +376,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
             if (doc.ExtractedConcepts.Any())
             {
                 var conceptExploration = await _hybridService.ExploreConceptRelationshipsAsync(
-                    doc.ExtractedConcepts.First().Name);
+                    doc.ExtractedConcepts.First().Name, cancellationToken: TestContext.Current.CancellationToken);
                 conceptExploration.IsSuccess.ShouldBeTrue();
             }
         }

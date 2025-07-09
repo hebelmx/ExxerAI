@@ -110,7 +110,7 @@ new() { Id = Guid.NewGuid(), Name = "Agent2" }
     public async Task AssignTaskAsync_Should_ReturnFailure_When_AgentIdIsEmpty()
     {
         // Act
-        var result = await _agentService.AssignTaskAsync(Guid.Empty, Guid.NewGuid());
+        var result = await _agentService.AssignTaskAsync(Guid.Empty, Guid.NewGuid(), TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();

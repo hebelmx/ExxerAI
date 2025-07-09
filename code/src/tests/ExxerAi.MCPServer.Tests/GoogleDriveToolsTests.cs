@@ -81,7 +81,7 @@ public class GoogleDriveToolsTests
 			var result = await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 
 			// Assert
-			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 			result.IsSuccess.ShouldBeTrue();
 		}
 
@@ -141,7 +141,7 @@ public class GoogleDriveToolsTests
 			await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 
 			// Assert
-			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 		}
 	}
 
@@ -167,8 +167,8 @@ public class GoogleDriveToolsTests
 			var result = await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
 			// Assert
-			await _mockGoogleDriveService.Received(1).GetDocumentMetadataAsync(documentId);
-			await _mockGoogleDriveService.Received(1).DownloadDocumentAsync(documentId);
+			await _mockGoogleDriveService.Received(1).GetDocumentMetadataAsync(documentId, TestContext.Current.CancellationToken);
+			await _mockGoogleDriveService.Received(1).DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
 			result.IsSuccess.ShouldBeTrue();
 		}
 
@@ -232,8 +232,8 @@ public class GoogleDriveToolsTests
 			var result = await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
-			await _mockGoogleDriveService.Received(1).InitializeAsync();
-			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync();
+			await _mockGoogleDriveService.Received(1).InitializeAsync(, TestContext.Current.CancellationToken);
+			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 			result.IsSuccess.ShouldBeTrue();
 		}
 
@@ -296,7 +296,7 @@ public class GoogleDriveToolsTests
 			var result = await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
-			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync();
+			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 			result.IsSuccess.ShouldBeTrue();
 		}
 
@@ -354,7 +354,7 @@ public class GoogleDriveToolsTests
 			var result = await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
 
 			// Assert
-			await _mockGoogleDriveService.Received(1).StopWatchingAsync(watchId);
+			await _mockGoogleDriveService.Received(1).StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
 			result.IsSuccess.ShouldBeTrue();
 		}
 

@@ -285,7 +285,7 @@ public class OpenAIProviderTests : IDisposable
         var prompt = "Test prompt";
 
         // Act
-        var stream = _provider.StreamCompletionAsync(modelName, prompt);
+        var stream = _provider.StreamCompletionAsync(modelName, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         // The stream should be empty for invalid inputs

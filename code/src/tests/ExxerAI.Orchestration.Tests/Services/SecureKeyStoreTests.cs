@@ -89,7 +89,7 @@ public class SecureKeyStoreTests : IDisposable
         // Arrange
         var keyName = "deletable-key";
         var value = "test-value";
-        await _keyStore.SetKeyAsync(keyName, value);
+        await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
         var deleted = await _keyStore.DeleteKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
@@ -119,7 +119,7 @@ public class SecureKeyStoreTests : IDisposable
         // Arrange
         var keyName = "existing-key";
         var value = "test-value";
-        await _keyStore.SetKeyAsync(keyName, value);
+        await _keyStore.SetKeyAsync(keyName, value, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
         var exists = await _keyStore.KeyExistsAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);
@@ -154,7 +154,7 @@ public class SecureKeyStoreTests : IDisposable
 
         foreach (var kvp in keys)
         {
-            await _keyStore.SetKeyAsync(kvp.Key, kvp.Value);
+            await _keyStore.SetKeyAsync(kvp.Key, kvp.Value, cancellationToken: TestContext.Current.CancellationToken);
         }
 
         // Act
@@ -197,7 +197,7 @@ public class SecureKeyStoreTests : IDisposable
         var keyName = "rotatable-key";
         var originalValue = "original-value";
         var newValue = "new-value";
-        await _keyStore.SetKeyAsync(keyName, originalValue);
+        await _keyStore.SetKeyAsync(keyName, originalValue, cancellationToken: TestContext.Current.CancellationToken);
 
         // Act
         await _keyStore.RotateKeyAsync(keyName, newValue, cancellationToken: TestContext.Current.CancellationToken);
@@ -283,7 +283,7 @@ public class SecureKeyStoreTests : IDisposable
         try
         {
             // Store value in key store
-            await _keyStore.SetKeyAsync(keyName, storedValue);
+            await _keyStore.SetKeyAsync(keyName, storedValue, cancellationToken: TestContext.Current.CancellationToken);
 
             // Act
             var retrievedValue = await _keyStore.GetKeyAsync(keyName, cancellationToken: TestContext.Current.CancellationToken);

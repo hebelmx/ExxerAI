@@ -74,7 +74,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         // Verify document was stored by querying
         var queryResult = await _graphStore.ExecuteQueryAsync(
             "MATCH (d:Document {documentId: $docId}) RETURN d.title as title, d.documentType as type",
-            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+            new Dictionary<string, object> { ["docId"] = document.DocumentId }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var results = queryResult.Value!.ToList();
@@ -130,7 +130,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             { 
                 ["id1"] = "concept-ml", 
                 ["id2"] = "concept-ai" 
-            });
+            }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var results = queryResult.Value!.ToList();
@@ -151,7 +151,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         var concept = CreateTestConcept("rel-concept-ai", "Artificial Intelligence");
 
         await _graphStore.StoreDocumentAsync(document, cancellationToken: TestContext.Current.CancellationToken);
-        await _graphStore.StoreConceptsAsync(new[] { concept });
+        await _graphStore.StoreConceptsAsync(new[] { concept }, TestContext.Current.CancellationToken);
 
         var relationships = new List<GraphRelationship>
         {
@@ -182,7 +182,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
             { 
                 ["docId"] = document.DocumentId, 
                 ["conceptId"] = concept.ConceptId 
-            });
+            }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var results = queryResult.Value!.ToList();
@@ -302,7 +302,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var document = CreateTestDocument("deletable-doc", "Document to be deleted");
-        await _graphStore.StoreDocumentAsync(document);
+        await _graphStore.StoreDocumentAsync(document, TestContext.Current.CancellationToken);
 
         // Act
         var result = await _graphStore.DeleteDocumentAsync(document.DocumentId, cancellationToken: TestContext.Current.CancellationToken);
@@ -313,7 +313,7 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         // Verify deletion
         var queryResult = await _graphStore.ExecuteQueryAsync(
             "MATCH (d:Document {documentId: $docId}) RETURN count(d) as count",
-            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+            new Dictionary<string, object> { ["docId"] = document.DocumentId }, TestContext.Current.CancellationToken);
 
         queryResult.IsSuccess.ShouldBeTrue();
         var count = Convert.ToInt32(queryResult.Value!.First()["count"]);

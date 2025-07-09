@@ -102,7 +102,8 @@ public class AgentServiceTests
         cts.Cancel();
 
         // Act
-        var result = await _agentService.CreateAgentAsync(name, description, capabilities, cts.Token);
+        var result =
+        await _agentService.CreateAgentAsync(name, description, capabilities, cts.Token);
 
         // Assert
         result.ShouldNotBeNull();
@@ -586,13 +587,25 @@ public class AgentServiceTests
         {
             await _agentService.CreateAgentAsync("test", "test", new AgentCapabilities(), cts.Token);
             await _agentService.GetAgentAsync(Guid.NewGuid(), cts.Token);
+#pragma warning disable xUnit1051
+
             await _agentService.GetAllAgentsAsync(cts.Token);
+
+#pragma warning restore xUnit1051
+#pragma warning disable xUnit1051
+
             await _agentService.GetActiveAgentsAsync(cts.Token);
+
+#pragma warning restore xUnit1051
             await _agentService.UpdateAgentConfigurationAsync(Guid.NewGuid(), new AgentConfiguration(), cts.Token);
             await _agentService.UpdateAgentStatusAsync(Guid.NewGuid(), AgentStatus.Active, cts.Token);
             await _agentService.AssignTaskAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
             await _agentService.AssignTaskToAgentAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
+#pragma warning disable xUnit1051
+
             await _agentService.FindBestAgentForTaskAsync("test", cts.Token);
+
+#pragma warning restore xUnit1051
             await _agentService.DeleteAgentAsync(Guid.NewGuid(), cts.Token);
         });
     }

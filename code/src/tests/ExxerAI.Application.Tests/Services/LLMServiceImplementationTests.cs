@@ -40,7 +40,7 @@ Should.Throw<ArgumentNullException>(() => new LLMService(_mockModelRepository, n
 public async Task GenerateTextAsync_Should_ReturnFailure_When_PromptIsEmpty()
 {
 // Act
-var result = await _service.GenerateTextAsync(Guid.NewGuid(), "");
+var result = await _service.GenerateTextAsync(Guid.NewGuid(), "", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -51,7 +51,7 @@ result.Error.ShouldBe("Prompt cannot be null or empty");
 public async Task GenerateTextAsync_Should_ReturnFailure_When_PromptIsWhitespace()
 {
 // Act
-var result = await _service.GenerateTextAsync(Guid.NewGuid(), "   ");
+var result = await _service.GenerateTextAsync(Guid.NewGuid(), "   ", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -101,7 +101,7 @@ result.Value!.EstimatedCost.ShouldBeGreaterThan(0);
 public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsEmpty()
 {
 // Act
-var result = await _service.ContinueConversationAsync(Guid.NewGuid(), "");
+var result = await _service.ContinueConversationAsync(Guid.NewGuid(), "", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -112,7 +112,7 @@ result.Error.ShouldBe("Message cannot be null or empty");
 public async Task ContinueConversationAsync_Should_ReturnFailure_When_MessageIsWhitespace()
 {
 // Act
-var result = await _service.ContinueConversationAsync(Guid.NewGuid(), "   ");
+var result = await _service.ContinueConversationAsync(Guid.NewGuid(), "   ", TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();

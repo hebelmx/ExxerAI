@@ -3,7 +3,7 @@ import re
 
 # === CONFIGURATION ===
 BASE_DIRECTORY = r"F:\Dynamic\ExxerAi\ExxerAI\code\src\tests"
-DRY_RUN = True  # False to apply changes
+DRY_RUN = False  # False to apply changes
 REPORT_FILE = r"final_token_fix_report.txt"
 # ======================
 

@@ -65,7 +65,7 @@ public class PersonaServiceTests
         result.Value!.SystemPrompt.ShouldBe(systemPrompt);
 
         await _personaRepository.Received(1)
-            .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public class PersonaServiceTests
         result.Error!.ShouldContain("name cannot be empty");
 
         await _personaRepository.DidNotReceive()
-            .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -117,7 +117,7 @@ public class PersonaServiceTests
         result.Error!.ShouldContain("role cannot be empty");
 
         await _personaRepository.DidNotReceive()
-            .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -184,9 +184,9 @@ public class PersonaServiceTests
         result.Value!.ShouldNotBeNull();
 
         await _personaRepository.Received(1)
-            .GetByIdAsync(personaId, Arg.Any<CancellationToken>());
+            .GetByIdAsync(personaId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public class PersonaServiceTests
         result.Error!.ShouldContain("Invalid persona identifier");
 
         await _personaRepository.DidNotReceive()
-            .GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+            .GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -232,7 +232,7 @@ public class PersonaServiceTests
         result.Value!.ShouldBe(expectedPersona);
 
         await _personaRepository.Received(1)
-            .GetByIdAsync(personaId, Arg.Any<CancellationToken>());
+            .GetByIdAsync(personaId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -259,7 +259,7 @@ public class PersonaServiceTests
         result.Value!.Count().ShouldBe(2);
 
         await _personaRepository.Received(1)
-            .GetActivePersonasAsync(Arg.Any<CancellationToken>());
+            .GetActivePersonasAsync(Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public class PersonaServiceTests
         persona.Traits["tone"].ShouldBe("professional");
 
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -363,7 +363,7 @@ public class PersonaServiceTests
         persona.Traits.ShouldNotContainKey("tone");
 
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -396,7 +396,7 @@ public class PersonaServiceTests
         persona.KnowledgeDomains.ShouldContain("machine_learning");
 
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -430,7 +430,7 @@ public class PersonaServiceTests
         persona.KnowledgeDomains.ShouldNotContain("machine_learning");
 
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -479,7 +479,7 @@ public class PersonaServiceTests
         result.Value!.PersonaId.ShouldBe(personaId);
 
         await _promptTemplateRepository.Received(1)
-            .AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -503,7 +503,7 @@ public class PersonaServiceTests
         result.Error!.ShouldContain("Template name cannot be empty");
 
         await _promptTemplateRepository.DidNotReceive()
-            .AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>());
+            .AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -531,7 +531,7 @@ public class PersonaServiceTests
         result.Value!.Count().ShouldBe(2);
 
         await _promptTemplateRepository.Received(1)
-            .GetByPersonaIdAsync(personaId, false, Arg.Any<CancellationToken>());
+            .GetByPersonaIdAsync(personaId, false, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -563,7 +563,7 @@ public class PersonaServiceTests
         persona.IsActive.ShouldBeTrue();
 
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -595,7 +595,7 @@ public class PersonaServiceTests
         persona.IsActive.ShouldBeFalse();
 
         await _personaRepository.Received(1)
-            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+            .UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -626,9 +626,9 @@ public class PersonaServiceTests
         result.Value!.ShouldBeTrue();
 
         await _promptTemplateRepository.Received(1)
-            .DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+            .DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
         await _personaRepository.Received(1)
-            .DeleteAsync(personaId, Arg.Any<CancellationToken>());
+            .DeleteAsync(personaId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -717,7 +717,7 @@ public class PersonaServiceTests
         result.Value!.ShouldNotBeNull();
 
         await _personaRepository.Received(1)
-            .GetActivePersonasAsync(Arg.Any<CancellationToken>());
+            .GetActivePersonasAsync(Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>
@@ -734,7 +734,7 @@ public class PersonaServiceTests
         result.Error!.ShouldContain("Search criteria cannot be null");
 
         await _personaRepository.DidNotReceive()
-            .GetActivePersonasAsync(Arg.Any<CancellationToken>());
+            .GetActivePersonasAsync(Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 
     /// <summary>

@@ -156,7 +156,7 @@ public class ConfigurationServiceTests : IDisposable
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
-        _keyManager.GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>())
+        _keyManager.GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>(), Arg.Any<CancellationToken>())
             .Returns(Task.FromResult(expectedConnectionString));
 
         // Act
@@ -164,7 +164,7 @@ public class ConfigurationServiceTests : IDisposable
 
         // Assert
         connectionString.ShouldBe(expectedConnectionString);
-        await _keyManager.Received(1).GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>());
+        await _keyManager.Received(1).GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>(), TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -279,7 +279,7 @@ public class ConfigurationServiceTests : IDisposable
         await service.SetExternalApiKeyAsync(provider, apiKey, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
-        await _keyManager.Received(1).SetExternalApiKeyAsync(provider, apiKey);
+        await _keyManager.Received(1).SetExternalApiKeyAsync(provider, apiKey, TestContext.Current.CancellationToken);
     }
 
     [Fact]

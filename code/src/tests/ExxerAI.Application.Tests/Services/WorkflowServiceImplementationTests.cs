@@ -80,6 +80,6 @@ public class WorkflowServiceImplementationTests
         result.Value!.Status.ShouldBe(WorkflowStatus.Draft);
         result.Value!.CreatedAt.ShouldBeInRange(DateTime.UtcNow.AddSeconds(-5), DateTime.UtcNow);
 
-        await _mockRepository.Received(1).AddAsync(Arg.Any<Workflow>(), Arg.Any<CancellationToken>());
+        await _mockRepository.Received(1).AddAsync(Arg.Any<Workflow>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
     }
 }
