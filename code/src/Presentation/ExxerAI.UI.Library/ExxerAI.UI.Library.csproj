@@ -63,6 +63,19 @@
 
 	</ItemGroup>
 
+
+
+	<!-- ============================================================================	-->
+	<!-- 	Analyzers																	-->
+	<!-- 	MudBlazor includes a Roslyn analyzer to detect common						-->
+	<!--	MudBlazor issues at compile time.											-->
+	<!-- 	https://mudblazor.com/features/analyzers#mud0002							-->
+	<!-- ============================================================================	-->
+
+	<PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<MudAllowedAttributePattern>LowerCase</MudAllowedAttributePattern>
+	</PropertyGroup>
+
 	<!-- ============================================================================ -->
 	<!-- PACKAGE REFERENCES - CORE FRAMEWORK -->
 	<!-- ============================================================================ -->
