@@ -114,7 +114,7 @@ public class CancellationHandlingTests
             {
                 await Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken);
                 return expectedValue;
-            });
+            }, TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -130,7 +130,7 @@ public class CancellationHandlingTests
     {
         // Act
         var result = await CancellationAwareResult.WrapCancellationAware<string>(
-            ct => throw new InvalidOperationException(CancellationTestConstants.TestError));
+            ct => throw new InvalidOperationException(CancellationTestConstants.TestError), TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
