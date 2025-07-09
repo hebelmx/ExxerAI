@@ -1,10 +1,4 @@
 using ExxerAI.Application.Interfaces;
-using ExxerAI.Domain.DocumentProcessing;
-using ExxerAI.Domain.Operations;
-using ExxerAI.Domain;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
 namespace ExxerAI.Infrastructure.Tests;
 
@@ -187,11 +181,11 @@ public class PrimarySourceOfTruthSystemTests
         public async Task Should_ReturnFailure_When_InvalidRecordIdProvided(string? invalidId)
         {
             // Arrange
-            _truthSystem.GetAuthoritativeRecordAsync(invalidId, cancellationToken: Arg.Any<CancellationToken>())
+            _truthSystem.GetAuthoritativeRecordAsync(invalidId!, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<TruthRecord>.WithFailure("Record ID cannot be empty"));
 
             // Act
-            var result = await _truthSystem.GetAuthoritativeRecordAsync(invalidId, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _truthSystem.GetAuthoritativeRecordAsync(invalidId!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();

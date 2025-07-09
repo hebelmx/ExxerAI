@@ -125,11 +125,11 @@ public class DocumentNotificationServiceTests
             // Arrange
             var document = CreateValidDocumentAsset();
 
-            _notificationService.NotifyDocumentModifiedAsync(document, invalidVersion, _cancellationToken)
+            _notificationService.NotifyDocumentModifiedAsync(document, invalidVersion!, _cancellationToken)
                 .Returns(Result<bool>.WithFailure("Previous version cannot be empty"));
 
             // Act
-            var result = await _notificationService.NotifyDocumentModifiedAsync(document, invalidVersion, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _notificationService.NotifyDocumentModifiedAsync(document, invalidVersion!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -164,11 +164,11 @@ public class DocumentNotificationServiceTests
         public async Task Should_ReturnFailure_When_InvalidDocumentIdProvided(string? invalidId, string documentName)
         {
             // Arrange
-            _notificationService.NotifyDocumentRemovedAsync(invalidId, documentName, cancellationToken: Arg.Any<CancellationToken>())
+            _notificationService.NotifyDocumentRemovedAsync(invalidId!, documentName, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document ID cannot be empty"));
 
             // Act
-            var result = await _notificationService.NotifyDocumentRemovedAsync(invalidId, documentName, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _notificationService.NotifyDocumentRemovedAsync(invalidId!, documentName, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -178,15 +178,15 @@ public class DocumentNotificationServiceTests
         [Theory]
         [InlineData("doc-123", "")]
         [InlineData("doc-123", "   ")]
-        [InlineData("doc-123", null!)]
+        [InlineData("doc-123", null)]
         public async Task Should_ReturnFailure_When_InvalidDocumentNameProvided(string documentId, string? invalidName)
         {
             // Arrange
-            _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName, cancellationToken: Arg.Any<CancellationToken>())
+            _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName!, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Document name cannot be empty"));
 
             // Act
-            var result = await _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _notificationService.NotifyDocumentRemovedAsync(documentId, invalidName!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -337,11 +337,11 @@ public class DocumentNotificationServiceTests
             // Arrange
             var callback = CreateValidNotificationCallback();
 
-            _notificationService.RegisterSubscriberAsync(invalidId, callback, cancellationToken: Arg.Any<CancellationToken>())
+            _notificationService.RegisterSubscriberAsync(invalidId!, callback, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber ID cannot be empty"));
 
             // Act
-            var result = await _notificationService.RegisterSubscriberAsync(invalidId, callback, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _notificationService.RegisterSubscriberAsync(invalidId!, callback, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -411,11 +411,11 @@ public class DocumentNotificationServiceTests
         public async Task Should_ReturnFailure_When_InvalidSubscriberIdProvided(string? invalidId)
         {
             // Arrange
-            _notificationService.UnregisterSubscriberAsync(invalidId, cancellationToken: Arg.Any<CancellationToken>())
+            _notificationService.UnregisterSubscriberAsync(invalidId!, cancellationToken: Arg.Any<CancellationToken>())
                 .Returns(Result<bool>.WithFailure("Subscriber ID cannot be empty"));
 
             // Act
-            var result = await _notificationService.UnregisterSubscriberAsync(invalidId, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _notificationService.UnregisterSubscriberAsync(invalidId!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();

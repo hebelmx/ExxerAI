@@ -1,6 +1,7 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Infrastructure.VectorStore;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using NSubstitute;
 using Qdrant.Client;
 using Shouldly;
@@ -15,8 +16,8 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
 {
     private readonly ILogger<QdrantVectorStore> _logger;
     private readonly string _testCollectionName;
-    private QdrantClient _qdrantClient;
-    private QdrantVectorStore _vectorStore;
+    private QdrantClient _qdrantClient = null!;
+    private QdrantVectorStore _vectorStore = null!;
 
     public QdrantVectorStoreIntegrationTests()
     {
