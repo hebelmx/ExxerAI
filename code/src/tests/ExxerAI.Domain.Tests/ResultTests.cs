@@ -1642,8 +1642,8 @@ public class ResultTests
 
     [Theory]
     [InlineData("hello world", true, true, true, false)]   // Non-null success
-    [InlineData(null!, false, false, true, false)]          // Null success
-    public void NullSafetyProperties_ShouldHaveConsistentBehavior(string value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
+    [InlineData(null, false, false, true, false)]          // Null success
+    public void NullSafetyProperties_ShouldHaveConsistentBehavior(string? value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
     {
         // Arrange
         var result = Result<string>.Success(value);

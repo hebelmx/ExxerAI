@@ -118,7 +118,7 @@ public class ConfigurationService
     /// <summary>
     /// Get secure database connection string using KeyStore
     /// </summary>
-    public async Task<string> GetSecureDatabaseConnectionStringAsync()
+    public async Task<string> GetSecureDatabaseConnectionStringAsync(CancellationToken cancellationToken)
     {
         if (_keyManager != null)
         {
@@ -145,7 +145,7 @@ public class ConfigurationService
     /// <summary>
     /// Get external API key for third-party integrations
     /// </summary>
-    public async Task<string?> GetExternalApiKeyAsync(string provider)
+    public async Task<string?> GetExternalApiKeyAsync(string provider, CancellationToken cancellationToken)
     {
         if (_keyManager != null)
         {
@@ -160,7 +160,7 @@ public class ConfigurationService
     /// <summary>
     /// Set external API key for third-party integrations
     /// </summary>
-    public async Task SetExternalApiKeyAsync(string provider, string apiKey)
+    public async Task SetExternalApiKeyAsync(string provider, string apiKey, CancellationToken cancellationToken)
     {
         if (_keyManager != null)
         {

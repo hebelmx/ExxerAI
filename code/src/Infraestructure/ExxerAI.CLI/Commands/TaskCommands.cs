@@ -43,7 +43,7 @@ public class TaskCommands
     /// </summary>
     /// <param name="args">Command arguments</param>
     /// <returns>Exit code</returns>
-    public async Task<int> ExecuteAsync(string[] args)
+    public async Task<int> ExecuteAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {

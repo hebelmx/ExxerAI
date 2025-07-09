@@ -40,7 +40,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.Success(expectedTask));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, _cancellationToken);
+            var result = await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -64,7 +64,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.WithFailure("Task title cannot be empty"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(invalidTitle, description, taskType, TaskPriority.Normal, null, _cancellationToken);
+            var result = await _taskService.CreateTaskAsync(invalidTitle, description, taskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -85,7 +85,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.WithFailure("Task description cannot be empty"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(title, invalidDescription, taskType, TaskPriority.Normal, null, _cancellationToken);
+            var result = await _taskService.CreateTaskAsync(title, invalidDescription, taskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -106,7 +106,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.WithFailure("Task type cannot be empty"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(title, description, invalidTaskType, TaskPriority.Normal, null, _cancellationToken);
+            var result = await _taskService.CreateTaskAsync(title, description, invalidTaskType, TaskPriority.Normal, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -126,7 +126,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.WithFailure("Deadline cannot be in the past"));
 
             // Act
-            var result = await _taskService.CreateTaskAsync(title, description, taskType, TaskPriority.Normal, pastDeadline, _cancellationToken);
+            var result = await _taskService.CreateTaskAsync(title, description, taskType, TaskPriority.Normal, pastDeadline, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -147,7 +147,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.Success(expectedTask));
 
             // Act
-            var result = await _taskService.GetTaskAsync(taskId, _cancellationToken);
+            var result = await _taskService.GetTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -165,7 +165,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.WithFailure("Task not found"));
 
             // Act
-            var result = await _taskService.GetTaskAsync(nonExistentId, _cancellationToken);
+            var result = await _taskService.GetTaskAsync(nonExistentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -182,7 +182,7 @@ public class TaskServiceTests
                 .Returns(Result<AgentTask>.WithFailure("Task ID cannot be empty"));
 
             // Act
-            var result = await _taskService.GetTaskAsync(emptyId, _cancellationToken);
+            var result = await _taskService.GetTaskAsync(emptyId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -202,7 +202,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
             // Act
-            var result = await _taskService.GetPendingTasksAsync(100, _cancellationToken);
+            var result = await _taskService.GetPendingTasksAsync(100, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -222,7 +222,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
             // Act
-            var result = await _taskService.GetPendingTasksAsync(maxCount, _cancellationToken);
+            var result = await _taskService.GetPendingTasksAsync(maxCount, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -240,7 +240,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.WithFailure("Max count must be greater than zero"));
 
             // Act
-            var result = await _taskService.GetPendingTasksAsync(invalidCount, _cancellationToken);
+            var result = await _taskService.GetPendingTasksAsync(invalidCount, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -261,7 +261,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
             // Act
-            var result = await _taskService.GetAgentTasksAsync(agentId, null, _cancellationToken);
+            var result = await _taskService.GetAgentTasksAsync(agentId, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -281,7 +281,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
             // Act
-            var result = await _taskService.GetAgentTasksAsync(agentId, status, _cancellationToken);
+            var result = await _taskService.GetAgentTasksAsync(agentId, status, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -298,7 +298,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.WithFailure("Agent ID cannot be empty"));
 
             // Act
-            var result = await _taskService.GetAgentTasksAsync(emptyId, null, _cancellationToken);
+            var result = await _taskService.GetAgentTasksAsync(emptyId, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -319,7 +319,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _taskService.UpdateTaskStatusAsync(taskId, newStatus, _cancellationToken);
+            var result = await _taskService.UpdateTaskStatusAsync(taskId, newStatus, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -337,7 +337,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Task ID cannot be empty"));
 
             // Act
-            var result = await _taskService.UpdateTaskStatusAsync(emptyId, newStatus, _cancellationToken);
+            var result = await _taskService.UpdateTaskStatusAsync(emptyId, newStatus, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -355,7 +355,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Task not found"));
 
             // Act
-            var result = await _taskService.UpdateTaskStatusAsync(nonExistentId, newStatus, _cancellationToken);
+            var result = await _taskService.UpdateTaskStatusAsync(nonExistentId, newStatus, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -376,7 +376,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken);
+            var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -394,7 +394,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Task ID cannot be empty"));
 
             // Act
-            var result = await _taskService.AssignTaskToAgentAsync(emptyTaskId, agentId, _cancellationToken);
+            var result = await _taskService.AssignTaskToAgentAsync(emptyTaskId, agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -412,7 +412,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Agent ID cannot be empty"));
 
             // Act
-            var result = await _taskService.AssignTaskToAgentAsync(taskId, emptyAgentId, _cancellationToken);
+            var result = await _taskService.AssignTaskToAgentAsync(taskId, emptyAgentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -430,7 +430,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Task is already assigned to another agent"));
 
             // Act
-            var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, _cancellationToken);
+            var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -451,7 +451,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken);
+            var result = await _taskService.CompleteTaskAsync(taskId, outputData, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -468,7 +468,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _taskService.CompleteTaskAsync(taskId, null, _cancellationToken);
+            var result = await _taskService.CompleteTaskAsync(taskId, null, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -486,7 +486,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Task is not in progress"));
 
             // Act
-            var result = await _taskService.CompleteTaskAsync(taskId, outputData, _cancellationToken);
+            var result = await _taskService.CompleteTaskAsync(taskId, outputData, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -507,7 +507,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _taskService.FailTaskAsync(taskId, errorMessage, _cancellationToken);
+            var result = await _taskService.FailTaskAsync(taskId, errorMessage, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -527,7 +527,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Error message cannot be empty"));
 
             // Act
-            var result = await _taskService.FailTaskAsync(taskId, invalidMessage, _cancellationToken);
+            var result = await _taskService.FailTaskAsync(taskId, invalidMessage, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -547,7 +547,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _taskService.CancelTaskAsync(taskId, _cancellationToken);
+            var result = await _taskService.CancelTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -564,7 +564,7 @@ public class TaskServiceTests
                 .Returns(Result<bool>.WithFailure("Task cannot be cancelled in current state"));
 
             // Act
-            var result = await _taskService.CancelTaskAsync(taskId, _cancellationToken);
+            var result = await _taskService.CancelTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsFailure.ShouldBeTrue();
@@ -584,7 +584,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.Success(expectedTasks));
 
             // Act
-            var result = await _taskService.GetOverdueTasksAsync(_cancellationToken);
+            var result = await _taskService.GetOverdueTasksAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -602,7 +602,7 @@ public class TaskServiceTests
                 .Returns(Result<IEnumerable<AgentTask>>.Success(emptyTasks));
 
             // Act
-            var result = await _taskService.GetOverdueTasksAsync(_cancellationToken);
+            var result = await _taskService.GetOverdueTasksAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();

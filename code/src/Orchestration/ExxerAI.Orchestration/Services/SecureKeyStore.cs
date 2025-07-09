@@ -1,8 +1,9 @@
+using ExxerAI.Orchestration.Interfaces;
+using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using ExxerAI.Orchestration.Interfaces;
-using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace ExxerAI.Orchestration.Services;
 
@@ -36,7 +37,7 @@ public class SecureKeyStore : IKeyStore
         _ = LoadKeysAsync();
     }
 
-    public async Task<string?> GetKeyAsync(string keyName, string? scope = null)
+    public async Task<string?> GetKeyAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default)
     {
         await _lock.WaitAsync();
         try
@@ -76,7 +77,7 @@ public class SecureKeyStore : IKeyStore
         }
     }
 
-    public async Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null)
+    public async Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
     {
         await _lock.WaitAsync();
         try
@@ -105,7 +106,7 @@ public class SecureKeyStore : IKeyStore
         }
     }
 
-    public async Task<bool> DeleteKeyAsync(string keyName, string? scope = null)
+    public async Task<bool> DeleteKeyAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default)
     {
         await _lock.WaitAsync();
         try
@@ -127,7 +128,7 @@ public class SecureKeyStore : IKeyStore
         }
     }
 
-    public async Task<IEnumerable<string>> ListKeysAsync(string? scope = null)
+    public async Task<IEnumerable<string>> ListKeysAsync(string? scope = null, CancellationToken cancellationToken = default)
     {
         await _lock.WaitAsync();
         try
@@ -144,13 +145,14 @@ public class SecureKeyStore : IKeyStore
         }
     }
 
-    public async Task<bool> KeyExistsAsync(string keyName, string? scope = null)
+    public async Task<bool> KeyExistsAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default)
     {
-        var value = await GetKeyAsync(keyName, scope);
-        return !string.IsNullOrEmpty(value);
+        var value = await GetKeyAsync(keyName, scope, cancellationToken);
+
+        return string.IsNullOrEmpty(value);
     }
 
-    public async Task RotateKeyAsync(string keyName, string newValue, string? scope = null)
+    public async Task RotateKeyAsync(string keyName, string newValue, string? scope = null, CancellationToken cancellationToken = default)
     {
         await _lock.WaitAsync();
         try
@@ -175,7 +177,7 @@ public class SecureKeyStore : IKeyStore
         }
     }
 
-    public async Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32)
+    public async Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32, CancellationToken cancellationToken = default)
     {
         var apiKey = GenerateSecureRandomString(length);
         await SetKeyAsync(keyName, apiKey, scope);

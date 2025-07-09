@@ -39,7 +39,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.GenerateTextAsync(modelId, prompt, parameters);
+        var result = await _llmService.GenerateTextAsync(modelId, prompt, parameters, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -62,7 +62,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.GenerateTextAsync(modelId, prompt);
+        var result = await _llmService.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);//, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -83,7 +83,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.GenerateTextAsync(modelId, prompt);
+        var result = await _llmService.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -114,7 +114,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.ContinueConversationAsync(conversationId, message);
+        var result = await _llmService.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -151,7 +151,7 @@ public class LLMServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _llmService.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+        var result = await _llmService.CreateConversationAsync(agentId, modelId, title, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();

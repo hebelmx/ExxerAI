@@ -293,7 +293,7 @@ public class ComprehensiveUnitTestExample
         public void Success_ShouldBeFailed_When_NullValueProvided()
         {
             // Act
-            var result = Result<string>.Success(null);
+            var result = Result<string>.Success(null!);
 
             // Assert - In ExxerAI, null values make the result fail
             result.IsSuccess.ShouldBeTrue();
@@ -338,7 +338,7 @@ public class ComprehensiveUnitTestExample
             const string folderId = "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms";
 
             // Act
-            var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            var result = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -356,7 +356,7 @@ public class ComprehensiveUnitTestExample
         public async Task StartWatchingFolderAsync_ShouldReturnFailure_When_InvalidFolderIdProvided(string? invalidFolderId)
         {
             // Act
-            var result = await _service.StartWatchingFolderAsync(invalidFolderId!, TestContext.Current.CancellationToken);
+            var result = await _service.StartWatchingFolderAsync(invalidFolderId!, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -381,7 +381,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(expectedProcessingResult));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -412,7 +412,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.WithFailure(processingErrors));
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -433,7 +433,7 @@ public class ComprehensiveUnitTestExample
             cts.Cancel(); // Cancel immediately
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -448,10 +448,10 @@ public class ComprehensiveUnitTestExample
         {
             // Arrange - Start a watch session first to create active state
             const string folderId = "active-folder";
-            await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Act
-            var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+            var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -479,9 +479,9 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<DocumentProcessingResult>.Success(processingResult));
 
             // Act - Complete workflow
-            var watchResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
-            var ingestResult = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
-            var statusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+            var watchResult = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
+            var ingestResult = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
+            var statusResult = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - All operations successful
             watchResult.IsSuccess.ShouldBeTrue();
@@ -578,7 +578,7 @@ public class ComprehensiveUnitTestExample
                 .Returns(Result<string>.Success(expectedSessionId));
 
             // Act
-            var result = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+            var result = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -702,11 +702,11 @@ public class ComprehensiveUnitTestExample
         /// </summary>
         private static async Task<bool> SimulateDocumentProcessing(SemaphoreSlim semaphore, int taskIndex)
         {
-            await semaphore.WaitAsync();
+            await semaphore.WaitAsync(TestContext.Current.CancellationToken);
             try
             {
                 // Simulate processing time
-                await Task.Delay(TimeSpan.FromMilliseconds(100), TestContext.Current.CancellationToken);
+                await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken: TestContext.Current.CancellationToken);
                 return true;
             }
             finally

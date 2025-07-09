@@ -96,7 +96,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
         // Act
-        await service.InitializeAsync(TestContext.Current.CancellationToken);
+        await service.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         await _keyManager.Received(1).InitializeKeysAsync(Arg.Any<LocalAIStackConfiguration>(), Arg.Any<CancellationToken>());
@@ -110,7 +110,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        await service.InitializeAsync(TestContext.Current.CancellationToken);
+        await service.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         _mockLogger.Received().LogWarning(Arg.Any<string>());
@@ -160,7 +160,7 @@ public class ConfigurationServiceTests : IDisposable
             .Returns(Task.FromResult(expectedConnectionString));
 
         // Act
-        var connectionString = await service.GetSecureDatabaseConnectionStringAsync();
+        var connectionString = await service.GetSecureDatabaseConnectionStringAsync(TestContext.Current.CancellationToken);
 
         // Assert
         connectionString.ShouldBe(expectedConnectionString);
@@ -175,7 +175,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        var connectionString = await service.GetSecureDatabaseConnectionStringAsync();
+        var connectionString = await service.GetSecureDatabaseConnectionStringAsync(TestContext.Current.CancellationToken);
 
         // Assert
         connectionString.ShouldNotBeNullOrEmpty();
@@ -211,7 +211,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        var apiKey = await service.GetSecureLocalAIApiKeyAsync(TestContext.Current.CancellationToken);
+        var apiKey = await service.GetSecureLocalAIApiKeyAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         apiKey.ShouldBe("default-api-key");
@@ -221,22 +221,22 @@ public class ConfigurationServiceTests : IDisposable
     [InlineData("openai")]
     [InlineData("anthropic")]
     [InlineData("huggingface")]
-    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethod(string provider, CancellationToken cancellationToken = default)
+    public async Task GetExternalApiKeyAsync_WithKeyManager_ShouldUseSecureMethod(string provider)
     {
         // Arrange
         var expectedApiKey = $"secure-{provider}-key";
         var config = CreateTestConfiguration();
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
-        _keyManager.GetExternalApiKeyAsync(provider)
+        _keyManager.GetExternalApiKeyAsync(provider, TestContext.Current.CancellationToken)
             .Returns(Task.FromResult<string?>(expectedApiKey));
 
         // Act
-        var apiKey = await service.GetExternalApiKeyAsync(provider);
+        var apiKey = await service.GetExternalApiKeyAsync(provider, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         apiKey.ShouldBe(expectedApiKey);
-        await _keyManager.Received(1).GetExternalApiKeyAsync(provider);
+        await _keyManager.Received(1).GetExternalApiKeyAsync(provider, cancellationToken: TestContext.Current.CancellationToken);
     }
 
     [Fact]
@@ -255,7 +255,7 @@ public class ConfigurationServiceTests : IDisposable
             var service = new ConfigurationService(config, null!, _mockLogger);
 
             // Act
-            var apiKey = await service.GetExternalApiKeyAsync(provider);
+            var apiKey = await service.GetExternalApiKeyAsync(provider, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             apiKey.ShouldBe(expectedApiKey);
@@ -276,7 +276,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, _keyManager, _mockLogger);
 
         // Act
-        await service.SetExternalApiKeyAsync(provider, apiKey);
+        await service.SetExternalApiKeyAsync(provider, apiKey, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         await _keyManager.Received(1).SetExternalApiKeyAsync(provider, apiKey);
@@ -292,7 +292,7 @@ public class ConfigurationServiceTests : IDisposable
         var service = new ConfigurationService(config, null!, _mockLogger);
 
         // Act
-        await service.SetExternalApiKeyAsync(provider, apiKey);
+        await service.SetExternalApiKeyAsync(provider, apiKey, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         _mockLogger.Received().LogWarning(Arg.Any<string>());

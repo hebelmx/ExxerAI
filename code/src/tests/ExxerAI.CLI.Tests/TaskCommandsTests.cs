@@ -78,7 +78,7 @@ public class TaskCommandsTests
         var args = Array.Empty<string>();
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -92,7 +92,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -107,7 +107,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -123,7 +123,7 @@ public class TaskCommandsTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -146,7 +146,7 @@ public class TaskCommandsTests
         _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -165,7 +165,7 @@ public class TaskCommandsTests
         _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -181,7 +181,7 @@ public class TaskCommandsTests
         _mockTaskRepository.DeleteAsync(taskId).Returns(Task.FromResult(Result<bool>.Success(true)));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -198,7 +198,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetByIdAsync(taskId).Returns(Task.FromResult(Result<AgentTask>.Success(testTask)));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -221,7 +221,7 @@ public class TaskCommandsTests
         _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -234,7 +234,7 @@ public class TaskCommandsTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -247,7 +247,7 @@ public class TaskCommandsTests
         var args = new[] { "invalid" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -261,7 +261,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>())));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -280,7 +280,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Task.FromResult(Result<IEnumerable<AgentTask>>.Success(tasks)));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -299,7 +299,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -318,7 +318,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -337,7 +337,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(tasks));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -359,7 +359,7 @@ public class TaskCommandsTests
         _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -373,7 +373,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -387,7 +387,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -401,7 +401,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(new List<AgentTask>()));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -415,7 +415,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.WithFailure("Database error"));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -428,7 +428,7 @@ public class TaskCommandsTests
         var args = new[] { "create" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -441,7 +441,7 @@ public class TaskCommandsTests
         var args = new[] { "create", "TestTask" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -456,7 +456,7 @@ public class TaskCommandsTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -472,7 +472,7 @@ public class TaskCommandsTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -488,7 +488,7 @@ public class TaskCommandsTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -504,7 +504,7 @@ public class TaskCommandsTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -518,7 +518,7 @@ public class TaskCommandsTests
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--priority", "InvalidPriority" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -531,7 +531,7 @@ public class TaskCommandsTests
         var args = new[] { "create", "TestTask", "--type", "DataProcessing", "--deadline", "invalid-date" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -545,7 +545,7 @@ public class TaskCommandsTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.WithFailure("Repository error"));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -558,7 +558,7 @@ public class TaskCommandsTests
         var args = new[] { "assign", Guid.NewGuid().ToString() };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -571,7 +571,7 @@ public class TaskCommandsTests
         var args = new[] { "assign", "invalid-task-id", Guid.NewGuid().ToString() };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -584,7 +584,7 @@ public class TaskCommandsTests
         var args = new[] { "assign", Guid.NewGuid().ToString(), "invalid-agent-id" };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -600,7 +600,7 @@ public class TaskCommandsTests
         _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.WithFailure("Agent not found"));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -618,7 +618,7 @@ public class TaskCommandsTests
         _mockTaskRepository.GetByIdAsync(taskId).Returns(Result<AgentTask>.WithFailure("Task not found"));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -639,7 +639,7 @@ public class TaskCommandsTests
         _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.WithFailure("Update failed"));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -654,7 +654,7 @@ public class TaskCommandsTests
         var args = new[] { helpFlag };
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -692,7 +692,7 @@ public class TaskCommandsTests
         }
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -706,7 +706,7 @@ public class TaskCommandsTests
         _mockTaskRepository.When(x => x.GetAllAsync()).Do(x => throw new InvalidOperationException("Test exception"));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -742,7 +742,7 @@ public class TaskCommandsTests
         }
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         // For invalid agent GUID, it should return error (1), for others success (0)
@@ -772,7 +772,7 @@ public class TaskCommandsTests
         _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(testAgent));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -791,7 +791,7 @@ public class TaskCommandsTests
         _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -811,7 +811,7 @@ public class TaskCommandsTests
         _mockTaskRepository.UpdateAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(testTask));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -835,7 +835,7 @@ public class TaskCommandsTests
         _mockAgentRepository.GetByIdAsync(agentId).Returns(Result<Agent>.Success(new Agent { Id = agentId, Name = "TestAgent" }));
 
         // Act
-        var exitCode = await _taskCommands.ExecuteAsync(args);
+        var exitCode = await _taskCommands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);

@@ -43,7 +43,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.CreateWorkflowAsync(name, description, steps);
+        var result = await _workflowService.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -68,7 +68,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.CreateWorkflowAsync(name, description, steps);
+        var result = await _workflowService.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -89,7 +89,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.CreateWorkflowAsync(name, description, steps);
+        var result = await _workflowService.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -118,7 +118,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowAsync(workflowId);
+        var result = await _workflowService.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -138,7 +138,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowAsync(workflowId);
+        var result = await _workflowService.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -157,7 +157,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowAsync(workflowId);
+        var result = await _workflowService.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -185,7 +185,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetActiveWorkflowsAsync();
+        var result = await _workflowService.GetActiveWorkflowsAsync( TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -206,7 +206,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetActiveWorkflowsAsync();
+        var result = await _workflowService.GetActiveWorkflowsAsync( TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -238,7 +238,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -260,7 +260,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -280,7 +280,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input);
+        var result = await _workflowService.ExecuteWorkflowAsync(workflowId, input, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -308,7 +308,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId);
+        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -333,7 +333,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId, WorkflowExecutionStatus.Completed);
+        var result = await _workflowService.GetWorkflowExecutionsAsync(workflowId, WorkflowExecutionStatus.Completed, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -452,7 +452,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -472,7 +472,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+        var result = await _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -495,7 +495,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.DeleteWorkflowAsync(workflowId);
+        var result = await _workflowService.DeleteWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -514,7 +514,7 @@ public class WorkflowServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _workflowService.DeleteWorkflowAsync(workflowId);
+        var result = await _workflowService.DeleteWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();

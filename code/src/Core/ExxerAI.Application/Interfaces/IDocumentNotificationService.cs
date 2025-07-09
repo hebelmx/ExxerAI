@@ -59,12 +59,12 @@ public interface IDocumentNotificationService
     /// <param name="subscriberId">The subscriber identifier</param>
     /// <param name="callback">The callback to invoke for notifications</param>
     /// <returns>Result indicating success or failure</returns>
-    Task<Result<bool>> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback);
+    Task<Result<bool>> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Unregisters a notification subscriber
     /// </summary>
     /// <param name="subscriberId">The subscriber identifier</param>
     /// <returns>Result indicating success or failure</returns>
-    Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId);
+    Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId, CancellationToken cancellationToken = default);
 }

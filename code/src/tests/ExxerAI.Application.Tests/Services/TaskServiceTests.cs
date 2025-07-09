@@ -44,7 +44,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline);
+        var result = await _taskService.CreateTaskAsync(title, description, taskType, priority, deadline, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -72,7 +72,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.CreateTaskAsync(title, description, taskType, priority);
+        var result = await _taskService.CreateTaskAsync(title, description, taskType, priority, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -106,7 +106,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.CreateTaskAsync(title, description, taskType, priority);
+        var result = await _taskService.CreateTaskAsync(title, description, taskType, priority, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -130,7 +130,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetTaskAsync(taskId);
+        var result = await _taskService.GetTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -150,7 +150,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetTaskAsync(taskId);
+        var result = await _taskService.GetTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -169,7 +169,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetTaskAsync(taskId);
+        var result = await _taskService.GetTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -198,7 +198,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetPendingTasksAsync(maxCount);
+        var result = await _taskService.GetPendingTasksAsync(maxCount, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -220,7 +220,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetPendingTasksAsync(maxCount);
+        var result = await _taskService.GetPendingTasksAsync(maxCount, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -248,7 +248,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetPendingTasksAsync(maxCount);
+        var result = await _taskService.GetPendingTasksAsync(maxCount, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -276,7 +276,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetAgentTasksAsync(agentId);
+        var result = await _taskService.GetAgentTasksAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -305,7 +305,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetAgentTasksAsync(agentId, agentStatus);
+        var result = await _taskService.GetAgentTasksAsync(agentId, agentStatus, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -325,7 +325,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetAgentTasksAsync(agentId);
+        var result = await _taskService.GetAgentTasksAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -353,7 +353,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.UpdateTaskStatusAsync(taskId, agentStatus);
+        var result = await _taskService.UpdateTaskStatusAsync(taskId, agentStatus, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -373,7 +373,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.UpdateTaskStatusAsync(taskId, status);
+        var result = await _taskService.UpdateTaskStatusAsync(taskId, status, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -393,7 +393,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.UpdateTaskStatusAsync(taskId, status);
+        var result = await _taskService.UpdateTaskStatusAsync(taskId, status, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -417,7 +417,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId);
+        var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -437,7 +437,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId);
+        var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -457,7 +457,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId);
+        var result = await _taskService.AssignTaskToAgentAsync(taskId, agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -481,7 +481,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.CompleteTaskAsync(taskId, outputData);
+        var result = await _taskService.CompleteTaskAsync(taskId, outputData, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -500,7 +500,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.CompleteTaskAsync(taskId);
+        var result = await _taskService.CompleteTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -519,7 +519,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.CompleteTaskAsync(taskId);
+        var result = await _taskService.CompleteTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -543,7 +543,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.FailTaskAsync(taskId, errorMessage);
+        var result = await _taskService.FailTaskAsync(taskId, errorMessage, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -564,7 +564,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.FailTaskAsync(taskId, errorMessage);
+        var result = await _taskService.FailTaskAsync(taskId, errorMessage, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -591,7 +591,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetOverdueTasksAsync();
+        var result = await _taskService.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -612,7 +612,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.GetOverdueTasksAsync();
+        var result = await _taskService.GetOverdueTasksAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -636,7 +636,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.DeleteTaskAsync(taskId);
+        var result = await _taskService.DeleteTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -655,7 +655,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.DeleteTaskAsync(taskId);
+        var result = await _taskService.DeleteTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -674,7 +674,7 @@ public class TaskServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _taskService.DeleteTaskAsync(taskId);
+        var result = await _taskService.DeleteTaskAsync(taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();

@@ -105,7 +105,7 @@ public class EnhancedLLMServiceTests
         var prompt = "Test prompt";
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -120,7 +120,7 @@ public class EnhancedLLMServiceTests
         var prompt = "";
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -139,7 +139,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -185,7 +185,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<LLMResponse>.WithSuccess(expectedResponse));
 
         // Act
-        var result = await _service.GenerateTextAsync(modelId, prompt);
+        var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -203,7 +203,7 @@ public class EnhancedLLMServiceTests
         var modelId = Guid.NewGuid();
 
         // Act
-        var result = await _service.CreateConversationAsync(agentId, modelId);
+        var result = await _service.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -218,7 +218,7 @@ public class EnhancedLLMServiceTests
         var modelId = Guid.Empty;
 
         // Act
-        var result = await _service.CreateConversationAsync(agentId, modelId);
+        var result = await _service.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -255,7 +255,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<Conversation>.WithSuccess(expectedConversation));
 
         // Act
-        var result = await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+        var result = await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -273,7 +273,7 @@ public class EnhancedLLMServiceTests
         var message = "Test message";
 
         // Act
-        var result = await _service.ContinueConversationAsync(conversationId, message);
+        var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -288,7 +288,7 @@ public class EnhancedLLMServiceTests
         var message = "";
 
         // Act
-        var result = await _service.ContinueConversationAsync(conversationId, message);
+        var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -346,7 +346,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<Conversation>.WithSuccess(conversation));
 
         // Act
-        var result = await _service.ContinueConversationAsync(conversationId, message);
+        var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -364,7 +364,7 @@ public class EnhancedLLMServiceTests
         var outputTokens = 50;
 
         // Act
-        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -393,7 +393,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<decimal>.WithSuccess(expectedCost));
 
         // Act
-        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, TestContext.Current.CancellationToken);
+        var result = await _service.EstimateCostAsync(modelId, inputTokens, outputTokens, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -408,7 +408,7 @@ public class EnhancedLLMServiceTests
         var text = "Test text";
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+        var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -423,7 +423,7 @@ public class EnhancedLLMServiceTests
         var text = "";
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+        var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -451,7 +451,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<int>.WithSuccess(expectedTokenCount));
 
         // Act
-        var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+        var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -465,7 +465,7 @@ public class EnhancedLLMServiceTests
         var modelId = Guid.Empty;
 
         // Act
-        var result = await _service.ValidateModelAsync(modelId);
+        var result = await _service.ValidateModelAsync(modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -498,7 +498,7 @@ public class EnhancedLLMServiceTests
             .Returns(Result<ProviderValidationResult>.WithSuccess(validationResult));
 
         // Act
-        var result = await _service.ValidateModelAsync(modelId);
+        var result = await _service.ValidateModelAsync(modelId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();

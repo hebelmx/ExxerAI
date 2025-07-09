@@ -118,7 +118,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -147,7 +147,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -172,7 +172,7 @@ public class HybridDocumentProcessorTests
                 .Returns(failedOCRResult);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -194,7 +194,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata, TestContext.Current.CancellationToken);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -217,7 +217,7 @@ public class HybridDocumentProcessorTests
             // The implementation checks cancellation token in multiple places
 
             // Act & Assert
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
 
             // Either the result should be a failure due to cancellation, or an exception should be thrown
             // Both are valid responses to cancellation
@@ -245,7 +245,7 @@ public class HybridDocumentProcessorTests
                 .Returns<Task<DirectTextResult>>(callInfo => throw new InvalidOperationException(exceptionMessage));
 
             // Act
-            var result = await _processor.ProcessDocumentAsync(documentData, metadata);
+            var result = await _processor.ProcessDocumentAsync(documentData, metadata, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -271,7 +271,7 @@ public class HybridDocumentProcessorTests
                 .Returns(patterns);
 
             // Act
-            var result = await _processor.ProcessDocumentBatchAsync(documents, options);
+            var result = await _processor.ProcessDocumentBatchAsync(documents, options, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldNotBeNull();
@@ -299,7 +299,7 @@ public class HybridDocumentProcessorTests
                 .Returns(CreateSamplePatterns());
 
             // Act
-            var result = await _processor.ProcessDocumentBatchAsync(documents, options);
+            var result = await _processor.ProcessDocumentBatchAsync(documents, options, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.TotalDocuments.ShouldBe(3);
@@ -320,14 +320,14 @@ public class HybridDocumentProcessorTests
             _directTextExtractor.ExtractTextAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
                 .Returns(async callInfo =>
                 {
-                    await Task.Delay(TimeSpan.FromMilliseconds(10), TestContext.Current.CancellationToken); // Small delay to ensure progress reporting
+                    await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken: TestContext.Current.CancellationToken); // Small delay to ensure progress reporting
                     return CreateSuccessfulDirectTextResult();
                 });
             _patternDictionary.GetPatternsForDocumentTypeAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
                 .Returns(CreateSamplePatterns());
 
             // Act
-            var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress);
+            var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldNotBeNull();
@@ -357,7 +357,7 @@ public class HybridDocumentProcessorTests
             // Act & Assert - Should handle cancellation gracefully without throwing unhandled exceptions
             try
             {
-                var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token);
+                var result = await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
 
                 // If we get a result, validate it
                 result.ShouldNotBeNull();
@@ -454,7 +454,7 @@ public class HybridDocumentProcessorTests
             var validationRules = CreateValidationRules();
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -471,7 +471,7 @@ public class HybridDocumentProcessorTests
             var validationRules = CreateValidationRulesWithRequiredFields();
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -489,7 +489,7 @@ public class HybridDocumentProcessorTests
             var validationRules = CreateStrictValidationRules();
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.IsSuccess.ShouldBeTrue();
@@ -506,7 +506,7 @@ public class HybridDocumentProcessorTests
             var validationRules = CreateMalformedValidationRules(); // Rules with invalid regex
 
             // Act
-            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules);
+            var result = await _processor.ValidateExtractedFieldsAsync(extractedFields, validationRules, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - The method handles regex exceptions gracefully and returns success with invalid validation
             result.IsSuccess.ShouldBeTrue();

@@ -147,7 +147,7 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get external API key for third-party integrations
     /// </summary>
-    public async Task<string?> GetExternalApiKeyAsync(string provider)
+    public async Task<string?> GetExternalApiKeyAsync(string provider, CancellationToken cancellationToken = default)
     {
         var keyName = provider.ToLowerInvariant() switch
         {

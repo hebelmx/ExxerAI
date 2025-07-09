@@ -24,7 +24,7 @@ public class WorkflowServiceBehavioralTests5
             .Returns(Result<Workflow>.WithSuccess(expectedWorkflow));
 
         // Act
-        var result = await _service.GetWorkflowAsync(workflowId);
+        var result = await _service.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -40,7 +40,7 @@ public class WorkflowServiceBehavioralTests5
             .Returns(Result<Workflow>.WithFailure("Workflow not found"));
 
         // Act
-        var result = await _service.GetWorkflowAsync(workflowId);
+        var result = await _service.GetWorkflowAsync(workflowId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();

@@ -50,7 +50,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsEmpty()
     {
         // Act
-        var result = await _service.StartWatchingFolderAsync("", TestContext.Current.CancellationToken);
+        var result = await _service.StartWatchingFolderAsync("", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -61,7 +61,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task StartWatchingFolderAsync_Should_ReturnSuccess_When_ValidFolderId()
     {
         // Act
-        var result = await _service.StartWatchingFolderAsync("test-folder-id", TestContext.Current.CancellationToken);
+        var result = await _service.StartWatchingFolderAsync("test-folder-id", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -74,7 +74,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task StartWatchingFolderAsync_Should_ReturnFailure_When_FolderIdIsWhitespace()
     {
         // Act
-        var result = await _service.StartWatchingFolderAsync("   ", TestContext.Current.CancellationToken);
+        var result = await _service.StartWatchingFolderAsync("   ", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -85,7 +85,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task StopWatchingFolderAsync_Should_ReturnFailure_When_WatchIdNotFound()
     {
         // Act
-        var result = await _service.StopWatchingFolderAsync("nonexistent-watch-id");
+        var result = await _service.StopWatchingFolderAsync("nonexistent-watch-id", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -96,11 +96,11 @@ public class DocumentIngestionServiceImplementationTests
     public async Task StopWatchingFolderAsync_Should_ReturnSuccess_When_ValidWatchId()
     {
         // Arrange
-        var startResult = await _service.StartWatchingFolderAsync("test-folder", TestContext.Current.CancellationToken);
+        var startResult = await _service.StartWatchingFolderAsync("test-folder", cancellationToken: TestContext.Current.CancellationToken);
         var watchId = startResult.Value!;
 
         // Act
-        var result = await _service.StopWatchingFolderAsync(watchId);
+        var result = await _service.StopWatchingFolderAsync(watchId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -111,7 +111,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task DetectDocumentChangesAsync_Should_ReturnSuccess_When_NoPendingChanges()
     {
         // Act
-        var result = await _service.DetectDocumentChangesAsync();
+        var result = await _service.DetectDocumentChangesAsync( TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -123,7 +123,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task ProcessDocumentChangeAsync_Should_ReturnFailure_When_ChangeEventIsNull()
     {
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(null!);
+        var result = await _service.ProcessDocumentChangeAsync(null!, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -143,7 +143,7 @@ public class DocumentIngestionServiceImplementationTests
         };
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -165,7 +165,7 @@ public class DocumentIngestionServiceImplementationTests
         };
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -203,7 +203,7 @@ public class DocumentIngestionServiceImplementationTests
         .Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -214,7 +214,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsEmpty()
     {
         // Act
-        var result = await _service.IngestDocumentAsync("", false, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync("", false, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -225,7 +225,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task IngestDocumentAsync_Should_ReturnFailure_When_DocumentIdIsWhitespace()
     {
         // Act
-        var result = await _service.IngestDocumentAsync("   ", false, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync("   ", false, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsFailure.ShouldBeTrue();
@@ -252,7 +252,7 @@ public class DocumentIngestionServiceImplementationTests
         .Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId, false, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -279,7 +279,7 @@ public class DocumentIngestionServiceImplementationTests
             .Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
 
         // Act
-        var result = await _service.IngestDocumentAsync(documentId, forceReprocess: true, TestContext.Current.CancellationToken);
+        var result = await _service.IngestDocumentAsync(documentId, forceReprocess: true, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -294,7 +294,7 @@ public class DocumentIngestionServiceImplementationTests
         var lastProcessed = DateTime.UtcNow.AddDays(-1);
 
         // Act
-        var result = await _service.IsDocumentModifiedAsync(documentId, lastProcessed);
+        var result = await _service.IsDocumentModifiedAsync(documentId, lastProcessed, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -306,7 +306,7 @@ public class DocumentIngestionServiceImplementationTests
     public async Task GetIngestionStatusAsync_Should_ReturnValidStatus()
     {
         // Act
-        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -320,11 +320,11 @@ public class DocumentIngestionServiceImplementationTests
     public async Task GetIngestionStatusAsync_Should_IncludeActiveSessionsInStatus()
     {
         // Arrange
-        var startResult = await _service.StartWatchingFolderAsync("test-folder", TestContext.Current.CancellationToken);
+        var startResult = await _service.StartWatchingFolderAsync("test-folder", cancellationToken: TestContext.Current.CancellationToken);
         startResult.IsSuccess.ShouldBeTrue();
 
         // Act
-        var result = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var result = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -338,20 +338,20 @@ public class DocumentIngestionServiceImplementationTests
         var folderId = "integration-test-folder";
 
         // Act 1: Start watching
-        var watchResult = await _service.StartWatchingFolderAsync(folderId, TestContext.Current.CancellationToken);
+        var watchResult = await _service.StartWatchingFolderAsync(folderId, cancellationToken: TestContext.Current.CancellationToken);
         watchResult.IsSuccess.ShouldBeTrue();
 
         // Act 2: Get agentStatus
-        var statusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var statusResult = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
         statusResult.IsSuccess.ShouldBeTrue();
         statusResult.Value!.ActiveWatchSessions.ShouldBe(1);
 
         // Act 3: Stop watching
-        var stopResult = await _service.StopWatchingFolderAsync(watchResult.Value!);
+        var stopResult = await _service.StopWatchingFolderAsync(watchResult.Value!, cancellationToken: TestContext.Current.CancellationToken);
         stopResult.IsSuccess.ShouldBeTrue();
 
         // Act 4: Verify agentStatus updated
-        var finalStatusResult = await _service.GetIngestionStatusAsync(TestContext.Current.CancellationToken);
+        var finalStatusResult = await _service.GetIngestionStatusAsync(cancellationToken: TestContext.Current.CancellationToken);
         finalStatusResult.IsSuccess.ShouldBeTrue();
         finalStatusResult.Value!.ActiveWatchSessions.ShouldBe(0);
 
@@ -388,7 +388,7 @@ public class DocumentIngestionServiceImplementationTests
         .Returns(Result<DocumentProcessingResult>.WithSuccess(expectedResult));
 
         // Act
-        var result = await _service.ProcessDocumentChangeAsync(changeEvent);
+        var result = await _service.ProcessDocumentChangeAsync(changeEvent, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();

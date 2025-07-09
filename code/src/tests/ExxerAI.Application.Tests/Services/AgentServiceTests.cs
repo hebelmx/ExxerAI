@@ -33,7 +33,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.CreateAgentAsync(name, description, capabilities);
+        var result = await _agentService.CreateAgentAsync(name, description, capabilities, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -57,7 +57,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.CreateAgentAsync(name, description, capabilities);
+        var result = await _agentService.CreateAgentAsync(name, description, capabilities, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -78,7 +78,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.CreateAgentAsync(name, description, capabilities);
+        var result = await _agentService.CreateAgentAsync(name, description, capabilities, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -110,7 +110,7 @@ public class AgentServiceTests
         result.Error!.ShouldContain("cancelled");
     }
 
-    #endregion
+    #endregion CreateAgentAsync Tests
 
     #region GetAgentAsync Tests
 
@@ -126,7 +126,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetAgentAsync(agentId);
+        var result = await _agentService.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -146,7 +146,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetAgentAsync(agentId);
+        var result = await _agentService.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -165,7 +165,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetAgentAsync(agentId);
+        var result = await _agentService.GetAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -173,7 +173,7 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion GetAgentAsync Tests
 
     #region GetAllAgentsAsync Tests
 
@@ -193,7 +193,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetAllAgentsAsync();
+        var result = await _agentService.GetAllAgentsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -213,7 +213,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetAllAgentsAsync();
+        var result = await _agentService.GetAllAgentsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -222,7 +222,7 @@ public class AgentServiceTests
         result.Data!.ShouldBeEmpty();
     }
 
-    #endregion
+    #endregion GetAllAgentsAsync Tests
 
     #region GetActiveAgentsAsync Tests
 
@@ -241,7 +241,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetActiveAgentsAsync();
+        var result = await _agentService.GetActiveAgentsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -262,7 +262,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.GetActiveAgentsAsync();
+        var result = await _agentService.GetActiveAgentsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -271,7 +271,7 @@ public class AgentServiceTests
         result.Data!.ShouldBeEmpty();
     }
 
-    #endregion
+    #endregion GetActiveAgentsAsync Tests
 
     #region UpdateAgentConfigurationAsync Tests
 
@@ -287,7 +287,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.UpdateAgentConfigurationAsync(agentId, configuration);
+        var result = await _agentService.UpdateAgentConfigurationAsync(agentId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -307,7 +307,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.UpdateAgentConfigurationAsync(agentId, configuration);
+        var result = await _agentService.UpdateAgentConfigurationAsync(agentId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -327,7 +327,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.UpdateAgentConfigurationAsync(agentId, configuration);
+        var result = await _agentService.UpdateAgentConfigurationAsync(agentId, configuration, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -335,7 +335,7 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion UpdateAgentConfigurationAsync Tests
 
     #region UpdateAgentStatusAsync Tests
 
@@ -353,7 +353,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.UpdateAgentStatusAsync(agentId, status);
+        var result = await _agentService.UpdateAgentStatusAsync(agentId, status, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -373,7 +373,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.UpdateAgentStatusAsync(agentId, status);
+        var result = await _agentService.UpdateAgentStatusAsync(agentId, status, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -381,7 +381,7 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion UpdateAgentStatusAsync Tests
 
     #region AssignTaskAsync Tests
 
@@ -397,7 +397,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.AssignTaskAsync(agentId, taskId);
+        var result = await _agentService.AssignTaskAsync(agentId, taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -417,7 +417,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.AssignTaskAsync(agentId, taskId);
+        var result = await _agentService.AssignTaskAsync(agentId, taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -437,7 +437,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.AssignTaskAsync(agentId, taskId);
+        var result = await _agentService.AssignTaskAsync(agentId, taskId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -445,7 +445,7 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion AssignTaskAsync Tests
 
     #region FindBestAgentForTaskAsync Tests
 
@@ -461,7 +461,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.FindBestAgentForTaskAsync(taskType);
+        var result = await _agentService.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -482,7 +482,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.FindBestAgentForTaskAsync(taskType);
+        var result = await _agentService.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -501,7 +501,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.FindBestAgentForTaskAsync(taskType);
+        var result = await _agentService.FindBestAgentForTaskAsync(taskType, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -509,7 +509,7 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion FindBestAgentForTaskAsync Tests
 
     #region DeleteAgentAsync Tests
 
@@ -524,7 +524,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.DeleteAgentAsync(agentId);
+        var result = await _agentService.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -543,7 +543,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.DeleteAgentAsync(agentId);
+        var result = await _agentService.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -562,7 +562,7 @@ public class AgentServiceTests
             .Returns(expectedResult);
 
         // Act
-        var result = await _agentService.DeleteAgentAsync(agentId);
+        var result = await _agentService.DeleteAgentAsync(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldNotBeNull();
@@ -570,7 +570,7 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion
+    #endregion DeleteAgentAsync Tests
 
     #region Interface Contract Tests
 
@@ -607,16 +607,16 @@ public class AgentServiceTests
         foreach (var method in methods.Where(m => !m.IsSpecialName))
         {
             var returnType = method.ReturnType;
-            
+
             // Should be Task<Result<T>>
             returnType.IsGenericType.ShouldBeTrue($"Method {method.Name} should return a generic type");
             returnType.GetGenericTypeDefinition().ShouldBe(typeof(Task<>), $"Method {method.Name} should return Task");
-            
+
             var taskInnerType = returnType.GetGenericArguments()[0];
             taskInnerType.IsGenericType.ShouldBeTrue($"Method {method.Name} should return Task<Result<T>>");
             taskInnerType.GetGenericTypeDefinition().ShouldBe(typeof(Result<>), $"Method {method.Name} should return Task<Result<T>>");
         }
     }
 
-    #endregion
-} 
+    #endregion Interface Contract Tests
+}

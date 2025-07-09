@@ -44,7 +44,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.Success(true));
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTask(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBeOfType<NoContentResult>();
@@ -124,7 +124,7 @@ public class AgentsControllerMissingEndpointsTests
                 .Returns(Result<bool>.WithFailure("Invalid task ID"));
 
             // Act
-            var result = await _controller.AssignTask(agentId, request);
+            var result = await _controller.AssignTask(agentId, request, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert - Controller should process the request and let service handle validation
             await _mockAgentService.Received(1).AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>());

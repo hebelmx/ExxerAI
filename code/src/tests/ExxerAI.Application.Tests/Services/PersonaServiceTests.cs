@@ -54,7 +54,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreatePersonaAsync(
-            name, role, description, systemPrompt, traits, domains);
+            name, role, description, systemPrompt, traits, domains, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -72,10 +72,10 @@ public class PersonaServiceTests
     /// Tests persona creation with null or empty name fails
     /// </summary>
     [Theory]
-    [InlineData(null!)]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreatePersonaAsync_Should_ReturnFailure_When_NameIsInvalid(string invalidName)
+    public async Task CreatePersonaAsync_Should_ReturnFailure_When_NameIsInvalid(string? invalidName)
     {
         // Arrange
         var role = "Test Role";
@@ -84,7 +84,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreatePersonaAsync(
-            invalidName, role, description, systemPrompt);
+            invalidName, role, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -98,10 +98,10 @@ public class PersonaServiceTests
     /// Tests persona creation with null or empty role fails
     /// </summary>
     [Theory]
-    [InlineData(null!)]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreatePersonaAsync_Should_ReturnFailure_When_RoleIsInvalid(string invalidRole)
+    public async Task CreatePersonaAsync_Should_ReturnFailure_When_RoleIsInvalid(string? invalidRole)
     {
         // Arrange
         var name = "Test Name";
@@ -110,7 +110,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreatePersonaAsync(
-            name, invalidRole, description, systemPrompt);
+            name, invalidRole, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -137,7 +137,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.CreatePersonaAsync(
-            name, role, description, systemPrompt);
+            name, role, description, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -177,7 +177,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.UpdatePersonaAsync(
-            personaId, "New Name", "New Role", "New description", "New prompt");
+            personaId, "New Name", "New Role", "New description", "New prompt", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -196,7 +196,7 @@ public class PersonaServiceTests
     public async Task UpdatePersonaAsync_Should_ReturnFailure_When_PersonaIdIsEmpty()
     {
         // Act
-        var result = await _personaService.UpdatePersonaAsync(Guid.Empty);
+        var result = await _personaService.UpdatePersonaAsync(Guid.Empty, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -225,7 +225,7 @@ public class PersonaServiceTests
             .Returns(Result<Persona>.WithSuccess(expectedPersona));
 
         // Act
-        var result = await _personaService.GetPersonaByIdAsync(personaId);
+        var result = await _personaService.GetPersonaByIdAsync(personaId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -252,7 +252,7 @@ public class PersonaServiceTests
             .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
 
         // Act
-        var result = await _personaService.GetActivePersonasAsync();
+        var result = await _personaService.GetActivePersonasAsync( TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -284,7 +284,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.AddPersonaTraitAsync(
-            personaId, "tone", "professional");
+            personaId, "tone", "professional", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -304,7 +304,7 @@ public class PersonaServiceTests
     {
         // Act
         var result = await _personaService.AddPersonaTraitAsync(
-            Guid.Empty, "tone", "professional");
+            Guid.Empty, "tone", "professional", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -315,17 +315,17 @@ public class PersonaServiceTests
     /// Tests adding trait with empty key fails
     /// </summary>
     [Theory]
-    [InlineData(null!)]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_TraitKeyIsInvalid(string invalidKey)
+    public async Task AddPersonaTraitAsync_Should_ReturnFailure_When_TraitKeyIsInvalid(string? invalidKey)
     {
         // Arrange
         var personaId = Guid.NewGuid();
 
         // Act
         var result = await _personaService.AddPersonaTraitAsync(
-            personaId, invalidKey, "value");
+            personaId, invalidKey, "value", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -355,7 +355,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.RemovePersonaTraitAsync(
-            personaId, "tone");
+            personaId, "tone", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -388,7 +388,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.AddKnowledgeDomainAsync(
-            personaId, "machine_learning");
+            personaId, "machine_learning", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -422,7 +422,7 @@ public class PersonaServiceTests
 
         // Act
         var result = await _personaService.RemoveKnowledgeDomainAsync(
-            personaId, "machine_learning");
+            personaId, "machine_learning", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -469,7 +469,7 @@ public class PersonaServiceTests
             personaId,
             "Code Review Template",
             "Please review this {{language}} code: {{code}}",
-            "code_review");
+            "code_review", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -486,17 +486,17 @@ public class PersonaServiceTests
     /// Tests creating template with invalid template name fails
     /// </summary>
     [Theory]
-    [InlineData(null!)]
+    [InlineData(null)]
     [InlineData("")]
     [InlineData("   ")]
-    public async Task CreateTemplateForPersonaAsync_Should_ReturnFailure_When_TemplateNameIsInvalid(string invalidName)
+    public async Task CreateTemplateForPersonaAsync_Should_ReturnFailure_When_TemplateNameIsInvalid(string? invalidName)
     {
         // Arrange
         var personaId = Guid.NewGuid();
 
         // Act
         var result = await _personaService.CreateTemplateForPersonaAsync(
-            personaId, invalidName, "Template text", "context");
+            personaId, invalidName, "Template text", "context", cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -524,7 +524,7 @@ public class PersonaServiceTests
             .Returns(Result<IEnumerable<PromptTemplate>>.WithSuccess(templates));
 
         // Act
-        var result = await _personaService.GetPersonaTemplatesAsync(personaId);
+        var result = await _personaService.GetPersonaTemplatesAsync(personaId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -555,7 +555,7 @@ public class PersonaServiceTests
             .Returns(Result<Persona>.WithSuccess(persona));
 
         // Act
-        var result = await _personaService.ActivatePersonaAsync(personaId);
+        var result = await _personaService.ActivatePersonaAsync(personaId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -587,7 +587,7 @@ public class PersonaServiceTests
             .Returns(Result<Persona>.WithSuccess(persona));
 
         // Act
-        var result = await _personaService.DeactivatePersonaAsync(personaId);
+        var result = await _personaService.DeactivatePersonaAsync(personaId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -619,7 +619,7 @@ public class PersonaServiceTests
             .Returns(Result<bool>.WithSuccess(true));
 
         // Act
-        var result = await _personaService.DeletePersonaAsync(personaId);
+        var result = await _personaService.DeletePersonaAsync(personaId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -667,7 +667,7 @@ public class PersonaServiceTests
             .Returns(Result<IEnumerable<PromptTemplate>>.WithSuccess(templates));
 
         // Act
-        var result = await _personaService.ValidatePersonaAsync(personaId);
+        var result = await _personaService.ValidatePersonaAsync(personaId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -710,7 +710,7 @@ public class PersonaServiceTests
             .Returns(Result<IEnumerable<Persona>>.WithSuccess(personas));
 
         // Act
-        var result = await _personaService.SearchPersonasAsync(searchCriteria);
+        var result = await _personaService.SearchPersonasAsync(searchCriteria, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -727,7 +727,7 @@ public class PersonaServiceTests
     public async Task SearchPersonasAsync_Should_ReturnFailure_When_CriteriaIsNull()
     {
         // Act
-        var result = await _personaService.SearchPersonasAsync(null);
+        var result = await _personaService.SearchPersonasAsync(null, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();

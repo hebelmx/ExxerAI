@@ -86,7 +86,7 @@ public class CLIValidationTests
             Console.SetOut(consoleCapture);
 
             // Act - Execution should handle null gracefully and return error
-            var result = await commands.ExecuteAsync(args);
+            var result = await commands.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
             // Restore console before assertions
             Console.SetOut(originalOut);
@@ -111,7 +111,7 @@ public class CLIValidationTests
         var router = new CommandRouter(agentCommands, taskCommands, workflowCommands);
 
         // Act
-        var result = await router.ExecuteAsync(Array.Empty<string>());
+        var result = await router.ExecuteAsync(Array.Empty<string>(), cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBe(0); // Help returns success
@@ -127,7 +127,7 @@ public class CLIValidationTests
         var router = new CommandRouter(agentCommands, taskCommands, workflowCommands);
 
         // Act
-        var result = await router.ExecuteAsync(new[] { "version" });
+        var result = await router.ExecuteAsync(new[] { "version" }, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBe(0);
@@ -151,7 +151,7 @@ public class CLIValidationTests
             Console.SetOut(consoleCapture);
 
             // Act - await fully before reading output
-            var result = await router.ExecuteAsync(new[] { "invalidcommand" });
+            var result = await router.ExecuteAsync(new[] { "invalidcommand" }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Restore console before reading capture
             Console.SetOut(originalOut);
@@ -466,7 +466,7 @@ public class CLIValidationTests
             var workflowCommands = new WorkflowCommands();
 
             // Act
-            var result = await workflowCommands.ExecuteAsync(Array.Empty<string>());
+            var result = await workflowCommands.ExecuteAsync(Array.Empty<string>(), cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBe(0);
@@ -479,7 +479,7 @@ public class CLIValidationTests
             var workflowCommands = new WorkflowCommands();
 
             // Act
-            var result = await workflowCommands.ExecuteAsync(new[] { "help" });
+            var result = await workflowCommands.ExecuteAsync(new[] { "help" }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBe(0);
@@ -492,7 +492,7 @@ public class CLIValidationTests
             var workflowCommands = new WorkflowCommands();
 
             // Act
-            var result = await workflowCommands.ExecuteAsync(new[] { "unknown" });
+            var result = await workflowCommands.ExecuteAsync(new[] { "unknown" }, cancellationToken: TestContext.Current.CancellationToken);
 
             // Assert
             result.ShouldBe(1);

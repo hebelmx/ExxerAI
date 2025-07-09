@@ -78,7 +78,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess("✅ Watch started successfully"));
 
 			// Act
-			var result = await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+			var result = await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 
 			// Assert
 			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
@@ -96,7 +96,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess(expectedResult));
 
 			// Act
-			var result = await _sut.StartFolderWatchAsync(folderId);
+			var result = await _sut.StartFolderWatchAsync(folderId, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
@@ -114,7 +114,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithFailure(expectedError));
 
 			// Act
-			var result = await _sut.StartFolderWatchAsync(folderId);
+			var result = await _sut.StartFolderWatchAsync(folderId, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
@@ -138,7 +138,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess("Success"));
 
 			// Act
-			await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+			await _sut.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
 
 			// Assert
 			await _mockGoogleDriveService.Received(1).StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
@@ -164,7 +164,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<byte[]>.WithSuccess(sampleFileData));
 
 			// Act
-			var result = await _sut.DownloadDocumentAsync(documentId);
+			var result = await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
 			// Assert
 			await _mockGoogleDriveService.Received(1).GetDocumentMetadataAsync(documentId);
@@ -186,7 +186,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<byte[]>.WithSuccess(sampleFileData));
 
 			// Act
-			var result = await _sut.DownloadDocumentAsync(documentId);
+			var result = await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
@@ -206,7 +206,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<GoogleDriveFileMetadata>.WithFailure(expectedError));
 
 			// Act
-			var result = await _sut.DownloadDocumentAsync(documentId);
+			var result = await _sut.DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
@@ -229,7 +229,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess("No active watches"));
 
 			// Act
-			var result = await _sut.CheckHealthStatusAsync();
+			var result = await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
 			await _mockGoogleDriveService.Received(1).InitializeAsync();
@@ -247,7 +247,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess("No active watches"));
 
 			// Act
-			var result = await _sut.CheckHealthStatusAsync();
+			var result = await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
@@ -267,7 +267,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess("No active watches"));
 
 			// Act
-			var result = await _sut.CheckHealthStatusAsync();
+			var result = await _sut.CheckHealthStatusAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue(); // Health check itself succeeds, but reports unhealthy status
@@ -293,7 +293,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess(expectedResult));
 
 			// Act
-			var result = await _sut.GetActiveWatchesAsync();
+			var result = await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
 			await _mockGoogleDriveService.Received(1).GetActiveWatchesAsync();
@@ -310,7 +310,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess(expectedResult));
 
 			// Act
-			var result = await _sut.GetActiveWatchesAsync();
+			var result = await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
@@ -327,7 +327,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithFailure(expectedError));
 
 			// Act
-			var result = await _sut.GetActiveWatchesAsync();
+			var result = await _sut.GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();
@@ -351,7 +351,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess(expectedResult));
 
 			// Act
-			var result = await _sut.StopWatchingAsync(watchId);
+			var result = await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
 
 			// Assert
 			await _mockGoogleDriveService.Received(1).StopWatchingAsync(watchId);
@@ -369,7 +369,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithSuccess(expectedResult));
 
 			// Act
-			var result = await _sut.StopWatchingAsync(watchId);
+			var result = await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeTrue();
@@ -387,7 +387,7 @@ public class GoogleDriveToolsTests
 				.Returns(Result<string>.WithFailure(expectedError));
 
 			// Act
-			var result = await _sut.StopWatchingAsync(watchId);
+			var result = await _sut.StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
 
 			// Assert
 			result.IsSuccess.ShouldBeFalse();

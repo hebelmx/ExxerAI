@@ -39,16 +39,16 @@ public class ResultAsyncSafetyTests
         var errors = AsyncTestConstants.SmallErrorArray;
 
         // Act - This should not cause compiler errors about ref struct in async methods
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         var result = Result.WithFailure(errors);
         var genericResult = Result<string>.WithFailure(errors, AsyncTestConstants.AsyncTestValue);
 
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         var stringRepresentation = result.ToString();
 
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         stringRepresentation.ShouldNotBeNull();
@@ -67,18 +67,18 @@ public class ResultAsyncSafetyTests
         var secondaryErrors = new List<string> { "Secondary1", "Secondary2" };
 
         // Act - Test across async boundaries
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         var combinedResult = Result.CombineErrors(primaryErrors, secondaryErrors);
 
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         combinedResult.IsFailure.ShouldBeTrue();
         combinedResult.Errors.Count().ShouldBe(4);
     }
 
-    #endregion ConfigureAwait and Async Patterns Tests
+    #endregion Basic Async Compatibility Tests
 
     #region Task Continuation and Exception Handling Tests
 
@@ -91,7 +91,7 @@ public class ResultAsyncSafetyTests
         // Arrange & Act
         var finalResult = await Task.Run(async () =>
         {
-            await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+            await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
             // Use Span optimizations in continuation
             var errors = AsyncTestConstants.SmallErrorArray;
@@ -122,8 +122,8 @@ public class ResultAsyncSafetyTests
         try
         {
             // Act - Simulate async operation that might throw
-            await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
-            result = await SimulateAsyncOperationWithSpanOptimizations(false);
+            await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
+            result = await SimulateAsyncOperationWithSpanOptimizations(false, cancellationToken: TestContext.Current.CancellationToken);
         }
         catch (Exception)
         {
@@ -142,9 +142,9 @@ public class ResultAsyncSafetyTests
     /// </summary>
     /// <param name="shouldThrow">Whether the operation should throw an exception.</param>
     /// <returns>A task that returns a Result.</returns>
-    private static async Task<Result<string>> SimulateAsyncOperationWithSpanOptimizations(bool shouldThrow)
+    private static async Task<Result<string>> SimulateAsyncOperationWithSpanOptimizations(bool shouldThrow, CancellationToken cancellationToken)
     {
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         if (shouldThrow)
         {
@@ -199,7 +199,7 @@ public class ResultAsyncSafetyTests
     {
         try
         {
-            await Task.Delay(TimeSpan.FromMilliseconds(1), TestContext.Current.CancellationToken); // Very short delay for high concurrency
+            await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken: TestContext.Current.CancellationToken); // Very short delay for high concurrency
 
             // Perform operations that use Span optimizations
             var errors = new[] { $"Error{taskId}A", $"Error{taskId}B", $"Error{taskId}C" };
@@ -213,7 +213,7 @@ public class ResultAsyncSafetyTests
             var combined = Result.CombineErrors(errors, new[] { $"Combined{taskId}" });
             var str3 = combined.ToString();
 
-            await Task.Delay(TimeSpan.FromMilliseconds(1), TestContext.Current.CancellationToken);
+            await Task.Delay(TimeSpan.FromMilliseconds(1), cancellationToken: TestContext.Current.CancellationToken);
 
             // Verify results
             return result1.IsFailure && result2.IsFailure && combined.IsFailure &&
@@ -241,20 +241,20 @@ public class ResultAsyncSafetyTests
         // ✅ SAFE: Optimizations complete before method returns
         // ✅ SAFE: No ref struct crosses async boundaries
 
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         // These operations use Span optimizations internally but are async-safe
         var result = Result.WithFailure(AsyncTestConstants.SmallErrorArray);
         var genericResult = Result<string>.WithFailure(AsyncTestConstants.SmallErrorArray, "value");
         var combined = Result.CombineErrors(AsyncTestConstants.SmallErrorArray, new[] { "extra" });
 
-        await Task.Delay(AsyncTestConstants.SmallDelayMs, TestContext.Current.CancellationToken);
+        await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
         // Test string representations (triggers Span optimizations)
         var str1 = result.ToString();
         var str2 = genericResult.ToString();
         var str3 = combined.ToString();
-        
+
         // All operations complete successfully
         result.IsFailure.ShouldBeTrue();
         genericResult.IsFailure.ShouldBeTrue();

@@ -118,7 +118,7 @@ public class CommandRouterTests
         var args = Array.Empty<string>();
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -136,7 +136,7 @@ public class CommandRouterTests
         _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -153,7 +153,7 @@ public class CommandRouterTests
             .Returns(Result<Agent>.Success(testAgent));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -169,7 +169,7 @@ public class CommandRouterTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -184,7 +184,7 @@ public class CommandRouterTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -198,7 +198,7 @@ public class CommandRouterTests
         var args = new[] { "workflow", "list" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -211,7 +211,7 @@ public class CommandRouterTests
         var args = new[] { "workflows", "create", "TestWorkflow" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -224,7 +224,7 @@ public class CommandRouterTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -237,7 +237,7 @@ public class CommandRouterTests
         var args = new[] { "--help" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -250,7 +250,7 @@ public class CommandRouterTests
         var args = new[] { "-h" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -263,7 +263,7 @@ public class CommandRouterTests
         var args = new[] { "version" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -276,7 +276,7 @@ public class CommandRouterTests
         var args = new[] { "--version" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -289,7 +289,7 @@ public class CommandRouterTests
         var args = new[] { "-v" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -302,7 +302,7 @@ public class CommandRouterTests
         var args = new[] { "invalid" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -317,7 +317,7 @@ public class CommandRouterTests
         _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.Success(testAgents));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -333,7 +333,7 @@ public class CommandRouterTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -348,7 +348,7 @@ public class CommandRouterTests
         _mockAgentRepository.GetAllAsync().Returns(Result<IEnumerable<Agent>>.WithFailure("Test error"));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -362,7 +362,7 @@ public class CommandRouterTests
         _mockTaskRepository.AddAsync(Arg.Any<AgentTask>()).Returns(Result<AgentTask>.Success(new AgentTask()));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -376,7 +376,7 @@ public class CommandRouterTests
         _mockAgentRepository.GetAllAsync().Returns(Task.FromException<Result<IEnumerable<Agent>>>(new InvalidOperationException("Test exception")));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -392,7 +392,7 @@ public class CommandRouterTests
             .Returns(Result<Agent>.Success(testAgent));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -406,7 +406,7 @@ public class CommandRouterTests
         var args = new[] { "workflow" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -429,7 +429,7 @@ public class CommandRouterTests
         _mockTaskRepository.GetAllAsync().Returns(Result<IEnumerable<AgentTask>>.Success(testTasks));
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -445,7 +445,7 @@ public class CommandRouterTests
         var args = new[] { helpCommand };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -461,7 +461,7 @@ public class CommandRouterTests
         var args = new[] { versionCommand };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -478,7 +478,7 @@ public class CommandRouterTests
         var args = string.IsNullOrEmpty(invalidCommand) ? new[] { "" } : new[] { invalidCommand };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -491,7 +491,7 @@ public class CommandRouterTests
         var args = new[] { "agent", "agentStatus", "invalid-guid" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -504,7 +504,7 @@ public class CommandRouterTests
         var args = new[] { "task", "agentStatus", "invalid-guid" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -517,7 +517,7 @@ public class CommandRouterTests
         var args = new[] { "workflow", "invalid-subcommand" };
 
         // Act
-        var exitCode = await _commandRouter.ExecuteAsync(args);
+        var exitCode = await _commandRouter.ExecuteAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1); // WorkflowCommands returns 1 for unknown commands

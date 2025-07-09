@@ -51,7 +51,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         SetupHybridService();
 
         // Act
-        var result = await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        var result = await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -113,7 +113,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         };
 
         // Act
-        var result = await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
+        var result = await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -121,7 +121,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Verify document is in both stores by performing searches
         var searchResult = await _hybridService.SearchHybridAsync(
             "machine learning healthcare",
-            new HybridSearchOptions { MaxCombinedResults = 5 });
+            new HybridSearchOptions { MaxCombinedResults = 5 }, cancellationToken: TestContext.Current.CancellationToken);
 
         searchResult.IsSuccess.ShouldBeTrue();
         var hybridResults = searchResult.Value;
@@ -135,7 +135,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         // Store multiple related documents
         await StoreTestKnowledgeBase();
@@ -154,7 +154,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Act
         var result = await _hybridService.SearchHybridAsync(
             "artificial intelligence applications",
-            searchOptions);
+            searchOptions, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -179,14 +179,14 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
         await StoreTestKnowledgeBase();
 
         // Act
         var result = await _hybridService.ExploreConceptRelationshipsAsync(
             "Machine Learning",
             maxDepth: 3,
-            limit: 20);
+            limit: 20, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -206,11 +206,11 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
         await StoreTestKnowledgeBase();
 
         // Act
-        var result = await _hybridService.GetKnowledgeStatsAsync();
+        var result = await _hybridService.GetKnowledgeStatsAsync(TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -228,7 +228,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documentId = "removable-doc-001";
         var knowledgeDocument = CreateTestKnowledgeDocument(documentId, "Document to be removed");
@@ -236,7 +236,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         await _hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
 
         // Act
-        var result = await _hybridService.RemoveDocumentAsync(documentId);
+        var result = await _hybridService.RemoveDocumentAsync(documentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -244,7 +244,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Verify removal by searching
         var searchResult = await _hybridService.SearchHybridAsync(
             knowledgeDocument.Content,
-            new HybridSearchOptions { SemanticThreshold = 0.5f });
+            new HybridSearchOptions { SemanticThreshold = 0.5f }, cancellationToken: TestContext.Current.CancellationToken);
 
         searchResult.IsSuccess.ShouldBeTrue();
         searchResult.Value!.CombinedResults.Any(r => r.DocumentId == documentId).ShouldBeFalse();
@@ -255,7 +255,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var concurrentTasks = new List<Task>();
         var documentCount = 20;
@@ -270,7 +270,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         await Task.WhenAll(concurrentTasks);
 
         // Assert
-        var stats = await _hybridService.GetKnowledgeStatsAsync();
+        var stats = await _hybridService.GetKnowledgeStatsAsync(TestContext.Current.CancellationToken);
         stats.IsSuccess.ShouldBeTrue();
         stats.Value.VectorStats.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
         stats.Value.GraphStats.DocumentNodes.ShouldBeGreaterThanOrEqualTo(documentCount);
@@ -285,7 +285,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
         await StoreTestKnowledgeBase();
 
         var searchOptions = new HybridSearchOptions
@@ -296,7 +296,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         };
 
         // Act
-        var result = await _hybridService.SearchHybridAsync("machine learning", searchOptions);
+        var result = await _hybridService.SearchHybridAsync("machine learning", searchOptions, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();
@@ -318,7 +318,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documents = GenerateLargeKnowledgeBase(100);
 
@@ -326,7 +326,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var storageStopwatch = System.Diagnostics.Stopwatch.StartNew();
         foreach (var doc in documents)
         {
-            await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+            await _hybridService.StoreDocumentWithKnowledgeAsync(doc, cancellationToken: TestContext.Current.CancellationToken);
         }
         storageStopwatch.Stop();
 
@@ -336,7 +336,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         var searchStopwatch = System.Diagnostics.Stopwatch.StartNew();
         var searchResult = await _hybridService.SearchHybridAsync(
             "artificial intelligence machine learning",
-            new HybridSearchOptions { MaxCombinedResults = 20 });
+            new HybridSearchOptions { MaxCombinedResults = 20 }, cancellationToken: TestContext.Current.CancellationToken);
         searchStopwatch.Stop();
 
         searchResult.IsSuccess.ShouldBeTrue();
@@ -348,7 +348,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     {
         // Arrange
         SetupHybridService();
-        await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
+        await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
 
         var documents = new[]
         {
@@ -360,7 +360,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         // Act - Store documents
         foreach (var doc in documents)
         {
-            var result = await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+            var result = await _hybridService.StoreDocumentWithKnowledgeAsync(doc, cancellationToken: TestContext.Current.CancellationToken);
             result.IsSuccess.ShouldBeTrue();
         }
 
@@ -421,7 +421,7 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
 
         foreach (var doc in knowledgeBase)
         {
-            await _hybridService.StoreDocumentWithKnowledgeAsync(doc);
+            await _hybridService.StoreDocumentWithKnowledgeAsync(doc, cancellationToken: TestContext.Current.CancellationToken);
         }
     }
 

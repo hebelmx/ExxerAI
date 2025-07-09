@@ -67,7 +67,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
 // Act
-var result = await _service.GenerateTextAsync(modelId, "test prompt");
+var result = await _service.GenerateTextAsync(modelId, "test prompt", cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -86,7 +86,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.GenerateTextAsync(modelId, prompt);
+var result = await _service.GenerateTextAsync(modelId, prompt, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -128,7 +128,7 @@ _mockConversationRepository.AddMessageAsync(Arg.Any<ConversationMessage>(), Arg.
 .Returns(Result<ConversationMessage>.WithFailure("Failed to add message"));
 
 // Act
-var result = await _service.ContinueConversationAsync(conversationId, "test message");
+var result = await _service.ContinueConversationAsync(conversationId, "test message", cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -146,7 +146,7 @@ _mockConversationRepository.AddMessageAsync(Arg.Any<ConversationMessage>(), Arg.
 .Returns(callInfo => Result<ConversationMessage>.WithSuccess(callInfo.Arg<ConversationMessage>()));
 
 // Act
-var result = await _service.ContinueConversationAsync(conversationId, message);
+var result = await _service.ContinueConversationAsync(conversationId, message, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -169,7 +169,7 @@ _mockConversationRepository.AddAsync(Arg.Any<Conversation>(), Arg.Any<Cancellati
 .Returns(callInfo => Result<Conversation>.WithSuccess(callInfo.Arg<Conversation>()));
 
 // Act
-var result = await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt);
+var result = await _service.CreateConversationAsync(agentId, modelId, title, systemPrompt, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -192,7 +192,7 @@ _mockConversationRepository.AddAsync(Arg.Any<Conversation>(), Arg.Any<Cancellati
 .Returns(callInfo => Result<Conversation>.WithSuccess(callInfo.Arg<Conversation>()));
 
 // Act
-var result = await _service.CreateConversationAsync(agentId, modelId);
+var result = await _service.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -211,7 +211,7 @@ _mockConversationRepository.AddAsync(Arg.Any<Conversation>(), Arg.Any<Cancellati
 .Returns(Result<Conversation>.WithFailure("Database error"));
 
 // Act
-var result = await _service.CreateConversationAsync(agentId, modelId);
+var result = await _service.CreateConversationAsync(agentId, modelId, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -227,7 +227,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
 // Act
-var result = await _service.EstimateCostAsync(modelId, 100, 50, TestContext.Current.CancellationToken);
+var result = await _service.EstimateCostAsync(modelId, 100, 50, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -245,7 +245,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.EstimateCostAsync(modelId, 1000, 500, TestContext.Current.CancellationToken);
+var result = await _service.EstimateCostAsync(modelId, 1000, 500, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -264,7 +264,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.CountTokensAsync(modelId, "", TestContext.Current.CancellationToken);
+var result = await _service.CountTokensAsync(modelId, "", cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -283,7 +283,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.CountTokensAsync(modelId, text, TestContext.Current.CancellationToken);
+var result = await _service.CountTokensAsync(modelId, text, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -300,7 +300,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
 // Act
-var result = await _service.CountTokensAsync(modelId, "test text", TestContext.Current.CancellationToken);
+var result = await _service.CountTokensAsync(modelId, "test text", cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsFailure.ShouldBeTrue();
@@ -363,7 +363,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithSuccess(model));
 
 // Act
-var result = await _service.ValidateModelAsync(modelId);
+var result = await _service.ValidateModelAsync(modelId, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();
@@ -379,7 +379,7 @@ _mockModelRepository.GetByIdAsync(modelId, Arg.Any<CancellationToken>())
 .Returns(Result<LanguageModel>.WithFailure("Model not found"));
 
 // Act
-var result = await _service.ValidateModelAsync(modelId);
+var result = await _service.ValidateModelAsync(modelId, cancellationToken: TestContext.Current.CancellationToken);
 
 // Assert
 result.IsSuccess.ShouldBeTrue();

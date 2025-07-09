@@ -1,0 +1,1016 @@
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\AgentsControllerMissingEndpointsTests.cs
+Original:
+FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>());
+Modified:
+FindBestAgentForTaskAsync(taskType, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\AgentsControllerMissingEndpointsTests.cs
+Original:
+AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>());
+Modified:
+AssignTaskAsync(agentId, Guid.Empty, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs
+Original:
+StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>());
+Modified:
+StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs
+Original:
+ProcessDocumentAsync(
+                Arg.Any<byte[]>(), Arg.Any<DocumentMetadata>(),
+                Arg.Any<CancellationToken>());
+Modified:
+ProcessDocumentAsync(
+                Arg.Any<byte[]>(), Arg.Any<DocumentMetadata>(),
+                Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceImplementationTests.cs
+Original:
+_agentService.AssignTaskAsync(Guid.Empty, Guid.NewGuid());
+Modified:
+_agentService.AssignTaskAsync(Guid.Empty, Guid.NewGuid(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceTests.cs
+Original:
+
+            await _agentService.FindBestAgentForTaskAsync("test", cts.Token);
+Wrapped with pragma:
+
+            #pragma warning disable xUnit1051
+
+            await _agentService.FindBestAgentForTaskAsync("test", cts.Token);
+
+            #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceTests.cs
+Original:
+
+            await _agentService.GetActiveAgentsAsync(cts.Token);
+Wrapped with pragma:
+
+            #pragma warning disable xUnit1051
+
+            await _agentService.GetActiveAgentsAsync(cts.Token);
+
+            #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceTests.cs
+Original:
+
+            await _agentService.GetAllAgentsAsync(cts.Token);
+Wrapped with pragma:
+
+            #pragma warning disable xUnit1051
+
+            await _agentService.GetAllAgentsAsync(cts.Token);
+
+            #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServiceTests.cs
+Original:
+ await _agentService.CreateAgentAsync(name, description, capabilities, cts.Token);
+Wrapped with pragma:
+ #pragma warning disable xUnit1051
+ await _agentService.CreateAgentAsync(name, description, capabilities, cts.Token);
+ #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\DocumentIngestionServiceTests.cs
+Original:
+ await _service.ProcessDocumentChangeAsync(changeEvent, cts.Token);
+Wrapped with pragma:
+ #pragma warning disable xUnit1051
+ await _service.ProcessDocumentChangeAsync(changeEvent, cts.Token);
+ #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+Modified:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
+Modified:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+Modified:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
+Modified:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+Modified:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
+Modified:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+Modified:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>());
+Modified:
+UpdatePatternFromSuccessfulExtractionAsync(Arg.Any<PatternLearningResult>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult);
+Modified:
+_processor.UpdatePatternsFromSuccessfulProcessingAsync(processingResult, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+ await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
+Wrapped with pragma:
+ #pragma warning disable xUnit1051
+ await _processor.ProcessDocumentBatchAsync(documents, options, progress: null, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
+ #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\HybridDocumentProcessorTests.cs
+Original:
+ await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
+Wrapped with pragma:
+ #pragma warning disable xUnit1051
+ await _processor.ProcessDocumentAsync(documentData, metadata, cts.Token, cancellationToken: TestContext.Current.CancellationToken);
+ #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceImplementationTests.cs
+Original:
+_service.ContinueConversationAsync(Guid.NewGuid(), "   ");
+Modified:
+_service.ContinueConversationAsync(Guid.NewGuid(), "   ", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceImplementationTests.cs
+Original:
+_service.ContinueConversationAsync(Guid.NewGuid(), "");
+Modified:
+_service.ContinueConversationAsync(Guid.NewGuid(), "", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceImplementationTests.cs
+Original:
+_service.GenerateTextAsync(Guid.NewGuid(), "   ");
+Modified:
+_service.GenerateTextAsync(Guid.NewGuid(), "   ", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceImplementationTests.cs
+Original:
+_service.GenerateTextAsync(Guid.NewGuid(), "");
+Modified:
+_service.GenerateTextAsync(Guid.NewGuid(), "", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+var validateTask = _llmService.ValidateModelAsync(modelId);
+Modified:
+var validateTask = _llmService.ValidateModelAsync(modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+var countTask = _llmService.CountTokensAsync(modelId, "test");
+Modified:
+var countTask = _llmService.CountTokensAsync(modelId, "test", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+var estimateTask = _llmService.EstimateCostAsync(modelId, 10, 20);
+Modified:
+var estimateTask = _llmService.EstimateCostAsync(modelId, 10, 20, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+var createTask = _llmService.CreateConversationAsync(agentId, modelId);
+Modified:
+var createTask = _llmService.CreateConversationAsync(agentId, modelId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+var continueTask = _llmService.ContinueConversationAsync(conversationId, "test");
+Modified:
+var continueTask = _llmService.ContinueConversationAsync(conversationId, "test", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServiceTests.cs
+Original:
+var generateTask = _llmService.GenerateTextAsync(modelId, "test");
+Modified:
+var generateTask = _llmService.GenerateTextAsync(modelId, "test", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetActivePersonasAsync(Arg.Any<CancellationToken>());
+Modified:
+GetActivePersonasAsync(Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetActivePersonasAsync(Arg.Any<CancellationToken>());
+Modified:
+GetActivePersonasAsync(Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+DeleteAsync(personaId, Arg.Any<CancellationToken>());
+Modified:
+DeleteAsync(personaId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+Modified:
+DeleteAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetByPersonaIdAsync(personaId, false, Arg.Any<CancellationToken>());
+Modified:
+GetByPersonaIdAsync(personaId, false, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>());
+Modified:
+AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>());
+Modified:
+AddAsync(Arg.Any<PromptTemplate>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetActivePersonasAsync(Arg.Any<CancellationToken>());
+Modified:
+GetActivePersonasAsync(Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetByIdAsync(personaId, Arg.Any<CancellationToken>());
+Modified:
+GetByIdAsync(personaId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+Modified:
+GetByIdAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+UpdateAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+GetByIdAsync(personaId, Arg.Any<CancellationToken>());
+Modified:
+GetByIdAsync(personaId, Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\PersonaServiceTests.cs
+Original:
+AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>());
+Modified:
+AddAsync(Arg.Any<Persona>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskRepositoryBehavioralTests1.cs
+Original:
+_service.CreateTaskAsync("Task 2", "Description 2", "Type2", TaskPriority.High);
+Modified:
+_service.CreateTaskAsync("Task 2", "Description 2", "Type2", TaskPriority.High, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServiceTests.cs
+Original:
+
+            await _taskService.GetOverdueTasksAsync(cts.Token);
+Wrapped with pragma:
+
+            #pragma warning disable xUnit1051
+
+            await _taskService.GetOverdueTasksAsync(cts.Token);
+
+            #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServiceTests.cs
+Original:
+
+            await _taskService.GetPendingTasksAsync(100, cts.Token);
+Wrapped with pragma:
+
+            #pragma warning disable xUnit1051
+
+            await _taskService.GetPendingTasksAsync(100, cts.Token);
+
+            #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Wrapped custom token use in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServiceTests.cs
+Original:
+
+            await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token);
+Wrapped with pragma:
+
+            #pragma warning disable xUnit1051
+
+            await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token);
+
+            #pragma warning restore xUnit1051
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceImplementationTests.cs
+Original:
+AddAsync(Arg.Any<Workflow>(), Arg.Any<CancellationToken>());
+Modified:
+AddAsync(Arg.Any<Workflow>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var deleteTask = _workflowService.DeleteWorkflowAsync(workflowId);
+Modified:
+var deleteTask = _workflowService.DeleteWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var cancelTask = _workflowService.CancelWorkflowExecutionAsync(executionId);
+Modified:
+var cancelTask = _workflowService.CancelWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var resumeTask = _workflowService.ResumeWorkflowExecutionAsync(executionId);
+Modified:
+var resumeTask = _workflowService.ResumeWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var pauseTask = _workflowService.PauseWorkflowExecutionAsync(executionId);
+Modified:
+var pauseTask = _workflowService.PauseWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var getExecutionsTask = _workflowService.GetWorkflowExecutionsAsync(workflowId);
+Modified:
+var getExecutionsTask = _workflowService.GetWorkflowExecutionsAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var getExecutionTask = _workflowService.GetWorkflowExecutionAsync(executionId);
+Modified:
+var getExecutionTask = _workflowService.GetWorkflowExecutionAsync(executionId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var executeTask = _workflowService.ExecuteWorkflowAsync(workflowId, input);
+Modified:
+var executeTask = _workflowService.ExecuteWorkflowAsync(workflowId, input, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var updateConfigTask = _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration);
+Modified:
+var updateConfigTask = _workflowService.UpdateWorkflowConfigurationAsync(workflowId, configuration, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var getActiveTask = _workflowService.GetActiveWorkflowsAsync();
+Modified:
+var getActiveTask = _workflowService.GetActiveWorkflowsAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var getTask = _workflowService.GetWorkflowAsync(workflowId);
+Modified:
+var getTask = _workflowService.GetWorkflowAsync(workflowId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServiceTests.cs
+Original:
+var createTask = _workflowService.CreateWorkflowAsync("test", "test", steps);
+Modified:
+var createTask = _workflowService.CreateWorkflowAsync("test", "test", steps, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<Agent>(a => a.Description == "New description"));
+Modified:
+UpdateAsync(Arg.Is<Agent>(a => a.Description == "New description"), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+CreateAgentAsync("TestAgent", "Custom description", Arg.Any<AgentCapabilities>());
+Modified:
+CreateAgentAsync("TestAgent", "Custom description", Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Inactive));
+Modified:
+UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Inactive), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Active));
+Modified:
+UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Active), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<Agent>(a => a.Name == "NewName"));
+Modified:
+UpdateAsync(Arg.Is<Agent>(a => a.Name == "NewName"), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+GetByIdAsync(agentId);
+Modified:
+GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+GetByIdAsync(agentId);
+Modified:
+GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+DeleteAsync(agentId);
+Modified:
+DeleteAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+CreateAgentAsync(
+            "TestAgent",
+            "Auto-generated agent TestAgent",
+            Arg.Any<AgentCapabilities>());
+Modified:
+CreateAgentAsync(
+            "TestAgent",
+            "Auto-generated agent TestAgent",
+            Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\AgentCommandsTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+CreateAgentAsync("TestAgent", "Test description", Arg.Any<AgentCapabilities>());
+Modified:
+CreateAgentAsync("TestAgent", "Test description", Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+AddAsync(Arg.Any<AgentTask>());
+Modified:
+AddAsync(Arg.Any<AgentTask>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+CreateAgentAsync("TestAgent", Arg.Any<string>(), Arg.Any<AgentCapabilities>());
+Modified:
+CreateAgentAsync("TestAgent", Arg.Any<string>(), Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\CommandRouterTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<AgentTask>(t =>
+            t.AgentStatus == TaskAgentStatus.Completed && t.CompletedAt.HasValue));
+Modified:
+UpdateAsync(Arg.Is<AgentTask>(t =>
+            t.AgentStatus == TaskAgentStatus.Completed && t.CompletedAt.HasValue), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<AgentTask>(t =>
+            t.AgentStatus == TaskAgentStatus.InProgress && t.StartedAt.HasValue));
+Modified:
+UpdateAsync(Arg.Is<AgentTask>(t =>
+            t.AgentStatus == TaskAgentStatus.InProgress && t.StartedAt.HasValue), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+GetByIdAsync(agentId);
+Modified:
+GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+AddAsync(Arg.Is<AgentTask>(t => t.Deadline.HasValue));
+Modified:
+AddAsync(Arg.Is<AgentTask>(t => t.Deadline.HasValue), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+AddAsync(Arg.Is<AgentTask>(t => t.Description == "Custom description"));
+Modified:
+AddAsync(Arg.Is<AgentTask>(t => t.Description == "Custom description"), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.High));
+Modified:
+AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.High), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.Normal));
+Modified:
+AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.Normal), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+GetByIdAsync(taskId);
+Modified:
+GetByIdAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+DeleteAsync(taskId);
+Modified:
+DeleteAsync(taskId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<AgentTask>(t => t.AgentStatus == TaskAgentStatus.Completed));
+Modified:
+UpdateAsync(Arg.Is<AgentTask>(t => t.AgentStatus == TaskAgentStatus.Completed), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+UpdateAsync(Arg.Is<AgentTask>(t => t.AssignedAgentId == agentId));
+Modified:
+UpdateAsync(Arg.Is<AgentTask>(t => t.AssignedAgentId == agentId), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+AddAsync(Arg.Is<AgentTask>(t => t.Title == "TestTask"));
+Modified:
+AddAsync(Arg.Is<AgentTask>(t => t.Title == "TestTask"), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.CLI.Tests\TaskCommandsTests.cs
+Original:
+GetAllAsync();
+Modified:
+GetAllAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\DocumentNotificationServiceTests.cs
+Original:
+_notificationService.NotifyDocumentAddedAsync(document, _cancellationToken);
+Modified:
+_notificationService.NotifyDocumentAddedAsync(document, _cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\DocumentNotificationServiceTests.cs
+Original:
+_notificationService.NotifyDocumentAddedAsync(document, cancellationToken);
+Modified:
+_notificationService.NotifyDocumentAddedAsync(document, cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\PrimarySourceOfTruthSystemTests.cs
+Original:
+_truthSystem.StoreExtractedDataAsync(extractedData, dataSource, cancellationToken);
+Modified:
+_truthSystem.StoreExtractedDataAsync(extractedData, dataSource, cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\LLM\OpenAIProviderTests.cs
+Original:
+var stream = _provider.StreamCompletionAsync(modelName, prompt);
+Modified:
+var stream = _provider.StreamCompletionAsync(modelName, prompt, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs
+Original:
+_hybridService.ExploreConceptRelationshipsAsync(
+                    doc.ExtractedConcepts.First().Name);
+Modified:
+_hybridService.ExploreConceptRelationshipsAsync(
+                    doc.ExtractedConcepts.First().Name, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs
+Original:
+_hybridService.SearchHybridAsync(doc.Content.Substring(0, 50));
+Modified:
+_hybridService.SearchHybridAsync(doc.Content.Substring(0, 50), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\HybridKnowledgeServiceIntegrationTests.cs
+Original:
+_hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument);
+Modified:
+_hybridService.StoreDocumentWithKnowledgeAsync(knowledgeDocument, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId}) RETURN count(d) as count",
+            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+Modified:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId}) RETURN count(d) as count",
+            new Dictionary<string, object> { ["docId"] = document.DocumentId }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+_graphStore.StoreDocumentAsync(document);
+Modified:
+_graphStore.StoreDocumentAsync(document, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId})-[r:DISCUSSES]->(c:Concept {conceptId: $conceptId}) RETURN r.weight as weight",
+            new Dictionary<string, object> 
+            { 
+                ["docId"] = document.DocumentId, 
+                ["conceptId"] = concept.ConceptId 
+            });
+Modified:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId})-[r:DISCUSSES]->(c:Concept {conceptId: $conceptId}) RETURN r.weight as weight",
+            new Dictionary<string, object> 
+            { 
+                ["docId"] = document.DocumentId, 
+                ["conceptId"] = concept.ConceptId 
+            }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+_graphStore.StoreConceptsAsync(new[] { concept });
+Modified:
+_graphStore.StoreConceptsAsync(new[] { concept }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (c:Concept) WHERE c.conceptId IN [$id1, $id2] RETURN c.name as name, c.confidence as confidence",
+            new Dictionary<string, object> 
+            { 
+                ["id1"] = "concept-ml", 
+                ["id2"] = "concept-ai" 
+            });
+Modified:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (c:Concept) WHERE c.conceptId IN [$id1, $id2] RETURN c.name as name, c.confidence as confidence",
+            new Dictionary<string, object> 
+            { 
+                ["id1"] = "concept-ml", 
+                ["id2"] = "concept-ai" 
+            }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\Neo4jGraphStoreIntegrationTests.cs
+Original:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId}) RETURN d.title as title, d.documentType as type",
+            new Dictionary<string, object> { ["docId"] = document.DocumentId });
+Modified:
+_graphStore.ExecuteQueryAsync(
+            "MATCH (d:Document {documentId: $docId}) RETURN d.title as title, d.documentType as type",
+            new Dictionary<string, object> { ["docId"] = document.DocumentId }, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\KnowledgeStore\QdrantVectorStoreIntegrationTests.cs
+Original:
+_vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, cancellationToken);
+Modified:
+_vectorStore.StoreEmbeddingAsync(docId, content, embeddings, metadataDict, cancellationToken, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+StopWatchingAsync(watchId);
+Modified:
+StopWatchingAsync(watchId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+GetActiveWatchesAsync();
+Modified:
+GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+GetActiveWatchesAsync();
+Modified:
+GetActiveWatchesAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+InitializeAsync();
+Modified:
+InitializeAsync(, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+DownloadDocumentAsync(documentId);
+Modified:
+DownloadDocumentAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+GetDocumentMetadataAsync(documentId);
+Modified:
+GetDocumentMetadataAsync(documentId, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+Modified:
+StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAi.MCPServer.Tests\GoogleDriveToolsTests.cs
+Original:
+StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval);
+Modified:
+StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\UnitTest1.cs
+Original:
+keyStore.GetKeyAsync("localai-key", "ai");
+Modified:
+keyStore.GetKeyAsync("localai-key", "ai", TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\UnitTest1.cs
+Original:
+keyManager.GetDatabaseConnectionStringAsync(dbConfig);
+Modified:
+keyManager.GetDatabaseConnectionStringAsync(dbConfig, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\ConfigurationServiceTests.cs
+Original:
+SetExternalApiKeyAsync(provider, apiKey);
+Modified:
+SetExternalApiKeyAsync(provider, apiKey, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\ConfigurationServiceTests.cs
+Original:
+GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>());
+Modified:
+GetDatabaseConnectionStringAsync(Arg.Any<DatabaseConfiguration>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\ConfigurationServiceTests.cs
+Original:
+InitializeKeysAsync(Arg.Any<LocalAIStackConfiguration>(), Arg.Any<CancellationToken>());
+Modified:
+InitializeKeysAsync(Arg.Any<LocalAIStackConfiguration>(), Arg.Any<CancellationToken>(), TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\SecureKeyStoreTests.cs
+Original:
+_keyStore.SetKeyAsync(keyName, storedValue);
+Modified:
+_keyStore.SetKeyAsync(keyName, storedValue, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\SecureKeyStoreTests.cs
+Original:
+_keyStore.SetKeyAsync(keyName, originalValue);
+Modified:
+_keyStore.SetKeyAsync(keyName, originalValue, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\SecureKeyStoreTests.cs
+Original:
+_keyStore.SetKeyAsync(kvp.Key, kvp.Value);
+Modified:
+_keyStore.SetKeyAsync(kvp.Key, kvp.Value, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\SecureKeyStoreTests.cs
+Original:
+_keyStore.SetKeyAsync(keyName, value);
+Modified:
+_keyStore.SetKeyAsync(keyName, value, TestContext.Current.CancellationToken);
+------------------------------------------------------------
+
+>> Token inserted in: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Orchestration.Tests\Services\SecureKeyStoreTests.cs
+Original:
+_keyStore.SetKeyAsync(keyName, value);
+Modified:
+_keyStore.SetKeyAsync(keyName, value, TestContext.Current.CancellationToken);
+------------------------------------------------------------

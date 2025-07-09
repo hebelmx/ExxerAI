@@ -6,17 +6,17 @@ namespace ExxerAI.Orchestration.Interfaces;
 /// </summary>
 public interface IKeyStore
 {
-    Task<string?> GetKeyAsync(string keyName, string? scope = null);
+    Task<string?> GetKeyAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default);
 
-    Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null);
+    Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null, CancellationToken cancellationToken = default);
 
-    Task<bool> DeleteKeyAsync(string keyName, string? scope = null);
+    Task<bool> DeleteKeyAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default);
 
-    Task<IEnumerable<string>> ListKeysAsync(string? scope = null);
+    Task<IEnumerable<string>> ListKeysAsync(string? scope = null, CancellationToken cancellationToken = default);
 
-    Task<bool> KeyExistsAsync(string keyName, string? scope = null);
+    Task<bool> KeyExistsAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default);
 
-    Task RotateKeyAsync(string keyName, string newValue, string? scope = null);
+    Task RotateKeyAsync(string keyName, string newValue, string? scope = null, CancellationToken cancellationToken = default);
 
-    Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32);
+    Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32, CancellationToken cancellationToken = default);
 }

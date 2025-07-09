@@ -30,7 +30,7 @@ public class DeleteAgentEndpointTests
             .Returns(Result<bool>.Success(true));
 
         // Act
-        var result = await _controller.DeleteAgent(agentId);
+        var result = await _controller.DeleteAgent(agentId, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.ShouldBeOfType<NoContentResult>();

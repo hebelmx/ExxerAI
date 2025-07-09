@@ -48,7 +48,7 @@ public class WorkflowServiceImplementationTests
         var steps = new List<WorkflowStep>();
 
         // Act
-        var result = await _service.CreateWorkflowAsync(invalidName, description, steps);
+        var result = await _service.CreateWorkflowAsync(invalidName, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeFalse();
@@ -70,7 +70,7 @@ public class WorkflowServiceImplementationTests
             .Returns(callInfo => Task.FromResult(Result<Workflow>.WithSuccess(callInfo.Arg<Workflow>())));
 
         // Act
-        var result = await _service.CreateWorkflowAsync(name, description, steps);
+        var result = await _service.CreateWorkflowAsync(name, description, steps, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         result.IsSuccess.ShouldBeTrue();

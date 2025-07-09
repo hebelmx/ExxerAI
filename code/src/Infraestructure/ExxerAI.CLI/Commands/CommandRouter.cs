@@ -1,6 +1,7 @@
+using ExxerAI.Domain.Operations;
+using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ExxerAI.Domain.Operations;
 
 namespace ExxerAI.CLI.Commands;
 
@@ -47,7 +48,7 @@ public class CommandRouter
     /// </summary>
     /// <param name="args">Command line arguments</param>
     /// <returns>Exit code</returns>
-    public async Task<int> ExecuteAsync(string[] args)
+    public async Task<int> ExecuteAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {
@@ -62,9 +63,9 @@ public class CommandRouter
         {
             return command switch
             {
-                "agent" or "agents" => await _agentCommands.ExecuteAsync(commandArgs),
-                "task" or "tasks" => await _taskCommands.ExecuteAsync(commandArgs),
-                "workflow" or "workflows" => await _workflowCommands.ExecuteAsync(commandArgs),
+                "agent" or "agents" => await _agentCommands.ExecuteAsync(commandArgs, cancellationToken),
+                "task" or "tasks" => await _taskCommands.ExecuteAsync(commandArgs, cancellationToken),
+                "workflow" or "workflows" => await _workflowCommands.ExecuteAsync(commandArgs, cancellationToken),
                 "help" or "--help" or "-h" => ShowHelp(),
                 "version" or "--version" or "-v" => ShowVersion(),
                 _ => ShowUnknownCommand(command)

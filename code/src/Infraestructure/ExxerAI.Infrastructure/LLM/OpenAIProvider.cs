@@ -301,7 +301,7 @@ public class OpenAIProvider : ILLMProvider
             // Simple approximation: 1 token ≈ 4 characters for English text
             // This is a fallback implementation - ideally use tiktoken or similar
             await Task.Yield(); // Allow cooperative cancellation
-            
+
             var approximateTokens = (int)Math.Ceiling(text.Length / 4.0);
 
             // Apply model-specific adjustments
@@ -342,7 +342,7 @@ public class OpenAIProvider : ILLMProvider
                 return Result<decimal>.WithFailure($"Unknown model: {modelName}");
 
             await Task.Yield(); // Allow cooperative cancellation
-            
+
             var inputCost = (inputTokens / 1000m) * modelInfo.InputTokenCostPer1K;
             var outputCost = (outputTokens / 1000m) * modelInfo.OutputTokenCostPer1K;
             var totalCost = inputCost + outputCost;
@@ -425,7 +425,7 @@ public class OpenAIProvider : ILLMProvider
             // OpenAI rate limits vary by tier and model
             // These are conservative defaults - should be updated based on actual account limits
             await Task.Yield(); // Allow cooperative cancellation
-            
+
             var rateLimitInfo = modelName.ToLowerInvariant() switch
             {
                 var name when name.Contains("gpt-4") => new RateLimitInfo
