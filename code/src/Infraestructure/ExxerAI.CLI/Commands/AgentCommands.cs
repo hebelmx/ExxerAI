@@ -56,13 +56,13 @@ public class AgentCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListAgentsAsync(commandArgs),
-            "create" or "new" => await CreateAgentAsync(commandArgs),
-            "delete" or "remove" or "rm" => await DeleteAgentAsync(commandArgs),
-            "agentstatus" or "info" => await ShowAgentStatusAsync(commandArgs),
-            "update" => await UpdateAgentAsync(commandArgs),
-            "activate" => await ActivateAgentAsync(commandArgs),
-            "deactivate" => await DeactivateAgentAsync(commandArgs),
+            "list" or "ls" => await ListAgentsAsync(commandArgs, cancellationToken),
+            "create" or "new" => await CreateAgentAsync(commandArgs, cancellationToken),
+            "delete" or "remove" or "rm" => await DeleteAgentAsync(commandArgs, cancellationToken),
+            "agentstatus" or "info" => await ShowAgentStatusAsync(commandArgs, cancellationToken),
+            "update" => await UpdateAgentAsync(commandArgs, cancellationToken),
+            "activate" => await ActivateAgentAsync(commandArgs, cancellationToken),
+            "deactivate" => await DeactivateAgentAsync(commandArgs, cancellationToken),
             "help" or "--help" or "-h" => ShowAgentHelp(),
             _ => ShowUnknownAgentCommand(subCommand)
         };
@@ -72,12 +72,13 @@ public class AgentCommands
     /// Lists all agents with optional filtering
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ListAgentsAsync(string[] args)
+    private async Task<int> ListAgentsAsync(string[] args, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _agentRepository.GetAllAsync();
+            var result = await _agentRepository.GetAllAsync(cancellationToken);
             if (result.IsFailure)
             {
                 Console.WriteLine($"Error retrieving agents: {result.Error}");
@@ -138,8 +139,9 @@ public class AgentCommands
     /// Creates a new agent
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> CreateAgentAsync(string[] args)
+    private async Task<int> CreateAgentAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {

@@ -691,6 +691,13 @@ public class TaskServiceTests
     {
         // Arrange
         var cts = new CancellationTokenSource();
+        /// This suppression is safe because:
+        /// 1. cts.Cancel() executes in microseconds (not long-running)
+        /// 2. It's deterministic and necessary for testing cancellation behavior
+        /// 3. Test isolation requires immediate cancellation, not async delays
+        /// 4. This is the recommended pattern for testing cancellation in xUnit
+        /// This pragma is applied narrowly to suppress the false-positive without affecting global behavior.
+        /// Test methods are expected to use immediate cancellation for precise control and verification of
 #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
         cts.Cancel();
 #pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method

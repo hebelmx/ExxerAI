@@ -34,7 +34,7 @@ public class HybridKnowledgeService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -62,7 +62,7 @@ public class HybridKnowledgeService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Initialize operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -80,7 +80,7 @@ public class HybridKnowledgeService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -177,7 +177,7 @@ public class HybridKnowledgeService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store document with knowledge operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -371,7 +371,7 @@ public class HybridKnowledgeService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -406,7 +406,7 @@ public class HybridKnowledgeService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Remove document operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {

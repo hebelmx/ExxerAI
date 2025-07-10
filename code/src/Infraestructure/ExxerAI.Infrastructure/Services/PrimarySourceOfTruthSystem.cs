@@ -422,7 +422,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Update record operation was cancelled");
-            return Result<TruthRecord>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<TruthRecord>();
         }
         catch (Exception ex)
         {
