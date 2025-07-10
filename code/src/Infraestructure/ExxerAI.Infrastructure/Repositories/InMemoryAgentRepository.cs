@@ -24,7 +24,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<Agent>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<Agent>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<Agent>());
 
         if (id == Guid.Empty)
             return Task.FromResult(Result<Agent>.WithFailure("Agent ID cannot be empty"));
@@ -43,7 +43,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<IEnumerable<Agent>>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<IEnumerable<Agent>>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<IEnumerable<Agent>>());
 
         var agents = _agents.Values.ToList().AsEnumerable();
         return Task.FromResult(Result<IEnumerable<Agent>>.WithSuccess(agents));
@@ -58,7 +58,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<Agent>> AddAsync(Agent entity, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<Agent>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<Agent>());
 
         if (entity == null)
             return Task.FromResult(Result<Agent>.WithFailure("Agent cannot be null"));
@@ -89,7 +89,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<Agent>> UpdateAsync(Agent entity, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<Agent>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<Agent>());
 
         if (entity == null)
             return Task.FromResult(Result<Agent>.WithFailure("Agent cannot be null"));
@@ -116,7 +116,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<bool>> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<bool>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<bool>());
 
         if (id == Guid.Empty)
             return Task.FromResult(Result<bool>.WithFailure("Agent ID cannot be empty"));
@@ -136,7 +136,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<bool>> ExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<bool>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<bool>());
 
         if (id == Guid.Empty)
             return Task.FromResult(Result<bool>.WithFailure("Agent ID cannot be empty"));
@@ -154,7 +154,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<IEnumerable<Agent>>> GetByStatusAsync(AgentStatus status, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<IEnumerable<Agent>>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<IEnumerable<Agent>>());
 
         var agents = _agents.Values
             .Where(a => a.Status == status)
@@ -173,7 +173,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<IEnumerable<Agent>>> FindByTaskTypeAsync(string taskType, CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<IEnumerable<Agent>>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<IEnumerable<Agent>>());
 
         if (string.IsNullOrWhiteSpace(taskType))
             return Task.FromResult(Result<IEnumerable<Agent>>.WithFailure("Task type cannot be empty"));
@@ -194,7 +194,7 @@ public class InMemoryAgentRepository : IAgentRepository
     public Task<Result<IEnumerable<(Agent Agent, int TaskCount)>>> GetAgentsWithTaskCountAsync(CancellationToken cancellationToken = default)
     {
         if (cancellationToken.IsCancellationRequested)
-            return Task.FromResult(Result<IEnumerable<(Agent Agent, int TaskCount)>>.WithFailure("Operation was cancelled"));
+            return Task.FromResult(ResultExtensions.Cancelled<IEnumerable<(Agent Agent, int TaskCount)>>());
 
         // For in-memory implementation, we'll simulate task count as 0 for now
         // In a real implementation, this would query the task repository

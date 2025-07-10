@@ -43,7 +43,7 @@ public static class Program
             // Create command router
             var commandRouter = new CommandRouter(agentCommands, taskCommands, workflowCommands);
 
-            return await commandRouter.ExecuteAsync(args, CancellationToken.None);
+            return await commandRouter.ExecuteAsync(args, CancellationToken.None).ConfigureAwait(false);
         }
         catch (Exception ex)
         {

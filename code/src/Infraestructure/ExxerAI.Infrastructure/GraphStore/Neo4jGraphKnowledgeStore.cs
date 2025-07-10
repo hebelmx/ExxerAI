@@ -34,7 +34,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -69,7 +69,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Initialize operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -85,7 +85,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -130,7 +130,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store document operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -146,7 +146,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -194,7 +194,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store concepts operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -210,7 +210,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -258,7 +258,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Create relationships operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -582,7 +582,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -605,7 +605,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Delete document operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -625,7 +625,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -666,7 +666,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Batch store operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {

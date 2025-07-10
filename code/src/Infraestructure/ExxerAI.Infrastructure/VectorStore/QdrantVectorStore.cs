@@ -40,7 +40,7 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -52,7 +52,7 @@ public class QdrantVectorStore : IVectorStore
             _logger.LogInformation("Initializing Qdrant collection: {CollectionName}", _collectionName);
 
             // Check if collection exists
-            var collections = await _client.ListCollectionsAsync(cancellationToken);
+            var collections = await _client.ListCollectionsAsync(cancellationToken).ConfigureAwait(false);
             var collectionExists = collections.Any(c => c == _collectionName);
 
             if (!collectionExists)
@@ -84,7 +84,7 @@ public class QdrantVectorStore : IVectorStore
                             }
                         }
                     },
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
 
                 _logger.LogInformation("Collection {CollectionName} created successfully", _collectionName);
             }
@@ -106,7 +106,7 @@ public class QdrantVectorStore : IVectorStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Initialize operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -127,7 +127,7 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -137,7 +137,7 @@ public class QdrantVectorStore : IVectorStore
             if (embeddings == null || embeddings.Length != _vectorSize)
                 return Result.WithFailure($"Embeddings must be exactly {_vectorSize} dimensions");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             var payload = CreatePayload(documentId, content, metadata ?? []);
             var pointId = Guid.NewGuid().ToString();
@@ -152,7 +152,7 @@ public class QdrantVectorStore : IVectorStore
             await _client.UpsertAsync(
                 collectionName: _collectionName,
                 points: new[] { pointStruct },
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Stored embedding for document: {DocumentId} with {Dimensions} dimensions",
                 documentId, embeddings.Length);
@@ -162,7 +162,7 @@ public class QdrantVectorStore : IVectorStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store embedding operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -183,7 +183,7 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result<IEnumerable<VectorSearchResult>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<VectorSearchResult>>();
 
         try
         {
@@ -191,7 +191,7 @@ public class QdrantVectorStore : IVectorStore
                 return Result<IEnumerable<VectorSearchResult>>.WithFailure(
                     $"Query embedding must be exactly {_vectorSize} dimensions");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             var searchParams = new SearchParams
             {
@@ -212,7 +212,7 @@ public class QdrantVectorStore : IVectorStore
                 scoreThreshold: threshold,
                 filter: searchFilter,
                 searchParams: searchParams,
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken).ConfigureAwait(false);
 
             var results = searchResults.Select(result => new VectorSearchResult
             {
@@ -229,7 +229,7 @@ public class QdrantVectorStore : IVectorStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Search similar operation was cancelled");
-            return Result<IEnumerable<VectorSearchResult>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<VectorSearchResult>>();
         }
         catch (Exception ex)
         {
@@ -245,14 +245,14 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
                 return Result.WithFailure("Document ID cannot be null or empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             var filter = new Filter
             {
@@ -272,7 +272,7 @@ public class QdrantVectorStore : IVectorStore
             await _client.DeleteAsync(
                 collectionName: _collectionName,
                 filter: filter,
-                cancellationToken: cancellationToken);
+                cancellationToken: cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Deleted embedding for document: {DocumentId}", documentId);
             return Result.Success();
@@ -280,7 +280,7 @@ public class QdrantVectorStore : IVectorStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Delete embedding operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -301,10 +301,10 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         // For Qdrant, update is the same as upsert
-        return await StoreEmbeddingAsync(documentId, content, embeddings, metadata, cancellationToken);
+        return await StoreEmbeddingAsync(documentId, content, embeddings, metadata, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -314,13 +314,13 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result<VectorStoreStats>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<VectorStoreStats>();
 
         try
         {
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
-            var collectionInfo = await _client.GetCollectionInfoAsync(_collectionName, cancellationToken);
+            var collectionInfo = await _client.GetCollectionInfoAsync(_collectionName, cancellationToken).ConfigureAwait(false);
 
             var stats = new VectorStoreStats
             {
@@ -342,7 +342,7 @@ public class QdrantVectorStore : IVectorStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get stats operation was cancelled");
-            return Result<VectorStoreStats>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<VectorStoreStats>();
         }
         catch (Exception ex)
         {
@@ -360,7 +360,7 @@ public class QdrantVectorStore : IVectorStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
 
         try
         {
@@ -368,7 +368,7 @@ public class QdrantVectorStore : IVectorStore
             if (!itemList.Any())
                 return Result.Success();
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             var points = itemList.Select(item =>
             {
@@ -391,7 +391,7 @@ public class QdrantVectorStore : IVectorStore
                 await _client.UpsertAsync(
                     collectionName: _collectionName,
                     points: batch,
-                    cancellationToken: cancellationToken);
+                    cancellationToken: cancellationToken).ConfigureAwait(false);
             }
 
             _logger.LogInformation("Stored {Count} embeddings in batch", itemList.Count);
@@ -400,7 +400,7 @@ public class QdrantVectorStore : IVectorStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store batch operation was cancelled");
-            return Result.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled();
         }
         catch (Exception ex)
         {
@@ -413,7 +413,7 @@ public class QdrantVectorStore : IVectorStore
     {
         if (!_isInitialized)
         {
-            var result = await InitializeAsync(cancellationToken);
+            var result = await InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (result.IsFailure)
                 throw new InvalidOperationException($"Vector store initialization failed: {result.Error}");
         }

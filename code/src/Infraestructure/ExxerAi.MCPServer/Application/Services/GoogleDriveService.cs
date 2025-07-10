@@ -62,7 +62,7 @@ public class GoogleDriveService : IGoogleDriveService
 
             // Early cancellation check
             if (cancellationToken.IsCancellationRequested)
-                return Result<bool>.WithFailure("Operation was cancelled");
+                return ResultExtensions.Cancelled<bool>();
 
             // Initialize OAuth flow
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
@@ -109,7 +109,7 @@ public class GoogleDriveService : IGoogleDriveService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result<string>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<string>();
 
         if (_driveService == null)
         {
@@ -124,7 +124,7 @@ public class GoogleDriveService : IGoogleDriveService
 
             // Check cancellation before folder verification
             if (cancellationToken.IsCancellationRequested)
-                return Result<string>.WithFailure("Operation was cancelled");
+                return ResultExtensions.Cancelled<string>();
 
             // Verify folder exists
             var folder = await _driveService!.Files.Get(folderId).ExecuteAsync(cancellationToken);
@@ -180,7 +180,7 @@ public class GoogleDriveService : IGoogleDriveService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return Result<byte[]>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<byte[]>();
 
         if (_driveService == null)
         {
