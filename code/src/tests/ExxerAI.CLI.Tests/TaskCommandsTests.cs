@@ -96,7 +96,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).GetAllAsync(Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).GetAllAsync(Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -127,7 +127,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Title == "TestTask"), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Title == "TestTask"), Arg.Any<CancellationToken>());
     }
 
     [Fact]
