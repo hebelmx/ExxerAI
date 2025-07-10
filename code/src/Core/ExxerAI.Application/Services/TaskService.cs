@@ -559,10 +559,12 @@ public class TaskService : ITaskService
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> DeleteTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
@@ -583,7 +585,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Delete task operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
