@@ -65,6 +65,10 @@ public class OpenAIProvider : ILLMProvider
         LLMParameters? parameters = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<LLMResponse>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(modelName))
@@ -83,6 +87,10 @@ public class OpenAIProvider : ILLMProvider
 
             return await GenerateChatCompletionAsync(modelName, messages, parameters, cancellationToken)
                 .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<LLMResponse>();
         }
         catch (Exception ex)
         {
@@ -104,6 +112,10 @@ public class OpenAIProvider : ILLMProvider
         LLMParameters? parameters = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<LLMResponse>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(modelName))
@@ -160,6 +172,10 @@ public class OpenAIProvider : ILLMProvider
 
             return Result<LLMResponse>.WithSuccess(llmResponse);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<LLMResponse>();
+        }
         catch (HttpRequestException ex)
         {
             return Result<LLMResponse>.WithFailure($"HTTP request failed: {ex.Message}");
@@ -192,6 +208,10 @@ public class OpenAIProvider : ILLMProvider
         LLMParameters? parameters = null,
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            yield break;
+
         var messages = new List<ChatMessage>
         {
             ChatMessage.User(prompt)
@@ -218,6 +238,10 @@ public class OpenAIProvider : ILLMProvider
         LLMParameters? parameters = null,
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            yield break;
+
         if (string.IsNullOrWhiteSpace(modelName) || messages == null || !messages.Any())
             yield break;
 
@@ -293,6 +317,10 @@ public class OpenAIProvider : ILLMProvider
         string text,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<int>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -316,6 +344,10 @@ public class OpenAIProvider : ILLMProvider
 
             return Result<int>.WithSuccess(estimatedTokens);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<int>();
+        }
         catch (Exception ex)
         {
             return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
@@ -336,6 +368,10 @@ public class OpenAIProvider : ILLMProvider
         int outputTokens,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<decimal>();
+
         try
         {
             if (!_modelInfo.TryGetValue(modelName, out var modelInfo))
@@ -348,6 +384,10 @@ public class OpenAIProvider : ILLMProvider
             var totalCost = inputCost + outputCost;
 
             return Result<decimal>.WithSuccess(totalCost);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<decimal>();
         }
         catch (Exception ex)
         {
@@ -365,6 +405,10 @@ public class OpenAIProvider : ILLMProvider
         string modelName,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ProviderValidationResult>();
+
         var result = new ProviderValidationResult
         {
             TestedModel = modelName
@@ -401,6 +445,10 @@ public class OpenAIProvider : ILLMProvider
                 result.Errors.Add($"API test failed: {response.Error}");
             }
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<ProviderValidationResult>();
+        }
         catch (Exception ex)
         {
             result.IsValid = false;
@@ -420,6 +468,10 @@ public class OpenAIProvider : ILLMProvider
         string modelName,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<RateLimitInfo>();
+
         try
         {
             // OpenAI rate limits vary by tier and model
@@ -459,6 +511,10 @@ public class OpenAIProvider : ILLMProvider
 
             return Result<RateLimitInfo>.WithSuccess(rateLimitInfo);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<RateLimitInfo>();
+        }
         catch (Exception ex)
         {
             return Result<RateLimitInfo>.WithFailure($"Error getting rate limit info: {ex.Message}");
@@ -473,10 +529,18 @@ public class OpenAIProvider : ILLMProvider
     public async Task<Result<IEnumerable<LLMModelInfo>>> ListModelsAsync(
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<LLMModelInfo>>();
+
         try
         {
             await Task.Yield(); // Allow cooperative cancellation
             return Result<IEnumerable<LLMModelInfo>>.WithSuccess(_modelInfo.Values);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<LLMModelInfo>>();
         }
         catch (Exception ex)
         {
