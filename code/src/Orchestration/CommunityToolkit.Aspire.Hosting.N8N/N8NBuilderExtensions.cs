@@ -28,15 +28,15 @@ namespace ExxerAI.Aspire.AppHost
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="N8NResource"/> class with the specified name, port, and optional connection string expression.
+        /// Initializes a new instance of the <see cref="N8NResource"/> class with the specified name, port, and connection string expression.
         /// </summary>
         /// <param name="name">The name of the N8N resource.</param>
-        /// <param name="port">The port the N8N service will listen on. Default is 5678.</param>
         /// <param name="connectionStringExpression">The connection string expression for the N8N resource.</param>
-        public N8NResource(string name, int port = 5678, ReferenceExpression connectionStringExpression = null) : base(name)
+        /// <param name="port">The port the N8N service will listen on. Default is 5678.</param>
+        public N8NResource(string name, ReferenceExpression connectionStringExpression, int port = 5678) : base(name)
         {
             Port = port;
-            _connectionStringExpression = connectionStringExpression ?? new ReferenceExpression(""); // Use a default non-null value
+            _connectionStringExpression = connectionStringExpression ?? throw new ArgumentNullException(nameof(connectionStringExpression));
         }
 
         /// <summary>
@@ -73,10 +73,11 @@ namespace ExxerAI.Aspire.AppHost
                 .WithEnvironment("N8N_BASIC_AUTH_PASSWORD", password);
         }
 
-        public static IResourceBuilder<N8NResource> AddN8N(this IDistributedApplicationBuilder builder, string name = "n8n", int? port = 5678)
+        public static IResourceBuilder<N8NResource> AddN8N(this IDistributedApplicationBuilder builder, string name = "n8n", int port = 5678)
         {
             var timeZone = TimeZoneInfo.Local.Id;
-            var resource = new N8NResource(name, port.Value);
+            // TODO: Replace with a valid ReferenceExpression instance as required by your application
+            var resource = new N8NResource(name, /* ReferenceExpression instance required here */ default!, port);
 
             var builderResource = builder.AddResource(resource)
                 .WithImage("n8nio/n8n")
@@ -87,7 +88,7 @@ namespace ExxerAI.Aspire.AppHost
             return builderResource;
         }
 
-        public static IResourceBuilder<N8NResource> WithPostgresDatabase(this IResourceBuilder<N8NResource> builder, string host, string user, string password, string database, int port = 5432, string schema = null, string sslCa = null, bool rejectUnauthorized = true)
+        public static IResourceBuilder<N8NResource> WithPostgresDatabase(this IResourceBuilder<N8NResource> builder, string host, string user, string password, string database, int port = 5432, string schema = null!, string sslCa = null!, bool rejectUnauthorized = true)
         {
             host = string.IsNullOrEmpty(host) ? "localhost" : host;
             user = string.IsNullOrEmpty(user) ? "postgres" : user;
@@ -148,7 +149,7 @@ namespace ExxerAI.Aspire.AppHost
                 .WithEnvironment("WEBHOOK_URL", $"{protocol}://{host}/");
         }
 
-        public static IResourceBuilder<N8NResource> WithExecutionRetention(this IResourceBuilder<N8NResource> builder, int? maxAgeDays = null, int? maxCount = null, string storage = null)
+        public static IResourceBuilder<N8NResource> WithExecutionRetention(this IResourceBuilder<N8NResource> builder, int? maxAgeDays = null, int? maxCount = null, string storage = null!)
         {
             if (maxAgeDays.HasValue)
                 builder.WithEnvironment("EXECUTIONS_DATA_MAX_AGE", maxAgeDays.Value.ToString());
@@ -211,7 +212,7 @@ namespace ExxerAI.Aspire.AppHost
             return builder.WithEnvironment("N8N_LOG_LEVEL", logLevel);
         }
 
-        public static IResourceBuilder<N8NResource> WithLifecycleHooks(this IResourceBuilder<N8NResource> builder, string preStartCommand = null, string postStartCommand = null)
+        public static IResourceBuilder<N8NResource> WithLifecycleHooks(this IResourceBuilder<N8NResource> builder, string preStartCommand = null!, string postStartCommand = null!)
         {
             if (!string.IsNullOrWhiteSpace(preStartCommand))
                 builder.WithEnvironment("PRE_START_COMMAND", preStartCommand);

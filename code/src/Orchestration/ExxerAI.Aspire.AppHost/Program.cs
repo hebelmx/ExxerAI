@@ -147,7 +147,7 @@ internal class Program
         // add n8n container
         //This does specify the n8n container
         //neither the postgres config,
-        var n8n = builder.AddN8NContainer("n8n", 5678);
+        // var n8n = builder.AddN8N("n8n", 5678);
 
         //builder.AddContainer("n8n", "searxng/searxng", "latest")
         //    .WithHttpEndpoint(port: 5678, targetPort: 5678)
@@ -339,7 +339,7 @@ https://learn.microsoft.com/en-us/dotnet/aspire/database/qdrant-integration?tabs
             .WithReference(seq)
             .WaitFor(seq)
             //.WithReference(n8n)
-            .WaitFor(n8n)
+            //     .WaitFor(n8n)
             .WithReference(ollama)
             .WaitFor(ollama)
             //.WithReference(grafana)
