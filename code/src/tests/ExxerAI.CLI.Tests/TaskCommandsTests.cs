@@ -150,7 +150,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => t.AssignedAgentId == agentId), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => t.AssignedAgentId == agentId), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -169,7 +169,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => t.AgentStatus == TaskAgentStatus.Completed), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t => t.AgentStatus == TaskAgentStatus.Completed), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -185,7 +185,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).DeleteAsync(taskId, TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).DeleteAsync(taskId, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -202,7 +202,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).GetByIdAsync(taskId, TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).GetByIdAsync(taskId, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -460,7 +460,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.Normal), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.Normal), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -476,7 +476,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.High), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Priority == TaskPriority.High), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -492,7 +492,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Description == "Custom description"), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Description == "Custom description"), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -508,7 +508,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Deadline.HasValue), TestContext.Current.CancellationToken);
+        await _mockTaskRepository.Received(1).AddAsync(Arg.Is<AgentTask>(t => t.Deadline.HasValue), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -776,7 +776,7 @@ public class TaskCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetByIdAsync(agentId, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -796,7 +796,7 @@ public class TaskCommandsTests
         // Assert
         exitCode.ShouldBe(0);
         await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t =>
-            t.AgentStatus == TaskAgentStatus.InProgress && t.StartedAt.HasValue), TestContext.Current.CancellationToken);
+            t.AgentStatus == TaskAgentStatus.InProgress && t.StartedAt.HasValue), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -816,7 +816,7 @@ public class TaskCommandsTests
         // Assert
         exitCode.ShouldBe(0);
         await _mockTaskRepository.Received(1).UpdateAsync(Arg.Is<AgentTask>(t =>
-            t.AgentStatus == TaskAgentStatus.Completed && t.CompletedAt.HasValue), TestContext.Current.CancellationToken);
+            t.AgentStatus == TaskAgentStatus.Completed && t.CompletedAt.HasValue), Arg.Any<CancellationToken>());
     }
 
     [Fact]
