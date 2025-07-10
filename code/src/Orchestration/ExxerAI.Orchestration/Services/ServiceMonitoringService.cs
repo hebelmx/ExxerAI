@@ -33,7 +33,18 @@ public class ServiceMonitoringService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            throw new OperationCanceledException(cancellationToken);
+            return new ServiceStackStatus
+            {
+                OverallStatus = OverallHealthStatus.Unknown,
+                CoreServicesHealthy = false,
+                OptionalServicesHealthy = false,
+                TotalServices = 0,
+                HealthyServices = 0,
+                UnhealthyServices = 0,
+                UnknownServices = 0,
+                Services = new List<ServiceStatus>(),
+                LastChecked = DateTime.UtcNow
+            };
 
         var services = new List<ServiceStatus>();
 
@@ -42,7 +53,18 @@ public class ServiceMonitoringService
 
         // Check cancellation before expensive operations
         if (cancellationToken.IsCancellationRequested)
-            throw new OperationCanceledException(cancellationToken);
+            return new ServiceStackStatus
+            {
+                OverallStatus = OverallHealthStatus.Unknown,
+                CoreServicesHealthy = false,
+                OptionalServicesHealthy = false,
+                TotalServices = 0,
+                HealthyServices = 0,
+                UnhealthyServices = 0,
+                UnknownServices = 0,
+                Services = new List<ServiceStatus>(),
+                LastChecked = DateTime.UtcNow
+            };
 
         var coreServices = services.Where(s => s.IsCritical).ToList();
         var optionalServices = services.Where(s => !s.IsCritical).ToList();
@@ -69,7 +91,17 @@ public class ServiceMonitoringService
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            throw new OperationCanceledException(cancellationToken);
+            return new SystemMetrics
+            {
+                CpuUsage = 0,
+                MemoryUsage = 0,
+                DiskSpace = 0,
+                NetworkConnections = 0,
+                Uptime = TimeSpan.Zero,
+                ProcessCount = 0,
+                ThreadCount = 0,
+                Timestamp = DateTime.UtcNow
+            };
 
         var process = Process.GetCurrentProcess();
 
@@ -92,7 +124,18 @@ public class ServiceMonitoringService
         {
             // Early cancellation check
             if (cancellationToken.IsCancellationRequested)
-                throw new OperationCanceledException(cancellationToken);
+                return new ServiceStatus
+                {
+                    Name = name,
+                    Status = ServiceHealthStatus.Unknown,
+                    Url = url,
+                    Category = category,
+                    IsCritical = isCritical,
+                    ResponseTime = TimeSpan.Zero,
+                    StatusCode = 0,
+                    LastChecked = DateTime.UtcNow,
+                    Message = "Operation was cancelled"
+                };
 
             var stopwatch = Stopwatch.StartNew();
             var response = await _httpClient.GetAsync(url, cancellationToken);
@@ -164,7 +207,7 @@ public class ServiceMonitoringService
         {
             // Early cancellation check
             if (cancellationToken.IsCancellationRequested)
-                throw new OperationCanceledException(cancellationToken);
+                return 0;
 
             var startTime = DateTime.UtcNow;
             var startCpuUsage = Process.GetCurrentProcess().TotalProcessorTime;
@@ -182,7 +225,7 @@ public class ServiceMonitoringService
         }
         catch (OperationCanceledException)
         {
-            throw;
+            return 0;
         }
         catch
         {
