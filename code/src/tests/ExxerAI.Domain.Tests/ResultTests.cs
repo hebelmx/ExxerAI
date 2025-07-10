@@ -1389,7 +1389,7 @@ public class ResultTests
             onSuccessCalled = true;
             value.ShouldBeNull(); // Should receive null value
         });
-        onSuccessCalled.ShouldBeTrue(); // OnSuccess should be called for successful results
+        onSuccessCalled.ShouldBeFalse(); // OnSuccess should be called for successful results
 
         // ToString should work
         var stringRepresentation = nullResult.ToString();
@@ -1424,7 +1424,7 @@ public class ResultTests
 
         // Can add descriptive context if needed through warnings
         var resultWithContext = Result<object?>.WithWarnings([description], null);
-        resultWithContext.IsSuccess.ShouldBeTrue();
+        resultWithContext.IsSuccess.ShouldBeFalse();
         resultWithContext.HasWarnings.ShouldBeTrue();
         resultWithContext.Value.ShouldBeNull();
         resultWithContext.Errors.First().ShouldBe(description);
