@@ -520,7 +520,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Description == "New description"), TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Description == "New description"), Arg.Any<CancellationToken>());
     }
 
     [Fact]
