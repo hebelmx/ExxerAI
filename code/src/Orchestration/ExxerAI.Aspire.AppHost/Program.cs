@@ -22,6 +22,7 @@ internal class Program
         // Web frontend project
         builder.AddProject<Projects.ExxerAI_UI>("exxerai-ui");
 
+        //Add N8N Resource
         var n8n = builder.AddN8N()
             .WithBasicAuth("user", "pwd");
 
