@@ -2,13 +2,37 @@ using ExxerAI.Domain;
 using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
-/// Pragma warning suppressions in these tests are necessary to verify cancellation behavior.
-
+/// <summary>
+/// -------------------------------------------------------------------------------------------------
+/// This test method uses <c>CancellationTokenSource.Cancel()</c> to simulate pre-cancelled tokens.
+/// <para>
+/// Although <c>AsyncFixer02</c> typically flags "long-running or blocking operations inside async methods",
+/// this synchronous and deterministic call is explicitly used in unit tests to verify cancellation behavior
+/// in a controlled and predictable way.
+/// </para>
+/// <para>
+/// <b>PRAGMA WARNING SUPPRESSION JUSTIFICATION:</b>
+/// <list type="number">
+/// <item><description><c>cts.Cancel()</c> is neither long-running nor blocking; it completes in microseconds.</description></item>
+/// <item><description>Unit tests require deterministic and immediate token cancellation to validate behavior under pre-cancelled conditions.</description></item>
+/// <item><description>Delaying cancellation via asynchronous means would reduce test clarity and isolation.</description></item>
+/// <item><description>This pattern is an industry-accepted technique for simulating cancellation in xUnit-based tests.</description></item>
+/// </list>
+/// Suppression scope is kept narrow to prevent unintentional masking of genuine issues elsewhere.
+/// </para>
+/// -------------------------------------------------------------------------------------------------
+/// <code>
+/// #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside async methods
+/// cts.Cancel(); // Synchronous, intentional, test-driven immediate cancellation
+/// #pragma warning restore AsyncFixer02
+/// </code>
+/// -------------------------------------------------------------------------------------------------
+/// </summary>
 
 /// <summary>
 /// Comprehensive unit tests for HybridDocumentProcessor using xUnit v3, Shouldly, and NSubstitute
 /// Tests all major functionality including multi-stage processing pipeline, batch operations, and learning
-/// 
+///
 /// </summary>
 public class HybridDocumentProcessorTests
 {
