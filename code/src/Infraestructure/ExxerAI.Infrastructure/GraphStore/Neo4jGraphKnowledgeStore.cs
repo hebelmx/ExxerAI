@@ -208,6 +208,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result> CreateRelationshipsAsync(IEnumerable<GraphRelationship> relationships, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Result>();
+
         try
         {
             var relationshipList = relationships?.ToList() ?? [];
@@ -251,6 +255,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             _logger.LogInformation("Successfully created {Count} relationships", relationshipList.Count);
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Create relationships operation was cancelled");
+            return ResultExtensions.Cancelled<Result>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to create relationships");
@@ -268,6 +277,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         int limit = 50,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<GraphDocument>>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(conceptName))
@@ -310,6 +323,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             return Result<IEnumerable<GraphDocument>>.Success(documents);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Find related documents operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<GraphDocument>>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to find related documents for concept: {ConceptName}", conceptName);
@@ -327,6 +345,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         int limit = 50,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<GraphConcept>>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -368,6 +390,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             return Result<IEnumerable<GraphConcept>>.Success(concepts);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Find related concepts operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<GraphConcept>>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to find related concepts for document: {DocumentId}", documentId);
@@ -383,6 +410,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         Dictionary<string, object>? parameters = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<Dictionary<string, object>>>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(cypherQuery))
@@ -406,6 +437,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             _logger.LogDebug("Custom query returned {Count} results", results.Count());
             return Result<IEnumerable<Dictionary<string, object>>>.Success(results);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Execute query operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<Dictionary<string, object>>>();
         }
         catch (Exception ex)
         {
