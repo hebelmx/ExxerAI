@@ -2,9 +2,23 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>CommunityToolkit.Aspire.Hosting_</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+
+
+		  <Nullable>enable</Nullable>
+		  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		  <PackageId>CommunityToolkit.Aspire.Hosting.N8N</PackageId>
+		  <Version>1.0.0</Version>
+		  <Authors>YourName</Authors>
+		  <Company>YourCompany</Company>
+		  <PackageTags>aspire;hosting;workflow;n8n</PackageTags>
+		  <Description>Fluent Aspire integration for the N8N workflow engine.</Description>
+		  <RepositoryUrl>https://github.com/your/repo</RepositoryUrl>
+		  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Aspire.Hosting"  />
+
+	</ItemGroup>
 
 </Project>

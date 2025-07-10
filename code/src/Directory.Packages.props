@@ -16,6 +16,9 @@
 		<PackageVersion Include="NorthernNerds.Aspire.Neo4j" Version="2.0.0" />
 		<PackageVersion Include="System.Linq.AsyncEnumerable" Version="10.0.0-preview.5.25277.114" />
 		<!-- Add on .NET 10 -->
+
+		<PackageVersion Include="Aspire.Hosting" Version="9.3.1" />
+
 		<PackageVersion Include="Aspirant.Hosting.Yarp" Version="0.0.4" />
 		<PackageVersion Include="Aspire.Azure.Npgsql" Version="9.3.1" />
 		<PackageVersion Include="Aspire.Hosting.Azure.AppConfiguration" Version="9.3.1" />
@@ -168,6 +171,7 @@
 		<!--Log and Telemetry Clients-->
 		<PackageVersion Include="Aspire.Seq" Version="9.3.1" />
 		<!--Aspire Common Services-->
+		<PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.7.0" />
 		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
 		<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />

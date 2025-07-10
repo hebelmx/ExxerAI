@@ -63,6 +63,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Presentation\ExxerAI.UI.Dashboard\ExxerAI.Aspire.Dashboard.csproj" />
     <ProjectReference Include="..\..\Presentation\ExxerAI.UI\ExxerAI.UI.csproj" />
+    <ProjectReference Include="..\CommunityToolkit.Aspire.N8N.Client\CommunityToolkit.Aspire.N8N.Client.csproj" />
   </ItemGroup>
 
 </Project>

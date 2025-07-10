@@ -3,11 +3,6 @@ using Aspire.Hosting.ApplicationModel;
 using System;
 using System.Collections.Generic;
 
-using Aspire.Hosting;
-using Aspire.Hosting.ApplicationModel;
-using System;
-using System.Collections.Generic;
-
 namespace ExxerAI.Aspire.AppHost
 {
     /// <summary>
