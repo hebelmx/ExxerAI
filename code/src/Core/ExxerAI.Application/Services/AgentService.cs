@@ -307,6 +307,10 @@ public class AgentService : IAgentService
         Guid taskId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -354,6 +358,10 @@ public class AgentService : IAgentService
 
             return Result<bool>.WithSuccess(true);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"An error occurred while assigning the task: {ex.Message}");
@@ -372,6 +380,10 @@ public class AgentService : IAgentService
         Guid taskId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         return await AssignTaskAsync(agentId, taskId, cancellationToken).ConfigureAwait(false);
     }
 
@@ -385,6 +397,10 @@ public class AgentService : IAgentService
         string taskType,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Agent>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(taskType))
@@ -428,6 +444,10 @@ public class AgentService : IAgentService
 
             return Result<Agent>.WithSuccess(bestAgent);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Agent>();
+        }
         catch (Exception ex)
         {
             return Result<Agent>.WithFailure($"An error occurred while finding the best agent: {ex.Message}");
@@ -442,6 +462,10 @@ public class AgentService : IAgentService
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> DeleteAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -470,6 +494,10 @@ public class AgentService : IAgentService
             }
 
             return Result<bool>.WithSuccess(true);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
