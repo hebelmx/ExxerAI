@@ -32,6 +32,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result> InitializeAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Result>();
+
         try
         {
             lock (_initLock)
@@ -62,6 +66,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             _logger.LogInformation("Neo4j graph knowledge store initialized successfully");
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Initialize operation was cancelled");
+            return ResultExtensions.Cancelled<Result>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize Neo4j graph knowledge store");
@@ -74,6 +83,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result> StoreDocumentAsync(GraphDocument document, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Result>();
+
         try
         {
             if (document == null) return Result.WithFailure("Document cannot be null");
@@ -114,6 +127,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             _logger.LogDebug("Successfully stored document: {DocumentId}", document.DocumentId);
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Store document operation was cancelled");
+            return ResultExtensions.Cancelled<Result>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store document: {DocumentId}", document?.DocumentId);
@@ -126,6 +144,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result> StoreConceptsAsync(IEnumerable<GraphConcept> concepts, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Result>();
+
         try
         {
             var conceptList = concepts?.ToList() ?? [];
@@ -168,6 +190,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             _logger.LogInformation("Successfully stored {Count} concepts", conceptList.Count);
             return Result.Success();
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Store concepts operation was cancelled");
+            return ResultExtensions.Cancelled<Result>();
         }
         catch (Exception ex)
         {

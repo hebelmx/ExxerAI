@@ -48,6 +48,10 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
     /// </summary>
     public async Task<Result<float[]>> GenerateEmbeddingAsync(string text, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<float[]>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -91,6 +95,11 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
             _logger.LogError(ex, "HTTP error during embedding generation");
             return Result<float[]>.WithFailure($"Network error: {ex.Message}");
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Generate embedding operation was cancelled");
+            return ResultExtensions.Cancelled<float[]>();
+        }
         catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
         {
             _logger.LogError(ex, "Timeout during embedding generation");
@@ -110,6 +119,10 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
         IEnumerable<string> texts,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<EmbeddingResult>>();
+
         try
         {
             var textList = texts?.ToList() ?? [];
@@ -143,6 +156,11 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
             _logger.LogInformation("Generated {Count} embeddings successfully", allResults.Count);
             return Result<IEnumerable<EmbeddingResult>>.Success(allResults.AsEnumerable());
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Generate batch embeddings operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<EmbeddingResult>>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to generate batch embeddings");
@@ -154,6 +172,10 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
         List<string> texts,
         CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<List<EmbeddingResult>>();
+
         try
         {
             var embeddings = await _embeddingGenerator.GenerateAsync(texts, cancellationToken: cancellationToken);
@@ -173,6 +195,11 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
             }
 
             return Result<List<EmbeddingResult>>.Success(results);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Generate batch internal operation was cancelled");
+            return ResultExtensions.Cancelled<List<EmbeddingResult>>();
         }
         catch (Exception ex)
         {

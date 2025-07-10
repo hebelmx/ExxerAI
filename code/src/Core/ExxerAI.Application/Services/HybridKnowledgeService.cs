@@ -283,6 +283,10 @@ public class HybridKnowledgeService
         int limit = 50,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<GraphDocument>>();
+
         try
         {
             _logger.LogDebug("Exploring concept relationships: {ConceptName}", conceptName);
@@ -305,6 +309,11 @@ public class HybridKnowledgeService
 
             return result;
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Explore concept relationships operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<GraphDocument>>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to explore concept relationships for: {ConceptName}", conceptName);
@@ -318,6 +327,10 @@ public class HybridKnowledgeService
     /// </summary>
     public async Task<Result<HybridKnowledgeStats>> GetKnowledgeStatsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<HybridKnowledgeStats>();
+
         try
         {
             _logger.LogDebug("Retrieving hybrid knowledge statistics");
@@ -339,6 +352,11 @@ public class HybridKnowledgeService
 
             return Result<HybridKnowledgeStats>.Success(hybridStats);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get knowledge stats operation was cancelled");
+            return ResultExtensions.Cancelled<HybridKnowledgeStats>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get hybrid knowledge statistics");
@@ -351,6 +369,10 @@ public class HybridKnowledgeService
     /// </summary>
     public async Task<Result> RemoveDocumentAsync(string documentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -380,6 +402,11 @@ public class HybridKnowledgeService
 
             _logger.LogInformation("Successfully removed document from hybrid knowledge store: {DocumentId}", documentId);
             return Result.Success();
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Remove document operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
