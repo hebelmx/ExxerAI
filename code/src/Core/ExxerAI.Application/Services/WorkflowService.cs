@@ -37,6 +37,10 @@ public class WorkflowService : IWorkflowService
 		IEnumerable<WorkflowStep> steps, 
 		CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<Workflow>();
+
 		try
 		{
 			if (string.IsNullOrWhiteSpace(name))
@@ -57,6 +61,10 @@ public class WorkflowService : IWorkflowService
 			var result = await _workflowRepository.AddAsync(workflow, cancellationToken).ConfigureAwait(false);
 			return result.IsFailure ? Result<Workflow>.WithFailure(result.Error ?? "Failed to add workflow") : Result<Workflow>.WithSuccess(workflow);
 		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<Workflow>();
+		}
 		catch (Exception ex)
 		{
 			return Result<Workflow>.WithFailure($"Error creating workflow: {ex.Message}");
@@ -71,9 +79,17 @@ public class WorkflowService : IWorkflowService
 	/// <returns>The result of the operation containing the workflow if found</returns>
 	public async Task<Result<Workflow>> GetWorkflowAsync(Guid workflowId, CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<Workflow>();
+
 		try
 		{
 			return await _workflowRepository.GetByIdAsync(workflowId, cancellationToken).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<Workflow>();
 		}
 		catch (Exception ex)
 		{
@@ -88,9 +104,17 @@ public class WorkflowService : IWorkflowService
 	/// <returns>The result of the operation containing the list of active workflows</returns>
 	public async Task<Result<IEnumerable<Workflow>>> GetActiveWorkflowsAsync(CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<IEnumerable<Workflow>>();
+
 		try
 		{
 			return await _workflowRepository.GetByStatusAsync(WorkflowStatus.Active, cancellationToken).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<IEnumerable<Workflow>>();
 		}
 		catch (Exception ex)
 		{
@@ -110,6 +134,10 @@ public class WorkflowService : IWorkflowService
 		WorkflowConfiguration configuration, 
 		CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<bool>();
+
 		try
 		{
 			var workflowResult = await _workflowRepository.GetByIdAsync(workflowId, cancellationToken).ConfigureAwait(false);
@@ -121,6 +149,10 @@ public class WorkflowService : IWorkflowService
 
 			var updateResult = await _workflowRepository.UpdateAsync(workflow, cancellationToken).ConfigureAwait(false);
 			return updateResult.IsFailure ? Result<bool>.WithFailure(updateResult.Error ?? "Failed to update workflow") : Result<bool>.WithSuccess(true);
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<bool>();
 		}
 		catch (Exception ex)
 		{
@@ -140,6 +172,10 @@ public class WorkflowService : IWorkflowService
 		Dictionary<string, object> input, 
 		CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<WorkflowExecution>();
+
 		try
 		{
 			var workflowResult = await _workflowRepository.GetByIdAsync(workflowId, cancellationToken).ConfigureAwait(false);
@@ -155,6 +191,10 @@ public class WorkflowService : IWorkflowService
 			};
 
 			return Result<WorkflowExecution>.WithSuccess(execution);
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<WorkflowExecution>();
 		}
 		catch (Exception ex)
 		{
@@ -172,11 +212,19 @@ public class WorkflowService : IWorkflowService
 		Guid executionId, 
 		CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<WorkflowExecution>();
+
 		try
 		{
 			await Task.CompletedTask.ConfigureAwait(false);
 			// This would typically use an execution repository
 			return Result<WorkflowExecution>.WithFailure("Execution repository not implemented");
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<WorkflowExecution>();
 		}
 		catch (Exception ex)
 		{
@@ -196,9 +244,17 @@ public class WorkflowService : IWorkflowService
 		WorkflowExecutionStatus? status = null, 
 		CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<IEnumerable<WorkflowExecution>>();
+
 		try
 		{
 			return await _workflowRepository.GetExecutionsAsync(workflowId, status, cancellationToken).ConfigureAwait(false);
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<IEnumerable<WorkflowExecution>>();
 		}
 		catch (Exception ex)
 		{
@@ -214,10 +270,18 @@ public class WorkflowService : IWorkflowService
 	/// <returns>The result of the operation</returns>
 	public async Task<Result<bool>> PauseWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<bool>();
+
 		try
 		{
 			await Task.CompletedTask.ConfigureAwait(false);
 			return Result<bool>.WithFailure("Execution management not implemented");
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<bool>();
 		}
 		catch (Exception ex)
 		{
@@ -233,10 +297,18 @@ public class WorkflowService : IWorkflowService
 	/// <returns>The result of the operation</returns>
 	public async Task<Result<bool>> ResumeWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<bool>();
+
 		try
 		{
 			await Task.CompletedTask.ConfigureAwait(false);
 			return Result<bool>.WithFailure("Execution management not implemented");
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<bool>();
 		}
 		catch (Exception ex)
 		{
@@ -252,10 +324,18 @@ public class WorkflowService : IWorkflowService
 	/// <returns>The result of the operation</returns>
 	public async Task<Result<bool>> CancelWorkflowExecutionAsync(Guid executionId, CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<bool>();
+
 		try
 		{
 			await Task.CompletedTask.ConfigureAwait(false);
 			return Result<bool>.WithFailure("Execution management not implemented");
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<bool>();
 		}
 		catch (Exception ex)
 		{
@@ -271,6 +351,10 @@ public class WorkflowService : IWorkflowService
 	/// <returns>The result of the operation</returns>
 	public async Task<Result<bool>> DeleteWorkflowAsync(Guid workflowId, CancellationToken cancellationToken = default)
 	{
+		// Early cancellation check
+		if (cancellationToken.IsCancellationRequested)
+			return ResultExtensions.Cancelled<bool>();
+
 		try
 		{
 			var workflowResult = await _workflowRepository.GetByIdAsync(workflowId, cancellationToken).ConfigureAwait(false);
@@ -279,6 +363,10 @@ public class WorkflowService : IWorkflowService
 
 			var deleteResult = await _workflowRepository.DeleteAsync(workflowId, cancellationToken).ConfigureAwait(false);
 			return deleteResult.IsFailure ? Result<bool>.WithFailure(deleteResult.Error ?? "Failed to delete workflow") : Result<bool>.WithSuccess(true);
+		}
+		catch (OperationCanceledException)
+		{
+			return ResultExtensions.Cancelled<bool>();
 		}
 		catch (Exception ex)
 		{
