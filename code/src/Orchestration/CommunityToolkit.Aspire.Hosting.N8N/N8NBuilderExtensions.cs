@@ -35,11 +35,6 @@ namespace ExxerAI.Aspire.AppHost
         }
 
         /// <summary>
-        /// Gets or sets the raw connection string for the N8N resource.
-        /// </summary>
-        public string ConnectionString { get; set; }
-
-        /// <summary>
         /// Gets the port the N8N service will listen on.
         /// </summary>
         public int Port { get; }
@@ -50,22 +45,12 @@ namespace ExxerAI.Aspire.AppHost
     /// </summary>
     public static class N8NResourceBuilderExtensions
     {
-        /// <summary>
-        /// Specifies the mount path for the workflows directory used by N8N.
-        /// </summary>
-        public static IResourceBuilder<N8NResource> WithWorkflowsDirectory(
-        this IResourceBuilder<N8NResource> builder,
-        string hostPath, string containerPath = "/home/node/.n8n")
+        public static IResourceBuilder<N8NResource> WithWorkflowsDirectory(this IResourceBuilder<N8NResource> builder, string hostPath, string containerPath = "/home/node/.n8n")
         {
             return builder.WithVolume(hostPath, containerPath, isReadOnly: false);
         }
 
-        /// <summary>
-        /// Sets basic authentication credentials via environment variables.
-        /// </summary>
-        public static IResourceBuilder<N8NResource> WithBasicAuth(
-            this IResourceBuilder<N8NResource> builder,
-            string user, string password)
+        public static IResourceBuilder<N8NResource> WithBasicAuth(this IResourceBuilder<N8NResource> builder, string user, string password)
         {
             return builder
                 .WithEnvironment("N8N_BASIC_AUTH_ACTIVE", "true")
@@ -89,6 +74,12 @@ namespace ExxerAI.Aspire.AppHost
 
         public static IResourceBuilder<N8NResource> WithPostgresDatabase(this IResourceBuilder<N8NResource> builder, string host, string user, string password, string database, int port = 5432, string schema = null, string sslCa = null, bool rejectUnauthorized = true)
         {
+            // Use defaults if values are not provided
+            host = string.IsNullOrEmpty(host) ? "localhost" : host;
+            user = string.IsNullOrEmpty(user) ? "postgres" : user;
+            password = string.IsNullOrEmpty(password) ? "postgres" : password;
+            database = string.IsNullOrEmpty(database) ? "postgres" : database;
+
             builder
                 .WithEnvironment("DB_TYPE", "postgresdb")
                 .WithEnvironment("DB_POSTGRESDB_HOST", host)
@@ -105,5 +96,15 @@ namespace ExxerAI.Aspire.AppHost
 
             builder.WithEnvironment("DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED", rejectUnauthorized.ToString().ToLower());
 
-            // Build the connection string and set it on the resource
-            string connStr = $"Host={host ?? "localhost"};Port={port};Username
+            // Build the connection string and set it on the resource's ConnectionStringExpression
+            string connStr = $"Host={host};Port={port};Username={user};Password={password};Database={database}";
+            if (!string.IsNullOrEmpty(schema))
+                connStr += $";Search Path={schema}";
+            if (!string.IsNullOrEmpty(sslCa))
+                connStr += $";SSL Mode=Require;SSL Certificate={sslCa}";
+            builder.Resource.ConnectionStringExpression = new ReferenceExpression(connStr);
+
+            return builder;
+        }
+    }
+}
