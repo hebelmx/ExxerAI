@@ -96,7 +96,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetAllAsync(Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -111,7 +111,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetAllAsync(TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetAllAsync(Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class AgentCommandsTests
         await _mockAgentService.Received(1).CreateAgentAsync(
             "TestAgent",
             "Auto-generated agent TestAgent",
-            Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
+            Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -147,7 +147,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).DeleteAsync(agentId, TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).DeleteAsync(agentId, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -169,7 +169,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetByIdAsync(agentId, TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetByIdAsync(agentId, Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -188,8 +188,8 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).GetByIdAsync(agentId, TestContext.Current.CancellationToken);
-        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Name == "NewName"), TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).GetByIdAsync(agentId, Arg.Any<CancellationToken>());
+        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Name == "NewName"), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -208,7 +208,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Active), TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Active), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -227,7 +227,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Inactive), TestContext.Current.CancellationToken);
+        await _mockAgentRepository.Received(1).UpdateAsync(Arg.Is<Agent>(a => a.Status == AgentStatus.Inactive), Arg.Any<CancellationToken>());
     }
 
     [Fact]
@@ -363,7 +363,7 @@ public class AgentCommandsTests
 
         // Assert
         exitCode.ShouldBe(0);
-        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", "Custom description", Arg.Any<AgentCapabilities>(), TestContext.Current.CancellationToken);
+        await _mockAgentService.Received(1).CreateAgentAsync("TestAgent", "Custom description", Arg.Any<AgentCapabilities>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]

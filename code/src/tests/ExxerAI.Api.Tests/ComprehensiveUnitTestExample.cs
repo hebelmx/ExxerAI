@@ -452,7 +452,7 @@ public class ComprehensiveUnitTestExample
             const string documentId = "doc789-cancelled";
             using var cts = new CancellationTokenSource();
 #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
-            ; // Cancel immediately
+            cts.Cancel(); // Cancel immediately
 #pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
 
             // Act
