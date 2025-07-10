@@ -47,6 +47,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         DataSource source,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<TruthRecord>();
+
         try
         {
             if (data is null)
@@ -60,8 +64,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 _logger.LogWarning("Attempted to store data with null data source");
                 return Result<TruthRecord>.WithFailure("Value source cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -85,7 +87,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store operation was cancelled");
-            return Result<TruthRecord>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<TruthRecord>();
         }
         catch (Exception ex)
         {
@@ -105,6 +107,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         ExtractedData data,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ExxerAI.Domain.DocumentProcessing.ValidationResult>();
+
         try
         {
             if (data is null)
@@ -112,8 +118,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 _logger.LogWarning("Attempted to validate null extracted data");
                 return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure("Value cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var validationResult = await PerformValidationAsync(data, cancellationToken).ConfigureAwait(false);
 
@@ -125,7 +129,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Validation operation was cancelled");
-            return Result<ExxerAI.Domain.DocumentProcessing.ValidationResult>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<ExxerAI.Domain.DocumentProcessing.ValidationResult>();
         }
         catch (Exception ex)
         {
@@ -144,6 +148,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         string recordId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<TruthRecord>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(recordId))
@@ -151,8 +159,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 _logger.LogWarning("Attempted to get truth record with empty ID");
                 return Result<TruthRecord>.WithFailure("Record ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
@@ -168,7 +174,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get record operation was cancelled");
-            return Result<TruthRecord>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<TruthRecord>();
         }
         catch (Exception ex)
         {
@@ -187,6 +193,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         IEnumerable<ExtractedData> conflictingData,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ConflictResolution>();
+
         try
         {
             if (conflictingData is null || !conflictingData.Any())
@@ -194,8 +204,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 _logger.LogWarning("Attempted to resolve conflicts with no conflicting data");
                 return Result<ConflictResolution>.WithFailure("No conflicting data provided");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var resolution = await PerformConflictResolutionAsync(conflictingData, cancellationToken).ConfigureAwait(false);
             
@@ -209,7 +217,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Conflict resolution operation was cancelled");
-            return Result<ConflictResolution>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<ConflictResolution>();
         }
         catch (Exception ex)
         {
@@ -253,7 +261,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get lineage operation was cancelled");
-            return Result<DataLineage>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<DataLineage>();
         }
         catch (Exception ex)
         {
