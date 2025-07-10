@@ -171,7 +171,8 @@ public class AgentCommands
             var result = await _agentService.CreateAgentAsync(
                 name,
                 description ?? $"Auto-generated agent {name}",
-                capabilities);
+                capabilities,
+                cancellationToken);
 
             if (result.IsFailure)
             {
@@ -194,8 +195,9 @@ public class AgentCommands
     /// Deletes an agent
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> DeleteAgentAsync(string[] args)
+    private async Task<int> DeleteAgentAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {
@@ -212,7 +214,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.DeleteAsync(agentId);
+            var result = await _agentRepository.DeleteAsync(agentId, cancellationToken);
             if (result.IsFailure)
             {
                 Console.WriteLine($"Error deleting agent: {result.Error}");
@@ -233,8 +235,9 @@ public class AgentCommands
     /// Shows detailed agent agentStatus information
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ShowAgentStatusAsync(string[] args)
+    private async Task<int> ShowAgentStatusAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {
@@ -251,7 +254,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.GetByIdAsync(agentId);
+            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken);
             if (result.IsFailure)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
@@ -295,8 +298,9 @@ public class AgentCommands
     /// Updates agent properties
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> UpdateAgentAsync(string[] args)
+    private async Task<int> UpdateAgentAsync(string[] args, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {
@@ -313,7 +317,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.GetByIdAsync(agentId);
+            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken);
             if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
@@ -333,7 +337,7 @@ public class AgentCommands
 
             agent.UpdatedAt = DateTime.UtcNow;
 
-            var updateResult = await _agentRepository.UpdateAsync(agent);
+            var updateResult = await _agentRepository.UpdateAsync(agent, cancellationToken);
             if (updateResult.IsFailure)
             {
                 Console.WriteLine($"Error updating agent: {updateResult.Error}");
@@ -354,20 +358,22 @@ public class AgentCommands
     /// Activates an agent
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ActivateAgentAsync(string[] args)
+    private async Task<int> ActivateAgentAsync(string[] args, CancellationToken cancellationToken)
     {
-        return await ChangeAgentStatusAsync(args, AgentStatus.Active, "activated");
+        return await ChangeAgentStatusAsync(args, AgentStatus.Active, "activated", cancellationToken);
     }
 
     /// <summary>
     /// Deactivates an agent
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> DeactivateAgentAsync(string[] args)
+    private async Task<int> DeactivateAgentAsync(string[] args, CancellationToken cancellationToken)
     {
-        return await ChangeAgentStatusAsync(args, AgentStatus.Inactive, "deactivated");
+        return await ChangeAgentStatusAsync(args, AgentStatus.Inactive, "deactivated", cancellationToken);
     }
 
     /// <summary>
@@ -376,8 +382,9 @@ public class AgentCommands
     /// <param name="args">Command arguments</param>
     /// <param name="newStatus">New agentStatus</param>
     /// <param name="action">Action description</param>
+    /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ChangeAgentStatusAsync(string[] args, AgentStatus newStatus, string action)
+    private async Task<int> ChangeAgentStatusAsync(string[] args, AgentStatus newStatus, string action, CancellationToken cancellationToken)
     {
         if (args.Length == 0)
         {
@@ -394,7 +401,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.GetByIdAsync(agentId);
+            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken);
             if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
@@ -405,7 +412,7 @@ public class AgentCommands
             agent.Status = newStatus;
             agent.UpdatedAt = DateTime.UtcNow;
 
-            var updateResult = await _agentRepository.UpdateAsync(agent);
+            var updateResult = await _agentRepository.UpdateAsync(agent, cancellationToken);
             if (updateResult.IsFailure)
             {
                 Console.WriteLine($"Error changing agent agentStatus: {updateResult.Error}");
