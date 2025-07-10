@@ -32,6 +32,10 @@ public class HybridKnowledgeService
     /// </summary>
     public async Task<Result> InitializeAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             _logger.LogInformation("Initializing hybrid knowledge service");
@@ -55,6 +59,11 @@ public class HybridKnowledgeService
             _logger.LogInformation("Hybrid knowledge service initialized successfully");
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Initialize operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize hybrid knowledge service");
@@ -69,6 +78,10 @@ public class HybridKnowledgeService
         KnowledgeDocument document,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (document == null) return Result.WithFailure("Document cannot be null");
@@ -161,6 +174,11 @@ public class HybridKnowledgeService
             _logger.LogInformation("Successfully stored document with knowledge: {DocumentId}", document.DocumentId);
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Store document with knowledge operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store document with knowledge: {DocumentId}", document?.DocumentId);
@@ -176,6 +194,10 @@ public class HybridKnowledgeService
         HybridSearchOptions? options = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<HybridSearchResults>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -239,6 +261,11 @@ public class HybridKnowledgeService
                 results.SemanticResults.Count, results.RelationshipResults.Count, results.CombinedResults.Count);
 
             return Result<HybridSearchResults>.Success(results);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Hybrid search operation was cancelled");
+            return ResultExtensions.Cancelled<HybridSearchResults>();
         }
         catch (Exception ex)
         {
