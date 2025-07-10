@@ -10,20 +10,20 @@ namespace ExxerAI.Application.Services;
 /// </summary>
 public class LLMService : ILLMService
 {
-private readonly ILanguageModelRepository _modelRepository;
-private readonly IConversationRepository _conversationRepository;
+    private readonly ILanguageModelRepository _modelRepository;
+    private readonly IConversationRepository _conversationRepository;
 
-/// <summary>
-/// Initializes a new instance of the LLMService
-/// </summary>
-/// <param name="modelRepository">Repository for language model operations</param>
-/// <param name="conversationRepository">Repository for conversation operations</param>
-/// <exception cref="ArgumentNullException">Thrown when any parameter is null</exception>
-public LLMService(ILanguageModelRepository modelRepository, IConversationRepository conversationRepository)
-{
-_modelRepository = modelRepository ?? throw new ArgumentNullException(nameof(modelRepository));
-_conversationRepository = conversationRepository ?? throw new ArgumentNullException(nameof(conversationRepository));
-}
+    /// <summary>
+    /// Initializes a new instance of the LLMService
+    /// </summary>
+    /// <param name="modelRepository">Repository for language model operations</param>
+    /// <param name="conversationRepository">Repository for conversation operations</param>
+    /// <exception cref="ArgumentNullException">Thrown when any parameter is null</exception>
+    public LLMService(ILanguageModelRepository modelRepository, IConversationRepository conversationRepository)
+    {
+        _modelRepository = modelRepository ?? throw new ArgumentNullException(nameof(modelRepository));
+        _conversationRepository = conversationRepository ?? throw new ArgumentNullException(nameof(conversationRepository));
+    }
 
 /// <summary>
 /// Generates text using the specified language model
@@ -33,33 +33,41 @@ _conversationRepository = conversationRepository ?? throw new ArgumentNullExcept
 /// <param name="parameters">Optional parameters for generation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the generated LLM response</returns>
-public async Task<Result<LLMResponse>> GenerateTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, CancellationToken cancellationToken = default)
-{
-try
-{
-if (string.IsNullOrWhiteSpace(prompt))
-return Result<LLMResponse>.WithFailure("Prompt cannot be null or empty");
+    public async Task<Result<LLMResponse>> GenerateTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<LLMResponse>();
 
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
-if (modelResult.IsFailure) return Result<LLMResponse>.WithFailure($"Model {modelId} not found");
+        try
+        {
+            if (string.IsNullOrWhiteSpace(prompt))
+                return Result<LLMResponse>.WithFailure("Prompt cannot be null or empty");
 
-var response = new LLMResponse
-{
-Content = $"Generated response for: {prompt}",
-InputTokens = prompt.Length / 4, // Rough token estimation
-OutputTokens = 50,
-EstimatedCost = 0.001m,
-ResponseTimeMs = 500,
-FinishReason = "completed"
-};
+            var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
+            if (modelResult.IsFailure) return Result<LLMResponse>.WithFailure($"Model {modelId} not found");
 
-return Result<LLMResponse>.WithSuccess(response);
-}
-catch (Exception ex)
-{
-return Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
-}
-}
+            var response = new LLMResponse
+            {
+                Content = $"Generated response for: {prompt}",
+                InputTokens = prompt.Length / 4, // Rough token estimation
+                OutputTokens = 50,
+                EstimatedCost = 0.001m,
+                ResponseTimeMs = 500,
+                FinishReason = "completed"
+            };
+
+            return Result<LLMResponse>.WithSuccess(response);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<LLMResponse>();
+        }
+        catch (Exception ex)
+        {
+            return Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
+        }
+    }
 
 /// <summary>
 /// Continues an existing conversation with a new message
@@ -68,40 +76,48 @@ return Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
 /// <param name="message">The message to add to the conversation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the assistant's response message</returns>
-public async Task<Result<ConversationMessage>> ContinueConversationAsync(Guid conversationId, string message, CancellationToken cancellationToken = default)
-{
-try
-{
-if (string.IsNullOrWhiteSpace(message))
-return Result<ConversationMessage>.WithFailure("Message cannot be null or empty");
+    public async Task<Result<ConversationMessage>> ContinueConversationAsync(Guid conversationId, string message, CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ConversationMessage>();
 
-var userMessage = new ConversationMessage
-{
-ConversationId = conversationId,
-Role = MessageRole.User,
-Content = message,
-Timestamp = DateTime.UtcNow
-};
+        try
+        {
+            if (string.IsNullOrWhiteSpace(message))
+                return Result<ConversationMessage>.WithFailure("Message cannot be null or empty");
 
-var addResult = await _conversationRepository.AddMessageAsync(userMessage, cancellationToken).ConfigureAwait(false);
-if (addResult.IsFailure) return Result<ConversationMessage>.WithFailure(addResult.Error ?? "Failed to add user message");
+            var userMessage = new ConversationMessage
+            {
+                ConversationId = conversationId,
+                Role = MessageRole.User,
+                Content = message,
+                Timestamp = DateTime.UtcNow
+            };
 
-var assistantMessage = new ConversationMessage
-{
-ConversationId = conversationId,
-Role = MessageRole.Assistant,
-Content = $"Response to: {message}",
-Timestamp = DateTime.UtcNow
-};
+            var addResult = await _conversationRepository.AddMessageAsync(userMessage, cancellationToken).ConfigureAwait(false);
+            if (addResult.IsFailure) return Result<ConversationMessage>.WithFailure(addResult.Error ?? "Failed to add user message");
 
-var assistantResult = await _conversationRepository.AddMessageAsync(assistantMessage, cancellationToken).ConfigureAwait(false);
-return assistantResult.IsFailure ? Result<ConversationMessage>.WithFailure(assistantResult.Error ?? "Failed to add assistant message") : Result<ConversationMessage>.WithSuccess(assistantMessage);
-}
-catch (Exception ex)
-{
-return Result<ConversationMessage>.WithFailure($"Error continuing conversation: {ex.Message}");
-}
-}
+            var assistantMessage = new ConversationMessage
+            {
+                ConversationId = conversationId,
+                Role = MessageRole.Assistant,
+                Content = $"Response to: {message}",
+                Timestamp = DateTime.UtcNow
+            };
+
+            var assistantResult = await _conversationRepository.AddMessageAsync(assistantMessage, cancellationToken).ConfigureAwait(false);
+            return assistantResult.IsFailure ? Result<ConversationMessage>.WithFailure(assistantResult.Error ?? "Failed to add assistant message") : Result<ConversationMessage>.WithSuccess(assistantMessage);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<ConversationMessage>();
+        }
+        catch (Exception ex)
+        {
+            return Result<ConversationMessage>.WithFailure($"Error continuing conversation: {ex.Message}");
+        }
+    }
 
 /// <summary>
 /// Creates a new conversation with the specified agent and model
@@ -112,28 +128,36 @@ return Result<ConversationMessage>.WithFailure($"Error continuing conversation: 
 /// <param name="systemPrompt">Optional system prompt for the conversation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the newly created conversation</returns>
-public async Task<Result<Conversation>> CreateConversationAsync(Guid agentId, Guid modelId, string? title = null, string? systemPrompt = null, CancellationToken cancellationToken = default)
-{
-try
-{
-var conversation = new Conversation
-{
-AgentId = agentId,
-LanguageModelId = modelId,
-Title = title ?? "New Conversation",
-SystemPrompt = systemPrompt ?? string.Empty,
-Status = ConversationStatus.Active,
-CreatedAt = DateTime.UtcNow
-};
+    public async Task<Result<Conversation>> CreateConversationAsync(Guid agentId, Guid modelId, string? title = null, string? systemPrompt = null, CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Conversation>();
 
-var result = await _conversationRepository.AddAsync(conversation, cancellationToken).ConfigureAwait(false);
-return result.IsFailure ? Result<Conversation>.WithFailure(result.Error ?? "Failed to add conversation") : Result<Conversation>.WithSuccess(conversation);
-}
-catch (Exception ex)
-{
-return Result<Conversation>.WithFailure($"Error creating conversation: {ex.Message}");
-}
-}
+        try
+        {
+            var conversation = new Conversation
+            {
+                AgentId = agentId,
+                LanguageModelId = modelId,
+                Title = title ?? "New Conversation",
+                SystemPrompt = systemPrompt ?? string.Empty,
+                Status = ConversationStatus.Active,
+                CreatedAt = DateTime.UtcNow
+            };
+
+            var result = await _conversationRepository.AddAsync(conversation, cancellationToken).ConfigureAwait(false);
+            return result.IsFailure ? Result<Conversation>.WithFailure(result.Error ?? "Failed to add conversation") : Result<Conversation>.WithSuccess(conversation);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Conversation>();
+        }
+        catch (Exception ex)
+        {
+            return Result<Conversation>.WithFailure($"Error creating conversation: {ex.Message}");
+        }
+    }
 
 /// <summary>
 /// Estimates the cost for generating text with the specified token counts
@@ -143,22 +167,30 @@ return Result<Conversation>.WithFailure($"Error creating conversation: {ex.Messa
 /// <param name="outputTokens">The number of output tokens</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the estimated cost in decimal format</returns>
-public async Task<Result<decimal>> EstimateCostAsync(Guid modelId, int inputTokens, int outputTokens, CancellationToken cancellationToken = default)
-{
-try
-{
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
-if (modelResult.IsFailure) return Result<decimal>.WithFailure($"Model {modelId} not found");
+    public async Task<Result<decimal>> EstimateCostAsync(Guid modelId, int inputTokens, int outputTokens, CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<decimal>();
 
-// Basic cost estimation (would use real pricing from model)
-decimal cost = (inputTokens * 0.00001m) + (outputTokens * 0.00002m);
-return Result<decimal>.WithSuccess(cost);
-}
-catch (Exception ex)
-{
-return Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
-}
-}
+        try
+        {
+            var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
+            if (modelResult.IsFailure) return Result<decimal>.WithFailure($"Model {modelId} not found");
+
+            // Basic cost estimation (would use real pricing from model)
+            decimal cost = (inputTokens * 0.00001m) + (outputTokens * 0.00002m);
+            return Result<decimal>.WithSuccess(cost);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<decimal>();
+        }
+        catch (Exception ex)
+        {
+            return Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
+        }
+    }
 
 /// <summary>
 /// Counts the number of tokens in the provided text using the specified model's tokenizer
@@ -167,25 +199,33 @@ return Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
 /// <param name="text">The text to tokenize and count</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing the token count</returns>
-public async Task<Result<int>> CountTokensAsync(Guid modelId, string text, CancellationToken cancellationToken = default)
-{
-try
-{
-if (string.IsNullOrEmpty(text))
-return Result<int>.WithSuccess(0);
+    public async Task<Result<int>> CountTokensAsync(Guid modelId, string text, CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<int>();
 
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
-if (modelResult.IsFailure) return Result<int>.WithFailure($"Model {modelId} not found");
+        try
+        {
+            if (string.IsNullOrEmpty(text))
+                return Result<int>.WithSuccess(0);
 
-// Basic token counting (would use real tokenizer)
-int tokenCount = text.Length / 4; // Rough estimation
-return Result<int>.WithSuccess(tokenCount);
-}
-catch (Exception ex)
-{
-return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
-}
-}
+            var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
+            if (modelResult.IsFailure) return Result<int>.WithFailure($"Model {modelId} not found");
+
+            // Basic token counting (would use real tokenizer)
+            int tokenCount = text.Length / 4; // Rough estimation
+            return Result<int>.WithSuccess(tokenCount);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<int>();
+        }
+        catch (Exception ex)
+        {
+            return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
+        }
+    }
 
 /// <summary>
 /// Streams text generation in real-time using the specified language model
@@ -195,26 +235,34 @@ return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
 /// <param name="parameters">Optional parameters for generation</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>An async enumerable of response chunks</returns>
-public async IAsyncEnumerable<LLMResponseChunk> StreamTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
-{
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
-if (modelResult.IsFailure) yield break;
+    public async IAsyncEnumerable<LLMResponseChunk> StreamTextAsync(Guid modelId, string prompt, LLMParameters? parameters = null, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            yield break;
 
-// Simulate streaming response
-string[] chunks = { "Hello", " world", " from", " streaming", " LLM!" };
+        var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
+        if (modelResult.IsFailure) yield break;
 
-for (int i = 0; i < chunks.Length; i++)
-{
-yield return new LLMResponseChunk
-{
-Content = chunks[i],
-ChunkIndex = i,
-IsComplete = i == chunks.Length - 1
-};
+        // Simulate streaming response
+        string[] chunks = { "Hello", " world", " from", " streaming", " LLM!" };
 
-await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Simulate processing delay
-}
-}
+        for (int i = 0; i < chunks.Length; i++)
+        {
+            // Check cancellation within the loop
+            if (cancellationToken.IsCancellationRequested)
+                yield break;
+
+            yield return new LLMResponseChunk
+            {
+                Content = chunks[i],
+                ChunkIndex = i,
+                IsComplete = i == chunks.Length - 1
+            };
+
+            await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Simulate processing delay
+        }
+    }
 
 /// <summary>
 /// Validates whether the specified language model is available and functional
@@ -222,16 +270,24 @@ await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Simulate proc
 /// <param name="modelId">The unique identifier of the language model to validate</param>
 /// <param name="cancellationToken">Cancellation token for async operations</param>
 /// <returns>A result containing true if the model is valid, false otherwise</returns>
-public async Task<Result<bool>> ValidateModelAsync(Guid modelId, CancellationToken cancellationToken = default)
-{
-try
-{
-var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
-return Result<bool>.WithSuccess(modelResult.IsSuccess);
-}
-catch (Exception ex)
-{
-return Result<bool>.WithFailure($"Error validating model: {ex.Message}");
-}
-}
+    public async Task<Result<bool>> ValidateModelAsync(Guid modelId, CancellationToken cancellationToken = default)
+    {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
+        try
+        {
+            var modelResult = await _modelRepository.GetByIdAsync(modelId, cancellationToken).ConfigureAwait(false);
+            return Result<bool>.WithSuccess(modelResult.IsSuccess);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.WithFailure($"Error validating model: {ex.Message}");
+        }
+    }
 }
