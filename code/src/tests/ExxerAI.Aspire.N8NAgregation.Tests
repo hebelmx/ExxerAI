@@ -1,0 +1,22 @@
+public class N8NResourceBuilderComponentTests
+{
+    [Fact]
+    public void AddN8N_WithCustomTimeZone_OverridesDefault()
+    {
+        // Arrange
+        var builder = Substitute.For<IDistributedApplicationBuilder>();
+        var resourceBuilder = Substitute.For<IResourceBuilder<N8NResource>>();
+        builder.AddResource(Arg.Any<N8NResource>()).Returns(resourceBuilder);
+        resourceBuilder.WithImage(Arg.Any<string>()).Returns(resourceBuilder);
+        resourceBuilder.WithHttpEndpoint(Arg.Any<int>(), Arg.Any<int>()).Returns(resourceBuilder);
+        resourceBuilder.WithEnvironment(Arg.Any<string>(), Arg.Any<string>()).Returns(resourceBuilder);
+        resourceBuilder.WithVolume(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<bool>()).Returns(resourceBuilder);
+
+        // Act
+        var result = builder.AddN8N("n8n", 5678).WithTimeZone("Europe/Berlin");
+
+        // Assert
+        result.ShouldBe(resourceBuilder);
+        resourceBuilder.Received().WithEnvironment("TZ", "Europe/Berlin");
+    }
+}

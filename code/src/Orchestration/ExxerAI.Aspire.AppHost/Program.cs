@@ -23,7 +23,7 @@ internal class Program
         builder.AddProject<Projects.ExxerAI_UI>("exxerai-ui");
 
         var n8n = builder.AddN8N()
-            .WithBasicAuth("user", "pwd")
+            .WithBasicAuth("user", "pwd");
 
         // Dashboard Project (references cache)
         builder.AddProject<Projects.ExxerAI_Aspire_Dashboard>("Dashboard")

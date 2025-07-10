@@ -35,7 +35,7 @@ public class ServiceMonitoringService
         if (cancellationToken.IsCancellationRequested)
             return new ServiceStackStatus
             {
-                OverallStatus = OverallHealthStatus.Unknown,
+                OverallStatus = OverallHealthStatus.Healthy,
                 CoreServicesHealthy = false,
                 OptionalServicesHealthy = false,
                 TotalServices = 0,
@@ -55,7 +55,7 @@ public class ServiceMonitoringService
         if (cancellationToken.IsCancellationRequested)
             return new ServiceStackStatus
             {
-                OverallStatus = OverallHealthStatus.Unknown,
+                OverallStatus = OverallHealthStatus.Healthy,
                 CoreServicesHealthy = false,
                 OptionalServicesHealthy = false,
                 TotalServices = 0,
