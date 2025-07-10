@@ -97,7 +97,7 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // In a real implementation, this would set up the Google Drive API watch
             // For now, we'll simulate this with a placeholder
-            await _googleDriveEngine.SimulateGoogleDriveWatchSetupAsync(folderId, sessionId, cancellationToken);
+            await _googleDriveEngine.SimulateGoogleDriveWatchSetupAsync(folderId, sessionId, cancellationToken).ConfigureAwait(false);
 
             return Result<string>.WithSuccess(sessionId);
         }
@@ -139,7 +139,7 @@ public class DocumentIngestionService : IDocumentIngestionService
                 watchId, session.FolderId);
 
             // In a real implementation, this would clean up the Google Drive API watch
-            await _googleDriveEngine.SimulateGoogleDriveWatchCleanupAsync(watchId, cancellationToken);
+            await _googleDriveEngine.SimulateGoogleDriveWatchCleanupAsync(watchId, cancellationToken).ConfigureAwait(false);
 
             return Result<bool>.WithSuccess(true);
         }
@@ -173,7 +173,7 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             // In a real implementation, this would poll the Google Drive API for changes
             // For demonstration, we'll return any pending simulated changes
-            await Task.Delay(1, cancellationToken); // Simulate async operation
+            await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
             
             var changes = new List<DocumentChangeEvent>(_pendingChanges);
             _pendingChanges.Clear();
@@ -235,11 +235,11 @@ public class DocumentIngestionService : IDocumentIngestionService
             // For deleted documents, handle separately
             if (changeEvent.ChangeType == DocumentChangeType.Deleted)
             {
-                return await _processingEngine.HandleDocumentDeletionAsync(changeEvent, cancellationToken);
+                return await _processingEngine.HandleDocumentDeletionAsync(changeEvent, cancellationToken).ConfigureAwait(false);
             }
 
             // Download and process the document
-            var documentData = await _googleDriveEngine.DownloadDocumentAsync(changeEvent.DocumentId, cancellationToken);
+            var documentData = await _googleDriveEngine.DownloadDocumentAsync(changeEvent.DocumentId, cancellationToken).ConfigureAwait(false);
             if (!documentData.IsSuccess)
             {
                 return Result<DocumentProcessingResult>.WithFailure($"Failed to download document: {documentData.Error}");
@@ -249,7 +249,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
                 documentData.Value!,
                 changeEvent.Metadata,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (processingResult.IsSuccess)
             {
@@ -312,7 +312,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             // Check if document was already processed (unless forcing reprocess)
             if (!forceReprocess)
             {
-                var existingResult = await _processingEngine.CheckExistingDocumentAsync(documentId, cancellationToken);
+                var existingResult = await _processingEngine.CheckExistingDocumentAsync(documentId, cancellationToken).ConfigureAwait(false);
                 if (existingResult.IsSuccess && existingResult.Value != null)
                 {
                     _logger.LogDebug("Document {DocumentId} already processed, returning existing result", documentId);
@@ -321,13 +321,13 @@ public class DocumentIngestionService : IDocumentIngestionService
             }
 
             // Download document metadata and content
-            var metadataResult = await _googleDriveEngine.GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _googleDriveEngine.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!metadataResult.IsSuccess)
             {
                 return Result<DocumentProcessingResult>.WithFailure($"Failed to get metadata: {metadataResult.Error}");
             }
 
-            var documentData = await _googleDriveEngine.DownloadDocumentAsync(documentId, cancellationToken);
+            var documentData = await _googleDriveEngine.DownloadDocumentAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!documentData.IsSuccess)
             {
                 return Result<DocumentProcessingResult>.WithFailure($"Failed to download document: {documentData.Error}");
@@ -337,7 +337,7 @@ public class DocumentIngestionService : IDocumentIngestionService
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
                 documentData.Value!,
                 metadataResult.Value!,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Completed ingestion of document {DocumentId} with result: {IsSuccess}",
                 documentId, processingResult.IsSuccess);
@@ -376,7 +376,7 @@ public class DocumentIngestionService : IDocumentIngestionService
         {
             // In a real implementation, this would check the Google Drive API for modification time
             // For demonstration, we'll simulate this check
-            var metadataResult = await _googleDriveEngine.GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _googleDriveEngine.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!metadataResult.IsSuccess)
             {
                 return Result<bool>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
@@ -421,17 +421,17 @@ public class DocumentIngestionService : IDocumentIngestionService
             var status = new IngestionStatus
             {
                 DocumentsWatched = totalDocumentsWatched,
-                DocumentsProcessedToday = await _metricsEngine.GetDocumentsProcessedTodayAsync(cancellationToken),
-                DocumentsProcessedThisWeek = await _metricsEngine.GetDocumentsProcessedThisWeekAsync(cancellationToken),
+                DocumentsProcessedToday = await _metricsEngine.GetDocumentsProcessedTodayAsync(cancellationToken).ConfigureAwait(false),
+                DocumentsProcessedThisWeek = await _metricsEngine.GetDocumentsProcessedThisWeekAsync(cancellationToken).ConfigureAwait(false),
                 ActiveWatchSessions = activeSessions.Count,
                 PendingChanges = _pendingChanges.Count,
-                AverageProcessingTimeMs = await _metricsEngine.GetAverageProcessingTimeAsync(cancellationToken),
-                SystemHealth = await _healthEngine.DetermineSystemHealthAsync(activeSessions.Count, cancellationToken),
+                AverageProcessingTimeMs = await _metricsEngine.GetAverageProcessingTimeAsync(cancellationToken).ConfigureAwait(false),
+                SystemHealth = await _healthEngine.DetermineSystemHealthAsync(activeSessions.Count, cancellationToken).ConfigureAwait(false),
                 LastProcessingTime = activeSessions.Any() ?
                     activeSessions.Max(s => s.LastProcessedAt ?? DateTime.MinValue) :
                     DateTime.MinValue,
-                SystemMessages = await _healthEngine.GetSystemMessagesAsync(_activeSessions.Count, _pendingChanges.Count, cancellationToken),
-                Metrics = await _metricsEngine.GetDetailedMetricsAsync(_activeSessions.Count, _pendingChanges.Count, cancellationToken)
+                SystemMessages = await _healthEngine.GetSystemMessagesAsync(_activeSessions.Count, _pendingChanges.Count, cancellationToken).ConfigureAwait(false),
+                Metrics = await _metricsEngine.GetDetailedMetricsAsync(_activeSessions.Count, _pendingChanges.Count, cancellationToken).ConfigureAwait(false)
             };
 
             return Result<IngestionStatus>.WithSuccess(status);

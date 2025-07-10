@@ -67,6 +67,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         DocumentMetadata metadata,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+
         try
         {
             var stopwatch = System.Diagnostics.Stopwatch.StartNew();
@@ -82,7 +86,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             };
 
             // Stage 1: Direct Text Extraction
-            var textExtractionResult = await _textExtractor.ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
+            var textExtractionResult = await _textExtractor.ExtractTextDirectlyAsync(documentData, metadata, cancellationToken).ConfigureAwait(false);
             if (textExtractionResult.IsSuccess)
             {
                 result.ExtractedText = textExtractionResult.Value!;
@@ -96,7 +100,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 _logger.LogInformation("Direct text extraction failed, falling back to OCR");
                 result.ExtractionMethod = ExtractionMethod.OCR;
 
-                var ocrResult = await _textExtractor.ExtractTextViaOCRAsync(documentData, metadata, cancellationToken);
+                var ocrResult = await _textExtractor.ExtractTextViaOCRAsync(documentData, metadata, cancellationToken).ConfigureAwait(false);
                 if (ocrResult.IsSuccess)
                 {
                     result.ExtractedText = ocrResult.Value!;
@@ -110,7 +114,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
 
             // Stage 3: Field Extraction using schema
             var schema = _learner.GetOrCreateSchema(metadata.DocumentType, result.ExtractedText, _schemas);
-            var extractionResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(result.ExtractedText, schema, cancellationToken);
+            var extractionResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(result.ExtractedText, schema, cancellationToken).ConfigureAwait(false);
             if (extractionResult.IsSuccess)
             {
                 // Cannot assign to init-only ExtractedFields, but can assign to regular GroundedData property
@@ -122,7 +126,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             // Stage 4: LLM Verification (if enabled and confidence is low)
             if (metadata.ProcessingOptions.UseLLMExtraction && result.Confidence < 0.8f)
             {
-                var llmResult = await _validator.VerifyWithLLMAsync(result, schema, cancellationToken);
+                var llmResult = await _validator.VerifyWithLLMAsync(result, schema, cancellationToken).ConfigureAwait(false);
                 if (llmResult.IsSuccess)
                 {
                     result.LLMConfidence = llmResult.Value!;
@@ -135,7 +139,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
             }
 
             // Stage 5: Value Validation and Grounding
-            var validationResult = await _validator.ValidateExtractedDataAsync(result.GroundedData!, metadata, cancellationToken);
+            var validationResult = await _validator.ValidateExtractedDataAsync(result.GroundedData!, metadata, cancellationToken).ConfigureAwait(false);
             if (validationResult.IsSuccess)
             {
                 result.ValidationResultDocument = validationResult.Value!;
@@ -149,6 +153,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 result.ProcessingTimeMs, result.OverallConfidence);
 
             return Result<DocumentProcessingResult>.WithSuccess(result);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
         }
         catch (Exception ex)
         {
@@ -169,6 +177,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         ExtractionSchema schema,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ExtractionResult>();
+
         try
         {
             // Convert Document to bytes and process
@@ -179,7 +191,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 FileName = document.FileName
             };
             
-            var textResult = await _textExtractor.ExtractTextDirectlyAsync(documentData, metadata, cancellationToken);
+            var textResult = await _textExtractor.ExtractTextDirectlyAsync(documentData, metadata, cancellationToken).ConfigureAwait(false);
             if (!textResult.IsSuccess)
             {
                 return Result<ExtractionResult>.WithFailure($"Text extraction failed: {textResult.Error}");
@@ -193,7 +205,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 Fields = schema.Fields.ToList() // ExtractionSchema.Fields is already List<FieldDefinition>
             };
 
-            var extractedDataResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(textResult.Value!, schemaDefinition, cancellationToken);
+            var extractedDataResult = await _fieldExtractor.ExtractFieldsUsingSchemaAsync(textResult.Value!, schemaDefinition, cancellationToken).ConfigureAwait(false);
             if (!extractedDataResult.IsSuccess)
             {
                 return Result<ExtractionResult>.WithFailure(extractedDataResult.Error ?? "Extraction failed");
@@ -214,6 +226,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
 
             return Result<ExtractionResult>.WithSuccess(extractionResult);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<ExtractionResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error extracting fields using schema {SchemaName}", schema.Name);
@@ -233,9 +249,20 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         GroundTruthContext context,
         CancellationToken cancellationToken = default)
     {
-        return await _validator.ValidateExtractedDataAsync(data,
-            new DocumentMetadata { Properties = context.Properties },
-            cancellationToken);
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ValidationResultDocument>();
+
+        try
+        {
+            return await _validator.ValidateExtractedDataAsync(data,
+                new DocumentMetadata { Properties = context.Properties },
+                cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<ValidationResultDocument>();
+        }
     }
 
     /// <summary>
@@ -248,6 +275,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         ProcessingHistory history,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<LearningResult>();
+
         _logger.LogInformation("Adapting processing rules from {Count} historical results",
             history.ProcessingResults.Count());
 
@@ -287,6 +318,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
 
             return Result<LearningResult>.WithSuccess(learningResult);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<LearningResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error adapting processing rules");
@@ -304,6 +339,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
         IEnumerable<Document> samples,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<SchemaDefinition>();
+
         _logger.LogInformation("Learning schema from {SampleCount} samples", samples.Count());
 
         try
@@ -319,7 +358,7 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                     DocumentType = sample.Type,
                     FileName = sample.FileName
                 };
-                var textResult = await _textExtractor.ExtractTextDirectlyAsync(sample.Content, metadata, cancellationToken);
+                var textResult = await _textExtractor.ExtractTextDirectlyAsync(sample.Content, metadata, cancellationToken).ConfigureAwait(false);
                 if (textResult.IsSuccess)
                 {
                     extractedTexts.Add(textResult.Value!);
@@ -339,6 +378,10 @@ public class PolymorphicDocumentProcessor : IPolymorphicDocumentProcessor
                 schema.Fields.Count);
 
             return Result<SchemaDefinition>.WithSuccess(schema);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<SchemaDefinition>();
         }
         catch (Exception ex)
         {
