@@ -36,6 +36,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> NotifyDocumentAddedAsync(DocumentAsset document, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (document is null)
@@ -43,8 +47,6 @@ public class DocumentNotificationService : IDocumentNotificationService
                 _logger.LogWarning("Attempted to notify document added with null document");
                 return Result<bool>.WithFailure("Document cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var notification = new DocumentNotification(
                 "DocumentAdded",
@@ -70,7 +72,7 @@ public class DocumentNotificationService : IDocumentNotificationService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Document added notification was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -89,6 +91,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> NotifyDocumentModifiedAsync(DocumentAsset document, string previousVersion, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (document is null)
@@ -103,8 +109,6 @@ public class DocumentNotificationService : IDocumentNotificationService
                     document.Id);
                 return Result<bool>.WithFailure("Previous version cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var notification = new DocumentNotification(
                 "DocumentModified",
@@ -131,7 +135,7 @@ public class DocumentNotificationService : IDocumentNotificationService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Document modified notification was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -150,6 +154,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> NotifyDocumentRemovedAsync(string documentId, string documentName, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -164,8 +172,6 @@ public class DocumentNotificationService : IDocumentNotificationService
                     documentId);
                 return Result<bool>.WithFailure("Document name cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var notification = new DocumentNotification(
                 "DocumentRemoved",
@@ -190,7 +196,7 @@ public class DocumentNotificationService : IDocumentNotificationService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Document removed notification was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -209,6 +215,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> NotifyProcessingFailedAsync(DocumentAsset document, Exception error, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (document is null)
@@ -223,8 +233,6 @@ public class DocumentNotificationService : IDocumentNotificationService
                     document.Id);
                 return Result<bool>.WithFailure("Error cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var notification = new DocumentNotification(
                 "ProcessingFailed",
@@ -251,7 +259,7 @@ public class DocumentNotificationService : IDocumentNotificationService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Processing failed notification was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -270,6 +278,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> NotifyProcessingCompletedAsync(DocumentAsset document, DocumentProcessingResult result, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (document is null)
@@ -284,8 +296,6 @@ public class DocumentNotificationService : IDocumentNotificationService
                     document.Id);
                 return Result<bool>.WithFailure("Processing result cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var notification = new DocumentNotification(
                 "ProcessingCompleted",
@@ -314,7 +324,7 @@ public class DocumentNotificationService : IDocumentNotificationService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Processing completed notification was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -332,6 +342,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> RegisterSubscriberAsync(string subscriberId, Func<DocumentNotification, Task> callback, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(subscriberId))
@@ -347,7 +361,7 @@ public class DocumentNotificationService : IDocumentNotificationService
                 return Result<bool>.WithFailure("Callback cannot be null");
             }
 
-            await Task.Delay(1).ConfigureAwait(false); // Simulate async operation
+            await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             if (_subscribers.ContainsKey(subscriberId))
             {
@@ -359,6 +373,11 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             _logger.LogInformation("Registered notification subscriber {SubscriberId}", subscriberId);
             return Result<bool>.Success(true);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Register subscriber operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -374,6 +393,10 @@ public class DocumentNotificationService : IDocumentNotificationService
     /// <returns>Result indicating success or failure</returns>
     public async Task<Result<bool>> UnregisterSubscriberAsync(string subscriberId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(subscriberId))
@@ -382,7 +405,7 @@ public class DocumentNotificationService : IDocumentNotificationService
                 return Result<bool>.WithFailure("Subscriber ID cannot be empty");
             }
 
-            await Task.Delay(1).ConfigureAwait(false); // Simulate async operation
+            await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             if (!_subscribers.TryRemove(subscriberId, out _))
             {
@@ -392,6 +415,11 @@ public class DocumentNotificationService : IDocumentNotificationService
 
             _logger.LogInformation("Unregistered notification subscriber {SubscriberId}", subscriberId);
             return Result<bool>.Success(true);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Unregister subscriber operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {

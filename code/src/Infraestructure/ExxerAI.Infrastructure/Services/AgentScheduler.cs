@@ -37,6 +37,10 @@ public class AgentScheduler : IAgentScheduler
     /// <returns>The best agent for the task if found</returns>
     public async Task<Result<Agent>> FindBestAgentAsync(AgentTask task, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Agent>();
+
         try
         {
             if (task is null)
@@ -44,8 +48,6 @@ public class AgentScheduler : IAgentScheduler
                 _logger.LogWarning("Attempted to find agent for null task");
                 return Result<Agent>.WithFailure("Task cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _schedulingLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -85,7 +87,7 @@ public class AgentScheduler : IAgentScheduler
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Find best agent operation was cancelled");
-            return Result<Agent>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<Agent>();
         }
         catch (Exception ex)
         {
@@ -102,6 +104,10 @@ public class AgentScheduler : IAgentScheduler
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> RegisterAgentAsync(Agent agent, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (agent is null)
@@ -109,8 +115,6 @@ public class AgentScheduler : IAgentScheduler
                 _logger.LogWarning("Attempted to register null agent");
                 return Result<bool>.WithFailure("Agent cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _schedulingLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -148,7 +152,7 @@ public class AgentScheduler : IAgentScheduler
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Register agent operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -165,6 +169,10 @@ public class AgentScheduler : IAgentScheduler
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> UnregisterAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -172,8 +180,6 @@ public class AgentScheduler : IAgentScheduler
                 _logger.LogWarning("Attempted to unregister agent with empty ID");
                 return Result<bool>.WithFailure("Agent ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _schedulingLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -200,7 +206,7 @@ public class AgentScheduler : IAgentScheduler
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Unregister agent operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -217,6 +223,10 @@ public class AgentScheduler : IAgentScheduler
     /// <returns>The agent's current workload</returns>
     public async Task<Result<AgentWorkload>> GetAgentWorkloadAsync(Guid agentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<AgentWorkload>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -224,8 +234,6 @@ public class AgentScheduler : IAgentScheduler
                 _logger.LogWarning("Attempted to get workload for agent with empty ID");
                 return Result<AgentWorkload>.WithFailure("Agent ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
@@ -247,7 +255,7 @@ public class AgentScheduler : IAgentScheduler
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get agent workload operation was cancelled");
-            return Result<AgentWorkload>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<AgentWorkload>();
         }
         catch (Exception ex)
         {

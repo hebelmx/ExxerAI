@@ -34,7 +34,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
 
         try
         {
@@ -69,7 +69,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Initialize operation was cancelled");
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
@@ -85,7 +85,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
 
         try
         {
@@ -130,7 +130,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store document operation was cancelled");
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
@@ -146,7 +146,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
 
         try
         {
@@ -194,7 +194,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Store concepts operation was cancelled");
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
@@ -210,7 +210,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
 
         try
         {
@@ -258,7 +258,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Create relationships operation was cancelled");
-            return ResultExtensions.Cancelled<Result>();
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
@@ -460,6 +460,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         int maxLength = 10,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<GraphPath>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(fromEntityId) || string.IsNullOrWhiteSpace(toEntityId))
@@ -498,6 +502,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             return Result<GraphPath>.Success(graphPath);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Find shortest path operation was cancelled");
+            return ResultExtensions.Cancelled<GraphPath>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to find shortest path from {From} to {To}", fromEntityId, toEntityId);
@@ -510,6 +519,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result<GraphKnowledgeStats>> GetStatsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<GraphKnowledgeStats>();
+
         try
         {
             await EnsureInitializedAsync(cancellationToken);
@@ -550,6 +563,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             return Result<GraphKnowledgeStats>.Success(stats);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get stats operation was cancelled");
+            return ResultExtensions.Cancelled<GraphKnowledgeStats>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get graph statistics");
@@ -562,6 +580,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     /// </summary>
     public async Task<Result> DeleteDocumentAsync(string documentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -580,6 +602,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             _logger.LogInformation("Successfully deleted document: {DocumentId}", documentId);
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Delete document operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to delete document: {DocumentId}", documentId);
@@ -596,6 +623,10 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         IEnumerable<GraphRelationship> relationships,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             await EnsureInitializedAsync(cancellationToken);
@@ -631,6 +662,11 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
             _logger.LogInformation("Batch store operation completed successfully");
             return Result.Success();
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Batch store operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
