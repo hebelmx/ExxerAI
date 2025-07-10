@@ -519,10 +519,12 @@ public class TaskService : ITaskService
     /// <returns>The result of the operation containing the list of overdue tasks</returns>
     public async Task<Result<IEnumerable<AgentTask>>> GetOverdueTasksAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<AgentTask>>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             var now = DateTime.UtcNow;
@@ -540,7 +542,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get overdue tasks operation was cancelled");
-            return Result<IEnumerable<AgentTask>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<AgentTask>>();
         }
         catch (Exception ex)
         {
