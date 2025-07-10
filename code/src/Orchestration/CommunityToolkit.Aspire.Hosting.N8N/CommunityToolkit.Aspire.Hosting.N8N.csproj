@@ -18,7 +18,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Aspire.Hosting"  />
+		<PackageReference Include="Microsoft.Extensions.Http"  />
+		<PackageReference Include="Microsoft.Extensions.Configuration"  />
 
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions"/>
 	</ItemGroup>
 
 </Project>
