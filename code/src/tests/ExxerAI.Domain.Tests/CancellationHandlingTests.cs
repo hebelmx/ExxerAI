@@ -7,8 +7,10 @@ namespace ExxerAI.Domain.Tests;
 /// -------------------------------------------------------------------------------------------------
 /// This test method uses <c>CancellationTokenSource.Cancel()</c> to simulate pre-cancelled tokens.
 /// <para>
-/// Although <c>AsyncFixer02</c> typically flags "long-running or blocking operations inside async methods",
+/// Although <c>AsyncFixer02</c>   <c>xUnit1051</c> typically flags "long-running or blocking operations inside async methods",
 /// this synchronous and deterministic call is explicitly used in unit tests to verify cancellation behavior
+/// and <c>xUnit1051</c> flag Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
+/// violation of this rule occurs when a method that accepts CancellationToken is not passed a cancellation token.
 /// in a controlled and predictable way.
 /// </para>
 /// <para>
@@ -24,7 +26,9 @@ namespace ExxerAI.Domain.Tests;
 /// -------------------------------------------------------------------------------------------------
 /// <code>
 /// #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside async methods
+/// #pragma warning disable xUnit1051
 /// cts.Cancel(); // Synchronous, intentional, test-driven immediate cancellation
+/// #pragma warning restore xUnit1051
 /// #pragma warning restore AsyncFixer02
 /// </code>
 /// -------------------------------------------------------------------------------------------------

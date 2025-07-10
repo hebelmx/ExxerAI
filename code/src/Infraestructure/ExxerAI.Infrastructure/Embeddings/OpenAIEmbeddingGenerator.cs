@@ -95,15 +95,15 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
             _logger.LogError(ex, "HTTP error during embedding generation");
             return Result<float[]>.WithFailure($"Network error: {ex.Message}");
         }
-        catch (OperationCanceledException)
-        {
-            _logger.LogInformation("Generate embedding operation was cancelled");
-            return ResultExtensions.Cancelled<float[]>();
-        }
         catch (TaskCanceledException ex) when (ex.InnerException is TimeoutException)
         {
             _logger.LogError(ex, "Timeout during embedding generation");
             return Result<float[]>.WithFailure("Request timed out");
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Generate embedding operation was cancelled");
+            return ResultExtensions.Cancelled<float[]>();
         }
         catch (Exception ex)
         {

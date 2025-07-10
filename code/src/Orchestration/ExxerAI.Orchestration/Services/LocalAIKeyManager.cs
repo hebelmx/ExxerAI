@@ -80,13 +80,17 @@ public class LocalAIKeyManager
     /// </summary>
     public async Task InitializeKeysAsync(LocalAIStackConfiguration config, CancellationToken cancellationToken, bool regenerateSecrets = false)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         _logger.LogInformation("Initializing LocalAI key store...");
 
         // Initialize internal service keys
-        await InitializeInternalKeysAsync(config, regenerateSecrets);
+        await InitializeInternalKeysAsync(config, regenerateSecrets, cancellationToken);
 
         // Initialize external API keys (these will be empty until user provides them)
-        await InitializeExternalKeysAsync();
+        await InitializeExternalKeysAsync(cancellationToken);
 
         _logger.LogInformation("Key store initialization completed");
     }
@@ -96,8 +100,12 @@ public class LocalAIKeyManager
     /// </summary>
     public async Task<string> GetDatabaseConnectionStringAsync(DatabaseConfiguration config, CancellationToken cancellationToken = default)
     {
-        var username = await _keyStore.GetKeyAsync(KeyNames.DatabaseUsername, Scopes.Internal) ?? config.Username;
-        var password = await _keyStore.GetKeyAsync(KeyNames.DatabasePassword, Scopes.Internal) ?? config.Password;
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return string.Empty;
+
+        var username = await _keyStore.GetKeyAsync(KeyNames.DatabaseUsername, Scopes.Internal, cancellationToken) ?? config.Username;
+        var password = await _keyStore.GetKeyAsync(KeyNames.DatabasePassword, Scopes.Internal, cancellationToken) ?? config.Password;
 
         return $"Host={config.Host};Port={config.Port};Database={config.DatabaseName};Username={username};Password={password}";
     }
@@ -105,11 +113,15 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get Supabase configuration with secure keys
     /// </summary>
-    public async Task<(string jwtSecret, string anonKey, string serviceRoleKey)> GetSupabaseKeysAsync()
+    public async Task<(string jwtSecret, string anonKey, string serviceRoleKey)> GetSupabaseKeysAsync(CancellationToken cancellationToken = default)
     {
-        var jwtSecret = await _keyStore.GetKeyAsync(KeyNames.SupabaseJwtSecret, Scopes.Internal);
-        var anonKey = await _keyStore.GetKeyAsync(KeyNames.SupabaseAnonKey, Scopes.Internal);
-        var serviceRoleKey = await _keyStore.GetKeyAsync(KeyNames.SupabaseServiceRoleKey, Scopes.Internal);
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return (string.Empty, string.Empty, string.Empty);
+
+        var jwtSecret = await _keyStore.GetKeyAsync(KeyNames.SupabaseJwtSecret, Scopes.Internal, cancellationToken);
+        var anonKey = await _keyStore.GetKeyAsync(KeyNames.SupabaseAnonKey, Scopes.Internal, cancellationToken);
+        var serviceRoleKey = await _keyStore.GetKeyAsync(KeyNames.SupabaseServiceRoleKey, Scopes.Internal, cancellationToken);
 
         return (jwtSecret!, anonKey!, serviceRoleKey!);
     }
@@ -119,17 +131,25 @@ public class LocalAIKeyManager
     /// </summary>
     public async Task<string?> GetLocalAIApiKeyAsync(CancellationToken cancellationToken)
     {
-        return await _keyStore.GetKeyAsync(KeyNames.LocalAIApiKey, Scopes.Internal).ConfigureAwait(false);
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return null;
+
+        return await _keyStore.GetKeyAsync(KeyNames.LocalAIApiKey, Scopes.Internal, cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
     /// Get vector database credentials
     /// </summary>
-    public async Task<(string? qdrantApiKey, string? milvusUsername, string? milvusPassword)> GetVectorDatabaseKeysAsync()
+    public async Task<(string? qdrantApiKey, string? milvusUsername, string? milvusPassword)> GetVectorDatabaseKeysAsync(CancellationToken cancellationToken = default)
     {
-        var qdrantKey = await _keyStore.GetKeyAsync(KeyNames.QdrantApiKey, Scopes.Internal);
-        var milvusUser = await _keyStore.GetKeyAsync(KeyNames.MilvusUsername, Scopes.Internal);
-        var milvusPass = await _keyStore.GetKeyAsync(KeyNames.MilvusPassword, Scopes.Internal);
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return (null, null, null);
+
+        var qdrantKey = await _keyStore.GetKeyAsync(KeyNames.QdrantApiKey, Scopes.Internal, cancellationToken);
+        var milvusUser = await _keyStore.GetKeyAsync(KeyNames.MilvusUsername, Scopes.Internal, cancellationToken);
+        var milvusPass = await _keyStore.GetKeyAsync(KeyNames.MilvusPassword, Scopes.Internal, cancellationToken);
 
         return (qdrantKey, milvusUser, milvusPass);
     }
@@ -137,10 +157,14 @@ public class LocalAIKeyManager
     /// <summary>
     /// Get monitoring service credentials
     /// </summary>
-    public async Task<(string grafanaPassword, string? prometheusPassword)> GetMonitoringKeysAsync()
+    public async Task<(string grafanaPassword, string? prometheusPassword)> GetMonitoringKeysAsync(CancellationToken cancellationToken = default)
     {
-        var grafanaPassword = await _keyStore.GetKeyAsync(KeyNames.GrafanaAdminPassword, Scopes.Internal);
-        var prometheusPassword = await _keyStore.GetKeyAsync(KeyNames.PrometheusPassword, Scopes.Internal);
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return (string.Empty, null);
+
+        var grafanaPassword = await _keyStore.GetKeyAsync(KeyNames.GrafanaAdminPassword, Scopes.Internal, cancellationToken);
+        var prometheusPassword = await _keyStore.GetKeyAsync(KeyNames.PrometheusPassword, Scopes.Internal, cancellationToken);
 
         return (grafanaPassword!, prometheusPassword);
     }
@@ -150,6 +174,10 @@ public class LocalAIKeyManager
     /// </summary>
     public async Task<string?> GetExternalApiKeyAsync(string provider, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return null;
+
         var keyName = provider.ToLowerInvariant() switch
         {
             "openai" => KeyNames.OpenAIApiKey,
@@ -166,7 +194,7 @@ public class LocalAIKeyManager
             return null;
         }
 
-        return await _keyStore.GetKeyAsync(keyName, Scopes.External);
+        return await _keyStore.GetKeyAsync(keyName, Scopes.External, cancellationToken);
     }
 
     /// <summary>
@@ -174,6 +202,10 @@ public class LocalAIKeyManager
     /// </summary>
     public async Task SetExternalApiKeyAsync(string provider, string apiKey, CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         var keyName = provider.ToLowerInvariant() switch
         {
             "openai" => KeyNames.OpenAIApiKey,
@@ -189,15 +221,19 @@ public class LocalAIKeyManager
             throw new ArgumentException($"Unknown external API provider: {provider}");
         }
 
-        await _keyStore.SetKeyAsync(keyName, apiKey, Scopes.External);
+        await _keyStore.SetKeyAsync(keyName, apiKey, Scopes.External, cancellationToken: cancellationToken);
         _logger.LogInformation("Set external API key for provider: {Provider}", provider);
     }
 
     /// <summary>
     /// Rotate all internal secrets (useful for security maintenance)
     /// </summary>
-    public async Task RotateInternalSecretsAsync()
+    public async Task RotateInternalSecretsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         _logger.LogInformation("Rotating internal secrets...");
 
         var secretsToRotate = new[]
@@ -211,8 +247,11 @@ public class LocalAIKeyManager
 
         foreach (var secret in secretsToRotate)
         {
-            var newValue = await _keyStore.GenerateApiKeyAsync($"{secret}-new", Scopes.Internal, 64);
-            await _keyStore.RotateKeyAsync(secret, newValue, Scopes.Internal);
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
+            var newValue = await _keyStore.GenerateApiKeyAsync($"{secret}-new", Scopes.Internal, 64, cancellationToken);
+            await _keyStore.RotateKeyAsync(secret, newValue, Scopes.Internal, cancellationToken);
         }
 
         _logger.LogInformation("Internal secrets rotation completed");
@@ -221,57 +260,69 @@ public class LocalAIKeyManager
     /// <summary>
     /// List all available keys (for management/debugging)
     /// </summary>
-    public async Task<Dictionary<string, IEnumerable<string>>> ListAllKeysAsync()
+    public async Task<Dictionary<string, IEnumerable<string>>> ListAllKeysAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return new Dictionary<string, IEnumerable<string>>();
+
         return new Dictionary<string, IEnumerable<string>>
         {
-            [Scopes.Internal] = await _keyStore.ListKeysAsync(Scopes.Internal),
-            [Scopes.External] = await _keyStore.ListKeysAsync(Scopes.External),
-            [Scopes.Development] = await _keyStore.ListKeysAsync(Scopes.Development),
-            [Scopes.Production] = await _keyStore.ListKeysAsync(Scopes.Production)
+            [Scopes.Internal] = await _keyStore.ListKeysAsync(Scopes.Internal, cancellationToken),
+            [Scopes.External] = await _keyStore.ListKeysAsync(Scopes.External, cancellationToken),
+            [Scopes.Development] = await _keyStore.ListKeysAsync(Scopes.Development, cancellationToken),
+            [Scopes.Production] = await _keyStore.ListKeysAsync(Scopes.Production, cancellationToken)
         };
     }
 
-    private async Task InitializeInternalKeysAsync(LocalAIStackConfiguration config, bool regenerateSecrets)
+    private async Task InitializeInternalKeysAsync(LocalAIStackConfiguration config, bool regenerateSecrets, CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         // Database credentials
-        await EnsureKeyExistsAsync(KeyNames.DatabaseUsername, config.Database.Username, Scopes.Internal, regenerateSecrets);
-        await EnsureKeyExistsAsync(KeyNames.DatabasePassword, config.Database.Password, Scopes.Internal, regenerateSecrets);
+        await EnsureKeyExistsAsync(KeyNames.DatabaseUsername, config.Database.Username, Scopes.Internal, regenerateSecrets, cancellationToken);
+        await EnsureKeyExistsAsync(KeyNames.DatabasePassword, config.Database.Password, Scopes.Internal, regenerateSecrets, cancellationToken);
 
         // Supabase keys
-        await EnsureKeyExistsAsync(KeyNames.SupabaseJwtSecret, config.Database.Supabase.JwtSecret, Scopes.Internal, regenerateSecrets);
-        await EnsureKeyExistsAsync(KeyNames.SupabaseAnonKey, config.Database.Supabase.AnonKey, Scopes.Internal, regenerateSecrets);
-        await EnsureKeyExistsAsync(KeyNames.SupabaseServiceRoleKey, config.Database.Supabase.ServiceRoleKey, Scopes.Internal, regenerateSecrets);
+        await EnsureKeyExistsAsync(KeyNames.SupabaseJwtSecret, config.Database.Supabase.JwtSecret, Scopes.Internal, regenerateSecrets, cancellationToken);
+        await EnsureKeyExistsAsync(KeyNames.SupabaseAnonKey, config.Database.Supabase.AnonKey, Scopes.Internal, regenerateSecrets, cancellationToken);
+        await EnsureKeyExistsAsync(KeyNames.SupabaseServiceRoleKey, config.Database.Supabase.ServiceRoleKey, Scopes.Internal, regenerateSecrets, cancellationToken);
 
         // Generate LocalAI API key if not set
-        if (!await _keyStore.KeyExistsAsync(KeyNames.LocalAIApiKey, Scopes.Internal) || regenerateSecrets)
+        if (!await _keyStore.KeyExistsAsync(KeyNames.LocalAIApiKey, Scopes.Internal, cancellationToken) || regenerateSecrets)
         {
-            await _keyStore.GenerateApiKeyAsync(KeyNames.LocalAIApiKey, Scopes.Internal);
+            await _keyStore.GenerateApiKeyAsync(KeyNames.LocalAIApiKey, Scopes.Internal, cancellationToken: cancellationToken);
         }
 
         // Generate Open WebUI secret key
-        if (!await _keyStore.KeyExistsAsync(KeyNames.OpenWebUISecretKey, Scopes.Internal) || regenerateSecrets)
+        if (!await _keyStore.KeyExistsAsync(KeyNames.OpenWebUISecretKey, Scopes.Internal, cancellationToken) || regenerateSecrets)
         {
-            await _keyStore.GenerateApiKeyAsync(KeyNames.OpenWebUISecretKey, Scopes.Internal, 64);
+            await _keyStore.GenerateApiKeyAsync(KeyNames.OpenWebUISecretKey, Scopes.Internal, 64, cancellationToken);
         }
 
         // Monitoring credentials
-        await EnsureKeyExistsAsync(KeyNames.GrafanaAdminPassword, config.Monitoring.Grafana.AdminPassword, Scopes.Internal, regenerateSecrets);
+        await EnsureKeyExistsAsync(KeyNames.GrafanaAdminPassword, config.Monitoring.Grafana.AdminPassword, Scopes.Internal, regenerateSecrets, cancellationToken);
 
         // Security keys
-        if (!await _keyStore.KeyExistsAsync(KeyNames.EncryptionKey, Scopes.Internal) || regenerateSecrets)
+        if (!await _keyStore.KeyExistsAsync(KeyNames.EncryptionKey, Scopes.Internal, cancellationToken) || regenerateSecrets)
         {
-            await _keyStore.GenerateApiKeyAsync(KeyNames.EncryptionKey, Scopes.Internal, 32);
+            await _keyStore.GenerateApiKeyAsync(KeyNames.EncryptionKey, Scopes.Internal, 32, cancellationToken);
         }
 
-        if (!await _keyStore.KeyExistsAsync(KeyNames.JwtSigningKey, Scopes.Internal) || regenerateSecrets)
+        if (!await _keyStore.KeyExistsAsync(KeyNames.JwtSigningKey, Scopes.Internal, cancellationToken) || regenerateSecrets)
         {
-            await _keyStore.GenerateApiKeyAsync(KeyNames.JwtSigningKey, Scopes.Internal, 64);
+            await _keyStore.GenerateApiKeyAsync(KeyNames.JwtSigningKey, Scopes.Internal, 64, cancellationToken);
         }
     }
 
-    private async Task InitializeExternalKeysAsync()
+    private async Task InitializeExternalKeysAsync(CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         // Initialize external API key placeholders (empty until user provides them)
         var externalKeys = new[]
         {
@@ -284,18 +335,25 @@ public class LocalAIKeyManager
 
         foreach (var key in externalKeys)
         {
-            if (!await _keyStore.KeyExistsAsync(key, Scopes.External))
+            if (cancellationToken.IsCancellationRequested)
+                return;
+
+            if (!await _keyStore.KeyExistsAsync(key, Scopes.External, cancellationToken))
             {
-                await _keyStore.SetKeyAsync(key, "", Scopes.External);
+                await _keyStore.SetKeyAsync(key, "", Scopes.External, cancellationToken: cancellationToken);
             }
         }
     }
 
-    private async Task EnsureKeyExistsAsync(string keyName, string defaultValue, string scope, bool regenerate)
+    private async Task EnsureKeyExistsAsync(string keyName, string defaultValue, string scope, bool regenerate, CancellationToken cancellationToken)
     {
-        if (!await _keyStore.KeyExistsAsync(keyName, scope) || regenerate)
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        if (!await _keyStore.KeyExistsAsync(keyName, scope, cancellationToken) || regenerate)
         {
-            await _keyStore.SetKeyAsync(keyName, defaultValue, scope);
+            await _keyStore.SetKeyAsync(keyName, defaultValue, scope, cancellationToken: cancellationToken);
         }
     }
 }

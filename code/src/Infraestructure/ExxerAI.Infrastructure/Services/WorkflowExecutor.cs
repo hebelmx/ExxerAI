@@ -311,7 +311,10 @@ public class WorkflowExecutor : IWorkflowExecutor
         {
             // Check for cancellation before processing each step
             if (cancellationToken.IsCancellationRequested)
-                throw new OperationCanceledException();
+            {
+                _logger.LogInformation("Workflow execution {ExecutionId} was cancelled at step {StepIndex}", execution.Id, stepIndex);
+                return Result.Fail("Workflow execution was cancelled");
+            }
 
             // Check if execution is paused
             if (execution.Status == WorkflowExecutionStatus.Paused)

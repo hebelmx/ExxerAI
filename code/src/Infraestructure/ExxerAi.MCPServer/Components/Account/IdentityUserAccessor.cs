@@ -9,7 +9,7 @@ namespace ExxerAi.MCPServer.Components.Account
         {
             // Early cancellation check
             if (cancellationToken.IsCancellationRequested)
-                throw new OperationCanceledException(cancellationToken);
+                return null!; // Return null and let caller handle the null case
 
             var user = await userManager.GetUserAsync(context.User);
 
