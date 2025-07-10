@@ -29,6 +29,10 @@ public class SemanticSearchService
     /// </summary>
     public async Task<Result> InitializeAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             _logger.LogInformation("Initializing semantic search service");
@@ -39,6 +43,11 @@ public class SemanticSearchService
 
             _logger.LogInformation("Semantic search service initialized successfully");
             return Result.Success();
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Initialize operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {
@@ -60,6 +69,10 @@ public class SemanticSearchService
         Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -99,6 +112,11 @@ public class SemanticSearchService
             _logger.LogInformation("Successfully indexed document: {DocumentId}", documentId);
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Index document operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to index document: {DocumentId}", documentId);
@@ -113,6 +131,10 @@ public class SemanticSearchService
         IEnumerable<DocumentToIndex> documents,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<BatchIndexingResult>();
+
         try
         {
             var documentList = documents?.ToList() ?? [];
@@ -176,6 +198,11 @@ public class SemanticSearchService
             _logger.LogInformation("Successfully indexed {Count} documents in batch", documentList.Count);
             return Result<BatchIndexingResult>.Success(batchResult);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Index documents batch operation was cancelled");
+            return ResultExtensions.Cancelled<BatchIndexingResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to index documents in batch");
@@ -193,6 +220,10 @@ public class SemanticSearchService
         Dictionary<string, object>? filter = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<SemanticSearchResults>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(query))
@@ -247,6 +278,11 @@ public class SemanticSearchService
             _logger.LogInformation("Semantic search completed. Found {Count} results for query", results.TotalFound);
             return Result<SemanticSearchResults>.Success(results);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Search operation was cancelled");
+            return ResultExtensions.Cancelled<SemanticSearchResults>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to perform semantic search");
@@ -259,6 +295,10 @@ public class SemanticSearchService
     /// </summary>
     public async Task<Result> RemoveDocumentAsync(string documentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -275,6 +315,11 @@ public class SemanticSearchService
 
             return result;
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Remove document operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to remove document: {DocumentId}", documentId);
@@ -287,6 +332,10 @@ public class SemanticSearchService
     /// </summary>
     public async Task<Result<VectorStoreStats>> GetIndexStatsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<VectorStoreStats>();
+
         try
         {
             var result = await _vectorStore.GetStatsAsync(cancellationToken);
@@ -297,6 +346,11 @@ public class SemanticSearchService
                 _logger.LogError("Failed to get index stats: {Error}", result.Error);
 
             return result;
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get index stats operation was cancelled");
+            return ResultExtensions.Cancelled<VectorStoreStats>();
         }
         catch (Exception ex)
         {
@@ -346,5 +400,4 @@ public class BatchIndexingResult
     public int TotalDocuments { get; set; }
     public int SuccessfullyIndexed { get; set; }
     public int Failed { get; set; }
-    public IEnumerable<string> Errors { get; set; } = Array.Empty<string>();
-}
+    public IEnumerable<string> Errors { get; set; } = Array.Empty<stri
