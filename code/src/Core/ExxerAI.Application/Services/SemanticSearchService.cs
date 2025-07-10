@@ -400,4 +400,5 @@ public class BatchIndexingResult
     public int TotalDocuments { get; set; }
     public int SuccessfullyIndexed { get; set; }
     public int Failed { get; set; }
-    public IEnumerable<string> Errors { get; set; } = Array.Empty<stri
+    public IEnumerable<string> Errors { get; set; } = Array.Empty<string>();
+}
