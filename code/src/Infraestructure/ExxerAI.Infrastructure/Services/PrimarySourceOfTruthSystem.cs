@@ -302,7 +302,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Report generation operation was cancelled");
-            return Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<ExxerAI.Domain.DocumentProcessing.GroundingReport>();
         }
         catch (Exception ex)
         {
@@ -349,7 +349,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Find similar records operation was cancelled");
-            return Result<IEnumerable<TruthRecord>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<TruthRecord>>();
         }
         catch (Exception ex)
         {
@@ -471,7 +471,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Require human review operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -504,7 +504,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get records requiring review operation was cancelled");
-            return Result<IEnumerable<TruthRecord>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<TruthRecord>>();
         }
         catch (Exception ex)
         {
@@ -543,7 +543,7 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get quality metrics operation was cancelled");
-            return Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>();
         }
         catch (Exception ex)
         {
