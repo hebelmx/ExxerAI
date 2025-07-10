@@ -315,7 +315,8 @@ public class ComprehensiveUnitTestExample
             // We have a property SuccessMayBeNull to handle this case.
 
             result.IsSuccess.ShouldBeFalse();
-            result.IsSuccessNotNull.ShouldBeTrue();
+            result.IsSuccessNotNull.ShouldBeFalse();
+            result.IsSuccessValueNull.ShouldBeTrue();
             result.IsSuccessMayBeNull.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
             result.Value.ShouldBeNull();
