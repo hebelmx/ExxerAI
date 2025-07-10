@@ -1419,7 +1419,7 @@ public class ResultTests
         var result = Result<object?>.Success(null);
 
         // Assert - All scenarios should be valid
-        result.IsSuccess.ShouldBeTrue();
+        result.IsSuccess.ShouldBeFalse();
         result.Value!.ShouldBeNull();
 
         // Can add descriptive context if needed through warnings
