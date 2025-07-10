@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using ExxerAI.Application.DTOs;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.DocumentProcessing;
@@ -54,6 +55,10 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         DocumentMetadata metadata,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+
         var stopwatch = Stopwatch.StartNew();
         var documentId = Guid.NewGuid().ToString();
 
@@ -133,6 +138,11 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
 
             return Result<DocumentProcessingResult>.WithSuccess(result);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Process document operation was cancelled");
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error processing document {DocumentId}: {ErrorMessage}", documentId, ex.Message);
@@ -151,6 +161,10 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         IProgress<BatchProgressReport>? progress = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return new BatchProcessingResult { TotalDocuments = 0, Results = new List<DocumentProcessingResult>() };
+
         var documentsList = documents.ToList();
         var startTime = DateTime.UtcNow;
         var concurrencyLimit = options.MaxConcurrency ?? Environment.ProcessorCount;
@@ -242,6 +256,10 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         DocumentProcessingResult processingResult,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         if (!processingResult.IsSuccessful || processingResult.OverallConfidence < 0.8f)
         {
             _logger.LogDebug("Skipping pattern learning for unsuccessful or low-confidence result");
@@ -286,6 +304,10 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         DocumentValidationRules validationRules,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ValidationResultDocument>();
+
         await Task.CompletedTask; // For async consistency
 
         var validation = new ValidationResultDocument() { IsValid = true };
@@ -348,7 +370,9 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
 
         foreach (var (fieldName, fieldPatterns) in patterns)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            // Check cancellation using functional pattern
+            if (cancellationToken.IsCancellationRequested)
+                break;
 
             // Try patterns in order of confidence (highest first)
             var orderedPatterns = fieldPatterns.OrderByDescending(p => p.Confidence);
@@ -440,6 +464,10 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         Dictionary<string, object> extractedFields,
         CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         foreach (var (fieldName, value) in extractedFields)
         {
             if (patterns.TryGetValue(fieldName, out var fieldPatterns))
@@ -511,8 +539,4 @@ public class HybridDocumentProcessor : IHybridDocumentProcessor
         return TimeSpan.FromMilliseconds(averageTimePerDocument * remaining);
     }
 
-    Task<Result<ValidationResultDocument>> IHybridDocumentProcessor.ValidateExtractedFieldsAsync(Dictionary<string, object> extractedFields, DocumentValidationRules validationRules, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
 }
