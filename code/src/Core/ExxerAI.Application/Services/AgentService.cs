@@ -39,6 +39,10 @@ public class AgentService : IAgentService
         AgentCapabilities capabilities,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Agent>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -74,6 +78,10 @@ public class AgentService : IAgentService
 
             return addResult;
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Agent>();
+        }
         catch (Exception ex)
         {
             return Result<Agent>.WithFailure($"An error occurred while creating the agent: {ex.Message}");
@@ -88,6 +96,10 @@ public class AgentService : IAgentService
     /// <returns>The result of the operation containing the agent if found</returns>
     public async Task<Result<Agent>> GetAgentAsync(Guid agentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Agent>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -104,6 +116,10 @@ public class AgentService : IAgentService
 
             return result;
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Agent>();
+        }
         catch (Exception ex)
         {
             return Result<Agent>.WithFailure($"An error occurred while retrieving the agent: {ex.Message}");
@@ -117,6 +133,10 @@ public class AgentService : IAgentService
     /// <returns>The result of the operation containing all agents</returns>
     public async Task<Result<IEnumerable<Agent>>> GetAllAgentsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<Agent>>();
+
         try
         {
             var result = await _agentRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
@@ -127,6 +147,10 @@ public class AgentService : IAgentService
             }
 
             return result;
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<Agent>>();
         }
         catch (Exception ex)
         {
@@ -141,6 +165,10 @@ public class AgentService : IAgentService
     /// <returns>The result of the operation containing the list of active agents</returns>
     public async Task<Result<IEnumerable<Agent>>> GetActiveAgentsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<Agent>>();
+
         try
         {
             var result = await _agentRepository.GetByStatusAsync(AgentStatus.Active, cancellationToken).ConfigureAwait(false);
@@ -151,6 +179,10 @@ public class AgentService : IAgentService
             }
 
             return result;
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<Agent>>();
         }
         catch (Exception ex)
         {
@@ -170,6 +202,10 @@ public class AgentService : IAgentService
         AgentConfiguration configuration,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -199,6 +235,10 @@ public class AgentService : IAgentService
 
             return Result<bool>.WithSuccess(true);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"An error occurred while updating agent configuration: {ex.Message}");
@@ -217,6 +257,10 @@ public class AgentService : IAgentService
         AgentStatus status,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -240,6 +284,10 @@ public class AgentService : IAgentService
             }
 
             return Result<bool>.WithSuccess(true);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
