@@ -35,6 +35,10 @@ public class GoogleDriveService : IDocumentIngestionService
         string folderId, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("Starting to watch folder {FolderId}", folderId);
 
         try
@@ -46,6 +50,11 @@ public class GoogleDriveService : IDocumentIngestionService
             _logger.LogInformation("Started watching folder {FolderId} with watch ID {WatchId}", folderId, watchId);
 
             return Result<string>.WithSuccess(watchId);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Start watching folder operation was cancelled");
+            return ResultExtensions.Cancelled<string>();
         }
         catch (Exception ex)
         {
@@ -64,6 +73,10 @@ public class GoogleDriveService : IDocumentIngestionService
         string watchId, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         _logger.LogInformation("Stopping watch {WatchId}", watchId);
 
         try
@@ -71,6 +84,11 @@ public class GoogleDriveService : IDocumentIngestionService
             // TODO: Implement actual Google Drive folder watch stopping
             await Task.Delay(100, cancellationToken); // Simulate operation
             return Result<bool>.WithSuccess(true);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Stop watching folder operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -87,6 +105,10 @@ public class GoogleDriveService : IDocumentIngestionService
     public async Task<Result<IEnumerable<DocumentChangeEvent>>> DetectDocumentChangesAsync(
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<DocumentChangeEvent>>();
+
         _logger.LogInformation("Detecting document changes");
 
         try
@@ -96,6 +118,11 @@ public class GoogleDriveService : IDocumentIngestionService
             await Task.Delay(50, cancellationToken); // Simulate operation
             
             return Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(changes);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Detect document changes operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<DocumentChangeEvent>>();
         }
         catch (Exception ex)
         {
@@ -114,6 +141,10 @@ public class GoogleDriveService : IDocumentIngestionService
         DocumentChangeEvent changeEvent, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+
         _logger.LogInformation("Processing document change event {EventId}", changeEvent.EventId);
 
         try
@@ -134,6 +165,11 @@ public class GoogleDriveService : IDocumentIngestionService
             
             return Result<DocumentProcessingResult>.WithSuccess(result);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Process document change operation was cancelled");
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to process document change event {EventId}", changeEvent.EventId);
@@ -153,6 +189,10 @@ public class GoogleDriveService : IDocumentIngestionService
         bool forceReprocess = false, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+
         _logger.LogInformation("Ingesting document {DocumentId}, forceReprocess: {ForceReprocess}", 
             documentId, forceReprocess);
 
@@ -178,6 +218,11 @@ public class GoogleDriveService : IDocumentIngestionService
             
             return Result<DocumentProcessingResult>.WithSuccess(result);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Ingest document operation was cancelled");
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to ingest document {DocumentId}", documentId);
@@ -197,6 +242,10 @@ public class GoogleDriveService : IDocumentIngestionService
         DateTime lastProcessed, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         _logger.LogInformation("Checking if document {DocumentId} was modified since {LastProcessed}", 
             documentId, lastProcessed);
 
@@ -209,6 +258,11 @@ public class GoogleDriveService : IDocumentIngestionService
             var isModified = DateTime.UtcNow.Subtract(lastProcessed).TotalHours < 1;
             
             return Result<bool>.WithSuccess(isModified);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Check document modification operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -225,6 +279,10 @@ public class GoogleDriveService : IDocumentIngestionService
     public async Task<Result<IngestionStatus>> GetIngestionStatusAsync(
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IngestionStatus>();
+
         _logger.LogInformation("Getting ingestion agentStatus");
 
         try
@@ -251,6 +309,11 @@ public class GoogleDriveService : IDocumentIngestionService
             await Task.Delay(25, cancellationToken); // Simulate operation
             
             return Result<IngestionStatus>.WithSuccess(status);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get ingestion status operation was cancelled");
+            return ResultExtensions.Cancelled<IngestionStatus>();
         }
         catch (Exception ex)
         {

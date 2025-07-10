@@ -57,6 +57,10 @@ public class EnhancedLLMService : ILLMService
         LLMParameters? parameters = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<LLMResponse>();
+
         try
         {
             if (modelId == Guid.Empty)
@@ -112,6 +116,10 @@ public class EnhancedLLMService : ILLMService
 
             return response;
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<LLMResponse>();
+        }
         catch (Exception ex)
         {
             return Result<LLMResponse>.WithFailure($"Error generating text: {ex.Message}");
@@ -130,6 +138,10 @@ public class EnhancedLLMService : ILLMService
         string message,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ConversationMessage>();
+
         try
         {
             if (conversationId == Guid.Empty)
@@ -240,6 +252,10 @@ public class EnhancedLLMService : ILLMService
 
             return Result<ConversationMessage>.WithSuccess(assistantMessage);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<ConversationMessage>();
+        }
         catch (Exception ex)
         {
             return Result<ConversationMessage>.WithFailure($"Error continuing conversation: {ex.Message}");
@@ -262,6 +278,10 @@ public class EnhancedLLMService : ILLMService
         string? systemPrompt = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Conversation>();
+
         try
         {
             if (agentId == Guid.Empty)
@@ -299,6 +319,10 @@ public class EnhancedLLMService : ILLMService
 
             return Result<Conversation>.WithSuccess(result.Value);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Conversation>();
+        }
         catch (Exception ex)
         {
             return Result<Conversation>.WithFailure($"Error creating conversation: {ex.Message}");
@@ -319,6 +343,10 @@ public class EnhancedLLMService : ILLMService
         int outputTokens,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<decimal>();
+
         try
         {
             if (modelId == Guid.Empty)
@@ -344,6 +372,10 @@ public class EnhancedLLMService : ILLMService
 
             return await provider.EstimateCostAsync(model.Name, inputTokens, outputTokens, cancellationToken).ConfigureAwait(false);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<decimal>();
+        }
         catch (Exception ex)
         {
             return Result<decimal>.WithFailure($"Error estimating cost: {ex.Message}");
@@ -362,6 +394,10 @@ public class EnhancedLLMService : ILLMService
         string text,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<int>();
+
         try
         {
             if (modelId == Guid.Empty)
@@ -390,6 +426,10 @@ public class EnhancedLLMService : ILLMService
 
             return await provider.CountTokensAsync(model.Name, text, cancellationToken).ConfigureAwait(false);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<int>();
+        }
         catch (Exception ex)
         {
             return Result<int>.WithFailure($"Error counting tokens: {ex.Message}");
@@ -410,6 +450,10 @@ public class EnhancedLLMService : ILLMService
         LLMParameters? parameters = null,
         [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            yield break;
+
         if (modelId == Guid.Empty || string.IsNullOrWhiteSpace(prompt))
             yield break;
 
@@ -454,6 +498,10 @@ public class EnhancedLLMService : ILLMService
     /// <returns>The validation result</returns>
     public async Task<Result<bool>> ValidateModelAsync(Guid modelId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (modelId == Guid.Empty)
@@ -485,6 +533,10 @@ public class EnhancedLLMService : ILLMService
 
             return Result<bool>.WithSuccess(validationResult.Value?.IsValid ?? false);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error validating model: {ex.Message}");
@@ -514,6 +566,10 @@ public class EnhancedLLMService : ILLMService
         LanguageModel model,
         CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ILLMProvider>();
+
         try
         {
             if (_providerCache.TryGetValue(model.Name, out var cachedProvider))
@@ -533,6 +589,10 @@ public class EnhancedLLMService : ILLMService
 
             return Result<ILLMProvider>.WithFailure($"No provider found for model: {model.Name}");
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<ILLMProvider>();
+        }
         catch (Exception ex)
         {
             return Result<ILLMProvider>.WithFailure($"Error getting provider: {ex.Message}");
@@ -547,6 +607,10 @@ public class EnhancedLLMService : ILLMService
         string modelName,
         CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             var cacheKey = $"{provider.ProviderName}:{modelName}";
@@ -569,6 +633,10 @@ public class EnhancedLLMService : ILLMService
 
             return Result<bool>.WithSuccess(true);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error checking rate limits: {ex.Message}");
@@ -584,6 +652,10 @@ public class EnhancedLLMService : ILLMService
         LLMParameters? parameters,
         CancellationToken cancellationToken)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (_configuration.MaxDailyCost <= 0)
@@ -603,6 +675,10 @@ public class EnhancedLLMService : ILLMService
                 return Result<bool>.WithFailure("Request would exceed daily cost limit");
 
             return Result<bool>.WithSuccess(true);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {

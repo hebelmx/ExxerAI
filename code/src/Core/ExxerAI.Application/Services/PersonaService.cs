@@ -46,6 +46,10 @@ public class PersonaService : IPersonaService
         List<string>? knowledgeDomains = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Persona>();
+
         try
         {
             // Validate inputs
@@ -83,6 +87,10 @@ public class PersonaService : IPersonaService
 
             return Result<Persona>.WithSuccess(result.Value);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Persona>();
+        }
         catch (Exception ex)
         {
             return Result<Persona>.WithFailure($"Error creating persona: {ex.Message}");
@@ -107,6 +115,10 @@ public class PersonaService : IPersonaService
         string? systemPrompt = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Persona>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -147,6 +159,10 @@ public class PersonaService : IPersonaService
 
             return Result<Persona>.WithSuccess(updateResult.Value);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Persona>();
+        }
         catch (Exception ex)
         {
             return Result<Persona>.WithFailure($"Error updating persona: {ex.Message}");
@@ -163,12 +179,20 @@ public class PersonaService : IPersonaService
         Guid personaId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Persona>();
+
         try
         {
             if (personaId == Guid.Empty)
                 return Result<Persona>.WithFailure("Invalid persona identifier");
 
             return await _personaRepository.GetByIdAsync(personaId, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Persona>();
         }
         catch (Exception ex)
         {
@@ -184,9 +208,17 @@ public class PersonaService : IPersonaService
     public async Task<Result<IEnumerable<Persona>>> GetActivePersonasAsync(
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<Persona>>();
+
         try
         {
             return await _personaRepository.GetActivePersonasAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<Persona>>();
         }
         catch (Exception ex)
         {
@@ -204,6 +236,10 @@ public class PersonaService : IPersonaService
         PersonaSearchCriteria searchCriteria,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<Persona>>();
+
         try
         {
             if (searchCriteria == null)
@@ -283,6 +319,10 @@ public class PersonaService : IPersonaService
 
             return Result<IEnumerable<Persona>>.WithSuccess([.. personas]);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<Persona>>();
+        }
         catch (Exception ex)
         {
             return Result<IEnumerable<Persona>>.WithFailure($"Error searching personas: {ex.Message}");
@@ -303,6 +343,10 @@ public class PersonaService : IPersonaService
         string traitValue,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -326,6 +370,10 @@ public class PersonaService : IPersonaService
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to add trait: {updateResult.Error}");
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error adding trait: {ex.Message}");
@@ -344,6 +392,10 @@ public class PersonaService : IPersonaService
         string traitKey,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -373,6 +425,10 @@ public class PersonaService : IPersonaService
 
             return Result<bool>.WithSuccess(false); // Trait was not found
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error removing trait: {ex.Message}");
@@ -391,6 +447,10 @@ public class PersonaService : IPersonaService
         string knowledgeDomain,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -414,6 +474,10 @@ public class PersonaService : IPersonaService
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to add knowledge domain: {updateResult.Error}");
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error adding knowledge domain: {ex.Message}");
@@ -432,6 +496,10 @@ public class PersonaService : IPersonaService
         string knowledgeDomain,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -460,6 +528,10 @@ public class PersonaService : IPersonaService
 
             return Result<bool>.WithSuccess(false); // Domain was not found
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error removing knowledge domain: {ex.Message}");
@@ -478,6 +550,10 @@ public class PersonaService : IPersonaService
         PromptTemplate template,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -514,6 +590,10 @@ public class PersonaService : IPersonaService
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to associate template: {updateResult.Error}");
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error associating template: {ex.Message}");
@@ -540,6 +620,10 @@ public class PersonaService : IPersonaService
         Dictionary<string, string>? expectedParameters = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<PromptTemplate>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -586,6 +670,10 @@ public class PersonaService : IPersonaService
 
             return Result<PromptTemplate>.WithSuccess(template);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<PromptTemplate>();
+        }
         catch (Exception ex)
         {
             return Result<PromptTemplate>.WithFailure($"Error creating template: {ex.Message}");
@@ -604,12 +692,20 @@ public class PersonaService : IPersonaService
         bool includeInactive = false,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<PromptTemplate>>();
+
         try
         {
             if (personaId == Guid.Empty)
                 return Result<IEnumerable<PromptTemplate>>.WithFailure("Invalid persona identifier");
 
             return await _promptTemplateRepository.GetByPersonaIdAsync(personaId, includeInactive, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<PromptTemplate>>();
         }
         catch (Exception ex)
         {
@@ -633,6 +729,10 @@ public class PersonaService : IPersonaService
         Dictionary<string, string>? requiredTraits = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Persona>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(contextTag))
@@ -653,6 +753,10 @@ public class PersonaService : IPersonaService
                         : Result<Persona>.WithFailure("No suitable persona found for the given context");
             }
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<Persona>();
+        }
         catch (Exception ex)
         {
             return Result<Persona>.WithFailure($"Error finding best persona: {ex.Message}");
@@ -671,6 +775,10 @@ public class PersonaService : IPersonaService
         Guid personaId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -691,6 +799,10 @@ public class PersonaService : IPersonaService
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to activate persona: {updateResult.Error}");
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error activating persona: {ex.Message}");
@@ -707,6 +819,10 @@ public class PersonaService : IPersonaService
         Guid personaId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -727,6 +843,10 @@ public class PersonaService : IPersonaService
                 ? Result<bool>.WithSuccess(true)
                 : Result<bool>.WithFailure($"Failed to deactivate persona: {updateResult.Error}");
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error deactivating persona: {ex.Message}");
@@ -743,6 +863,10 @@ public class PersonaService : IPersonaService
         Guid personaId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -761,6 +885,10 @@ public class PersonaService : IPersonaService
             // Then delete the persona
             return await _personaRepository.DeleteAsync(personaId, cancellationToken).ConfigureAwait(false);
         }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             return Result<bool>.WithFailure($"Error deleting persona: {ex.Message}");
@@ -775,9 +903,17 @@ public class PersonaService : IPersonaService
     public async Task<Result<IEnumerable<PersonaUsageStatistics>>> GetUsageStatisticsAsync(
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<PersonaUsageStatistics>>();
+
         try
         {
             return await _personaRepository.GetUsageStatisticsAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<IEnumerable<PersonaUsageStatistics>>();
         }
         catch (Exception ex)
         {
@@ -795,6 +931,10 @@ public class PersonaService : IPersonaService
         Guid personaId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<PersonaValidationResult>();
+
         try
         {
             if (personaId == Guid.Empty)
@@ -862,6 +1002,10 @@ public class PersonaService : IPersonaService
             validation.IsValid = !validation.Errors.Any();
 
             return Result<PersonaValidationResult>.WithSuccess(validation);
+        }
+        catch (OperationCanceledException)
+        {
+            return ResultExtensions.Cancelled<PersonaValidationResult>();
         }
         catch (Exception ex)
         {

@@ -38,6 +38,10 @@ public class QdrantVectorStore : IVectorStore
     /// </summary>
     public async Task<Result> InitializeAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             lock (_initLock)
@@ -99,6 +103,11 @@ public class QdrantVectorStore : IVectorStore
             _logger.LogInformation("Qdrant vector store initialized successfully");
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Initialize operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to initialize Qdrant vector store");
@@ -116,6 +125,10 @@ public class QdrantVectorStore : IVectorStore
         Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -146,6 +159,11 @@ public class QdrantVectorStore : IVectorStore
 
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Store embedding operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to store embedding for document: {DocumentId}", documentId);
@@ -163,6 +181,10 @@ public class QdrantVectorStore : IVectorStore
         Dictionary<string, object>? filter = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result<IEnumerable<VectorSearchResult>>.WithFailure("Operation was cancelled");
+
         try
         {
             if (queryEmbedding == null || queryEmbedding.Length != _vectorSize)
@@ -204,6 +226,11 @@ public class QdrantVectorStore : IVectorStore
 
             return Result<IEnumerable<VectorSearchResult>>.Success(results.AsEnumerable());
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Search similar operation was cancelled");
+            return Result<IEnumerable<VectorSearchResult>>.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to search similar documents");
@@ -216,6 +243,10 @@ public class QdrantVectorStore : IVectorStore
     /// </summary>
     public async Task<Result> DeleteEmbeddingAsync(string documentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -246,6 +277,11 @@ public class QdrantVectorStore : IVectorStore
             _logger.LogDebug("Deleted embedding for document: {DocumentId}", documentId);
             return Result.Success();
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Delete embedding operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to delete embedding for document: {DocumentId}", documentId);
@@ -263,6 +299,10 @@ public class QdrantVectorStore : IVectorStore
         Dictionary<string, object>? metadata = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         // For Qdrant, update is the same as upsert
         return await StoreEmbeddingAsync(documentId, content, embeddings, metadata, cancellationToken);
     }
@@ -272,6 +312,10 @@ public class QdrantVectorStore : IVectorStore
     /// </summary>
     public async Task<Result<VectorStoreStats>> GetStatsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result<VectorStoreStats>.WithFailure("Operation was cancelled");
+
         try
         {
             await EnsureInitializedAsync(cancellationToken);
@@ -295,6 +339,11 @@ public class QdrantVectorStore : IVectorStore
 
             return Result<VectorStoreStats>.Success(stats);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get stats operation was cancelled");
+            return Result<VectorStoreStats>.WithFailure("Operation was cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get vector store statistics");
@@ -309,6 +358,10 @@ public class QdrantVectorStore : IVectorStore
         IEnumerable<VectorStoreItem> items,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result.WithFailure("Operation was cancelled");
+
         try
         {
             var itemList = items.ToList();
@@ -343,6 +396,11 @@ public class QdrantVectorStore : IVectorStore
 
             _logger.LogInformation("Stored {Count} embeddings in batch", itemList.Count);
             return Result.Success();
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Store batch operation was cancelled");
+            return Result.WithFailure("Operation was cancelled");
         }
         catch (Exception ex)
         {

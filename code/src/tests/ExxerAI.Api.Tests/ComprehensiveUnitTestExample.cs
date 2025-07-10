@@ -26,8 +26,8 @@ namespace ExxerAI.Api.Tests;
 /// - NSubstitute for mocking (NOT Moq)
 /// - Result<T> for functional error handling
 /// - Microsoft.Extensions.Logging for structured logging
-///// -------------------------------------------------------------------------------------------------
-/// Some tests use  for AsyncFixer02 Suppression
+/// -------------------------------------------------------------------------------------------------
+/// Some tests use Suppression for AsyncFixer02  and AsyncFixer02
 /// -------------------------------------------------------------------------------------------------
 /// This unit test explicitly cancels a CancellationTokenSource using , which is a
 /// synchronous and deterministic operation necessary to simulate pre-cancelled tokens.
@@ -39,9 +39,9 @@ namespace ExxerAI.Api.Tests;
 /// Test methods are expected to use immediate cancellation for precise control and verification of
 /// cancellation-aware behavior in the SUT.
 /// -------------------------------------------------------------------------------------------------
-///#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
-///; // Cancel immediately
-///#pragma warning restore AsyncFixer02
+/// #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+/// cts.Cancel(); // Cancel immediately
+/// #pragma warning restore AsyncFixer02
 ///
 /// Follows ExxerAI Coding Standards:
 /// - Descriptive test names: Should_Action_When_Condition
@@ -762,17 +762,16 @@ public class ComprehensiveUnitTestExample
         /// <summary>
         /// Test data fixture for Agent AgentStatus scenarios
         /// </summary>
-        public static IEnumerable<object[]> AgentStatusTransitionData =>
-            new List<object[]>
-            {
-                new object[] { AgentStatus.Inactive, AgentStatus.Active, true, "Standard activation" },
-                new object[] { AgentStatus.Active, AgentStatus.Busy, true, "Processing assignment" },
-                new object[] { AgentStatus.Busy, AgentStatus.Active, true, "Task completion" },
-                new object[] { AgentStatus.Active, AgentStatus.Paused, true, "Manual pause" },
-                new object[] { AgentStatus.Paused, AgentStatus.Active, true, "Resume operation" },
-                new object[] { AgentStatus.Error, AgentStatus.Inactive, true, "Error recovery" },
-                new object[] { AgentStatus.Busy, AgentStatus.Inactive, false, "Invalid direct transition" }
-            };
+        public static TheoryData<AgentStatus, AgentStatus, bool, string> AgentStatusTransitionData => new()
+        {
+            { AgentStatus.Inactive, AgentStatus.Active, true, "Standard activation" },
+            { AgentStatus.Active, AgentStatus.Busy, true, "Processing assignment" },
+            { AgentStatus.Busy, AgentStatus.Active, true, "Task completion" },
+            { AgentStatus.Active, AgentStatus.Paused, true, "Manual pause" },
+            { AgentStatus.Paused, AgentStatus.Active, true, "Resume operation" },
+            { AgentStatus.Error, AgentStatus.Inactive, true, "Error recovery" },
+            { AgentStatus.Busy, AgentStatus.Inactive, false, "Invalid direct transition" }
+        };
 
         /// <summary>
         /// Theory test using fixture data for agent agentStatus transitions

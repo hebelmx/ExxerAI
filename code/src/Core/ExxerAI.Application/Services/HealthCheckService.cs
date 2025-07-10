@@ -37,6 +37,10 @@ public class HealthCheckService : IHealthCheckService
     /// <inheritdoc />
     public async Task<Result<SystemHealthReport>> CheckSystemHealthAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<SystemHealthReport>();
+
         try
         {
             var stopwatch = Stopwatch.StartNew();
@@ -121,6 +125,11 @@ public class HealthCheckService : IHealthCheckService
 
             return Result<SystemHealthReport>.Success(systemReport);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("System health check operation was cancelled");
+            return ResultExtensions.Cancelled<SystemHealthReport>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to perform system health check");
@@ -131,6 +140,10 @@ public class HealthCheckService : IHealthCheckService
     /// <inheritdoc />
     public async Task<Result<ComponentHealthReport>> CheckComponentHealthAsync(string componentName, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ComponentHealthReport>();
+
         if (string.IsNullOrEmpty(componentName))
         {
             return Result<ComponentHealthReport>.WithFailure("Component name cannot be null or empty");
@@ -192,6 +205,10 @@ public class HealthCheckService : IHealthCheckService
     /// <inheritdoc />
     public async Task<Result<Dictionary<string, HealthStatus>>> GetHealthStatusSummaryAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Dictionary<string, HealthStatus>>();
+
         try
         {
             var statusTasks = _healthCheckProviders.Values.Select(async provider =>
@@ -215,6 +232,11 @@ public class HealthCheckService : IHealthCheckService
 
             return Result<Dictionary<string, HealthStatus>>.Success(statusSummary);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Health status summary operation was cancelled");
+            return ResultExtensions.Cancelled<Dictionary<string, HealthStatus>>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to get health status summary");
@@ -225,6 +247,10 @@ public class HealthCheckService : IHealthCheckService
     /// <inheritdoc />
     public async Task MonitorHealthAsync(Action<SystemHealthReport> reportCallback, TimeSpan checkInterval, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         if (reportCallback == null)
             throw new ArgumentNullException(nameof(reportCallback));
 
