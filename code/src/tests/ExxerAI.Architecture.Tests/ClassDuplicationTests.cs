@@ -51,7 +51,7 @@ public class ClassDuplicationTests
         foreach (var dup in duplicates)
         {
             any = true;
-            _logger.LogError("  DUPLICATE: {ClassName} in {Namespaces]", dup.ClassName, @dup.Namespaces);
+            _logger.LogError("  DUPLICATE: {ClassName} in {Namespaces}", dup.ClassName, dup.Namespaces);
         }
 
         if (any)

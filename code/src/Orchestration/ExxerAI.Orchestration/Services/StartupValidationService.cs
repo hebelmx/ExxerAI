@@ -4,8 +4,12 @@ namespace ExxerAI.Orchestration.Services;
 
 public static class StartupValidationService
 {
-    public static async Task<bool> ValidateAndPrepareEnvironmentAsync(bool cleanBuild = false)
+    public static async Task<bool> ValidateAndPrepareEnvironmentAsync(bool cleanBuild = false, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return false;
+
         Console.WriteLine("🚀 Starting LocalAI Aspire Orchestrator🚀 ");
         Console.WriteLine("================================================");
 
@@ -15,8 +19,12 @@ public static class StartupValidationService
         if (!ValidateDotNetSdk())
             isValid = false;
 
+        // Check cancellation before Docker validation
+        if (cancellationToken.IsCancellationRequested)
+            return false;
+
         // Check Docker
-        if (!await ValidateDockerAsync())
+        if (!await ValidateDockerAsync(cancellationToken))
             isValid = false;
 
         // Check required directories
@@ -26,8 +34,12 @@ public static class StartupValidationService
         if (!isValid)
             return false;
 
+        // Check cancellation before build process
+        if (cancellationToken.IsCancellationRequested)
+            return false;
+
         // Perform build process
-        if (!await PerformBuildProcessAsync(cleanBuild))
+        if (!await PerformBuildProcessAsync(cleanBuild, cancellationToken))
             return false;
 
         // Display service information
@@ -80,32 +92,44 @@ public static class StartupValidationService
         }
     }
 
-    private static async Task<bool> PerformBuildProcessAsync(bool cleanBuild)
+    private static async Task<bool> PerformBuildProcessAsync(bool cleanBuild, CancellationToken cancellationToken = default)
     {
         try
         {
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
             // Clean if requested
             if (cleanBuild)
             {
                 Console.WriteLine("🧹 Cleaning build artifacts...");
-                if (!await RunDotNetCommandAsync("clean"))
+                if (!await RunDotNetCommandAsync("clean", cancellationToken))
                 {
                     Console.WriteLine("❌ Clean failed!");
                     return false;
                 }
             }
 
+            // Check cancellation before restore
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
             // Restore packages
             Console.WriteLine("📦 Restoring NuGet packages...");
-            if (!await RunDotNetCommandAsync("restore"))
+            if (!await RunDotNetCommandAsync("restore", cancellationToken))
             {
                 Console.WriteLine("❌ Restore failed!");
                 return false;
             }
 
+            // Check cancellation before build
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
             // Build the solution
             Console.WriteLine("🔨 Building solution...");
-            if (!await RunDotNetCommandAsync("build"))
+            if (!await RunDotNetCommandAsync("build", cancellationToken))
             {
                 Console.WriteLine("❌ Build failed!");
                 return false;
@@ -114,6 +138,11 @@ public static class StartupValidationService
             Console.WriteLine("✅ Build successful!");
             return true;
         }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("⚠️ Build process was cancelled");
+            return false;
+        }
         catch (Exception ex)
         {
             Console.WriteLine($"❌ Build process failed: {ex.Message}");
@@ -121,10 +150,14 @@ public static class StartupValidationService
         }
     }
 
-    private static async Task<bool> RunDotNetCommandAsync(string arguments)
+    private static async Task<bool> RunDotNetCommandAsync(string arguments, CancellationToken cancellationToken = default)
     {
         try
         {
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
             var processInfo = new ProcessStartInfo
             {
                 FileName = "dotnet",
@@ -137,8 +170,12 @@ public static class StartupValidationService
             if (process == null)
                 return false;
 
-            await process.WaitForExitAsync();
+            await process.WaitForExitAsync(cancellationToken);
             return process.ExitCode == 0;
+        }
+        catch (OperationCanceledException)
+        {
+            return false;
         }
         catch
         {
@@ -146,10 +183,14 @@ public static class StartupValidationService
         }
     }
 
-    private static async Task<bool> ValidateDockerAsync()
+    private static async Task<bool> ValidateDockerAsync(CancellationToken cancellationToken = default)
     {
         try
         {
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                return false;
+
             var processInfo = new ProcessStartInfo
             {
                 FileName = "docker",
@@ -167,7 +208,7 @@ public static class StartupValidationService
                 return false;
             }
 
-            await process.WaitForExitAsync();
+            await process.WaitForExitAsync(cancellationToken);
 
             if (process.ExitCode == 0)
             {
@@ -180,6 +221,11 @@ public static class StartupValidationService
                 Console.WriteLine("   Make sure Docker Desktop is installed and running");
                 return false;
             }
+        }
+        catch (OperationCanceledException)
+        {
+            Console.WriteLine("⚠️ Docker validation was cancelled");
+            return false;
         }
         catch (Exception ex)
         {

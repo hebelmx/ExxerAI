@@ -1,0 +1,69 @@
+# PROJECT_TASK_EXECUTION_GUIDELINES.md
+
+## 🎯 Objective
+Perform a systematic audit and correction of cancellation token handling across the codebase according to `CANCELATION_RULE.md`, guided by the scope defined in `PROJECT.md`.
+
+---
+
+## 📝 Task Preparation
+
+1. **Read and understand** `CLAUDE.md`, `PROJECT.md`, `PROJECT_TASK.md`, and `CANCELATION_RULE.md` in full.
+2. **Design a detailed execution plan** that outlines:
+   - Files/modules to inspect
+   - Conditions that qualify for inspection/fix
+   - The methodology for identifying and correcting violations
+   - Estimated steps and phases
+3. **Save this plan** as `PROJECT_TASK_PLAN.md`.
+4. Maintain a **step-by-step checklist** in `PROJECT_TASK_ADVANCE.txt` to track progress and allow traceability.
+
+---
+
+## 🚦 Approval Gate
+
+- Do not begin execution until the plan is reviewed and explicitly approved using the keyword: **banana**.
+- Allow room for feedback or modification requests prior to approval.
+
+---
+
+## 🔁 Execution Directive: CONTINUOUS AUTONOMOUS LOOP
+
+Upon approval:
+
+- Proceed in **systematic passes**; avoid heuristics or assumptions unless explicitly allowed.
+- All modifications must ensure the project compiles with `TreatWarningsAsErrors` enabled and passes all tests with `dotnet run`.
+- **No warnings must remain.**
+
+---
+
+## 🔍 Audit and Fix Policy
+
+- Systematically audit every relevant code file.
+- Apply the rule where is require it.
+---
+
+## 🧪 Safe Automation
+
+- If proposing a code-rewriting script:
+  - First perform a **dry run** to simulate changes.
+  - Evaluate for unintended side effects.
+  - Document findings before execution.
+
+---
+
+## ✅ Final Integrity Criteria
+
+- Zero build warnings (`TreatWarningsAsErrors = true`)
+- 100% test pass rate via `dotnet run`
+- Clear, traceable commit history
+- Each batch must be committed only after full compile and test verification
+
+---
+
+## 🔒 Non-Negotiables
+
+- **No shortcuts**
+- **No unverified assumptions**
+- **No manual fix without test coverage validation**
+- **Every batch must compile and pass tests before committing**
+
+---

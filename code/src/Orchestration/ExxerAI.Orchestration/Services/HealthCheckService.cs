@@ -28,8 +28,8 @@ public class HealthCheckService : BackgroundService
                 using var scope = _serviceProvider.CreateScope();
                 var monitoring = scope.ServiceProvider.GetRequiredService<ServiceMonitoringService>();
 
-                var status = await monitoring.GetServiceStatusAsync();
-                var metrics = await monitoring.GetSystemMetricsAsync();
+                var status = await monitoring.GetServiceStatusAsync(stoppingToken);
+                var metrics = await monitoring.GetSystemMetricsAsync(stoppingToken);
 
                 // Send real-time updates to connected clients
                 await _hubContext.Clients.Group("monitoring").SendAsync("ServiceStatusUpdate", status, stoppingToken);

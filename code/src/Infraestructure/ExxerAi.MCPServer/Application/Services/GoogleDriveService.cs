@@ -42,7 +42,8 @@ public class GoogleDriveService : IGoogleDriveService
     /// <summary>
     /// Initializes Google Drive service with OAuth authentication
     /// </summary>
-    public async Task<Result<bool>> InitializeAsync()
+    /// <param name="cancellationToken">Token to cancel the operation</param>
+    public async Task<Result<bool>> InitializeAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -59,6 +60,10 @@ public class GoogleDriveService : IGoogleDriveService
                 return Result<bool>.WithFailure("Google Drive OAuth credentials not configured. Set GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET environment variables.");
             }
 
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                return Result<bool>.WithFailure("Operation was cancelled");
+
             // Initialize OAuth flow
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 new ClientSecrets
@@ -68,7 +73,7 @@ public class GoogleDriveService : IGoogleDriveService
                 },
                 new[] { DriveService.Scope.DriveReadonly, DriveService.Scope.DriveFile },
                 "user",
-                CancellationToken.None);
+                cancellationToken);
 
             // Create Drive service
             _driveService = new DriveService(new BaseClientService.Initializer()
@@ -99,11 +104,16 @@ public class GoogleDriveService : IGoogleDriveService
         string folderId,
         bool includeSubdirectories = true,
         bool autoProcess = true,
-        int pollingIntervalSeconds = 60)
+        int pollingIntervalSeconds = 60,
+        CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result<string>.WithFailure("Operation was cancelled");
+
         if (_driveService == null)
         {
-            var initResult = await InitializeAsync();
+            var initResult = await InitializeAsync(cancellationToken);
             if (!initResult.IsSuccess)
                 return Result<string>.WithFailure("Drive service not initialized");
         }
@@ -112,8 +122,12 @@ public class GoogleDriveService : IGoogleDriveService
         {
             _logger.LogInformation("Starting folder watch for {FolderId}", folderId);
 
+            // Check cancellation before folder verification
+            if (cancellationToken.IsCancellationRequested)
+                return Result<string>.WithFailure("Operation was cancelled");
+
             // Verify folder exists
-            var folder = await _driveService!.Files.Get(folderId).ExecuteAsync();
+            var folder = await _driveService!.Files.Get(folderId).ExecuteAsync(cancellationToken);
             if (folder == null)
             {
                 return Result<string>.WithFailure($"Folder {folderId} not found or not accessible");
@@ -162,11 +176,15 @@ public class GoogleDriveService : IGoogleDriveService
     /// </summary>
     /// <param name="documentId">The document ID to download</param>
     /// <returns>Downloaded document data</returns>
-    public async Task<Result<byte[]>> DownloadDocumentAsync(string documentId)
+    public async Task<Result<byte[]>> DownloadDocumentAsync(string documentId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Result<byte[]>.WithFailure("Operation was cancelled");
+
         if (_driveService == null)
         {
-            var initResult = await InitializeAsync();
+            var initResult = await InitializeAsync(cancellationToken);
             if (!initResult.IsSuccess)
                 return Result<byte[]>.WithFailure("Drive service not initialized");
         }
@@ -176,7 +194,7 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogInformation("Downloading document {DocumentId}", documentId);
 
             // Get file metadata
-            var file = await _driveService!.Files.Get(documentId).ExecuteAsync();
+            var file = await _driveService!.Files.Get(documentId).ExecuteAsync(cancellationToken);
             if (file == null)
             {
                 return Result<byte[]>.WithFailure($"File {documentId} not found");
@@ -204,7 +222,7 @@ public class GoogleDriveService : IGoogleDriveService
     /// </summary>
     /// <param name="documentId">The document ID</param>
     /// <returns>Document metadata</returns>
-    public async Task<Result<GoogleDriveFileMetadata>> GetDocumentMetadataAsync(string documentId)
+    public async Task<Result<GoogleDriveFileMetadata>> GetDocumentMetadataAsync(string documentId, CancellationToken cancellationToken = default)
     {
         if (_driveService == null)
         {
@@ -362,7 +380,7 @@ public class GoogleDriveService : IGoogleDriveService
     /// <summary>
     /// Gets active watch sessions
     /// </summary>
-    public Task<Result<string>> GetActiveWatchesAsync()
+    public Task<Result<string>> GetActiveWatchesAsync(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -399,7 +417,7 @@ public class GoogleDriveService : IGoogleDriveService
     /// <summary>
     /// Stops a watch session
     /// </summary>
-    public Task<Result<string>> StopWatchingAsync(string watchId)
+    public Task<Result<string>> StopWatchingAsync(string watchId, CancellationToken cancellationToken = default)
     {
         try
         {

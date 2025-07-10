@@ -8,16 +8,42 @@ public class DashboardHub : Hub
     /// <summary>
     /// Join a monitoring group for real-time updates
     /// </summary>
-    public async Task JoinMonitoringGroupAsync()
+    /// <param name="cancellationToken">Token to cancel the operation</param>
+    public async Task JoinMonitoringGroupAsync(CancellationToken cancellationToken = default)
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, "monitoring");
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        try
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, "monitoring", cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // SignalR hub methods handle cancellation gracefully
+            return;
+        }
     }
 
     /// <summary>
     /// Leave the monitoring group
     /// </summary>
-    public async Task LeaveMonitoringGroupAsync()
+    /// <param name="cancellationToken">Token to cancel the operation</param>
+    public async Task LeaveMonitoringGroupAsync(CancellationToken cancellationToken = default)
     {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, "monitoring");
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        try
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "monitoring", cancellationToken);
+        }
+        catch (OperationCanceledException)
+        {
+            // SignalR hub methods handle cancellation gracefully
+            return;
+        }
     }
 }

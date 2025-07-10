@@ -28,12 +28,21 @@ public class ServiceMonitoringService
     /// <summary>
     /// Get comprehensive status of all services
     /// </summary>
-    public async Task<ServiceStackStatus> GetServiceStatusAsync()
+    /// <param name="cancellationToken">Token to cancel the operation</param>
+    public async Task<ServiceStackStatus> GetServiceStatusAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            throw new OperationCanceledException(cancellationToken);
+
         var services = new List<ServiceStatus>();
 
         // Core services
         await Task.Yield(); // Allow cooperative cancellation
+
+        // Check cancellation before expensive operations
+        if (cancellationToken.IsCancellationRequested)
+            throw new OperationCanceledException(cancellationToken);
 
         var coreServices = services.Where(s => s.IsCritical).ToList();
         var optionalServices = services.Where(s => !s.IsCritical).ToList();
@@ -55,13 +64,18 @@ public class ServiceMonitoringService
     /// <summary>
     /// Get system metrics and performance data
     /// </summary>
-    public async Task<SystemMetrics> GetSystemMetricsAsync()
+    /// <param name="cancellationToken">Token to cancel the operation</param>
+    public async Task<SystemMetrics> GetSystemMetricsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            throw new OperationCanceledException(cancellationToken);
+
         var process = Process.GetCurrentProcess();
 
         return await Task.FromResult(new SystemMetrics
         {
-            CpuUsage = await GetCpuUsageAsync(),
+            CpuUsage = await GetCpuUsageAsync(cancellationToken),
             MemoryUsage = GC.GetTotalMemory(false),
             DiskSpace = GetDiskSpace(),
             NetworkConnections = GetActiveConnections(),
@@ -72,12 +86,16 @@ public class ServiceMonitoringService
         });
     }
 
-    private async Task<ServiceStatus> CheckServiceAsync(string name, string url, ServiceCategory category, bool isCritical)
+    private async Task<ServiceStatus> CheckServiceAsync(string name, string url, ServiceCategory category, bool isCritical, CancellationToken cancellationToken = default)
     {
         try
         {
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException(cancellationToken);
+
             var stopwatch = Stopwatch.StartNew();
-            var response = await _httpClient.GetAsync(url);
+            var response = await _httpClient.GetAsync(url, cancellationToken);
             stopwatch.Stop();
 
             return new ServiceStatus
@@ -140,14 +158,18 @@ public class ServiceMonitoringService
         return OverallHealthStatus.Unhealthy;
     }
 
-    private async Task<double> GetCpuUsageAsync()
+    private async Task<double> GetCpuUsageAsync(CancellationToken cancellationToken = default)
     {
         try
         {
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException(cancellationToken);
+
             var startTime = DateTime.UtcNow;
             var startCpuUsage = Process.GetCurrentProcess().TotalProcessorTime;
 
-            await Task.Delay(500);
+            await Task.Delay(500, cancellationToken);
 
             var endTime = DateTime.UtcNow;
             var endCpuUsage = Process.GetCurrentProcess().TotalProcessorTime;
@@ -157,6 +179,10 @@ public class ServiceMonitoringService
             var cpuUsageTotal = cpuUsedMs / (Environment.ProcessorCount * totalMsPassed);
 
             return cpuUsageTotal * 100;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch
         {

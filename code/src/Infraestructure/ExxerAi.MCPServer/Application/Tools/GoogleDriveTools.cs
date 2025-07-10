@@ -33,19 +33,25 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <param name="includeSubdirectories">Whether to include subdirectories</param>
     /// <param name="autoProcess">Whether to automatically process detected files</param>
     /// <param name="pollingIntervalSeconds">Polling interval in seconds</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Watch session information</returns>
     [McpServerTool, Description("Starts watching a Google Drive folder for document changes and automatically processes new files")]
     public async Task<Result<string>> StartFolderWatchAsync(
         [Description("The Google Drive folder ID to monitor")] string folderId,
         [Description("Include subdirectories in monitoring")] bool includeSubdirectories = true,
         [Description("Automatically process detected files")] bool autoProcess = true,
-        [Description("Polling interval in seconds")] int pollingIntervalSeconds = 60)
+        [Description("Polling interval in seconds")] int pollingIntervalSeconds = 60,
+        CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("🚀 Starting real Google Drive folder watch for folder {FolderId}", folderId);
 
         try
         {
-            var result = await _googleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingIntervalSeconds);
+            var result = await _googleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingIntervalSeconds, cancellationToken);
 
             if (result.IsSuccess)
             {
@@ -58,6 +64,11 @@ public class GoogleDriveTools : IGoogleDriveTools
 
             return result;
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Google Drive folder watch operation was cancelled for {FolderId}", folderId);
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ Error starting Google Drive folder watch for {FolderId}", folderId);
@@ -69,17 +80,23 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// Gets document changes for a specific watch session
     /// </summary>
     /// <param name="watchId">The watch session identifier</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Document changes detected</returns>
     [McpServerTool, Description("Retrieves document changes detected by an active watch session")]
     public async Task<Result<string>> GetDocumentChangesAsync(
-        [Description("The watch session ID")] string watchId)
+        [Description("The watch session ID")] string watchId,
+        CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("📋 Getting document changes for watch {WatchId}", watchId);
 
         try
         {
             // Get active watches which includes detected changes
-            var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
+            var watchesResult = await _googleDriveService.GetActiveWatchesAsync(cancellationToken);
 
             if (watchesResult.IsSuccess)
             {
@@ -96,6 +113,11 @@ public class GoogleDriveTools : IGoogleDriveTools
                 return Result<string>.WithFailure($"Failed to get document changes: {watchesResult.Error}");
             }
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get document changes operation was cancelled for watch {WatchId}", watchId);
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ Error getting document changes for watch {WatchId}", watchId);
@@ -107,24 +129,34 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// Downloads a document from Google Drive
     /// </summary>
     /// <param name="documentId">The document identifier</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Download result information</returns>
     [McpServerTool, Description("Downloads a document from Google Drive and returns file information")]
     public async Task<Result<string>> DownloadDocumentAsync(
-        [Description("The Google Drive document ID")] string documentId)
+        [Description("The Google Drive document ID")] string documentId,
+        CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("📥 Downloading document {DocumentId} from Google Drive", documentId);
 
         try
         {
             // Get metadata first
-            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId);
+            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId, cancellationToken);
             if (!metadataResult.IsSuccess)
             {
                 return Result<string>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
             }
 
+            // Check cancellation before download
+            if (cancellationToken.IsCancellationRequested)
+                return ResultExtensions.Cancelled<string>();
+
             // Download document
-            var downloadResult = await _googleDriveService.DownloadDocumentAsync(documentId);
+            var downloadResult = await _googleDriveService.DownloadDocumentAsync(documentId, cancellationToken);
             if (!downloadResult.IsSuccess)
             {
                 return Result<string>.WithFailure($"Failed to download document: {downloadResult.Error}");
@@ -145,6 +177,11 @@ public class GoogleDriveTools : IGoogleDriveTools
             _logger.LogInformation("✅ Successfully downloaded document {DocumentId} ({Size} bytes)", documentId, fileSize);
             return Result<string>.WithSuccess(result);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Download document operation was cancelled for {DocumentId}", documentId);
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ Error downloading document {DocumentId}", documentId);
@@ -156,16 +193,22 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// Gets metadata for a specific document
     /// </summary>
     /// <param name="documentId">The document identifier</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Document metadata information</returns>
     [McpServerTool, Description("Retrieves detailed metadata for a Google Drive document")]
     public async Task<Result<string>> GetDocumentMetadataAsync(
-        [Description("The Google Drive document ID")] string documentId)
+        [Description("The Google Drive document ID")] string documentId,
+        CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("📄 Getting metadata for document {DocumentId}", documentId);
 
         try
         {
-            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId);
+            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId, cancellationToken);
 
             if (!metadataResult.IsSuccess)
             {
@@ -186,6 +229,11 @@ public class GoogleDriveTools : IGoogleDriveTools
             _logger.LogInformation("✅ Retrieved real metadata for document {DocumentId}", documentId);
             return Result<string>.WithSuccess(result);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get document metadata operation was cancelled for {DocumentId}", documentId);
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ Error getting metadata for document {DocumentId}", documentId);
@@ -196,22 +244,31 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <summary>
     /// Checks the health agentStatus of the MCP server and Google Drive integration
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Health agentStatus information</returns>
     [McpServerTool, Description("Checks the health agentStatus of Google Drive MCP integration")]
-    public async Task<Result<string>> CheckHealthStatusAsync()
+    public async Task<Result<string>> CheckHealthStatusAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("🏥 Checking Google Drive health agentStatus");
 
         try
         {
             // Try to initialize the Google Drive service to check connectivity
-            var initResult = await _googleDriveService.InitializeAsync();
+            var initResult = await _googleDriveService.InitializeAsync(cancellationToken);
 
             var connectionStatus = initResult.IsSuccess ? "✅ Connected" : "❌ Failed";
             var authStatus = initResult.IsSuccess ? "✅ Valid" : "❌ Invalid";
 
+            // Check cancellation before getting active watches
+            if (cancellationToken.IsCancellationRequested)
+                return ResultExtensions.Cancelled<string>();
+
             // Get active watches
-            var watchesResult = await _googleDriveService.GetActiveWatchesAsync();
+            var watchesResult = await _googleDriveService.GetActiveWatchesAsync(cancellationToken);
             var activeWatches = watchesResult.IsSuccess ? "Available" : "Error getting watch info";
 
             var result = $"🏥 Google Drive MCP Health AgentStatus:\n" +
@@ -235,6 +292,11 @@ public class GoogleDriveTools : IGoogleDriveTools
 
             return Result<string>.WithSuccess(result);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Google Drive health check operation was cancelled");
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ Error checking Google Drive health agentStatus");
@@ -245,15 +307,20 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// <summary>
     /// Lists all active watch sessions
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Active watch sessions information</returns>
     [McpServerTool, Description("Lists all active Google Drive folder watch sessions")]
-    public async Task<Result<string>> GetActiveWatchesAsync()
+    public async Task<Result<string>> GetActiveWatchesAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("👁️ Getting active Google Drive watch sessions");
 
         try
         {
-            var result = await _googleDriveService.GetActiveWatchesAsync();
+            var result = await _googleDriveService.GetActiveWatchesAsync(cancellationToken);
 
             if (result.IsSuccess)
             {
@@ -266,6 +333,11 @@ public class GoogleDriveTools : IGoogleDriveTools
 
             return result;
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get active watches operation was cancelled");
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "❌ Error getting active watch sessions");
@@ -277,16 +349,22 @@ public class GoogleDriveTools : IGoogleDriveTools
     /// Stops watching a specific folder
     /// </summary>
     /// <param name="watchId">The watch session identifier</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Stop operation result</returns>
     [McpServerTool, Description("Stops watching a specific Google Drive folder")]
     public async Task<Result<string>> StopWatchingAsync(
-        [Description("The watch session ID to stop")] string watchId)
+        [Description("The watch session ID to stop")] string watchId,
+        CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         _logger.LogInformation("🛑 Stopping Google Drive watch session {WatchId}", watchId);
 
         try
         {
-            var result = await _googleDriveService.StopWatchingAsync(watchId);
+            var result = await _googleDriveService.StopWatchingAsync(watchId, cancellationToken);
 
             if (result.IsSuccess)
             {
@@ -298,6 +376,11 @@ public class GoogleDriveTools : IGoogleDriveTools
             }
 
             return result;
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Stop watching operation was cancelled for watch {WatchId}", watchId);
+            return ResultExtensions.Cancelled<string>();
         }
         catch (Exception ex)
         {

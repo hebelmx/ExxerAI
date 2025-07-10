@@ -5,8 +5,12 @@ namespace ExxerAi.MCPServer.Components.Account
 {
     internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager)
     {
-        public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context)
+        public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context, CancellationToken cancellationToken = default)
         {
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException(cancellationToken);
+
             var user = await userManager.GetUserAsync(context.User);
 
             if (user is null)

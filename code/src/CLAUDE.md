@@ -6,17 +6,99 @@
 **Objective:** Flawlessly complete the design outlined in `PROJECT_TASK.md`
 by executing the cycle defined this task
 
+# PROJECT_TASK_EXECUTION_GUIDELINES.md
+
+## 🎯 Objective
+Perform a systematic audit and correction of cancellation token handling across the codebase according to `CANCELATION_RULE.md`, guided by the scope defined in `PROJECT.md`.
+
+---
+
+## 📝 Task Preparation
+
+1. **Read and understand** `CLAUDE.md`, `PROJECT.md`, `PROJECT_TASK.md`, and `CANCELATION_RULE.md` in full.
+2. **Design a detailed execution plan** that outlines:
+   - Files/modules to inspect
+   - Conditions that qualify for inspection/fix
+   - The methodology for identifying and correcting violations
+   - Estimated steps and phases
+3. **Save this plan** as `PROJECT_TASK_PLAN.md`.
+4. Maintain a **step-by-step checklist** in `PROJECT_TASK_ADVANCE.txt` to track progress and allow traceability.
+
+---
+
+## 🚦 Approval Gate
+
+- Do not begin execution until the plan is reviewed and explicitly approved using the keyword: **banana**.
+- Allow room for feedback or modification requests prior to approval.
+
+---
+
+## 🔁 Execution Directive: CONTINUOUS AUTONOMOUS LOOP
+
+Upon approval:
+
+- Proceed in **systematic passes**; avoid heuristics or assumptions unless explicitly allowed.
+- All modifications must ensure the project compiles with `TreatWarningsAsErrors` enabled and passes all tests with `dotnet run`.
+- **No warnings must remain.**
+
+---
+
+## 🔍 Audit and Fix Policy
+
+- Systematically audit every relevant code file.
+- Apply the rule where is require it.
+---
+
+## 🧪 Safe Automation
+
+- If proposing a code-rewriting script:
+  - First perform a **dry run** to simulate changes.
+  - Evaluate for unintended side effects.
+  - Document findings before execution.
+
+---
+
+## ✅ Final Integrity Criteria
+
+- Zero build warnings (`TreatWarningsAsErrors = true`)
+- 100% test pass rate via `dotnet run`
+- Clear, traceable commit history
+- Each batch must be committed only after full compile and test verification
+
+---
+
+## 🔒 Non-Negotiables
+
+- **No shortcuts**
+- **No unverified assumptions**
+- **No manual fix without test coverage validation**
+- **Every batch must compile and pass tests before committing**
+
+---
+
+Prepare your execution plan and await the **banana** approval keyword before proceeding.
+
+
+
 ### THE PROJECT_TASK AS DESCRITE ON PROJECT.md
 
 ### EXECUTION DIRECTIVE: CONTINUOUS AUTONOMOUS LOOP
 
-### SYSTEMATICALLY ELIMINATE ALL WARNINGS ###
+### SYSTEMATICALLY AUDIT FIX AND ENFORCE THE RULE AS DESCRIBED ON CANCELATION_RULE.md  ###
 
 ### THIS PROJECT HAS TO BE SHIPPED AS WARNINGS AS ERROR ###
 
-### NO SHORTCUTS NO REPLACEMENT WORK MUST BE DONE SYSTEMATICALLY ###
+### NO SHORTCUTS THE WORK MUST BE DONE SYSTEMATICALLY ###
 
-### ELIMINATE WARNING COMPILE AND RUN TEST THIS TEST RUN WITH dotnet run ###
+### IF YOU IDENTIFIE A PATTERN AND WANT TO RUN A SCRIPT, MAKE A DRY RUN FIRST TO EVALUATE FOR SIDE EFFECTS ##
+
+### CORRECT UNTIL NEEDED ###
+
+### THIS BASE CODE MUST IS FREE OF WARNING, COMPILE AND RUN PASSING TEST 100% AND YOU SHOLD BE RESPONSIBLE FOR THEM ### 
+
+### ON THIS BASE CODE THE TEST ARE RUNNING USING dotnet run ###
+
+### NO SHORTCUTS, COMPILE, VERIFIE AND COMMIT AFTER EACH BATCH OF CHANGES ###
 
 THIS TASK IS TO BE EXECUTED AUTONOMOUSLY IN A CONTINUOUS LOOP:
 ✅ Evaluate the actual state of the code agains the project.
