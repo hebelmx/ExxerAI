@@ -15,4 +15,14 @@ public class WatchSession
     public DateTime LastCheck { get; set; }
     public bool IsActive { get; set; }
     public List<DocumentChange> DetectedChanges { get; set; } = [];
+    
+    /// <summary>
+    /// Main monitoring task for this session
+    /// </summary>
+    public Task? MonitoringTask { get; set; }
+    
+    /// <summary>
+    /// Collection of active processing tasks
+    /// </summary>
+    public List<Task> ProcessingTasks { get; set; } = [];
 }

@@ -150,8 +150,8 @@ public class GoogleDriveService : IGoogleDriveService
 
             _activeSessions[watchId] = session;
 
-            // Start background monitoring
-            _ = Task.Run(async () => await MonitorFolderAsync(session));
+            // Start background monitoring - store task for proper lifecycle management
+            session.MonitoringTask = Task.Run(async () => await MonitorFolderAsync(session, cancellationToken), cancellationToken);
 
             var result = $"✅ Started watching Google Drive folder: {folder.Name}\n" +
                         $"📂 Folder ID: {folderId}\n" +
@@ -203,7 +203,7 @@ public class GoogleDriveService : IGoogleDriveService
             // Download file content
             using var stream = new MemoryStream();
             var request = _driveService!.Files.Get(documentId);
-            await request.DownloadAsync(stream);
+            await request.DownloadAsync(stream, cancellationToken);
 
             var fileData = stream.ToArray();
 
@@ -226,7 +226,7 @@ public class GoogleDriveService : IGoogleDriveService
     {
         if (_driveService == null)
         {
-            var initResult = await InitializeAsync();
+            var initResult = await InitializeAsync(cancellationToken);
             if (!initResult.IsSuccess)
                 return Result<GoogleDriveFileMetadata>.WithFailure("Drive service not initialized");
         }
@@ -235,7 +235,7 @@ public class GoogleDriveService : IGoogleDriveService
         {
             _logger.LogInformation("Getting metadata for document {DocumentId}", documentId);
 
-            var file = await _driveService!.Files.Get(documentId).ExecuteAsync();
+            var file = await _driveService!.Files.Get(documentId).ExecuteAsync(cancellationToken);
             if (file == null)
             {
                 return Result<GoogleDriveFileMetadata>.WithFailure($"File {documentId} not found");
@@ -266,11 +266,13 @@ public class GoogleDriveService : IGoogleDriveService
     /// <summary>
     /// Background folder monitoring implementation
     /// </summary>
-    private async Task MonitorFolderAsync(WatchSession session)
+    /// <param name="session">The watch session to monitor</param>
+    /// <param name="cancellationToken">Token to cancel the monitoring operation</param>
+    private async Task MonitorFolderAsync(WatchSession session, CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("🔍 Starting background monitoring for watch {WatchId}", session.WatchId);
 
-        while (session.IsActive)
+        while (session.IsActive && !cancellationToken.IsCancellationRequested)
         {
             try
             {
@@ -279,7 +281,7 @@ public class GoogleDriveService : IGoogleDriveService
                 listRequest.Q = $"'{session.FolderId}' in parents and modifiedTime > '{session.LastCheck:yyyy-MM-ddTHH:mm:ss}'";
                 listRequest.Fields = "files(id,name,mimeType,modifiedTime,size)";
 
-                var files = await listRequest.ExecuteAsync();
+                var files = await listRequest.ExecuteAsync(cancellationToken);
 
                 if (files.Files?.Count > 0)
                 {
@@ -300,18 +302,20 @@ public class GoogleDriveService : IGoogleDriveService
                         // Auto-process if enabled
                         if (session.AutoProcess)
                         {
-                            _ = Task.Run(async () => await ProcessDetectedDocumentAsync(file, session.WatchId));
+                            // Store processing task for proper lifecycle management
+                            var processingTask = Task.Run(async () => await ProcessDetectedDocumentAsync(file, session.WatchId, cancellationToken), cancellationToken);
+                            session.ProcessingTasks.Add(processingTask);
                         }
                     }
                 }
 
                 session.LastCheck = DateTime.UtcNow;
-                await Task.Delay(session.PollingInterval);
+                await Task.Delay(session.PollingInterval, cancellationToken);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "❌ Error in folder monitoring for watch {WatchId}", session.WatchId);
-                await Task.Delay(TimeSpan.FromMinutes(1)); // Wait before retry
+                await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken); // Wait before retry
             }
         }
 
@@ -321,14 +325,17 @@ public class GoogleDriveService : IGoogleDriveService
     /// <summary>
     /// Processes a detected document through the ExxerAI pipeline
     /// </summary>
-    private async Task ProcessDetectedDocumentAsync(Google.Apis.Drive.v3.Data.File file, string watchId)
+    /// <param name="file">The detected file to process</param>
+    /// <param name="watchId">The watch session ID</param>
+    /// <param name="cancellationToken">Token to cancel the processing operation</param>
+    private async Task ProcessDetectedDocumentAsync(Google.Apis.Drive.v3.Data.File file, string watchId, CancellationToken cancellationToken = default)
     {
         try
         {
             _logger.LogInformation("🔄 Auto-processing detected file: {FileName} (ID: {FileId})", file.Name, file.Id);
 
             // Download document
-            var downloadResult = await DownloadDocumentAsync(file.Id);
+            var downloadResult = await DownloadDocumentAsync(file.Id, cancellationToken);
             if (!downloadResult.IsSuccess)
             {
                 _logger.LogWarning("⚠️ Failed to download file {FileId}: {Error}", file.Id, downloadResult.Error);
@@ -354,7 +361,7 @@ public class GoogleDriveService : IGoogleDriveService
             // Process through ExxerAI document pipeline if available
             if (_documentProcessor != null)
             {
-                var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value!, metadata);
+                var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value!, metadata, cancellationToken);
 
                 if (processingResult.IsSuccess && processingResult.Value is not null)
                 {
@@ -417,16 +424,43 @@ public class GoogleDriveService : IGoogleDriveService
     /// <summary>
     /// Stops a watch session
     /// </summary>
-    public Task<Result<string>> StopWatchingAsync(string watchId, CancellationToken cancellationToken = default)
+    public async Task<Result<string>> StopWatchingAsync(string watchId, CancellationToken cancellationToken = default)
     {
         try
         {
             if (!_activeSessions.TryGetValue(watchId, out var session))
             {
-                return Task.FromResult(Result<string>.WithFailure($"Watch session {watchId} not found"));
+                return Result<string>.WithFailure($"Watch session {watchId} not found");
             }
 
             session.IsActive = false;
+            
+            // Wait for monitoring task to complete gracefully
+            if (session.MonitoringTask != null && !session.MonitoringTask.IsCompleted)
+            {
+                try
+                {
+                    await session.MonitoringTask;
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Error while stopping monitoring task for watch {WatchId}", watchId);
+                }
+            }
+            
+            // Wait for all processing tasks to complete
+            if (session.ProcessingTasks.Count > 0)
+            {
+                try
+                {
+                    await Task.WhenAll(session.ProcessingTasks);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Error while stopping processing tasks for watch {WatchId}", watchId);
+                }
+            }
+            
             var duration = DateTime.UtcNow - session.StartTime;
 
             var result = $"✅ Successfully stopped watching session {watchId}\n" +
@@ -437,12 +471,12 @@ public class GoogleDriveService : IGoogleDriveService
                         $"💾 Resources Released: Yes";
 
             _logger.LogInformation("✅ Successfully stopped watch session {WatchId}", watchId);
-            return Task.FromResult(Result<string>.WithSuccess(result));
+            return Result<string>.WithSuccess(result);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error stopping watch session {WatchId}", watchId);
-            return Task.FromResult(Result<string>.WithFailure($"Error stopping watch session: {ex.Message}"));
+            return Result<string>.WithFailure($"Error stopping watch session: {ex.Message}");
         }
     }
 }

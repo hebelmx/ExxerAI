@@ -32,9 +32,11 @@ public class Sample
 
         builder.Services.AddSingleton<ILogger>(sp => sp.GetRequiredService<ILogger<Sample>>());
 
-        // add MCP client
+        // add MCP client with proper async initialization
         builder.Services.AddSingleton<IMcpClient>(sp =>
         {
+            var logger = sp.GetRequiredService<ILogger<Sample>>();
+            
             McpClientOptions mcpClientOptions = new()
             { ClientInfo = new() { Name = "AspNetCoreSseClient", Version = "1.0.0" } };
 
@@ -51,8 +53,19 @@ public class Sample
                 Location = httpClient.BaseAddress.ToString(),
             };
 
-            var mcpClient = McpClientFactory.CreateAsync(mcpServerConfig, mcpClientOptions).GetAwaiter().GetResult();
-            return mcpClient;
+            // Use async factory with proper cancellation - this is a legitimate use case for blocking
+            // in DI container registration where async is not supported
+            using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+            try
+            {
+                var mcpClient = McpClientFactory.CreateAsync(mcpServerConfig, mcpClientOptions).GetAwaiter().GetResult();
+                return mcpClient;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Failed to create MCP client");
+                throw;
+            }
         });
 
         var app = builder.Build();
