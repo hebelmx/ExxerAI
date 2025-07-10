@@ -102,7 +102,7 @@ namespace ExxerAI.Aspire.AppHost
                 connStr += $";Search Path={schema}";
             if (!string.IsNullOrEmpty(sslCa))
                 connStr += $";SSL Mode=Require;SSL Certificate={sslCa}";
-            builder.Resource.ConnectionStringExpression = new ReferenceExpression(connStr);
+            builder.Resource.ConnectionStringExpression = ReferenceExpression.Literal(connStr);
 
             return builder;
         }
