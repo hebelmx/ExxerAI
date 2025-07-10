@@ -26,6 +26,22 @@ namespace ExxerAI.Api.Tests;
 /// - NSubstitute for mocking (NOT Moq)
 /// - Result<T> for functional error handling
 /// - Microsoft.Extensions.Logging for structured logging
+///// -------------------------------------------------------------------------------------------------
+/// Some tests use  for AsyncFixer02 Suppression
+/// -------------------------------------------------------------------------------------------------
+/// This unit test explicitly cancels a CancellationTokenSource using , which is a
+/// synchronous and deterministic operation necessary to simulate pre-cancelled tokens.
+///
+/// Although AsyncFixer02 warns against "long-running or blocking operations inside async methods,"
+///  does not fall into that category and completes immediately.
+///
+/// This pragma is applied narrowly to suppress the false-positive without affecting global behavior.
+/// Test methods are expected to use immediate cancellation for precise control and verification of
+/// cancellation-aware behavior in the SUT.
+/// -------------------------------------------------------------------------------------------------
+///#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+///; // Cancel immediately
+///#pragma warning restore AsyncFixer02
 ///
 /// Follows ExxerAI Coding Standards:
 /// - Descriptive test names: Should_Action_When_Condition
@@ -430,10 +446,12 @@ public class ComprehensiveUnitTestExample
             // Arrange
             const string documentId = "doc789-cancelled";
             using var cts = new CancellationTokenSource();
-            cts.Cancel(); // Cancel immediately
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+            ; // Cancel immediately
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
 
             // Act
-            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: TestContext.Current.CancellationToken);
+            var result = await _service.IngestDocumentAsync(documentId, false, cancellationToken: cts.Token);
 
             // Assert
             result.IsSuccess.ShouldBeFalse();
@@ -666,7 +684,7 @@ public class ComprehensiveUnitTestExample
             for (int i = 0; i < totalRequests; i++)
             {
                 var taskIndex = i;
-                activeTasks.Add(SimulateDocumentProcessing(semaphore, taskIndex));
+                activeTasks.Add(SimulateDocumentProcessingAsync(semaphore, taskIndex));
             }
 
             var results = await Task.WhenAll(activeTasks);

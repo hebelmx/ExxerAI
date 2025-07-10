@@ -612,7 +612,7 @@ public class TaskServiceTests
     }
 
     // Test Value Factory Methods
-    private static AgentTask CreateValidAgentTaskAsync()
+    private static AgentTask CreateValidAgentTask()
     {
         return new AgentTask
         {

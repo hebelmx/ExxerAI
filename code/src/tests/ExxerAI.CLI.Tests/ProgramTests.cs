@@ -15,7 +15,7 @@ public class ProgramTests
         var args = Array.Empty<string>();
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -28,7 +28,7 @@ public class ProgramTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -41,7 +41,7 @@ public class ProgramTests
         var args = new[] { "version" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -54,7 +54,7 @@ public class ProgramTests
         var args = new[] { "invalid-command" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -67,7 +67,7 @@ public class ProgramTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0); // If repositories initialize properly, help should work
@@ -80,7 +80,7 @@ public class ProgramTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0); // If services initialize properly, help should work
@@ -93,7 +93,7 @@ public class ProgramTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0); // If commands initialize properly, help should work
@@ -106,7 +106,7 @@ public class ProgramTests
         var args = new[] { "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0); // If router initializes properly, help should work
@@ -119,7 +119,7 @@ public class ProgramTests
         var args = new[] { "agent", "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -132,7 +132,7 @@ public class ProgramTests
         var args = new[] { "task", "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -145,7 +145,7 @@ public class ProgramTests
         var args = new[] { "workflow", "help" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -158,7 +158,7 @@ public class ProgramTests
         string[]? args = null!;
 
         // Act
-        var exitCode = await CallMainMethod(args!, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args!, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         // Should not throw and should handle gracefully
@@ -172,7 +172,7 @@ public class ProgramTests
         var args = new[] { "", "" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1); // Empty string commands should be treated as invalid
@@ -185,7 +185,7 @@ public class ProgramTests
         var args = new[] { "agent", "list", "--agentStatus", "active" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0); // Should handle multi-argument commands
@@ -198,7 +198,7 @@ public class ProgramTests
         var args = new[] { "HELP" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -211,7 +211,7 @@ public class ProgramTests
         var args = new[] { "HeLp" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -230,7 +230,7 @@ public class ProgramTests
         var args = new[] { command };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0);
@@ -249,7 +249,7 @@ public class ProgramTests
         var args = new[] { commandGroup };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(0); // Should show group help
@@ -267,7 +267,7 @@ public class ProgramTests
         var args = new[] { invalidCommand };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBe(1);
@@ -281,7 +281,7 @@ public class ProgramTests
 
         // Act & Assert
         // If this completes without exception, repositories were created successfully
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
         exitCode.ShouldBe(0);
     }
 
@@ -293,7 +293,7 @@ public class ProgramTests
 
         // Act & Assert
         // If this completes without exception, AgentService was created successfully
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
         exitCode.ShouldBe(0);
     }
 
@@ -305,7 +305,7 @@ public class ProgramTests
 
         // Act & Assert
         // If this completes without exception, all command handlers were created successfully
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
         exitCode.ShouldBe(0);
     }
 
@@ -317,8 +317,8 @@ public class ProgramTests
         var invalidArgs = new[] { "invalid" };
 
         // Act
-        var validExitCode = await CallMainMethod(validArgs, cancellationToken: TestContext.Current.CancellationToken);
-        var invalidExitCode = await CallMainMethod(invalidArgs, cancellationToken: TestContext.Current.CancellationToken);
+        var validExitCode = await CallMainMethodAsync(validArgs, cancellationToken: TestContext.Current.CancellationToken);
+        var invalidExitCode = await CallMainMethodAsync(invalidArgs, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         validExitCode.ShouldBe(0);
@@ -336,7 +336,7 @@ public class ProgramTests
         };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBeOneOf(0, 1); // Should handle gracefully regardless of outcome
@@ -349,7 +349,7 @@ public class ProgramTests
         var args = new[] { "agent", "create", "Test-Agent_123" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBeOneOf(0, 1); // Should handle gracefully regardless of outcome
@@ -362,7 +362,7 @@ public class ProgramTests
         var args = new[] { "agent", "create", "测试代理" };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBeOneOf(0, 1); // Should handle gracefully regardless of outcome
@@ -376,7 +376,7 @@ public class ProgramTests
         var args = new[] { "agent", "create", longString };
 
         // Act
-        var exitCode = await CallMainMethod(args, cancellationToken: TestContext.Current.CancellationToken);
+        var exitCode = await CallMainMethodAsync(args, cancellationToken: TestContext.Current.CancellationToken);
 
         // Assert
         exitCode.ShouldBeOneOf(0, 1); // Should handle gracefully regardless of outcome

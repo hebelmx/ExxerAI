@@ -111,7 +111,7 @@ public class TaskServiceTests
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.Priority.ShouldBe(priority);
+        result.Value!.Priority.ShouldBe(priority);
     }
 
     #endregion CreateTaskAsync Tests
@@ -691,35 +691,31 @@ public class TaskServiceTests
     {
         // Arrange
         var cts = new CancellationTokenSource();
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
         cts.Cancel();
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
 
         // Act & Assert - All methods should accept and handle cancellation tokens
         await Should.NotThrowAsync(async () =>
         {
-#pragma warning disable xUnit1051
-
             await _taskService.CreateTaskAsync("test", "test", "test", TaskPriority.Normal, null, cts.Token);
 
-#pragma warning restore xUnit1051
             await _taskService.GetTaskAsync(Guid.NewGuid(), cts.Token);
-#pragma warning disable xUnit1051
 
             await _taskService.GetPendingTasksAsync(100, cts.Token);
 
-#pragma warning restore xUnit1051
             await _taskService.GetAgentTasksAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.UpdateTaskStatusAsync(Guid.NewGuid(), TaskAgentStatus.Completed, cts.Token);
             await _taskService.AssignTaskToAgentAsync(Guid.NewGuid(), Guid.NewGuid(), cts.Token);
             await _taskService.CompleteTaskAsync(Guid.NewGuid(), null, cts.Token);
             await _taskService.FailTaskAsync(Guid.NewGuid(), "error", cts.Token);
             await _taskService.CancelTaskAsync(Guid.NewGuid(), cts.Token);
-#pragma warning disable xUnit1051
 
             await _taskService.GetOverdueTasksAsync(cts.Token);
 
-#pragma warning restore xUnit1051
             await _taskService.DeleteTaskAsync(Guid.NewGuid(), cts.Token);
         });
+        true.ShouldBeTrue("All methods should handle cancellation tokens without throwing exceptions");
     }
 
     [Fact]

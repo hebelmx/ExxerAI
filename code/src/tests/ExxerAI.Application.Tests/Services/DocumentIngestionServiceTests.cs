@@ -379,7 +379,9 @@ public class DocumentIngestionServiceTests
         // Arrange
         var changeEvent = CreateTestDocumentChangeEvent("doc123", DocumentChangeType.Created);
         using var cts = new CancellationTokenSource();
+#pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
         cts.Cancel(); // Cancel immediately
+#pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
 
         // Act
         var result = await _service.ProcessDocumentChangeAsync(changeEvent, cts.Token);

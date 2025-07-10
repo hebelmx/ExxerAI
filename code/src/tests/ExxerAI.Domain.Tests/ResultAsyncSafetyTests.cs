@@ -123,7 +123,7 @@ public class ResultAsyncSafetyTests
         {
             // Act - Simulate async operation that might throw
             await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
-            result = await SimulateAsyncOperationWithSpanOptimizations(false, cancellationToken: TestContext.Current.CancellationToken);
+            result = await SimulateAsyncOperationWithSpanOptimizationsAsync(false, cancellationToken: TestContext.Current.CancellationToken);
         }
         catch (Exception)
         {
@@ -142,7 +142,7 @@ public class ResultAsyncSafetyTests
     /// </summary>
     /// <param name="shouldThrow">Whether the operation should throw an exception.</param>
     /// <returns>A task that returns a Result.</returns>
-    private static async Task<Result<string>> SimulateAsyncOperationWithSpanOptimizations(bool shouldThrow, CancellationToken cancellationToken)
+    private static async Task<Result<string>> SimulateAsyncOperationWithSpanOptimizationsAsync(bool shouldThrow, CancellationToken cancellationToken = default)
     {
         await Task.Delay(AsyncTestConstants.SmallDelayMs, cancellationToken: TestContext.Current.CancellationToken);
 
@@ -179,7 +179,7 @@ public class ResultAsyncSafetyTests
         for (var i = 0; i < highConcurrencyCount; i++)
         {
             var taskId = i;
-            tasks.Add(PerformConcurrentAsyncOperation(taskId));
+            tasks.Add(PerformConcurrentAsyncOperationAsync(taskId));
         }
 
         // Act - Wait for all tasks
