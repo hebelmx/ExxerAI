@@ -26,22 +26,7 @@ namespace ExxerAI.Api.Tests;
 /// - NSubstitute for mocking (NOT Moq)
 /// - Result<T> for functional error handling
 /// - Microsoft.Extensions.Logging for structured logging
-/// -------------------------------------------------------------------------------------------------
-/// Some tests use Suppression for AsyncFixer02  and AsyncFixer02
-/// -------------------------------------------------------------------------------------------------
-/// This unit test explicitly cancels a CancellationTokenSource using , which is a
-/// synchronous and deterministic operation necessary to simulate pre-cancelled tokens.
 ///
-/// Although AsyncFixer02 warns against "long-running or blocking operations inside async methods,"
-///  does not fall into that category and completes immediately.
-///
-/// This pragma is applied narrowly to suppress the false-positive without affecting global behavior.
-/// Test methods are expected to use immediate cancellation for precise control and verification of
-/// cancellation-aware behavior in the SUT.
-/// -------------------------------------------------------------------------------------------------
-/// -pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
-/// cts.Cancel(); // Cancel immediately
-/// -pragma warning restore AsyncFixer02
 ///
 /// Follows ExxerAI Coding Standards:
 /// - Descriptive test names: Should_Action_When_Condition
@@ -51,6 +36,32 @@ namespace ExxerAI.Api.Tests;
 /// - Result<T> pattern validation throughout
 /// - Cancellation token support
 /// - Business rule validation
+///
+/// /// -------------------------------------------------------------------------------------------------
+/// Some tests use Suppression for AsyncFixer02  and AsyncFixer02
+/// -------------------------------------------------------------------------------------------------
+/// This unit test explicitly cancels a CancellationTokenSource using , which is a
+/// synchronous and deterministic operation necessary to simulate pre-cancelled tokens.
+///
+/// Although AsyncFixer02 warns against "long-running or blocking operations inside async methods,"
+///  does not fall into that category and completes immediately.
+///            // PRAGMA WARNING SUPPRESSION JUSTIFICATION:
+/// AsyncFixer02 warns against "long-running or blocking operations inside async methods"
+/// However, CancellationTokenSource.Cancel() is a synchronous, non-blocking operation that
+/// completes immediately. In unit tests, we need deterministic cancellation to verify
+/// that the System Under Test (SUT) properly handles pre-cancelled tokens.
+/// This suppression is safe because:
+/// 1. cts.Cancel() executes in microseconds (not long-running)
+/// 2. It's deterministic and necessary for testing cancellation behavior
+/// 3. Test isolation requires immediate cancellation, not async delays
+/// 4. This is the recommended pattern for testing cancellation in xUnit
+/// This pragma is applied narrowly to suppress the false-positive without affecting global behavior.
+/// Test methods are expected to use immediate cancellation for precise control and verification of
+/// cancellation-aware behavior in the SUT.
+/// -------------------------------------------------------------------------------------------------
+/// -pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
+/// cts.Cancel(); // Cancel immediately
+/// -pragma warning restore AsyncFixer02
 /// </summary>
 public class ComprehensiveUnitTestExample
 {
@@ -442,6 +453,32 @@ public class ComprehensiveUnitTestExample
             // The actual error content depends on how the service propagates the processor errors
         }
 
+        /// <summary>
+        /// -------------------------------------------------------------------------------------------------
+        /// This test method uses <c>CancellationTokenSource.Cancel()</c> to simulate pre-cancelled tokens.
+        /// <para>
+        /// Although <c>AsyncFixer02</c> typically flags "long-running or blocking operations inside async methods",
+        /// this synchronous and deterministic call is explicitly used in unit tests to verify cancellation behavior
+        /// in a controlled and predictable way.
+        /// </para>
+        /// <para>
+        /// <b>PRAGMA WARNING SUPPRESSION JUSTIFICATION:</b>
+        /// <list type="number">
+        /// <item><description><c>cts.Cancel()</c> is neither long-running nor blocking; it completes in microseconds.</description></item>
+        /// <item><description>Unit tests require deterministic and immediate token cancellation to validate behavior under pre-cancelled conditions.</description></item>
+        /// <item><description>Delaying cancellation via asynchronous means would reduce test clarity and isolation.</description></item>
+        /// <item><description>This pattern is an industry-accepted technique for simulating cancellation in xUnit-based tests.</description></item>
+        /// </list>
+        /// Suppression scope is kept narrow to prevent unintentional masking of genuine issues elsewhere.
+        /// </para>
+        /// -------------------------------------------------------------------------------------------------
+        /// <code>
+        /// #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside async methods
+        /// cts.Cancel(); // Synchronous, intentional, test-driven immediate cancellation
+        /// #pragma warning restore AsyncFixer02
+        /// </code>
+        /// -------------------------------------------------------------------------------------------------
+        /// </summary>
         /// <summary>
         /// Cancellation Test: IngestDocumentAsync should respect cancellation tokens
         /// </summary>
