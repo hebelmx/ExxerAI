@@ -429,9 +429,12 @@ public class AgentScheduler : IAgentScheduler
     /// <returns>Dictionary of agent IDs to their workloads</returns>
     public async Task<Result<Dictionary<Guid, AgentWorkload>>> GetAllAgentWorkloadsAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<Dictionary<Guid, AgentWorkload>>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
@@ -443,7 +446,7 @@ public class AgentScheduler : IAgentScheduler
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get all agent workloads operation was cancelled");
-            return Result<Dictionary<Guid, AgentWorkload>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<Dictionary<Guid, AgentWorkload>>();
         }
         catch (Exception ex)
         {
