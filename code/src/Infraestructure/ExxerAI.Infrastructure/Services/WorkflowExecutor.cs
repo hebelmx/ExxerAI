@@ -40,6 +40,10 @@ public class WorkflowExecutor : IWorkflowExecutor
         Dictionary<string, object> input,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<WorkflowExecution>();
+
         try
         {
             if (workflow is null)
@@ -53,8 +57,6 @@ public class WorkflowExecutor : IWorkflowExecutor
                 _logger.LogWarning("Attempted to execute workflow {WorkflowId} with null input", workflow.Id);
                 return Result<WorkflowExecution>.WithFailure("Input cannot be null");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             var execution = new WorkflowExecution
             {
@@ -124,6 +126,10 @@ public class WorkflowExecutor : IWorkflowExecutor
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> PauseExecutionAsync(Guid executionId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (executionId == Guid.Empty)
@@ -131,8 +137,6 @@ public class WorkflowExecutor : IWorkflowExecutor
                 _logger.LogWarning("Attempted to pause execution with empty ID");
                 return Result<bool>.WithFailure("Execution ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _executionLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -165,7 +169,7 @@ public class WorkflowExecutor : IWorkflowExecutor
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Pause execution operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -182,6 +186,10 @@ public class WorkflowExecutor : IWorkflowExecutor
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> ResumeExecutionAsync(Guid executionId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (executionId == Guid.Empty)
@@ -189,8 +197,6 @@ public class WorkflowExecutor : IWorkflowExecutor
                 _logger.LogWarning("Attempted to resume execution with empty ID");
                 return Result<bool>.WithFailure("Execution ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _executionLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -223,7 +229,7 @@ public class WorkflowExecutor : IWorkflowExecutor
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Resume execution operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -240,6 +246,10 @@ public class WorkflowExecutor : IWorkflowExecutor
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> CancelExecutionAsync(Guid executionId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (executionId == Guid.Empty)
@@ -247,8 +257,6 @@ public class WorkflowExecutor : IWorkflowExecutor
                 _logger.LogWarning("Attempted to cancel execution with empty ID");
                 return Result<bool>.WithFailure("Execution ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _executionLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -283,7 +291,7 @@ public class WorkflowExecutor : IWorkflowExecutor
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Cancel execution operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -301,7 +309,9 @@ public class WorkflowExecutor : IWorkflowExecutor
         var steps = workflow.Definition.Steps.OrderBy(s => s.Order).ToList();
         for (int stepIndex = 0; stepIndex < steps.Count; stepIndex++)
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            // Check for cancellation before processing each step
+            if (cancellationToken.IsCancellationRequested)
+                throw new OperationCanceledException();
 
             // Check if execution is paused
             if (execution.Status == WorkflowExecutionStatus.Paused)
@@ -445,6 +455,10 @@ public class WorkflowExecutor : IWorkflowExecutor
     /// <returns>The execution status if found</returns>
     public async Task<Result<WorkflowExecution>> GetExecutionStatusAsync(Guid executionId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<WorkflowExecution>();
+
         try
         {
             if (executionId == Guid.Empty)
@@ -452,8 +466,6 @@ public class WorkflowExecutor : IWorkflowExecutor
                 _logger.LogWarning("Attempted to get execution status with empty ID");
                 return Result<WorkflowExecution>.WithFailure("Execution ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
@@ -470,7 +482,7 @@ public class WorkflowExecutor : IWorkflowExecutor
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get execution status operation was cancelled");
-            return Result<WorkflowExecution>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<WorkflowExecution>();
         }
         catch (Exception ex)
         {
