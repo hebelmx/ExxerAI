@@ -236,6 +236,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         string recordId,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DataLineage>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(recordId))
@@ -243,8 +247,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 _logger.LogWarning("Attempted to get data lineage with empty record ID");
                 return Result<DataLineage>.WithFailure("Record ID cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
@@ -282,6 +284,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         DateTime toDate,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ExxerAI.Domain.DocumentProcessing.GroundingReport>();
+
         try
         {
             if (toDate <= fromDate)
@@ -290,7 +296,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 return Result<ExxerAI.Domain.DocumentProcessing.GroundingReport>.WithFailure("Invalid date range");
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
 
             var report = await GenerateReportAsync(fromDate, toDate, cancellationToken).ConfigureAwait(false);
 
@@ -323,6 +328,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         float similarityThreshold = 0.85f,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<TruthRecord>>();
+
         try
         {
             if (data is null)
@@ -337,7 +346,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 return Result<IEnumerable<TruthRecord>>.WithFailure("Invalid similarity threshold");
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
 
             var similarRecords = await FindSimilarRecordsInternalAsync(data, similarityThreshold, cancellationToken).ConfigureAwait(false);
 
@@ -372,6 +380,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         string updatedBy,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<TruthRecord>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(recordId))
@@ -386,7 +398,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 return Result<TruthRecord>.WithFailure("Updated data cannot be null");
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -432,6 +443,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         string reason,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(recordId))
@@ -446,7 +461,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 return Result<bool>.WithFailure("Review reason cannot be empty");
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _writeLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -488,9 +502,12 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
     public async Task<Result<IEnumerable<TruthRecord>>> GetRecordsRequiringReviewAsync(
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<TruthRecord>>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
 
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
@@ -525,6 +542,10 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
         DateTime toDate,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>();
+
         try
         {
             if (toDate <= fromDate)
@@ -533,7 +554,6 @@ public class PrimarySourceOfTruthSystem : IPrimarySourceOfTruthSystem
                 return Result<ExxerAI.Domain.DocumentProcessing.DataQualityMetrics>.WithFailure("Invalid date range");
             }
 
-            cancellationToken.ThrowIfCancellationRequested();
 
             var metrics = await CalculateQualityMetricsAsync(fromDate, toDate, cancellationToken).ConfigureAwait(false);
 

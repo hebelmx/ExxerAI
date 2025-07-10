@@ -2,10 +2,13 @@ using ExxerAI.Domain;
 using Xunit;
 
 namespace ExxerAI.Application.Tests.Services;
+/// Pragma warning suppressions in these tests are necessary to verify cancellation behavior.
+
 
 /// <summary>
 /// Comprehensive unit tests for HybridDocumentProcessor using xUnit v3, Shouldly, and NSubstitute
 /// Tests all major functionality including multi-stage processing pipeline, batch operations, and learning
+/// 
 /// </summary>
 public class HybridDocumentProcessorTests
 {
