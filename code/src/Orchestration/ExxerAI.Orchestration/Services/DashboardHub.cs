@@ -1,7 +1,7 @@
 namespace ExxerAI.Orchestration.Services;
 
 /// <summary>
-/// SignalR hub for real-time dashboard updates
+/// SignalR hub for real-time dashboard updates during orchestration processes.
 /// </summary>
 public class DashboardHub : Hub
 {
