@@ -1471,7 +1471,7 @@ public class ResultTests
         resultWithValue.IsSuccessMayBeNull.ShouldBeTrue();
         resultWithValue.IsSuccess.ShouldBeTrue();
         resultWithValue.IsSuccessNotNull.ShouldBeTrue();
-        resultWithValue.IsSuccesValueNull.ShouldBeFalse();
+        resultWithValue.IsSuccessValueNull.ShouldBeFalse();
 
         // Arrange - Success with null value
         var resultWithNull = Result<string>.Success(null!);
@@ -1480,7 +1480,7 @@ public class ResultTests
         resultWithNull.IsSuccessMayBeNull.ShouldBeTrue("Success operation, regardless of null value");
         resultWithNull.IsSuccess.ShouldBeFalse("IsSuccess guarantees non-null value");
         resultWithNull.IsSuccessNotNull.ShouldBeFalse("Value is null");
-        resultWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false, so this is false too");
+        resultWithNull.IsSuccessValueNull.ShouldBeFalse("IsSuccess is false, so this is false too");
     }
 
     [Fact]
@@ -1493,7 +1493,7 @@ public class ResultTests
         failureResult.IsSuccessMayBeNull.ShouldBeFalse();
         failureResult.IsSuccess.ShouldBeFalse();
         failureResult.IsSuccessNotNull.ShouldBeFalse();
-        failureResult.IsSuccesValueNull.ShouldBeFalse();
+        failureResult.IsSuccessValueNull.ShouldBeFalse();
 
         // Arrange - Failure with explicit null value
         var failureWithNull = Result<string>.WithFailure(["error"], null);
@@ -1502,7 +1502,7 @@ public class ResultTests
         failureWithNull.IsSuccessMayBeNull.ShouldBeFalse();
         failureWithNull.IsSuccess.ShouldBeFalse();
         failureWithNull.IsSuccessNotNull.ShouldBeFalse();
-        failureWithNull.IsSuccesValueNull.ShouldBeFalse();
+        failureWithNull.IsSuccessValueNull.ShouldBeFalse();
     }
 
     [Fact]
@@ -1529,21 +1529,21 @@ public class ResultTests
     {
         // Arrange & Act & Assert - Success with null value (should be false due to IsSuccess requirement)
         var successWithNull = Result<string>.Success(null!);
-        successWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false when Value is null, so this is false");
+        successWithNull.IsSuccessValueNull.ShouldBeFalse("IsSuccess is false when Value is null, so this is false");
         successWithNull.IsSuccessMayBeNull.ShouldBeTrue("But operation was successful");
         successWithNull.Value.ShouldBeNull();
 
         // Arrange & Act & Assert - Success with non-null value
         var successWithValue = Result<string>.Success("hello");
-        successWithValue.IsSuccesValueNull.ShouldBeFalse("Value is not null");
+        successWithValue.IsSuccessValueNull.ShouldBeFalse("Value is not null");
         successWithValue.IsSuccess.ShouldBeTrue();
 
         // Arrange & Act & Assert - Failure cases
         var failureWithNull = Result<string>.WithFailure(["error"], null);
-        failureWithNull.IsSuccesValueNull.ShouldBeFalse("Result is not successful");
+        failureWithNull.IsSuccessValueNull.ShouldBeFalse("Result is not successful");
 
         var failureWithValue = Result<string>.WithFailure(["error"], "value");
-        failureWithValue.IsSuccesValueNull.ShouldBeFalse("Result is not successful");
+        failureWithValue.IsSuccessValueNull.ShouldBeFalse("Result is not successful");
     }
 
     [Fact]
@@ -1592,7 +1592,7 @@ public class ResultTests
         warningWithValue.IsSuccessMayBeNull.ShouldBeTrue("Warnings are successful");
         warningWithValue.IsSuccess.ShouldBeTrue("Value is not null");
         warningWithValue.IsSuccessNotNull.ShouldBeTrue("Success with non-null value");
-        warningWithValue.IsSuccesValueNull.ShouldBeFalse("Value is not null");
+        warningWithValue.IsSuccessValueNull.ShouldBeFalse("Value is not null");
         warningWithValue.HasWarnings.ShouldBeTrue();
 
         // Arrange - Success with warnings and null value (edge case)
@@ -1602,7 +1602,7 @@ public class ResultTests
         warningWithNull.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful despite warnings");
         warningWithNull.IsSuccess.ShouldBeFalse("Value is null");
         warningWithNull.IsSuccessNotNull.ShouldBeFalse("Value is null");
-        warningWithNull.IsSuccesValueNull.ShouldBeFalse("IsSuccess is false, so this is false");
+        warningWithNull.IsSuccessValueNull.ShouldBeFalse("IsSuccess is false, so this is false");
         warningWithNull.HasWarnings.ShouldBeTrue();
     }
 
@@ -1652,7 +1652,7 @@ public class ResultTests
         result.IsSuccess.ShouldBe(expectedIsSuccess);
         result.IsSuccessNotNull.ShouldBe(expectedIsSuccessNotNull);
         result.IsSuccessMayBeNull.ShouldBe(expectedIsSuccessMayBeNull);
-        result.IsSuccesValueNull.ShouldBe(expectedIsSuccesValueNull);
+        result.IsSuccessValueNull.ShouldBe(expectedIsSuccesValueNull);
 
         // Additional consistency checks
         if (result.IsSuccessNotNull)
@@ -1667,7 +1667,7 @@ public class ResultTests
             result.Value!.ShouldNotBeNull("IsSuccess guarantees non-null value");
         }
 
-        if (result.IsSuccesValueNull)
+        if (result.IsSuccessValueNull)
         {
             result.IsSuccess.ShouldBeTrue("IsSuccesValueNull requires IsSuccess");
             result.Value!.ShouldBeNull("IsSuccesValueNull implies null value");

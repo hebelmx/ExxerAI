@@ -932,7 +932,7 @@ public sealed class Result<T>
     /// <summary>
     /// Gets a value indicating whether the result is a success, and the value is not null
     /// </summary>
-    public bool IsSuccesValueNull => IsSuccess && (Value is null);
+    public bool IsSuccessValueNull => IsSuccess && (Value is null);
 
     /// <summary>
     /// Gets a value indicating whether the result has warnings or error messages.

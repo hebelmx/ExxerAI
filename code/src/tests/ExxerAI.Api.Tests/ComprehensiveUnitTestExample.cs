@@ -311,8 +311,12 @@ public class ComprehensiveUnitTestExample
             // Act
             var result = Result<string>.Success(null!);
 
-            // Assert - In ExxerAI, null values make the result fail
-            result.IsSuccess.ShouldBeTrue();
+            // Assert - In ExxerAI, null values make the result fail.
+            // We have a property SuccessMayBeNull to handle this case.
+
+            result.IsSuccess.ShouldBeFalse();
+            result.IsSuccessNotNull.ShouldBeTrue();
+            result.IsSuccessMayBeNull.ShouldBeTrue();
             result.IsFailure.ShouldBeFalse();
             result.Value.ShouldBeNull();
         }
