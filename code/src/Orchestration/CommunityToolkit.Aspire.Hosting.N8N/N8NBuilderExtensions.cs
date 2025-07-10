@@ -11,7 +11,7 @@ namespace ExxerAI.Aspire.AppHost
     /// </summary>
     public sealed class N8NResource : ContainerResource, IResourceWithConnectionString
     {
-        private ReferenceExpression? _connectionStringExpression;
+        private ReferenceExpression _connectionStringExpression;
 
         /// <summary>
         /// Gets or sets the plain connection string for the N8N resource.
@@ -21,10 +21,10 @@ namespace ExxerAI.Aspire.AppHost
         /// <summary>
         /// Gets or sets the connection string expression for the N8N resource.
         /// </summary>
-        public ReferenceExpression? ConnectionStringExpression
+        public ReferenceExpression ConnectionStringExpression
         {
             get => _connectionStringExpression;
-            set => _connectionStringExpression = value;
+            set => _connectionStringExpression = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         /// <summary>
@@ -33,10 +33,10 @@ namespace ExxerAI.Aspire.AppHost
         /// <param name="name">The name of the N8N resource.</param>
         /// <param name="port">The port the N8N service will listen on. Default is 5678.</param>
         /// <param name="connectionStringExpression">The connection string expression for the N8N resource.</param>
-        public N8NResource(string name, int port = 5678, ReferenceExpression? connectionStringExpression = null) : base(name)
+        public N8NResource(string name, int port = 5678, ReferenceExpression connectionStringExpression = null) : base(name)
         {
             Port = port;
-            _connectionStringExpression = connectionStringExpression;
+            _connectionStringExpression = connectionStringExpression ?? new ReferenceExpression(""); // Use a default non-null value
         }
 
         /// <summary>
