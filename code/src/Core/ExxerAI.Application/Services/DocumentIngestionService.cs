@@ -68,6 +68,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <returns>The watch session ID for tracking changes.</returns>
     public async Task<Result<string>> StartWatchingFolderAsync(string folderId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<string>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(folderId))
@@ -97,6 +101,11 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             return Result<string>.WithSuccess(sessionId);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Start watching folder operation was cancelled");
+            return ResultExtensions.Cancelled<string>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error starting folder watch for {FolderId}", folderId);
@@ -112,6 +121,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <returns>The result of the stop operation.</returns>
     public async Task<Result<bool>> StopWatchingFolderAsync(string watchId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (!_activeSessions.TryGetValue(watchId, out var session))
@@ -130,6 +143,11 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             return Result<bool>.WithSuccess(true);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Stop watching folder operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error stopping watch session {WatchId}", watchId);
@@ -144,6 +162,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <returns>The list of detected document changes.</returns>
     public async Task<Result<IEnumerable<DocumentChangeEvent>>> DetectDocumentChangesAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<DocumentChangeEvent>>();
+
         try
         {
             _logger.LogDebug("Detecting document changes across {SessionCount} active sessions",
@@ -159,6 +181,11 @@ public class DocumentIngestionService : IDocumentIngestionService
             _logger.LogInformation("Detected {ChangeCount} document changes", changes.Count);
 
             return Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(changes);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Detect document changes operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<DocumentChangeEvent>>();
         }
         catch (Exception ex)
         {
@@ -177,11 +204,12 @@ public class DocumentIngestionService : IDocumentIngestionService
         DocumentChangeEvent changeEvent,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+
         try
         {
-            // Check for cancellation at the start of the method
-            cancellationToken.ThrowIfCancellationRequested();
-
             if (changeEvent == null)
             {
                 return Result<DocumentProcessingResult>.WithFailure("Change event cannot be null");
@@ -243,6 +271,11 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             return processingResult;
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Process document change operation was cancelled");
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error processing document change {EventId}", changeEvent.EventId);
@@ -262,6 +295,10 @@ public class DocumentIngestionService : IDocumentIngestionService
         bool forceReprocess = false,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(documentId))
@@ -307,6 +344,11 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             return processingResult;
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Ingest document operation was cancelled");
+            return ResultExtensions.Cancelled<DocumentProcessingResult>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error ingesting document {DocumentId}", documentId);
@@ -326,6 +368,10 @@ public class DocumentIngestionService : IDocumentIngestionService
         DateTime lastProcessed,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             // In a real implementation, this would check the Google Drive API for modification time
@@ -343,6 +389,11 @@ public class DocumentIngestionService : IDocumentIngestionService
 
             return Result<bool>.WithSuccess(isModified);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Is document modified operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error checking if document {DocumentId} was modified", documentId);
@@ -357,6 +408,10 @@ public class DocumentIngestionService : IDocumentIngestionService
     /// <returns>The ingestion agentStatus information.</returns>
     public async Task<Result<IngestionStatus>> GetIngestionStatusAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IngestionStatus>();
+
         try
         {
             var activeSessions = _activeSessions.Values.Where(s => s.IsActive).ToList();
@@ -380,6 +435,11 @@ public class DocumentIngestionService : IDocumentIngestionService
             };
 
             return Result<IngestionStatus>.WithSuccess(status);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogInformation("Get ingestion status operation was cancelled");
+            return ResultExtensions.Cancelled<IngestionStatus>();
         }
         catch (Exception ex)
         {
