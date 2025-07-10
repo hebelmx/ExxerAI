@@ -47,6 +47,10 @@ public class TaskService : ITaskService
         DateTime? deadline = null,
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<AgentTask>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(title))
@@ -66,8 +70,6 @@ public class TaskService : ITaskService
                 _logger.LogWarning("Attempted to create task with empty task type");
                 return Result<AgentTask>.WithFailure("Task type cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -99,7 +101,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Create task operation was cancelled");
-            return Result<AgentTask>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<AgentTask>();
         }
         catch (Exception ex)
         {
