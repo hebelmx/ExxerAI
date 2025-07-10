@@ -186,5 +186,52 @@ namespace ExxerAI.Aspire.AppHost
                 .WithHttpEndpoint(name: "readiness", targetPort: 5678, path: "/healthz/readiness")
                 .WithHttpEndpoint(name: "metrics", targetPort: 5678, path: "/metrics");
         }
+
+        public static IResourceBuilder<N8NResource> WithHealthStatusPropagation(this IResourceBuilder<N8NResource> builder)
+        {
+            return builder.WithProbe("readiness", "/healthz/readiness", 5678, "http", initialDelay: 5, period: 10);
+        }
+
+        public static IResourceBuilder<N8NResource> WithInitCommand(this IResourceBuilder<N8NResource> builder, params string[] commands)
+        {
+            return builder.WithArgs(commands);
+        }
+
+        public static IResourceBuilder<N8NResource> WithLogging(this IResourceBuilder<N8NResource> builder, string logLevel = "info")
+        {
+            return builder.WithEnvironment("N8N_LOG_LEVEL", logLevel);
+        }
+
+        public static IResourceBuilder<N8NResource> WithHealthStatusPropagation(this IResourceBuilder<N8NResource> builder)
+        {
+            return builder.WithProbe("readiness", "/healthz/readiness", 5678, "http", initialDelay: 5, period: 10);
+        }
+
+        public static IResourceBuilder<N8NResource> WithLifecycleHooks(this IResourceBuilder<N8NResource> builder, string preStartCommand = null, string postStartCommand = null)
+        {
+            if (!string.IsNullOrWhiteSpace(preStartCommand))
+                builder.WithEnvironment("PRE_START_COMMAND", preStartCommand);
+            if (!string.IsNullOrWhiteSpace(postStartCommand))
+                builder.WithEnvironment("POST_START_COMMAND", postStartCommand);
+            return builder;
+        }
+
+        public static IResourceBuilder<N8NResource> WithAffinity(this IResourceBuilder<N8NResource> builder, string nodeSelector)
+        {
+            return builder.WithAnnotation("kubernetes.io/affinity", nodeSelector);
+        }
+
+        public static IResourceBuilder<N8NResource> WithDependency(this IResourceBuilder<N8NResource> builder, IResource dependency)
+        {
+            return builder.WithReference(dependency);
+        }
+
+        public static IResourceBuilder<N8NResource> ConditionalStartup(this IResourceBuilder<N8NResource> builder, Func<bool> condition)
+        {
+            if (condition())
+                return builder;
+
+            throw new InvalidOperationException("Condition for starting the N8N resource was not met.");
+        }
     }
 }
