@@ -3,44 +3,6 @@ using Aspire.Hosting.ApplicationModel;
 using System;
 using System.Collections.Generic;
 
-namespace ExxerAI.Aspire.AppHost;
-
-/// <summary>
-/// Provides extension methods for adding N8N container resources to the application model.
-/// This allows for easy integration of N8N workflows into the distributed application architecture.
-/// </summary>
-public static class N8NBuilderExtensions
-{
-    /// <summary>
-    /// Adds a N8N container to the application model. The default image is "n8nio/n8n".
-    /// </summary>
-    /// <param name="builder">The <see cref="IDistributedApplicationBuilder"/>.</param>
-    /// <param name="name">The name of the resource.</param>
-    /// <param name="port">The host port for N8N.</param>
-    /// <returns>A reference to the <see cref="IResourceBuilder{ContainerResource}"/>.</returns>
-    public static IResourceBuilder<ContainerResource> AddN8NContainer(
-        this IDistributedApplicationBuilder builder,
-        string name = "n8n",
-        int? port = 5678)
-    {
-        var timeZone = GetTimeZone();
-
-        return builder
-            .AddContainer(name, "n8nio/n8n")
-            .WithLifetime(ContainerLifetime.Persistent)
-            .WithVolume("sqlserver_data", "/var/opt/mssql",
-                isReadOnly: false) // Uncomment this line to use a persistent volume for SQL Server data on prod
-            .WithEnvironment("TZ", timeZone)
-            .WithHttpEndpoint(port: port, targetPort: 5678);
-    }
-
-    private static string GetTimeZone()
-    {
-        var timeZone = TimeZoneInfo.Local;
-        return timeZone.Id;
-    }
-}
-
 using Aspire.Hosting;
 using Aspire.Hosting.ApplicationModel;
 using System;
@@ -81,103 +43,11 @@ namespace ExxerAI.Aspire.AppHost
     public static class N8NResourceBuilderExtensions
     {
         /// <summary>
-        /// Adds a fully-integrated N8N container resource to the Aspire application builder.
-        /// </summary>
-        /// <param name="builder">The distributed application builder.</param>
-        /// <param name="name">Resource name identifier.</param>
-        /// <param name="port">Optional: external port to expose N8N's web interface.</param>
-        /// <returns>A builder reference to the enriched <see cref="N8NResource"/>.</returns>
-        public static IResourceBuilder<N8NResource> AddN8N(
-            this IDistributedApplicationBuilder builder,
-            string name = "n8n",
-            int? port = 5678)
-        {
-            var timeZone = TimeZoneInfo.Local.Id;
-
-            // Construct the resource object and register it to the Aspire model
-            var resource = new N8NResource(name);
-            var builderResource = builder.AddResource(resource)
-                .WithImage("n8nio/n8n")
-                .WithHttpEndpoint(port: port, targetPort: 5678)
-                .WithEnvironment("TZ", timeZone)
-                .WithVolume("sqlserver_data", "/var/opt/mssql", isReadOnly: false);
-
-            return builderResource;
-        }
-    }
-}
-
-namespace ExxerAI.Aspire.AppHost
-{
-    /// <summary>
-    /// Represents a specialized container resource for the N8N automation platform,
-    /// with Aspire integration and enriched configuration exposure.
-    /// </summary>
-    public class N8NResource : ContainerResource, IResourceWithConnectionString, IManifestExpressionProvider
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="N8NResource"/> class.
-        /// </summary>
-        /// <param name="name">The name of the resource.</param>
-        public N8NResource(string name) : base(name) { }
-
-        /// <summary>
-        /// Provides a standard connection string (i.e., public HTTP URL) for downstream binding.
-        /// </summary>
-        public string ConnectionString => $"http://{this.GetEndpoint(EndpointNames.Http)?.Url}";
-
-        /// <summary>
-        /// Exposes manifest expressions used by Aspire for service discovery and binding.
-        /// </summary>
-        /// <returns>List of key-value manifest expressions.</returns>
-        public IEnumerable<ManifestExpression> GetExpressions()
-        {
-            yield return new ManifestExpression("connectionString", () => ConnectionString);
-        }
-    }
-
-    /// <summary>
-    /// Extension methods for registering N8N container resources in a distributed Aspire application.
-    /// </summary>
-    public static class N8NResourceBuilderExtensions
-    {
-        /// <summary>
-        /// Adds a fully-integrated N8N container resource to the Aspire application builder.
-        /// </summary>
-        /// <param name="builder">The distributed application builder.</param>
-        /// <param name="name">Resource name identifier.</param>
-        /// <param name="port">Optional: external port to expose N8N's web interface.</param>
-        /// <returns>A builder reference to the enriched <see cref="N8NResource"/>.</returns>
-        public static IResourceBuilder<N8NResource> AddN8N(
-            this IDistributedApplicationBuilder builder,
-            string name = "n8n",
-            int? port = 5678)
-        {
-            var timeZone = TimeZoneInfo.Local.Id;
-
-            // Construct the resource object and register it to the Aspire model
-            var resource = new N8NResource(name);
-            var builderResource = builder.AddResource(resource)
-                .WithImage("n8nio/n8n")
-                .WithHttpEndpoint(port: port, targetPort: 5678)
-                .WithEnvironment("TZ", timeZone)
-                .WithVolume("sqlserver_data", "/var/opt/mssql", isReadOnly: false);
-
-            return builderResource;
-        }
-    }
-
-    /// <summary>
-    /// Fluent API extensions for configuring an N8N Aspire resource.
-    /// </summary>
-    public static class N8NFluentBuilderExtensions
-    {
-        /// <summary>
         /// Specifies the mount path for the workflows directory used by N8N.
         /// </summary>
         public static IResourceBuilder<N8NResource> WithWorkflowsDirectory(
-            this IResourceBuilder<N8NResource> builder,
-            string hostPath, string containerPath = "/home/node/.n8n")
+        this IResourceBuilder<N8NResource> builder,
+        string hostPath, string containerPath = "/home/node/.n8n")
         {
             return builder.WithVolume(hostPath, containerPath, isReadOnly: false);
         }
@@ -193,6 +63,54 @@ namespace ExxerAI.Aspire.AppHost
                 .WithEnvironment("N8N_BASIC_AUTH_ACTIVE", "true")
                 .WithEnvironment("N8N_BASIC_AUTH_USER", user)
                 .WithEnvironment("N8N_BASIC_AUTH_PASSWORD", password);
+        }
+
+        public static IResourceBuilder<N8NResource> AddN8N(this IDistributedApplicationBuilder builder, string name = "n8n", int? port = 5678)
+        {
+            var timeZone = TimeZoneInfo.Local.Id;
+            var resource = new N8NResource(name);
+
+            var builderResource = builder.AddResource(resource)
+                .WithImage("n8nio/n8n")
+                .WithHttpEndpoint(port: port, targetPort: 5678)
+                .WithEnvironment("TZ", timeZone)
+                .WithVolume("sqlserver_data", "/var/opt/mssql", isReadOnly: false);
+
+            return builderResource;
+        }
+
+        public static IResourceBuilder<N8NResource> WithWorkflowsDirectory(this IResourceBuilder<N8NResource> builder, string hostPath, string containerPath = "/home/node/.n8n")
+        {
+            return builder.WithVolume(hostPath, containerPath);
+        }
+
+        public static IResourceBuilder<N8NResource> WithBasicAuth(this IResourceBuilder<N8NResource> builder, string user, string password)
+        {
+            return builder
+                .WithEnvironment("N8N_BASIC_AUTH_ACTIVE", "true")
+                .WithEnvironment("N8N_BASIC_AUTH_USER", user)
+                .WithEnvironment("N8N_BASIC_AUTH_PASSWORD", password);
+        }
+
+        public static IResourceBuilder<N8NResource> WithPostgresDatabase(this IResourceBuilder<N8NResource> builder, string host, string user, string password, string database, int port = 5432, string schema = null, string sslCa = null, bool rejectUnauthorized = true)
+        {
+            builder
+                .WithEnvironment("DB_TYPE", "postgresdb")
+                .WithEnvironment("DB_POSTGRESDB_HOST", host)
+                .WithEnvironment("DB_POSTGRESDB_PORT", port.ToString())
+                .WithEnvironment("DB_POSTGRESDB_USER", user)
+                .WithEnvironment("DB_POSTGRESDB_PASSWORD", password)
+                .WithEnvironment("DB_POSTGRESDB_DATABASE", database);
+
+            if (!string.IsNullOrEmpty(schema))
+                builder.WithEnvironment("DB_POSTGRESDB_SCHEMA", schema);
+
+            if (!string.IsNullOrEmpty(sslCa))
+                builder.WithEnvironment("DB_POSTGRESDB_SSL_CA", sslCa);
+
+            builder.WithEnvironment("DB_POSTGRESDB_SSL_REJECT_UNAUTHORIZED", rejectUnauthorized.ToString().ToLower());
+
+            return builder;
         }
 
         /// <summary>
@@ -211,6 +129,62 @@ namespace ExxerAI.Aspire.AppHost
             this IResourceBuilder<N8NResource> builder, string proxyUrl)
         {
             return builder.WithEnvironment("HTTP_PROXY", proxyUrl);
+        }
+
+        public static IResourceBuilder<N8NResource> WithWebhookSettings(this IResourceBuilder<N8NResource> builder, string host, string protocol = "https", int port = 5678)
+        {
+            return builder
+                .WithEnvironment("N8N_HOST", host)
+                .WithEnvironment("N8N_PORT", port.ToString())
+                .WithEnvironment("N8N_PROTOCOL", protocol)
+                .WithEnvironment("WEBHOOK_URL", $"{protocol}://{host}/");
+        }
+
+        public static IResourceBuilder<N8NResource> WithExecutionRetention(this IResourceBuilder<N8NResource> builder, int? maxAgeDays = null, int? maxCount = null, string storage = null)
+        {
+            if (maxAgeDays.HasValue)
+                builder.WithEnvironment("EXECUTIONS_DATA_MAX_AGE", maxAgeDays.Value.ToString());
+
+            if (maxCount.HasValue)
+                builder.WithEnvironment("EXECUTIONS_DATA_MAX_COUNT", maxCount.Value.ToString());
+
+            if (!string.IsNullOrEmpty(storage))
+                builder.WithEnvironment("EXECUTIONS_DATA_STORAGE", storage);
+
+            return builder;
+        }
+
+        public static IResourceBuilder<N8NResource> WithNodeEnvironment(this IResourceBuilder<N8NResource> builder, string environment = "production")
+        {
+            return builder.WithEnvironment("NODE_ENV", environment);
+        }
+
+        public static IResourceBuilder<N8NResource> WithTraefikLabels(this IResourceBuilder<N8NResource> builder, string subdomain, string domainName)
+        {
+            string host = $"{subdomain}.{domainName}";
+            return builder
+                .WithAnnotation("traefik.enable", "true")
+                .WithAnnotation("traefik.http.routers.n8n.rule", $"Host(`{host}`)")
+                .WithAnnotation("traefik.http.routers.n8n.tls", "true")
+                .WithAnnotation("traefik.http.routers.n8n.entrypoints", "web,websecure")
+                .WithAnnotation("traefik.http.routers.n8n.tls.certresolver", "mytlschallenge")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.SSLRedirect", "true")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.STSSeconds", "315360000")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.browserXSSFilter", "true")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.contentTypeNosniff", "true")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.forceSTSHeader", "true")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.SSLHost", domainName)
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.STSIncludeSubdomains", "true")
+                .WithAnnotation("traefik.http.middlewares.n8n.headers.STSPreload", "true")
+                .WithAnnotation("traefik.http.routers.n8n.middlewares", "n8n@docker");
+        }
+
+        public static IResourceBuilder<N8NResource> WithHealthProbes(this IResourceBuilder<N8NResource> builder)
+        {
+            return builder
+                .WithHttpEndpoint(name: "healthz", targetPort: 5678, path: "/healthz")
+                .WithHttpEndpoint(name: "readiness", targetPort: 5678, path: "/healthz/readiness")
+                .WithHttpEndpoint(name: "metrics", targetPort: 5678, path: "/metrics");
         }
     }
 }
