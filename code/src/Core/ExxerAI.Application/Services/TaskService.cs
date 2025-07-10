@@ -118,10 +118,12 @@ public class TaskService : ITaskService
     /// <returns>The result of the operation containing the task if found</returns>
     public async Task<Result<AgentTask>> GetTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<AgentTask>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             if (_tasks.TryGetValue(taskId, out var task))
@@ -136,7 +138,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get task operation was cancelled");
-            return Result<AgentTask>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<AgentTask>();
         }
         catch (Exception ex)
         {
@@ -155,10 +157,12 @@ public class TaskService : ITaskService
         int maxCount = 100, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<AgentTask>>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             var tasks = _tasks.Values
@@ -173,7 +177,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get pending tasks operation was cancelled");
-            return Result<IEnumerable<AgentTask>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<AgentTask>>();
         }
         catch (Exception ex)
         {
@@ -194,10 +198,12 @@ public class TaskService : ITaskService
         TaskAgentStatus? status = null, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<IEnumerable<AgentTask>>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async operation
 
             var tasks = _tasks.Values
@@ -213,7 +219,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Get agent tasks operation was cancelled");
-            return Result<IEnumerable<AgentTask>>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<IEnumerable<AgentTask>>();
         }
         catch (Exception ex)
         {
@@ -234,10 +240,12 @@ public class TaskService : ITaskService
         TaskAgentStatus agentStatus, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
@@ -277,7 +285,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Update task status operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -298,10 +306,12 @@ public class TaskService : ITaskService
         Guid agentId, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
@@ -330,7 +340,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Assign task operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -351,10 +361,12 @@ public class TaskService : ITaskService
         TaskData? outputData = null, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
@@ -386,7 +398,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Complete task operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -407,6 +419,10 @@ public class TaskService : ITaskService
         string errorMessage, 
         CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
             if (string.IsNullOrWhiteSpace(errorMessage))
@@ -414,8 +430,6 @@ public class TaskService : ITaskService
                 _logger.LogWarning("Attempted to fail task {TaskId} with empty error message", taskId);
                 return Result<bool>.WithFailure("Error message cannot be empty");
             }
-
-            cancellationToken.ThrowIfCancellationRequested();
 
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
@@ -442,7 +456,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Fail task operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
@@ -459,10 +473,12 @@ public class TaskService : ITaskService
     /// <returns>The result of the operation</returns>
     public async Task<Result<bool>> CancelTaskAsync(Guid taskId, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return ResultExtensions.Cancelled<bool>();
+
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             await _taskLock.WaitAsync(cancellationToken).ConfigureAwait(false);
             try
             {
@@ -487,7 +503,7 @@ public class TaskService : ITaskService
         catch (OperationCanceledException)
         {
             _logger.LogInformation("Cancel task operation was cancelled");
-            return Result<bool>.WithFailure("Operation was cancelled");
+            return ResultExtensions.Cancelled<bool>();
         }
         catch (Exception ex)
         {
