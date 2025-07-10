@@ -39,7 +39,11 @@ public class SecureKeyStore : IKeyStore
 
     public async Task<string?> GetKeyAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default)
     {
-        await _lock.WaitAsync();
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return null;
+
+        await _lock.WaitAsync(cancellationToken);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -79,7 +83,11 @@ public class SecureKeyStore : IKeyStore
 
     public async Task SetKeyAsync(string keyName, string value, string? scope = null, TimeSpan? expiration = null, CancellationToken cancellationToken = default)
     {
-        await _lock.WaitAsync();
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        await _lock.WaitAsync(cancellationToken);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -108,7 +116,11 @@ public class SecureKeyStore : IKeyStore
 
     public async Task<bool> DeleteKeyAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default)
     {
-        await _lock.WaitAsync();
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return false;
+
+        await _lock.WaitAsync(cancellationToken);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -130,7 +142,11 @@ public class SecureKeyStore : IKeyStore
 
     public async Task<IEnumerable<string>> ListKeysAsync(string? scope = null, CancellationToken cancellationToken = default)
     {
-        await _lock.WaitAsync();
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return Enumerable.Empty<string>();
+
+        await _lock.WaitAsync(cancellationToken);
         try
         {
             return _cache.Values
@@ -147,14 +163,22 @@ public class SecureKeyStore : IKeyStore
 
     public async Task<bool> KeyExistsAsync(string keyName, string? scope = null, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return false;
+
         var value = await GetKeyAsync(keyName, scope, cancellationToken);
 
-        return string.IsNullOrEmpty(value);
+        return !string.IsNullOrEmpty(value);
     }
 
     public async Task RotateKeyAsync(string keyName, string newValue, string? scope = null, CancellationToken cancellationToken = default)
     {
-        await _lock.WaitAsync();
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
+        await _lock.WaitAsync(cancellationToken);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -167,7 +191,7 @@ public class SecureKeyStore : IKeyStore
             }
 
             // Set new key
-            await SetKeyAsync(keyName, newValue, scope);
+            await SetKeyAsync(keyName, newValue, scope, cancellationToken: cancellationToken);
 
             _logger.LogInformation("Rotated key {KeyName}", fullKey);
         }
@@ -179,8 +203,12 @@ public class SecureKeyStore : IKeyStore
 
     public async Task<string> GenerateApiKeyAsync(string keyName, string? scope = null, int length = 32, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return string.Empty;
+
         var apiKey = GenerateSecureRandomString(length);
-        await SetKeyAsync(keyName, apiKey, scope);
+        await SetKeyAsync(keyName, apiKey, scope, cancellationToken: cancellationToken);
 
         _logger.LogInformation("Generated new API key {KeyName} with length {Length}", keyName, length);
         return apiKey;

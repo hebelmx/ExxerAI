@@ -4,25 +4,30 @@ using Shouldly;
 namespace ExxerAI.Domain.Tests;
 
 /// <summary>
-/// Tests for functional cancellation handling patterns using Result&lt;T&gt;.
-/// Validates that cancellation is handled functionally without throwing exceptions,
-/// maintaining the functional programming principles throughout async operations.
-/// #pragma warning disable xUnit1051 // Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
-/// #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
-///        _ = Task.Delay(TimeSpan.FromMilliseconds(CancellationTestConstants.ShortDelayMs), TestContext.Current.CancellationToken).ContinueWith(_ => cts.Cancel(), cancellationToken: TestContext.Current.CancellationToken);
-///  cts.Cancel(); // Cancel immediately
+/// -------------------------------------------------------------------------------------------------
+/// This test method uses <c>CancellationTokenSource.Cancel()</c> to simulate pre-cancelled tokens.
+/// <para>
+/// Although <c>AsyncFixer02</c> typically flags "long-running or blocking operations inside async methods",
+/// this synchronous and deterministic call is explicitly used in unit tests to verify cancellation behavior
+/// in a controlled and predictable way.
+/// </para>
+/// <para>
+/// <b>PRAGMA WARNING SUPPRESSION JUSTIFICATION:</b>
+/// <list type="number">
+/// <item><description><c>cts.Cancel()</c> is neither long-running nor blocking; it completes in microseconds.</description></item>
+/// <item><description>Unit tests require deterministic and immediate token cancellation to validate behavior under pre-cancelled conditions.</description></item>
+/// <item><description>Delaying cancellation via asynchronous means would reduce test clarity and isolation.</description></item>
+/// <item><description>This pattern is an industry-accepted technique for simulating cancellation in xUnit-based tests.</description></item>
+/// </list>
+/// Suppression scope is kept narrow to prevent unintentional masking of genuine issues elsewhere.
+/// </para>
+/// -------------------------------------------------------------------------------------------------
+/// <code>
+/// #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside async methods
+/// cts.Cancel(); // Synchronous, intentional, test-driven immediate cancellation
 /// #pragma warning restore AsyncFixer02
-/// #pragma warning restore xUnit1051 // Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
-///
-/// Follows ExxerAI Coding Standards:
-/// - Descriptive test names: Should_Action_When_Condition
-/// - AAA Pattern: Arrange, Act, Assert
-/// - XML documentation for all test classes and methods
-/// - Contract tests, behavior tests, and edge case tests
-/// - Result<T> pattern validation throughout
-/// - Cancellation token support
-/// - Business rule validation
-/// </summary>
+/// </code>
+/// -------------------------------------------------------------------------------------------------
 /// </summary>
 public class CancellationHandlingTests
 {
@@ -290,11 +295,9 @@ public class CancellationHandlingTests
 
         // Cancel after short delay
 #pragma warning disable xUnit1051 // Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
-#pragma warning disable xUnit1051 // Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
 #pragma warning disable AsyncFixer02 // Long-running or blocking operations inside an async method
         _ = Task.Delay(CancellationTestConstants.ShortDelayMs).ContinueWith(_ => cts.Cancel());
 #pragma warning restore AsyncFixer02 // Long-running or blocking operations inside an async method
-#pragma warning restore xUnit1051 // Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
 #pragma warning restore xUnit1051 // Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken
 
         var result = await operationTask;

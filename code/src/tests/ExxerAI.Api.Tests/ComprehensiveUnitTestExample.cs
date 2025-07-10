@@ -33,7 +33,7 @@ namespace ExxerAI.Api.Tests;
 /// - AAA Pattern: Arrange, Act, Assert
 /// - XML documentation for all test classes and methods
 /// - Contract tests, behavior tests, and edge case tests
-/// - Result<T> pattern validation throughout
+/// - Result<ofT> pattern validation throughout
 /// - Cancellation token support
 /// - Business rule validation
 ///
