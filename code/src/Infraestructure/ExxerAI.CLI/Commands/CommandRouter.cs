@@ -63,9 +63,9 @@ public class CommandRouter
         {
             return command switch
             {
-                "agent" or "agents" => await _agentCommands.ExecuteAsync(commandArgs, cancellationToken),
-                "task" or "tasks" => await _taskCommands.ExecuteAsync(commandArgs, cancellationToken),
-                "workflow" or "workflows" => await _workflowCommands.ExecuteAsync(commandArgs, cancellationToken),
+                "agent" or "agents" => await _agentCommands.ExecuteAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+                "task" or "tasks" => await _taskCommands.ExecuteAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+                "workflow" or "workflows" => await _workflowCommands.ExecuteAsync(commandArgs, cancellationToken).ConfigureAwait(false),
                 "help" or "--help" or "-h" => ShowHelp(),
                 "version" or "--version" or "-v" => ShowVersion(),
                 _ => ShowUnknownCommand(command)

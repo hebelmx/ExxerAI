@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CommunityToolkit.Aspire.N8N.Client;
@@ -7,9 +8,9 @@ namespace CommunityToolkit.Aspire.N8N.Client;
 /// </summary>
 public interface IN8NClient
 {
-    Task<string> GetHealthAsync();
+    Task<string> GetHealthAsync(CancellationToken cancellationToken = default);
 
-    Task<string> GetMetricsAsync();
+    Task<string> GetMetricsAsync(CancellationToken cancellationToken = default);
 
-    Task<string> TriggerWorkflowAsync(string workflowId, object? input = null);
+    Task<string> TriggerWorkflowAsync(string workflowId, object? input = null, CancellationToken cancellationToken = default);
 }

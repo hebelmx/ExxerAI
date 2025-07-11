@@ -73,7 +73,7 @@ public class GoogleDriveService : IGoogleDriveService
                 },
                 new[] { DriveService.Scope.DriveReadonly, DriveService.Scope.DriveFile },
                 "user",
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             // Create Drive service
             _driveService = new DriveService(new BaseClientService.Initializer()
@@ -113,7 +113,7 @@ public class GoogleDriveService : IGoogleDriveService
 
         if (_driveService == null)
         {
-            var initResult = await InitializeAsync(cancellationToken);
+            var initResult = await InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (!initResult.IsSuccess)
                 return Result<string>.WithFailure("Drive service not initialized");
         }
@@ -127,7 +127,7 @@ public class GoogleDriveService : IGoogleDriveService
                 return ResultExtensions.Cancelled<string>();
 
             // Verify folder exists
-            var folder = await _driveService!.Files.Get(folderId).ExecuteAsync(cancellationToken);
+            var folder = await _driveService!.Files.Get(folderId).ExecuteAsync(cancellationToken).ConfigureAwait(false);
             if (folder == null)
             {
                 return Result<string>.WithFailure($"Folder {folderId} not found or not accessible");
@@ -151,7 +151,7 @@ public class GoogleDriveService : IGoogleDriveService
             _activeSessions[watchId] = session;
 
             // Start background monitoring - store task for proper lifecycle management
-            session.MonitoringTask = Task.Run(async () => await MonitorFolderAsync(session, cancellationToken), cancellationToken);
+            session.MonitoringTask = Task.Run(async () => await MonitorFolderAsync(session, cancellationToken).ConfigureAwait(false), cancellationToken);
 
             var result = $"✅ Started watching Google Drive folder: {folder.Name}\n" +
                         $"📂 Folder ID: {folderId}\n" +
@@ -184,7 +184,7 @@ public class GoogleDriveService : IGoogleDriveService
 
         if (_driveService == null)
         {
-            var initResult = await InitializeAsync(cancellationToken);
+            var initResult = await InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (!initResult.IsSuccess)
                 return Result<byte[]>.WithFailure("Drive service not initialized");
         }
@@ -194,7 +194,7 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogInformation("Downloading document {DocumentId}", documentId);
 
             // Get file metadata
-            var file = await _driveService!.Files.Get(documentId).ExecuteAsync(cancellationToken);
+            var file = await _driveService!.Files.Get(documentId).ExecuteAsync(cancellationToken).ConfigureAwait(false);
             if (file == null)
             {
                 return Result<byte[]>.WithFailure($"File {documentId} not found");
@@ -203,7 +203,7 @@ public class GoogleDriveService : IGoogleDriveService
             // Download file content
             using var stream = new MemoryStream();
             var request = _driveService!.Files.Get(documentId);
-            await request.DownloadAsync(stream, cancellationToken);
+            await request.DownloadAsync(stream, cancellationToken).ConfigureAwait(false);
 
             var fileData = stream.ToArray();
 
@@ -226,7 +226,7 @@ public class GoogleDriveService : IGoogleDriveService
     {
         if (_driveService == null)
         {
-            var initResult = await InitializeAsync(cancellationToken);
+            var initResult = await InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (!initResult.IsSuccess)
                 return Result<GoogleDriveFileMetadata>.WithFailure("Drive service not initialized");
         }
@@ -235,7 +235,7 @@ public class GoogleDriveService : IGoogleDriveService
         {
             _logger.LogInformation("Getting metadata for document {DocumentId}", documentId);
 
-            var file = await _driveService!.Files.Get(documentId).ExecuteAsync(cancellationToken);
+            var file = await _driveService!.Files.Get(documentId).ExecuteAsync(cancellationToken).ConfigureAwait(false);
             if (file == null)
             {
                 return Result<GoogleDriveFileMetadata>.WithFailure($"File {documentId} not found");
@@ -281,7 +281,7 @@ public class GoogleDriveService : IGoogleDriveService
                 listRequest.Q = $"'{session.FolderId}' in parents and modifiedTime > '{session.LastCheck:yyyy-MM-ddTHH:mm:ss}'";
                 listRequest.Fields = "files(id,name,mimeType,modifiedTime,size)";
 
-                var files = await listRequest.ExecuteAsync(cancellationToken);
+                var files = await listRequest.ExecuteAsync(cancellationToken).ConfigureAwait(false);
 
                 if (files.Files?.Count > 0)
                 {
@@ -303,19 +303,19 @@ public class GoogleDriveService : IGoogleDriveService
                         if (session.AutoProcess)
                         {
                             // Store processing task for proper lifecycle management
-                            var processingTask = Task.Run(async () => await ProcessDetectedDocumentAsync(file, session.WatchId, cancellationToken), cancellationToken);
+                            var processingTask = Task.Run(async () => await ProcessDetectedDocumentAsync(file, session.WatchId, cancellationToken).ConfigureAwait(false), cancellationToken);
                             session.ProcessingTasks.Add(processingTask);
                         }
                     }
                 }
 
                 session.LastCheck = DateTime.UtcNow;
-                await Task.Delay(session.PollingInterval, cancellationToken);
+                await Task.Delay(session.PollingInterval, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "❌ Error in folder monitoring for watch {WatchId}", session.WatchId);
-                await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken); // Wait before retry
+                await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken).ConfigureAwait(false); // Wait before retry
             }
         }
 
@@ -335,7 +335,7 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogInformation("🔄 Auto-processing detected file: {FileName} (ID: {FileId})", file.Name, file.Id);
 
             // Download document
-            var downloadResult = await DownloadDocumentAsync(file.Id, cancellationToken);
+            var downloadResult = await DownloadDocumentAsync(file.Id, cancellationToken).ConfigureAwait(false);
             if (!downloadResult.IsSuccess)
             {
                 _logger.LogWarning("⚠️ Failed to download file {FileId}: {Error}", file.Id, downloadResult.Error);
@@ -361,7 +361,7 @@ public class GoogleDriveService : IGoogleDriveService
             // Process through ExxerAI document pipeline if available
             if (_documentProcessor != null)
             {
-                var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value!, metadata, cancellationToken);
+                var processingResult = await _documentProcessor.ProcessDocumentAsync(downloadResult.Value!, metadata, cancellationToken).ConfigureAwait(false);
 
                 if (processingResult.IsSuccess && processingResult.Value is not null)
                 {
@@ -440,7 +440,7 @@ public class GoogleDriveService : IGoogleDriveService
             {
                 try
                 {
-                    await session.MonitoringTask;
+                    await session.MonitoringTask.ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -453,7 +453,7 @@ public class GoogleDriveService : IGoogleDriveService
             {
                 try
                 {
-                    await Task.WhenAll(session.ProcessingTasks);
+                    await Task.WhenAll(session.ProcessingTasks).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {

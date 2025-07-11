@@ -107,7 +107,7 @@ public class EnhancedLLMService : ILLMService
                 return Result<LLMResponse>.WithFailure("Generated response is null");
 
             // Track costs
-            await TrackCostAsync(model.Name, response.Value.EstimatedCost).ConfigureAwait(false);
+            await TrackCostAsync(model.Name, response.Value.EstimatedCost, cancellationToken).ConfigureAwait(false);
 
             // Add model metadata
             response.Value.Metadata["model_id"] = modelId;
@@ -248,7 +248,7 @@ public class EnhancedLLMService : ILLMService
             await _conversationRepository.UpdateAsync(conversation, cancellationToken).ConfigureAwait(false);
 
             // Track costs
-            await TrackCostAsync(model.Name, response.Value.EstimatedCost).ConfigureAwait(false);
+            await TrackCostAsync(model.Name, response.Value.EstimatedCost, cancellationToken).ConfigureAwait(false);
 
             return Result<ConversationMessage>.WithSuccess(assistantMessage);
         }
@@ -689,8 +689,15 @@ public class EnhancedLLMService : ILLMService
     /// <summary>
     /// Tracks cost for analytics and budget management
     /// </summary>
-    private async Task TrackCostAsync(string modelName, decimal cost)
+    /// <param name="modelName">The model name</param>
+    /// <param name="cost">The cost to track</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    private async Task TrackCostAsync(string modelName, decimal cost, CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         try
         {
             await Task.Yield(); // Allow cooperative cancellation
@@ -710,6 +717,10 @@ public class EnhancedLLMService : ILLMService
             {
                 _dailyCostTracker.Remove(key);
             }
+        }
+        catch (OperationCanceledException)
+        {
+            // Cancellation requested - exit gracefully
         }
         catch
         {

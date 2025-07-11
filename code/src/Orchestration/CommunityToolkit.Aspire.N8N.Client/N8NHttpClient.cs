@@ -1,5 +1,6 @@
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CommunityToolkit.Aspire.N8N.Client;
@@ -16,25 +17,25 @@ public class N8NHttpClient : IN8NClient
         _httpClient = httpClient;
     }
 
-    public async Task<string> GetHealthAsync()
+    public async Task<string> GetHealthAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/healthz");
+        var response = await _httpClient.GetAsync("/healthz", cancellationToken);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
+        return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 
-    public async Task<string> GetMetricsAsync()
+    public async Task<string> GetMetricsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/metrics");
+        var response = await _httpClient.GetAsync("/metrics", cancellationToken);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
+        return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 
-    public async Task<string> TriggerWorkflowAsync(string workflowId, object? input = null)
+    public async Task<string> TriggerWorkflowAsync(string workflowId, object? input = null, CancellationToken cancellationToken = default)
     {
         var url = $"/webhook/{workflowId}";
-        var response = await _httpClient.PostAsJsonAsync(url, input ?? new { });
+        var response = await _httpClient.PostAsJsonAsync(url, input ?? new { }, cancellationToken);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync();
+        return await response.Content.ReadAsStringAsync(cancellationToken);
     }
 }

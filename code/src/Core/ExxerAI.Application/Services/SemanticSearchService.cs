@@ -37,7 +37,7 @@ public class SemanticSearchService
         {
             _logger.LogInformation("Initializing semantic search service");
 
-            var result = await _vectorStore.InitializeAsync(cancellationToken);
+            var result = await _vectorStore.InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (result.IsFailure)
                 return result;
 
@@ -84,7 +84,7 @@ public class SemanticSearchService
             _logger.LogDebug("Indexing document: {DocumentId}", documentId);
 
             // Generate embedding for the content
-            var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(content, cancellationToken);
+            var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(content, cancellationToken).ConfigureAwait(false);
             if (embeddingResult.IsFailure)
             {
                 _logger.LogError("Failed to generate embedding for document {DocumentId}: {Error}",
@@ -100,7 +100,7 @@ public class SemanticSearchService
 
             // Store in vector database
             var storeResult = await _vectorStore.StoreEmbeddingAsync(
-                documentId, content, embeddingResult.Value, metadata, cancellationToken);
+                documentId, content, embeddingResult.Value, metadata, cancellationToken).ConfigureAwait(false);
 
             if (storeResult.IsFailure)
             {
@@ -146,7 +146,7 @@ public class SemanticSearchService
 
             // Generate embeddings for all documents
             var texts = documentList.Select(d => d.Content).ToList();
-            var embeddingsResult = await _embeddingGenerator.GenerateBatchEmbeddingsAsync(texts, cancellationToken);
+            var embeddingsResult = await _embeddingGenerator.GenerateBatchEmbeddingsAsync(texts, cancellationToken).ConfigureAwait(false);
 
             if (embeddingsResult.IsFailure)
             {
@@ -179,7 +179,7 @@ public class SemanticSearchService
             }
 
             // Store in vector database
-            var storeResult = await _vectorStore.StoreBatchAsync(vectorItems, cancellationToken);
+            var storeResult = await _vectorStore.StoreBatchAsync(vectorItems, cancellationToken).ConfigureAwait(false);
 
             var batchResult = new BatchIndexingResult
             {
@@ -232,7 +232,7 @@ public class SemanticSearchService
             _logger.LogDebug("Performing semantic search for query: {Query}", query);
 
             // Generate embedding for the query
-            var queryEmbeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(query, cancellationToken);
+            var queryEmbeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(query, cancellationToken).ConfigureAwait(false);
             if (queryEmbeddingResult.IsFailure)
             {
                 _logger.LogError("Failed to generate query embedding: {Error}", queryEmbeddingResult.Error);
@@ -247,7 +247,7 @@ public class SemanticSearchService
 
             // Search vector store
             var searchResult = await _vectorStore.SearchSimilarAsync(
-                queryEmbeddingResult.Value, maxResults, similarityThreshold, filter, cancellationToken);
+                queryEmbeddingResult.Value, maxResults, similarityThreshold, filter, cancellationToken).ConfigureAwait(false);
 
             if (searchResult.IsFailure)
             {
@@ -306,7 +306,7 @@ public class SemanticSearchService
 
             _logger.LogDebug("Removing document from index: {DocumentId}", documentId);
 
-            var result = await _vectorStore.DeleteEmbeddingAsync(documentId, cancellationToken);
+            var result = await _vectorStore.DeleteEmbeddingAsync(documentId, cancellationToken).ConfigureAwait(false);
 
             if (result.IsSuccess)
                 _logger.LogInformation("Successfully removed document: {DocumentId}", documentId);
@@ -338,7 +338,7 @@ public class SemanticSearchService
 
         try
         {
-            var result = await _vectorStore.GetStatsAsync(cancellationToken);
+            var result = await _vectorStore.GetStatsAsync(cancellationToken).ConfigureAwait(false);
 
             if (result.IsSuccess && result.Value is not null)
                 _logger.LogDebug("Retrieved index stats: {TotalVectors} vectors", result.Value.TotalVectors);

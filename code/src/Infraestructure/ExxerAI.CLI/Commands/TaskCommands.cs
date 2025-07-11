@@ -56,13 +56,13 @@ public class TaskCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListTasksAsync(commandArgs),
-            "create" or "new" => await CreateTaskAsync(commandArgs),
-            "assign" => await AssignTaskAsync(commandArgs),
-            "update" => await UpdateTaskStatusAsync(commandArgs),
-            "delete" or "remove" or "rm" => await DeleteTaskAsync(commandArgs),
-            "agentstatus" or "info" => await ShowTaskStatusAsync(commandArgs),
-            "overdue" => await ListOverdueTasksAsync(),
+            "list" or "ls" => await ListTasksAsync(commandArgs, cancellationToken),
+            "create" or "new" => await CreateTaskAsync(commandArgs, cancellationToken),
+            "assign" => await AssignTaskAsync(commandArgs, cancellationToken),
+            "update" => await UpdateTaskStatusAsync(commandArgs, cancellationToken),
+            "delete" or "remove" or "rm" => await DeleteTaskAsync(commandArgs, cancellationToken),
+            "agentstatus" or "info" => await ShowTaskStatusAsync(commandArgs, cancellationToken),
+            "overdue" => await ListOverdueTasksAsync(cancellationToken),
             "help" or "--help" or "-h" => ShowTaskHelp(),
             _ => ShowUnknownTaskCommand(subCommand)
         };
@@ -72,12 +72,13 @@ public class TaskCommands
     /// Lists tasks with optional filtering
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ListTasksAsync(string[] args)
+    private async Task<int> ListTasksAsync(string[] args, CancellationToken cancellationToken = default)
     {
         try
         {
-            var result = await _taskRepository.GetAllAsync();
+            var result = await _taskRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
             if (!result.IsSuccess)
             {
                 Console.WriteLine($"Error retrieving tasks: {string.Join(", ", result.Errors)}");
@@ -160,7 +161,7 @@ public class TaskCommands
                 var agentName = "Unassigned";
                 if (task.AssignedAgentId.HasValue)
                 {
-                    var agentResult = await _agentRepository.GetByIdAsync(task.AssignedAgentId.Value);
+                    var agentResult = await _agentRepository.GetByIdAsync(task.AssignedAgentId.Value, cancellationToken).ConfigureAwait(false);
                     if (agentResult.IsSuccess && agentResult.Value != null)
                         agentName = agentResult.Value.Name;
                 }
@@ -184,8 +185,9 @@ public class TaskCommands
     /// Creates a new task
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> CreateTaskAsync(string[] args)
+    private async Task<int> CreateTaskAsync(string[] args, CancellationToken cancellationToken = default)
     {
         if (args.Length == 0)
         {
@@ -255,7 +257,7 @@ public class TaskCommands
                 Deadline = deadline
             };
 
-            var result = await _taskRepository.AddAsync(task);
+            var result = await _taskRepository.AddAsync(task, cancellationToken).ConfigureAwait(false);
             if (!result.IsSuccess)
             {
                 Console.WriteLine($"Error creating task: {string.Join(", ", result.Errors)}");
@@ -276,8 +278,9 @@ public class TaskCommands
     /// Assigns a task to an agent
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> AssignTaskAsync(string[] args)
+    private async Task<int> AssignTaskAsync(string[] args, CancellationToken cancellationToken = default)
     {
         if (args.Length < 2)
         {
@@ -301,7 +304,7 @@ public class TaskCommands
         try
         {
             // Verify agent exists
-            var agentResult = await _agentRepository.GetByIdAsync(agentId);
+            var agentResult = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
             if (!agentResult.IsSuccess || agentResult.Value == null)
             {
                 Console.WriteLine($"Error: Agent {agentId} not found.");
@@ -309,7 +312,7 @@ public class TaskCommands
             }
 
             // Get task
-            var taskResult = await _taskRepository.GetByIdAsync(taskId);
+            var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
             if (!taskResult.IsSuccess || taskResult.Value == null)
             {
                 Console.WriteLine($"Error: Task {taskId} not found.");
@@ -321,7 +324,7 @@ public class TaskCommands
             task.AgentStatus = TaskAgentStatus.InProgress;
             task.StartedAt = DateTime.UtcNow;
 
-            var updateResult = await _taskRepository.UpdateAsync(task);
+            var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
             if (!updateResult.IsSuccess)
             {
                 Console.WriteLine($"Error assigning task: {string.Join(", ", updateResult.Errors)}");
@@ -342,8 +345,9 @@ public class TaskCommands
     /// Updates task agentStatus
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> UpdateTaskStatusAsync(string[] args)
+    private async Task<int> UpdateTaskStatusAsync(string[] args, CancellationToken cancellationToken = default)
     {
         if (args.Length < 2)
         {
@@ -382,7 +386,7 @@ public class TaskCommands
 
         try
         {
-            var taskResult = await _taskRepository.GetByIdAsync(taskId);
+            var taskResult = await _taskRepository.GetByIdAsync(taskId, cancellationToken).ConfigureAwait(false);
             if (!taskResult.IsSuccess || taskResult.Value == null)
             {
                 Console.WriteLine($"Error: Task {taskId} not found.");
@@ -398,7 +402,7 @@ public class TaskCommands
             else if (newStatus == TaskAgentStatus.Completed)
                 task.CompletedAt = DateTime.UtcNow;
 
-            var updateResult = await _taskRepository.UpdateAsync(task);
+            var updateResult = await _taskRepository.UpdateAsync(task, cancellationToken).ConfigureAwait(false);
             if (!updateResult.IsSuccess)
             {
                 Console.WriteLine($"Error updating task agentStatus: {string.Join(", ", updateResult.Errors)}");
@@ -419,8 +423,9 @@ public class TaskCommands
     /// Deletes a task
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> DeleteTaskAsync(string[] args)
+    private async Task<int> DeleteTaskAsync(string[] args, CancellationToken cancellationToken = default)
     {
         if (args.Length == 0)
         {
@@ -437,7 +442,7 @@ public class TaskCommands
 
         try
         {
-            var result = await _taskRepository.DeleteAsync(taskId);
+            var result = await _taskRepository.DeleteAsync(taskId, cancellationToken).ConfigureAwait(false);
             if (!result.IsSuccess)
             {
                 Console.WriteLine($"Error deleting task: {string.Join(", ", result.Errors)}");
@@ -458,8 +463,9 @@ public class TaskCommands
     /// Shows detailed task agentStatus information
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ShowTaskStatusAsync(string[] args)
+    private async Task<int> ShowTaskStatusAsync(string[] args, CancellationToken cancellationToken = default)
     {
         if (args.Length == 0)
         {
@@ -476,7 +482,7 @@ public class TaskCommands
 
         try
         {
-            var result = await _taskRepository.GetByIdAsync(taskId);
+            var result = await _taskRepository.GetByIdAsync(taskId).ConfigureAwait(false);
             if (!result.IsSuccess || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving task: {string.Join(", ", result.Errors)}");
@@ -506,7 +512,7 @@ public class TaskCommands
 
             if (task.AssignedAgentId.HasValue)
             {
-                var agentResult = await _agentRepository.GetByIdAsync(task.AssignedAgentId.Value);
+                var agentResult = await _agentRepository.GetByIdAsync(task.AssignedAgentId.Value).ConfigureAwait(false);
                 if (agentResult.IsSuccess && agentResult.Value != null)
                 {
                     Console.WriteLine($"  Assigned to: {agentResult.Value.Name} ({task.AssignedAgentId})");
@@ -536,12 +542,13 @@ public class TaskCommands
     /// <summary>
     /// Lists overdue tasks
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ListOverdueTasksAsync()
+    private async Task<int> ListOverdueTasksAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            var result = await _taskRepository.GetOverdueTasksAsync();
+            var result = await _taskRepository.GetOverdueTasksAsync(cancellationToken).ConfigureAwait(false);
             if (!result.IsSuccess)
             {
                 Console.WriteLine($"Error retrieving overdue tasks: {string.Join(", ", result.Errors)}");
@@ -567,7 +574,7 @@ public class TaskCommands
                 var agentName = "Unassigned";
                 if (task.AssignedAgentId.HasValue)
                 {
-                    var agentResult = await _agentRepository.GetByIdAsync(task.AssignedAgentId.Value);
+                    var agentResult = await _agentRepository.GetByIdAsync(task.AssignedAgentId.Value, cancellationToken).ConfigureAwait(false);
                     if (agentResult.IsSuccess && agentResult.Value != null)
                         agentName = agentResult.Value.Name;
                 }

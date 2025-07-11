@@ -302,7 +302,7 @@ public class WorkflowExecutor : IWorkflowExecutor
 
     // Private helper methods
 
-    private async Task ExecuteWorkflowStepsAsync(Workflow workflow, WorkflowExecution execution, CancellationToken cancellationToken)
+    private async Task<Result> ExecuteWorkflowStepsAsync(Workflow workflow, WorkflowExecution execution, CancellationToken cancellationToken)
     {
         var currentData = new Dictionary<string, object>(execution.Input);
 
@@ -313,7 +313,7 @@ public class WorkflowExecutor : IWorkflowExecutor
             if (cancellationToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Workflow execution {ExecutionId} was cancelled at step {StepIndex}", execution.Id, stepIndex);
-                return Result.Fail("Workflow execution was cancelled");
+                return Result.WithFailure("Workflow execution was cancelled");
             }
 
             // Check if execution is paused
@@ -321,7 +321,7 @@ public class WorkflowExecutor : IWorkflowExecutor
             {
                 _logger.LogInformation("Workflow execution {ExecutionId} is paused at step {StepIndex}",
                     execution.Id, stepIndex);
-                return;
+                return Result.Success();
             }
 
             var step = steps[stepIndex];
@@ -378,7 +378,7 @@ public class WorkflowExecutor : IWorkflowExecutor
                     _logger.LogError("Workflow step {StepName} failed for execution {ExecutionId}: {Error}",
                         step.Name, execution.Id, stepResult.Error);
 
-                    return;
+                    return Result.Success();
                 }
             }
             catch (Exception ex)
@@ -393,10 +393,10 @@ public class WorkflowExecutor : IWorkflowExecutor
                 _logger.LogError(ex, "Exception in workflow step {StepName} for execution {ExecutionId}",
                     step.Name, execution.Id);
 
-                throw;
+                return Result.WithFailure("Exception in workflow step {StepName} for execution {ExecutionId}");
             }
         }
-
+        return Result.Success();
         // Set final output
         // Note: Output is init-only, cannot be modified after creation
         // In a real implementation, this would be handled during object creation
@@ -504,5 +504,3 @@ public class WorkflowExecutor : IWorkflowExecutor
         GC.SuppressFinalize(this);
     }
 }
-
- 

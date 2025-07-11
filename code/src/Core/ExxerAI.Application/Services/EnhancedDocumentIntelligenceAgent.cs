@@ -72,7 +72,7 @@ public class EnhancedDocumentIntelligenceAgent
             _logger.LogInformation("Starting business document processing for document {DocumentId}", documentId);
 
             // Step 1: Download document from Google Drive via MCP
-            var downloadResult = await _mcpDriveService.DownloadDocumentAsync(documentId, cancellationToken);
+            var downloadResult = await _mcpDriveService.DownloadDocumentAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!downloadResult.IsSuccess)
             {
                 var downloadError = $"Download failed for document {documentId}: {string.Join(", ", downloadResult.Errors)}";
@@ -81,7 +81,7 @@ public class EnhancedDocumentIntelligenceAgent
             }
 
             // Step 2: Get document metadata
-            var metadataResult = await _mcpDriveService.GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _mcpDriveService.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!metadataResult.IsSuccess)
             {
                 _logger.LogWarning("Could not retrieve metadata for document {DocumentId}: {Error}",
@@ -96,7 +96,7 @@ public class EnhancedDocumentIntelligenceAgent
             var processingResult = await _documentProcessor.ProcessDocumentAsync(
                 downloadResult.Value!,
                 documentMetadata,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (!processingResult.IsSuccess)
             {
@@ -119,7 +119,7 @@ public class EnhancedDocumentIntelligenceAgent
                 var truthResult = await _truthSystem.StoreExtractedDataAsync(
                     processingResult.Value!.GroundedData,
                     dataSource,
-                    cancellationToken);
+                    cancellationToken).ConfigureAwait(false);
 
                 if (truthResult.IsSuccess)
                 {
@@ -172,7 +172,7 @@ public class EnhancedDocumentIntelligenceAgent
                 AutoProcess = watchOptions.AutoProcess
             };
 
-            var watchResult = await _mcpDriveService.WatchFolderAsync(folderId, appWatchOptions, cancellationToken);
+            var watchResult = await _mcpDriveService.WatchFolderAsync(folderId, appWatchOptions, cancellationToken).ConfigureAwait(false);
 
             if (!watchResult.IsSuccess)
             {
@@ -212,7 +212,7 @@ public class EnhancedDocumentIntelligenceAgent
                 fromDate, toDate);
 
             // Generate grounding report
-            var groundingResult = await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, cancellationToken);
+            var groundingResult = await _truthSystem.GenerateGroundingReportAsync(fromDate, toDate, cancellationToken).ConfigureAwait(false);
             if (!groundingResult.IsSuccess)
             {
                 var errorMessage = $"Failed to generate grounding report: {string.Join(", ", groundingResult.Errors)}";
@@ -221,7 +221,7 @@ public class EnhancedDocumentIntelligenceAgent
             }
 
             // Get quality metrics
-            var qualityResult = await _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, cancellationToken);
+            var qualityResult = await _truthSystem.GetDataQualityMetricsAsync(fromDate, toDate, cancellationToken).ConfigureAwait(false);
             if (!qualityResult.IsSuccess)
             {
                 var errorMessage = $"Failed to get quality metrics: {string.Join(", ", qualityResult.Errors)}";

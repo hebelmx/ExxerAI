@@ -172,6 +172,10 @@ public class OpenAIProvider : ILLMProvider
 
             return Result<LLMResponse>.WithSuccess(llmResponse);
         }
+        catch (TaskCanceledException ex)
+        {
+            return Result<LLMResponse>.WithFailure($"Request timeout: {ex.Message}");
+        }
         catch (OperationCanceledException)
         {
             return ResultExtensions.Cancelled<LLMResponse>();
@@ -179,10 +183,6 @@ public class OpenAIProvider : ILLMProvider
         catch (HttpRequestException ex)
         {
             return Result<LLMResponse>.WithFailure($"HTTP request failed: {ex.Message}");
-        }
-        catch (TaskCanceledException ex)
-        {
-            return Result<LLMResponse>.WithFailure($"Request timeout: {ex.Message}");
         }
         catch (JsonException ex)
         {

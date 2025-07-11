@@ -43,7 +43,7 @@ public class SecureKeyStore : IKeyStore
         if (cancellationToken.IsCancellationRequested)
             return null;
 
-        await _lock.WaitAsync(cancellationToken);
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -87,7 +87,7 @@ public class SecureKeyStore : IKeyStore
         if (cancellationToken.IsCancellationRequested)
             return;
 
-        await _lock.WaitAsync(cancellationToken);
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -104,7 +104,7 @@ public class SecureKeyStore : IKeyStore
             };
 
             _cache[fullKey] = storedKey;
-            await SaveKeysAsync();
+            await SaveKeysAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Stored key {KeyName} with scope {Scope}", keyName, scope ?? "global");
         }
@@ -120,7 +120,7 @@ public class SecureKeyStore : IKeyStore
         if (cancellationToken.IsCancellationRequested)
             return false;
 
-        await _lock.WaitAsync(cancellationToken);
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -128,7 +128,7 @@ public class SecureKeyStore : IKeyStore
 
             if (removed)
             {
-                await SaveKeysAsync();
+                await SaveKeysAsync(cancellationToken).ConfigureAwait(false);
                 _logger.LogInformation("Deleted key {KeyName}", fullKey);
             }
 
@@ -146,7 +146,7 @@ public class SecureKeyStore : IKeyStore
         if (cancellationToken.IsCancellationRequested)
             return Enumerable.Empty<string>();
 
-        await _lock.WaitAsync(cancellationToken);
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             return _cache.Values
@@ -178,7 +178,7 @@ public class SecureKeyStore : IKeyStore
         if (cancellationToken.IsCancellationRequested)
             return;
 
-        await _lock.WaitAsync(cancellationToken);
+        await _lock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var fullKey = GetFullKeyName(keyName, scope);
@@ -224,8 +224,12 @@ public class SecureKeyStore : IKeyStore
         return $"LOCALAI_{keyName.ToUpperInvariant().Replace(":", "_").Replace("-", "_")}";
     }
 
-    private async Task LoadKeysAsync()
+    private async Task LoadKeysAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         try
         {
             if (!File.Exists(_storePath))
@@ -234,7 +238,7 @@ public class SecureKeyStore : IKeyStore
                 return;
             }
 
-            var jsonData = await File.ReadAllTextAsync(_storePath);
+            var jsonData = await File.ReadAllTextAsync(_storePath, cancellationToken).ConfigureAwait(false);
             var storedKeys = JsonSerializer.Deserialize<StoredKey[]>(jsonData) ?? Array.Empty<StoredKey>();
 
             _cache.Clear();
@@ -245,14 +249,22 @@ public class SecureKeyStore : IKeyStore
 
             _logger.LogInformation("Loaded {Count} keys from store", storedKeys.Length);
         }
+        catch (OperationCanceledException)
+        {
+            _logger.LogDebug("Load keys operation cancelled");
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to load keys from store");
         }
     }
 
-    private async Task SaveKeysAsync()
+    private async Task SaveKeysAsync(CancellationToken cancellationToken = default)
     {
+        // Early cancellation check
+        if (cancellationToken.IsCancellationRequested)
+            return;
+
         try
         {
             var keysToStore = _cache.Values.ToArray();
@@ -261,8 +273,12 @@ public class SecureKeyStore : IKeyStore
                 WriteIndented = true
             });
 
-            await File.WriteAllTextAsync(_storePath, jsonData);
+            await File.WriteAllTextAsync(_storePath, jsonData, cancellationToken).ConfigureAwait(false);
             _logger.LogDebug("Saved {Count} keys to store", keysToStore.Length);
+        }
+        catch (OperationCanceledException)
+        {
+            _logger.LogDebug("Save keys operation cancelled");
         }
         catch (Exception ex)
         {

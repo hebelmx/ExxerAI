@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<Sdk Name="Aspire.AppHost.Sdk" Version="9.3.1" />
+
+  <PropertyGroup>
+	<OutputType>Exe</OutputType>
+	<TargetFramework>net10.0</TargetFramework>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<IsAspireHost>true</IsAspireHost>
+	<UserSecretsId>30dd0613-dff3-4210-aca2-77b0ed45681b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Aspire.Hosting.Redis" />
+    <PackageReference Include="Aspire.Hosting.Orchestration.linux-x64" />
+	<PackageReference Include="Aspire.Hosting.AppHost" />
+	<PackageReference Include="Aspire.Hosting.SqlServer" />
+	<PackageReference Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" />
+	<PackageReference Include="Aspire.Hosting.Qdrant" />
+	<PackageReference Include="Aspire.Hosting.Seq" />
+	<PackageReference Include="CommunityToolkit.Aspire.Hosting.Ollama" />
+  </ItemGroup>
+
+  <ItemGroup>
+	<ProjectReference Include="..\RagDoc.Web\RagDoc.Web.csproj" />
+  </ItemGroup>
+
+</Project>

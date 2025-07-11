@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
 	  <Nullable>enable</Nullable>
+	  <IsAspireProjectResource>false</IsAspireProjectResource>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	  <PackageId>CommunityToolkit.Aspire.Hosting.N8N.Client</PackageId>
 	  <Version>1.0.0</Version>

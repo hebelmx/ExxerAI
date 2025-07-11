@@ -48,15 +48,15 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             // Connect to Neo4j if not already connected
             if (!_graphClient.IsConnected)
             {
-                await _graphClient.ConnectAsync();
+                await _graphClient.ConnectAsync().ConfigureAwait(false);
                 _logger.LogInformation("Connected to Neo4j database");
             }
 
             // Create unique constraints
-            await CreateConstraintsAsync(cancellationToken);
+            await CreateConstraintsAsync(cancellationToken).ConfigureAwait(false);
 
             // Create indexes for performance
-            await CreateIndexesAsync(cancellationToken);
+            await CreateIndexesAsync(cancellationToken).ConfigureAwait(false);
 
             lock (_initLock)
             {
@@ -92,7 +92,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             if (document == null) return Result.WithFailure("Document cannot be null");
             if (string.IsNullOrWhiteSpace(document.DocumentId)) return Result.WithFailure("Document ID cannot be empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Storing document in graph: {DocumentId}", document.DocumentId);
 
@@ -122,7 +122,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                     .WithParam(prop.Key, prop.Value);
             }
 
-            await query.ExecuteWithoutResultsAsync();
+            await query.ExecuteWithoutResultsAsync().ConfigureAwait(false);
 
             _logger.LogDebug("Successfully stored document: {DocumentId}", document.DocumentId);
             return Result.Success();
@@ -153,7 +153,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             var conceptList = concepts?.ToList() ?? [];
             if (!conceptList.Any()) return Result.Success();
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Storing {Count} concepts in graph", conceptList.Count);
 
@@ -185,7 +185,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                         .WithParam(prop.Key, prop.Value);
                 }
 
-                await query.ExecuteWithoutResultsAsync();
+                await query.ExecuteWithoutResultsAsync().ConfigureAwait(false);
             }
 
             _logger.LogInformation("Successfully stored {Count} concepts", conceptList.Count);
@@ -217,7 +217,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             var relationshipList = relationships?.ToList() ?? [];
             if (!relationshipList.Any()) return Result.Success();
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Creating {Count} relationships in graph", relationshipList.Count);
 
@@ -249,7 +249,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                         .WithParam(prop.Key, prop.Value);
                 }
 
-                await query.ExecuteWithoutResultsAsync();
+                await query.ExecuteWithoutResultsAsync().ConfigureAwait(false);
             }
 
             _logger.LogInformation("Successfully created {Count} relationships", relationshipList.Count);
@@ -286,7 +286,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             if (string.IsNullOrWhiteSpace(conceptName))
                 return Result<IEnumerable<GraphDocument>>.WithFailure("Concept name cannot be empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Finding documents related to concept: {ConceptName}", conceptName);
 
@@ -305,7 +305,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 .Match(cypherQuery)
                 .WithParam("conceptName", conceptName)
                 .Return<Neo4jDocumentResult>("d")
-                .ResultsAsync;
+                .ResultsAsync.ConfigureAwait(false);
 
             var documents = results.Select(r => new GraphDocument
             {
@@ -354,7 +354,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             if (string.IsNullOrWhiteSpace(documentId))
                 return Result<IEnumerable<GraphConcept>>.WithFailure("Document ID cannot be empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Finding concepts related to document: {DocumentId}", documentId);
 
@@ -419,7 +419,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             if (string.IsNullOrWhiteSpace(cypherQuery))
                 return Result<IEnumerable<Dictionary<string, object>>>.WithFailure("Cypher query cannot be empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Executing custom Cypher query");
 
@@ -433,7 +433,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
                 }
             }
 
-            var results = await query.Return<Dictionary<string, object>>("*").ResultsAsync;
+            var results = await query.Return<Dictionary<string, object>>("*").ResultsAsync.ConfigureAwait(false);
 
             _logger.LogDebug("Custom query returned {Count} results", results.Count());
             return Result<IEnumerable<Dictionary<string, object>>>.Success(results);
@@ -469,7 +469,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             if (string.IsNullOrWhiteSpace(fromEntityId) || string.IsNullOrWhiteSpace(toEntityId))
                 return Result<GraphPath>.WithFailure("Entity IDs cannot be empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Finding shortest path from {From} to {To}", fromEntityId, toEntityId);
 
@@ -525,7 +525,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
         try
         {
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Retrieving graph statistics");
 
@@ -589,7 +589,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             if (string.IsNullOrWhiteSpace(documentId))
                 return Result.WithFailure("Document ID cannot be empty");
 
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogDebug("Deleting document from graph: {DocumentId}", documentId);
 
@@ -629,7 +629,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
 
         try
         {
-            await EnsureInitializedAsync(cancellationToken);
+            await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
             _logger.LogInformation("Starting batch store operation");
 
@@ -697,7 +697,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         {
             try
             {
-                await _graphClient.Cypher.Match(constraint).ExecuteWithoutResultsAsync();
+                await _graphClient.Cypher.Match(constraint).ExecuteWithoutResultsAsync().ConfigureAwait(false);
                 _logger.LogDebug("Created constraint: {Constraint}", constraint);
             }
             catch (Exception ex)
@@ -720,7 +720,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
         {
             try
             {
-                await _graphClient.Cypher.Match(index).ExecuteWithoutResultsAsync();
+                await _graphClient.Cypher.Match(index).ExecuteWithoutResultsAsync().ConfigureAwait(false);
                 _logger.LogDebug("Created index: {Index}", index);
             }
             catch (Exception ex)

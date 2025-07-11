@@ -30,10 +30,10 @@ public class WorkflowCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListWorkflowsAsync().ConfigureAwait(false),
-            "create" or "new" => await CreateWorkflowAsync(commandArgs).ConfigureAwait(false),
-            "execute" or "run" => await ExecuteWorkflowAsync(commandArgs).ConfigureAwait(false),
-            "agentstatus" or "info" => await ShowWorkflowStatusAsync(commandArgs).ConfigureAwait(false),
+            "list" or "ls" => await ListWorkflowsAsync(cancellationToken).ConfigureAwait(false),
+            "create" or "new" => await CreateWorkflowAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "execute" or "run" => await ExecuteWorkflowAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "agentstatus" or "info" => await ShowWorkflowStatusAsync(commandArgs, cancellationToken).ConfigureAwait(false),
             "help" or "--help" or "-h" => ShowWorkflowHelp(),
             _ => ShowUnknownWorkflowCommand(subCommand)
         };
@@ -42,10 +42,11 @@ public class WorkflowCommands
     /// <summary>
     /// Lists available workflows
     /// </summary>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ListWorkflowsAsync()
+    private async Task<int> ListWorkflowsAsync(CancellationToken cancellationToken = default)
     {
-        await Task.Delay(1).ConfigureAwait(false); // Placeholder for async operation
+        await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Placeholder for async operation
 
         Console.WriteLine("Available Workflows:");
         Console.WriteLine();
@@ -66,10 +67,11 @@ public class WorkflowCommands
     /// Creates a new workflow
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> CreateWorkflowAsync(string[] args)
+    private async Task<int> CreateWorkflowAsync(string[] args, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(1).ConfigureAwait(false); // Placeholder for async operation
+        await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Placeholder for async operation
 
         if (args.Length == 0)
         {
@@ -99,10 +101,11 @@ public class WorkflowCommands
     /// Executes a workflow
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ExecuteWorkflowAsync(string[] args)
+    private async Task<int> ExecuteWorkflowAsync(string[] args, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(1).ConfigureAwait(false); // Placeholder for async operation
+        await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Placeholder for async operation
 
         if (args.Length == 0)
         {
@@ -133,10 +136,11 @@ public class WorkflowCommands
     /// Shows workflow agentStatus information
     /// </summary>
     /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">Token to cancel the operation</param>
     /// <returns>Exit code</returns>
-    private async Task<int> ShowWorkflowStatusAsync(string[] args)
+    private async Task<int> ShowWorkflowStatusAsync(string[] args, CancellationToken cancellationToken = default)
     {
-        await Task.Delay(1).ConfigureAwait(false); // Placeholder for async operation
+        await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Placeholder for async operation
 
         if (args.Length == 0)
         {

@@ -41,7 +41,7 @@ public class HybridKnowledgeService
             _logger.LogInformation("Initializing hybrid knowledge service");
 
             // Initialize vector store
-            var vectorResult = await _vectorStore.InitializeAsync(cancellationToken);
+            var vectorResult = await _vectorStore.InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (vectorResult.IsFailure)
             {
                 _logger.LogError("Vector store initialization failed: {Error}", vectorResult.Error);
@@ -49,7 +49,7 @@ public class HybridKnowledgeService
             }
 
             // Initialize graph store
-            var graphResult = await _graphStore.InitializeAsync(cancellationToken);
+            var graphResult = await _graphStore.InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (graphResult.IsFailure)
             {
                 _logger.LogError("Graph store initialization failed: {Error}", graphResult.Error);
@@ -90,7 +90,7 @@ public class HybridKnowledgeService
             _logger.LogInformation("Storing document with knowledge: {DocumentId}", document.DocumentId);
 
             // Generate embeddings for vector store
-            var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(document.Content, cancellationToken);
+            var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(document.Content, cancellationToken).ConfigureAwait(false);
             if (embeddingResult.IsFailure)
             {
                 _logger.LogError("Failed to generate embeddings for document {DocumentId}: {Error}",
@@ -110,7 +110,7 @@ public class HybridKnowledgeService
                 document.Content,
                 embeddingResult.Value,
                 document.Metadata,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (vectorStoreResult.IsFailure)
             {
@@ -132,7 +132,7 @@ public class HybridKnowledgeService
             };
 
             // Store in graph database
-            var graphStoreResult = await _graphStore.StoreDocumentAsync(graphDocument, cancellationToken);
+            var graphStoreResult = await _graphStore.StoreDocumentAsync(graphDocument, cancellationToken).ConfigureAwait(false);
             if (graphStoreResult.IsFailure)
             {
                 _logger.LogError("Failed to store document in graph store: {Error}", graphStoreResult.Error);
@@ -142,7 +142,7 @@ public class HybridKnowledgeService
             // Store concepts if provided
             if (document.ExtractedConcepts?.Any() == true)
             {
-                var conceptsResult = await _graphStore.StoreConceptsAsync(document.ExtractedConcepts, cancellationToken);
+                var conceptsResult = await _graphStore.StoreConceptsAsync(document.ExtractedConcepts, cancellationToken).ConfigureAwait(false);
                 if (conceptsResult.IsFailure)
                 {
                     _logger.LogWarning("Failed to store concepts for document {DocumentId}: {Error}",
@@ -163,7 +163,7 @@ public class HybridKnowledgeService
                     }
                 });
 
-                var relationshipsResult = await _graphStore.CreateRelationshipsAsync(relationships, cancellationToken);
+                var relationshipsResult = await _graphStore.CreateRelationshipsAsync(relationships, cancellationToken).ConfigureAwait(false);
                 if (relationshipsResult.IsFailure)
                 {
                     _logger.LogWarning("Failed to create concept relationships for document {DocumentId}: {Error}",
@@ -213,10 +213,10 @@ public class HybridKnowledgeService
             var vectorSearchTask = PerformVectorSearchAsync(query, options, cancellationToken);
             var conceptSearchTask = PerformConceptSearchAsync(query, options, cancellationToken);
 
-            await Task.WhenAll(vectorSearchTask, conceptSearchTask);
+            await Task.WhenAll(vectorSearchTask, conceptSearchTask).ConfigureAwait(false);
 
-            var vectorResults = await vectorSearchTask;
-            var conceptResults = await conceptSearchTask;
+            var vectorResults = await vectorSearchTask.ConfigureAwait(false);
+            var conceptResults = await conceptSearchTask.ConfigureAwait(false);
 
             if (vectorResults.IsSuccess)
             {
@@ -292,7 +292,7 @@ public class HybridKnowledgeService
             _logger.LogDebug("Exploring concept relationships: {ConceptName}", conceptName);
 
             var result = await _graphStore.FindRelatedDocumentsAsync(
-                conceptName, null, maxDepth, limit, cancellationToken);
+                conceptName, null, maxDepth, limit, cancellationToken).ConfigureAwait(false);
 
             if (result.IsSuccess)
             {
@@ -338,10 +338,10 @@ public class HybridKnowledgeService
             var vectorStatsTask = _vectorStore.GetStatsAsync(cancellationToken);
             var graphStatsTask = _graphStore.GetStatsAsync(cancellationToken);
 
-            await Task.WhenAll(vectorStatsTask, graphStatsTask);
+            await Task.WhenAll(vectorStatsTask, graphStatsTask).ConfigureAwait(false);
 
-            var vectorStats = await vectorStatsTask;
-            var graphStats = await graphStatsTask;
+            var vectorStats = await vectorStatsTask.ConfigureAwait(false);
+            var graphStats = await graphStatsTask.ConfigureAwait(false);
 
             var hybridStats = new HybridKnowledgeStats
             {
@@ -384,10 +384,10 @@ public class HybridKnowledgeService
             var vectorTask = _vectorStore.DeleteEmbeddingAsync(documentId, cancellationToken);
             var graphTask = _graphStore.DeleteDocumentAsync(documentId, cancellationToken);
 
-            await Task.WhenAll(vectorTask, graphTask);
+            await Task.WhenAll(vectorTask, graphTask).ConfigureAwait(false);
 
-            var vectorResult = await vectorTask;
-            var graphResult = await graphTask;
+            var vectorResult = await vectorTask.ConfigureAwait(false);
+            var graphResult = await graphTask.ConfigureAwait(false);
 
             var errors = new List<string>();
             if (vectorResult.IsFailure) errors.Add($"Vector store: {vectorResult.Error}");
@@ -420,7 +420,7 @@ public class HybridKnowledgeService
         HybridSearchOptions options,
         CancellationToken cancellationToken)
     {
-        var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(query, cancellationToken);
+        var embeddingResult = await _embeddingGenerator.GenerateEmbeddingAsync(query, cancellationToken).ConfigureAwait(false);
         if (embeddingResult.IsFailure)
         {
             var errorMessage = embeddingResult.Error ?? "Unknown embedding generation error";
@@ -437,7 +437,7 @@ public class HybridKnowledgeService
             options.MaxSemanticResults,
             options.SemanticThreshold,
             options.VectorFilter,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
     }
 
     private async Task<Result<IEnumerable<GraphDocument>>> PerformConceptSearchAsync(
@@ -451,7 +451,7 @@ public class HybridKnowledgeService
             options.RelationshipTypes,
             options.GraphTraversalDepth,
             options.MaxGraphResults,
-            cancellationToken);
+            cancellationToken).ConfigureAwait(false);
 
         return result;
     }

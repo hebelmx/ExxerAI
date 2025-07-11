@@ -44,7 +44,7 @@ public class GoogleDriveService : IDocumentIngestionService
         try
         {
             // TODO: Implement actual Google Drive folder watching
-            await Task.Delay(1, cancellationToken); // Simulate async Google Drive API call
+            await Task.Delay(1, cancellationToken).ConfigureAwait(false); // Simulate async Google Drive API call
             
             var watchId = Guid.NewGuid().ToString();
             _logger.LogInformation("Started watching folder {FolderId} with watch ID {WatchId}", folderId, watchId);
@@ -82,7 +82,7 @@ public class GoogleDriveService : IDocumentIngestionService
         try
         {
             // TODO: Implement actual Google Drive folder watch stopping
-            await Task.Delay(100, cancellationToken); // Simulate operation
+            await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Simulate operation
             return Result<bool>.WithSuccess(true);
         }
         catch (OperationCanceledException)
@@ -115,7 +115,7 @@ public class GoogleDriveService : IDocumentIngestionService
         {
             // TODO: Implement actual change detection
             var changes = new List<DocumentChangeEvent>();
-            await Task.Delay(50, cancellationToken); // Simulate operation
+            await Task.Delay(50, cancellationToken).ConfigureAwait(false); // Simulate operation
             
             return Result<IEnumerable<DocumentChangeEvent>>.WithSuccess(changes);
         }
@@ -161,7 +161,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 0.9f }
             };
 
-            await Task.Delay(100, cancellationToken); // Simulate processing
+            await Task.Delay(100, cancellationToken).ConfigureAwait(false); // Simulate processing
             
             return Result<DocumentProcessingResult>.WithSuccess(result);
         }
@@ -214,7 +214,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 ValidationResultDocument = new ValidationResultDocument { IsValid = true, Confidence = 0.9f }
             };
 
-            await Task.Delay(150, cancellationToken); // Simulate processing
+            await Task.Delay(150, cancellationToken).ConfigureAwait(false); // Simulate processing
             
             return Result<DocumentProcessingResult>.WithSuccess(result);
         }
@@ -252,7 +252,7 @@ public class GoogleDriveService : IDocumentIngestionService
         try
         {
             // TODO: Implement actual modification check
-            await Task.Delay(50, cancellationToken); // Simulate operation
+            await Task.Delay(50, cancellationToken).ConfigureAwait(false); // Simulate operation
             
             // For now, assume document is modified if checked within last hour
             var isModified = DateTime.UtcNow.Subtract(lastProcessed).TotalHours < 1;
@@ -306,7 +306,7 @@ public class GoogleDriveService : IDocumentIngestionService
                 }
             };
 
-            await Task.Delay(25, cancellationToken); // Simulate operation
+            await Task.Delay(25, cancellationToken).ConfigureAwait(false); // Simulate operation
             
             return Result<IngestionStatus>.WithSuccess(status);
         }

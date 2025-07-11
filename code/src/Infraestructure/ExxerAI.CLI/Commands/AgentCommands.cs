@@ -56,13 +56,13 @@ public class AgentCommands
 
         return subCommand switch
         {
-            "list" or "ls" => await ListAgentsAsync(commandArgs, cancellationToken),
-            "create" or "new" => await CreateAgentAsync(commandArgs, cancellationToken),
-            "delete" or "remove" or "rm" => await DeleteAgentAsync(commandArgs, cancellationToken),
-            "agentstatus" or "info" => await ShowAgentStatusAsync(commandArgs, cancellationToken),
-            "update" => await UpdateAgentAsync(commandArgs, cancellationToken),
-            "activate" => await ActivateAgentAsync(commandArgs, cancellationToken),
-            "deactivate" => await DeactivateAgentAsync(commandArgs, cancellationToken),
+            "list" or "ls" => await ListAgentsAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "create" or "new" => await CreateAgentAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "delete" or "remove" or "rm" => await DeleteAgentAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "agentstatus" or "info" => await ShowAgentStatusAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "update" => await UpdateAgentAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "activate" => await ActivateAgentAsync(commandArgs, cancellationToken).ConfigureAwait(false),
+            "deactivate" => await DeactivateAgentAsync(commandArgs, cancellationToken).ConfigureAwait(false),
             "help" or "--help" or "-h" => ShowAgentHelp(),
             _ => ShowUnknownAgentCommand(subCommand)
         };
@@ -78,7 +78,7 @@ public class AgentCommands
     {
         try
         {
-            var result = await _agentRepository.GetAllAsync(cancellationToken);
+            var result = await _agentRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
             if (result.IsFailure)
             {
                 Console.WriteLine($"Error retrieving agents: {result.Error}");
@@ -172,7 +172,7 @@ public class AgentCommands
                 name,
                 description ?? $"Auto-generated agent {name}",
                 capabilities,
-                cancellationToken);
+                cancellationToken).ConfigureAwait(false);
 
             if (result.IsFailure)
             {
@@ -214,7 +214,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.DeleteAsync(agentId, cancellationToken);
+            var result = await _agentRepository.DeleteAsync(agentId, cancellationToken).ConfigureAwait(false);
             if (result.IsFailure)
             {
                 Console.WriteLine($"Error deleting agent: {result.Error}");
@@ -254,7 +254,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken);
+            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
             if (result.IsFailure)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
@@ -317,7 +317,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken);
+            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
             if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
@@ -337,7 +337,7 @@ public class AgentCommands
 
             agent.UpdatedAt = DateTime.UtcNow;
 
-            var updateResult = await _agentRepository.UpdateAsync(agent, cancellationToken);
+            var updateResult = await _agentRepository.UpdateAsync(agent, cancellationToken).ConfigureAwait(false);
             if (updateResult.IsFailure)
             {
                 Console.WriteLine($"Error updating agent: {updateResult.Error}");
@@ -362,7 +362,7 @@ public class AgentCommands
     /// <returns>Exit code</returns>
     private async Task<int> ActivateAgentAsync(string[] args, CancellationToken cancellationToken)
     {
-        return await ChangeAgentStatusAsync(args, AgentStatus.Active, "activated", cancellationToken);
+        return await ChangeAgentStatusAsync(args, AgentStatus.Active, "activated", cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -373,7 +373,7 @@ public class AgentCommands
     /// <returns>Exit code</returns>
     private async Task<int> DeactivateAgentAsync(string[] args, CancellationToken cancellationToken)
     {
-        return await ChangeAgentStatusAsync(args, AgentStatus.Inactive, "deactivated", cancellationToken);
+        return await ChangeAgentStatusAsync(args, AgentStatus.Inactive, "deactivated", cancellationToken).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -401,7 +401,7 @@ public class AgentCommands
 
         try
         {
-            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken);
+            var result = await _agentRepository.GetByIdAsync(agentId, cancellationToken).ConfigureAwait(false);
             if (result.IsFailure || result.Value == null)
             {
                 Console.WriteLine($"Error retrieving agent: {result.Error}");
@@ -412,7 +412,7 @@ public class AgentCommands
             agent.Status = newStatus;
             agent.UpdatedAt = DateTime.UtcNow;
 
-            var updateResult = await _agentRepository.UpdateAsync(agent, cancellationToken);
+            var updateResult = await _agentRepository.UpdateAsync(agent, cancellationToken).ConfigureAwait(false);
             if (updateResult.IsFailure)
             {
                 Console.WriteLine($"Error changing agent agentStatus: {updateResult.Error}");
