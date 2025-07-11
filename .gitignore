@@ -47,3 +47,75 @@ echo
 Samples/local-ai-packaged/neo4j/data/transactions/system/neostore.transaction.db.0
 Samples/local-ai-packaged/neo4j/data/transactions/**/*.db.0
 /Samples/local-ai-packaged/neo4j/data
+
+
+## === .NET / Visual Studio ===
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+*.dbmdl
+*.dbschema
+*.pdb
+*.mdb
+*.ilk
+*.ipch
+
+## === Build Results ===
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+*.dll
+*.exe
+*.app
+*.so
+*.dylib
+*.a
+*.lib
+
+## === NuGet / Packages ===
+*.nupkg
+packages/
+**/packages/
+
+## === Logs, Dumps, Diagnostics ===
+*.log
+*.tmp
+*.bak
+*.trace
+*.dmp
+*.memory
+*.snapshot
+*.diagsession
+
+## === Test Outputs ===
+TestResults/
+**/TestResults/
+**/*.trx
+**/*.coverage
+**/*.coveragexml
+**/TestArtifacts/
+test_results.trx
+TestResults.trx
+
+## === Configuration / Secrets ===
+*.env
+.env.*
+appsettings.*.json
+secrets.json
+
+## === IDEs ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## === OS ===
+.DS_Store
+Thumbs.db
+
+## === Other artifacts ===
+code/src/RagDoc/RagDoc.AppHost/aspire_diagnostic.txt
