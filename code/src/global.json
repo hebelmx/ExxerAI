@@ -1,0 +1,10 @@
+{
+  "sdk": {
+    "version": "9.0.107",
+    "rollForward": "latestMinor",
+    "allowPrerelease": false
+  },
+  "msbuild-sdks": {
+    "Aspire.AppHost.Sdk": "8.2.2"
+  }
+}

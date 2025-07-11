@@ -51,7 +51,7 @@ public class GoogleDriveTools : IGoogleDriveTools
 
         try
         {
-            var result = await _googleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingIntervalSeconds, cancellationToken);
+            var result = await _googleDriveService.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingIntervalSeconds, cancellationToken).ConfigureAwait(false);
 
             if (result.IsSuccess)
             {
@@ -96,7 +96,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             // Get active watches which includes detected changes
-            var watchesResult = await _googleDriveService.GetActiveWatchesAsync(cancellationToken);
+            var watchesResult = await _googleDriveService.GetActiveWatchesAsync(cancellationToken).ConfigureAwait(false);
 
             if (watchesResult.IsSuccess)
             {
@@ -145,7 +145,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             // Get metadata first
-            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!metadataResult.IsSuccess)
             {
                 return Result<string>.WithFailure($"Failed to get document metadata: {metadataResult.Error}");
@@ -156,7 +156,7 @@ public class GoogleDriveTools : IGoogleDriveTools
                 return ResultExtensions.Cancelled<string>();
 
             // Download document
-            var downloadResult = await _googleDriveService.DownloadDocumentAsync(documentId, cancellationToken);
+            var downloadResult = await _googleDriveService.DownloadDocumentAsync(documentId, cancellationToken).ConfigureAwait(false);
             if (!downloadResult.IsSuccess)
             {
                 return Result<string>.WithFailure($"Failed to download document: {downloadResult.Error}");
@@ -208,7 +208,7 @@ public class GoogleDriveTools : IGoogleDriveTools
 
         try
         {
-            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId, cancellationToken);
+            var metadataResult = await _googleDriveService.GetDocumentMetadataAsync(documentId, cancellationToken).ConfigureAwait(false);
 
             if (!metadataResult.IsSuccess)
             {
@@ -258,7 +258,7 @@ public class GoogleDriveTools : IGoogleDriveTools
         try
         {
             // Try to initialize the Google Drive service to check connectivity
-            var initResult = await _googleDriveService.InitializeAsync(cancellationToken);
+            var initResult = await _googleDriveService.InitializeAsync(cancellationToken).ConfigureAwait(false);
 
             var connectionStatus = initResult.IsSuccess ? "✅ Connected" : "❌ Failed";
             var authStatus = initResult.IsSuccess ? "✅ Valid" : "❌ Invalid";
@@ -268,7 +268,7 @@ public class GoogleDriveTools : IGoogleDriveTools
                 return ResultExtensions.Cancelled<string>();
 
             // Get active watches
-            var watchesResult = await _googleDriveService.GetActiveWatchesAsync(cancellationToken);
+            var watchesResult = await _googleDriveService.GetActiveWatchesAsync(cancellationToken).ConfigureAwait(false);
             var activeWatches = watchesResult.IsSuccess ? "Available" : "Error getting watch info";
 
             var result = $"🏥 Google Drive MCP Health AgentStatus:\n" +
@@ -320,7 +320,7 @@ public class GoogleDriveTools : IGoogleDriveTools
 
         try
         {
-            var result = await _googleDriveService.GetActiveWatchesAsync(cancellationToken);
+            var result = await _googleDriveService.GetActiveWatchesAsync(cancellationToken).ConfigureAwait(false);
 
             if (result.IsSuccess)
             {
@@ -364,7 +364,7 @@ public class GoogleDriveTools : IGoogleDriveTools
 
         try
         {
-            var result = await _googleDriveService.StopWatchingAsync(watchId, cancellationToken);
+            var result = await _googleDriveService.StopWatchingAsync(watchId, cancellationToken).ConfigureAwait(false);
 
             if (result.IsSuccess)
             {

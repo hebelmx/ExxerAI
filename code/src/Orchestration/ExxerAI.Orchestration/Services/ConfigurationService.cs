@@ -33,7 +33,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            await _keyManager.InitializeKeysAsync(Configuration, cancellationToken);
+            await _keyManager.InitializeKeysAsync(Configuration, cancellationToken).ConfigureAwait(false);
             _logger?.LogInformation("Configuration service initialized with secure key management");
         }
         else
@@ -122,7 +122,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            return await _keyManager.GetDatabaseConnectionStringAsync(Configuration.Database, cancellationToken);
+            return await _keyManager.GetDatabaseConnectionStringAsync(Configuration.Database, cancellationToken).ConfigureAwait(false);
         }
 
         // Fallback to configuration values
@@ -136,7 +136,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            return await _keyManager.GetLocalAIApiKeyAsync(cancellationToken);
+            return await _keyManager.GetLocalAIApiKeyAsync(cancellationToken).ConfigureAwait(false);
         }
 
         return Configuration.LocalAI.ApiKey;
@@ -149,7 +149,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            return await _keyManager.GetExternalApiKeyAsync(provider);
+            return await _keyManager.GetExternalApiKeyAsync(provider).ConfigureAwait(false);
         }
 
         // Fallback to environment variables
@@ -164,7 +164,7 @@ public class ConfigurationService
     {
         if (_keyManager != null)
         {
-            await _keyManager.SetExternalApiKeyAsync(provider, apiKey, cancellationToken);
+            await _keyManager.SetExternalApiKeyAsync(provider, apiKey, cancellationToken).ConfigureAwait(false);
         }
         else
         {

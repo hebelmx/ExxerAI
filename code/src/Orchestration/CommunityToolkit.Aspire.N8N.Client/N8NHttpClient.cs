@@ -19,23 +19,23 @@ public class N8NHttpClient : IN8NClient
 
     public async Task<string> GetHealthAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/healthz", cancellationToken);
+        var response = await _httpClient.GetAsync("/healthz", cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync(cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<string> GetMetricsAsync(CancellationToken cancellationToken = default)
     {
-        var response = await _httpClient.GetAsync("/metrics", cancellationToken);
+        var response = await _httpClient.GetAsync("/metrics", cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync(cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<string> TriggerWorkflowAsync(string workflowId, object? input = null, CancellationToken cancellationToken = default)
     {
         var url = $"/webhook/{workflowId}";
-        var response = await _httpClient.PostAsJsonAsync(url, input ?? new { }, cancellationToken);
+        var response = await _httpClient.PostAsJsonAsync(url, input ?? new { }, cancellationToken).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
-        return await response.Content.ReadAsStringAsync(cancellationToken);
+        return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }
 }

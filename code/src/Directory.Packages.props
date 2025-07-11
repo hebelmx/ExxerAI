@@ -14,14 +14,15 @@
 		<!--<PackageVersion Include="System.Linq.Async" Version="6.0.1" />-->
 		<!-- https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable -->
 		<PackageVersion Include="NorthernNerds.Aspire.Neo4j" Version="2.0.0" />
-		<PackageVersion Include="System.Linq.AsyncEnumerable" Version="10.0.0-preview.5.25277.114" />
+		<!-- ASPIRE DCP FIX: Exclude .NET 10 packages from Aspire and MCP projects to prevent DCP conflicts -->
+		<PackageVersion Include="System.Linq.AsyncEnumerable" Version="10.0.0-preview.5.25277.114" Condition="'$(IsAspireHost)' != 'true' AND !$(MSBuildProjectName.Contains('Aspire')) AND !$(MSBuildProjectName.Contains('MCPServer'))" />
 		<!-- Add on .NET 10 -->
 
 		<PackageVersion Include="Aspirant.Hosting.Yarp" Version="0.0.4" />
-		<PackageVersion Include="Aspire.Azure.Npgsql" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.Azure.AppConfiguration" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.Python" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Azure.Npgsql" Version="8.2.2" />
+		<PackageVersion Include="Aspire.Hosting.Azure.AppConfiguration" Version="8.2.2" />
+		<PackageVersion Include="Aspire.Hosting.Python" Version="8.2.2" />
+		<PackageVersion Include="Aspire.Microsoft.Data.SqlClient" Version="8.2.2" />
 		<PackageVersion Include="CommunityToolkit.Aspire.EventStore" Version="9.5.0" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Redis.Extensions" Version="9.5.0" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Sqlite" Version="9.5.0" />
@@ -146,42 +147,41 @@
 		<PackageVersion Include="Neo4jClient" Version="5.27.15-cskardon" />
 		<PackageVersion Include="Qdrant.Client" Version="1.14.1" />
 		<!--Aspire Cache-->
-		<PackageVersion Include="Aspire.Hosting.Redis" Version="9.3.1" />
-		<!--Aspire Testing-->
-		<PackageVersion Include="Aspire.Hosting.Testing" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Hosting.Redis" Version="8.2.2" />
+		<!--Aspire Testing 8.2.2-->
+		<PackageVersion Include="Aspire.Hosting.Testing" Version="8.2.2" />
 		<PackageVersion Include="Aspirant.Hosting.Testing" Version="0.0.4" />
 		<!--Aspire Host Orchestration-->
-		<PackageVersion Include="Aspire.Hosting" Version="9.3.2" />
-		<!--<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />-->
-		<PackageVersion Include="Aspire.AppHost.Sdk" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.Orchestration.linux-x64" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Hosting" Version="8.2.2" />
+		<PackageVersion Include="Aspire.Hosting.AppHost" Version="8.2.2" />
+		<PackageVersion Include="Aspire.AppHost.Sdk" Version="8.2.2" />
+
 		<PackageVersion Include="InfinityFlow.Aspire.Temporal" Version="0.6.2" />
 		<!--Aspire Messaging-->
-		<PackageVersion Include="Aspire.Hosting.Kafka" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Hosting.Kafka" Version="8.2.2" />
 		<!--Aspire Data Access-->
-		<PackageVersion Include="Aspire.Hosting.Qdrant" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.SqlServer" Version="9.3.2" />
+		<PackageVersion Include="Aspire.Hosting.Qdrant" Version="8.2.2" />
+		<PackageVersion Include="Aspire.Hosting.SqlServer" Version="8.2.2" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.RavenDB" Version="9.5.0" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.SqlServer.Extensions" Version="9.5.0" />
-		<PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="8.2.2" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.PostgreSQL.Extensions" Version="9.5.1-beta.318" />
-		<PackageVersion Include="Aspire.Hosting.MongoDB" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Hosting.MongoDB" Version="8.2.2" />
 		<PackageVersion Include="NorthernNerds.Aspire.Hosting.Neo4j" Version="2.0.0" />
 		<PackageVersion Include="CommunityToolkit.Aspire.Hosting.Python.Extensions" Version="9.5.1-beta.318" />
 		<!--Aspire Data Frameworks-->
-		<PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Microsoft.EntityFrameworkCore.SqlServer" Version="8.2.2" />
+		<PackageVersion Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.2.2" />
 		<!--Aspire Data Clients-->
-		<PackageVersion Include="Aspire.Qdrant.Client" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Qdrant.Client" Version="8.2.2" />
 		<PackageVersion Include="Graphr.Neo4j" Version="8.0.1" />
 		<PackageVersion Include="N8.NetTools.Common" Version="0.7.2" />
 		<!--Log and Telemetry Clients-->
-		<PackageVersion Include="Aspire.Seq" Version="9.3.1" />
+		<PackageVersion Include="Aspire.Seq" Version="8.2.2" />
 		<!--Aspire Common Services-->
 		<PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.7" />
 		<PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.7.0" />
-		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
-		<PackageVersion Include="Aspire.Hosting.AppHost" Version="9.3.1" />
+		<PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="8.2.2" />
 		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
 		<PackageVersion Include="AspNetCore.HealthChecks.UI" Version="9.0.0" />
 		<PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="9.0.0" />

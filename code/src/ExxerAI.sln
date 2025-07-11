@@ -118,6 +118,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RagDoc.ServiceDefaults", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RagDoc.AppHost", "RagDoc\RagDoc.AppHost\RagDoc.AppHost.csproj", "{AB2BAEF2-04A8-6E97-901D-A2D1B7B93DF7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blaspire", "Blaspire", "{F69CEF62-9846-4767-B2E4-5BD53774E047}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -473,7 +475,7 @@ Global
 		{AB2BAEF2-04A8-6E97-901D-A2D1B7B93DF7} = {F38EEF56-3CDA-449A-B655-0EB53A3762DD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		FileExplorer = ..\..\|RagDoc\
 		SolutionGuid = {E6BC90A2-4C77-4E9D-A43C-67321AE52185}
+		FileExplorer = ..\..\|RagDoc\
 	EndGlobalSection
 EndGlobal

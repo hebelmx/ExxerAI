@@ -5,6 +5,7 @@
 		<LangVersion>preview</LangVersion>
 
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+		<WarningLevel>0</WarningLevel>
 
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 		<GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
@@ -63,5 +64,20 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>false</IsTestProject>
 		<ExcludeFromBuild>true</ExcludeFromBuild>
+	</PropertyGroup>
+
+	<!-- ASPIRE DCP FIX: Exclude Aspire and MCP projects from custom output paths to prevent DCP discovery issues -->
+	<PropertyGroup Condition="'$(IsAspireHost)' == 'true' OR $(MSBuildProjectName.Contains('Aspire')) OR $(MSBuildProjectName.Contains('MCPServer'))">
+		<!-- Reset to default paths for Aspire projects -->
+		<BaseIntermediateOutputPath></BaseIntermediateOutputPath>
+		<IntermediateOutputPath></IntermediateOutputPath>
+		<BaseOutputPath></BaseOutputPath>
+		<!-- Enable assembly info generation for Aspire workload detection -->
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<GenerateTargetFrameworkAttribute>true</GenerateTargetFrameworkAttribute>
+		<GenerateAssemblyConfigurationAttribute>true</GenerateAssemblyConfigurationAttribute>
+		<!-- Allow mixed .NET 9/.NET 10 preview scenario -->
+		<SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+		<NoWarn>$(NoWarn);NETSDK1045</NoWarn>
 	</PropertyGroup>
 </Project>

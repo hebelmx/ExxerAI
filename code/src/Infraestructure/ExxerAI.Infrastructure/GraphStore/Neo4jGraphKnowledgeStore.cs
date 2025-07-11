@@ -638,7 +638,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             {
                 foreach (var doc in documents)
                 {
-                    var docResult = await StoreDocumentAsync(doc, cancellationToken);
+                    var docResult = await StoreDocumentAsync(doc, cancellationToken).ConfigureAwait(false);
                     if (docResult.IsFailure)
                         return docResult;
                 }
@@ -647,7 +647,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             // Store concepts
             if (concepts?.Any() == true)
             {
-                var conceptResult = await StoreConceptsAsync(concepts, cancellationToken);
+                var conceptResult = await StoreConceptsAsync(concepts, cancellationToken).ConfigureAwait(false);
                 if (conceptResult.IsFailure)
                     return conceptResult;
             }
@@ -655,7 +655,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
             // Create relationships
             if (relationships?.Any() == true)
             {
-                var relationshipResult = await CreateRelationshipsAsync(relationships, cancellationToken);
+                var relationshipResult = await CreateRelationshipsAsync(relationships, cancellationToken).ConfigureAwait(false);
                 if (relationshipResult.IsFailure)
                     return relationshipResult;
             }
@@ -679,7 +679,7 @@ public class Neo4jGraphKnowledgeStore : IGraphKnowledgeStore
     {
         if (!_isInitialized)
         {
-            var result = await InitializeAsync(cancellationToken);
+            var result = await InitializeAsync(cancellationToken).ConfigureAwait(false);
             if (result.IsFailure)
                 throw new InvalidOperationException($"Graph store initialization failed: {result.Error}");
         }
