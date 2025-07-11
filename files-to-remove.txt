@@ -1,0 +1,5 @@
+code/src/RagDoc/RagDoc.AppHost/aspire_diagnostic.txt
+TestResults/
+test_results.trx
+TestResults.trx
+packages/
