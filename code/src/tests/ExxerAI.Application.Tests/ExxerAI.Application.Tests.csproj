@@ -64,6 +64,11 @@
 		<PackageReference Include="Shouldly" />
 		<PackageReference Include="NSubstitute" />
 
+		<PackageReference Include="xunit.v3.runner.msbuild">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
+
 		<!--Remove if .NET 10--><!--
 		<PackageReference Include="System.Linq.Async" />
 		--><!--https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable-->

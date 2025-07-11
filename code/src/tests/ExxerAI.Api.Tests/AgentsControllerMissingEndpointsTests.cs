@@ -35,6 +35,7 @@ public class AgentsControllerMissingEndpointsTests
         [Fact]
         public async Task Should_ReturnNoContent_When_TaskAssignedSuccessfullyAsync()
         {
+            var cancellationToken = TestContext.Current.CancellationToken;
             // Arrange
             var agentId = Guid.NewGuid();
             var taskId = Guid.NewGuid();
@@ -53,6 +54,7 @@ public class AgentsControllerMissingEndpointsTests
         [Fact]
         public async Task Should_ReturnBadRequest_When_InvalidModelStateAsync()
         {
+            var cancellationToken = TestContext.Current.CancellationToken;
             // Arrange
             var agentId = Guid.NewGuid();
             var request = new AssignTaskRequest { TaskId = Guid.NewGuid() };

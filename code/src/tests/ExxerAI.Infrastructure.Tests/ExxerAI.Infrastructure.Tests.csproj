@@ -51,6 +51,10 @@
 		</PackageReference>
 		<PackageReference Include="coverlet.collector" />
 		<PackageReference Include="xunit.v3.runner.inproc.console" />
+		<PackageReference Include="xunit.v3.runner.msbuild">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<!-- ============================================================================ -->

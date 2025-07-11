@@ -6,8 +6,8 @@
 	<PropertyGroup>
 		<!-- Target Framework -->
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-		<TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
-	
+
+
 		<!-- Avoid generate duplicated asemblies -->
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
@@ -73,7 +73,10 @@
 		</PackageReference>
 		<PackageReference Include="xunit.v3.runner.inproc.console" />
 
-
+		<PackageReference Include="xunit.v3.runner.msbuild">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 
 		<PackageReference Include="coverlet.collector" />
 		</ItemGroup>
@@ -90,11 +93,9 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Global Usings">
 		<Using Include="Xunit" />
+		<Using Include="Shouldly" />
 	</ItemGroup>
 
-	<!-- ============================================================================ -->
-	<!-- ALWAYS INCLUDE xunit.runner.json-->
-	<!-- ============================================================================ -->
 
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
@@ -103,10 +104,6 @@
 		<ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
 
 	</ItemGroup>
-	<ItemGroup>
-	  <None Update="xunit.runner.json">
-	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
+
 
 </Project>
