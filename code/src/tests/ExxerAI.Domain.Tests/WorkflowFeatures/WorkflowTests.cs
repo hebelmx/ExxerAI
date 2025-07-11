@@ -1,4 +1,4 @@
-namespace ExxerAI.Domain.Tests;
+namespace ExxerAI.Domain.Tests.WorkflowFeatures;
 
 /// <summary>
 /// Unit tests for Workflow domain entity
@@ -57,4 +57,4 @@ public class WorkflowTests
         workflow.Executions.ShouldNotBeNull();
         workflow.Executions.ShouldBeEmpty();
     }
-}
+} 
