@@ -19,7 +19,7 @@ public static class CancellationAwareResult
     {
         // Validate arguments
         if (operation is null)
-            return Result<T>.WithFailure($"Operation was null name of {operation} type Typeof {operation}");
+            return Result<T>.WithFailure($"Operation was null name of {nameof(operation)} type Typeof {typeof(Func<CancellationToken, Task<T>>)}");
 
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
@@ -53,7 +53,7 @@ public static class CancellationAwareResult
     {
         // Validate arguments
         if (operation is null)
-            throw new ArgumentNullException(nameof(operation));
+            return Result<T>.WithFailure($"Operation was null name of {nameof(operation)} type Typeof {typeof(Func<CancellationToken, Task<Result<T>>>)}");
 
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
@@ -85,7 +85,7 @@ public static class CancellationAwareResult
     {
         // Validate arguments
         if (operation is null)
-            throw new ArgumentNullException(nameof(operation));
+            return Result.WithFailure($"Operation was null name of {nameof(operation)} type Typeof {typeof(Func<CancellationToken, Task>)}");
 
         // Early cancellation check
         if (cancellationToken.IsCancellationRequested)
@@ -121,7 +121,7 @@ public static class CancellationAwareResult
     {
         // Validate arguments
         if (operation is null)
-            throw new ArgumentNullException(nameof(operation));
+            return Result<T>.WithFailure($"Operation was null name of {nameof(operation)} type Typeof {typeof(Func<CancellationToken, Task<T>>)}");
 
         using var timeoutCts = new CancellationTokenSource(timeout);
         using var combinedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
