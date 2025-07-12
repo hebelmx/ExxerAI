@@ -932,7 +932,7 @@ public sealed class Result<T>
     /// <summary>
     /// Gets a value indicating whether the result is a success, and the value is not null
     /// </summary>
-    public bool IsSuccessValueNull => IsSuccess && (Value is null);
+    public bool IsSuccessValueNull => _isSuccess && (Value is null);
 
     /// <summary>
     /// Gets a value indicating whether the result has warnings or error messages.
@@ -1108,16 +1108,28 @@ public sealed class Result<T>
 
     /// <summary>
     /// Executes the specified action if the result is successful.
-    /// Follows industry standard Result&lt;T&gt; pattern: executes for all successful results regardless of null values.
+    /// Follows industry standard Result&lt;T&gt; pattern: executes for all successful results when T is nullable.
+    /// For non-nullable types, only executes when value is not null to respect C# developer expectations.
     /// </summary>
     /// <param name="action">The action to execute on success, receiving the value.</param>
     /// <returns>The current <see cref="Result{T}"/> instance.</returns>
     public Result<T> OnSuccess(Action<T> action)
     {
-        if (_isSuccess && Value is not null)
+        if (!_isSuccess) return this;
+
+        // Check if T is nullable
+        var isNullableType = typeof(T).IsClass || 
+                           Nullable.GetUnderlyingType(typeof(T)) != null ||
+                           !typeof(T).IsValueType;
+
+        // Execute action for successful results:
+        // - Always execute if value is not null
+        // - Execute if value is null but T is explicitly nullable
+        if (Value is not null || isNullableType)
         {
             action(Value);
         }
+
         return this;
     }
 
@@ -1144,26 +1156,58 @@ public sealed class Result<T>
 
     /// <summary>
     /// Maps a successful result to a <see cref="Result{TOut}"/> using the provided function, or propagates errors.
-    /// Follows industry standard Result&lt;T&gt; pattern: maps successful results regardless of null values.
+    /// Follows industry standard Result&lt;T&gt; pattern: maps successful results when T is nullable or value is not null.
     /// </summary>
     /// <typeparam name="TOut">The type of the value to return on success.</typeparam>
     /// <param name="func">The function to execute on success.</param>
     /// <returns>A <see cref="Result{TOut}"/> representing the outcome.</returns>
     public Result<TOut> Map<TOut>(Func<T, TOut> func)
     {
-        return _isSuccess && Value is not null ? Result<TOut>.Success(func(Value)) : Result<TOut>.WithFailure(Errors);
+        if (!_isSuccess) return Result<TOut>.WithFailure(Errors);
+
+        // Check if T is nullable
+        var isNullableType = typeof(T).IsClass || 
+                           Nullable.GetUnderlyingType(typeof(T)) != null ||
+                           !typeof(T).IsValueType;
+
+        // Execute function for successful results:
+        // - Always execute if value is not null
+        // - Execute if value is null but T is explicitly nullable
+        if (Value is not null || isNullableType)
+        {
+            return Result<TOut>.Success(func(Value));
+        }
+
+        // For non-nullable types with null values, propagate as failure
+        return Result<TOut>.WithFailure("Cannot map null value for non-nullable type");
     }
 
     /// <summary>
     /// Binds a successful result to another <see cref="Result{TOut}"/> using the provided function, or propagates errors.
-    /// Follows industry standard Result&lt;T&gt; pattern: binds successful results regardless of null values.
+    /// Follows industry standard Result&lt;T&gt; pattern: binds successful results when T is nullable or value is not null.
     /// </summary>
     /// <typeparam name="TOut">The type of the value to return on success.</typeparam>
     /// <param name="func">The function to execute on success.</param>
     /// <returns>A <see cref="Result{TOut}"/> representing the outcome.</returns>
     public Result<TOut> Bind<TOut>(Func<T, Result<TOut>> func)
     {
-        return _isSuccess && Value is not null ? func(Value) : Result<TOut>.WithFailure(Errors);
+        if (!_isSuccess) return Result<TOut>.WithFailure(Errors);
+
+        // Check if T is nullable
+        var isNullableType = typeof(T).IsClass || 
+                           Nullable.GetUnderlyingType(typeof(T)) != null ||
+                           !typeof(T).IsValueType;
+
+        // Execute function for successful results:
+        // - Always execute if value is not null
+        // - Execute if value is null but T is explicitly nullable
+        if (Value is not null || isNullableType)
+        {
+            return func(Value);
+        }
+
+        // For non-nullable types with null values, propagate as failure
+        return Result<TOut>.WithFailure("Cannot bind null value for non-nullable type");
     }
 
     /// <summary>
@@ -1192,16 +1236,28 @@ public sealed class Result<T>
 
     /// <summary>
     /// Executes the specified action if the result is successful, returning the current result.
-    /// Follows industry standard Result&lt;T&gt; pattern: executes for all successful results regardless of null values.
+    /// Follows industry standard Result&lt;T&gt; pattern: executes for all successful results when T is nullable.
+    /// For non-nullable types, only executes when value is not null to respect C# developer expectations.
     /// </summary>
     /// <param name="action">The action to execute on success, receiving the value.</param>
     /// <returns>The current <see cref="Result{T}"/> instance.</returns>
     public Result<T> Tap(Action<T> action)
     {
-        if (_isSuccess && Value is not null)
+        if (!_isSuccess) return this;
+
+        // Check if T is nullable
+        var isNullableType = typeof(T).IsClass || 
+                           Nullable.GetUnderlyingType(typeof(T)) != null ||
+                           !typeof(T).IsValueType;
+
+        // Execute action for successful results:
+        // - Always execute if value is not null
+        // - Execute if value is null but T is explicitly nullable
+        if (Value is not null || isNullableType)
         {
             action(Value);
         }
+
         return this;
     }
 
@@ -1245,7 +1301,7 @@ public sealed class Result<T>
 
     /// <summary>
     /// Matches the result to either a success or failure function.
-    /// Follows industry standard Result&lt;T&gt; pattern: null values are treated as valid success values.
+    /// Follows industry standard Result&lt;T&gt; pattern: calls success function for all successful operations.
     /// </summary>
     /// <typeparam name="TOut">The return type.</typeparam>
     /// <param name="onSuccess">Function to execute on success, receiving the value.</param>
@@ -1255,11 +1311,11 @@ public sealed class Result<T>
     {
         if (!_isSuccess)
         {
-            return onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
+            return Result<TOut>.Success(onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]));
         }
 
-        // Industry standard: null values are valid success values when T is nullable
-        return Value is not null ? onSuccess(Value) : onFailure(Errors ?? [ResultConstants.DefaultErrorMessage]);
+        // Industry standard: successful operations should call success function regardless of null values
+        return Result<TOut>.Success(onSuccess(Value));
     }
 
     /// <summary>
