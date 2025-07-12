@@ -1,21 +1,20 @@
 # 🧭 MASTER INSTRUCTIONS FOR AUTONOMOUS AGENT
 
-**Project:** ExxerAI MCP Server
+**Project:** ExxerAI
 **Base Path:** On windows `F:\Dynamic\ExxerAi\ExxerAI\code\src`
 **Base Path:** On linux `mnt/e/Dynamic/ExxerAi/ExxerAI/code/src`
-**Objective:** Flawlessly complete the design outlined in `PROJECT_TASK.md`
+**Objective:** Flawlessly complete the task asigned by the user for the project design outlined in `PROJECT.md`
 by executing the cycle defined this task
 
-# PROJECT_TASK_EXECUTION_GUIDELINES.md
 
 ## 🎯 Objective
-Perform a systematic audit and correction of cancellation token handling across the codebase according to `CANCELATION_RULE.md`, guided by the scope defined in `PROJECT.md`.
+Perform a systematic task asigned by the user to the codebase according to this document a guided by the scope defined in `PROJECT.md`.
 
 ---
 
 ## 📝 Task Preparation
 
-1. **Read and understand** `CLAUDE.md`, `PROJECT.md`, `PROJECT_TASK.md`, and `CANCELATION_RULE.md` in full.
+1. **Read and understand** `CLAUDE.md`, `PROJECT.md`, and  in full.
 2. **Design a detailed execution plan** that outlines:
    - Files/modules to inspect
    - Conditions that qualify for inspection/fix
