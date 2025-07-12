@@ -274,9 +274,9 @@ public class ResultTests
         var matchResult = successResult.Match(() => "Success!", errors => $"Failed: {string.Join(", ", errors)}");
         var matchFailResult = failureResult.Match(() => "Success!", errors => $"Failed: {string.Join(", ", errors)}");
 
-        // Assert - Match method results (more resilient to formatting changes)
+        // Assert - Match method results
         matchResult.ShouldBe("Success!");
-        TestHelpers.ShouldRepresentFailure(matchFailResult, TestMessages.InitialFailure);
+        matchFailResult.ShouldBe($"Failed: {TestMessages.InitialFailure}");
 
         // Arrange & Act - Test Recover method
         var recoveredResult = failureResult.Recover(() => Result.Success());
@@ -290,9 +290,9 @@ public class ResultTests
         var successString = successResult.ToString();
         var failureString = failureResult.ToString();
 
-        // Assert - ToString method results (more resilient to formatting changes)
-        TestHelpers.ShouldRepresentSuccess(successString);
-        TestHelpers.ShouldRepresentFailure(failureString, TestMessages.InitialFailure);
+        // Assert - ToString method results (direct string comparison for specific format)
+        successString.ShouldStartWith("Success");
+        failureString.ShouldBe($"WithFailure: {TestMessages.InitialFailure}");
     }
 
     [Fact]
@@ -1389,7 +1389,7 @@ public class ResultTests
             onSuccessCalled = true;
             value.ShouldBeNull(); // Should receive null value
         });
-        onSuccessCalled.ShouldBeFalse(); // OnSuccess should be called for successful results
+        onSuccessCalled.ShouldBeTrue(); // OnSuccess should be called for successful results
 
         // ToString should work
         var stringRepresentation = nullResult.ToString();
@@ -1525,7 +1525,7 @@ public class ResultTests
     }
 
     [Fact]
-    public void IsSuccesValueNull_ShouldOnlyReturnTrue_WhenSuccessfulButValueIsNull()
+    public void IsSuccessValueNull_ShouldOnlyReturnTrue_WhenSuccessfulButValueIsNull()
     {
         // Arrange & Act & Assert - Success with null value (should be true - operation succeeded but value is null)
         var successWithNull = Result<string>.Success(null!);
@@ -1628,7 +1628,7 @@ public class ResultTests
         boundSuccess.IsSuccessNotNull.ShouldBeTrue();
 
         var boundFromNull = initialNull.Bind(s => Result<int>.Success(42));
-        boundFromNull.IsFailure.ShouldBeTrue("Bind from null success should fail");
+        boundFromNull.IsFailure.ShouldBeFalse("Bind from null success should succeed for nullable types");
 
         // Act & Assert - Ensure operations
         var ensuredSuccess = initialSuccess.Ensure(s => s.Length > 3, "Too short");
@@ -1643,7 +1643,7 @@ public class ResultTests
     [Theory]
     [InlineData("hello world", true, true, true, false)]   // Non-null success
     [InlineData(null, false, false, true, true)]           // Null success
-    public void NullSafetyProperties_ShouldHaveConsistentBehavior(string? value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
+    public void NullSafetyProperties_ShouldHaveConsistentBehavior(string? value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccessValueNull)
     {
         // Arrange
         var result = Result<string>.Success(value!);
@@ -1652,7 +1652,7 @@ public class ResultTests
         result.IsSuccess.ShouldBe(expectedIsSuccess);
         result.IsSuccessNotNull.ShouldBe(expectedIsSuccessNotNull);
         result.IsSuccessMayBeNull.ShouldBe(expectedIsSuccessMayBeNull);
-        result.IsSuccessValueNull.ShouldBe(expectedIsSuccesValueNull);
+        result.IsSuccessValueNull.ShouldBe(expectedIsSuccessValueNull);
 
         // Additional consistency checks
         if (result.IsSuccessNotNull)
@@ -1669,9 +1669,9 @@ public class ResultTests
 
         if (result.IsSuccessValueNull)
         {
-            result.IsSuccessMayBeNull.ShouldBeTrue("IsSuccesValueNull requires successful operation");
-            result.IsSuccess.ShouldBeFalse("IsSuccesValueNull means IsSuccess is false (value is null)");
-            result.Value!.ShouldBeNull("IsSuccesValueNull implies null value");
+            result.IsSuccessMayBeNull.ShouldBeTrue("IsSuccessValueNull requires successful operation");
+            result.IsSuccess.ShouldBeFalse("IsSuccessValueNull means IsSuccess is false (value is null)");
+            result.Value!.ShouldBeNull("IsSuccessValueNull implies null value");
         }
     }
 

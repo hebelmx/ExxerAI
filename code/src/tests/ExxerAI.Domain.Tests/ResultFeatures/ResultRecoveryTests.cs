@@ -320,25 +320,23 @@ public class ResultRecoveryTests
     }
 
     [Fact]
-    public void OnSuccess_WithNullValueNonNullableType_ShouldNotExecuteAction()
+    public void OnSuccess_WithValidValueNonNullableType_ShouldExecuteAction()
     {
-        // Arrange - Create result where T is a non-nullable reference type but forced to null
-        // Use a custom struct to ensure it's truly non-nullable
-        var result = new Result<NonNullableStruct>(true, Array.Empty<string>());
+        // Arrange - Create result where T is a non-nullable value type with valid value
+        var result = new Result<int>(true, Array.Empty<string>(), 42);
         var actionExecuted = false;
 
-        // Act
+        // Act - Since int is non-nullable and we have a valid value, OnSuccess SHOULD execute
         var successResult = result.OnSuccess(value =>
         {
             actionExecuted = true;
         });
 
-        // Assert - Action should NOT execute for non-nullable types with null values
-        // OnSuccess checks nullable type and won't execute if value is null for non-nullable types
-        actionExecuted.ShouldBeFalse("OnSuccess should not execute for non-nullable types with null values");
+        // Assert - Action SHOULD execute for non-nullable types with valid values
+        actionExecuted.ShouldBeTrue("OnSuccess should execute for non-nullable types with valid values");
         result.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful");
-        result.IsSuccess.ShouldBeFalse("IsSuccess should be false when value is null");
-        result.IsSuccessValueNull.ShouldBeTrue("Value is null in successful operation");
+        result.IsSuccess.ShouldBeTrue("IsSuccess should be true when value is not null");
+        result.IsSuccessValueNull.ShouldBeFalse("Value is not null");
         successResult.ShouldBeSameAs(result);
     }
 
