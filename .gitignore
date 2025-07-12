@@ -19,9 +19,11 @@ Samples/local-ai-packaged/neo4j/data/transactions/**/*.db.0
 ScaffoldingReadMe.txt
 
 ## NuGet
+# Ignore common package/SDK folders
 *.nupkg
-packages/
-
+**/nuggets/
+**/packages/
+**/sdk/
 ## Logs
 *.log
 logs/
@@ -32,7 +34,7 @@ appsettings.Local.json
 *.env
 .env.*
 secrets.json
-
+google-credentials0json
 ## IDE
 .vscode/
 .idea/

@@ -1,0 +1,12 @@
+{
+  "GoogleDrive": {
+    "CredentialsPath": "./google-credentials.json",
+    "ApplicationName": "ExxerAI-Infrastructure-Testing"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Warning",
+      "ExxerAI": "Information"
+    }
+  }
+}

@@ -848,7 +848,17 @@ public class CancellationHandlingTests
     }
 
     /// <summary>
-    /// Tests multiple cancellation sources.
+    /// Tests that operations with multiple linked cancellation sources are properly handled.
+    /// <para>
+    /// <b>BEHAVIOR VERIFIED:</b> <c>WrapCancellationAware&lt;T&gt;</c> properly handles complex cancellation 
+    /// scenarios involving multiple linked <c>CancellationTokenSource</c> instances. When any source 
+    /// in the linked chain is cancelled, the operation is cancelled and returns a cancellation result.
+    /// </para>
+    /// <para>
+    /// <b>LINKED CANCELLATION:</b> This demonstrates how the wrapper integrates with .NET's linked 
+    /// cancellation token pattern, supporting hierarchical cancellation scenarios common in complex 
+    /// async workflows where multiple cancellation sources may need to coordinate.
+    /// </para>
     /// </summary>
     [Fact]
     public async Task WrapCancellationAware_WithMultipleCancellationSources_ShouldHandleCorrectly()

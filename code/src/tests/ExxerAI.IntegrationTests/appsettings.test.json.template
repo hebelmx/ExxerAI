@@ -1,0 +1,42 @@
+{
+  "GoogleDrive": {
+    "CredentialsPath": "./google-credentials.json",
+    "ApplicationName": "ExxerAI-Testing",
+    
+    // REQUIRED: Replace with actual Google Drive document ID
+    // Example: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+    // Get ID from URL: https://drive.google.com/file/d/[DOCUMENT_ID]/view
+    "TestDocumentId": "YOUR_TEST_DOCUMENT_ID_HERE",
+    
+    // REQUIRED: Replace with actual Google Drive folder ID  
+    // Example: "1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms"
+    // Get ID from URL: https://drive.google.com/drive/folders/[FOLDER_ID]
+    "TestFolderId": "YOUR_TEST_FOLDER_ID_HERE",
+    
+    // OPTIONAL: Large document for performance testing (>1MB)
+    "LargeTestDocumentId": "YOUR_LARGE_DOCUMENT_ID_HERE",
+    
+    // OPTIONAL: Additional test documents for different scenarios
+    "TestDocuments": {
+      "PDF": "YOUR_PDF_DOCUMENT_ID",
+      "Word": "YOUR_WORD_DOCUMENT_ID", 
+      "Excel": "YOUR_EXCEL_DOCUMENT_ID",
+      "PowerPoint": "YOUR_PPT_DOCUMENT_ID"
+    }
+  },
+  "TestConfiguration": {
+    "EnableRealApiTests": true,
+    "EnablePerformanceTests": true,
+    "EnableLongRunningTests": false,
+    "MaxTestDocumentSizeMB": 10,
+    "TestTimeoutMinutes": 5
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information",
+      "ExxerAI": "Debug"
+    }
+  }
+}

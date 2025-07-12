@@ -2,3 +2,21 @@ src/dotnet-sdk-*.tar.gz
 src/sdk-*-binaries
 CoverageReport
 CoverageResults
+
+# Credentials and Secrets
+**/credentials.json
+**/client_secret*.json
+**/google-credentials*.json
+**/appsettings.local.json
+**/appsettings.test.json
+**/*.credentials.json
+**/.env
+**/.env.local
+**/.env.test
+**/secrets/
+**/keys/
+
+# Test Fixtures and Data
+**/test-documents/
+**/test-data/
+**/fixture-data/
