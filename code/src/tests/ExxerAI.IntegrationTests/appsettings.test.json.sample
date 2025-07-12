@@ -1,0 +1,20 @@
+{
+  "GoogleDrive": {
+    "CredentialsPath": "path/to/your/google-credentials.json",
+    "ApplicationName": "ExxerAI-Integration-Tests",
+    "TestFolderId": "your-test-folder-id-here",
+    "TestDocumentId": "your-test-document-id-here",
+    "LargeTestDocumentId": "your-large-test-document-id-here"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "ExxerAI": "Debug",
+      "Microsoft": "Warning",
+      "System": "Warning"
+    }
+  },
+  "EXXERAI_TEST_": {
+    "Note": "You can also set these as environment variables with EXXERAI_TEST_ prefix"
+  }
+} 

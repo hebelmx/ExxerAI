@@ -19,6 +19,10 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 
+		<!-- Cross-platform build fix: Disable static web assets that cause path issues in WSL -->
+		<EnableDefaultStaticWebAssets>false</EnableDefaultStaticWebAssets>
+		<IncludePackageStaticWebAssets>false</IncludePackageStaticWebAssets>
+
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI Integration Tests</AssemblyTitle>
 		<Description>Unit and Integration Tests for ExxerAI Integration Services</Description>
@@ -50,7 +54,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="coverlet.collector" />
+
 		<PackageReference Include="xunit.v3.runner.inproc.console" />
 		<PackageReference Include="xunit.v3.runner.msbuild">
 			<PrivateAssets>all</PrivateAssets>
@@ -64,12 +68,25 @@
 	<ItemGroup Label="Testing Utilities">
 		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
+		<!-- Testcontainers for Docker-based integration testing -->
+		<PackageReference Include="Testcontainers" />
+		<PackageReference Include="Testcontainers.Neo4j" />
+		<PackageReference Include="Testcontainers.Qdrant" />
+
+		<!-- Qdrant container (using custom Docker image) -->
+		<PackageReference Include="Docker.DotNet" />
 	</ItemGroup>
+
+
+	<!-- ============================================================================ -->
+	<!-- PACKAGE EXCLUSIONS - Cross-platform compatibility -->
+	<!-- ============================================================================ -->
 	<ItemGroup>
-	  <ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
-	  <ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
-	  <ProjectReference Include="..\..\Infraestructure\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
-	  <ProjectReference Include="..\..\Infraestructure\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
+		<!-- Exclude UI packages that cause static web asset path issues in WSL/Linux -->
+		<PackageReference Include="Extensions.MudBlazor.StaticInput" ExcludeAssets="all" />
+		<PackageReference Include="MudBlazor" ExcludeAssets="all"  />
+		<!-- Exclude emptyfiles package that causes WSL path issues -->
+		<PackageReference Include="EmptyFiles" ExcludeAssets="all" />
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
@@ -82,5 +99,10 @@
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->
 	<!-- ============================================================================ -->
-
+	<ItemGroup>
+		<ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
+		<ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
+		<ProjectReference Include="..\..\Infraestructure\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
+		<ProjectReference Include="..\..\Infraestructure\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
+	</ItemGroup>
 </Project>

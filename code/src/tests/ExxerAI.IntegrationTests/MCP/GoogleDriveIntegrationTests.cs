@@ -2,12 +2,15 @@ using ExxerAi.MCPServer.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Services;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Operations;
+using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Shouldly;
 using Xunit;
+using NSubstitute;
+using ExxerAi.MCPServer.Application.Services;
 
 namespace ExxerAI.IntegrationTests.MCP;
 
@@ -21,7 +24,7 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IGoogleDriveService _driveService;
-    private readonly IHybridDocumentProcessor _documentProcessor;
+    private readonly IPolymorphicDocumentProcessor _documentProcessor;
     private readonly IConfiguration _configuration;
     private readonly ILogger<GoogleDriveIntegrationTests> _logger;
     
@@ -46,12 +49,45 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         // Register MCP services
+        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
-        services.AddScoped<IHybridDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
+        services.AddScoped<IPolymorphicDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
+        
+        // Mock ILLMService for testing
+        services.AddScoped<ILLMService>(provider => 
+        {
+            var mockLLMService = Substitute.For<ILLMService>();
+            // Setup basic mock behavior
+            mockLLMService.ValidateModelAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<bool>.WithSuccess(true)));
+            mockLLMService.GenerateTextAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<LLMParameters>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<LLMResponse>.WithSuccess(new LLMResponse 
+                { 
+                    Content = "Mock LLM Response", 
+                    InputTokens = 10, 
+                    OutputTokens = 20, 
+                    EstimatedCost = 0.001m 
+                })));
+            return mockLLMService;
+        });
+        
+        // Mock IDocumentHashGenerator for testing (auxiliary service)
+        services.AddScoped<IDocumentHashGenerator>(provider => 
+        {
+            var mockHashGenerator = Substitute.For<IDocumentHashGenerator>();
+            // Setup basic mock behavior
+            mockHashGenerator.GenerateHashAsync(Arg.Any<byte[]>(), Arg.Any<DocumentMetadata>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<DocumentHash>.WithSuccess(new DocumentHash("sample-content-hash", "sample-metadata-hash"))));
+            mockHashGenerator.GenerateContentHashAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<string>.WithSuccess("sample-content-hash")));
+            mockHashGenerator.VerifyIntegrityAsync(Arg.Any<byte[]>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<bool>.WithSuccess(true)));
+            return mockHashGenerator;
+        });
 
         _serviceProvider = services.BuildServiceProvider();
         _driveService = _serviceProvider.GetRequiredService<IGoogleDriveService>();
-        _documentProcessor = _serviceProvider.GetRequiredService<IHybridDocumentProcessor>();
+        _documentProcessor = _serviceProvider.GetRequiredService<IPolymorphicDocumentProcessor>();
         _logger = _serviceProvider.GetRequiredService<ILogger<GoogleDriveIntegrationTests>>();
     }
 
@@ -59,20 +95,12 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
     {
         _logger.LogInformation("Initializing Google Drive integration tests...");
 
-        // Verify credentials are available
-        var credentialsPath = _configuration["GoogleDrive:CredentialsPath"];
-        if (string.IsNullOrEmpty(credentialsPath))
-        {
-            throw new InvalidOperationException(
-                "Google Drive credentials not configured. Set GoogleDrive:CredentialsPath in test configuration.");
-        }
-
-        // Initialize the service
+        // Initialize the service - let the credential resolver handle credential resolution
         var initResult = await _driveService.InitializeAsync(TestContext.Current.CancellationToken);
         if (initResult.IsFailure)
         {
             throw new InvalidOperationException(
-                $"Failed to initialize Google Drive service: {string.Join(", ", initResult.Errors)}");
+                $"Failed to initialize Google Drive for integration tests: {string.Join(", ", initResult.Errors)}");
         }
 
         _logger.LogInformation("Google Drive service initialized successfully for testing");
@@ -96,7 +124,7 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
             }
         }
 
-        _serviceProvider.Dispose();
+        (_serviceProvider as IDisposable)?.Dispose();
         _logger.LogInformation("Integration test cleanup completed");
     }
 
@@ -398,7 +426,7 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         var results = await Task.WhenAll(tasks);
 
         // Assert
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         
         var successfulResults = results.Where(r => r.IsSuccess).ToArray();
         successfulResults.Length.ShouldBeGreaterThan(0); // At least some should succeed

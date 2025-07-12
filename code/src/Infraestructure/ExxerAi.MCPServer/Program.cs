@@ -83,7 +83,8 @@ public class Program
 		// builder.Services.AddScoped<IHybridDocumentProcessor, HybridDocumentProcessor>();
 		// builder.Services.AddScoped<IPersistentPatternDictionary, PersistentPatternDictionary>();
 		
-		// Register Google Drive integration service
+		// Register Google Drive integration services
+		builder.Services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
 		builder.Services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 
 		// Register MCP Server services with automatic tool discovery

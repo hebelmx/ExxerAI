@@ -1,35 +1,63 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Infrastructure.GraphStore;
+using ExxerAI.IntegrationTests.Fixtures;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Neo4jClient;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.IntegrationTests.KnowledgeStore;
 
 /// <summary>
 /// Integration tests for Neo4j graph knowledge store implementation
-/// Tests actual behavior against Neo4j instance when orchestration is ready
+/// Tests actual behavior against containerized Neo4j instance
 /// </summary>
-public class Neo4jGraphStoreIntegrationTests : IDisposable
+public class Neo4jGraphStoreIntegrationTests : IClassFixture<Neo4jContainerFixture>, IAsyncLifetime
 {
+    private readonly Neo4jContainerFixture _containerFixture;
     private readonly ILogger<Neo4jGraphKnowledgeStore> _logger;
     private IGraphClient _graphClient = null!;
     private Neo4jGraphKnowledgeStore _graphStore = null!;
 
-    public Neo4jGraphStoreIntegrationTests()
+    public Neo4jGraphStoreIntegrationTests(Neo4jContainerFixture containerFixture)
     {
+        _containerFixture = containerFixture;
         _logger = Substitute.For<ILogger<Neo4jGraphKnowledgeStore>>();
     }
 
-    public void Dispose()
+    public async ValueTask InitializeAsync()
     {
-        _graphClient?.Dispose();
+        // Ensure container is available before running tests
+        if (_containerFixture.IsAvailable)
+        {
+            await _containerFixture.CleanDatabaseAsync();
+        }
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    public async ValueTask DisposeAsync()
+    {
+        _graphClient?.Dispose();
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Helper method to check if Neo4j container is available for testing
+    /// </summary>
+    private void EnsureContainerAvailable()
+    {
+        if (!_containerFixture.IsAvailable)
+        {
+            throw new SkipException("Neo4j container not available - install Docker and try again");
+        }
+    }
+
+    [Fact]
     public async Task Neo4jGraphStore_Initialize_ShouldCreateConstraintsAndIndexesAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
 
@@ -41,9 +69,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         _logger.Received().LogInformation(Arg.Is<string>(s => s.Contains("initialized successfully")));
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_StoreDocument_ShouldCreateDocumentNodeWithPropertiesAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
@@ -83,9 +114,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         results.First()["type"].ShouldBe(document.DocumentType);
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_StoreConcepts_ShouldCreateConceptNodesWithMetadataAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
@@ -139,9 +173,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         results.Any(r => r["name"].ToString() == "Artificial Intelligence").ShouldBeTrue();
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_CreateRelationships_ShouldLinkDocumentsAndConceptsAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -190,9 +227,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         Convert.ToSingle(results.First()["weight"]).ShouldBe(0.8f, tolerance: 0.01f);
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_FindRelatedDocuments_ShouldTraverseGraphCorrectlyAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -214,9 +254,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         documents.All(d => !string.IsNullOrEmpty(d.Content)).ShouldBeTrue();
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_FindRelatedConcepts_ShouldDiscoverConceptualConnectionsAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -238,9 +281,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         concepts.All(c => !string.IsNullOrEmpty(c.Name)).ShouldBeTrue();
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_FindShortestPath_ShouldDiscoverConnectionPathsAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -269,9 +315,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         }
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_BatchOperations_ShouldHandleLargeDataSetsEfficientlyAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -294,9 +343,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         stats.Value!.TotalRelationships.ShouldBeGreaterThanOrEqualTo(100);
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_DeleteDocument_ShouldRemoveNodeAndRelationshipsAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -320,9 +372,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         count.ShouldBe(0);
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_ConcurrentOperations_ShouldMaintainDataIntegrityAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -351,6 +406,9 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
     [InlineData("MATCH ()-[r]->() RETURN count(r) as relationshipCount")]
     public async Task Neo4jGraphStore_ExecuteQuery_ShouldHandleVariousCypherQueriesAsync(string cypherQuery)
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(TestContext.Current.CancellationToken);
@@ -364,9 +422,12 @@ public class Neo4jGraphStoreIntegrationTests : IDisposable
         results.Count.ShouldBeGreaterThanOrEqualTo(0);
     }
 
-    [Fact(Skip = "Integration test - requires Neo4j orchestration to be ready")]
+    [Fact]
     public async Task Neo4jGraphStore_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
+        // Skip if container is not available
+        EnsureContainerAvailable();
+
         // Arrange
         SetupGraphClient();
         await _graphStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);

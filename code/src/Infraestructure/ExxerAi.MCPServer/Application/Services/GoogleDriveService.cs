@@ -18,7 +18,7 @@ namespace ExxerAi.MCPServer.Application.Services;
 public class GoogleDriveService : IGoogleDriveService
 {
     private readonly ILogger<GoogleDriveService> _logger;
-    private readonly IConfiguration _configuration;
+    private readonly IGoogleDriveCredentialResolver _credentialResolver;
     private readonly IHybridDocumentProcessor? _documentProcessor;
     private DriveService? _driveService;
     private readonly Dictionary<string, WatchSession> _activeSessions = [];
@@ -27,15 +27,15 @@ public class GoogleDriveService : IGoogleDriveService
     /// Initializes a new instance of the GoogleDriveService
     /// </summary>
     /// <param name="logger">Logger instance</param>
-    /// <param name="configuration">Configuration for API credentials</param>
+    /// <param name="credentialResolver">Credential resolver for multiple sources</param>
     /// <param name="documentProcessor">Document processing pipeline (optional)</param>
     public GoogleDriveService(
         ILogger<GoogleDriveService> logger,
-        IConfiguration configuration,
+        IGoogleDriveCredentialResolver credentialResolver,
         IHybridDocumentProcessor? documentProcessor = null)
     {
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+        _credentialResolver = credentialResolver ?? throw new ArgumentNullException(nameof(credentialResolver));
         _documentProcessor = documentProcessor; // Optional for now
     }
 
@@ -49,16 +49,15 @@ public class GoogleDriveService : IGoogleDriveService
         {
             _logger.LogInformation("Initializing Google Drive service...");
 
-            // Get OAuth credentials from configuration
-            var clientId = _configuration["GoogleDrive:ClientId"] ??
-                          Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
-            var clientSecret = _configuration["GoogleDrive:ClientSecret"] ??
-                              Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET");
-
-            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+            // Resolve credentials from multiple sources
+            var credentialsResult = await _credentialResolver.ResolveCredentialsAsync(cancellationToken).ConfigureAwait(false);
+            if (credentialsResult.IsFailure)
             {
-                return Result<bool>.WithFailure("Google Drive OAuth credentials not configured. Set GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET environment variables.");
+                return Result<bool>.WithFailure(credentialsResult.Error);
             }
+
+            var credentials = credentialsResult.Value;
+            _logger.LogInformation("🔑 Using credentials from: {Source}", credentials.Source);
 
             // Early cancellation check
             if (cancellationToken.IsCancellationRequested)
@@ -68,8 +67,8 @@ public class GoogleDriveService : IGoogleDriveService
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 new ClientSecrets
                 {
-                    ClientId = clientId,
-                    ClientSecret = clientSecret
+                    ClientId = credentials.ClientId,
+                    ClientSecret = credentials.ClientSecret
                 },
                 new[] { DriveService.Scope.DriveReadonly, DriveService.Scope.DriveFile },
                 "user",
@@ -82,7 +81,7 @@ public class GoogleDriveService : IGoogleDriveService
                 ApplicationName = "ExxerAI MCP Server"
             });
 
-            _logger.LogInformation("✅ Google Drive service initialized successfully");
+            _logger.LogInformation("✅ Google Drive service initialized successfully using {Source}", credentials.Source);
             return Result<bool>.WithSuccess(true);
         }
         catch (Exception ex)

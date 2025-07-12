@@ -1,5 +1,6 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Infrastructure.VectorStore;
+using ExxerAI.IntegrationTests.Fixtures;
 using Microsoft.Extensions.Logging;
 using Microsoft.VisualBasic;
 using NSubstitute;
@@ -10,27 +11,38 @@ namespace ExxerAI.IntegrationTests.KnowledgeStore;
 
 /// <summary>
 /// Integration tests for Qdrant vector store implementation
-/// Tests actual behavior against Qdrant instance when orchestration is ready
+/// Tests actual behavior against containerized Qdrant instance
 /// </summary>
-public class QdrantVectorStoreIntegrationTests : IDisposable
+public class QdrantVectorStoreIntegrationTests : IClassFixture<QdrantContainerFixture>, IAsyncLifetime
 {
     private readonly ILogger<QdrantVectorStore> _logger;
     private readonly string _testCollectionName;
+    private readonly QdrantContainerFixture _containerFixture;
     private QdrantClient _qdrantClient = null!;
     private QdrantVectorStore _vectorStore = null!;
 
-    public QdrantVectorStoreIntegrationTests()
+    public QdrantVectorStoreIntegrationTests(QdrantContainerFixture containerFixture)
     {
+        _containerFixture = containerFixture ?? throw new ArgumentNullException(nameof(containerFixture));
         _logger = Substitute.For<ILogger<QdrantVectorStore>>();
         _testCollectionName = $"test_collection_{Guid.NewGuid():N}";
     }
 
-    public void Dispose()
+    public async ValueTask InitializeAsync()
     {
-        _qdrantClient?.Dispose();
+        // Container fixture handles Qdrant startup
+        _containerFixture.EnsureAvailable();
+        SetupQdrantClient();
+        await Task.CompletedTask;
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    public async ValueTask DisposeAsync()
+    {
+        _qdrantClient?.Dispose();
+        await Task.CompletedTask;
+    }
+
+    [Fact]
     public async Task QdrantVectorStore_Initialize_ShouldCreateCollectionSuccessfullyAsync()
     {
         // Arrange
@@ -44,7 +56,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         _logger.Received().LogInformation(Arg.Is<string>(s => s.Contains("initialized successfully")));
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Fact]
     public async Task QdrantVectorStore_StoreAndRetrieve_ShouldMaintainEmbeddingIntegrityAsync()
     {
         // Arrange
@@ -80,7 +92,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         results.First().Metadata["category"].ShouldBe("technology");
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Fact]
     public async Task QdrantVectorStore_BatchOperations_ShouldHandleLargeDatasetsAsync()
     {
         // Arrange
@@ -105,7 +117,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         searchResult.Value!.Count().ShouldBeGreaterThan(50); // At least half should be similar
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Fact]
     public async Task QdrantVectorStore_DeleteOperation_ShouldRemoveDocumentCompletelyAsync()
     {
         // Arrange
@@ -130,7 +142,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         searchResult.Value!.Any(r => r.DocumentId == documentId).ShouldBeFalse();
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Fact]
     public async Task QdrantVectorStore_ConcurrentOperations_ShouldMaintainDataConsistencyAsync()
     {
         // Arrange
@@ -158,7 +170,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         stats.Value!.TotalVectors.ShouldBeGreaterThanOrEqualTo(documentCount);
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Fact]
     public async Task QdrantVectorStore_MetadataFiltering_ShouldReturnFilteredResultsAsync()
     {
         // Arrange
@@ -183,7 +195,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
                         r.Metadata["meta_category"].ToString() == "technology").ShouldBeTrue();
     }
 
-    [Theory(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Theory]
     [InlineData(512)]   // text-embedding-ada-002 alternative
     [InlineData(1536)]  // text-embedding-3-small
     [InlineData(3072)]  // text-embedding-3-large
@@ -191,7 +203,8 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
     {
         // Arrange
         var customCollectionName = $"test_dim_{dimensions}_{Guid.NewGuid():N}";
-        var customClient = new QdrantClient("localhost", 6333, https: false);
+        var config = _containerFixture.GetConnectionConfig();
+        var customClient = new QdrantClient(config.Host, config.Port, https: config.IsSecure);
         var customStore = new QdrantVectorStore(customClient, _logger, customCollectionName, dimensions);
 
         // Act
@@ -207,7 +220,7 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
         customClient.Dispose();
     }
 
-    [Fact(Skip = "Integration test - requires Qdrant orchestration to be ready")]
+    [Fact]
     public async Task QdrantVectorStore_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
         // Arrange
@@ -237,7 +250,8 @@ public class QdrantVectorStoreIntegrationTests : IDisposable
 
     private void SetupQdrantClient()
     {
-        _qdrantClient = new QdrantClient("localhost", 6333, https: false);
+        var config = _containerFixture.GetConnectionConfig();
+        _qdrantClient = new QdrantClient(config.Host, config.Port, https: config.IsSecure);
         _vectorStore = new QdrantVectorStore(_qdrantClient, _logger, _testCollectionName, 1536);
     }
 

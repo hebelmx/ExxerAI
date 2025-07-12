@@ -2,11 +2,14 @@ using ExxerAi.MCPServer.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Services;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Operations;
+using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shouldly;
 using Xunit;
+using NSubstitute;
+using ExxerAi.MCPServer.Application.Services;
 
 namespace ExxerAI.IntegrationTests.MCP;
 
@@ -20,7 +23,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly IGoogleDriveService _driveService;
-    private readonly IHybridDocumentProcessor _documentProcessor;
+    private readonly IPolymorphicDocumentProcessor _documentProcessor;
     private readonly IDocumentIngestionService _ingestionService;
     private readonly IConfiguration _configuration;
     private readonly ILogger<MCPEdgeCasesAndErrorTests> _logger;
@@ -40,13 +43,46 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         services.AddSingleton(_configuration);
         services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning)); // Reduced logging for error tests
 
+        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
-        services.AddScoped<IHybridDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
+        services.AddScoped<IPolymorphicDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
         services.AddScoped<IDocumentIngestionService, ExxerAI.Application.Services.DocumentIngestionService>();
+        
+        // Mock ILLMService for testing
+        services.AddScoped<ILLMService>(provider => 
+        {
+            var mockLLMService = Substitute.For<ILLMService>();
+            // Setup basic mock behavior
+            mockLLMService.ValidateModelAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<bool>.WithSuccess(true)));
+            mockLLMService.GenerateTextAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<LLMParameters>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<LLMResponse>.WithSuccess(new LLMResponse 
+                { 
+                    Content = "Mock LLM Response", 
+                    InputTokens = 10, 
+                    OutputTokens = 20, 
+                    EstimatedCost = 0.001m 
+                })));
+            return mockLLMService;
+        });
+        
+        // Mock IDocumentHashGenerator for testing
+        services.AddScoped<IDocumentHashGenerator>(provider => 
+        {
+            var mockHashGenerator = Substitute.For<IDocumentHashGenerator>();
+            // Setup basic mock behavior
+            mockHashGenerator.GenerateHashAsync(Arg.Any<byte[]>(), Arg.Any<DocumentMetadata>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<DocumentHash>.WithSuccess(new DocumentHash("sample-content-hash", "sample-metadata-hash"))));
+            mockHashGenerator.GenerateContentHashAsync(Arg.Any<byte[]>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<string>.WithSuccess("sample-content-hash")));
+            mockHashGenerator.VerifyIntegrityAsync(Arg.Any<byte[]>(), Arg.Any<string>(), Arg.Any<CancellationToken>())
+                .Returns(Task.FromResult(Result<bool>.WithSuccess(true)));
+            return mockHashGenerator;
+        });
 
         _serviceProvider = services.BuildServiceProvider();
         _driveService = _serviceProvider.GetRequiredService<IGoogleDriveService>();
-        _documentProcessor = _serviceProvider.GetRequiredService<IHybridDocumentProcessor>();
+        _documentProcessor = _serviceProvider.GetRequiredService<IPolymorphicDocumentProcessor>();
         _ingestionService = _serviceProvider.GetRequiredService<IDocumentIngestionService>();
         _logger = _serviceProvider.GetRequiredService<ILogger<MCPEdgeCasesAndErrorTests>>();
     }
@@ -81,7 +117,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
             }
         }
 
-        _serviceProvider.Dispose();
+        (_serviceProvider as IDisposable)?.Dispose();
     }
 
     #region Network and Connectivity Edge Cases
@@ -165,7 +201,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         var results = await Task.WhenAll(tasks);
 
         // Assert - Some requests may fail due to rate limiting, but service should remain stable
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         
         var successCount = results.Count(r => r.IsSuccess);
         var failureCount = results.Count(r => r.IsFailure);
@@ -201,8 +237,9 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         // Act & Assert
         foreach (var (fileName, data) in corruptedDocuments)
         {
+            var documentMetadata = new DocumentMetadata { FileName = fileName };
             var result = await _documentProcessor.ProcessDocumentAsync(
-                data, fileName, TestContext.Current.CancellationToken);
+                data, documentMetadata, TestContext.Current.CancellationToken);
 
             result.ShouldNotBeNull($"Processing {fileName} should return a result");
             result.IsFailure.ShouldBeTrue($"Processing {fileName} should fail gracefully");
@@ -228,8 +265,9 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(2));
 
         // Act
+        var documentMetadata = new DocumentMetadata { FileName = fileName };
         var result = await _documentProcessor.ProcessDocumentAsync(
-            largeDocumentData, fileName, cts.Token);
+            largeDocumentData, documentMetadata, cts.Token);
 
         // Assert - Should either process successfully or fail gracefully due to size limits
         result.ShouldNotBeNull();
@@ -265,8 +303,9 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         // Act & Assert
         foreach (var (fileName, data) in unsupportedFiles)
         {
+            var documentMetadata = new DocumentMetadata { FileName = fileName };
             var result = await _documentProcessor.ProcessDocumentAsync(
-                data, fileName, TestContext.Current.CancellationToken);
+                data, documentMetadata, TestContext.Current.CancellationToken);
 
             result.ShouldNotBeNull($"Processing {fileName} should return a result");
             
@@ -309,7 +348,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         };
 
         // Act & Assert
-        foreach (var invalidId in invalidDocumentIds.Where(id => id is not null))
+        foreach (var invalidId in invalidDocumentIds.Where(id => id != null))
         {
             var metadataResult = await _driveService.GetDocumentMetadataAsync(invalidId, TestContext.Current.CancellationToken);
             var downloadResult = await _driveService.DownloadDocumentAsync(invalidId, TestContext.Current.CancellationToken);
@@ -349,7 +388,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         };
 
         // Act & Assert
-        foreach (var invalidId in invalidFolderIds.Where(id => id is not null))
+        foreach (var invalidId in invalidFolderIds.Where(id => id != null))
         {
             var watchResult = await _driveService.StartFolderWatchAsync(invalidId, cancellationToken: TestContext.Current.CancellationToken);
             
@@ -393,7 +432,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         var results = await Task.WhenAll(watchTasks);
 
         // Assert
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
 
         var successfulWatches = results.Where(r => r.IsSuccess).Select(r => r.Value).ToList();
         
@@ -403,7 +442,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         // Verify no duplicate watch IDs (if any succeeded)
         if (successfulWatches.Count > 1)
         {
-            successfulWatches.Should().OnlyHaveUniqueItems("Watch session IDs should be unique");
+            successfulWatches.Distinct().Count().ShouldBe(successfulWatches.Count, "Watch session IDs should be unique");
         }
 
         _logger.LogInformation("✓ Concurrent watch sessions handled: {Successful}/{Total} succeeded", 
@@ -423,9 +462,10 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
             .Select(i => 
             {
                 var docData = GenerateLargePdfDocument(docSizeMB * 1024 * 1024);
+                var documentMetadata = new DocumentMetadata { FileName = $"concurrent-large-doc-{i}.pdf" };
                 return _documentProcessor.ProcessDocumentAsync(
                     docData, 
-                    $"concurrent-large-doc-{i}.pdf", 
+                    documentMetadata, 
                     TestContext.Current.CancellationToken);
             })
             .ToArray();
@@ -434,7 +474,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         var results = await Task.WhenAll(processingTasks);
 
         // Assert
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
 
         var successful = results.Count(r => r.IsSuccess);
         var failed = results.Count(r => r.IsFailure);
@@ -466,9 +506,10 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         
         for (int i = 0; i < documentCount; i++)
         {
+            var documentMetadata = new DocumentMetadata { FileName = $"memory-pressure-doc-{i}.pdf" };
             var result = await _documentProcessor.ProcessDocumentAsync(
                 documents[i], 
-                $"memory-pressure-doc-{i}.pdf", 
+                documentMetadata, 
                 TestContext.Current.CancellationToken);
             
             results.Add(result);
@@ -483,7 +524,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         }
 
         // Assert
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         
         var successfulProcessing = results.Count(r => r.IsSuccess);
         

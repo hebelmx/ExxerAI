@@ -1,6 +1,7 @@
 using ExxerAi.MCPServer.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Services;
 using ExxerAI.Application.Interfaces;
+using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,7 @@ public class GoogleDriveTestFixture : IAsyncLifetime
     public IServiceProvider ServiceProvider { get; private set; } = null!;
     public IConfiguration Configuration { get; private set; } = null!;
     public IGoogleDriveService DriveService { get; private set; } = null!;
-    public IHybridDocumentProcessor DocumentProcessor { get; private set; } = null!;
+    public IPolymorphicDocumentProcessor DocumentProcessor { get; private set; } = null!;
     public IDocumentIngestionService IngestionService { get; private set; } = null!;
 
     // Test data properties
@@ -63,15 +64,16 @@ public class GoogleDriveTestFixture : IAsyncLifetime
             builder.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         // Register MCP services
+        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
-        services.AddScoped<IHybridDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
+        services.AddScoped<IPolymorphicDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
         services.AddScoped<IDocumentIngestionService, ExxerAI.Application.Services.DocumentIngestionService>();
 
         ServiceProvider = services.BuildServiceProvider();
 
         // Get services
         DriveService = ServiceProvider.GetRequiredService<IGoogleDriveService>();
-        DocumentProcessor = ServiceProvider.GetRequiredService<IHybridDocumentProcessor>();
+        DocumentProcessor = ServiceProvider.GetRequiredService<IPolymorphicDocumentProcessor>();
         IngestionService = ServiceProvider.GetRequiredService<IDocumentIngestionService>();
 
         // Initialize Google Drive service
@@ -101,7 +103,7 @@ public class GoogleDriveTestFixture : IAsyncLifetime
             }
         }
 
-        ServiceProvider.Dispose();
+        (ServiceProvider as IDisposable)?.Dispose();
     }
 
     /// <summary>

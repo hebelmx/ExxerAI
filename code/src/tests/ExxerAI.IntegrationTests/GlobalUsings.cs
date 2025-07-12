@@ -8,4 +8,6 @@ global using System.Text.Json.Serialization;
 global using System.Text.RegularExpressions;
 global using ExxerAI.Domain;
 global using ExxerAI.Domain.Configurations;
+global using ExxerAI.Domain.DocumentProcessing;
 global using ExxerAI.Domain.ValueObjects;
+global using ExxerAI.Application.Interfaces;

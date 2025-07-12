@@ -4,21 +4,24 @@ using ExxerAI.Infrastructure.Embeddings;
 using ExxerAI.Infrastructure.GraphStore;
 using ExxerAI.Infrastructure.VectorStore;
 using ExxerAI.Domain.Operations;
+using ExxerAI.IntegrationTests.Fixtures;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Neo4jClient;
 using Qdrant.Client;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.IntegrationTests.KnowledgeStore;
 
 /// <summary>
 /// Integration tests for hybrid knowledge service combining vector and graph stores
-/// Tests end-to-end behavior when orchestration is ready
+/// Tests end-to-end behavior using containerized orchestration
 /// </summary>
-public class HybridKnowledgeServiceIntegrationTests : IDisposable
+public class HybridKnowledgeServiceIntegrationTests : IClassFixture<KnowledgeStoreContainerFixture>, IAsyncLifetime
 {
+    private readonly KnowledgeStoreContainerFixture _containerFixture;
     private readonly ILogger<HybridKnowledgeService> _hybridLogger;
     private readonly ILogger<QdrantVectorStore> _vectorLogger;
     private readonly ILogger<Neo4jGraphKnowledgeStore> _graphLogger;
@@ -29,8 +32,9 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     private HybridKnowledgeService _hybridService = null!;
     private readonly string _testCollectionName;
 
-    public HybridKnowledgeServiceIntegrationTests()
+    public HybridKnowledgeServiceIntegrationTests(KnowledgeStoreContainerFixture containerFixture)
     {
+        _containerFixture = containerFixture;
         _hybridLogger = Substitute.For<ILogger<HybridKnowledgeService>>();
         _vectorLogger = Substitute.For<ILogger<QdrantVectorStore>>();
         _graphLogger = Substitute.For<ILogger<Neo4jGraphKnowledgeStore>>();
@@ -38,15 +42,39 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         _testCollectionName = $"hybrid_test_{Guid.NewGuid():N}";
     }
 
-    public void Dispose()
+    public async ValueTask InitializeAsync()
+    {
+        // Ensure containers are available before running tests
+        if (_containerFixture.IsFullyAvailable)
+        {
+            await _containerFixture.SetupTestScenarioAsync("empty");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
     {
         _qdrantClient?.Dispose();
         _neo4jClient?.Dispose();
+        await Task.CompletedTask;
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    /// <summary>
+    /// Helper method to check if containers are available for testing
+    /// </summary>
+    private void EnsureContainersAvailable()
+    {
+        if (!_containerFixture.IsFullyAvailable)
+        {
+            throw new SkipException("Docker containers not available - install Docker and try again");
+        }
+    }
+
+    [Fact]
     public async Task HybridKnowledgeService_Initialize_ShouldSetupBothStoresAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
 
@@ -58,9 +86,15 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         _hybridLogger.Received().LogInformation(Arg.Is<string>(s => s.Contains("initialized successfully")));
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_StoreDocumentWithKnowledge_ShouldIndexInBothStoresAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(TestContext.Current.CancellationToken);
@@ -130,9 +164,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         hybridResults!.SemanticResults.Any(r => r.DocumentId == knowledgeDocument.DocumentId).ShouldBeTrue();
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_SearchHybrid_ShouldCombineSemanticAndGraphResultsAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -174,9 +211,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         resultTypes.Count.ShouldBeGreaterThan(0);
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_ExploreConceptRelationships_ShouldTraverseKnowledgeGraphAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -201,9 +241,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
                                  d.Content.Contains("artificial intelligence")).ShouldBeTrue();
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_GetKnowledgeStats_ShouldReturnCombinedStatisticsAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -223,9 +266,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         stats!.GraphStats.TotalRelationships.ShouldBeGreaterThan(0);
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_RemoveDocument_ShouldDeleteFromBothStoresAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -250,9 +296,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         searchResult.Value!.CombinedResults.Any(r => r.DocumentId == documentId).ShouldBeFalse();
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_ConcurrentOperations_ShouldMaintainConsistencyAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -283,6 +332,9 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
     public async Task HybridKnowledgeService_DifferentWeightings_ShouldProduceDifferentRankingsAsync(
         float semanticWeight, float graphWeight)
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -313,9 +365,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         }
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_PerformanceTest_ShouldMeetResponseTimeRequirementsAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
@@ -343,9 +398,12 @@ public class HybridKnowledgeServiceIntegrationTests : IDisposable
         searchStopwatch.ElapsedMilliseconds.ShouldBeLessThan(3000); // < 3 seconds for hybrid search
     }
 
-    [Fact(Skip = "Integration test - requires full orchestration (Qdrant + Neo4j + OpenAI) to be ready")]
+    [Fact]
     public async Task HybridKnowledgeService_DataConsistency_ShouldMaintainVectorGraphAlignmentAsync()
     {
+        // Skip if containers are not available
+        EnsureContainersAvailable();
+
         // Arrange
         SetupHybridService();
         await _hybridService.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
