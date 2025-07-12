@@ -1,3 +1,5 @@
+using System.Dynamic;
+
 namespace ExxerAI.Domain.Tests.PersonaFeatures;
 
 /// <summary>
@@ -547,7 +549,7 @@ public class PersonaTests
         };
 
         // Act
-        var value = persona.Metadata["non_existent"];
+        var value = persona.GetMetadata<DynamicObject>("non_existent");
 
         // Assert
         value.ShouldBeNull();
