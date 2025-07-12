@@ -123,7 +123,7 @@ public class ResultRecoveryTests
     /// REGRESSION TEST: Ensures we don't get runtime exceptions from type conversion.
     /// This validates that the dangerous cast fix properly handles edge cases.
     /// </summary>
-    [Fact]  
+    [Fact]
     public void RecoverWith_ShouldHandleComplexTypeConversions_SafelyWithoutExceptions()
     {
         // Arrange - Test various incompatible type scenarios
@@ -173,7 +173,7 @@ public class ResultRecoveryTests
             errors => $"Failed: {string.Join(", ", errors)}"
         );
 
-        // Assert  
+        // Assert
         matchResult.Value!.ShouldBe("Success: test value");
     }
 
@@ -191,6 +191,22 @@ public class ResultRecoveryTests
 
         // Assert
         matchResult.Value!.ShouldBe("Failed: test error");
+    }
+
+    [Fact]
+    public void Match_WithNullValueInSuccessfulResult_ShouldCallSuccessFunction()
+    {
+        // Arrange - Create a successful result with null value (valid per industry standard)
+        var result = Result<string?>.Success(null);
+
+        // Act - Match should treat null as valid success value and call success function
+        var matchResult = result.Match(
+            value => value is null ? -1 : -3, // This SHOULD be called with null value
+            errors => -2 // This should NOT be called
+        );
+
+        // Assert - Should call success function with null value (industry standard behavior)
+        matchResult.Value!.ShouldBe(-1); // Success function called with null value
     }
 
     [Fact]
@@ -241,24 +257,8 @@ public class ResultRecoveryTests
         var combinedResult = result.Combine(otherResult);
 
         // Assert - Should succeed because null is a valid success value
-        combinedResult.IsSuccess.ShouldBeTrue();
+        combinedResult.IsSuccessMayBeNull.ShouldBeTrue();
         combinedResult.Value!.ShouldBeNull();
-    }
-
-    [Fact]
-    public void Match_WithNullValueInSuccessfulResult_ShouldCallSuccessFunction()
-    {
-        // Arrange - Create a successful result with null value (valid per industry standard)
-        var result = Result<string?>.Success(null);
-
-        // Act - Match should treat null as valid success value and call success function
-        var matchResult = result.Match(
-            value => value is null ? -1 : -3, // This SHOULD be called with null value
-            errors => -2 // This should NOT be called
-        );
-
-        // Assert - Should call success function with null value (industry standard behavior)
-        matchResult.Value!.ShouldBe(-1); // Success function called with null value
     }
 
     [Fact]
@@ -270,13 +270,13 @@ public class ResultRecoveryTests
         var actionReceivedValue = "NOT_SET";
 
         // Act - Should execute action for successful result (even with null value)
-        var tappedResult = result.Tap(value => 
+        var tappedResult = result.Tap(value =>
         {
             actionExecuted = true;
             actionReceivedValue = value ?? "NULL_RECEIVED";
         });
 
-        // Assert - Action should be executed because result is successful
+        // Assert - Action should be executed because result is successful and T is nullable
         actionExecuted.ShouldBeTrue();
         actionReceivedValue.ShouldBe("NULL_RECEIVED");
         tappedResult.ShouldBeSameAs(result); // Should return same instance
@@ -307,16 +307,45 @@ public class ResultRecoveryTests
         var actionReceivedValue = "NOT_SET";
 
         // Act
-        var successResult = result.OnSuccess(value => 
+        var successResult = result.OnSuccess(value =>
         {
             actionExecuted = true;
             actionReceivedValue = value ?? "NULL_RECEIVED";
         });
 
-        // Assert - Action should be executed because result is successful
+        // Assert - Action should be executed because result is successful and T is nullable
         actionExecuted.ShouldBeTrue();
         actionReceivedValue.ShouldBe("NULL_RECEIVED");
         successResult.ShouldBeSameAs(result);
+    }
+
+    [Fact]
+    public void OnSuccess_WithNullValueNonNullableType_ShouldNotExecuteAction()
+    {
+        // Arrange - Create result where T is a non-nullable reference type but forced to null
+        // Use a custom struct to ensure it's truly non-nullable
+        var result = new Result<NonNullableStruct>(true, Array.Empty<string>());
+        var actionExecuted = false;
+
+        // Act
+        var successResult = result.OnSuccess(value =>
+        {
+            actionExecuted = true;
+        });
+
+        // Assert - Action should NOT execute for non-nullable types with null values
+        // OnSuccess checks nullable type and won't execute if value is null for non-nullable types
+        actionExecuted.ShouldBeFalse("OnSuccess should not execute for non-nullable types with null values");
+        result.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful");
+        result.IsSuccess.ShouldBeFalse("IsSuccess should be false when value is null");
+        result.IsSuccessValueNull.ShouldBeTrue("Value is null in successful operation");
+        successResult.ShouldBeSameAs(result);
+    }
+
+    // Helper struct for testing non-nullable behavior
+    private struct NonNullableStruct
+    {
+        public int Value { get; set; }
     }
 
     [Fact]
@@ -350,4 +379,4 @@ public class ResultRecoveryTests
     }
 
     #endregion Type Safety Regression Tests
-} 
+}

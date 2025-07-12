@@ -1480,7 +1480,7 @@ public class ResultTests
         resultWithNull.IsSuccessMayBeNull.ShouldBeTrue("Success operation, regardless of null value");
         resultWithNull.IsSuccess.ShouldBeFalse("IsSuccess guarantees non-null value");
         resultWithNull.IsSuccessNotNull.ShouldBeFalse("Value is null");
-        resultWithNull.IsSuccessValueNull.ShouldBeFalse("IsSuccess is false, so this is false too");
+        resultWithNull.IsSuccessValueNull.ShouldBeTrue("Operation succeeded but value is null");
     }
 
     [Fact]
@@ -1527,10 +1527,10 @@ public class ResultTests
     [Fact]
     public void IsSuccesValueNull_ShouldOnlyReturnTrue_WhenSuccessfulButValueIsNull()
     {
-        // Arrange & Act & Assert - Success with null value (should be false due to IsSuccess requirement)
+        // Arrange & Act & Assert - Success with null value (should be true - operation succeeded but value is null)
         var successWithNull = Result<string>.Success(null!);
-        successWithNull.IsSuccessValueNull.ShouldBeFalse("IsSuccess is false when Value is null, so this is false");
-        successWithNull.IsSuccessMayBeNull.ShouldBeTrue("But operation was successful");
+        successWithNull.IsSuccessValueNull.ShouldBeTrue("Operation succeeded but value is null");
+        successWithNull.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful");
         successWithNull.Value.ShouldBeNull();
 
         // Arrange & Act & Assert - Success with non-null value
@@ -1602,7 +1602,7 @@ public class ResultTests
         warningWithNull.IsSuccessMayBeNull.ShouldBeTrue("Operation was successful despite warnings");
         warningWithNull.IsSuccess.ShouldBeFalse("Value is null");
         warningWithNull.IsSuccessNotNull.ShouldBeFalse("Value is null");
-        warningWithNull.IsSuccessValueNull.ShouldBeFalse("IsSuccess is false, so this is false");
+        warningWithNull.IsSuccessValueNull.ShouldBeTrue("Operation succeeded but value is null");
         warningWithNull.HasWarnings.ShouldBeTrue();
     }
 
@@ -1642,7 +1642,7 @@ public class ResultTests
 
     [Theory]
     [InlineData("hello world", true, true, true, false)]   // Non-null success
-    [InlineData(null, false, false, true, false)]          // Null success
+    [InlineData(null, false, false, true, true)]           // Null success
     public void NullSafetyProperties_ShouldHaveConsistentBehavior(string? value, bool expectedIsSuccess, bool expectedIsSuccessNotNull, bool expectedIsSuccessMayBeNull, bool expectedIsSuccesValueNull)
     {
         // Arrange
@@ -1669,7 +1669,8 @@ public class ResultTests
 
         if (result.IsSuccessValueNull)
         {
-            result.IsSuccess.ShouldBeTrue("IsSuccesValueNull requires IsSuccess");
+            result.IsSuccessMayBeNull.ShouldBeTrue("IsSuccesValueNull requires successful operation");
+            result.IsSuccess.ShouldBeFalse("IsSuccesValueNull means IsSuccess is false (value is null)");
             result.Value!.ShouldBeNull("IsSuccesValueNull implies null value");
         }
     }
