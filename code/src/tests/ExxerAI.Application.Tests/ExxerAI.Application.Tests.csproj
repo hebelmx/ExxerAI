@@ -4,7 +4,7 @@
 	<!-- CORE PROPERTIES -->
 	<!-- ============================================================================ -->
 	<PropertyGroup>
-		<!-- Target Framework -->
+		<!-- Target Framework Defined on Build.Props Do to Add Another here-->
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
 
@@ -47,7 +47,7 @@
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Testing Framework">
 		<PackageReference Include="Microsoft.NET.Test.Sdk" />
-		<PackageReference Include="System.Linq.AsyncEnumerable" />
+	
 
 		<PackageReference Include="xunit.v3" />
 		<PackageReference Include="xunit.analyzers">
@@ -69,9 +69,15 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
 		</PackageReference>
 
-		<!--Remove if .NET 10--><!--
+
 		<PackageReference Include="System.Linq.Async" />
-		--><!--https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable-->
+		
+		<!--Remove if .NET 10-->
+			<!--
+		Net 9   <PackageReference Include="System.Linq.Async" />
+		Net 10	<PackageReference Include="System.Linq.AsyncEnumerable" />
+		-->
+			<!--https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/10.0/asyncenumerable-->
 
 	</ItemGroup>
 	<ItemGroup>

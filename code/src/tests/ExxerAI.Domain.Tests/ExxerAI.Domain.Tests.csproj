@@ -4,7 +4,7 @@
 	<!-- CORE PROPERTIES -->
 	<!-- ============================================================================ -->
 	<PropertyGroup>
-		<!-- Target Framework -->
+		<!-- Target Framework Defined on Build.Props Do to Add Another here-->
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
 
@@ -49,12 +49,12 @@
 	</PropertyGroup>
 	<!-- HACK_WARNING_DO_NOT_AUTOMATE_THIS -->
 
-	<Target Name="ForceCopyDiffEngine" AfterTargets="Build">
+	<!--<Target Name="ForceCopyDiffEngine" AfterTargets="Build">
 		<ItemGroup>
-			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\net9.0\DiffEngine.dll" />
+			<DiffEngineDll Include="$(NuGetPackageRoot)diffengine\16.2.3\lib\\DiffEngine.dll" />
 		</ItemGroup>
 		<Copy SourceFiles="@(DiffEngineDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="false" OverwriteReadOnlyFiles="true" />
-	</Target>
+	</Target>-->
 
 	<!-- ============================================================================ -->
 	<!-- PACKAGE REFERENCES - TESTING FRAMEWORK (XUnit v3) -->

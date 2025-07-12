@@ -76,7 +76,7 @@ public class PersonaTests
         persona.Traits["tone"].ShouldBe("professional");
         persona.Traits["expertise_level"].ShouldBe("expert");
         persona.Traits["communication_style"].ShouldBe("concise");
-        
+
         persona.KnowledgeDomains.Count.ShouldBe(3);
         persona.KnowledgeDomains.ShouldContain("software_architecture");
         persona.KnowledgeDomains.ShouldContain("cloud_computing");
@@ -547,7 +547,7 @@ public class PersonaTests
         };
 
         // Act
-        var value = persona.GetMetadata("non_existent");
+        var value = persona.Metadata["non_existent"];
 
         // Assert
         value.ShouldBeNull();
@@ -621,4 +621,4 @@ public class PersonaTests
         persona.Templates.ShouldNotBeNull();
         persona.Metadata.ShouldNotBeNull();
     }
-} 
+}

@@ -4,8 +4,8 @@
 	<!-- CORE PROPERTIES -->
 	<!-- ============================================================================ -->
 	<PropertyGroup>
-		<!-- Target Framework -->
-		<TargetFramework>net9.0</TargetFramework>
+		<!-- Target Framework Defined on Build.Props Do to Add Another here-->
+		
 		<UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
 
 		<TreatWarningsAsErrors>false</TreatWarningsAsErrors>
@@ -69,8 +69,8 @@
 		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
 
-		<PackageReference Include="Microsoft.Extensions.Hosting"  />
-		<PackageReference Include="Microsoft.Extensions.Options"  />
+		<PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="Microsoft.Extensions.Options" />
 
 	</ItemGroup>
 	<ItemGroup>

@@ -7,8 +7,8 @@
   <!-- CORE PROPERTIES -->
   <!-- ============================================================================ -->
   <PropertyGroup>
-    <!-- Target Framework -->
-    <TargetFramework>net9.0</TargetFramework>
+    <!-- Target Framework Defined on Build.Props Do to Add Another here-->
+    
     
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
 
