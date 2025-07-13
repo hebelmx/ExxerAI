@@ -6,6 +6,7 @@ CoverageResults
 # Credentials and Secrets
 **/credentials.json
 **/client_secret*.json
+**/exxerai.gdrive.json
 **/google-credentials*.json
 **/appsettings.local.json
 **/appsettings.test.json

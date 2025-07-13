@@ -37,6 +37,7 @@ secrets.json
 google-credentials.json
 GDrive.Api.json
 GDrive.Api
+exxerai.gdrive.json
 
 ## IDE
 .vscode/
