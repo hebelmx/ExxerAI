@@ -23,16 +23,16 @@ public class ModernCredentialTest
         var result = await resolver.ResolveCredentialsAsync();
 
         // Assert & Debug Info
-        Console.WriteLine("🔍 MODERN CREDENTIAL TEST RESULTS:");
-        Console.WriteLine($"   Resolution Success: {result.IsSuccess}");
+         logger.LogInformation("🔍 MODERN CREDENTIAL TEST RESULTS:");
+         logger.LogInformation($"   Resolution Success: {result.IsSuccess}");
         
         if (result.IsSuccess)
         {
             var creds = result.Value;
-            Console.WriteLine($"   ✅ Type: {creds.Type}");
-            Console.WriteLine($"   ✅ Source: {creds.Source}");
-            Console.WriteLine($"   ✅ Is Scoped: {creds.IsScoped}");
-            Console.WriteLine($"   ✅ Has GoogleCredential: {creds.GoogleCredential != null}");
+             logger.LogInformation($"   ✅ Type: {creds.Type}");
+             logger.LogInformation($"   ✅ Source: {creds.Source}");
+             logger.LogInformation($"   ✅ Is Scoped: {creds.IsScoped}");
+             logger.LogInformation($"   ✅ Has GoogleCredential: {creds.GoogleCredential != null}");
             
             // Verify modern ADC approach
             creds.Type.ShouldBe(CredentialType.ApplicationDefault);
@@ -41,16 +41,16 @@ public class ModernCredentialTest
         }
         else
         {
-            Console.WriteLine("   ❌ Errors:");
+             logger.LogInformation("   ❌ Errors:");
             foreach (var error in result.Errors)
             {
-                Console.WriteLine($"     - {error}");
+                 logger.LogInformation($"     - {error}");
             }
             
             // If ADC is not configured, that's expected in some environments
             if (result.Errors.Any(e => e.Contains("not configured")))
             {
-                Console.WriteLine("   💡 This is expected if 'gcloud auth application-default login' hasn't been run");
+                 logger.LogInformation("   💡 This is expected if 'gcloud auth application-default login' hasn't been run");
                 return; // Skip assertion for environments without ADC
             }
         }
@@ -75,17 +75,17 @@ public class ModernCredentialTest
             using var driveService = await resolver.CreateDriveServiceAsync();
 
             // Assert
-            Console.WriteLine("🚀 DRIVE SERVICE TEST RESULTS:");
-            Console.WriteLine($"   ✅ Service Created: {driveService != null}");
-            Console.WriteLine($"   ✅ Application Name: {driveService.ApplicationName}");
+             logger.LogInformation("🚀 DRIVE SERVICE TEST RESULTS:");
+             logger.LogInformation($"   ✅ Service Created: {driveService != null}");
+             logger.LogInformation($"   ✅ Application Name: {driveService.ApplicationName}");
 
             driveService.ShouldNotBeNull();
             driveService.ApplicationName.ShouldBe("ExxerAI Drive Integration");
         }
         catch (InvalidOperationException ex) when (ex.Message.Contains("Failed to resolve credentials"))
         {
-            Console.WriteLine("   💡 Drive service creation failed - ADC not configured");
-            Console.WriteLine($"   Details: {ex.Message}");
+             logger.LogInformation("   💡 Drive service creation failed - ADC not configured");
+             logger.LogInformation($"   Details: {ex.Message}");
             
             // Skip test if ADC is not configured
             return;
@@ -106,26 +106,26 @@ public class ModernCredentialTest
         var testResult = await resolver.TestCredentialAsync();
 
         // Assert
-        Console.WriteLine("🧪 CREDENTIAL TEST RESULTS:");
-        Console.WriteLine($"   Test Success: {testResult.IsSuccess}");
+         logger.LogInformation("🧪 CREDENTIAL TEST RESULTS:");
+         logger.LogInformation($"   Test Success: {testResult.IsSuccess}");
         
         if (testResult.IsSuccess)
         {
-            Console.WriteLine("   ✅ Credential is working and can access Google Drive API!");
+             logger.LogInformation("   ✅ Credential is working and can access Google Drive API!");
             testResult.Value.ShouldBeTrue();
         }
         else
         {
-            Console.WriteLine("   ❌ Test Errors:");
+             logger.LogInformation("   ❌ Test Errors:");
             foreach (var error in testResult.Errors)
             {
-                Console.WriteLine($"     - {error}");
+                 logger.LogInformation($"     - {error}");
             }
             
             // If credentials aren't configured, that's expected
             if (testResult.Errors.Any(e => e.Contains("not configured") || e.Contains("Could not load")))
             {
-                Console.WriteLine("   💡 This is expected if ADC hasn't been configured");
+                 logger.LogInformation("   💡 This is expected if ADC hasn't been configured");
                 return; // Skip assertion
             }
         }

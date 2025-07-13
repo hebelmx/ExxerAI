@@ -47,10 +47,10 @@ public class GoogleDriveServiceAccountTest
         credentials.ServiceAccountJson.ShouldContain("\"private_key\":");
         credentials.ServiceAccountJson.ShouldContain("-----BEGIN PRIVATE KEY-----");
         
-        Console.WriteLine($"✅ Service Account Parsed Successfully:");
-        Console.WriteLine($"   📧 Email: {credentials.ServiceAccountEmail}");
-        Console.WriteLine($"   🆔 Project: {credentials.ProjectId}");
-        Console.WriteLine($"   📄 Source: {credentials.Source}");
-        Console.WriteLine($"   🔑 Has Private Key: {(credentials.ServiceAccountJson.Contains("private_key") ? "Yes" : "No")}");
+         logger.LogInformation($"✅ Service Account Parsed Successfully:");
+         logger.LogInformation($"   📧 Email: {credentials.ServiceAccountEmail}");
+         logger.LogInformation($"   🆔 Project: {credentials.ProjectId}");
+         logger.LogInformation($"   📄 Source: {credentials.Source}");
+         logger.LogInformation($"   🔑 Has Private Key: {(credentials.ServiceAccountJson.Contains("private_key") ? "Yes" : "No")}");
     }
 } 

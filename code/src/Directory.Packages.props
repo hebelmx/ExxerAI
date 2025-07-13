@@ -108,6 +108,7 @@
 		<PackageVersion Include="Meziantou.Extensions.Logging.Xunit.v3" Version="1.1.6" />
 		<PackageVersion Include="FakeClock" Version="1.1.1" />
 		<PackageVersion Include="EmptyFiles" Version="8.10.1" />
+
 		<!-- Testcontainers for Docker-based integration testing -->
 		<PackageVersion Include="Testcontainers" Version="4.6.0" />
 		<PackageVersion Include="Testcontainers.Neo4j" Version="4.6.0" />

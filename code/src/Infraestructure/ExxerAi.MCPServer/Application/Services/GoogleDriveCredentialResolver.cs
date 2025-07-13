@@ -231,7 +231,7 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
             }
 
             var jsonContent = await File.ReadAllTextAsync(credentialsPath, cancellationToken).ConfigureAwait(false);
-            
+
             // Try to parse as ExxerAI API Key format (your custom format)
             var exxerAiCredentials = TryParseExxerAiApiCredentials(jsonContent);
             if (exxerAiCredentials.IsSuccess)
@@ -464,7 +464,6 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
     }
 }
 
-
 /// <summary>
 /// Represents resolved Google Drive credentials with modern ADC support
 /// </summary>
@@ -481,9 +480,10 @@ public class GoogleDriveCredentials
     public string? RedirectUri { get; set; }
     public string? ProjectId { get; set; }
     public CredentialType Type { get; set; } = CredentialType.OAuth;
-    
+
     // Modern ADC properties
     public Google.Apis.Auth.OAuth2.GoogleCredential? GoogleCredential { get; set; }
+
     public bool IsScoped { get; set; }
 }
 
@@ -496,4 +496,4 @@ public enum CredentialType
     ApiKey,
     ServiceAccount,
     ApplicationDefault  // Modern ADC approach
-} 
+}

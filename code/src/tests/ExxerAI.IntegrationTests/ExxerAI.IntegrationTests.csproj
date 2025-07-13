@@ -73,6 +73,7 @@
 		<PackageReference Include="Testcontainers.Neo4j" />
 		<PackageReference Include="Testcontainers.Qdrant" />
 
+		<PackageReference Include="Meziantou.Extensions.Logging.Xunit.v3" />
 		<!-- Qdrant container (using custom Docker image) -->
 		<PackageReference Include="Docker.DotNet" />
 	</ItemGroup>

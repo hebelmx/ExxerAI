@@ -1,6 +1,7 @@
+using ExxerAi.MCPServer.Application.Services;
+using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ExxerAi.MCPServer.Application.Services;
 using Shouldly;
 
 namespace ExxerAI.IntegrationTests;
@@ -14,11 +15,13 @@ public class CredentialVerificationTest
     public async Task ServiceAccount_ShouldResolve_FromEnvironmentVariable()
     {
         // Arrange
-        using var loggerFactory = LoggerFactory.Create(builder => 
+        using var loggerFactory = LoggerFactory.Create(builder =>
             builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-        var logger = loggerFactory.CreateLogger<GoogleDriveCredentialResolver>();
-
+        var logger = XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>();
+        logger.LogInformation("ServiceAccount_ShouldResolve_FromEnvironmentVariable");
         // Use minimal configuration to test environment variable priority
+        var logger2 = XUnitLogger.CreateLogger();
+        logger.LogInformation("Non generic logger");
         var configuration = new ConfigurationBuilder().Build();
         var resolver = new GoogleDriveCredentialResolver(configuration, logger);
 
@@ -26,19 +29,19 @@ public class CredentialVerificationTest
         var result = await resolver.ResolveCredentialsAsync();
 
         // Assert & Debug Info
-        Console.WriteLine($"🔍 CREDENTIAL VERIFICATION RESULTS:");
-        Console.WriteLine($"   Environment Variable Set: {!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_JSON"))}");
-        Console.WriteLine($"   Resolution Success: {result.IsSuccess}");
-        
+        logger.LogInformation($"🔍 CREDENTIAL VERIFICATION RESULTS:");
+        logger.LogInformation($"   Environment Variable Set: {!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_JSON"))}");
+        logger.LogInformation($"   Resolution Success: {result.IsSuccess}");
+
         if (result.IsSuccess)
         {
             var creds = result.Value;
-            Console.WriteLine($"   Type: {creds.Type}");
-            Console.WriteLine($"   Source: {creds.Source}");
-            Console.WriteLine($"   Email: {creds.ServiceAccountEmail}");
-            Console.WriteLine($"   Project: {creds.ProjectId}");
-            Console.WriteLine($"   Has JSON: {!string.IsNullOrEmpty(creds.ServiceAccountJson)}");
-            
+            logger.LogInformation($"   Type: {creds.Type}");
+            logger.LogInformation($"   Source: {creds.Source}");
+            logger.LogInformation($"   Email: {creds.ServiceAccountEmail}");
+            logger.LogInformation($"   Project: {creds.ProjectId}");
+            logger.LogInformation($"   Has JSON: {!string.IsNullOrEmpty(creds.ServiceAccountJson)}");
+
             // Verify it's actually a service account
             creds.Type.ShouldBe(CredentialType.ServiceAccount);
             creds.ServiceAccountEmail.ShouldBe("exxerai@exxerai.iam.gserviceaccount.com");
@@ -47,10 +50,10 @@ public class CredentialVerificationTest
         }
         else
         {
-            Console.WriteLine($"   Errors:");
+            logger.LogInformation($"   Errors:");
             foreach (var error in result.Errors)
             {
-                Console.WriteLine($"     - {error}");
+                logger.LogInformation($"     - {error}");
             }
         }
 
@@ -62,10 +65,10 @@ public class CredentialVerificationTest
     public async Task ServiceAccount_ShouldResolve_FromFile()
     {
         // Arrange
-        using var loggerFactory = LoggerFactory.Create(builder => 
+        using var loggerFactory = LoggerFactory.Create(builder =>
             builder.AddConsole().SetMinimumLevel(LogLevel.Debug));
-        var logger = loggerFactory.CreateLogger<GoogleDriveCredentialResolver>();
-
+        //var logger = XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>();
+        var logger = XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>();
         // Clear environment variable to test file resolution
         var originalEnvVar = Environment.GetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_JSON");
         Environment.SetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_JSON", null);
@@ -87,16 +90,16 @@ public class CredentialVerificationTest
             var result = await resolver.ResolveCredentialsAsync();
 
             // Assert
-            Console.WriteLine($"🔍 FILE CREDENTIAL VERIFICATION:");
-            Console.WriteLine($"   File Exists: {File.Exists("./exxerai.gdrive.json")}");
-            Console.WriteLine($"   Resolution Success: {result.IsSuccess}");
+            logger.LogInformation($"🔍 FILE CREDENTIAL VERIFICATION:");
+            logger.LogInformation($"   File Exists: {File.Exists("./exxerai.gdrive.json")}");
+            logger.LogInformation($"   Resolution Success: {result.IsSuccess}");
 
             if (result.IsSuccess)
             {
                 var creds = result.Value;
-                Console.WriteLine($"   Type: {creds.Type}");
-                Console.WriteLine($"   Source: {creds.Source}");
-                
+                logger.LogInformation($"   Type: {creds.Type}");
+                logger.LogInformation($"   Source: {creds.Source}");
+
                 creds.Type.ShouldBe(CredentialType.ServiceAccount);
                 creds.Source.ShouldContain("JSON File");
             }
@@ -109,4 +112,4 @@ public class CredentialVerificationTest
             Environment.SetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_JSON", originalEnvVar);
         }
     }
-} 
+}

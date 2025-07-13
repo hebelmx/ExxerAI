@@ -524,7 +524,7 @@ public class DocumentNotificationServiceTests
         {
             // Simulate processing notification
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken: TestContext.Current.CancellationToken);
-            Console.WriteLine($"Notification received: {notification.Type}");
+             logger.LogInformation($"Notification received: {notification.Type}");
         };
     }
 

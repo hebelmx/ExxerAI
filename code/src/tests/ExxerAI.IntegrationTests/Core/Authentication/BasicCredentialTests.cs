@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using Meziantou.Extensions.Logging.Xunit;
 using Shouldly;
 
 namespace ExxerAI.IntegrationTests;
@@ -81,7 +82,7 @@ public class BasicCredentialTests
         // Arrange
         var services = new ServiceCollection();
         var configuration = Substitute.For<IConfiguration>();
-        
+
         services.AddSingleton(configuration);
         services.AddLogging();
         services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
