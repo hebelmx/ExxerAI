@@ -1,6 +1,6 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Services;
-using Microsoft.Extensions.Configuration;
+using ExxerAi.MCPServer.Application.Interfaces;
 
 namespace ExxerAI.IntegrationTests.Services;
 
@@ -12,22 +12,28 @@ namespace ExxerAI.IntegrationTests.Services;
 public class GoogleDriveServiceTests
 {
     private readonly ILogger<GoogleDriveService> _logger;
-    private readonly IConfiguration _configuration;
+    private readonly IGoogleDriveCredentialResolver _credentialResolver;
     private readonly IHybridDocumentProcessor _documentProcessor;
     private readonly GoogleDriveService _service;
 
     public GoogleDriveServiceTests()
     {
         _logger = Substitute.For<ILogger<GoogleDriveService>>();
-        _configuration = Substitute.For<IConfiguration>();
+        _credentialResolver = Substitute.For<IGoogleDriveCredentialResolver>();
         _documentProcessor = Substitute.For<IHybridDocumentProcessor>();
         
-        // Setup default configuration values for testing
-        _configuration["GoogleDrive:ApplicationName"].Returns("ExxerAI-Test");
-        _configuration["GoogleDrive:CredentialsPath"].Returns("test-credentials.json");
-        _configuration["GoogleDrive:TokenPath"].Returns("test-token.json");
+        // Setup default credential resolver behavior for testing
+        var defaultCredentials = new GoogleDriveCredentials
+        {
+            ClientId = "test-client-id",
+            ClientSecret = "test-client-secret",
+            Type = CredentialType.OAuth,
+            Source = "Test"
+        };
+        _credentialResolver.ResolveCredentialsAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<GoogleDriveCredentials>.WithSuccess(defaultCredentials));
         
-        _service = new GoogleDriveService(_logger, _configuration, _documentProcessor);
+        _service = new GoogleDriveService(_logger, _credentialResolver, _documentProcessor);
     }
 
 /// <summary>
@@ -48,24 +54,24 @@ public class GoogleDriveServiceTests
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
-            new GoogleDriveService(null!, _configuration, _documentProcessor))
+            new GoogleDriveService(null!, _credentialResolver, _documentProcessor))
             .ParamName.ShouldBe("logger");
     }
 
     [Fact]
-    public void Constructor_WithNullConfiguration_ShouldThrowArgumentNullException()
+    public void Constructor_WithNullCredentialResolver_ShouldThrowArgumentNullException()
     {
         // Act & Assert
         Should.Throw<ArgumentNullException>(() => 
             new GoogleDriveService(_logger, null!, _documentProcessor))
-            .ParamName.ShouldBe("configuration");
+            .ParamName.ShouldBe("credentialResolver");
     }
 
     [Fact]
     public void Constructor_WithNullDocumentProcessor_ShouldCreateInstanceSuccessfully()
     {
         // Act
-        var serviceWithNullProcessor = new GoogleDriveService(_logger, _configuration, null);
+        var serviceWithNullProcessor = new GoogleDriveService(_logger, _credentialResolver, null);
 
         // Assert
         serviceWithNullProcessor.ShouldNotBeNull();
@@ -86,7 +92,8 @@ public class GoogleDriveServiceTests
     public async Task InitializeAsync_WithMissingCredentials_ShouldReturnFailure()
     {
         // Arrange
-        _configuration["GoogleDrive:CredentialsPath"].Returns((string?)null);
+        _credentialResolver.ResolveCredentialsAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<GoogleDriveCredentials>.WithFailure("No credentials found"));
 
         // Act
         var result = await _service.InitializeAsync(CancellationToken.None);
@@ -101,7 +108,8 @@ public class GoogleDriveServiceTests
     public async Task InitializeAsync_WithInvalidCredentialsPath_ShouldReturnFailure()
     {
         // Arrange
-        _configuration["GoogleDrive:CredentialsPath"].Returns("non-existent-file.json");
+        _credentialResolver.ResolveCredentialsAsync(Arg.Any<CancellationToken>())
+            .Returns(Result<GoogleDriveCredentials>.WithFailure("Invalid credentials path: non-existent-file.json"));
 
         // Act
         var result = await _service.InitializeAsync(CancellationToken.None);
@@ -402,7 +410,7 @@ public class GoogleDriveServiceTests
         var results = await Task.WhenAll(tasks);
 
         // Assert - All operations should complete without throwing exceptions
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         results.Length.ShouldBe(concurrentOperations);
     }
 
@@ -420,7 +428,7 @@ public class GoogleDriveServiceTests
         var results = await Task.WhenAll(downloadTasks);
 
         // Assert - Should handle concurrent access gracefully
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         // All results should be consistent (all success or all failure with same reason)
     }
 

@@ -1,5 +1,6 @@
 using ExxerAi.MCPServer.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Tools;
+using ExxerAi.MCPServer.Application.Services;
 
 namespace ExxerAI.IntegrationTests.MCP;
 
@@ -63,36 +64,36 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task GetAvailableToolsAsync_ShouldReturnExpectedTools()
+    public async Task StartFolderWatchAsync_WithValidParameters_ShouldReturnWatchSession()
     {
+        // Arrange
+        const string folderId = "test-folder-123";
+        _driveService.StartFolderWatchAsync(folderId, Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<int>(), Arg.Any<CancellationToken>())
+            .Returns(Result<string>.WithSuccess("Watch session started: watch-123"));
+
         // Act
-        var result = await _tools.GetAvailableToolsAsync(CancellationToken.None);
+        var result = await _tools.StartFolderWatchAsync(folderId, true, true, 60, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldNotBeNull();
-        result.Value.ShouldNotBeEmpty();
-
-        // Verify essential tools are present
-        var toolNames = result.Value.Select(t => t.Name).ToList();
-        toolNames.ShouldContain("initialize_drive");
-        toolNames.ShouldContain("start_folder_watch");
-        toolNames.ShouldContain("download_document");
-        toolNames.ShouldContain("get_document_metadata");
-        toolNames.ShouldContain("get_active_watches");
-        toolNames.ShouldContain("stop_watching");
+        result.Value.ShouldContain("Watch session started");
+        
+        // Verify service was called
+        await _driveService.Received(1).StartFolderWatchAsync(folderId, Arg.Any<bool>(), Arg.Any<bool>(), Arg.Any<int>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
-    public async Task GetAvailableToolsAsync_WithCancellation_ShouldRespectCancellation()
+    public async Task DownloadDocumentAsync_WithCancellation_ShouldRespectCancellation()
     {
         // Arrange
         using var cts = new CancellationTokenSource();
         cts.Cancel();
+        const string documentId = "test-doc-123";
 
         // Act
-        var result = await _tools.GetAvailableToolsAsync(cts.Token);
+        var result = await _tools.DownloadDocumentAsync(documentId, cts.Token);
 
         // Assert
         result.ShouldNotBeNull();
@@ -111,20 +112,14 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_InitializeDrive_WithValidRequest_ShouldCallService()
+    public async Task CheckHealthStatusAsync_WithValidRequest_ShouldCallService()
     {
         // Arrange
         _driveService.InitializeAsync(Arg.Any<CancellationToken>())
-            .Returns(Result<bool>.Success(true));
-
-        var request = new
-        {
-            tool = "initialize_drive",
-            parameters = new { }
-        };
+            .Returns(Result<bool>.WithSuccess(true));
 
         // Act
-        var result = await _tools.ExecuteToolAsync("initialize_drive", request, CancellationToken.None);
+        var result = await _tools.CheckHealthStatusAsync(CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -133,20 +128,14 @@ public class GoogleDriveToolsTests
     }
 
     [Fact]
-    public async Task ExecuteToolAsync_InitializeDrive_WhenServiceFails_ShouldReturnFailure()
+    public async Task CheckHealthStatusAsync_WhenServiceFails_ShouldReturnFailure()
     {
         // Arrange
         _driveService.InitializeAsync(Arg.Any<CancellationToken>())
             .Returns(Result<bool>.WithFailure("Authentication failed"));
 
-        var request = new
-        {
-            tool = "initialize_drive",
-            parameters = new { }
-        };
-
         // Act
-        var result = await _tools.ExecuteToolAsync("initialize_drive", request, CancellationToken.None);
+        var result = await _tools.CheckHealthStatusAsync(CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -165,7 +154,7 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_StartFolderWatch_WithValidParameters_ShouldCallService()
+    public async Task StartFolderWatchAsync_WithSpecificParameters_ShouldCallService()
     {
         // Arrange
         const string folderId = "test-folder-123";
@@ -179,22 +168,10 @@ public class GoogleDriveToolsTests
                 autoProcess, 
                 pollingInterval, 
                 Arg.Any<CancellationToken>())
-            .Returns(Result<string>.Success("watch-session-123"));
-
-        var request = new
-        {
-            tool = "start_folder_watch",
-            parameters = new
-            {
-                folder_id = folderId,
-                include_subdirectories = includeSubdirectories,
-                auto_process = autoProcess,
-                polling_interval_seconds = pollingInterval
-            }
-        };
+            .Returns(Result<string>.WithSuccess("watch-session-123"));
 
         // Act
-        var result = await _tools.ExecuteToolAsync("start_folder_watch", request, CancellationToken.None);
+        var result = await _tools.StartFolderWatchAsync(folderId, includeSubdirectories, autoProcess, pollingInterval, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -208,30 +185,23 @@ public class GoogleDriveToolsTests
     }
 
     [Fact]
-    public async Task ExecuteToolAsync_StartFolderWatch_WithMissingFolderId_ShouldReturnFailure()
+    public async Task StartFolderWatchAsync_WithNullFolderId_ShouldReturnFailure()
     {
         // Arrange
-        var request = new
-        {
-            tool = "start_folder_watch",
-            parameters = new
-            {
-                include_subdirectories = true,
-                auto_process = false
-            }
-        };
+        const string? folderId = null;
 
         // Act
-        var result = await _tools.ExecuteToolAsync("start_folder_watch", request, CancellationToken.None);
+        var result = await _tools.StartFolderWatchAsync(folderId!, true, false, 60, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(error => error.Contains("folder_id", StringComparison.OrdinalIgnoreCase));
+        result.Errors.ShouldContain(error => error.Contains("folder", StringComparison.OrdinalIgnoreCase) || 
+                                             error.Contains("null", StringComparison.OrdinalIgnoreCase));
     }
 
     [Fact]
-    public async Task ExecuteToolAsync_StartFolderWatch_WithDefaultParameters_ShouldUseDefaults()
+    public async Task StartFolderWatchAsync_WithDefaultParameters_ShouldUseDefaults()
     {
         // Arrange
         const string folderId = "test-folder-456";
@@ -242,19 +212,10 @@ public class GoogleDriveToolsTests
                 true,  // default auto_process
                 60,    // default polling_interval_seconds
                 Arg.Any<CancellationToken>())
-            .Returns(Result<string>.Success("watch-session-456"));
+            .Returns(Result<string>.WithSuccess("watch-session-456"));
 
-        var request = new
-        {
-            tool = "start_folder_watch",
-            parameters = new
-            {
-                folder_id = folderId
-            }
-        };
-
-        // Act
-        var result = await _tools.ExecuteToolAsync("start_folder_watch", request, CancellationToken.None);
+        // Act (using default parameters)
+        var result = await _tools.StartFolderWatchAsync(folderId, cancellationToken: CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -278,26 +239,17 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_DownloadDocument_WithValidDocumentId_ShouldCallService()
+    public async Task DownloadDocumentAsync_WithValidDocumentId_ShouldCallService()
     {
         // Arrange
         const string documentId = "test-doc-789";
         var documentData = new byte[] { 1, 2, 3, 4, 5 };
 
         _driveService.DownloadDocumentAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(Result<byte[]>.Success(documentData));
-
-        var request = new
-        {
-            tool = "download_document",
-            parameters = new
-            {
-                document_id = documentId
-            }
-        };
+            .Returns(Result<byte[]>.WithSuccess(documentData));
 
         // Act
-        var result = await _tools.ExecuteToolAsync("download_document", request, CancellationToken.None);
+        var result = await _tools.DownloadDocumentAsync(documentId, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -306,22 +258,19 @@ public class GoogleDriveToolsTests
     }
 
     [Fact]
-    public async Task ExecuteToolAsync_DownloadDocument_WithMissingDocumentId_ShouldReturnFailure()
+    public async Task DownloadDocumentAsync_WithNullDocumentId_ShouldReturnFailure()
     {
         // Arrange
-        var request = new
-        {
-            tool = "download_document",
-            parameters = new { }
-        };
+        const string? documentId = null;
 
         // Act
-        var result = await _tools.ExecuteToolAsync("download_document", request, CancellationToken.None);
+        var result = await _tools.DownloadDocumentAsync(documentId!, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(error => error.Contains("document_id", StringComparison.OrdinalIgnoreCase));
+        result.Errors.ShouldContain(error => error.Contains("document", StringComparison.OrdinalIgnoreCase) ||
+                                             error.Contains("null", StringComparison.OrdinalIgnoreCase));
     }
 
 /// <summary>
@@ -335,7 +284,7 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_GetDocumentMetadata_WithValidDocumentId_ShouldCallService()
+    public async Task GetDocumentMetadataAsync_WithValidDocumentId_ShouldCallService()
     {
         // Arrange
         const string documentId = "metadata-test-doc";
@@ -345,24 +294,15 @@ public class GoogleDriveToolsTests
             Name = "Test Document.pdf",
             MimeType = "application/pdf",
             Size = 1024,
-            CreatedTime = DateTimeOffset.UtcNow.AddDays(-1),
-            ModifiedTime = DateTimeOffset.UtcNow
+            CreatedTime = DateTimeOffset.UtcNow.AddDays(-1).DateTime,
+            ModifiedTime = DateTimeOffset.UtcNow.DateTime
         };
 
         _driveService.GetDocumentMetadataAsync(documentId, Arg.Any<CancellationToken>())
-            .Returns(Result<GoogleDriveFileMetadata>.Success(metadata));
-
-        var request = new
-        {
-            tool = "get_document_metadata",
-            parameters = new
-            {
-                document_id = documentId
-            }
-        };
+            .Returns(Result<GoogleDriveFileMetadata>.WithSuccess(metadata));
 
         // Act
-        var result = await _tools.ExecuteToolAsync("get_document_metadata", request, CancellationToken.None);
+        var result = await _tools.GetDocumentMetadataAsync(documentId, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -381,21 +321,15 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_GetActiveWatches_ShouldCallService()
+    public async Task GetActiveWatchesAsync_ShouldCallService()
     {
         // Arrange
         const string watchInfo = "Active watches: watch-123, watch-456";
         _driveService.GetActiveWatchesAsync(Arg.Any<CancellationToken>())
-            .Returns(Result<string>.Success(watchInfo));
-
-        var request = new
-        {
-            tool = "get_active_watches",
-            parameters = new { }
-        };
+            .Returns(Result<string>.WithSuccess(watchInfo));
 
         // Act
-        var result = await _tools.ExecuteToolAsync("get_active_watches", request, CancellationToken.None);
+        var result = await _tools.GetActiveWatchesAsync(CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -404,24 +338,15 @@ public class GoogleDriveToolsTests
     }
 
     [Fact]
-    public async Task ExecuteToolAsync_StopWatching_WithValidWatchId_ShouldCallService()
+    public async Task StopWatchingAsync_WithValidWatchId_ShouldCallService()
     {
         // Arrange
         const string watchId = "watch-to-stop-123";
         _driveService.StopWatchingAsync(watchId, Arg.Any<CancellationToken>())
-            .Returns(Result<string>.Success("Watch stopped successfully"));
-
-        var request = new
-        {
-            tool = "stop_watching",
-            parameters = new
-            {
-                watch_id = watchId
-            }
-        };
+            .Returns(Result<string>.WithSuccess("Watch stopped successfully"));
 
         // Act
-        var result = await _tools.ExecuteToolAsync("stop_watching", request, CancellationToken.None);
+        var result = await _tools.StopWatchingAsync(watchId, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
@@ -430,22 +355,19 @@ public class GoogleDriveToolsTests
     }
 
     [Fact]
-    public async Task ExecuteToolAsync_StopWatching_WithMissingWatchId_ShouldReturnFailure()
+    public async Task StopWatchingAsync_WithNullWatchId_ShouldReturnFailure()
     {
         // Arrange
-        var request = new
-        {
-            tool = "stop_watching",
-            parameters = new { }
-        };
+        const string? watchId = null;
 
         // Act
-        var result = await _tools.ExecuteToolAsync("stop_watching", request, CancellationToken.None);
+        var result = await _tools.StopWatchingAsync(watchId!, CancellationToken.None);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(error => error.Contains("watch_id", StringComparison.OrdinalIgnoreCase));
+        result.Errors.ShouldContain(error => error.Contains("watch", StringComparison.OrdinalIgnoreCase) ||
+                                             error.Contains("null", StringComparison.OrdinalIgnoreCase));
     }
 
 /// <summary>
@@ -458,53 +380,11 @@ public class GoogleDriveToolsTests
 /// </summary>
 /// <returns></returns>
 
-    [Fact]
-    public async Task ExecuteToolAsync_WithUnknownTool_ShouldReturnFailure()
-    {
-        // Arrange
-        var request = new
-        {
-            tool = "unknown_tool",
-            parameters = new { }
-        };
 
-        // Act
-        var result = await _tools.ExecuteToolAsync("unknown_tool", request, CancellationToken.None);
 
-        // Assert
-        result.ShouldNotBeNull();
-        result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(error => error.Contains("unknown", StringComparison.OrdinalIgnoreCase) ||
-                                           error.Contains("not found", StringComparison.OrdinalIgnoreCase));
-    }
 
-    [Fact]
-    public async Task ExecuteToolAsync_WithNullRequest_ShouldReturnFailure()
-    {
-        // Act
-        var result = await _tools.ExecuteToolAsync("initialize_drive", null!, CancellationToken.None);
 
-        // Assert
-        result.ShouldNotBeNull();
-        result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(error => error.Contains("request", StringComparison.OrdinalIgnoreCase));
-    }
 
-    [Fact]
-    public async Task ExecuteToolAsync_WithMalformedParameters_ShouldReturnFailure()
-    {
-        // Arrange
-        var request = "invalid-json-request";
-
-        // Act
-        var result = await _tools.ExecuteToolAsync("start_folder_watch", request, CancellationToken.None);
-
-        // Assert
-        result.ShouldNotBeNull();
-        result.IsFailure.ShouldBeTrue();
-        result.Errors.ShouldContain(error => error.Contains("parameter", StringComparison.OrdinalIgnoreCase) ||
-                                           error.Contains("format", StringComparison.OrdinalIgnoreCase));
-    }
 
 /// <summary>
 /// End Tests Error Handling Tests
@@ -517,28 +397,22 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_WithConcurrentRequests_ShouldHandleGracefully()
+    public async Task GetActiveWatchesAsync_WithConcurrentRequests_ShouldHandleGracefully()
     {
         // Arrange
         const int concurrentRequests = 5;
         _driveService.GetActiveWatchesAsync(Arg.Any<CancellationToken>())
-            .Returns(Result<string>.Success("Mock watch list"));
-
-        var request = new
-        {
-            tool = "get_active_watches",
-            parameters = new { }
-        };
+            .Returns(Result<string>.WithSuccess("Mock watch list"));
 
         // Act
         var tasks = Enumerable.Range(0, concurrentRequests)
-            .Select(_ => _tools.ExecuteToolAsync("get_active_watches", request, CancellationToken.None))
+            .Select(_ => _tools.GetActiveWatchesAsync(CancellationToken.None))
             .ToArray();
 
         var results = await Task.WhenAll(tasks);
 
         // Assert
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         results.ShouldAllBe(result => result.IsSuccess);
         await _driveService.Received(concurrentRequests).GetActiveWatchesAsync(Arg.Any<CancellationToken>());
     }
@@ -554,26 +428,20 @@ public class GoogleDriveToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExecuteToolAsync_WithHighFrequencyRequests_ShouldMaintainPerformance()
+    public async Task GetActiveWatchesAsync_WithHighFrequencyRequests_ShouldMaintainPerformance()
     {
         // Arrange
         const int requestCount = 100;
         _driveService.GetActiveWatchesAsync(Arg.Any<CancellationToken>())
-            .Returns(Result<string>.Success("Performance test response"));
-
-        var request = new
-        {
-            tool = "get_active_watches",
-            parameters = new { }
-        };
+            .Returns(Result<string>.WithSuccess("Performance test response"));
 
         var stopwatch = System.Diagnostics.Stopwatch.StartNew();
 
         // Act
-        var tasks = new List<Task<Result<object>>>();
+        var tasks = new List<Task<Result<string>>>();
         for (int i = 0; i < requestCount; i++)
         {
-            tasks.Add(_tools.ExecuteToolAsync("get_active_watches", request, CancellationToken.None));
+            tasks.Add(_tools.GetActiveWatchesAsync(CancellationToken.None));
         }
 
         var results = await Task.WhenAll(tasks);

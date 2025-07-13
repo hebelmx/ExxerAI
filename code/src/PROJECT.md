@@ -43,6 +43,25 @@ ExxerAI is a **C#/.NET enterprise-grade orchestration platform** designed to be 
 - **Service Discovery**: Dynamic agent registry and capability matching
 - **Secure Boundaries**: Authentication, rate limiting, access control
 
+ Key Technical Concepts:
+     - Model Context Protocol (MCP) integration testing
+     - Google Drive API integration with OAuth authentication
+     - Credential resolution from multiple sources (environment variables, user secrets, appsettings.json, JSON files)
+     - Dependency injection with .NET Core
+     - xUnit v3 testing framework with NSubstitute mocking
+	 - Test need to use dotnet run , with the older dotnet test are not discovered and fail to run
+     - Test fixtures and async lifetime management
+     - Document processing pipeline integration
+     - Service-oriented architecture with interfaces and implementations
+     - Testcontainers.NET for Docker-based integration testing (initially)
+     - Persistent Docker containers via docker-compose (final approach)
+     - Qdrant vector database for embeddings storage
+     - Neo4j graph database for relationship storage
+     - Ollama LLM server integration
+     - Cross-platform build compatibility (WSL/Linux)
+     - Centralized package management with Directory.Packages.props
+	-  Systematically development, ITDD and TDD based
+
 ## **🧠 Knowledge Graph Requirements for Reality Grounding**
 
 ### **Semantic Relationship Mapping**

@@ -107,19 +107,20 @@ public class DocumentProcessingToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ExtractTextAsync_WithValidDocument_ShouldReturnText()
+    public async Task ExtractFieldsAsync_WithValidDocument_ShouldReturnExtractedFields()
     {
         // Arrange
         const string documentPath = "/test/text-extract.pdf";
+        const string schemaName = "standard_invoice";
 
         // Act
-        var result = await _tools.ExtractTextAsync(documentPath);
+        var result = await _tools.ExtractFieldsAsync(documentPath, schemaName);
 
         // Assert
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
         result.Value.ShouldNotBeNullOrEmpty();
-        result.Value.ShouldContain("Text Extraction Complete");
+        result.Value.ShouldContain("Field Extraction Complete");
     }
 
 /// <summary>
@@ -133,14 +134,14 @@ public class DocumentProcessingToolsTests
 /// <returns></returns>
 
     [Fact]
-    public async Task ValidateExtractionAsync_WithValidData_ShouldReturnValidation()
+    public async Task ValidateExtractedDataAsync_WithValidData_ShouldReturnValidation()
     {
         // Arrange
-        const string extractionData = "Sample extracted data";
-        const string originalDocument = "/test/validation.pdf";
+        const string extractionId = "test-extraction-123";
+        const string businessRules = "moderate";
 
         // Act
-        var result = await _tools.ValidateExtractionAsync(extractionData, originalDocument);
+        var result = await _tools.ValidateExtractedDataAsync(extractionId, businessRules);
 
         // Assert
         result.ShouldNotBeNull();
@@ -175,7 +176,7 @@ public class DocumentProcessingToolsTests
         var results = await Task.WhenAll(tasks);
 
         // Assert
-        results.ShouldAllBe(result => result is not null);
+        results.ShouldAllBe(result => result != null);
         results.ShouldAllBe(result => result.IsSuccess);
         results.Length.ShouldBe(concurrentRequests);
     }
