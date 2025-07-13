@@ -1,5 +1,5 @@
+using ExxerAI.Application.Interfaces;
 using ExxerAI.Infrastructure.LLM;
-using Shouldly;
 
 namespace ExxerAI.IntegrationTests.LLM;
 

@@ -1,12 +1,7 @@
 using ExxerAi.MCPServer.Application.Interfaces;
 using ExxerAi.MCPServer.Application.Tools;
-using ExxerAI.Domain.Operations;
-using Microsoft.Extensions.Logging;
-using NSubstitute;
-using Shouldly;
-using Xunit;
 
-namespace ExxerAI.Infrastructure.Tests.MCP;
+namespace ExxerAI.IntegrationTests.MCP;
 
 /// <summary>
 /// Infrastructure tests for GoogleDriveTools MCP implementation.
