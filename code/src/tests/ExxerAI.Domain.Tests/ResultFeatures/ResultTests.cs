@@ -8,7 +8,10 @@ namespace ExxerAI.Domain.Tests;
 
 public class ResultTests
 {
-    #region Test Constants
+/// <summary>
+/// Begin Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Test-specific constants for error messages used in tests.
@@ -23,9 +26,15 @@ public class ResultTests
         public const string ConditionFailed = "Condition failed";
     }
 
-    #endregion Test Constants
+/// <summary>
+/// End Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
-    #region Test Helper Methods
+/// <summary>
+/// Begin Tests Test Helper Methods
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Helper methods for more resilient string testing that focuses on behavior rather than exact formatting.
@@ -62,7 +71,10 @@ public class ResultTests
         }
     }
 
-    #endregion Test Helper Methods
+/// <summary>
+/// End Tests Test Helper Methods
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public void Constructor_WithValidParameters_ShouldCreateInstance()
@@ -708,7 +720,10 @@ public class ResultTests
         finalResult.IsSuccess.ShouldBeTrue();
     }
 
-    #region Collection Consistency Regression Tests
+/// <summary>
+/// Begin Tests Collection Consistency Regression Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Regression tests to ensure Result<T> collections are always consistent.
@@ -879,9 +894,15 @@ public class ResultTests
         method1.Errors.ShouldBeEquivalentTo(method2.Errors, "✅ All success methods must behave identically");
     }
 
-    #endregion Collection Consistency Regression Tests
+/// <summary>
+/// End Tests Collection Consistency Regression Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Collection Type Overload Tests
+/// <summary>
+/// Begin Tests Collection Type Overload Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests to verify that different collection types work seamlessly with Result.WithFailure methods.
@@ -1320,9 +1341,15 @@ public class ResultTests
         receivedImmutableArrayErrors.Count().ShouldBe(2);
     }
 
-    #endregion Collection Type Overload Tests
+/// <summary>
+/// End Tests Collection Type Overload Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Industry Standard Null Handling Tests
+/// <summary>
+/// Begin Tests Industry Standard Null Handling Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests to verify that our Result&lt;T&gt; implementation follows industry standard patterns
@@ -1459,7 +1486,10 @@ public class ResultTests
         }
     }
 
-    #region Null Safety Properties Tests (Kotlin-Style)
+/// <summary>
+/// Begin Tests Null Safety Properties Tests (Kotlin-Style)
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public void IsSuccessMayBeNull_ShouldReturnTrue_ForSuccessfulResultsRegardlessOfNullValue()
@@ -1725,7 +1755,10 @@ public class ResultTests
         validUsers![0]!.Name!.ShouldBe("John");
     }
 
-    #endregion Null Safety Properties Tests (Kotlin-Style)
+/// <summary>
+/// End Tests Null Safety Properties Tests (Kotlin-Style)
+/// </summary>
+/// <returns></returns>
 
     // Sample types for documentation test
     private class User
@@ -1734,5 +1767,8 @@ public class ResultTests
     private class Settings
     { public string? Theme { get; set; } }
 
-    #endregion Industry Standard Null Handling Tests
+/// <summary>
+/// End Tests Industry Standard Null Handling Tests
+/// </summary>
+/// <returns></returns>
 }

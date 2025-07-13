@@ -17,7 +17,10 @@ public class TaskServiceTests
         _taskService = Substitute.For<ITaskService>();
     }
 
-    #region CreateTaskAsync Tests
+/// <summary>
+/// Begin Tests CreateTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task CreateTaskAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -114,9 +117,15 @@ public class TaskServiceTests
         result.Value!.Priority.ShouldBe(priority);
     }
 
-    #endregion CreateTaskAsync Tests
+/// <summary>
+/// End Tests CreateTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetTaskAsync Tests
+/// <summary>
+/// Begin Tests GetTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetTaskAsync_WithValidId_ShouldReturnTaskAsync()
@@ -177,9 +186,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion GetTaskAsync Tests
+/// <summary>
+/// End Tests GetTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetPendingTasksAsync Tests
+/// <summary>
+/// Begin Tests GetPendingTasksAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetPendingTasksAsync_WhenPendingTasksExist_ShouldReturnPendingTasksAsync()
@@ -256,9 +271,15 @@ public class TaskServiceTests
         result.Value!.Count().ShouldBeLessThanOrEqualTo(maxCount);
     }
 
-    #endregion GetPendingTasksAsync Tests
+/// <summary>
+/// End Tests GetPendingTasksAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetAgentTasksAsync Tests
+/// <summary>
+/// Begin Tests GetAgentTasksAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetAgentTasksAsync_WithValidAgentId_ShouldReturnAgentTasksAsync()
@@ -333,9 +354,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion GetAgentTasksAsync Tests
+/// <summary>
+/// End Tests GetAgentTasksAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region UpdateTaskStatusAsync Tests
+/// <summary>
+/// Begin Tests UpdateTaskStatusAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Theory]
     [InlineData(TaskAgentStatus.Pending)]
@@ -401,9 +428,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion UpdateTaskStatusAsync Tests
+/// <summary>
+/// End Tests UpdateTaskStatusAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region AssignTaskToAgentAsync Tests
+/// <summary>
+/// Begin Tests AssignTaskToAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task AssignTaskToAgentAsync_WithValidInput_ShouldReturnSuccessAsync()
@@ -465,9 +498,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion AssignTaskToAgentAsync Tests
+/// <summary>
+/// End Tests AssignTaskToAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region CompleteTaskAsync Tests
+/// <summary>
+/// Begin Tests CompleteTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task CompleteTaskAsync_WithValidInput_ShouldReturnSuccessAsync()
@@ -527,9 +566,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion CompleteTaskAsync Tests
+/// <summary>
+/// End Tests CompleteTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region FailTaskAsync Tests
+/// <summary>
+/// Begin Tests FailTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task FailTaskAsync_WithValidInput_ShouldReturnSuccessAsync()
@@ -572,9 +617,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion FailTaskAsync Tests
+/// <summary>
+/// End Tests FailTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetOverdueTasksAsync Tests
+/// <summary>
+/// Begin Tests GetOverdueTasksAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetOverdueTasksAsync_WhenOverdueTasksExist_ShouldReturnOverdueTasksAsync()
@@ -621,9 +672,15 @@ public class TaskServiceTests
         result.Value!.ShouldBeEmpty();
     }
 
-    #endregion GetOverdueTasksAsync Tests
+/// <summary>
+/// End Tests GetOverdueTasksAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region DeleteTaskAsync Tests
+/// <summary>
+/// Begin Tests DeleteTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DeleteTaskAsync_WithValidId_ShouldReturnSuccessAsync()
@@ -682,9 +739,15 @@ public class TaskServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion DeleteTaskAsync Tests
+/// <summary>
+/// End Tests DeleteTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Interface Contract Tests
+/// <summary>
+/// Begin Tests Interface Contract Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ITaskService_AllMethods_ShouldRespectCancellationTokenAsync()
@@ -746,5 +809,8 @@ public class TaskServiceTests
         }
     }
 
-    #endregion Interface Contract Tests
+/// <summary>
+/// End Tests Interface Contract Tests
+/// </summary>
+/// <returns></returns>
 }

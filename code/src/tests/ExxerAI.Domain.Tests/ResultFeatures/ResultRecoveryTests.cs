@@ -225,7 +225,10 @@ public class ResultRecoveryTests
         matchResult.ShouldContain(ResultConstants.DefaultErrorMessage);
     }
 
-    #region Type Safety Regression Tests
+/// <summary>
+/// Begin Tests Type Safety Regression Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Regression tests for the null handling fixes implemented to prevent NullReferenceException.
@@ -376,5 +379,8 @@ public class ResultRecoveryTests
         genericCombinedErrors.Errors.Count().ShouldBe(4);
     }
 
-    #endregion Type Safety Regression Tests
+/// <summary>
+/// End Tests Type Safety Regression Tests
+/// </summary>
+/// <returns></returns>
 }

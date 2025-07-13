@@ -65,7 +65,10 @@ namespace ExxerAI.Api.Tests;
 /// </summary>
 public class ComprehensiveUnitTestExample
 {
-    #region Domain Entity Testing - Agent Class
+/// <summary>
+/// Begin Tests Domain Entity Testing - Agent Class
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Example of comprehensive domain entity testing using the Agent class.
@@ -191,9 +194,15 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion Domain Entity Testing - Agent Class
+/// <summary>
+/// End Tests Domain Entity Testing - Agent Class
+/// </summary>
+/// <returns></returns>
 
-    #region Result<T> Pattern Testing
+/// <summary>
+/// Begin Tests Result<T> Pattern Testing
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Example of comprehensive Result<T> pattern testing.
@@ -334,9 +343,15 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion Result<T> Pattern Testing
+/// <summary>
+/// End Tests Result<T> Pattern Testing
+/// </summary>
+/// <returns></returns>
 
-    #region Service Layer Testing - DocumentIngestionService
+/// <summary>
+/// Begin Tests Service Layer Testing - DocumentIngestionService
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Example of comprehensive service layer testing with mocking.
@@ -595,9 +610,15 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion Service Layer Testing - DocumentIngestionService
+/// <summary>
+/// End Tests Service Layer Testing - DocumentIngestionService
+/// </summary>
+/// <returns></returns>
 
-    #region Interface Testing
+/// <summary>
+/// Begin Tests Interface Testing
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Example of interface contract testing.
@@ -660,9 +681,15 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion Interface Testing
+/// <summary>
+/// End Tests Interface Testing
+/// </summary>
+/// <returns></returns>
 
-    #region Business Logic and Edge Cases
+/// <summary>
+/// Business Logic and Edge Cases
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Example of complex business logic testing and edge case handling.
@@ -797,9 +824,15 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion Business Logic and Edge Cases
+/// <summary>
+/// End Business Logic and Edge Cases
+/// </summary>
+/// <returns></returns>
 
-    #region Test Organization Examples
+/// <summary>
+/// Begin Tests Test Organization Examples
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Example of organizing tests using test fixtures and data sources.
@@ -869,7 +902,10 @@ public class ComprehensiveUnitTestExample
         }
     }
 
-    #endregion Test Organization Examples
+/// <summary>
+/// End Tests Test Organization Examples
+/// </summary>
+/// <returns></returns>
 }
 
 /// <summary>

@@ -128,7 +128,10 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         _logger.LogInformation("Integration test cleanup completed");
     }
 
-    #region Initialization Integration Tests
+/// <summary>
+/// Begin Tests Initialization Integration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task InitializeAsync_WithRealCredentials_ShouldSucceed()
@@ -159,9 +162,15 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         _logger.LogInformation("Google Drive idempotent initialization test passed");
     }
 
-    #endregion Initialization Integration Tests
+/// <summary>
+/// End Tests Initialization Integration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Folder Operations Integration Tests
+/// <summary>
+/// Begin Tests Folder Operations Integration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task StartFolderWatchAsync_WithRealFolder_ShouldCreateWatchSession()
@@ -233,9 +242,15 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         _logger.LogInformation("Active watches: {Watches}", activeWatchesResult.Value);
     }
 
-    #endregion Folder Operations Integration Tests
+/// <summary>
+/// End Tests Folder Operations Integration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Document Operations Integration Tests
+/// <summary>
+/// Begin Tests Document Operations Integration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetDocumentMetadataAsync_WithRealDocument_ShouldReturnMetadata()
@@ -315,9 +330,15 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         }
     }
 
-    #endregion Document Operations Integration Tests
+/// <summary>
+/// End Tests Document Operations Integration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Watch Session Management Integration Tests
+/// <summary>
+/// Begin Tests Watch Session Management Integration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task StopWatchingAsync_WithExistingWatch_ShouldStopSuccessfully()
@@ -365,9 +386,15 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         }
     }
 
-    #endregion Watch Session Management Integration Tests
+/// <summary>
+/// End Tests Watch Session Management Integration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Performance Integration Tests
+/// <summary>
+/// Begin Tests Performance Integration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DownloadDocumentAsync_WithLargeDocument_ShouldCompleteWithinTimeout()
@@ -447,9 +474,15 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         }
     }
 
-    #endregion Performance Integration Tests
+/// <summary>
+/// End Tests Performance Integration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Error Scenarios Integration Tests
+/// <summary>
+/// Begin Tests Error Scenarios Integration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetDocumentMetadataAsync_WithNonExistentDocument_ShouldReturnFailure()
@@ -495,9 +528,15 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
             string.Join(", ", result.Errors));
     }
 
-    #endregion Error Scenarios Integration Tests
+/// <summary>
+/// End Tests Error Scenarios Integration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Network Resilience Tests
+/// <summary>
+/// Begin Tests Network Resilience Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task Operations_WithShortTimeout_ShouldRespectCancellation()
@@ -528,5 +567,8 @@ public class GoogleDriveIntegrationTests : IAsyncLifetime
         _logger.LogInformation("Timeout/cancellation test completed: {Success}", result.IsSuccess);
     }
 
-    #endregion Network Resilience Tests
+/// <summary>
+/// End Tests Network Resilience Tests
+/// </summary>
+/// <returns></returns>
 }

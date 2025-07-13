@@ -17,7 +17,10 @@ public class LLMServiceTests
         _llmService = Substitute.For<ILLMService>();
     }
 
-    #region GenerateTextAsync Tests
+/// <summary>
+/// Begin Tests GenerateTextAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -91,9 +94,15 @@ public class LLMServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion GenerateTextAsync Tests
+/// <summary>
+/// End Tests GenerateTextAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region ContinueConversationAsync Tests
+/// <summary>
+/// Begin Tests ContinueConversationAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ContinueConversationAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -124,9 +133,15 @@ public class LLMServiceTests
         result.Value.Role.ShouldBe(MessageRole.Assistant);
     }
 
-    #endregion ContinueConversationAsync Tests
+/// <summary>
+/// End Tests ContinueConversationAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region CreateConversationAsync Tests
+/// <summary>
+/// Begin Tests CreateConversationAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task CreateConversationAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -162,9 +177,15 @@ public class LLMServiceTests
         result.Value.Title.ShouldBe(title);
     }
 
-    #endregion CreateConversationAsync Tests
+/// <summary>
+/// End Tests CreateConversationAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Contract Validation Tests
+/// <summary>
+/// Begin Tests Contract Validation Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ILLMService_AllMethods_ShouldRespectCancellationTokenAsync()
@@ -211,5 +232,8 @@ public class LLMServiceTests
         validateTask.ShouldBeOfType<Task<Result<bool>>>();
     }
 
-    #endregion Contract Validation Tests
+/// <summary>
+/// End Tests Contract Validation Tests
+/// </summary>
+/// <returns></returns>
 }

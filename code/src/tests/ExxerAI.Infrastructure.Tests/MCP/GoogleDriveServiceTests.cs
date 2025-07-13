@@ -36,7 +36,10 @@ public class GoogleDriveServiceTests
         _service = new GoogleDriveService(_logger, _configuration, _documentProcessor);
     }
 
-    #region Constructor Tests
+/// <summary>
+/// Begin Tests Constructor Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public void Constructor_WithValidParameters_ShouldCreateInstance()
@@ -75,9 +78,15 @@ public class GoogleDriveServiceTests
         serviceWithNullProcessor.ShouldBeOfType<GoogleDriveService>();
     }
 
-    #endregion Constructor Tests
+/// <summary>
+/// End Tests Constructor Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Initialization Tests
+/// <summary>
+/// Begin Tests Initialization Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task InitializeAsync_WithMissingCredentials_ShouldReturnFailure()
@@ -127,9 +136,15 @@ public class GoogleDriveServiceTests
                                            error.Contains("operation", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Initialization Tests
+/// <summary>
+/// End Tests Initialization Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Folder Watch Tests
+/// <summary>
+/// Begin Tests Folder Watch Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task StartFolderWatchAsync_WithNullFolderId_ShouldReturnFailure()
@@ -203,9 +218,15 @@ public class GoogleDriveServiceTests
         // Note: Will likely fail due to uninitialized service, but should validate parameters
     }
 
-    #endregion Folder Watch Tests
+/// <summary>
+/// End Tests Folder Watch Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Document Operations Tests
+/// <summary>
+/// Begin Tests Document Operations Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DownloadDocumentAsync_WithNullDocumentId_ShouldReturnFailure()
@@ -259,9 +280,15 @@ public class GoogleDriveServiceTests
                                            error.Contains("empty", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Document Operations Tests
+/// <summary>
+/// End Tests Document Operations Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Watch Management Tests
+/// <summary>
+/// Begin Tests Watch Management Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetActiveWatchesAsync_ShouldReturnWatchInformation()
@@ -316,9 +343,15 @@ public class GoogleDriveServiceTests
                                            error.Contains("not found", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Watch Management Tests
+/// <summary>
+/// End Tests Watch Management Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Cancellation Tests
+/// <summary>
+/// Begin Tests Cancellation Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task AllMethods_WithCancelledToken_ShouldRespectCancellation()
@@ -348,9 +381,15 @@ public class GoogleDriveServiceTests
         stopWatchResult.ShouldNotBeNull();
     }
 
-    #endregion Cancellation Tests
+/// <summary>
+/// End Tests Cancellation Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Error Resilience Tests
+/// <summary>
+/// Begin Tests Error Resilience Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task Service_UnderStressConditions_ShouldMaintainStability()
@@ -391,5 +430,8 @@ public class GoogleDriveServiceTests
         // All results should be consistent (all success or all failure with same reason)
     }
 
-    #endregion Error Resilience Tests
+/// <summary>
+/// End Tests Error Resilience Tests
+/// </summary>
+/// <returns></returns>
 }

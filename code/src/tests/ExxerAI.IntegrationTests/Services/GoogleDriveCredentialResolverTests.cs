@@ -20,7 +20,10 @@ public class GoogleDriveCredentialResolverTests
         _logger = Substitute.For<ILogger<GoogleDriveCredentialResolver>>();
     }
 
-    #region Environment Variables Tests (Priority 1)
+/// <summary>
+/// Begin Tests Environment Variables Tests (Priority 1)
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ResolveCredentialsAsync_WithValidEnvironmentVariables_ShouldReturnEnvironmentCredentials()
@@ -94,9 +97,15 @@ public class GoogleDriveCredentialResolverTests
         }
     }
 
-    #endregion Environment Variables Tests (Priority 1)
+/// <summary>
+/// End Tests Environment Variables Tests (Priority 1)
+/// </summary>
+/// <returns></returns>
 
-    #region Configuration Tests (Priority 2 & 3)
+/// <summary>
+/// Begin Tests Configuration Tests (Priority 2 & 3)
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ResolveCredentialsAsync_WithValidConfiguration_ShouldReturnConfigCredentials()
@@ -157,9 +166,15 @@ public class GoogleDriveCredentialResolverTests
         result.Error.ShouldContain("not found");
     }
 
-    #endregion Configuration Tests (Priority 2 & 3)
+/// <summary>
+/// End Tests Configuration Tests (Priority 2 & 3)
+/// </summary>
+/// <returns></returns>
 
-    #region JSON File Tests (Priority 4)
+/// <summary>
+/// Begin Tests JSON File Tests (Priority 4)
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ResolveCredentialsAsync_WithDesktopAppJsonFile_ShouldParseCorrectly()
@@ -385,9 +400,15 @@ public class GoogleDriveCredentialResolverTests
         }
     }
 
-    #endregion JSON File Tests (Priority 4)
+/// <summary>
+/// End Tests JSON File Tests (Priority 4)
+/// </summary>
+/// <returns></returns>
 
-    #region Priority Tests
+/// <summary>
+/// Begin Tests Priority Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ResolveCredentialsAsync_WithMultipleSources_ShouldUsePriorityOrder()
@@ -446,9 +467,15 @@ public class GoogleDriveCredentialResolverTests
         }
     }
 
-    #endregion Priority Tests
+/// <summary>
+/// End Tests Priority Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Error Scenarios
+/// <summary>
+/// Error Scenarios
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ResolveCredentialsAsync_WithNoCredentialSources_ShouldReturnComprehensiveError()
@@ -502,9 +529,15 @@ public class GoogleDriveCredentialResolverTests
         }
     }
 
-    #endregion Error Scenarios
+/// <summary>
+/// End Error Scenarios
+/// </summary>
+/// <returns></returns>
 
-    #region Cancellation Tests
+/// <summary>
+/// Begin Tests Cancellation Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ResolveCredentialsAsync_WithCancellation_ShouldRespectCancellationToken()
@@ -524,5 +557,8 @@ public class GoogleDriveCredentialResolverTests
         result.ShouldNotBeNull();
     }
 
-    #endregion Cancellation Tests
+/// <summary>
+/// End Tests Cancellation Tests
+/// </summary>
+/// <returns></returns>
 }

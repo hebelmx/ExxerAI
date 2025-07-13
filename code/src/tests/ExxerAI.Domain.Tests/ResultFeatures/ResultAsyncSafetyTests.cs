@@ -11,7 +11,10 @@ namespace ExxerAI.Domain.Tests;
 /// </summary>
 public class ResultAsyncSafetyTests
 {
-    #region Test Constants
+/// <summary>
+/// Begin Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Test constants for async safety validation.
@@ -25,9 +28,15 @@ public class ResultAsyncSafetyTests
         public static readonly string[] SmallErrorArray = ["Error1", "Error2", "Error3"];
     }
 
-    #endregion Test Constants
+/// <summary>
+/// End Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
-    #region Basic Async Compatibility Tests
+/// <summary>
+/// Begin Tests Basic Async Compatibility Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that Result creation with Span optimizations works in async methods.
@@ -78,9 +87,15 @@ public class ResultAsyncSafetyTests
         combinedResult.Errors.Count().ShouldBe(4);
     }
 
-    #endregion Basic Async Compatibility Tests
+/// <summary>
+/// End Tests Basic Async Compatibility Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Task Continuation and Exception Handling Tests
+/// <summary>
+/// Begin Tests Task Continuation and Exception Handling Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that Result operations work correctly in task continuations.
@@ -162,9 +177,15 @@ public class ResultAsyncSafetyTests
         return Result<string>.Success("Async operation succeeded");
     }
 
-    #endregion Task Continuation and Exception Handling Tests
+/// <summary>
+/// End Tests Task Continuation and Exception Handling Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Stress Tests for Async Safety
+/// <summary>
+/// Begin Tests Stress Tests for Async Safety
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Stress test with many concurrent async operations using Span optimizations.
@@ -225,9 +246,15 @@ public class ResultAsyncSafetyTests
         }
     }
 
-    #endregion Stress Tests for Async Safety
+/// <summary>
+/// End Tests Stress Tests for Async Safety
+/// </summary>
+/// <returns></returns>
 
-    #region Documentation and Validation Tests
+/// <summary>
+/// Begin Tests Documentation and Validation Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Documents that our Span optimizations are safe in async contexts.
@@ -268,5 +295,8 @@ public class ResultAsyncSafetyTests
         true.ShouldBeTrue("Async safety validation completed successfully");
     }
 
-    #endregion Documentation and Validation Tests
+/// <summary>
+/// End Tests Documentation and Validation Tests
+/// </summary>
+/// <returns></returns>
 }

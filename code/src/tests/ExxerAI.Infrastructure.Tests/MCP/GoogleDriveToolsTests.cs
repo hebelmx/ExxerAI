@@ -26,7 +26,10 @@ public class GoogleDriveToolsTests
         _tools = new GoogleDriveTools(_logger, _driveService);
     }
 
-    #region Constructor Tests
+/// <summary>
+/// Begin Tests Constructor Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public void Constructor_WithValidParameters_ShouldCreateInstance()
@@ -54,9 +57,15 @@ public class GoogleDriveToolsTests
             .ParamName.ShouldBe("driveService");
     }
 
-    #endregion Constructor Tests
+/// <summary>
+/// End Tests Constructor Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Tool Registration Tests
+/// <summary>
+/// Begin Tests Tool Registration Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetAvailableToolsAsync_ShouldReturnExpectedTools()
@@ -96,9 +105,15 @@ public class GoogleDriveToolsTests
         result.Errors.ShouldContain(error => error.Contains("cancel", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Tool Registration Tests
+/// <summary>
+/// End Tests Tool Registration Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Initialize Drive Tool Tests
+/// <summary>
+/// Begin Tests Initialize Drive Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_InitializeDrive_WithValidRequest_ShouldCallService()
@@ -144,9 +159,15 @@ public class GoogleDriveToolsTests
         result.Errors.ShouldContain("Authentication failed");
     }
 
-    #endregion Initialize Drive Tool Tests
+/// <summary>
+/// End Tests Initialize Drive Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Start Folder Watch Tool Tests
+/// <summary>
+/// Begin Tests Start Folder Watch Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_StartFolderWatch_WithValidParameters_ShouldCallService()
@@ -251,9 +272,15 @@ public class GoogleDriveToolsTests
             Arg.Any<CancellationToken>());
     }
 
-    #endregion Start Folder Watch Tool Tests
+/// <summary>
+/// End Tests Start Folder Watch Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Download Document Tool Tests
+/// <summary>
+/// Begin Tests Download Document Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_DownloadDocument_WithValidDocumentId_ShouldCallService()
@@ -302,9 +329,15 @@ public class GoogleDriveToolsTests
         result.Errors.ShouldContain(error => error.Contains("document_id", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Download Document Tool Tests
+/// <summary>
+/// End Tests Download Document Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Get Document Metadata Tool Tests
+/// <summary>
+/// Begin Tests Get Document Metadata Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_GetDocumentMetadata_WithValidDocumentId_ShouldCallService()
@@ -342,9 +375,15 @@ public class GoogleDriveToolsTests
         await _driveService.Received(1).GetDocumentMetadataAsync(documentId, Arg.Any<CancellationToken>());
     }
 
-    #endregion Get Document Metadata Tool Tests
+/// <summary>
+/// End Tests Get Document Metadata Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Watch Management Tool Tests
+/// <summary>
+/// Begin Tests Watch Management Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_GetActiveWatches_ShouldCallService()
@@ -414,9 +453,15 @@ public class GoogleDriveToolsTests
         result.Errors.ShouldContain(error => error.Contains("watch_id", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Watch Management Tool Tests
+/// <summary>
+/// End Tests Watch Management Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Error Handling Tests
+/// <summary>
+/// Begin Tests Error Handling Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_WithUnknownTool_ShouldReturnFailure()
@@ -466,9 +511,15 @@ public class GoogleDriveToolsTests
                                            error.Contains("format", StringComparison.OrdinalIgnoreCase));
     }
 
-    #endregion Error Handling Tests
+/// <summary>
+/// End Tests Error Handling Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Concurrent Execution Tests
+/// <summary>
+/// Begin Tests Concurrent Execution Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_WithConcurrentRequests_ShouldHandleGracefully()
@@ -497,9 +548,15 @@ public class GoogleDriveToolsTests
         await _driveService.Received(concurrentRequests).GetActiveWatchesAsync(Arg.Any<CancellationToken>());
     }
 
-    #endregion Concurrent Execution Tests
+/// <summary>
+/// End Tests Concurrent Execution Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Performance Tests
+/// <summary>
+/// Begin Tests Performance Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteToolAsync_WithHighFrequencyRequests_ShouldMaintainPerformance()
@@ -535,5 +592,8 @@ public class GoogleDriveToolsTests
         stopwatch.ElapsedMilliseconds.ShouldBeLessThan(10000); // 10 seconds max for 100 requests
     }
 
-    #endregion Performance Tests
+/// <summary>
+/// End Tests Performance Tests
+/// </summary>
+/// <returns></returns>
 }

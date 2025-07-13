@@ -17,7 +17,10 @@ public class WorkflowServiceTests
         _workflowService = Substitute.For<IWorkflowService>();
     }
 
-    #region CreateWorkflowAsync Tests
+/// <summary>
+/// Begin Tests CreateWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -97,9 +100,15 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion CreateWorkflowAsync Tests
+/// <summary>
+/// End Tests CreateWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetWorkflowAsync Tests
+/// <summary>
+/// Begin Tests GetWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetWorkflowAsync_WithValidId_ShouldReturnWorkflowAsync()
@@ -165,9 +174,15 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion GetWorkflowAsync Tests
+/// <summary>
+/// End Tests GetWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetActiveWorkflowsAsync Tests
+/// <summary>
+/// Begin Tests GetActiveWorkflowsAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetActiveWorkflowsAsync_WhenActiveWorkflowsExist_ShouldReturnAllActiveWorkflowsAsync()
@@ -215,9 +230,15 @@ public class WorkflowServiceTests
         result.Value!.ShouldBeEmpty();
     }
 
-    #endregion GetActiveWorkflowsAsync Tests
+/// <summary>
+/// End Tests GetActiveWorkflowsAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region ExecuteWorkflowAsync Tests
+/// <summary>
+/// Begin Tests ExecuteWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExecuteWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -288,9 +309,15 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion ExecuteWorkflowAsync Tests
+/// <summary>
+/// End Tests ExecuteWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetWorkflowExecutionsAsync Tests
+/// <summary>
+/// Begin Tests GetWorkflowExecutionsAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetWorkflowExecutionsAsync_WithValidWorkflowId_ShouldReturnExecutionsAsync()
@@ -342,9 +369,15 @@ public class WorkflowServiceTests
         result.Value!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
     }
 
-    #endregion GetWorkflowExecutionsAsync Tests
+/// <summary>
+/// End Tests GetWorkflowExecutionsAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Execution Control Tests
+/// <summary>
+/// Begin Tests Execution Control Tests
+/// </summary>
+/// <returns></returns>
 
     [Theory]
     [InlineData(nameof(IWorkflowService.PauseWorkflowExecutionAsync))]
@@ -432,9 +465,15 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion Execution Control Tests
+/// <summary>
+/// End Tests Execution Control Tests
+/// </summary>
+/// <returns></returns>
 
-    #region UpdateWorkflowConfigurationAsync Tests
+/// <summary>
+/// Begin Tests UpdateWorkflowConfigurationAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task UpdateWorkflowConfigurationAsync_WithValidInput_ShouldReturnSuccessAsync()
@@ -480,9 +519,15 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion UpdateWorkflowConfigurationAsync Tests
+/// <summary>
+/// End Tests UpdateWorkflowConfigurationAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region DeleteWorkflowAsync Tests
+/// <summary>
+/// Begin Tests DeleteWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DeleteWorkflowAsync_WithValidId_ShouldReturnSuccessAsync()
@@ -522,9 +567,15 @@ public class WorkflowServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion DeleteWorkflowAsync Tests
+/// <summary>
+/// End Tests DeleteWorkflowAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Contract Validation Tests
+/// <summary>
+/// Begin Tests Contract Validation Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task IWorkflowService_AllMethods_ShouldRespectCancellationTokenAsync()
@@ -590,5 +641,8 @@ public class WorkflowServiceTests
         deleteTask.ShouldBeOfType<Task<Result<bool>>>();
     }
 
-    #endregion Contract Validation Tests
+/// <summary>
+/// End Tests Contract Validation Tests
+/// </summary>
+/// <returns></returns>
 }

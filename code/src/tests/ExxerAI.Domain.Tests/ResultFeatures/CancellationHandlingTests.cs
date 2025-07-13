@@ -83,7 +83,10 @@ namespace ExxerAI.Domain.Tests;
 /// </summary>
 public class CancellationHandlingTests
 {
-    #region Test Constants
+/// <summary>
+/// Begin Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Test constants for cancellation scenarios.
@@ -97,9 +100,15 @@ public class CancellationHandlingTests
         public const string TestError = "Simulated operation error";
     }
 
-    #endregion Test Constants
+/// <summary>
+/// End Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
-    #region ResultExtensions Cancellation Tests
+/// <summary>
+/// Begin Tests ResultExtensions Cancellation Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests the basic cancellation factory methods and predicates.
@@ -167,9 +176,15 @@ public class CancellationHandlingTests
         mixedGenericResult.IsCancelled().ShouldBeTrue();
     }
 
-    #endregion ResultExtensions Cancellation Tests
+/// <summary>
+/// End Tests ResultExtensions Cancellation Tests
+/// </summary>
+/// <returns></returns>
 
-    #region CancellationAwareResult Tests
+/// <summary>
+/// Begin Tests CancellationAwareResult Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that successful async operations are properly wrapped and return success results.
@@ -430,9 +445,15 @@ public class CancellationHandlingTests
         result.IsCancelled().ShouldBeTrue();
     }
 
-    #endregion CancellationAwareResult Tests
+/// <summary>
+/// End Tests CancellationAwareResult Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Timeout Handling Tests
+/// <summary>
+/// Begin Tests Timeout Handling Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that operations completing within timeout limits return success results.
@@ -572,9 +593,15 @@ public class CancellationHandlingTests
         result.IsCancelled().ShouldBeTrue();
     }
 
-    #endregion Timeout Handling Tests
+/// <summary>
+/// End Tests Timeout Handling Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Functional Programming Pattern Tests
+/// <summary>
+/// Begin Tests Functional Programming Pattern Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests the complete functional pattern: operation → cancellation check → result chaining.
@@ -681,9 +708,15 @@ public class CancellationHandlingTests
         // Should.Throw<OperationCanceledException>(() => ...)
     }
 
-    #endregion Functional Programming Pattern Tests
+/// <summary>
+/// End Tests Functional Programming Pattern Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Edge Cases and Error Scenarios
+/// <summary>
+/// Edge Cases and Error Scenarios
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Helper function that creates an operation that throws an exception for testing functional exception handling.
@@ -897,5 +930,8 @@ public class CancellationHandlingTests
         result.IsCancelled().ShouldBeTrue();
     }
 
-    #endregion Edge Cases and Error Scenarios
+/// <summary>
+/// End Edge Cases and Error Scenarios
+/// </summary>
+/// <returns></returns>
 }

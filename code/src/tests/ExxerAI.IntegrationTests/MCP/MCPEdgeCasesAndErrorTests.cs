@@ -120,7 +120,10 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         (_serviceProvider as IDisposable)?.Dispose();
     }
 
-    #region Network and Connectivity Edge Cases
+/// <summary>
+/// Network and Connectivity Edge Cases
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GoogleDriveService_WithNetworkTimeout_ShouldFailGracefully()
@@ -215,9 +218,15 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         _logger.LogInformation("✓ Rate limiting handled appropriately");
     }
 
-    #endregion Network and Connectivity Edge Cases
+/// <summary>
+/// End Network and Connectivity Edge Cases
+/// </summary>
+/// <returns></returns>
 
-    #region Document Processing Edge Cases
+/// <summary>
+/// Document Processing Edge Cases
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DocumentProcessor_WithCorruptedDocument_ShouldFailGracefully()
@@ -323,9 +332,15 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         _logger.LogInformation("✓ All unsupported file types handled appropriately");
     }
 
-    #endregion Document Processing Edge Cases
+/// <summary>
+/// End Document Processing Edge Cases
+/// </summary>
+/// <returns></returns>
 
-    #region API Boundary and Limit Tests
+/// <summary>
+/// Begin Tests API Boundary and Limit Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GoogleDriveService_WithInvalidDocumentIds_ShouldHandleAllFormats()
@@ -403,9 +418,15 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         _logger.LogInformation("✓ Invalid folder IDs properly validated");
     }
 
-    #endregion API Boundary and Limit Tests
+/// <summary>
+/// End Tests API Boundary and Limit Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Concurrency and Race Condition Tests
+/// <summary>
+/// Begin Tests Concurrency and Race Condition Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GoogleDriveService_WithConcurrentWatchSessions_ShouldMaintainConsistency()
@@ -486,9 +507,15 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         (successful + failed).ShouldBe(concurrentDocs);
     }
 
-    #endregion Concurrency and Race Condition Tests
+/// <summary>
+/// End Tests Concurrency and Race Condition Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Resource Exhaustion and Memory Tests
+/// <summary>
+/// Begin Tests Resource Exhaustion and Memory Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DocumentProcessor_WithMemoryPressure_ShouldHandleGracefully()
@@ -535,9 +562,15 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
             successfulProcessing, documentCount);
     }
 
-    #endregion Resource Exhaustion and Memory Tests
+/// <summary>
+/// End Tests Resource Exhaustion and Memory Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Helper Methods for Test Data Generation
+/// <summary>
+/// Begin Tests Helper Methods for Test Data Generation
+/// </summary>
+/// <returns></returns>
 
     private static byte[] GenerateRandomBytes(int size)
     {
@@ -631,5 +664,8 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         return data;
     }
 
-    #endregion Helper Methods for Test Data Generation
+/// <summary>
+/// End Tests Helper Methods for Test Data Generation
+/// </summary>
+/// <returns></returns>
 }

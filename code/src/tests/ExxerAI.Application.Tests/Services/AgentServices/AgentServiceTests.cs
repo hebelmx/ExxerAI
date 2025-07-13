@@ -17,7 +17,10 @@ public class AgentServiceTests
         _agentService = Substitute.For<IAgentService>();
     }
 
-    #region CreateAgentAsync Tests
+/// <summary>
+/// Begin Tests CreateAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task CreateAgentAsync_WithValidInput_ShouldReturnSuccessResultAsync()
@@ -120,9 +123,15 @@ public class AgentServiceTests
         result.Error!.ShouldContain("cancelled");
     }
 
-    #endregion CreateAgentAsync Tests
+/// <summary>
+/// End Tests CreateAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetAgentAsync Tests
+/// <summary>
+/// Begin Tests GetAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetAgentAsync_WithValidId_ShouldReturnAgentAsync()
@@ -183,9 +192,15 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion GetAgentAsync Tests
+/// <summary>
+/// End Tests GetAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetAllAgentsAsync Tests
+/// <summary>
+/// Begin Tests GetAllAgentsAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetAllAgentsAsync_WhenAgentsExist_ShouldReturnAllAgentsAsync()
@@ -232,9 +247,15 @@ public class AgentServiceTests
         result.Value!.ShouldBeEmpty();
     }
 
-    #endregion GetAllAgentsAsync Tests
+/// <summary>
+/// End Tests GetAllAgentsAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region GetActiveAgentsAsync Tests
+/// <summary>
+/// Begin Tests GetActiveAgentsAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task GetActiveAgentsAsync_WhenActiveAgentsExist_ShouldReturnActiveAgentsOnlyAsync()
@@ -281,9 +302,15 @@ public class AgentServiceTests
         result.Value!.ShouldBeEmpty();
     }
 
-    #endregion GetActiveAgentsAsync Tests
+/// <summary>
+/// End Tests GetActiveAgentsAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region UpdateAgentConfigurationAsync Tests
+/// <summary>
+/// Begin Tests UpdateAgentConfigurationAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task UpdateAgentConfigurationAsync_WithValidInput_ShouldReturnSuccessAsync()
@@ -345,9 +372,15 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion UpdateAgentConfigurationAsync Tests
+/// <summary>
+/// End Tests UpdateAgentConfigurationAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region UpdateAgentStatusAsync Tests
+/// <summary>
+/// Begin Tests UpdateAgentStatusAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Theory]
     [InlineData(AgentStatus.Active)]
@@ -391,9 +424,15 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion UpdateAgentStatusAsync Tests
+/// <summary>
+/// End Tests UpdateAgentStatusAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region AssignTaskAsync Tests
+/// <summary>
+/// Begin Tests AssignTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task AssignTaskAsync_WithValidInput_ShouldReturnSuccessAsync()
@@ -455,9 +494,15 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion AssignTaskAsync Tests
+/// <summary>
+/// End Tests AssignTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region FindBestAgentForTaskAsync Tests
+/// <summary>
+/// Begin Tests FindBestAgentForTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task FindBestAgentForTaskAsync_WithValidTaskType_ShouldReturnBestAgentAsync()
@@ -519,9 +564,15 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion FindBestAgentForTaskAsync Tests
+/// <summary>
+/// End Tests FindBestAgentForTaskAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region DeleteAgentAsync Tests
+/// <summary>
+/// Begin Tests DeleteAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task DeleteAgentAsync_WithValidId_ShouldReturnSuccessAsync()
@@ -580,9 +631,15 @@ public class AgentServiceTests
         result.Error.ShouldNotBeNullOrEmpty();
     }
 
-    #endregion DeleteAgentAsync Tests
+/// <summary>
+/// End Tests DeleteAgentAsync Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Interface Contract Tests
+/// <summary>
+/// Begin Tests Interface Contract Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task IAgentService_AllMethods_ShouldRespectCancellationTokenAsync()
@@ -639,5 +696,8 @@ public class AgentServiceTests
         }
     }
 
-    #endregion Interface Contract Tests
+/// <summary>
+/// End Tests Interface Contract Tests
+/// </summary>
+/// <returns></returns>
 }

@@ -12,7 +12,10 @@ namespace ExxerAI.Domain.Tests;
 /// </summary>
 public class ResultSpanOptimizationTests
 {
-    #region Test Constants
+/// <summary>
+/// Begin Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Test constants for Span optimization validation.
@@ -27,9 +30,15 @@ public class ResultSpanOptimizationTests
         public const int CharStackAllocLimit = 512;
     }
 
-    #endregion Test Constants
+/// <summary>
+/// End Tests Test Constants
+/// </summary>
+/// <returns></returns>
 
-    #region FormatErrorsString Span Optimization Tests
+/// <summary>
+/// Begin Tests FormatErrorsString Span Optimization Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that small string arrays use Span optimization path.
@@ -195,9 +204,15 @@ public class ResultSpanOptimizationTests
         result.ShouldContain(", ");
     }
 
-    #endregion FormatErrorsString Span Optimization Tests
+/// <summary>
+/// End Tests FormatErrorsString Span Optimization Tests
+/// </summary>
+/// <returns></returns>
 
-    #region CombineErrors Span Optimization Tests
+/// <summary>
+/// Begin Tests CombineErrors Span Optimization Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that small collections use Span optimization in CombineErrors.
@@ -339,9 +354,15 @@ public class ResultSpanOptimizationTests
         }
     }
 
-    #endregion CombineErrors Span Optimization Tests
+/// <summary>
+/// End Tests CombineErrors Span Optimization Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Integration Tests for Span Optimizations
+/// <summary>
+/// Begin Tests Integration Tests for Span Optimizations
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that Result.ToString() uses Span optimizations correctly.
@@ -455,9 +476,15 @@ public class ResultSpanOptimizationTests
         combined.Errors.ShouldContain("List2");
     }
 
-    #endregion Integration Tests for Span Optimizations
+/// <summary>
+/// End Tests Integration Tests for Span Optimizations
+/// </summary>
+/// <returns></returns>
 
-    #region Memory Safety Tests
+/// <summary>
+/// Begin Tests Memory Safety Tests
+/// </summary>
+/// <returns></returns>
 
     /// <summary>
     /// Tests that Span operations handle edge cases without buffer overruns.
@@ -492,5 +519,8 @@ public class ResultSpanOptimizationTests
         true.ShouldBeTrue("Memory safety tests completed successfully");
     }
 
-    #endregion Memory Safety Tests
+/// <summary>
+/// End Tests Memory Safety Tests
+/// </summary>
+/// <returns></returns>
 } 

@@ -23,7 +23,10 @@ public class DocumentProcessingToolsTests
         _tools = new DocumentProcessingTools(_logger);
     }
 
-    #region Constructor Tests
+/// <summary>
+/// Begin Tests Constructor Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public void Constructor_WithValidParameters_ShouldCreateInstance()
@@ -42,9 +45,15 @@ public class DocumentProcessingToolsTests
             .ParamName.ShouldBe("logger");
     }
 
-    #endregion Constructor Tests
+/// <summary>
+/// End Tests Constructor Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Process Document Tool Tests
+/// <summary>
+/// Begin Tests Process Document Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ProcessDocumentAsync_WithValidPath_ShouldReturnSuccessResult()
@@ -92,9 +101,15 @@ public class DocumentProcessingToolsTests
         // This test ensures it doesn't throw unhandled exceptions
     }
 
-    #endregion Process Document Tool Tests
+/// <summary>
+/// End Tests Process Document Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Extract Text Tool Tests
+/// <summary>
+/// Begin Tests Extract Text Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ExtractTextAsync_WithValidDocument_ShouldReturnText()
@@ -112,9 +127,15 @@ public class DocumentProcessingToolsTests
         result.Value.ShouldContain("Text Extraction Complete");
     }
 
-    #endregion Extract Text Tool Tests
+/// <summary>
+/// End Tests Extract Text Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Validate Extraction Tool Tests
+/// <summary>
+/// Begin Tests Validate Extraction Tool Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ValidateExtractionAsync_WithValidData_ShouldReturnValidation()
@@ -133,9 +154,15 @@ public class DocumentProcessingToolsTests
         result.Value.ShouldContain("Validation Complete");
     }
 
-    #endregion Validate Extraction Tool Tests
+/// <summary>
+/// End Tests Validate Extraction Tool Tests
+/// </summary>
+/// <returns></returns>
 
-    #region Performance Tests
+/// <summary>
+/// Begin Tests Performance Tests
+/// </summary>
+/// <returns></returns>
 
     [Fact]
     public async Task ProcessDocumentAsync_WithMultipleRequests_ShouldHandleConcurrency()
@@ -158,5 +185,8 @@ public class DocumentProcessingToolsTests
         results.Length.ShouldBe(concurrentRequests);
     }
 
-    #endregion Performance Tests
+/// <summary>
+/// End Tests Performance Tests
+/// </summary>
+/// <returns></returns>
 }
