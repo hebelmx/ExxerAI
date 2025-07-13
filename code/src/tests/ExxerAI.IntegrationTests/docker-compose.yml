@@ -1,0 +1,151 @@
+version: '3.8'
+
+services:
+  # LocalAI service for LLM processing
+  localai:
+    image: localai/localai:latest-gpu-nvidia-cuda-12
+    container_name: exxerai-localai-integration
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - localai_models:/build/models
+      - localai_data:/tmp/localai
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/readiness"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+    networks:
+      - exxerai-integration
+
+  # Neo4j for graph knowledge store (using different ports to avoid conflicts)
+  neo4j:
+    image: neo4j:5-community
+    container_name: exxerai-neo4j-integration
+    restart: unless-stopped
+    ports:
+      - "7475:7474"  # HTTP (avoiding conflict with 7474)
+      - "7688:7687"  # Bolt (avoiding conflict with 7687)
+    environment:
+      NEO4J_AUTH: neo4j/test123456
+    volumes:
+      - neo4j_data:/data
+      - neo4j_logs:/logs
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:7474/db/neo4j/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    networks:
+      - exxerai-integration
+
+  # Qdrant for vector knowledge store (fixed duplicate environment variable)
+  qdrant:
+    image: qdrant/qdrant:v1.13.4
+    container_name: exxerai-qdrant-integration
+    restart: unless-stopped
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: 6333
+      QDRANT__SERVICE__GRPC_PORT: 6334
+      QDRANT__LOG_LEVEL: INFO
+      QDRANT__STORAGE__OPTIMIZERS__DELETED_THRESHOLD: 0.2
+      QDRANT__STORAGE__OPTIMIZERS__VACUUM_MIN_VECTOR_NUMBER: 1000
+    volumes:
+      - qdrant_data:/qdrant/storage
+      - qdrant_config:/qdrant/config
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:6333/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - exxerai-integration
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    container_name: exxerai-redis-integration
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    environment:
+      REDIS_PASSWORD: test123456
+    volumes:
+      - redis_data:/data
+      - redis_conf:/usr/local/etc/redis
+    command: redis-server --appendonly yes --requirepass test123456
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - exxerai-integration
+
+# Persistent volumes for data retention across container restarts
+volumes:
+  # LocalAI volumes
+  localai_models:
+    name: exxerai-localai-models
+    driver: local
+  localai_data:
+    name: exxerai-localai-data
+    driver: local
+  
+  # Neo4j volumes
+  neo4j_data:
+    name: exxerai-neo4j-data
+    driver: local
+  neo4j_logs:
+    name: exxerai-neo4j-logs
+    driver: local
+  neo4j_conf:
+    name: exxerai-neo4j-conf
+    driver: local
+  neo4j_plugins:
+    name: exxerai-neo4j-plugins
+    driver: local
+  
+  # Qdrant volumes
+  qdrant_data:
+    name: exxerai-qdrant-data
+    driver: local
+  qdrant_config:
+    name: exxerai-qdrant-config
+    driver: local
+  
+  # Redis volumes
+  redis_data:
+    name: exxerai-redis-data
+    driver: local
+  redis_conf:
+    name: exxerai-redis-conf
+    driver: local
+
+# Dedicated network for integration testing
+networks:
+  exxerai-integration:
+    name: exxerai-integration-network
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16 

@@ -442,12 +442,14 @@ public class HybridKnowledgeServiceIntegrationTests : IClassFixture<KnowledgeSto
 
     private void SetupHybridService()
     {
-        // Setup Qdrant client
-        _qdrantClient = new QdrantClient("localhost", 6333, https: false);
+        // Setup Qdrant client using container fixture
+        var qdrantConfig = _containerFixture.QdrantConfig;
+        _qdrantClient = new QdrantClient(qdrantConfig.Host, qdrantConfig.Port, https: qdrantConfig.IsSecure);
         var vectorStore = new QdrantVectorStore(_qdrantClient, _vectorLogger, _testCollectionName, 1536);
 
-        // Setup Neo4j client
-        _neo4jClient = new GraphClient(new Uri("bolt://localhost:7687"), "neo4j", "password");
+        // Setup Neo4j client using container fixture
+        var neo4jConfig = _containerFixture.Neo4jConfig;
+        _neo4jClient = new GraphClient(new Uri(neo4jConfig.BoltUri), neo4jConfig.Username, neo4jConfig.Password);
         var graphStore = new Neo4jGraphKnowledgeStore(_neo4jClient, _graphLogger);
 
         // Setup mock embedding generator (would be real OpenAI in actual integration)

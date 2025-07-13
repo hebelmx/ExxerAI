@@ -455,7 +455,8 @@ public class Neo4jGraphStoreIntegrationTests : IClassFixture<Neo4jContainerFixtu
 
     private void SetupGraphClient()
     {
-        _graphClient = new GraphClient(new Uri("bolt://localhost:7687"), "neo4j", "password");
+        var config = _containerFixture.GetConnectionConfig();
+        _graphClient = new GraphClient(new Uri(config.BoltUri), config.Username, config.Password);
         _graphStore = new Neo4jGraphKnowledgeStore(_graphClient, _logger);
     }
 
