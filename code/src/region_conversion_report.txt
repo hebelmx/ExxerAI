@@ -1,0 +1,5590 @@
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 68 to 68
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+/// -pragma warning restore AsyncFixer02
+/// </summary>
+public class ComprehensiveUnitTestExample
+{
+    #region Domain Entity Testing - Agent Class
+
+    /// <summary>
+    /// Example of comprehensive domain entity testing using the Agent class.
+    /// Demonstrates property testing, validation, business rules, and edge cases.
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+/// -pragma warning restore AsyncFixer02
+
+/// </summary>
+
+public class ComprehensiveUnitTestExample
+
+{
+
+/// <summary>
+
+/// Begin Tests Domain Entity Testing - Agent Class
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Example of comprehensive domain entity testing using the Agent class.
+
+    /// Demonstrates property testing, validation, business rules, and edge cases.
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 194 to 194
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            agent.Tasks.Last().Title.ShouldBe("Extract Value");
+        }
+    }
+
+    #endregion Domain Entity Testing - Agent Class
+
+    #region Result<T> Pattern Testing
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            agent.Tasks.Last().Title.ShouldBe("Extract Value");
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Domain Entity Testing - Agent Class
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Result<T> Pattern Testing
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 337 to 337
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            result.Value.ShouldBeNull();
+        }
+    }
+
+    #endregion Result<T> Pattern Testing
+
+    #region Service Layer Testing - DocumentIngestionService
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            result.Value.ShouldBeNull();
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Result<T> Pattern Testing
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Service Layer Testing - DocumentIngestionService
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 598 to 598
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            };
+        }
+    }
+
+    #endregion Service Layer Testing - DocumentIngestionService
+
+    #region Interface Testing
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            };
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Service Layer Testing - DocumentIngestionService
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Interface Testing
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 663 to 663
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            await _service.Received(1).StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>());
+        }
+    }
+
+    #endregion Interface Testing
+
+    #region Business Logic and Edge Cases
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            await _service.Received(1).StartWatchingFolderAsync(folderId, Arg.Any<CancellationToken>());
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Interface Testing
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Business Logic and Edge Cases
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 800 to 800
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            return metadata.FileSize <= maxFileSize;
+        }
+    }
+
+    #endregion Business Logic and Edge Cases
+
+    #region Test Organization Examples
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            return metadata.FileSize <= maxFileSize;
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Business Logic and Edge Cases
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Test Organization Examples
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Api.Tests\ComprehensiveUnitTestExample.cs ===
+Lines 872 to 872
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            return validTransitions.ContainsKey(from) && validTransitions[from].Contains(to);
+        }
+    }
+
+    #endregion Test Organization Examples
+}
+
+/// <summary>
+/// 📝 TESTING PATTERNS SUMMARY FOR EXXERAI PROJECT
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            return validTransitions.ContainsKey(from) && validTransitions[from].Contains(to);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Test Organization Examples
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+
+
+/// <summary>
+
+/// 📝 TESTING PATTERNS SUMMARY FOR EXXERAI PROJECT
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 20 to 20
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+    {
+        _agentService = Substitute.For<IAgentService>();
+    }
+
+    #region CreateAgentAsync Tests
+
+    [Fact]
+    public async Task CreateAgentAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+    {
+
+        _agentService = Substitute.For<IAgentService>();
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests CreateAgentAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task CreateAgentAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 123 to 123
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error!.ShouldContain("cancelled");
+    }
+
+    #endregion CreateAgentAsync Tests
+
+    #region GetAgentAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error!.ShouldContain("cancelled");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CreateAgentAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetAgentAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 186 to 186
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion GetAgentAsync Tests
+
+    #region GetAllAgentsAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetAgentAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetAllAgentsAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 235 to 235
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
+    }
+
+    #endregion GetAllAgentsAsync Tests
+
+    #region GetActiveAgentsAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNull();
+
+        result.Value!.ShouldBeEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetAllAgentsAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetActiveAgentsAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 284 to 284
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
+    }
+
+    #endregion GetActiveAgentsAsync Tests
+
+    #region UpdateAgentConfigurationAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNull();
+
+        result.Value!.ShouldBeEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetActiveAgentsAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region UpdateAgentConfigurationAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 348 to 348
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion UpdateAgentConfigurationAsync Tests
+
+    #region UpdateAgentStatusAsync Tests
+
+    [Theory]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests UpdateAgentConfigurationAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region UpdateAgentStatusAsync Tests
+
+
+
+    [Theory]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 394 to 394
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion UpdateAgentStatusAsync Tests
+
+    #region AssignTaskAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests UpdateAgentStatusAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region AssignTaskAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 458 to 458
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion AssignTaskAsync Tests
+
+    #region FindBestAgentForTaskAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests AssignTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region FindBestAgentForTaskAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 522 to 522
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion FindBestAgentForTaskAsync Tests
+
+    #region DeleteAgentAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests FindBestAgentForTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region DeleteAgentAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 583 to 583
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion DeleteAgentAsync Tests
+
+    #region Interface Contract Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests DeleteAgentAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Interface Contract Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\AgentServices\AgentServiceTests.cs ===
+Lines 642 to 642
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            taskInnerType.GetGenericTypeDefinition().ShouldBe(typeof(Result<>), $"Method {method.Name} should return Task<Result<T>>");
+        }
+    }
+
+    #endregion Interface Contract Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            taskInnerType.GetGenericTypeDefinition().ShouldBe(typeof(Result<>), $"Method {method.Name} should return Task<Result<T>>");
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Interface Contract Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServices\LLMServiceTests.cs ===
+Lines 20 to 20
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+    {
+        _llmService = Substitute.For<ILLMService>();
+    }
+
+    #region GenerateTextAsync Tests
+
+    [Fact]
+    public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+    {
+
+        _llmService = Substitute.For<ILLMService>();
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests GenerateTextAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task GenerateTextAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServices\LLMServiceTests.cs ===
+Lines 94 to 94
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion GenerateTextAsync Tests
+
+    #region ContinueConversationAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GenerateTextAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region ContinueConversationAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServices\LLMServiceTests.cs ===
+Lines 127 to 127
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value!.Content.ShouldBe("Hello there!");
+        result.Value.Role.ShouldBe(MessageRole.Assistant);
+    }
+
+    #endregion ContinueConversationAsync Tests
+
+    #region CreateConversationAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value!.Content.ShouldBe("Hello there!");
+
+        result.Value.Role.ShouldBe(MessageRole.Assistant);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests ContinueConversationAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region CreateConversationAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServices\LLMServiceTests.cs ===
+Lines 165 to 165
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.LanguageModelId.ShouldBe(modelId);
+        result.Value.Title.ShouldBe(title);
+    }
+
+    #endregion CreateConversationAsync Tests
+
+    #region Contract Validation Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.LanguageModelId.ShouldBe(modelId);
+
+        result.Value.Title.ShouldBe(title);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CreateConversationAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Contract Validation Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\LLMServices\LLMServiceTests.cs ===
+Lines 214 to 214
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        countTask.ShouldBeOfType<Task<Result<int>>>();
+        validateTask.ShouldBeOfType<Task<Result<bool>>>();
+    }
+
+    #endregion Contract Validation Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        countTask.ShouldBeOfType<Task<Result<int>>>();
+
+        validateTask.ShouldBeOfType<Task<Result<bool>>>();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Contract Validation Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 20 to 20
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+    {
+        _taskService = Substitute.For<ITaskService>();
+    }
+
+    #region CreateTaskAsync Tests
+
+    [Fact]
+    public async Task CreateTaskAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+    {
+
+        _taskService = Substitute.For<ITaskService>();
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests CreateTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task CreateTaskAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 117 to 117
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Priority.ShouldBe(priority);
+    }
+
+    #endregion CreateTaskAsync Tests
+
+    #region GetTaskAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeTrue();
+
+        result.Value!.Priority.ShouldBe(priority);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CreateTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetTaskAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 180 to 180
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion GetTaskAsync Tests
+
+    #region GetPendingTasksAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetPendingTasksAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 259 to 259
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeTrue();
+        result.Value!.Count().ShouldBeLessThanOrEqualTo(maxCount);
+    }
+
+    #endregion GetPendingTasksAsync Tests
+
+    #region GetAgentTasksAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeTrue();
+
+        result.Value!.Count().ShouldBeLessThanOrEqualTo(maxCount);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetPendingTasksAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetAgentTasksAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 336 to 336
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion GetAgentTasksAsync Tests
+
+    #region UpdateTaskStatusAsync Tests
+
+    [Theory]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetAgentTasksAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region UpdateTaskStatusAsync Tests
+
+
+
+    [Theory]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 404 to 404
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion UpdateTaskStatusAsync Tests
+
+    #region AssignTaskToAgentAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests UpdateTaskStatusAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region AssignTaskToAgentAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 468 to 468
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion AssignTaskToAgentAsync Tests
+
+    #region CompleteTaskAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests AssignTaskToAgentAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region CompleteTaskAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 530 to 530
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion CompleteTaskAsync Tests
+
+    #region FailTaskAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CompleteTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region FailTaskAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 575 to 575
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion FailTaskAsync Tests
+
+    #region GetOverdueTasksAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests FailTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetOverdueTasksAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 624 to 624
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
+    }
+
+    #endregion GetOverdueTasksAsync Tests
+
+    #region DeleteTaskAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNull();
+
+        result.Value!.ShouldBeEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetOverdueTasksAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region DeleteTaskAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 685 to 685
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion DeleteTaskAsync Tests
+
+    #region Interface Contract Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests DeleteTaskAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Interface Contract Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\TaskServices\TaskServiceTests.cs ===
+Lines 749 to 749
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            taskInnerType.GetGenericTypeDefinition().ShouldBe(typeof(Result<>), $"Method {method.Name} should return Task<Result<T>>");
+        }
+    }
+
+    #endregion Interface Contract Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            taskInnerType.GetGenericTypeDefinition().ShouldBe(typeof(Result<>), $"Method {method.Name} should return Task<Result<T>>");
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Interface Contract Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 20 to 20
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+    {
+        _workflowService = Substitute.For<IWorkflowService>();
+    }
+
+    #region CreateWorkflowAsync Tests
+
+    [Fact]
+    public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+    {
+
+        _workflowService = Substitute.For<IWorkflowService>();
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests CreateWorkflowAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task CreateWorkflowAsync_WithValidInput_ShouldReturnSuccessResultAsync()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 100 to 100
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion CreateWorkflowAsync Tests
+
+    #region GetWorkflowAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CreateWorkflowAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetWorkflowAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 168 to 168
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion GetWorkflowAsync Tests
+
+    #region GetActiveWorkflowsAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetWorkflowAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetActiveWorkflowsAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 218 to 218
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNull();
+        result.Value!.ShouldBeEmpty();
+    }
+
+    #endregion GetActiveWorkflowsAsync Tests
+
+    #region ExecuteWorkflowAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNull();
+
+        result.Value!.ShouldBeEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetActiveWorkflowsAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region ExecuteWorkflowAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 291 to 291
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion ExecuteWorkflowAsync Tests
+
+    #region GetWorkflowExecutionsAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests ExecuteWorkflowAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region GetWorkflowExecutionsAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 345 to 345
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNull();
+        result.Value!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
+    }
+
+    #endregion GetWorkflowExecutionsAsync Tests
+
+    #region Execution Control Tests
+
+    [Theory]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNull();
+
+        result.Value!.All(e => e.Status == WorkflowExecutionStatus.Completed).ShouldBeTrue();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests GetWorkflowExecutionsAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Execution Control Tests
+
+
+
+    [Theory]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 435 to 435
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion Execution Control Tests
+
+    #region UpdateWorkflowConfigurationAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Execution Control Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region UpdateWorkflowConfigurationAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 483 to 483
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion UpdateWorkflowConfigurationAsync Tests
+
+    #region DeleteWorkflowAsync Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests UpdateWorkflowConfigurationAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region DeleteWorkflowAsync Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 525 to 525
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeFalse();
+        result.Error.ShouldNotBeNullOrEmpty();
+    }
+
+    #endregion DeleteWorkflowAsync Tests
+
+    #region Contract Validation Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeFalse();
+
+        result.Error.ShouldNotBeNullOrEmpty();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests DeleteWorkflowAsync Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Contract Validation Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Application.Tests\Services\WorkflowServices\WorkflowServiceTests.cs ===
+Lines 593 to 593
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        cancelTask.ShouldBeOfType<Task<Result<bool>>>();
+        deleteTask.ShouldBeOfType<Task<Result<bool>>>();
+    }
+
+    #endregion Contract Validation Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        cancelTask.ShouldBeOfType<Task<Result<bool>>>();
+
+        deleteTask.ShouldBeOfType<Task<Result<bool>>>();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Contract Validation Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 86 to 86
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+/// -------------------------------------------------------------------------------------------------
+/// </summary>
+public class CancellationHandlingTests
+{
+    #region Test Constants
+
+    /// <summary>
+    /// Test constants for cancellation scenarios.
+    /// </summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+/// -------------------------------------------------------------------------------------------------
+
+/// </summary>
+
+public class CancellationHandlingTests
+
+{
+
+/// <summary>
+
+/// Begin Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Test constants for cancellation scenarios.
+
+    /// </summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 100 to 100
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        public const string TestValue = "Cancellation test value";
+        public const string TestError = "Simulated operation error";
+    }
+
+    #endregion Test Constants
+
+    #region ResultExtensions Cancellation Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        public const string TestValue = "Cancellation test value";
+
+        public const string TestError = "Simulated operation error";
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region ResultExtensions Cancellation Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 170 to 170
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        mixedResult.IsCancelled().ShouldBeTrue();
+        mixedGenericResult.IsCancelled().ShouldBeTrue();
+    }
+
+    #endregion ResultExtensions Cancellation Tests
+
+    #region CancellationAwareResult Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        mixedResult.IsCancelled().ShouldBeTrue();
+
+        mixedGenericResult.IsCancelled().ShouldBeTrue();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests ResultExtensions Cancellation Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region CancellationAwareResult Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 433 to 433
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.IsCancelled().ShouldBeTrue();
+    }
+
+    #endregion CancellationAwareResult Tests
+
+    #region Timeout Handling Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.IsCancelled().ShouldBeTrue();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CancellationAwareResult Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Timeout Handling Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 575 to 575
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.IsCancelled().ShouldBeTrue();
+    }
+
+    #endregion Timeout Handling Tests
+
+    #region Functional Programming Pattern Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.IsCancelled().ShouldBeTrue();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Timeout Handling Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Functional Programming Pattern Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 684 to 684
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // This is much clearer than:
+        // Should.Throw<OperationCanceledException>(() => ...)
+    }
+
+    #endregion Functional Programming Pattern Tests
+
+    #region Edge Cases and Error Scenarios
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // This is much clearer than:
+
+        // Should.Throw<OperationCanceledException>(() => ...)
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Functional Programming Pattern Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Edge Cases and Error Scenarios
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\CancellationHandlingTests.cs ===
+Lines 900 to 900
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // Assert
+        result.IsCancelled().ShouldBeTrue();
+    }
+
+    #endregion Edge Cases and Error Scenarios
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // Assert
+
+        result.IsCancelled().ShouldBeTrue();
+
+    }
+
+
+
+/// <summary>
+
+/// End Edge Cases and Error Scenarios
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultAsyncSafetyTests.cs ===
+Lines 14 to 14
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+/// and that Result&lt;T&gt; objects work correctly in async/await scenarios.
+/// </summary>
+public class ResultAsyncSafetyTests
+{
+    #region Test Constants
+
+    /// <summary>
+    /// Test constants for async safety validation.
+    /// </summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+/// and that Result&lt;T&gt; objects work correctly in async/await scenarios.
+
+/// </summary>
+
+public class ResultAsyncSafetyTests
+
+{
+
+/// <summary>
+
+/// Begin Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Test constants for async safety validation.
+
+    /// </summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultAsyncSafetyTests.cs ===
+Lines 28 to 28
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        public const string AsyncTestValue = "Async test value";
+        public static readonly string[] SmallErrorArray = ["Error1", "Error2", "Error3"];
+    }
+
+    #endregion Test Constants
+
+    #region Basic Async Compatibility Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        public const string AsyncTestValue = "Async test value";
+
+        public static readonly string[] SmallErrorArray = ["Error1", "Error2", "Error3"];
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Basic Async Compatibility Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultAsyncSafetyTests.cs ===
+Lines 81 to 81
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        combinedResult.IsFailure.ShouldBeTrue();
+        combinedResult.Errors.Count().ShouldBe(4);
+    }
+
+    #endregion Basic Async Compatibility Tests
+
+    #region Task Continuation and Exception Handling Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        combinedResult.IsFailure.ShouldBeTrue();
+
+        combinedResult.Errors.Count().ShouldBe(4);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Basic Async Compatibility Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Task Continuation and Exception Handling Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultAsyncSafetyTests.cs ===
+Lines 165 to 165
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        return Result<string>.Success("Async operation succeeded");
+    }
+
+    #endregion Task Continuation and Exception Handling Tests
+
+    #region Stress Tests for Async Safety
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        return Result<string>.Success("Async operation succeeded");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Task Continuation and Exception Handling Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Stress Tests for Async Safety
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultAsyncSafetyTests.cs ===
+Lines 228 to 228
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            return false;
+        }
+    }
+
+    #endregion Stress Tests for Async Safety
+
+    #region Documentation and Validation Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            return false;
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Stress Tests for Async Safety
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Documentation and Validation Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultAsyncSafetyTests.cs ===
+Lines 271 to 271
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // ✅ CONCLUSION: Span optimizations are completely safe in async contexts
+        true.ShouldBeTrue("Async safety validation completed successfully");
+    }
+
+    #endregion Documentation and Validation Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // ✅ CONCLUSION: Span optimizations are completely safe in async contexts
+
+        true.ShouldBeTrue("Async safety validation completed successfully");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Documentation and Validation Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultRecoveryTests.cs ===
+Lines 228 to 228
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // Assert - Should contain the default error message
+        matchResult.ShouldContain(ResultConstants.DefaultErrorMessage);
+    }
+
+    #region Type Safety Regression Tests
+
+    /// <summary>
+    /// Regression tests for the null handling fixes implemented to prevent NullReferenceException.
+    /// These tests ensure that methods like Ensure, Combine, and Match properly handle null values
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // Assert - Should contain the default error message
+
+        matchResult.ShouldContain(ResultConstants.DefaultErrorMessage);
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Type Safety Regression Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Regression tests for the null handling fixes implemented to prevent NullReferenceException.
+
+    /// These tests ensure that methods like Ensure, Combine, and Match properly handle null values
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultRecoveryTests.cs ===
+Lines 379 to 379
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        genericCombinedErrors.IsFailure.ShouldBeTrue();
+        genericCombinedErrors.Errors.Count().ShouldBe(4);
+    }
+
+    #endregion Type Safety Regression Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        genericCombinedErrors.IsFailure.ShouldBeTrue();
+
+        genericCombinedErrors.Errors.Count().ShouldBe(4);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Type Safety Regression Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultSpanOptimizationTests.cs ===
+Lines 15 to 15
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+/// These tests ensure that performance optimizations work correctly and don't introduce bugs.
+/// </summary>
+public class ResultSpanOptimizationTests
+{
+    #region Test Constants
+
+    /// <summary>
+    /// Test constants for Span optimization validation.
+    /// </summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+/// These tests ensure that performance optimizations work correctly and don't introduce bugs.
+
+/// </summary>
+
+public class ResultSpanOptimizationTests
+
+{
+
+/// <summary>
+
+/// Begin Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Test constants for Span optimization validation.
+
+    /// </summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultSpanOptimizationTests.cs ===
+Lines 30 to 30
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        public const int SpanStackAllocLimit = 32;
+        public const int CharStackAllocLimit = 512;
+    }
+
+    #endregion Test Constants
+
+    #region FormatErrorsString Span Optimization Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        public const int SpanStackAllocLimit = 32;
+
+        public const int CharStackAllocLimit = 512;
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region FormatErrorsString Span Optimization Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultSpanOptimizationTests.cs ===
+Lines 198 to 198
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // Should not crash and should contain separators
+        result.ShouldContain(", ");
+    }
+
+    #endregion FormatErrorsString Span Optimization Tests
+
+    #region CombineErrors Span Optimization Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // Should not crash and should contain separators
+
+        result.ShouldContain(", ");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests FormatErrorsString Span Optimization Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region CombineErrors Span Optimization Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultSpanOptimizationTests.cs ===
+Lines 342 to 342
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            yield return $"{prefix}{i}";
+        }
+    }
+
+    #endregion CombineErrors Span Optimization Tests
+
+    #region Integration Tests for Span Optimizations
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            yield return $"{prefix}{i}";
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests CombineErrors Span Optimization Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Integration Tests for Span Optimizations
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultSpanOptimizationTests.cs ===
+Lines 458 to 458
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        combined.Errors.ShouldContain("Array1");
+        combined.Errors.ShouldContain("List2");
+    }
+
+    #endregion Integration Tests for Span Optimizations
+
+    #region Memory Safety Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        combined.Errors.ShouldContain("Array1");
+
+        combined.Errors.ShouldContain("List2");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Integration Tests for Span Optimizations
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Memory Safety Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultSpanOptimizationTests.cs ===
+Lines 495 to 495
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // All operations should complete without exceptions
+        true.ShouldBeTrue("Memory safety tests completed successfully");
+    }
+
+    #endregion Memory Safety Tests
+} 
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // All operations should complete without exceptions
+
+        true.ShouldBeTrue("Memory safety tests completed successfully");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Memory Safety Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+} 
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 11 to 11
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+namespace ExxerAI.Domain.Tests;
+
+public class ResultTests
+{
+    #region Test Constants
+
+    /// <summary>
+    /// Test-specific constants for error messages used in tests.
+    /// For system constants, see ResultConstants class.
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+namespace ExxerAI.Domain.Tests;
+
+
+
+public class ResultTests
+
+{
+
+/// <summary>
+
+/// Begin Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Test-specific constants for error messages used in tests.
+
+    /// For system constants, see ResultConstants class.
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 26 to 26
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        public const string InitialFailure = "Initial failure";
+        public const string ConditionFailed = "Condition failed";
+    }
+
+    #endregion Test Constants
+
+    #region Test Helper Methods
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        public const string InitialFailure = "Initial failure";
+
+        public const string ConditionFailed = "Condition failed";
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Test Constants
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Test Helper Methods
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 65 to 65
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+                $"Expected '{toStringResult}' to indicate success (should contain '{ResultConstants.SuccessPrefix}')");
+        }
+    }
+
+    #endregion Test Helper Methods
+
+    [Fact]
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+                $"Expected '{toStringResult}' to indicate success (should contain '{ResultConstants.SuccessPrefix}')");
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Test Helper Methods
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 711 to 711
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // Assert
+        finalResult.IsSuccess.ShouldBeTrue();
+    }
+
+    #region Collection Consistency Regression Tests
+
+    /// <summary>
+    /// Regression tests to ensure Result<T> collections are always consistent.
+    /// These tests prevent the bug where Success() returned null collections while
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // Assert
+
+        finalResult.IsSuccess.ShouldBeTrue();
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Collection Consistency Regression Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    /// <summary>
+
+    /// Regression tests to ensure Result<T> collections are always consistent.
+
+    /// These tests prevent the bug where Success() returned null collections while
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 882 to 882
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        var method2 = Result<string>.WithSuccess("test");
+        method1.Errors.ShouldBeEquivalentTo(method2.Errors, "✅ All success methods must behave identically");
+    }
+
+    #endregion Collection Consistency Regression Tests
+
+    #region Collection Type Overload Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        var method2 = Result<string>.WithSuccess("test");
+
+        method1.Errors.ShouldBeEquivalentTo(method2.Errors, "✅ All success methods must behave identically");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Collection Consistency Regression Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Collection Type Overload Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 1323 to 1323
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        receivedImmutableArrayErrors.ShouldContain("ImmutableError2");
+        receivedImmutableArrayErrors.Count().ShouldBe(2);
+    }
+
+    #endregion Collection Type Overload Tests
+
+    #region Industry Standard Null Handling Tests
+
+    /// <summary>
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        receivedImmutableArrayErrors.ShouldContain("ImmutableError2");
+
+        receivedImmutableArrayErrors.Count().ShouldBe(2);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Collection Type Overload Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Industry Standard Null Handling Tests
+
+
+
+    /// <summary>
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 1462 to 1462
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            value.ShouldBeNull("This demonstrates safe null handling");
+        }
+    }
+
+    #region Null Safety Properties Tests (Kotlin-Style)
+
+    [Fact]
+    public void IsSuccessMayBeNull_ShouldReturnTrue_ForSuccessfulResultsRegardlessOfNullValue()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            value.ShouldBeNull("This demonstrates safe null handling");
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Null Safety Properties Tests (Kotlin-Style)
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public void IsSuccessMayBeNull_ShouldReturnTrue_ForSuccessfulResultsRegardlessOfNullValue()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 1728 to 1728
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        //Valid user is not null because we setup ??
+        validUsers![0]!.Name!.ShouldBe("John");
+    }
+
+    #endregion Null Safety Properties Tests (Kotlin-Style)
+
+    // Sample types for documentation test
+    private class User
+    { public string? Name { get; set; } }
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        //Valid user is not null because we setup ??
+
+        validUsers![0]!.Name!.ShouldBe("John");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Null Safety Properties Tests (Kotlin-Style)
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    // Sample types for documentation test
+
+    private class User
+
+    { public string? Name { get; set; } }
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Domain.Tests\ResultFeatures\ResultTests.cs ===
+Lines 1737 to 1737
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+    private class Settings
+    { public string? Theme { get; set; } }
+
+    #endregion Industry Standard Null Handling Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+    private class Settings
+
+    { public string? Theme { get; set; } }
+
+
+
+/// <summary>
+
+/// End Tests Industry Standard Null Handling Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\DocumentProcessingToolsTests.cs ===
+Lines 26 to 26
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger = Substitute.For<ILogger<DocumentProcessingTools>>();
+        _tools = new DocumentProcessingTools(_logger);
+    }
+
+    #region Constructor Tests
+
+    [Fact]
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger = Substitute.For<ILogger<DocumentProcessingTools>>();
+
+        _tools = new DocumentProcessingTools(_logger);
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Constructor Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\DocumentProcessingToolsTests.cs ===
+Lines 45 to 45
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            new DocumentProcessingTools(null!))
+            .ParamName.ShouldBe("logger");
+    }
+
+    #endregion Constructor Tests
+
+    #region Process Document Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            new DocumentProcessingTools(null!))
+
+            .ParamName.ShouldBe("logger");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Constructor Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Process Document Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\DocumentProcessingToolsTests.cs ===
+Lines 95 to 95
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // The actual behavior depends on the implementation
+        // This test ensures it doesn't throw unhandled exceptions
+    }
+
+    #endregion Process Document Tool Tests
+
+    #region Extract Text Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // The actual behavior depends on the implementation
+
+        // This test ensures it doesn't throw unhandled exceptions
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Process Document Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Extract Text Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\DocumentProcessingToolsTests.cs ===
+Lines 115 to 115
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNullOrEmpty();
+        result.Value.ShouldContain("Text Extraction Complete");
+    }
+
+    #endregion Extract Text Tool Tests
+
+    #region Validate Extraction Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNullOrEmpty();
+
+        result.Value.ShouldContain("Text Extraction Complete");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Extract Text Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Validate Extraction Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\DocumentProcessingToolsTests.cs ===
+Lines 136 to 136
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Value.ShouldNotBeNullOrEmpty();
+        result.Value.ShouldContain("Validation Complete");
+    }
+
+    #endregion Validate Extraction Tool Tests
+
+    #region Performance Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Value.ShouldNotBeNullOrEmpty();
+
+        result.Value.ShouldContain("Validation Complete");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Validate Extraction Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Performance Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\DocumentProcessingToolsTests.cs ===
+Lines 161 to 161
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        results.ShouldAllBe(result => result.IsSuccess);
+        results.Length.ShouldBe(concurrentRequests);
+    }
+
+    #endregion Performance Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        results.ShouldAllBe(result => result.IsSuccess);
+
+        results.Length.ShouldBe(concurrentRequests);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Performance Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 39 to 39
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        
+        _service = new GoogleDriveService(_logger, _configuration, _documentProcessor);
+    }
+
+    #region Constructor Tests
+
+    [Fact]
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        
+
+        _service = new GoogleDriveService(_logger, _configuration, _documentProcessor);
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Constructor Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 78 to 78
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        serviceWithNullProcessor.ShouldNotBeNull();
+        serviceWithNullProcessor.ShouldBeOfType<GoogleDriveService>();
+    }
+
+    #endregion Constructor Tests
+
+    #region Initialization Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        serviceWithNullProcessor.ShouldNotBeNull();
+
+        serviceWithNullProcessor.ShouldBeOfType<GoogleDriveService>();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Constructor Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Initialization Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 130 to 130
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Errors.ShouldContain(error => error.Contains("cancel", StringComparison.OrdinalIgnoreCase) ||
+                                           error.Contains("operation", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Initialization Tests
+
+    #region Folder Watch Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Errors.ShouldContain(error => error.Contains("cancel", StringComparison.OrdinalIgnoreCase) ||
+
+                                           error.Contains("operation", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Initialization Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Folder Watch Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 206 to 206
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.ShouldNotBeNull();
+        // Note: Will likely fail due to uninitialized service, but should validate parameters
+    }
+
+    #endregion Folder Watch Tests
+
+    #region Document Operations Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.ShouldNotBeNull();
+
+        // Note: Will likely fail due to uninitialized service, but should validate parameters
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Folder Watch Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Document Operations Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 262 to 262
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Errors.ShouldContain(error => error.Contains("document", StringComparison.OrdinalIgnoreCase) ||
+                                           error.Contains("empty", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Document Operations Tests
+
+    #region Watch Management Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Errors.ShouldContain(error => error.Contains("document", StringComparison.OrdinalIgnoreCase) ||
+
+                                           error.Contains("empty", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Document Operations Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Watch Management Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 319 to 319
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Errors.ShouldContain(error => error.Contains("watch", StringComparison.OrdinalIgnoreCase) ||
+                                           error.Contains("not found", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Watch Management Tests
+
+    #region Cancellation Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Errors.ShouldContain(error => error.Contains("watch", StringComparison.OrdinalIgnoreCase) ||
+
+                                           error.Contains("not found", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Watch Management Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Cancellation Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 351 to 351
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        var stopWatchResult = await _service.StopWatchingAsync(testId, cts.Token);
+        stopWatchResult.ShouldNotBeNull();
+    }
+
+    #endregion Cancellation Tests
+
+    #region Error Resilience Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        var stopWatchResult = await _service.StopWatchingAsync(testId, cts.Token);
+
+        stopWatchResult.ShouldNotBeNull();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Cancellation Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Error Resilience Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveServiceTests.cs ===
+Lines 394 to 394
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        results.ShouldAllBe(result => result is not null);
+        // All results should be consistent (all success or all failure with same reason)
+    }
+
+    #endregion Error Resilience Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        results.ShouldAllBe(result => result is not null);
+
+        // All results should be consistent (all success or all failure with same reason)
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Error Resilience Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 29 to 29
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _driveService = Substitute.For<IGoogleDriveService>();
+        _tools = new GoogleDriveTools(_logger, _driveService);
+    }
+
+    #region Constructor Tests
+
+    [Fact]
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _driveService = Substitute.For<IGoogleDriveService>();
+
+        _tools = new GoogleDriveTools(_logger, _driveService);
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Constructor Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public void Constructor_WithValidParameters_ShouldCreateInstance()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 57 to 57
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            new GoogleDriveTools(_logger, null!))
+            .ParamName.ShouldBe("driveService");
+    }
+
+    #endregion Constructor Tests
+
+    #region Tool Registration Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            new GoogleDriveTools(_logger, null!))
+
+            .ParamName.ShouldBe("driveService");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Constructor Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Tool Registration Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 99 to 99
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.Errors.ShouldContain(error => error.Contains("cancel", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Tool Registration Tests
+
+    #region Initialize Drive Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.Errors.ShouldContain(error => error.Contains("cancel", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Tool Registration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Initialize Drive Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 147 to 147
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.Errors.ShouldContain("Authentication failed");
+    }
+
+    #endregion Initialize Drive Tool Tests
+
+    #region Start Folder Watch Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.Errors.ShouldContain("Authentication failed");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Initialize Drive Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Start Folder Watch Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 254 to 254
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            60, 
+            Arg.Any<CancellationToken>());
+    }
+
+    #endregion Start Folder Watch Tool Tests
+
+    #region Download Document Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            60, 
+
+            Arg.Any<CancellationToken>());
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Start Folder Watch Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Download Document Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 305 to 305
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.Errors.ShouldContain(error => error.Contains("document_id", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Download Document Tool Tests
+
+    #region Get Document Metadata Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.Errors.ShouldContain(error => error.Contains("document_id", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Download Document Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Get Document Metadata Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 345 to 345
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsSuccess.ShouldBeTrue();
+        await _driveService.Received(1).GetDocumentMetadataAsync(documentId, Arg.Any<CancellationToken>());
+    }
+
+    #endregion Get Document Metadata Tool Tests
+
+    #region Watch Management Tool Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsSuccess.ShouldBeTrue();
+
+        await _driveService.Received(1).GetDocumentMetadataAsync(documentId, Arg.Any<CancellationToken>());
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Get Document Metadata Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Watch Management Tool Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 417 to 417
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.Errors.ShouldContain(error => error.Contains("watch_id", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Watch Management Tool Tests
+
+    #region Error Handling Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.Errors.ShouldContain(error => error.Contains("watch_id", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Watch Management Tool Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Error Handling Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 469 to 469
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.Errors.ShouldContain(error => error.Contains("parameter", StringComparison.OrdinalIgnoreCase) ||
+                                           error.Contains("format", StringComparison.OrdinalIgnoreCase));
+    }
+
+    #endregion Error Handling Tests
+
+    #region Concurrent Execution Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.Errors.ShouldContain(error => error.Contains("parameter", StringComparison.OrdinalIgnoreCase) ||
+
+                                           error.Contains("format", StringComparison.OrdinalIgnoreCase));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Error Handling Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Concurrent Execution Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 500 to 500
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        results.ShouldAllBe(result => result.IsSuccess);
+        await _driveService.Received(concurrentRequests).GetActiveWatchesAsync(Arg.Any<CancellationToken>());
+    }
+
+    #endregion Concurrent Execution Tests
+
+    #region Performance Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        results.ShouldAllBe(result => result.IsSuccess);
+
+        await _driveService.Received(concurrentRequests).GetActiveWatchesAsync(Arg.Any<CancellationToken>());
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Concurrent Execution Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Performance Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.Infrastructure.Tests\MCP\GoogleDriveToolsTests.cs ===
+Lines 538 to 538
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // Performance assertion - should complete reasonably quickly
+        stopwatch.ElapsedMilliseconds.ShouldBeLessThan(10000); // 10 seconds max for 100 requests
+    }
+
+    #endregion Performance Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // Performance assertion - should complete reasonably quickly
+
+        stopwatch.ElapsedMilliseconds.ShouldBeLessThan(10000); // 10 seconds max for 100 requests
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Performance Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 129 to 129
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        (_serviceProvider as IDisposable)?.Dispose();
+        _logger.LogInformation("Document ingestion chain cleanup completed");
+    }
+
+    #region Chain Step 1: Basic Service Connectivity
+
+    [Fact]
+    public async Task Chain1_ServiceInitialization_ShouldEstablishConnectivity()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        (_serviceProvider as IDisposable)?.Dispose();
+
+        _logger.LogInformation("Document ingestion chain cleanup completed");
+
+    }
+
+
+
+/// <summary>
+
+/// Chain Step 1: Basic Service Connectivity
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task Chain1_ServiceInitialization_ShouldEstablishConnectivity()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 148 to 148
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("✓ CHAIN STEP 1 PASSED: Service connectivity established");
+    }
+
+    #endregion Chain Step 1
+
+    #region Chain Step 2: Document Discovery
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("✓ CHAIN STEP 1 PASSED: Service connectivity established");
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 1
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 2: Document Discovery
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 183 to 183
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 2 PASSED: Document discovery successful - {DocumentName}", 
+            metadataResult.Value.Name);
+    }
+
+    #endregion Chain Step 2
+
+    #region Chain Step 3: Document Retrieval
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 2 PASSED: Document discovery successful - {DocumentName}", 
+
+            metadataResult.Value.Name);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 2
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 3: Document Retrieval
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 221 to 221
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 3 PASSED: Document retrieval successful - {Size} bytes", 
+            data.Length);
+    }
+
+    #endregion Chain Step 3
+
+    #region Chain Step 4: Document Processing
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 3 PASSED: Document retrieval successful - {Size} bytes", 
+
+            data.Length);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 3
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 4: Document Processing
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 277 to 277
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 4 PASSED: Document processing successful - extracted {Length} chars", 
+            processingResult.Value.ExtractedText.Length);
+    }
+
+    #endregion Chain Step 4
+
+    #region Chain Step 5: Text Analysis
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 4 PASSED: Document processing successful - extracted {Length} chars", 
+
+            processingResult.Value.ExtractedText.Length);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 4
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 5: Text Analysis
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 324 to 324
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 5 PASSED: Text analysis completed - analyzed {Length} chars with score {Score}", 
+            extractedText.Length, textAnalysisScore);
+    }
+
+    #endregion Chain Step 5
+
+    #region Chain Step 6: Document Structure Analysis
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 5 PASSED: Text analysis completed - analyzed {Length} chars with score {Score}", 
+
+            extractedText.Length, textAnalysisScore);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 5
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 6: Document Structure Analysis
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 364 to 364
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 6 PASSED: Structure analysis completed - estimated {Pages} pages", 
+            estimatedPages);
+    }
+
+    #endregion Chain Step 6
+
+    #region Chain Step 7: Validation and Quality Check
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 6 PASSED: Structure analysis completed - estimated {Pages} pages", 
+
+            estimatedPages);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 6
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 7: Validation and Quality Check
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 407 to 407
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 7 PASSED: Validation successful - confidence {Confidence:P2}", 
+            confidence);
+    }
+
+    #endregion Chain Step 7
+
+    #region Chain Step 8: End-to-End Integration Service
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 7 PASSED: Validation successful - confidence {Confidence:P2}", 
+
+            confidence);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 7
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 8: End-to-End Integration Service
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 447 to 447
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ CHAIN STEP 8 PASSED: End-to-end ingestion successful - document {DocumentId} processed", 
+            testDocumentId);
+    }
+
+    #endregion Chain Step 8
+
+    #region Chain Step 9: Automated Monitoring and Watch
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ CHAIN STEP 8 PASSED: End-to-end ingestion successful - document {DocumentId} processed", 
+
+            testDocumentId);
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 8
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 9: Automated Monitoring and Watch
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 496 to 496
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+                string.Join(", ", watchResult.Errors));
+        }
+    }
+
+    #endregion Chain Step 9
+
+    #region Chain Step 10: Full System Orchestration
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+                string.Join(", ", watchResult.Errors));
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 9
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Chain Step 10: Full System Orchestration
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 565 to 565
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            throw;
+        }
+    }
+
+    #endregion Chain Step 10
+
+    #region Performance Chain Test
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            throw;
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Chain Step 10
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Performance Chain Test
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\DocumentIngestionChainTests.cs ===
+Lines 643 to 643
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            throw;
+        }
+    }
+
+    #endregion Performance Chain Test
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            throw;
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Performance Chain Test
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 131 to 131
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        (_serviceProvider as IDisposable)?.Dispose();
+        _logger.LogInformation("Integration test cleanup completed");
+    }
+
+    #region Initialization Integration Tests
+
+    [Fact]
+    public async Task InitializeAsync_WithRealCredentials_ShouldSucceed()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        (_serviceProvider as IDisposable)?.Dispose();
+
+        _logger.LogInformation("Integration test cleanup completed");
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Initialization Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task InitializeAsync_WithRealCredentials_ShouldSucceed()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 162 to 162
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("Google Drive idempotent initialization test passed");
+    }
+
+    #endregion Initialization Integration Tests
+
+    #region Folder Operations Integration Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("Google Drive idempotent initialization test passed");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Initialization Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Folder Operations Integration Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 236 to 236
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("Active watches: {Watches}", activeWatchesResult.Value);
+    }
+
+    #endregion Folder Operations Integration Tests
+
+    #region Document Operations Integration Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("Active watches: {Watches}", activeWatchesResult.Value);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Folder Operations Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Document Operations Integration Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 318 to 318
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            _logger.LogWarning("Document download failed: {Errors}", string.Join(", ", result.Errors));
+        }
+    }
+
+    #endregion Document Operations Integration Tests
+
+    #region Watch Session Management Integration Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            _logger.LogWarning("Document download failed: {Errors}", string.Join(", ", result.Errors));
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Document Operations Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Watch Session Management Integration Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 368 to 368
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            _createdWatchSessions.Add(watchId);
+        }
+    }
+
+    #endregion Watch Session Management Integration Tests
+
+    #region Performance Integration Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            _createdWatchSessions.Add(watchId);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Watch Session Management Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Performance Integration Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 450 to 450
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+                successfulResults.Length, concurrentRequests);
+        }
+    }
+
+    #endregion Performance Integration Tests
+
+    #region Error Scenarios Integration Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+                successfulResults.Length, concurrentRequests);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Performance Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Error Scenarios Integration Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 498 to 498
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("Invalid folder correctly returned failure: {Errors}", 
+            string.Join(", ", result.Errors));
+    }
+
+    #endregion Error Scenarios Integration Tests
+
+    #region Network Resilience Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("Invalid folder correctly returned failure: {Errors}", 
+
+            string.Join(", ", result.Errors));
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Error Scenarios Integration Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Network Resilience Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\GoogleDriveIntegrationTests.cs ===
+Lines 531 to 531
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("Timeout/cancellation test completed: {Success}", result.IsSuccess);
+    }
+
+    #endregion Network Resilience Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("Timeout/cancellation test completed: {Success}", result.IsSuccess);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Network Resilience Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 123 to 123
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        (_serviceProvider as IDisposable)?.Dispose();
+    }
+
+    #region Network and Connectivity Edge Cases
+
+    [Fact]
+    public async Task GoogleDriveService_WithNetworkTimeout_ShouldFailGracefully()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        (_serviceProvider as IDisposable)?.Dispose();
+
+    }
+
+
+
+/// <summary>
+
+/// Network and Connectivity Edge Cases
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task GoogleDriveService_WithNetworkTimeout_ShouldFailGracefully()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 218 to 218
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("✓ Rate limiting handled appropriately");
+    }
+
+    #endregion Network and Connectivity Edge Cases
+
+    #region Document Processing Edge Cases
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("✓ Rate limiting handled appropriately");
+
+    }
+
+
+
+/// <summary>
+
+/// End Network and Connectivity Edge Cases
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Document Processing Edge Cases
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 326 to 326
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("✓ All unsupported file types handled appropriately");
+    }
+
+    #endregion Document Processing Edge Cases
+
+    #region API Boundary and Limit Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("✓ All unsupported file types handled appropriately");
+
+    }
+
+
+
+/// <summary>
+
+/// End Document Processing Edge Cases
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region API Boundary and Limit Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 406 to 406
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+
+        _logger.LogInformation("✓ Invalid folder IDs properly validated");
+    }
+
+    #endregion API Boundary and Limit Tests
+
+    #region Concurrency and Race Condition Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+
+
+        _logger.LogInformation("✓ Invalid folder IDs properly validated");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests API Boundary and Limit Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Concurrency and Race Condition Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 489 to 489
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // System should remain stable regardless of success/failure ratio
+        (successful + failed).ShouldBe(concurrentDocs);
+    }
+
+    #endregion Concurrency and Race Condition Tests
+
+    #region Resource Exhaustion and Memory Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // System should remain stable regardless of success/failure ratio
+
+        (successful + failed).ShouldBe(concurrentDocs);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Concurrency and Race Condition Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Resource Exhaustion and Memory Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 538 to 538
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        _logger.LogInformation("✓ Memory pressure handling: {Successful}/{Total} documents processed", 
+            successfulProcessing, documentCount);
+    }
+
+    #endregion Resource Exhaustion and Memory Tests
+
+    #region Helper Methods for Test Data Generation
+
+    private static byte[] GenerateRandomBytes(int size)
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        _logger.LogInformation("✓ Memory pressure handling: {Successful}/{Total} documents processed", 
+
+            successfulProcessing, documentCount);
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Resource Exhaustion and Memory Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Helper Methods for Test Data Generation
+
+
+
+    private static byte[] GenerateRandomBytes(int size)
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\MCP\MCPEdgeCasesAndErrorTests.cs ===
+Lines 634 to 634
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        
+        return data;
+    }
+
+    #endregion Helper Methods for Test Data Generation
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        
+
+        return data;
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Helper Methods for Test Data Generation
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 23 to 23
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+    {
+        _logger = Substitute.For<ILogger<GoogleDriveCredentialResolver>>();
+    }
+
+    #region Environment Variables Tests (Priority 1)
+
+    [Fact]
+    public async Task ResolveCredentialsAsync_WithValidEnvironmentVariables_ShouldReturnEnvironmentCredentials()
+    {
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+    {
+
+        _logger = Substitute.For<ILogger<GoogleDriveCredentialResolver>>();
+
+    }
+
+
+
+/// <summary>
+
+/// Begin Tests Environment Variables Tests (Priority 1)
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    [Fact]
+
+    public async Task ResolveCredentialsAsync_WithValidEnvironmentVariables_ShouldReturnEnvironmentCredentials()
+
+    {
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 97 to 97
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", null);
+        }
+    }
+
+    #endregion Environment Variables Tests (Priority 1)
+
+    #region Configuration Tests (Priority 2 & 3)
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", null);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Environment Variables Tests (Priority 1)
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Configuration Tests (Priority 2 & 3)
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 160 to 160
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        result.IsFailure.ShouldBeTrue();
+        result.Error.ShouldContain("not found");
+    }
+
+    #endregion Configuration Tests (Priority 2 & 3)
+
+    #region JSON File Tests (Priority 4)
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        result.IsFailure.ShouldBeTrue();
+
+        result.Error.ShouldContain("not found");
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Configuration Tests (Priority 2 & 3)
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region JSON File Tests (Priority 4)
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 388 to 388
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+                File.Delete(tempFile);
+        }
+    }
+
+    #endregion JSON File Tests (Priority 4)
+
+    #region Priority Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+                File.Delete(tempFile);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests JSON File Tests (Priority 4)
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Priority Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 449 to 449
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+                File.Delete(tempFile);
+        }
+    }
+
+    #endregion Priority Tests
+
+    #region Error Scenarios
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+                File.Delete(tempFile);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Priority Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Error Scenarios
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 505 to 505
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+            Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", null);
+        }
+    }
+
+    #endregion Error Scenarios
+
+    #region Cancellation Tests
+
+    [Fact]
+
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+            Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", null);
+
+        }
+
+    }
+
+
+
+/// <summary>
+
+/// End Error Scenarios
+
+/// </summary>
+
+/// <returns></returns>
+
+
+
+    #region Cancellation Tests
+
+
+
+    [Fact]
+
+
+================================================================================
+
+=== File: F:\Dynamic\ExxerAi\ExxerAI\code\src\tests\ExxerAI.IntegrationTests\Services\GoogleDriveCredentialResolverTests.cs ===
+Lines 527 to 527
+--------------------------------------------------------------------------------
+>>> BEFORE <<<
+        // But this tests that the method signature accepts cancellation tokens
+        result.ShouldNotBeNull();
+    }
+
+    #endregion Cancellation Tests
+}
+--------------------------------------------------------------------------------
+>>> AFTER <<<
+        // But this tests that the method signature accepts cancellation tokens
+
+        result.ShouldNotBeNull();
+
+    }
+
+
+
+/// <summary>
+
+/// End Tests Cancellation Tests
+
+/// </summary>
+
+/// <returns></returns>
+
+}
+
+================================================================================
+
+SUMMARY:
+Total Regions Converted: 134
+Total Files Affected: 17

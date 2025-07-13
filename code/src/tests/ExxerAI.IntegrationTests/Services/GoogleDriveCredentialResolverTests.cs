@@ -94,7 +94,7 @@ public class GoogleDriveCredentialResolverTests
         }
     }
 
-    #endregion Environment Variables Tests
+    #endregion Environment Variables Tests (Priority 1)
 
     #region Configuration Tests (Priority 2 & 3)
 
@@ -126,7 +126,7 @@ public class GoogleDriveCredentialResolverTests
         result.Value.ClientId.ShouldBe("config-client-id.apps.googleusercontent.com");
         result.Value.ClientSecret.ShouldBe("config-client-secret");
         // Updated expectation - may come from user secrets if available in environment
-        result.Value.Source.ShouldContain("config", StringCompareShould.IgnoreCase);
+        result.Value.Source.ShouldContain("config");
     }
 
     [Fact]
@@ -157,7 +157,7 @@ public class GoogleDriveCredentialResolverTests
         result.Error.ShouldContain("not found");
     }
 
-    #endregion Configuration Tests
+    #endregion Configuration Tests (Priority 2 & 3)
 
     #region JSON File Tests (Priority 4)
 
@@ -385,7 +385,7 @@ public class GoogleDriveCredentialResolverTests
         }
     }
 
-    #endregion JSON File Tests
+    #endregion JSON File Tests (Priority 4)
 
     #region Priority Tests
 
@@ -525,4 +525,4 @@ public class GoogleDriveCredentialResolverTests
     }
 
     #endregion Cancellation Tests
-} 
+}
