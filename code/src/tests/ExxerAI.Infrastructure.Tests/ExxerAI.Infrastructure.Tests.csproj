@@ -77,10 +77,6 @@
 	<ItemGroup Label="Global Usings">
 		<Using Include="Xunit" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="LLM\" />
-	  <Folder Include="MCP\" />
-	</ItemGroup>
 
 	<!-- ============================================================================ -->
 	<!-- PROJECT REFERENCES -->

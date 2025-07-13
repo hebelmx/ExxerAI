@@ -1,4 +1,5 @@
 using ExxerAI.Application.Interfaces;
+using Meziantou.Extensions.Logging.Xunit.v3;
 
 namespace ExxerAI.IntegrationTests;
 
@@ -522,9 +523,10 @@ public class DocumentNotificationServiceTests
     {
         return async notification =>
         {
+            var logger = XUnitLogger.CreateLogger();
             // Simulate processing notification
             await Task.Delay(TimeSpan.FromMilliseconds(10), cancellationToken: TestContext.Current.CancellationToken);
-             logger.LogInformation($"Notification received: {notification.Type}");
+            logger.LogInformation($"Notification received: {notification.Type}");
         };
     }
 

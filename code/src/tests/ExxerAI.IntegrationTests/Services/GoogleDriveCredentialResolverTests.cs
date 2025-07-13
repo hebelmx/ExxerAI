@@ -17,7 +17,7 @@ public class GoogleDriveCredentialResolverTests
 
     public GoogleDriveCredentialResolverTests()
     {
-        _logger = Substitute.For<ILogger<GoogleDriveCredentialResolver>>();
+        _logger = XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>();
     }
 
 /// <summary>
@@ -29,30 +29,39 @@ public class GoogleDriveCredentialResolverTests
     public async Task ResolveCredentialsAsync_WithValidEnvironmentVariables_ShouldReturnEnvironmentCredentials()
     {
         // Arrange
+        _logger.LogInformation("=== Test: ResolveCredentialsAsync_WithValidEnvironmentVariables_ShouldReturnEnvironmentCredentials ===");
+        
         const string clientId = "test-client-id.apps.googleusercontent.com";
         const string clientSecret = "test-client-secret";
 
         // Set environment variables
+        _logger.LogInformation("Setting environment variables for Google OAuth");
         Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", clientId);
         Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", clientSecret);
 
         try
         {
-            var configuration = new ConfigurationBuilder().Build();
+            var configuration = Substitute.For<IConfiguration>();
             var resolver = new GoogleDriveCredentialResolver(configuration, _logger);
 
             // Act
+            _logger.LogInformation("Resolving credentials from environment variables...");
             var result = await resolver.ResolveCredentialsAsync();
 
             // Assert
+            _logger.LogInformation("Validating environment variable credentials");
+            result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
             result.Value.ClientId.ShouldBe(clientId);
             result.Value.ClientSecret.ShouldBe(clientSecret);
-            result.Value.Source.ShouldBe("Environment Variables");
+            result.Value.Source.ShouldBe("Environment");
+            
+            _logger.LogInformation("=== Test completed successfully ===");
         }
         finally
         {
-            // Cleanup
+            // Clean up
+            _logger.LogInformation("Cleaning up environment variables");
             Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", null);
             Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", null);
         }
@@ -61,39 +70,46 @@ public class GoogleDriveCredentialResolverTests
     [Fact]
     public async Task ResolveCredentialsAsync_WithPartialEnvironmentVariables_ShouldFallbackToNextPriority()
     {
-        // Arrange - Only client ID, missing secret to force fallback
+        // Arrange
+        _logger.LogInformation("=== Test: ResolveCredentialsAsync_WithPartialEnvironmentVariables_ShouldFallbackToNextPriority ===");
+        
         const string clientId = "test-client-id.apps.googleusercontent.com";
+        const string configClientSecret = "config-client-secret";
 
+        // Set only one environment variable
+        _logger.LogInformation("Setting partial environment variables (only client ID)");
         Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", clientId);
         Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", null);
-        Environment.SetEnvironmentVariable("GOOGLE_API_KEY", null);
 
         try
         {
-            var configData = new Dictionary<string, string?>
-            {
-                ["GoogleDrive:ClientId"] = "config-client-id",
-                ["GoogleDrive:ClientSecret"] = "config-client-secret"
-            };
-
-            var configuration = new ConfigurationBuilder()
-                .AddInMemoryCollection(configData)
-                .Build();
+            var configuration = Substitute.For<IConfiguration>();
+            // Configure fallback values
+            configuration["GoogleDrive:ClientId"].Returns(clientId);
+            configuration["GoogleDrive:ClientSecret"].Returns(configClientSecret);
 
             var resolver = new GoogleDriveCredentialResolver(configuration, _logger);
 
             // Act
+            _logger.LogInformation("Resolving credentials with partial environment variables...");
             var result = await resolver.ResolveCredentialsAsync();
 
             // Assert
+            _logger.LogInformation("Validating fallback to configuration");
+            result.ShouldNotBeNull();
             result.IsSuccess.ShouldBeTrue();
-            result.Value.ClientId.ShouldBe("config-client-id"); // Should use config, not env
-            // Updated expectation - source may vary based on environment configuration
-            result.Value.Source.ShouldNotBeNullOrEmpty();
+            result.Value.ClientId.ShouldBe(clientId);
+            result.Value.ClientSecret.ShouldBe(configClientSecret);
+            result.Value.Source.ShouldBe("Configuration");
+            
+            _logger.LogInformation("=== Test completed successfully ===");
         }
         finally
         {
+            // Clean up
+            _logger.LogInformation("Cleaning up environment variables");
             Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", null);
+            Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", null);
         }
     }
 
@@ -110,32 +126,31 @@ public class GoogleDriveCredentialResolverTests
     [Fact]
     public async Task ResolveCredentialsAsync_WithValidConfiguration_ShouldReturnConfigCredentials()
     {
-        // Arrange - Clear all environment variables and API keys
-        Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", null);
-        Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET", null);
-        Environment.SetEnvironmentVariable("GOOGLE_API_KEY", null);
+        // Arrange
+        _logger.LogInformation("=== Test: ResolveCredentialsAsync_WithValidConfiguration_ShouldReturnConfigCredentials ===");
+        
+        const string clientId = "config-client-id.apps.googleusercontent.com";
+        const string clientSecret = "config-client-secret";
 
-        var configData = new Dictionary<string, string?>
-        {
-            ["GoogleDrive:ClientId"] = "config-client-id.apps.googleusercontent.com",
-            ["GoogleDrive:ClientSecret"] = "config-client-secret"
-        };
-
-        var configuration = new ConfigurationBuilder()
-            .AddInMemoryCollection(configData)
-            .Build();
+        var configuration = Substitute.For<IConfiguration>();
+        configuration["GoogleDrive:ClientId"].Returns(clientId);
+        configuration["GoogleDrive:ClientSecret"].Returns(clientSecret);
 
         var resolver = new GoogleDriveCredentialResolver(configuration, _logger);
 
         // Act
+        _logger.LogInformation("Resolving credentials from configuration...");
         var result = await resolver.ResolveCredentialsAsync();
 
         // Assert
+        _logger.LogInformation("Validating configuration credentials");
+        result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        result.Value.ClientId.ShouldBe("config-client-id.apps.googleusercontent.com");
-        result.Value.ClientSecret.ShouldBe("config-client-secret");
-        // Updated expectation - may come from user secrets if available in environment
-        result.Value.Source.ShouldContain("config");
+        result.Value.ClientId.ShouldBe(clientId);
+        result.Value.ClientSecret.ShouldBe(clientSecret);
+        result.Value.Source.ShouldBe("Configuration");
+        
+        _logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]

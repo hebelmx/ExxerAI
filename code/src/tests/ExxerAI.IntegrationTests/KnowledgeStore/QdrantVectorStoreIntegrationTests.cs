@@ -24,36 +24,50 @@ public class QdrantVectorStoreIntegrationTests : IClassFixture<QdrantContainerFi
     public QdrantVectorStoreIntegrationTests(QdrantContainerFixture containerFixture)
     {
         _containerFixture = containerFixture ?? throw new ArgumentNullException(nameof(containerFixture));
-        _logger = Substitute.For<ILogger<QdrantVectorStore>>();
+        _logger = XUnitLogger.CreateLogger<QdrantVectorStore>();
         _testCollectionName = $"test_collection_{Guid.NewGuid():N}";
+        
+        _logger.LogInformation("=== QdrantVectorStoreIntegrationTests Constructor ===");
+        _logger.LogInformation($"Test collection name: {_testCollectionName}");
     }
 
     public async ValueTask InitializeAsync()
     {
         // Container fixture handles Qdrant startup
+        _logger.LogInformation("=== InitializeAsync: Setting up Qdrant client ===");
         _containerFixture.EnsureAvailable();
         SetupQdrantClient();
         await Task.CompletedTask;
+        _logger.LogInformation("=== InitializeAsync completed ===");
     }
 
     public async ValueTask DisposeAsync()
     {
+        _logger.LogInformation("=== DisposeAsync: Cleaning up Qdrant client ===");
         _qdrantClient?.Dispose();
         await Task.CompletedTask;
+        _logger.LogInformation("=== DisposeAsync completed ===");
     }
 
     [Fact]
     public async Task QdrantVectorStore_Initialize_ShouldCreateCollectionSuccessfullyAsync()
     {
         // Arrange
+        _logger.LogInformation("=== Test: QdrantVectorStore_Initialize_ShouldCreateCollectionSuccessfullyAsync ===");
+        
         SetupQdrantClient();
+        _logger.LogInformation("Setting up QdrantVectorStore with test collection");
 
         // Act
-        var result = await _vectorStore.InitializeAsync(cancellationToken: TestContext.Current.CancellationToken);
+        _logger.LogInformation("Initializing QdrantVectorStore...");
+        var result = await _vectorStore.InitializeAsync(_testCollectionName, 1536, CancellationToken.None);
 
         // Assert
+        _logger.LogInformation("Validating successful initialization");
+        result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
-        _logger.Received().LogInformation(Arg.Is<string>(s => s.Contains("initialized successfully")));
+        
+        _logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]

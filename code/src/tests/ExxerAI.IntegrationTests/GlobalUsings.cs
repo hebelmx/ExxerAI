@@ -15,6 +15,7 @@ global using ExxerAI.Domain.DocumentProcessing;
 global using ExxerAI.Domain;
 global using ExxerAI.Domain.Entities;
 global using Microsoft.Extensions.Logging;
+global using Meziantou.Extensions.Logging.Xunit.v3;
 global using NSubstitute;
 global using Shouldly;
 global using Xunit;

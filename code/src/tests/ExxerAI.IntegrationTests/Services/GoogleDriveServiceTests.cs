@@ -18,7 +18,7 @@ public class GoogleDriveServiceTests
 
     public GoogleDriveServiceTests()
     {
-        _logger = Substitute.For<ILogger<GoogleDriveService>>();
+        _logger = XUnitLogger.CreateLogger<GoogleDriveService>();
         _credentialResolver = Substitute.For<IGoogleDriveCredentialResolver>();
         _documentProcessor = Substitute.For<IHybridDocumentProcessor>();
         
@@ -44,38 +44,65 @@ public class GoogleDriveServiceTests
     [Fact]
     public void Constructor_WithValidParameters_ShouldCreateInstance()
     {
-        // Act & Assert
+        // Arrange & Act
+        _logger.LogInformation("=== Test: Constructor_WithValidParameters_ShouldCreateInstance ===");
+        
+        // Assert
+        _logger.LogInformation("Validating service instance creation");
         _service.ShouldNotBeNull();
         _service.ShouldBeOfType<GoogleDriveService>();
+        
+        _logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]
     public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
     {
+        // Arrange
+        var logger = XUnitLogger.CreateLogger();
+        logger.LogInformation("=== Test: Constructor_WithNullLogger_ShouldThrowArgumentNullException ===");
+        
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => 
-            new GoogleDriveService(null!, _credentialResolver, _documentProcessor))
-            .ParamName.ShouldBe("logger");
+        logger.LogInformation("Validating null logger throws ArgumentNullException");
+        var exception = Should.Throw<ArgumentNullException>(() => 
+            new GoogleDriveService(null!, _credentialResolver, _documentProcessor));
+        exception.ParamName.ShouldBe("logger");
+        
+        logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]
     public void Constructor_WithNullCredentialResolver_ShouldThrowArgumentNullException()
     {
+        // Arrange
+        var logger = XUnitLogger.CreateLogger();
+        logger.LogInformation("=== Test: Constructor_WithNullCredentialResolver_ShouldThrowArgumentNullException ===");
+        
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => 
-            new GoogleDriveService(_logger, null!, _documentProcessor))
-            .ParamName.ShouldBe("credentialResolver");
+        logger.LogInformation("Validating null credential resolver throws ArgumentNullException");
+        var exception = Should.Throw<ArgumentNullException>(() => 
+            new GoogleDriveService(_logger, null!, _documentProcessor));
+        exception.ParamName.ShouldBe("credentialResolver");
+        
+        logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]
     public void Constructor_WithNullDocumentProcessor_ShouldCreateInstanceSuccessfully()
     {
+        // Arrange
+        _logger.LogInformation("=== Test: Constructor_WithNullDocumentProcessor_ShouldCreateInstanceSuccessfully ===");
+        
         // Act
-        var serviceWithNullProcessor = new GoogleDriveService(_logger, _credentialResolver, null);
+        _logger.LogInformation("Creating service with null document processor");
+        var service = new GoogleDriveService(_logger, _credentialResolver, null);
 
         // Assert
-        serviceWithNullProcessor.ShouldNotBeNull();
-        serviceWithNullProcessor.ShouldBeOfType<GoogleDriveService>();
+        _logger.LogInformation("Validating service creation with null document processor");
+        service.ShouldNotBeNull();
+        service.ShouldBeOfType<GoogleDriveService>();
+        
+        _logger.LogInformation("=== Test completed successfully ===");
     }
 
 /// <summary>

@@ -17,7 +17,7 @@ public class GoogleDriveToolsTests
 
     public GoogleDriveToolsTests()
     {
-        _logger = Substitute.For<ILogger<GoogleDriveTools>>();
+        _logger = XUnitLogger.CreateLogger<GoogleDriveTools>();
         _driveService = Substitute.For<IGoogleDriveService>();
         _tools = new GoogleDriveTools(_logger, _driveService);
     }
@@ -30,27 +30,47 @@ public class GoogleDriveToolsTests
     [Fact]
     public void Constructor_WithValidParameters_ShouldCreateInstance()
     {
-        // Act & Assert
+        // Arrange & Act
+        _logger.LogInformation("=== Test: Constructor_WithValidParameters_ShouldCreateInstance ===");
+        
+        // Assert
+        _logger.LogInformation("Validating GoogleDriveTools instance creation");
         _tools.ShouldNotBeNull();
         _tools.ShouldBeOfType<GoogleDriveTools>();
+        
+        _logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]
     public void Constructor_WithNullLogger_ShouldThrowArgumentNullException()
     {
+        // Arrange
+        var logger = XUnitLogger.CreateLogger();
+        logger.LogInformation("=== Test: Constructor_WithNullLogger_ShouldThrowArgumentNullException ===");
+        
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => 
-            new GoogleDriveTools(null!, _driveService))
-            .ParamName.ShouldBe("logger");
+        logger.LogInformation("Validating null logger throws ArgumentNullException");
+        var exception = Should.Throw<ArgumentNullException>(() => 
+            new GoogleDriveTools(null!, _driveService));
+        exception.ParamName.ShouldBe("logger");
+        
+        logger.LogInformation("=== Test completed successfully ===");
     }
 
     [Fact]
     public void Constructor_WithNullDriveService_ShouldThrowArgumentNullException()
     {
+        // Arrange
+        var logger = XUnitLogger.CreateLogger();
+        logger.LogInformation("=== Test: Constructor_WithNullDriveService_ShouldThrowArgumentNullException ===");
+        
         // Act & Assert
-        Should.Throw<ArgumentNullException>(() => 
-            new GoogleDriveTools(_logger, null!))
-            .ParamName.ShouldBe("driveService");
+        logger.LogInformation("Validating null drive service throws ArgumentNullException");
+        var exception = Should.Throw<ArgumentNullException>(() => 
+            new GoogleDriveTools(_logger, null!));
+        exception.ParamName.ShouldBe("driveService");
+        
+        logger.LogInformation("=== Test completed successfully ===");
     }
 
 /// <summary>
