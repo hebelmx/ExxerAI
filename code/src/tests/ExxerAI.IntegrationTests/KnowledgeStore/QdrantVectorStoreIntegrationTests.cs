@@ -60,7 +60,7 @@ public class QdrantVectorStoreIntegrationTests : IClassFixture<QdrantContainerFi
 
         // Act
         _logger.LogInformation("Initializing QdrantVectorStore...");
-        var result = await _vectorStore.InitializeAsync(_testCollectionName, 1536, CancellationToken.None);
+        var result = await _vectorStore.InitializeAsync(CancellationToken.None);
 
         // Assert
         _logger.LogInformation("Validating successful initialization");

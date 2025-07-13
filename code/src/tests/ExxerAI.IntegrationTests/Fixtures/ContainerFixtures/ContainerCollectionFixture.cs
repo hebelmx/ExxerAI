@@ -92,15 +92,38 @@ public class ContainerCollectionFixture : IAsyncLifetime
         try
         {
             using var httpClient = new HttpClient();
-            httpClient.Timeout = TimeSpan.FromSeconds(5);
+            httpClient.Timeout = TimeSpan.FromSeconds(3); // Shorter timeout to avoid hanging
             
-            // Test Qdrant connectivity
-            var qdrantResponse = await httpClient.GetAsync("http://localhost:6333/");
-            var qdrantAvailable = qdrantResponse.IsSuccessStatusCode;
+            var qdrantAvailable = false;
+            var neo4jAvailable = false;
             
-            // Test Neo4j connectivity  
-            var neo4jResponse = await httpClient.GetAsync("http://localhost:7475/");
-            var neo4jAvailable = neo4jResponse.IsSuccessStatusCode;
+            // Test Qdrant connectivity with timeout protection
+            try
+            {
+                _logger.LogDebug("🔍 Testing Qdrant connectivity...");
+                var qdrantResponse = await httpClient.GetAsync("http://localhost:6333/");
+                qdrantAvailable = qdrantResponse.IsSuccessStatusCode;
+                _logger.LogDebug("Qdrant HTTP response: {StatusCode}", qdrantResponse.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug("Qdrant connectivity failed: {Error}", ex.Message);
+                qdrantAvailable = false;
+            }
+            
+            // Test Neo4j connectivity with timeout protection  
+            try
+            {
+                _logger.LogDebug("🔍 Testing Neo4j connectivity...");
+                var neo4jResponse = await httpClient.GetAsync("http://localhost:7475/");
+                neo4jAvailable = neo4jResponse.IsSuccessStatusCode;
+                _logger.LogDebug("Neo4j HTTP response: {StatusCode}", neo4jResponse.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug("Neo4j connectivity failed: {Error}", ex.Message);
+                neo4jAvailable = false;
+            }
             
             AreContainersAvailable = qdrantAvailable && neo4jAvailable;
             
@@ -112,6 +135,10 @@ public class ContainerCollectionFixture : IAsyncLifetime
                 
                 ContainerStatusMessage = $"Missing containers: {string.Join(", ", missing)}. " +
                                        "Please start containers: docker-compose up -d";
+            }
+            else
+            {
+                ContainerStatusMessage = "All containers are available";
             }
             
             _logger.LogInformation("Container availability: Qdrant={QdrantAvailable}, Neo4j={Neo4jAvailable}", 

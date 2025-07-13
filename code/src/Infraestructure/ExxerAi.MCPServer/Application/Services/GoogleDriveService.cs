@@ -40,20 +40,32 @@ public class GoogleDriveService : IGoogleDriveService
     }
 
     /// <summary>
-    /// Initializes Google Drive service with OAuth authentication
+    /// Initialize Google Drive service with OAuth authentication
     /// </summary>
-    /// <param name="cancellationToken">Token to cancel the operation</param>
     public async Task<Result<bool>> InitializeAsync(CancellationToken cancellationToken = default)
     {
         try
         {
-            _logger.LogInformation("Initializing Google Drive service...");
+            _logger.LogInformation("🔑 Initializing Google Drive service...");
 
-            // Resolve credentials from multiple sources
+            // Early cancellation check
+            if (cancellationToken.IsCancellationRequested)
+                return ResultExtensions.Cancelled<bool>();
+
+            // Check if we're in a test environment - skip OAuth to prevent browser opening
+            var isTestEnvironment = IsTestEnvironment();
+            if (isTestEnvironment)
+            {
+                _logger.LogInformation("🧪 Test environment detected - skipping OAuth initialization");
+                return Result<bool>.WithFailure("OAuth initialization skipped in test environment to prevent browser opening");
+            }
+
+            // Resolve credentials
             var credentialsResult = await _credentialResolver.ResolveCredentialsAsync(cancellationToken).ConfigureAwait(false);
             if (credentialsResult.IsFailure)
             {
-                return Result<bool>.WithFailure(credentialsResult.Error);
+                _logger.LogWarning("⚠️ Failed to resolve credentials: {Error}", credentialsResult.Error);
+                return credentialsResult.ToResult<bool>();
             }
 
             var credentials = credentialsResult.Value;
@@ -63,7 +75,15 @@ public class GoogleDriveService : IGoogleDriveService
             if (cancellationToken.IsCancellationRequested)
                 return ResultExtensions.Cancelled<bool>();
 
-            // Initialize OAuth flow
+            // Check for obsolete OAuth flows and skip
+            if (credentials.Type == CredentialType.OAuth)
+            {
+                _logger.LogWarning("⚠️ OAuth credential type detected - this may trigger obsolete GeneralOAuthFlow");
+                return Result<bool>.WithFailure("OAuth flow skipped to prevent obsolete GeneralOAuthFlow (Error 400: invalid_request)");
+            }
+
+            // Initialize OAuth flow - this will open browser tabs!
+            _logger.LogWarning("⚠️ About to trigger OAuth flow - this will open browser tabs");
             var credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                 new ClientSecrets
                 {
@@ -89,6 +109,34 @@ public class GoogleDriveService : IGoogleDriveService
             _logger.LogError(ex, "❌ Failed to initialize Google Drive service");
             return Result<bool>.WithFailure($"Initialization failed: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// Detects if we're running in a test environment
+    /// </summary>
+    private bool IsTestEnvironment()
+    {
+        // Check for common test indicators
+        var testIndicators = new[]
+        {
+            "Microsoft.TestPlatform",
+            "xunit",
+            "nunit", 
+            "mstest",
+            "testhost",
+            "dotnet-test",
+            "VSTest"
+        };
+
+        var currentProcess = System.Diagnostics.Process.GetCurrentProcess();
+        var processName = currentProcess.ProcessName.ToLowerInvariant();
+        var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location.ToLowerInvariant();
+
+        // Check process name and assembly location for test indicators
+        return testIndicators.Any(indicator => 
+            processName.Contains(indicator.ToLowerInvariant()) || 
+            assemblyLocation.Contains(indicator.ToLowerInvariant()) ||
+            assemblyLocation.Contains("test"));
     }
 
     /// <summary>

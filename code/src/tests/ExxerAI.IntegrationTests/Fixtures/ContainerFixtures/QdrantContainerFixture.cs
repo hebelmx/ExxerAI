@@ -36,18 +36,34 @@ public class QdrantContainerFixture : IAsyncLifetime
             // Try to connect to existing container
             await VerifyQdrantHealthAsync();
 
-            // Initialize Qdrant client
-            _qdrantClient = new QdrantClient("localhost", QdrantPort, https: false);
-            
-            // Test connection by listing collections
-            try
+            // Initialize Qdrant client - use gRPC port explicitly to avoid protocol issues
+            try 
             {
+                _logger.LogInformation("🔄 Attempting gRPC connection on port {GrpcPort}...", QdrantGrpcPort);
+                _qdrantClient = new QdrantClient("localhost", QdrantGrpcPort, https: false);
+                
+                // Test connection by listing collections
                 await _qdrantClient.ListCollectionsAsync();
-                _logger.LogInformation("✅ Qdrant client connected successfully");
+                _logger.LogInformation("✅ Qdrant gRPC client connected successfully");
             }
-            catch (Exception ex)
+            catch (Exception gRpcEx)
             {
-                _logger.LogWarning("⚠️ Qdrant client connection test failed: {Error}", ex.Message);
+                _logger.LogWarning("⚠️ gRPC connection failed: {Error}", gRpcEx.Message);
+                _logger.LogInformation("🔄 Falling back to HTTP REST API...");
+                
+                // Fallback to HTTP REST API connection
+                try
+                {
+                    _qdrantClient = new QdrantClient(QdrantUrl);
+                    await _qdrantClient.ListCollectionsAsync();
+                    _logger.LogInformation("✅ Qdrant HTTP client connected successfully");
+                }
+                catch (Exception httpEx)
+                {
+                    _logger.LogError("❌ Both gRPC and HTTP connections failed. gRPC: {GrpcError}, HTTP: {HttpError}", 
+                        gRpcEx.Message, httpEx.Message);
+                    throw;
+                }
             }
             
             IsAvailable = true;
@@ -58,8 +74,6 @@ public class QdrantContainerFixture : IAsyncLifetime
             _logger.LogError(ex, "❌ Failed to connect to persistent Qdrant container");
             _logger.LogWarning("💡 Make sure Qdrant container is running: .\\start-containers.ps1");
             IsAvailable = false;
-            
-            // Don't throw - let tests skip gracefully
         }
     }
 
