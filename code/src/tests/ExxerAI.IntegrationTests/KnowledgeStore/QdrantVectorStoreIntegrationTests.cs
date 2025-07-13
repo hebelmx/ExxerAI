@@ -317,7 +317,7 @@ public class QdrantVectorStoreIntegrationTests : IClassFixture<QdrantContainerFi
         var dict = new Dictionary<string, object>();
         foreach (var prop in metadata.GetType().GetProperties())
         {
-            dict[prop.Name] ??= prop.GetValue(metadata)!;
+            dict[prop.Name] = prop.GetValue(metadata)!;
         }
         return dict;
     }

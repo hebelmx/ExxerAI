@@ -55,9 +55,18 @@ public static class TestModernCredentials
             logger.LogInformation("\n2️⃣ Testing Drive Service Creation...");
             try
             {
-                using var driveService = await resolver.CreateDriveServiceAsync();
-                logger.LogInformation("✅ DRIVE SERVICE CREATION SUCCESS!");
-                logger.LogInformation($"   🚀 Application Name: {driveService.ApplicationName}");
+                var driveServiceResult = await resolver.CreateDriveServiceAsync();
+                if (driveServiceResult.IsSuccess)
+                {
+                    using var driveService = driveServiceResult.Value;
+                    logger.LogInformation("✅ DRIVE SERVICE CREATION SUCCESS!");
+                    logger.LogInformation($"   🚀 Application Name: {driveService.ApplicationName}");
+                }
+                else
+                {
+                    logger.LogInformation("❌ DRIVE SERVICE CREATION FAILED:");
+                    logger.LogInformation($"   💥 {driveServiceResult.Error}");
+                }
             }
             catch (Exception ex)
             {

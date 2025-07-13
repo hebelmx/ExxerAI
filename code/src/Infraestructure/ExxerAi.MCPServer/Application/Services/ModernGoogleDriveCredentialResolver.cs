@@ -132,7 +132,9 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
             var service = serviceResult.Value;
 
             // Make a simple API call to test the credential
-            var about = await service.About.Get().ExecuteAsync(cancellationToken);
+            var aboutRequest = service.About.Get();
+            aboutRequest.Fields = "user/emailAddress";
+            var about = await aboutRequest.ExecuteAsync(cancellationToken);
 
             _logger.LogInformation("✅ Credential test successful - authenticated as: {Email}",
                 about.User?.EmailAddress ?? "Unknown");

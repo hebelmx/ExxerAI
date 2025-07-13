@@ -168,6 +168,8 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         var services = new ServiceCollection();
         services.AddSingleton<IConfiguration>(invalidConfig);
         services.AddLogging(builder => builder.AddConsole());
+        services.AddSingleton(_configuration);
+        services.AddScoped<IGoogleDriveCredentialResolver, ModernGoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
 
         using var provider = services.BuildServiceProvider();

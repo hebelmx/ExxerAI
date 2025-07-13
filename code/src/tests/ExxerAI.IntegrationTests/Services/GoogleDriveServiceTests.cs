@@ -1,5 +1,6 @@
 using ExxerAI.MCPServer.Application.Services;
 using ExxerAI.MCPServer.Application.Interfaces;
+using ExxerAI.Application.Interfaces;
 
 namespace ExxerAI.IntegrationTests.Services;
 
