@@ -38,8 +38,8 @@ public class Neo4jContainerFixture : IAsyncLifetime
             // Try to connect to existing container
             await VerifyNeo4jHealthAsync();
             
-            // Initialize graph client
-            _graphClient = new GraphClient(new Uri(BoltUri), Username, Password);
+            // Initialize graph client using HTTP endpoint (bolt scheme not supported by this client)
+            _graphClient = new GraphClient(new Uri(HttpUri), Username, Password);
             await _graphClient.ConnectAsync();
             
             IsAvailable = true;

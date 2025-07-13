@@ -172,44 +172,59 @@ public class ContainerConnectivityTests : IClassFixture<KnowledgeStoreContainerF
     }
 
     /// <summary>
-    /// EARLY WARNING: Check for Ollama availability (required for embedding generation)
+    /// EARLY WARNING: Check for LocalAI availability (required for embedding generation)
     /// This validates the AI infrastructure needed for Phase 1 objectives
     /// </summary>
-    [Fact(DisplayName = "🔍 WARNING: Ollama LLM Connectivity")]
-    public async Task OllamaLLM_ShouldBeAvailableForEmbedding()
+    [Fact(DisplayName = "🔍 WARNING: LocalAI LLM Connectivity")]
+    public async Task LocalAILLM_ShouldBeAvailableForEmbedding()
     {
-        _logger.LogInformation("🔍 WARNING TEST: Validating Ollama LLM availability...");
+        _logger.LogInformation("🔍 WARNING TEST: Validating LocalAI LLM availability...");
         
         try
         {
             using var httpClient = new HttpClient();
             httpClient.Timeout = TimeSpan.FromSeconds(5);
             
-            // Check if Ollama is running on default port
-            var ollamaUrl = "http://localhost:11434";
-            var response = await httpClient.GetAsync($"{ollamaUrl}/api/tags");
+            // Check if LocalAI is running on configured port (from docker-compose)
+            var localAIUrl = "http://localhost:8080";
+            var response = await httpClient.GetAsync($"{localAIUrl}/readiness");
             
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation("✅ WARNING: Ollama LLM is available and responding");
-                _logger.LogInformation("   🤖 URL: {OllamaUrl}", ollamaUrl);
-                _logger.LogDebug("   📋 Available models: {Content}", content);
+                _logger.LogInformation("✅ WARNING: LocalAI LLM is available and responding");
+                _logger.LogInformation("   🤖 URL: {LocalAIUrl}", localAIUrl);
+                _logger.LogDebug("   📋 Readiness check: {Content}", content);
+                
+                // Also check models endpoint if available
+                try
+                {
+                    var modelsResponse = await httpClient.GetAsync($"{localAIUrl}/v1/models");
+                    if (modelsResponse.IsSuccessStatusCode)
+                    {
+                        var modelsContent = await modelsResponse.Content.ReadAsStringAsync();
+                        _logger.LogDebug("   📋 Available models: {ModelsContent}", modelsContent);
+                    }
+                }
+                catch (Exception modelsEx)
+                {
+                    _logger.LogDebug("Models endpoint not available: {Error}", modelsEx.Message);
+                }
             }
             else
             {
-                _logger.LogWarning("⚠️ WARNING: Ollama LLM is not responding properly (Status: {StatusCode})", response.StatusCode);
-                _logger.LogWarning("💡 Some embedding tests may fail without Ollama");
+                _logger.LogWarning("⚠️ WARNING: LocalAI LLM is not responding properly (Status: {StatusCode})", response.StatusCode);
+                _logger.LogWarning("💡 Some embedding tests may fail without LocalAI");
             }
         }
         catch (Exception ex)
         {
-            _logger.LogWarning(ex, "⚠️ WARNING: Ollama LLM is not available");
-            _logger.LogWarning("💡 Phase 1 embedding generation will require Ollama integration");
-            _logger.LogWarning("💡 Start Ollama or configure alternative embedding provider");
+            _logger.LogWarning(ex, "⚠️ WARNING: LocalAI LLM is not available");
+            _logger.LogWarning("💡 Phase 1 embedding generation will require LocalAI integration");
+            _logger.LogWarning("💡 Ensure LocalAI container is running: .\\start-containers.ps1");
             
             // Don't fail the test - this is a warning for future integration
-            // Some tests can still run without Ollama
+            // Some tests can still run without LocalAI
         }
     }
 

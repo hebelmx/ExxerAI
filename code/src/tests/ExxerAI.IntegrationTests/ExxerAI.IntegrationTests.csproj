@@ -68,14 +68,11 @@
 	<ItemGroup Label="Testing Utilities">
 		<PackageReference Include="NSubstitute" />
 		<PackageReference Include="Shouldly" />
-		<!-- Testcontainers for Docker-based integration testing -->
-		<PackageReference Include="Testcontainers" />
-		<PackageReference Include="Testcontainers.Neo4j" />
-		<PackageReference Include="Testcontainers.Qdrant" />
-
 		<PackageReference Include="Meziantou.Extensions.Logging.Xunit.v3" />
-		<!-- Qdrant container (using custom Docker image) -->
-		<PackageReference Include="Docker.DotNet" />
+		
+		<!-- Direct clients for persistent containers (not Testcontainers) -->
+		<PackageReference Include="Qdrant.Client" />
+		<PackageReference Include="Neo4jClient" />
 	</ItemGroup>
 
 
