@@ -1,26 +1,25 @@
 using Qdrant.Client;
-using ExxerAI.IntegrationTests.Fixtures;
 
-namespace ExxerAI.IntegrationTests.Services;
+namespace ExxerAI.Infrastructure.Services;
 
 /// <summary>
-/// Service for managing Qdrant credentials and connections in integration tests
+/// Service for managing Qdrant credentials and connections
 /// </summary>
 public class QdrantCredentialService
 {
-    private readonly QdrantContainerFixture? _containerFixture;
+    private readonly object? _containerFixture;
     private readonly QdrantConnectionConfig? _staticConfig;
 
     /// <summary>
-    /// Initialize with a container fixture (preferred for integration tests)
+    /// Initialize with a container fixture (for integration tests)
     /// </summary>
-    public QdrantCredentialService(QdrantContainerFixture containerFixture)
+    public QdrantCredentialService(object containerFixture)
     {
         _containerFixture = containerFixture;
     }
 
     /// <summary>
-    /// Initialize with static configuration (fallback)
+    /// Initialize with static configuration
     /// </summary>
     public QdrantCredentialService(QdrantConnectionConfig config)
     {
@@ -28,13 +27,33 @@ public class QdrantCredentialService
     }
 
     /// <summary>
+    /// Initialize with default configuration (fallback)
+    /// </summary>
+    public QdrantCredentialService()
+    {
+        // Default constructor for dependency injection
+    }
+
+    /// <summary>
     /// Get the connection configuration, preferring container fixture over static config
     /// </summary>
     public QdrantConnectionConfig GetConnectionConfig()
     {
-        if (_containerFixture?.IsAvailable == true)
+        if (_containerFixture != null)
         {
-            return _containerFixture.GetConnectionConfig();
+            // Use reflection to check if container fixture is available and get config
+            var isAvailableProperty = _containerFixture.GetType().GetProperty("IsAvailable");
+            var isAvailable = isAvailableProperty?.GetValue(_containerFixture) as bool? ?? false;
+            
+            if (isAvailable)
+            {
+                var getConfigMethod = _containerFixture.GetType().GetMethod("GetConnectionConfig");
+                var config = getConfigMethod?.Invoke(_containerFixture, null) as QdrantConnectionConfig;
+                if (config != null)
+                {
+                    return config;
+                }
+            }
         }
 
         if (_staticConfig != null)
@@ -65,7 +84,9 @@ public class QdrantCredentialService
     /// <summary>
     /// Check if Qdrant is available for testing
     /// </summary>
-    public bool IsAvailable => _containerFixture?.IsAvailable ?? true;
+    public bool IsAvailable => _containerFixture != null ? 
+        (_containerFixture.GetType().GetProperty("IsAvailable")?.GetValue(_containerFixture) as bool? ?? false) : 
+        true;
 
     /// <summary>
     /// Ensure Qdrant is available or throw appropriate exception
@@ -74,7 +95,8 @@ public class QdrantCredentialService
     {
         if (_containerFixture != null)
         {
-            _containerFixture.EnsureAvailable();
+            var ensureAvailableMethod = _containerFixture.GetType().GetMethod("EnsureAvailable");
+            ensureAvailableMethod?.Invoke(_containerFixture, null);
         }
         else if (!IsAvailable)
         {
@@ -99,7 +121,15 @@ public class QdrantCredentialService
     {
         if (_containerFixture != null)
         {
-            await _containerFixture.CleanCollectionsAsync();
+            var cleanMethod = _containerFixture.GetType().GetMethod("CleanCollectionsAsync");
+            if (cleanMethod != null)
+            {
+                var task = cleanMethod.Invoke(_containerFixture, null) as Task;
+                if (task != null)
+                {
+                    await task;
+                }
+            }
         }
     }
 
@@ -110,7 +140,15 @@ public class QdrantCredentialService
     {
         if (_containerFixture != null)
         {
-            return await _containerFixture.CreateTestCollectionAsync(collectionName, vectorSize);
+            var createMethod = _containerFixture.GetType().GetMethod("CreateTestCollectionAsync");
+            if (createMethod != null)
+            {
+                var task = createMethod.Invoke(_containerFixture, new object[] { collectionName, vectorSize }) as Task<bool>;
+                if (task != null)
+                {
+                    return await task;
+                }
+            }
         }
 
         // Fallback implementation

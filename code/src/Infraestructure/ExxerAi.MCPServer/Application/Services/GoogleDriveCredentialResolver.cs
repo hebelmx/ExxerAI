@@ -68,10 +68,10 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
         _logger.LogError("❌ Failed to resolve Google Drive credentials from any source");
         return Result<GoogleDriveCredentials>.WithFailure(
             "Google Drive credentials not found. Please configure credentials using one of the supported methods:\n" +
-            "1. Environment Variables: GOOGLE_OAUTH_CLIENT_ID, GOOGLE_OAUTH_CLIENT_SECRET\n" +
-            "2. User Secrets: GoogleDrive:ClientId, GoogleDrive:ClientSecret\n" +
-            "3. appsettings.json: GoogleDrive section\n" +
-            "4. JSON File: GoogleDrive:CredentialsPath pointing to OAuth credentials file");
+            "1. Environment Variables: GOOGLE_API_KEY or GOOGLE_OAUTH_CLIENT_ID + GOOGLE_OAUTH_CLIENT_SECRET\n" +
+            "2. User Secrets: GoogleDrive:ApiKey or GoogleDrive:ClientId + GoogleDrive:ClientSecret\n" +
+            "3. appsettings.json: GoogleDrive section with ApiKey or ClientId + ClientSecret\n" +
+            "4. JSON File: GoogleDrive:CredentialsPath pointing to API key or OAuth credentials file");
     }
 
     /// <summary>
@@ -79,21 +79,35 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
     /// </summary>
     private Result<GoogleDriveCredentials> TryGetEnvironmentCredentials()
     {
+        // Try API Key first (simpler)
+        var apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
+        if (!string.IsNullOrEmpty(apiKey))
+        {
+            return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
+            {
+                ApiKey = apiKey,
+                Type = CredentialType.ApiKey,
+                Source = "Environment Variables"
+            });
+        }
+
+        // Try OAuth credentials
         var clientId = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID");
         var clientSecret = Environment.GetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_SECRET");
 
-        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+        if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
         {
-            _logger.LogDebug("🔍 Environment variables not found or incomplete");
-            return Result<GoogleDriveCredentials>.WithFailure("Environment variables not configured");
+            return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
+            {
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Type = CredentialType.OAuth,
+                Source = "Environment Variables"
+            });
         }
 
-        return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
-        {
-            ClientId = clientId,
-            ClientSecret = clientSecret,
-            Source = "Environment Variables"
-        });
+        _logger.LogDebug("🔍 Environment variables not found or incomplete");
+        return Result<GoogleDriveCredentials>.WithFailure("Environment variables not configured");
     }
 
     /// <summary>
@@ -101,29 +115,43 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
     /// </summary>
     private Result<GoogleDriveCredentials> TryGetUserSecretsCredentials()
     {
+        // Try API Key first
+        var apiKey = _configuration["GoogleDrive:ApiKey"];
+        if (!string.IsNullOrEmpty(apiKey) && !apiKey.Contains("your-api-key"))
+        {
+            return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
+            {
+                ApiKey = apiKey,
+                Type = CredentialType.ApiKey,
+                Source = "User Secrets"
+            });
+        }
+
+        // Try OAuth credentials
         var clientId = _configuration["GoogleDrive:ClientId"];
         var clientSecret = _configuration["GoogleDrive:ClientSecret"];
 
-        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+        if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
         {
-            _logger.LogDebug("🔍 User secrets not found or incomplete");
-            return Result<GoogleDriveCredentials>.WithFailure("User secrets not configured");
+            // Check if these are actually from user secrets (not appsettings.json)
+            // This is a heuristic - user secrets typically have longer, more complex values
+            if (clientId.Contains("your-client-id") || clientSecret.Contains("your-client-secret"))
+            {
+                _logger.LogDebug("🔍 User secrets contain placeholder values");
+                return Result<GoogleDriveCredentials>.WithFailure("User secrets contain placeholder values");
+            }
+
+            return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
+            {
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Type = CredentialType.OAuth,
+                Source = "User Secrets"
+            });
         }
 
-        // Check if these are actually from user secrets (not appsettings.json)
-        // This is a heuristic - user secrets typically have longer, more complex values
-        if (clientId.Contains("your-client-id") || clientSecret.Contains("your-client-secret"))
-        {
-            _logger.LogDebug("🔍 User secrets contain placeholder values");
-            return Result<GoogleDriveCredentials>.WithFailure("User secrets contain placeholder values");
-        }
-
-        return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
-        {
-            ClientId = clientId,
-            ClientSecret = clientSecret,
-            Source = "User Secrets"
-        });
+        _logger.LogDebug("🔍 User secrets not found or incomplete");
+        return Result<GoogleDriveCredentials>.WithFailure("User secrets not configured");
     }
 
     /// <summary>
@@ -131,28 +159,42 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
     /// </summary>
     private Result<GoogleDriveCredentials> TryGetAppSettingsCredentials()
     {
+        // Try API Key first
+        var apiKey = _configuration["GoogleDrive:ApiKey"];
+        if (!string.IsNullOrEmpty(apiKey) && !apiKey.Contains("your-api-key"))
+        {
+            return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
+            {
+                ApiKey = apiKey,
+                Type = CredentialType.ApiKey,
+                Source = "appsettings.json"
+            });
+        }
+
+        // Try OAuth credentials
         var clientId = _configuration["GoogleDrive:ClientId"];
         var clientSecret = _configuration["GoogleDrive:ClientSecret"];
 
-        if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
+        if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
         {
-            _logger.LogDebug("🔍 appsettings.json not found or incomplete");
-            return Result<GoogleDriveCredentials>.WithFailure("appsettings.json not configured");
+            // Skip placeholder values
+            if (clientId.Contains("your-client-id") || clientSecret.Contains("your-client-secret"))
+            {
+                _logger.LogDebug("🔍 appsettings.json contains placeholder values");
+                return Result<GoogleDriveCredentials>.WithFailure("appsettings.json contains placeholder values");
+            }
+
+            return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
+            {
+                ClientId = clientId,
+                ClientSecret = clientSecret,
+                Type = CredentialType.OAuth,
+                Source = "appsettings.json"
+            });
         }
 
-        // Skip placeholder values
-        if (clientId.Contains("your-client-id") || clientSecret.Contains("your-client-secret"))
-        {
-            _logger.LogDebug("🔍 appsettings.json contains placeholder values");
-            return Result<GoogleDriveCredentials>.WithFailure("appsettings.json contains placeholder values");
-        }
-
-        return Result<GoogleDriveCredentials>.WithSuccess(new GoogleDriveCredentials
-        {
-            ClientId = clientId,
-            ClientSecret = clientSecret,
-            Source = "appsettings.json"
-        });
+        _logger.LogDebug("🔍 appsettings.json not found or incomplete");
+        return Result<GoogleDriveCredentials>.WithFailure("appsettings.json not configured");
     }
 
     /// <summary>
@@ -177,7 +219,14 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
 
             var jsonContent = await File.ReadAllTextAsync(credentialsPath, cancellationToken).ConfigureAwait(false);
             
-            // Try to parse as OAuth Desktop Application format (like your current file)
+            // Try to parse as ExxerAI API Key format (your custom format)
+            var exxerAiCredentials = TryParseExxerAiApiCredentials(jsonContent);
+            if (exxerAiCredentials.IsSuccess)
+            {
+                return exxerAiCredentials;
+            }
+
+            // Try to parse as OAuth Desktop Application format
             var desktopCredentials = TryParseDesktopCredentials(jsonContent);
             if (desktopCredentials.IsSuccess)
             {
@@ -209,7 +258,72 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
     }
 
     /// <summary>
-    /// Try to parse OAuth Desktop Application credentials (your current format)
+    /// Try to parse ExxerAI API credentials format (GDrive.Api.json)
+    /// </summary>
+    private Result<GoogleDriveCredentials> TryParseExxerAiApiCredentials(string jsonContent)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(jsonContent);
+            var root = doc.RootElement;
+
+            // Look for the ExxerAI format: { "GDrive": { "ApiKey": "..." }, "GDriveService": { ... } }
+            if (root.TryGetProperty("GDrive", out var gdriveElement))
+            {
+                string? apiKey = null;
+
+                // Try "ApiKey" first (correct spelling)
+                if (gdriveElement.TryGetProperty("ApiKey", out var apiKeyElement))
+                {
+                    apiKey = apiKeyElement.GetString();
+                }
+                // Try "ApiKe" (typo in the user's file)
+                else if (gdriveElement.TryGetProperty("ApiKe", out var apiKeElement))
+                {
+                    apiKey = apiKeElement.GetString();
+                }
+
+                if (!string.IsNullOrEmpty(apiKey))
+                {
+                    var credentials = new GoogleDriveCredentials
+                    {
+                        ApiKey = apiKey,
+                        Type = CredentialType.ApiKey,
+                        Source = "JSON File (ExxerAI API Key)"
+                    };
+
+                    // Also extract service account info if available
+                    if (root.TryGetProperty("GDriveService", out var serviceElement))
+                    {
+                        if (serviceElement.TryGetProperty("name", out var nameElement))
+                        {
+                            credentials.ServiceAccountName = nameElement.GetString() ?? string.Empty;
+                        }
+                        if (serviceElement.TryGetProperty("Email", out var emailElement))
+                        {
+                            credentials.ServiceAccountEmail = emailElement.GetString() ?? string.Empty;
+                        }
+                        if (serviceElement.TryGetProperty("UniqueID", out var uniqueIdElement))
+                        {
+                            credentials.ServiceAccountUniqueId = uniqueIdElement.GetString() ?? string.Empty;
+                        }
+                    }
+
+                    return Result<GoogleDriveCredentials>.WithSuccess(credentials);
+                }
+            }
+
+            return Result<GoogleDriveCredentials>.WithFailure("ExxerAI API credentials format not valid");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogDebug("🔍 Not a valid ExxerAI API credentials format: {Error}", ex.Message);
+            return Result<GoogleDriveCredentials>.WithFailure($"ExxerAI API credentials parsing failed: {ex.Message}");
+        }
+    }
+
+    /// <summary>
+    /// Try to parse OAuth Desktop Application credentials
     /// </summary>
     private Result<GoogleDriveCredentials> TryParseDesktopCredentials(string jsonContent)
     {
@@ -232,6 +346,7 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
                         {
                             ClientId = clientId,
                             ClientSecret = clientSecret,
+                            Type = CredentialType.OAuth,
                             Source = "JSON File (Desktop App)"
                         });
                     }
@@ -296,6 +411,7 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
                     {
                         ClientId = clientId,
                         ClientSecret = clientSecret,
+                        Type = CredentialType.OAuth,
                         Source = "JSON File (Simple)"
                     });
                 }
@@ -319,7 +435,22 @@ public class GoogleDriveCredentials
 {
     public string ClientId { get; set; } = string.Empty;
     public string ClientSecret { get; set; } = string.Empty;
+    public string ApiKey { get; set; } = string.Empty;
+    public string ServiceAccountEmail { get; set; } = string.Empty;
+    public string ServiceAccountName { get; set; } = string.Empty;
+    public string ServiceAccountUniqueId { get; set; } = string.Empty;
     public string Source { get; set; } = string.Empty;
     public string? RedirectUri { get; set; }
     public string? ProjectId { get; set; }
+    public CredentialType Type { get; set; } = CredentialType.OAuth;
+}
+
+/// <summary>
+/// Types of Google Drive credentials
+/// </summary>
+public enum CredentialType
+{
+    OAuth,
+    ApiKey,
+    ServiceAccount
 } 

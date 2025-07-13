@@ -1,26 +1,25 @@
 using Neo4jClient;
-using ExxerAI.IntegrationTests.Fixtures;
 
-namespace ExxerAI.IntegrationTests.Services;
+namespace ExxerAI.Infrastructure.Services;
 
 /// <summary>
-/// Service for managing Neo4j credentials and connections in integration tests
+/// Service for managing Neo4j credentials and connections
 /// </summary>
 public class Neo4jCredentialService
 {
-    private readonly Neo4jContainerFixture? _containerFixture;
+    private readonly object? _containerFixture;
     private readonly Neo4jConnectionConfig? _staticConfig;
 
     /// <summary>
-    /// Initialize with a container fixture (preferred for integration tests)
+    /// Initialize with a container fixture (for integration tests)
     /// </summary>
-    public Neo4jCredentialService(Neo4jContainerFixture containerFixture)
+    public Neo4jCredentialService(object containerFixture)
     {
         _containerFixture = containerFixture;
     }
 
     /// <summary>
-    /// Initialize with static configuration (fallback)
+    /// Initialize with static configuration
     /// </summary>
     public Neo4jCredentialService(Neo4jConnectionConfig config)
     {
@@ -28,13 +27,33 @@ public class Neo4jCredentialService
     }
 
     /// <summary>
+    /// Initialize with default configuration (fallback)
+    /// </summary>
+    public Neo4jCredentialService()
+    {
+        // Default constructor for dependency injection
+    }
+
+    /// <summary>
     /// Get the connection configuration, preferring container fixture over static config
     /// </summary>
     public Neo4jConnectionConfig GetConnectionConfig()
     {
-        if (_containerFixture?.IsAvailable == true)
+        if (_containerFixture != null)
         {
-            return _containerFixture.GetConnectionConfig();
+            // Use reflection to check if container fixture is available and get config
+            var isAvailableProperty = _containerFixture.GetType().GetProperty("IsAvailable");
+            var isAvailable = isAvailableProperty?.GetValue(_containerFixture) as bool? ?? false;
+            
+            if (isAvailable)
+            {
+                var getConfigMethod = _containerFixture.GetType().GetMethod("GetConnectionConfig");
+                var config = getConfigMethod?.Invoke(_containerFixture, null) as Neo4jConnectionConfig;
+                if (config != null)
+                {
+                    return config;
+                }
+            }
         }
 
         if (_staticConfig != null)
@@ -65,7 +84,9 @@ public class Neo4jCredentialService
     /// <summary>
     /// Check if Neo4j is available for testing
     /// </summary>
-    public bool IsAvailable => _containerFixture?.IsAvailable ?? true;
+    public bool IsAvailable => _containerFixture != null ? 
+        (_containerFixture.GetType().GetProperty("IsAvailable")?.GetValue(_containerFixture) as bool? ?? false) : 
+        true;
 
     /// <summary>
     /// Ensure Neo4j is available or throw appropriate exception
@@ -74,7 +95,8 @@ public class Neo4jCredentialService
     {
         if (_containerFixture != null)
         {
-            _containerFixture.EnsureAvailable();
+            var ensureAvailableMethod = _containerFixture.GetType().GetMethod("EnsureAvailable");
+            ensureAvailableMethod?.Invoke(_containerFixture, null);
         }
         else if (!IsAvailable)
         {

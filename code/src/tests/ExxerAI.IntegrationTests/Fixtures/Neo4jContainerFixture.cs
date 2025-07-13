@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Neo4jClient;
+using ExxerAI.Infrastructure.Services;
 
 namespace ExxerAI.IntegrationTests.Fixtures;
 
@@ -227,17 +228,7 @@ public class Neo4jContainerFixture : IAsyncLifetime
     }
 }
 
-/// <summary>
-/// Configuration for connecting to Neo4j persistent container
-/// </summary>
-public class Neo4jConnectionConfig
-{
-    public string BoltUri { get; set; } = string.Empty;
-    public string HttpUri { get; set; } = string.Empty;
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string Database { get; set; } = "neo4j";
-}
+
 
 /// <summary>
 /// Neo4j database statistics

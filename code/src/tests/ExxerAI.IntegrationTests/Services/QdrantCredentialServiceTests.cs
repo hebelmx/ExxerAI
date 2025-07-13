@@ -1,5 +1,5 @@
 using ExxerAI.IntegrationTests.Fixtures;
-using ExxerAI.IntegrationTests.Services;
+using ExxerAI.Infrastructure.Services;
 using Qdrant.Client;
 using NSubstitute;
 using Shouldly;
@@ -239,8 +239,15 @@ public class QdrantCredentialServiceTests
         var service = new QdrantCredentialService(containerFixture);
 
         // Act & Assert
-        Should.Throw<InvalidOperationException>(() => service.EnsureAvailable())
-            .Message.ShouldContain("Container not available");
+        var exception = Should.Throw<Exception>(() => service.EnsureAvailable());
+        
+        // When using reflection, the exception might be wrapped in TargetInvocationException
+        var actualException = exception is System.Reflection.TargetInvocationException targetEx 
+            ? targetEx.InnerException 
+            : exception;
+        
+        actualException.ShouldBeOfType<InvalidOperationException>();
+        actualException.Message.ShouldContain("Container not available");
     }
 
     [Fact]

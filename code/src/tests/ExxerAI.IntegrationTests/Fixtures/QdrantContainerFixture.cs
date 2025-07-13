@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Logging;
 using Qdrant.Client;
+using ExxerAI.Infrastructure.Services;
 
 namespace ExxerAI.IntegrationTests.Fixtures;
 
@@ -264,17 +265,7 @@ public class QdrantContainerFixture : IAsyncLifetime
     }
 }
 
-/// <summary>
-/// Configuration for connecting to Qdrant persistent container
-/// </summary>
-public class QdrantConnectionConfig
-{
-    public string Host { get; set; } = string.Empty;
-    public int Port { get; set; }
-    public int GrpcPort { get; set; }
-    public string HttpUrl { get; set; } = string.Empty;
-    public bool IsSecure { get; set; }
-}
+
 
 /// <summary>
 /// Qdrant database statistics
