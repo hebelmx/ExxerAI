@@ -33,5 +33,10 @@ public enum WorkflowExecutionStatus
     /// <summary>
     /// Execution is paused
     /// </summary>
-    Paused
+    Paused,
+    
+    /// <summary>
+    /// Execution is scheduled for future execution
+    /// </summary>
+    Scheduled
 }

@@ -1,28 +1,31 @@
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Operations;
-using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.AI;
 
 namespace ExxerAI.Infrastructure.Embeddings;
 
 /// <summary>
-/// OpenAI implementation for generating text embeddings
-/// Uses Microsoft.Extensions.AI abstractions for consistent interface
+/// OpenAI implementation for generating text embeddings using Microsoft.Extensions.AI
 /// </summary>
 public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddingGenerator
 {
-    private readonly Microsoft.Extensions.AI.IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
+    private readonly IEmbeddingGenerator<string, Embedding<float>> _embeddingGenerator;
     private readonly ILogger<OpenAIEmbeddingGenerator> _logger;
     private readonly string _modelName;
+    private readonly SemaphoreSlim _rateLimitSemaphore;
 
     public OpenAIEmbeddingGenerator(
-        Microsoft.Extensions.AI.IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
-        ILogger<OpenAIEmbeddingGenerator> logger,
-        string modelName = "text-embedding-3-small")
+        IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator,
+        string modelName,
+        ILogger<OpenAIEmbeddingGenerator> logger)
     {
         _embeddingGenerator = embeddingGenerator ?? throw new ArgumentNullException(nameof(embeddingGenerator));
+        _modelName = !string.IsNullOrWhiteSpace(modelName) ? modelName : "text-embedding-3-small";
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-        _modelName = modelName;
+        
+        // Rate limiting: OpenAI allows high throughput, but we'll be conservative
+        _rateLimitSemaphore = new SemaphoreSlim(10, 10);
     }
 
     public int EmbeddingDimensions => _modelName switch
@@ -52,6 +55,7 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
         if (cancellationToken.IsCancellationRequested)
             return ResultExtensions.Cancelled<float[]>();
 
+        await _rateLimitSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             if (string.IsNullOrWhiteSpace(text))
@@ -67,15 +71,13 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
 
             _logger.LogDebug("Generating embedding for text of length: {Length}", text.Length);
 
-            var result = await _embeddingGenerator.GenerateAsync(new[] { text }, cancellationToken: cancellationToken);
-
-            if (result?.Count > 0)
+            var embedding = await _embeddingGenerator.GenerateAsync([text], options: null, cancellationToken).ConfigureAwait(false);
+            var firstEmbedding = embedding.FirstOrDefault();
+            
+            if (firstEmbedding?.Vector != null)
             {
-                var embedding = result[0];
-                var vector = embedding.Vector.ToArray();
-
-                _logger.LogDebug("Generated embedding with {Dimensions} dimensions", vector.Length);
-                return Result<float[]>.Success(vector);
+                _logger.LogDebug("Generated embedding with {Dimensions} dimensions", firstEmbedding.Vector.Length);
+                return Result<float[]>.WithSuccess(firstEmbedding.Vector.ToArray());
             }
 
             return Result<float[]>.WithFailure("Failed to generate embedding - empty result");
@@ -110,6 +112,10 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
             _logger.LogError(ex, "Unexpected error during embedding generation");
             return Result<float[]>.WithFailure($"Unexpected error: {ex.Message}");
         }
+        finally
+        {
+            _rateLimitSemaphore.Release();
+        }
     }
 
     /// <summary>
@@ -128,7 +134,7 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
             var textList = texts?.ToList() ?? [];
             
             if (!textList.Any())
-                return Result<IEnumerable<EmbeddingResult>>.Success(Enumerable.Empty<EmbeddingResult>());
+                return Result<IEnumerable<EmbeddingResult>>.WithSuccess(Enumerable.Empty<EmbeddingResult>());
 
             // Filter out null/empty texts
             var validTexts = textList.Where(t => !string.IsNullOrWhiteSpace(t)).ToList();
@@ -138,23 +144,27 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
 
             _logger.LogDebug("Generating embeddings for {Count} texts", validTexts.Count);
 
-            // Process in batches to respect API limits
-            const int batchSize = 100; // OpenAI batch limit
             var allResults = new List<EmbeddingResult>();
 
-            for (int i = 0; i < validTexts.Count; i += batchSize)
+            // Use Microsoft.Extensions.AI for batch processing
+            var embeddings = await _embeddingGenerator.GenerateAsync(validTexts, options: null, cancellationToken).ConfigureAwait(false);
+                
+            for (int i = 0; i < validTexts.Count && i < embeddings.Count(); i++)
             {
-                var batch = validTexts.Skip(i).Take(batchSize).ToList();
-                var batchResults = await GenerateBatchInternalAsync(batch, cancellationToken);
-                
-                if (batchResults.IsFailure)
-                    return Result<IEnumerable<EmbeddingResult>>.WithFailure(batchResults.Error ?? "Batch generation failed");
-                
-                allResults.AddRange(batchResults.Value!);
+                var embedding = embeddings[i];
+                if (embedding?.Vector != null)
+                {
+                    allResults.Add(new EmbeddingResult
+                    {
+                        Text = validTexts[i],
+                        Embedding = embedding.Vector.ToArray(),
+                        TokenCount = EstimateTokenCount(validTexts[i])
+                    });
+                }
             }
 
             _logger.LogInformation("Generated {Count} embeddings successfully", allResults.Count);
-            return Result<IEnumerable<EmbeddingResult>>.Success(allResults.AsEnumerable());
+            return Result<IEnumerable<EmbeddingResult>>.WithSuccess(allResults.AsEnumerable());
         }
         catch (OperationCanceledException)
         {
@@ -168,45 +178,6 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
         }
     }
 
-    private async Task<Result<List<EmbeddingResult>>> GenerateBatchInternalAsync(
-        List<string> texts,
-        CancellationToken cancellationToken)
-    {
-        // Early cancellation check
-        if (cancellationToken.IsCancellationRequested)
-            return ResultExtensions.Cancelled<List<EmbeddingResult>>();
-
-        try
-        {
-            var embeddings = await _embeddingGenerator.GenerateAsync(texts, cancellationToken: cancellationToken);
-
-            var results = new List<EmbeddingResult>();
-            for (int i = 0; i < texts.Count && i < embeddings.Count; i++)
-            {
-                var text = texts[i];
-                var embedding = embeddings[i];
-                
-                results.Add(new EmbeddingResult
-                {
-                    Text = text,
-                    Embedding = embedding.Vector.ToArray(),
-                    TokenCount = EstimateTokenCount(text)
-                });
-            }
-
-            return Result<List<EmbeddingResult>>.Success(results);
-        }
-        catch (OperationCanceledException)
-        {
-            _logger.LogInformation("Generate batch internal operation was cancelled");
-            return ResultExtensions.Cancelled<List<EmbeddingResult>>();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Failed to generate batch embeddings");
-            return Result<List<EmbeddingResult>>.WithFailure($"Batch generation failed: {ex.Message}");
-        }
-    }
 
     private static int EstimateTokenCount(string text)
     {
@@ -214,4 +185,11 @@ public class OpenAIEmbeddingGenerator : ExxerAI.Application.Interfaces.IEmbeddin
         // This is an approximation - actual tokenization is more complex
         return string.IsNullOrEmpty(text) ? 0 : Math.Max(1, text.Length / 4);
     }
+
+    public void Dispose()
+    {
+        _rateLimitSemaphore?.Dispose();
+        _embeddingGenerator?.Dispose();
+    }
 }
+

@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Logging;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Entities;
 using ExxerAI.Domain.ValueObjects;
@@ -12,15 +13,28 @@ namespace ExxerAI.Application.Services;
 public class WorkflowService : IWorkflowService
 {
 	private readonly IWorkflowRepository _workflowRepository;
+	private readonly IWorkflowExecutionRepository _executionRepository;
+	private readonly IWorkflowExecutionEngine _executionEngine;
+	private readonly ILogger<WorkflowService> _logger;
 
 	/// <summary>
 	/// Initializes a new instance of the WorkflowService
 	/// </summary>
 	/// <param name="workflowRepository">Repository for workflow operations</param>
-	/// <exception cref="ArgumentNullException">Thrown when workflowRepository is null</exception>
-	public WorkflowService(IWorkflowRepository workflowRepository)
+	/// <param name="executionRepository">Repository for workflow execution operations</param>
+	/// <param name="executionEngine">Engine for workflow execution</param>
+	/// <param name="logger">Logger for recording service operations</param>
+	/// <exception cref="ArgumentNullException">Thrown when any parameter is null</exception>
+	public WorkflowService(
+		IWorkflowRepository workflowRepository,
+		IWorkflowExecutionRepository executionRepository,
+		IWorkflowExecutionEngine executionEngine,
+		ILogger<WorkflowService> logger)
 	{
 		_workflowRepository = workflowRepository ?? throw new ArgumentNullException(nameof(workflowRepository));
+		_executionRepository = executionRepository ?? throw new ArgumentNullException(nameof(executionRepository));
+		_executionEngine = executionEngine ?? throw new ArgumentNullException(nameof(executionEngine));
+		_logger = logger ?? throw new ArgumentNullException(nameof(logger));
 	}
 
 	/// <summary>
@@ -218,9 +232,18 @@ public class WorkflowService : IWorkflowService
 
 		try
 		{
-			await Task.CompletedTask.ConfigureAwait(false);
-			// This would typically use an execution repository
-			return Result<WorkflowExecution>.WithFailure("Execution repository not implemented");
+			var result = await _executionRepository.GetExecutionAsync(executionId, cancellationToken).ConfigureAwait(false);
+			if (result.IsSuccess)
+			{
+				_logger.LogDebug("Retrieved workflow execution {ExecutionId} with status {Status}", 
+					executionId, result.Value.Status);
+			}
+			else
+			{
+				_logger.LogWarning("Failed to retrieve workflow execution {ExecutionId}: {Error}", 
+					executionId, string.Join(", ", result.Errors));
+			}
+			return result;
 		}
 		catch (OperationCanceledException)
 		{
@@ -276,8 +299,33 @@ public class WorkflowService : IWorkflowService
 
 		try
 		{
-			await Task.CompletedTask.ConfigureAwait(false);
-			return Result<bool>.WithFailure("Execution management not implemented");
+			var executionResult = await _executionRepository.GetExecutionAsync(executionId, cancellationToken).ConfigureAwait(false);
+			if (!executionResult.IsSuccess)
+			{
+				_logger.LogWarning("Cannot pause execution {ExecutionId}: execution not found", executionId);
+				return Result<bool>.WithFailure($"Execution not found: {string.Join(", ", executionResult.Errors)}");
+			}
+
+			var execution = executionResult.Value;
+			if (execution.Status != WorkflowExecutionStatus.Running)
+			{
+				_logger.LogWarning("Cannot pause execution {ExecutionId} in {Status} status", executionId, execution.Status);
+				return Result<bool>.WithFailure($"Cannot pause execution in {execution.Status} status");
+			}
+
+			execution.Status = WorkflowExecutionStatus.Paused;
+			execution.LastModified = DateTime.UtcNow;
+
+			var updateResult = await _executionRepository.UpdateExecutionAsync(execution, cancellationToken).ConfigureAwait(false);
+			if (!updateResult.IsSuccess)
+			{
+				_logger.LogError("Failed to update execution {ExecutionId} status to paused: {Error}", 
+					executionId, string.Join(", ", updateResult.Errors));
+				return Result<bool>.WithFailure($"Failed to update execution: {string.Join(", ", updateResult.Errors)}");
+			}
+
+			_logger.LogInformation("Execution {ExecutionId} paused successfully", executionId);
+			return Result<bool>.WithSuccess(true);
 		}
 		catch (OperationCanceledException)
 		{
@@ -303,8 +351,30 @@ public class WorkflowService : IWorkflowService
 
 		try
 		{
-			await Task.CompletedTask.ConfigureAwait(false);
-			return Result<bool>.WithFailure("Execution management not implemented");
+			var executionResult = await _executionRepository.GetExecutionAsync(executionId, cancellationToken).ConfigureAwait(false);
+			if (!executionResult.IsSuccess)
+			{
+				_logger.LogWarning("Cannot resume execution {ExecutionId}: execution not found", executionId);
+				return Result<bool>.WithFailure($"Execution not found: {string.Join(", ", executionResult.Errors)}");
+			}
+
+			var execution = executionResult.Value;
+			if (execution.Status != WorkflowExecutionStatus.Paused)
+			{
+				_logger.LogWarning("Cannot resume execution {ExecutionId} in {Status} status", executionId, execution.Status);
+				return Result<bool>.WithFailure($"Cannot resume execution in {execution.Status} status");
+			}
+
+			// Use the execution engine to resume the workflow
+			var resumeResult = await _executionEngine.ResumeExecutionAsync(executionId, cancellationToken).ConfigureAwait(false);
+			if (!resumeResult.IsSuccess)
+			{
+				_logger.LogError("Failed to resume execution {ExecutionId}: {Error}", executionId, string.Join(", ", resumeResult.Errors));
+				return Result<bool>.WithFailure($"Failed to resume execution: {string.Join(", ", resumeResult.Errors)}");
+			}
+
+			_logger.LogInformation("Execution {ExecutionId} resumed successfully", executionId);
+			return Result<bool>.WithSuccess(true);
 		}
 		catch (OperationCanceledException)
 		{
@@ -312,6 +382,7 @@ public class WorkflowService : IWorkflowService
 		}
 		catch (Exception ex)
 		{
+			_logger.LogError(ex, "Error resuming execution {ExecutionId}", executionId);
 			return Result<bool>.WithFailure($"Error resuming execution: {ex.Message}");
 		}
 	}
@@ -330,8 +401,36 @@ public class WorkflowService : IWorkflowService
 
 		try
 		{
-			await Task.CompletedTask.ConfigureAwait(false);
-			return Result<bool>.WithFailure("Execution management not implemented");
+			var executionResult = await _executionRepository.GetExecutionAsync(executionId, cancellationToken).ConfigureAwait(false);
+			if (!executionResult.IsSuccess)
+			{
+				_logger.LogWarning("Cannot cancel execution {ExecutionId}: execution not found", executionId);
+				return Result<bool>.WithFailure($"Execution not found: {string.Join(", ", executionResult.Errors)}");
+			}
+
+			var execution = executionResult.Value;
+			if (execution.Status == WorkflowExecutionStatus.Completed || 
+			    execution.Status == WorkflowExecutionStatus.Failed || 
+			    execution.Status == WorkflowExecutionStatus.Cancelled)
+			{
+				_logger.LogWarning("Cannot cancel execution {ExecutionId} in {Status} status", executionId, execution.Status);
+				return Result<bool>.WithFailure($"Cannot cancel execution in {execution.Status} status");
+			}
+
+			execution.Status = WorkflowExecutionStatus.Cancelled;
+			execution.LastModified = DateTime.UtcNow;
+			execution.CompletedAt = DateTime.UtcNow;
+
+			var updateResult = await _executionRepository.UpdateExecutionAsync(execution, cancellationToken).ConfigureAwait(false);
+			if (!updateResult.IsSuccess)
+			{
+				_logger.LogError("Failed to update execution {ExecutionId} status to cancelled: {Error}", 
+					executionId, string.Join(", ", updateResult.Errors));
+				return Result<bool>.WithFailure($"Failed to update execution: {string.Join(", ", updateResult.Errors)}");
+			}
+
+			_logger.LogInformation("Execution {ExecutionId} cancelled successfully", executionId);
+			return Result<bool>.WithSuccess(true);
 		}
 		catch (OperationCanceledException)
 		{
@@ -339,6 +438,7 @@ public class WorkflowService : IWorkflowService
 		}
 		catch (Exception ex)
 		{
+			_logger.LogError(ex, "Error cancelling execution {ExecutionId}", executionId);
 			return Result<bool>.WithFailure($"Error cancelling execution: {ex.Message}");
 		}
 	}

@@ -3,7 +3,6 @@ using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client.Platforms.Features.DesktopOs.Kerberos;
-using Org.BouncyCastle.Tsp;
 
 namespace ExxerAI.IntegrationTests;
 

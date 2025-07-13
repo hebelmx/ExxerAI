@@ -69,6 +69,7 @@
     <PackageReference Include="Qdrant.Client" />
     <PackageReference Include="Microsoft.Extensions.AI" />
     <PackageReference Include="Microsoft.Extensions.AI.Abstractions" />
+    <PackageReference Include="OpenAI" />
   </ItemGroup>
 
   <!-- ============================================================================ -->

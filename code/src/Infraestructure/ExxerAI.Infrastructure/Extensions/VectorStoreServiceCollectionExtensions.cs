@@ -6,6 +6,7 @@ using ExxerAI.Infrastructure.GraphStore;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenAI;
 using Qdrant.Client;
 using Neo4jClient;
 
@@ -64,17 +65,20 @@ public static class VectorStoreServiceCollectionExtensions
         string modelName = "text-embedding-3-small",
         string? organizationId = null)
     {
-        // Register the Microsoft.Extensions.AI embedding generator
-        services.AddScoped<IEmbeddingGenerator<string, Embedding<float>>>(provider =>
+        // Register the Microsoft.Extensions.AI OpenAI embedding generator
+        services.AddSingleton<IEmbeddingGenerator<string, Embedding<float>>>(provider =>
         {
             var logger = provider.GetRequiredService<ILogger<IEmbeddingGenerator<string, Embedding<float>>>>();
             
-            // Note: This is a placeholder - actual implementation would use the OpenAI provider
-            // from Microsoft.Extensions.AI when available
+            // Create OpenAI client
+            var openAIClient = new OpenAIClient(apiKey);
+            
+            // Create Microsoft.Extensions.AI embedding generator
+            var embeddingGenerator = openAIClient.AsEmbeddingGenerator(modelName);
+            
             logger.LogInformation("OpenAI embedding generator configured with model: {ModelName}", modelName);
             
-            // TODO: Replace with actual Microsoft.Extensions.AI OpenAI provider
-            throw new NotImplementedException("OpenAI embedding provider integration pending Microsoft.Extensions.AI implementation");
+            return embeddingGenerator;
         });
 
         // Register our wrapper
@@ -83,7 +87,7 @@ public static class VectorStoreServiceCollectionExtensions
             var embeddingGenerator = provider.GetRequiredService<IEmbeddingGenerator<string, Embedding<float>>>();
             var logger = provider.GetRequiredService<ILogger<OpenAIEmbeddingGenerator>>();
             
-            return new OpenAIEmbeddingGenerator(embeddingGenerator, logger, modelName);
+            return new OpenAIEmbeddingGenerator(embeddingGenerator, modelName, logger);
         });
 
         return services;

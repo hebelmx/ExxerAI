@@ -48,7 +48,7 @@ public class StepExecution
     /// <summary>
     /// Gets or sets the step output data
     /// </summary>
-    public Dictionary<string, object> Output { get; init; } = [];
+    public Dictionary<string, object> Output { get; set; } = [];
 
     /// <summary>
     /// Gets or sets error information if step failed

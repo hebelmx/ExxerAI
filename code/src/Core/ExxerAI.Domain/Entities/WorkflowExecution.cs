@@ -26,9 +26,19 @@ public class WorkflowExecution
     public WorkflowExecutionStatus Status { get; set; } = WorkflowExecutionStatus.Starting;
 
     /// <summary>
+    /// Gets or sets when the execution was created
+    /// </summary>
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets when the execution was last modified
+    /// </summary>
+    public DateTime LastModified { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
     /// Gets or sets when the execution started
     /// </summary>
-    public DateTime StartedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? StartedAt { get; set; }
 
     /// <summary>
     /// Gets or sets when the execution completed
