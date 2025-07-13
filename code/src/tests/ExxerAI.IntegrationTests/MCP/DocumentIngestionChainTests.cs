@@ -46,7 +46,7 @@ public class DocumentIngestionChainTests : IAsyncLifetime
         services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         // Register all MCP and processing services
-        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
+                    services.AddScoped<IGoogleDriveCredentialResolver, ModernGoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
         services.AddScoped<IPolymorphicDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
         services.AddScoped<IDocumentIngestionService, ExxerAI.Application.Services.DocumentIngestionService>();

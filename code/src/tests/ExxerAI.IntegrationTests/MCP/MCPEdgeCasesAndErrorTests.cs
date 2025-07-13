@@ -43,7 +43,7 @@ public class MCPEdgeCasesAndErrorTests : IAsyncLifetime
         services.AddSingleton(_configuration);
         services.AddLogging(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Warning)); // Reduced logging for error tests
 
-        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
+                    services.AddScoped<IGoogleDriveCredentialResolver, ModernGoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
         services.AddScoped<IPolymorphicDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
         services.AddScoped<IDocumentIngestionService, ExxerAI.Application.Services.DocumentIngestionService>();

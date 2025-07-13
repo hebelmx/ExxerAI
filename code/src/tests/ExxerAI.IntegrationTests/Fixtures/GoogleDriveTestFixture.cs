@@ -64,7 +64,7 @@ public class GoogleDriveTestFixture : IAsyncLifetime
             builder.AddConsole().SetMinimumLevel(LogLevel.Information));
 
         // Register MCP services
-        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
+                    services.AddScoped<IGoogleDriveCredentialResolver, ModernGoogleDriveCredentialResolver>();
         services.AddScoped<IGoogleDriveService, GoogleDriveService>();
         services.AddScoped<IPolymorphicDocumentProcessor, ExxerAI.Infrastructure.DocumentProcessing.PolymorphicDocumentProcessor>();
         services.AddScoped<IDocumentIngestionService, ExxerAI.Application.Services.DocumentIngestionService>();

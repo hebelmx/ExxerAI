@@ -157,5 +157,16 @@ public class DriveIntegrationTests
 }
 ```
 
+> 🔒 **Important**: Add any service account or federated credential files to your `.gitignore`:
+
+```gitignore
+# Credential-related files
+*.json
+!appsettings*.json
+**/wif-cred.json
+**/service-account.json
+**/credentials/**
+```
+
 Follow these practices for secure, compliant, and automatable integration with Google APIs in .NET projects.
 
