@@ -37,6 +37,7 @@ appsettings.Local.json
 **/google-credentials.json
 **/GDrive.Api.json
 **/exxerai.gdrive.json
+**/google_drive_integration_setup.md
 
 ## IDE
 .vscode/
