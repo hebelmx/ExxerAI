@@ -84,6 +84,17 @@
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
+	<!-- STATIC WEB ASSETS EXCLUSIONS - Fix cross-platform path issues -->
+	<!-- ============================================================================ -->
+	<PropertyGroup>
+		<!-- Disable static web assets processing to prevent cross-platform path issues -->
+		<StaticWebAssetsEnabled>false</StaticWebAssetsEnabled>
+		<GenerateStaticWebAssetsManifest>false</GenerateStaticWebAssetsManifest>
+	</PropertyGroup>
+
+	<!-- Note: Static web assets are disabled via StaticWebAssetsEnabled=false above -->
+
+	<!-- ============================================================================ -->
 	<!-- GLOBAL USINGS -->
 	<!-- ============================================================================ -->
 	<ItemGroup Label="Global Usings">
