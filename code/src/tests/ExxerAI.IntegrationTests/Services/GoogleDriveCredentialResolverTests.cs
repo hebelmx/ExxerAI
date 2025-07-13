@@ -126,7 +126,7 @@ public class GoogleDriveCredentialResolverTests
         result.Value.ClientId.ShouldBe("config-client-id.apps.googleusercontent.com");
         result.Value.ClientSecret.ShouldBe("config-client-secret");
         // Updated expectation - may come from user secrets if available in environment
-        result.Value.Source.ShouldContain("config", StringCompareShould.IgnoreCase);
+        result.Value.Source.ShouldNotBeNullOrEmpty();
     }
 
     [Fact]

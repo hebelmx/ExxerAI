@@ -19,9 +19,6 @@
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
 
-		<!-- Cross-platform build fix: Disable static web assets that cause path issues in WSL -->
-		<EnableDefaultStaticWebAssets>false</EnableDefaultStaticWebAssets>
-		<IncludePackageStaticWebAssets>false</IncludePackageStaticWebAssets>
 
 		<!-- Application Information -->
 		<AssemblyTitle>ExxerAI Integration Tests</AssemblyTitle>
@@ -78,16 +75,6 @@
 	</ItemGroup>
 
 
-	<!-- ============================================================================ -->
-	<!-- PACKAGE EXCLUSIONS - Cross-platform compatibility -->
-	<!-- ============================================================================ -->
-	<ItemGroup>
-		<!-- Exclude UI packages that cause static web asset path issues in WSL/Linux -->
-		<PackageReference Include="Extensions.MudBlazor.StaticInput" ExcludeAssets="all" />
-		<PackageReference Include="MudBlazor" ExcludeAssets="all"  />
-		<!-- Exclude emptyfiles package that causes WSL path issues -->
-		<PackageReference Include="EmptyFiles" ExcludeAssets="all" />
-	</ItemGroup>
 
 	<!-- ============================================================================ -->
 	<!-- GLOBAL USINGS -->
