@@ -1,5 +1,6 @@
-using ExxerAI.IntegrationTests.Fixtures;
+using ExxerAI.IntegrationTests.Fixtures.ContainerFixtures;
 using Shouldly;
+using Xunit;
 
 namespace ExxerAI.IntegrationTests;
 
@@ -7,44 +8,50 @@ namespace ExxerAI.IntegrationTests;
 /// Verification tests to ensure Docker containers are working correctly.
 /// These tests verify the container fixtures themselves.
 /// </summary>
-public class ContainerVerificationTests : IClassFixture<QdrantContainerFixture>, IAsyncLifetime
+[Collection(ContainerCollection.Name)]
+public class ContainerVerificationTests : IAsyncLifetime
 {
-    private readonly QdrantContainerFixture _qdrantFixture;
+    private readonly ContainerCollectionFixture _containerFixture;
 
-    public ContainerVerificationTests(QdrantContainerFixture qdrantFixture)
+    public ContainerVerificationTests(ContainerCollectionFixture containerFixture)
     {
-        _qdrantFixture = qdrantFixture ?? throw new ArgumentNullException(nameof(qdrantFixture));
+        _containerFixture = containerFixture ?? throw new ArgumentNullException(nameof(containerFixture));
     }
 
     public async ValueTask InitializeAsync()
     {
-        // Container fixture handles startup
+        // Container collection fixture handles container startup
         await Task.CompletedTask;
     }
 
     public async ValueTask DisposeAsync()
     {
-        // Container fixture handles cleanup
+        // Container collection fixture handles cleanup
         await Task.CompletedTask;
     }
 
     [Fact]
     public void QdrantContainer_WhenStarted_ShouldBeAvailable()
     {
-        // Arrange & Act
-        _qdrantFixture.EnsureAvailable();
+        // Arrange & Act - Use collection fixture to check container availability
+        _containerFixture.RequireContainers();
 
         // Assert
-        _qdrantFixture.IsAvailable.ShouldBeTrue();
-        _qdrantFixture.QdrantUrl.ShouldNotBeNullOrEmpty();
-        _qdrantFixture.QdrantPort.ShouldBeGreaterThan(0);
+        _containerFixture.AreContainersAvailable.ShouldBeTrue();
+        _containerFixture.QdrantFixture.ShouldNotBeNull();
+        _containerFixture.QdrantFixture!.IsAvailable.ShouldBeTrue();
+        _containerFixture.QdrantFixture.QdrantUrl.ShouldNotBeNullOrEmpty();
+        _containerFixture.QdrantFixture.QdrantPort.ShouldBeGreaterThan(0);
     }
 
     [Fact]
     public void QdrantContainer_WhenGetConnectionConfig_ShouldReturnValidConfig()
     {
+        // Arrange
+        _containerFixture.RequireContainers();
+        
         // Act
-        var config = _qdrantFixture.GetConnectionConfig();
+        var config = _containerFixture.QdrantFixture!.GetConnectionConfig();
 
         // Assert
         config.ShouldNotBeNull();
@@ -58,11 +65,11 @@ public class ContainerVerificationTests : IClassFixture<QdrantContainerFixture>,
     public async Task QdrantContainer_WhenHealthCheck_ShouldRespond()
     {
         // Arrange
-        _qdrantFixture.EnsureAvailable();
+        _containerFixture.RequireContainers();
         using var httpClient = new HttpClient();
 
         // Act
-        var response = await httpClient.GetAsync(_qdrantFixture.QdrantUrl);
+        var response = await httpClient.GetAsync(_containerFixture.QdrantFixture!.QdrantUrl);
 
         // Assert
         response.IsSuccessStatusCode.ShouldBeTrue();
@@ -97,7 +104,10 @@ public class KnowledgeStoreContainerVerificationTests : IClassFixture<KnowledgeS
     public void KnowledgeStoreContainers_WhenStarted_ShouldBeFullyAvailable()
     {
         // Arrange & Act
-        _containerFixture.EnsureFullyAvailable();
+        if (!_containerFixture.IsFullyAvailable)
+        {
+            throw new SkipException("Knowledge store containers (Qdrant & Neo4j) are not available. Please start containers: .\\start-containers.ps1");
+        }
 
         // Assert
         _containerFixture.IsFullyAvailable.ShouldBeTrue();

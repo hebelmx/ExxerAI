@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Neo4jClient;
 using ExxerAI.Infrastructure.Services;
 
-namespace ExxerAI.IntegrationTests.Fixtures;
+namespace ExxerAI.IntegrationTests.Fixtures.ContainerFixtures;
 
 /// <summary>
 /// Test fixture for Neo4j graph database - connects to persistent container.

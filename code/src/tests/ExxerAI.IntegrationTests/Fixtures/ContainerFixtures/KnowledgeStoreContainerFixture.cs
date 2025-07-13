@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ExxerAI.Infrastructure.Services;
 
-namespace ExxerAI.IntegrationTests.Fixtures;
+namespace ExxerAI.IntegrationTests.Fixtures.ContainerFixtures;
 
 /// <summary>
 /// Combined container fixture for complete knowledge store testing.

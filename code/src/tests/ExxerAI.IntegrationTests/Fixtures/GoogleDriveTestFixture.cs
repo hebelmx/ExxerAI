@@ -141,10 +141,3 @@ public class GoogleDriveTestFixture : IAsyncLifetime
     }
 }
 
-/// <summary>
-/// Exception thrown when tests should be skipped due to missing configuration
-/// </summary>
-public class SkipException : Exception
-{
-    public SkipException(string message) : base(message) { }
-}

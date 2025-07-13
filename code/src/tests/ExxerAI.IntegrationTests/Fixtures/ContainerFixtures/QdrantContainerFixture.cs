@@ -2,7 +2,7 @@ using Microsoft.Extensions.Logging;
 using Qdrant.Client;
 using ExxerAI.Infrastructure.Services;
 
-namespace ExxerAI.IntegrationTests.Fixtures;
+namespace ExxerAI.IntegrationTests.Fixtures.ContainerFixtures;
 
 /// <summary>
 /// Test fixture for Qdrant vector database - connects to persistent container.
