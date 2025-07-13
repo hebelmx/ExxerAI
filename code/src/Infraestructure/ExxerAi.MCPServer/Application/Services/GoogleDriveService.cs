@@ -5,10 +5,10 @@ using Google.Apis.Services;
 using ExxerAI.Domain;
 using ExxerAI.Domain.DocumentProcessing;
 using ExxerAI.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Interfaces;
 using ExxerAI.Domain.Operations;
 
-namespace ExxerAi.MCPServer.Application.Services;
+namespace ExxerAI.MCPServer.Application.Services;
 
 /// <summary>
 /// Google Drive service implementation providing real API integration
@@ -65,7 +65,7 @@ public class GoogleDriveService : IGoogleDriveService
             if (credentialsResult.IsFailure)
             {
                 _logger.LogWarning("⚠️ Failed to resolve credentials: {Error}", credentialsResult.Error);
-                return credentialsResult.ToResult<bool>();
+                return credentialsResult.IsSuccess;
             }
 
             var credentials = credentialsResult.Value;
@@ -121,7 +121,7 @@ public class GoogleDriveService : IGoogleDriveService
         {
             "Microsoft.TestPlatform",
             "xunit",
-            "nunit", 
+            "nunit",
             "mstest",
             "testhost",
             "dotnet-test",
@@ -133,8 +133,8 @@ public class GoogleDriveService : IGoogleDriveService
         var assemblyLocation = System.Reflection.Assembly.GetExecutingAssembly().Location.ToLowerInvariant();
 
         // Check process name and assembly location for test indicators
-        return testIndicators.Any(indicator => 
-            processName.Contains(indicator.ToLowerInvariant()) || 
+        return testIndicators.Any(indicator =>
+            processName.Contains(indicator.ToLowerInvariant()) ||
             assemblyLocation.Contains(indicator.ToLowerInvariant()) ||
             assemblyLocation.Contains("test"));
     }
@@ -481,7 +481,7 @@ public class GoogleDriveService : IGoogleDriveService
             }
 
             session.IsActive = false;
-            
+
             // Wait for monitoring task to complete gracefully
             if (session.MonitoringTask != null && !session.MonitoringTask.IsCompleted)
             {
@@ -494,7 +494,7 @@ public class GoogleDriveService : IGoogleDriveService
                     _logger.LogWarning(ex, "Error while stopping monitoring task for watch {WatchId}", watchId);
                 }
             }
-            
+
             // Wait for all processing tasks to complete
             if (session.ProcessingTasks.Count > 0)
             {
@@ -507,7 +507,7 @@ public class GoogleDriveService : IGoogleDriveService
                     _logger.LogWarning(ex, "Error while stopping processing tasks for watch {WatchId}", watchId);
                 }
             }
-            
+
             var duration = DateTime.UtcNow - session.StartTime;
 
             var result = $"✅ Successfully stopped watching session {watchId}\n" +

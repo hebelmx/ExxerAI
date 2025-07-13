@@ -1,9 +1,9 @@
 using System.ComponentModel;
-using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Interfaces;
 using ExxerAI.Domain.Operations;
 using ModelContextProtocol.Server;
 
-namespace ExxerAi.MCPServer.Application.Tools;
+namespace ExxerAI.MCPServer.Application.Tools;
 
 /// <summary>
 /// MCP tools for Google Drive integration implementing advanced document intelligence pipeline

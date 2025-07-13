@@ -69,7 +69,7 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "exxerai_google_drive": {
       "command": "dotnet",
-      "args": ["run", "--project", "path/to/ExxerAi.MCPServer"],
+      "args": ["run", "--project", "path/to/ExxerAI.MCPServer"],
       "env": {
         "GOOGLE_OAUTH_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_OAUTH_CLIENT_SECRET": "your-client-secret"

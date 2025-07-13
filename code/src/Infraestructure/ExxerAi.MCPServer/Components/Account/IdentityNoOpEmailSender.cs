@@ -1,8 +1,8 @@
-using ExxerAi.MCPServer.Data;
+using ExxerAI.MCPServer.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
-namespace ExxerAi.MCPServer.Components.Account
+namespace ExxerAI.MCPServer.Components.Account
 {
     // Remove the "else if (EmailSender is IdentityNoOpEmailSender)" block from RegisterConfirmation.razor after updating with a real implementation.
     internal sealed class IdentityNoOpEmailSender : IEmailSender<ApplicationUser>

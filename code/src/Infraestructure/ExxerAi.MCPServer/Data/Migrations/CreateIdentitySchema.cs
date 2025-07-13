@@ -2,7 +2,7 @@
 
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace ExxerAi.MCPServer.Data.Migrations
+namespace ExxerAI.MCPServer.Data.Migrations
 {
     /// <inheritdoc />
     public partial class CreateIdentitySchema : Migration

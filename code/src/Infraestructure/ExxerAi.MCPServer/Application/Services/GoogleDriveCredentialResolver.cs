@@ -3,9 +3,9 @@ using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
-using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Interfaces;
 
-namespace ExxerAi.MCPServer.Application.Services;
+namespace ExxerAI.MCPServer.Application.Services;
 
 /// <summary>
 /// Credential resolver for Google Drive API supporting multiple credential sources and formats

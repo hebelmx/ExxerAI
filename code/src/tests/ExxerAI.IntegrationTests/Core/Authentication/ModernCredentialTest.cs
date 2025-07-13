@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Services;
 using Shouldly;
 
 namespace ExxerAI.IntegrationTests;
@@ -25,7 +25,7 @@ public class ModernCredentialTest
         // Assert & Debug Info
         logger.LogInformation("🔍 MODERN CREDENTIAL TEST RESULTS:");
         logger.LogInformation($"   Resolution Success: {result.IsSuccess}");
-        
+
         if (result.IsSuccess)
         {
             var creds = result.Value;
@@ -33,12 +33,12 @@ public class ModernCredentialTest
             logger.LogInformation($"   ✅ Source: {creds.Source}");
             logger.LogInformation($"   ✅ Is Scoped: {creds.IsScoped}");
             logger.LogInformation($"   ✅ Has GoogleCredential: {creds.GoogleCredential != null}");
-            
+
             // Verify modern ADC approach
             creds.Type.ShouldBe(CredentialType.ApplicationDefault);
             creds.Source.ShouldContain("Application Default Credentials");
             creds.GoogleCredential.ShouldNotBeNull();
-            
+
             logger.LogInformation("=== Test completed successfully ===");
         }
         else
@@ -48,21 +48,21 @@ public class ModernCredentialTest
             {
                 logger.LogInformation($"     - {error}");
             }
-            
+
             // Check for OAuth configuration issues that should skip the test
-            var shouldSkip = result.Errors.Any(e => 
-                e.Contains("not configured") || 
+            var shouldSkip = result.Errors.Any(e =>
+                e.Contains("not configured") ||
                 e.Contains("Could not load") ||
                 e.Contains("flowName=GeneralOAuthFlow") ||
                 e.Contains("ADC") ||
                 e.Contains("Application Default Credentials"));
-                
+
             if (shouldSkip)
             {
                 logger.LogInformation("   💡 Skipping test - ADC/OAuth not configured in this environment");
                 throw new SkipException("Application Default Credentials not configured. This is expected in environments without Google Cloud CLI setup.");
             }
-            
+
             // If it's a different error, fail the test
             result.IsSuccess.ShouldBeTrue("Unexpected credential resolution failure");
         }
@@ -84,7 +84,7 @@ public class ModernCredentialTest
         // Assert
         logger.LogInformation("🔍 DRIVE SERVICE CREATION RESULTS:");
         logger.LogInformation($"   Service Creation Success: {serviceResult.IsSuccess}");
-        
+
         if (serviceResult.IsSuccess)
         {
             logger.LogInformation("   ✅ Google Drive service created successfully!");
@@ -98,15 +98,15 @@ public class ModernCredentialTest
             {
                 logger.LogInformation($"     - {error}");
             }
-            
+
             // Check for OAuth/ADC configuration issues that should skip the test
-            var shouldSkip = serviceResult.Errors.Any(e => 
-                e.Contains("not configured") || 
+            var shouldSkip = serviceResult.Errors.Any(e =>
+                e.Contains("not configured") ||
                 e.Contains("Could not load") ||
                 e.Contains("flowName=GeneralOAuthFlow") ||
                 e.Contains("ADC") ||
                 e.Contains("Application Default Credentials"));
-                
+
             if (shouldSkip)
             {
                 logger.LogInformation("   💡 Skipping test - ADC/OAuth not configured");
@@ -131,7 +131,7 @@ public class ModernCredentialTest
         // Assert
         logger.LogInformation("🧪 CREDENTIAL TEST RESULTS:");
         logger.LogInformation($"   Test Success: {testResult.IsSuccess}");
-        
+
         if (testResult.IsSuccess)
         {
             logger.LogInformation("   ✅ Credential is working and can access Google Drive API!");
@@ -145,10 +145,10 @@ public class ModernCredentialTest
             {
                 logger.LogInformation($"     - {error}");
             }
-            
+
             // Check for OAuth/ADC configuration issues or obsolete flow errors that should skip the test
-            var shouldSkip = testResult.Errors.Any(e => 
-                e.Contains("not configured") || 
+            var shouldSkip = testResult.Errors.Any(e =>
+                e.Contains("not configured") ||
                 e.Contains("Could not load") ||
                 e.Contains("flowName=GeneralOAuthFlow") ||
                 e.Contains("GeneralOAuthFlow") ||
@@ -157,15 +157,15 @@ public class ModernCredentialTest
                 e.Contains("OAuth") ||
                 e.Contains("auth") ||
                 e.Contains("credential"));
-                
+
             if (shouldSkip)
             {
                 logger.LogInformation("   💡 Skipping test - OAuth/ADC credentials not configured or using obsolete flow");
                 throw new SkipException("OAuth credentials not configured or using obsolete GeneralOAuthFlow. This is expected in test environments without proper Google authentication setup.");
             }
-            
-            // If it's a different error, fail the test  
+
+            // If it's a different error, fail the test
             testResult.IsSuccess.ShouldBeTrue("Credential test should succeed with properly configured ADC");
         }
     }
-} 
+}

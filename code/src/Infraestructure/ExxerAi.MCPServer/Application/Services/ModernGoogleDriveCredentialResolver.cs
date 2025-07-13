@@ -3,9 +3,9 @@ using Google.Apis.Drive.v3;
 using Microsoft.Extensions.Logging;
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
-using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Interfaces;
 
-namespace ExxerAi.MCPServer.Application.Services;
+namespace ExxerAI.MCPServer.Application.Services;
 
 /// <summary>
 /// Modern Google Drive credential resolver using Application Default Credentials (ADC)
@@ -27,12 +27,13 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
     public async Task<Result<GoogleDriveCredentials>> ResolveCredentialsAsync(CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("🔍 Resolving Google Drive credentials using modern ADC approach...");
-
+        if (cancellationToken.IsCancellationRequested)
+            return Result<GoogleDriveCredentials>.WithFailure("Task Canceled");
         try
         {
             // Try Application Default Credentials (recommended approach)
             var credential = await GoogleCredential.GetApplicationDefaultAsync(cancellationToken);
-            
+
             if (credential != null)
             {
                 // Ensure the credential has the required scopes
@@ -44,7 +45,7 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
 
                 // Determine the credential source for logging
                 var credentialSource = DetermineCredentialSource(credential);
-                
+
                 _logger.LogInformation("✅ Successfully resolved credentials from: {Source}", credentialSource);
 
                 // Create our standard credential response
@@ -83,7 +84,7 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
     {
         // Check the credential type to determine source
         var credentialType = credential.GetType().Name;
-        
+
         return credentialType switch
         {
             "UserCredential" => "Application Default Credentials (gcloud auth)",
@@ -97,17 +98,19 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
     /// <summary>
     /// Creates a properly configured DriveService instance
     /// </summary>
-    public async Task<DriveService> CreateDriveServiceAsync(CancellationToken cancellationToken = default)
+    public async Task<Result<DriveService>> CreateDriveServiceAsync(CancellationToken cancellationToken = default)
     {
+        if (cancellationToken.IsCancellationRequested)
+            return Result<DriveService>.WithFailure("Task Canceled");
         var credentialResult = await ResolveCredentialsAsync(cancellationToken);
-        
+
         if (!credentialResult.IsSuccess)
         {
             throw new InvalidOperationException($"Failed to resolve credentials: {string.Join(", ", credentialResult.Errors)}");
         }
 
         var credential = credentialResult.Value.GoogleCredential;
-        
+
         var service = new DriveService(new Google.Apis.Services.BaseClientService.Initializer
         {
             HttpClientInitializer = credential,
@@ -125,14 +128,15 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
     {
         try
         {
-            using var service = await CreateDriveServiceAsync(cancellationToken);
-            
+            var serviceResult = await CreateDriveServiceAsync(cancellationToken);
+            var service = serviceResult.Value;
+
             // Make a simple API call to test the credential
             var about = await service.About.Get().ExecuteAsync(cancellationToken);
-            
-            _logger.LogInformation("✅ Credential test successful - authenticated as: {Email}", 
+
+            _logger.LogInformation("✅ Credential test successful - authenticated as: {Email}",
                 about.User?.EmailAddress ?? "Unknown");
-            
+
             return Result<bool>.WithSuccess(true);
         }
         catch (Exception ex)
@@ -142,5 +146,3 @@ public class ModernGoogleDriveCredentialResolver : IGoogleDriveCredentialResolve
         }
     }
 }
-
- 

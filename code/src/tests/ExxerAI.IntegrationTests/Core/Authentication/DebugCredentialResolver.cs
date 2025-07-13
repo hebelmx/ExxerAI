@@ -1,5 +1,5 @@
-using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Services;
 using Meziantou.Extensions.Logging.Xunit.v3;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

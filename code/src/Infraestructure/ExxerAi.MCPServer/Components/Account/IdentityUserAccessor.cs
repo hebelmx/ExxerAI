@@ -1,7 +1,7 @@
-using ExxerAi.MCPServer.Data;
+using ExxerAI.MCPServer.Data;
 using Microsoft.AspNetCore.Identity;
 
-namespace ExxerAi.MCPServer.Components.Account
+namespace ExxerAI.MCPServer.Components.Account
 {
     internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager)
     {

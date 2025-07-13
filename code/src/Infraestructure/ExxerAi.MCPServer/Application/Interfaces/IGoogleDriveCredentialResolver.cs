@@ -1,7 +1,7 @@
 using ExxerAI.Domain.Operations;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Services;
 
-namespace ExxerAi.MCPServer.Application.Interfaces;
+namespace ExxerAI.MCPServer.Application.Interfaces;
 
 /// <summary>
 /// Interface for resolving Google Drive credentials from multiple sources

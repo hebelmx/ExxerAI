@@ -85,7 +85,7 @@
 	<ItemGroup>
 		<!-- Exclude UI packages that cause static web asset path issues in WSL/Linux -->
 		<PackageReference Include="Extensions.MudBlazor.StaticInput" ExcludeAssets="all" />
-		<PackageReference Include="MudBlazor" ExcludeAssets="all"  />
+		<PackageReference Include="MudBlazor" ExcludeAssets="all" />
 		<!-- Exclude emptyfiles package that causes WSL path issues -->
 		<PackageReference Include="EmptyFiles" ExcludeAssets="all" />
 	</ItemGroup>
@@ -104,6 +104,6 @@
 		<ProjectReference Include="..\..\Core\ExxerAI.Application\ExxerAI.Application.csproj" />
 		<ProjectReference Include="..\..\Core\ExxerAI.Domain\ExxerAI.Domain.csproj" />
 		<ProjectReference Include="..\..\Infraestructure\ExxerAI.Infrastructure\ExxerAI.Infrastructure.csproj" />
-		<ProjectReference Include="..\..\Infraestructure\ExxerAi.MCPServer\ExxerAi.MCPServer.csproj" />
+		<ProjectReference Include="..\..\Infraestructure\ExxerAI.MCPServer\ExxerAI.MCPServer.csproj" />
 	</ItemGroup>
 </Project>

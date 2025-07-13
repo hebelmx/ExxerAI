@@ -1,9 +1,9 @@
-using ExxerAi.MCPServer.Components;
-using ExxerAi.MCPServer.Components.Account;
-using ExxerAi.MCPServer.Data;
-using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Tools;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Components;
+using ExxerAI.MCPServer.Components.Account;
+using ExxerAI.MCPServer.Data;
+using ExxerAI.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Tools;
+using ExxerAI.MCPServer.Application.Services;
 using ExxerAI.Application.Interfaces;
 // using ExxerAI.Application.Services; // TODO: Add when services are implemented
 using Microsoft.AspNetCore.Components.Authorization;
@@ -13,7 +13,7 @@ using MudBlazor.Services;
 using Serilog;
 using ModelContextProtocol.AspNetCore;
 
-namespace ExxerAi.MCPServer;
+namespace ExxerAI.MCPServer;
 
 /// <summary>
 /// Main program entry point for the ExxerAI MCP Server.

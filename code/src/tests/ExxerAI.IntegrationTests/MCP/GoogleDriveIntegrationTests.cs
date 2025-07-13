@@ -1,5 +1,5 @@
-using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Services;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.Operations;
 using ExxerAI.Domain.DocumentProcessing;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Shouldly;
 using Xunit;
 using NSubstitute;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Services;
 
 namespace ExxerAI.IntegrationTests.MCP;
 

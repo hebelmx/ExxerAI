@@ -1,4 +1,4 @@
-namespace ExxerAi.MCPServer.Application.Services;
+namespace ExxerAI.MCPServer.Application.Services;
 
 /// <summary>
 /// Document change information

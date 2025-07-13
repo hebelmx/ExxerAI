@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
 
-namespace ExxerAi.MCPServer.Components.Account
+namespace ExxerAI.MCPServer.Components.Account
 {
     internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
     {

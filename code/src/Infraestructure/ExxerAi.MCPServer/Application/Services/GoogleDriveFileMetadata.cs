@@ -1,4 +1,4 @@
-namespace ExxerAi.MCPServer.Application.Services;
+namespace ExxerAI.MCPServer.Application.Services;
 
 /// <summary>
 /// Google Drive file metadata

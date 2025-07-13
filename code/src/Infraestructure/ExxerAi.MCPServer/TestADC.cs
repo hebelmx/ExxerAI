@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Services;
 
-namespace ExxerAi.MCPServer;
+namespace ExxerAI.MCPServer;
 
 /// <summary>
 /// Simple console test for ADC credentials

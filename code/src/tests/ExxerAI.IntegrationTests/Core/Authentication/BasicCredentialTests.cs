@@ -1,5 +1,5 @@
-using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Services;
 using ExxerAI.Domain.ValueObjects;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,7 @@ public class BasicCredentialTests
         // Arrange
         var logger = XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>();
         logger.LogInformation("=== Test: GoogleDriveCredentialResolver_ShouldResolveCredentials_WithMockConfiguration ===");
-        
+
         var configuration = Substitute.For<IConfiguration>();
         var configSection = Substitute.For<IConfigurationSection>();
 
@@ -48,7 +48,7 @@ public class BasicCredentialTests
         result.Value.ClientId.ShouldBe("test-client-id");
         result.Value.ClientSecret.ShouldBe("test-client-secret");
         result.Value.Source.ShouldBe("Configuration");
-        
+
         logger.LogInformation("=== Test completed successfully ===");
     }
 
@@ -61,7 +61,7 @@ public class BasicCredentialTests
         // Arrange
         var logger = XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>();
         logger.LogInformation("=== Test: GoogleDriveCredentialResolver_ShouldReturnFailure_WhenCredentialsNotFound ===");
-        
+
         var configuration = Substitute.For<IConfiguration>();
 
         // Mock empty configuration - ensure all possible sources return null
@@ -83,7 +83,7 @@ public class BasicCredentialTests
         result.IsSuccess.ShouldBeFalse();
         result.Errors.ShouldNotBeEmpty();
         result.Errors.ShouldContain(error => error.Contains("No valid Google Drive credentials found"));
-        
+
         logger.LogInformation("=== Test completed successfully ===");
     }
 
@@ -96,14 +96,14 @@ public class BasicCredentialTests
         // Arrange
         var logger = XUnitLogger.CreateLogger();
         logger.LogInformation("=== Test: ServiceCollection_ShouldRegisterCredentialResolver_Successfully ===");
-        
+
         var services = new ServiceCollection();
         var configuration = Substitute.For<IConfiguration>();
 
         // Act
         logger.LogInformation("Registering GoogleDriveCredentialResolver in ServiceCollection");
         services.AddSingleton<IConfiguration>(configuration);
-        services.AddSingleton<ILogger<GoogleDriveCredentialResolver>>(provider => 
+        services.AddSingleton<ILogger<GoogleDriveCredentialResolver>>(provider =>
             XUnitLogger.CreateLogger<GoogleDriveCredentialResolver>());
         services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
 
@@ -114,7 +114,7 @@ public class BasicCredentialTests
         logger.LogInformation("Validating service registration");
         resolver.ShouldNotBeNull();
         resolver.ShouldBeOfType<GoogleDriveCredentialResolver>();
-        
+
         logger.LogInformation("=== Test completed successfully ===");
     }
 }

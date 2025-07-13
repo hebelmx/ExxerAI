@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Logging;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Services;
 
 namespace ExxerAI.IntegrationTests;
 

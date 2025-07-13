@@ -1,11 +1,11 @@
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using ExxerAi.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Interfaces;
 using ExxerAI.Domain.Operations;
 using ModelContextProtocol.Server;
 
-namespace ExxerAi.MCPServer.Application.Tools;
+namespace ExxerAI.MCPServer.Application.Tools;
 
 /// <summary>
 /// MCP tools for system utilities and health monitoring

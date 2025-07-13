@@ -1,8 +1,8 @@
 using ExxerAI.Domain;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Services;
 using ExxerAI.Domain.Operations;
 
-namespace ExxerAi.MCPServer.Application.Interfaces;
+namespace ExxerAI.MCPServer.Application.Interfaces;
 
 /// <summary>
 /// Interface for Google Drive service providing real API integration

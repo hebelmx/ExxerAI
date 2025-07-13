@@ -1,8 +1,8 @@
 using System.Security.Claims;
 using System.Text.Json;
-using ExxerAi.MCPServer.Components.Account.Pages;
-using ExxerAi.MCPServer.Components.Account.Pages.Manage;
-using ExxerAi.MCPServer.Data;
+using ExxerAI.MCPServer.Components.Account.Pages;
+using ExxerAI.MCPServer.Components.Account.Pages.Manage;
+using ExxerAI.MCPServer.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 
-namespace ExxerAi.MCPServer.Components.Account
+namespace ExxerAI.MCPServer.Components.Account
 {
     internal static class IdentityComponentsEndpointRouteBuilderExtensions
     {

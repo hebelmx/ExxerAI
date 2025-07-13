@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace ExxerAi.MCPServer.Data
+namespace ExxerAI.MCPServer.Data
 {
     /// <summary>
     /// Application database context for Identity and MCP server data

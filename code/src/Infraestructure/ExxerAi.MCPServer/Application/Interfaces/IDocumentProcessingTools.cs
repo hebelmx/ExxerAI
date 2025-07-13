@@ -1,7 +1,7 @@
 using ExxerAI.Domain;
 using ExxerAI.Domain.Operations;
 
-namespace ExxerAi.MCPServer.Application.Interfaces;
+namespace ExxerAI.MCPServer.Application.Interfaces;
 
 /// <summary>
 /// Interface for document processing MCP tools providing adaptive document intelligence capabilities

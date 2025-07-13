@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace ExxerAi.MCPServer.Data
+namespace ExxerAI.MCPServer.Data
 {
     /// <summary>
     /// Application user entity extending IdentityUser for MCP server authentication

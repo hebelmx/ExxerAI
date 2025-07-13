@@ -1,4 +1,4 @@
-using ExxerAi.MCPServer.Application.Tools;
+using ExxerAI.MCPServer.Application.Tools;
 
 namespace ExxerAI.IntegrationTests.MCP;
 

@@ -1,5 +1,5 @@
-using ExxerAi.MCPServer.Application.Interfaces;
-using ExxerAi.MCPServer.Application.Services;
+using ExxerAI.MCPServer.Application.Interfaces;
+using ExxerAI.MCPServer.Application.Services;
 using ExxerAI.Application.Interfaces;
 using ExxerAI.Domain.DocumentProcessing;
 using Microsoft.Extensions.Configuration;
