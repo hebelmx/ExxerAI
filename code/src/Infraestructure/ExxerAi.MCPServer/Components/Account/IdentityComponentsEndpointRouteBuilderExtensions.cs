@@ -1,7 +1,5 @@
 using System.Security.Claims;
 using System.Text.Json;
-using ExxerAI.MCPServer.Components.Account.Pages;
-using ExxerAI.MCPServer.Components.Account.Pages.Manage;
 using ExxerAI.MCPServer.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -29,7 +27,7 @@ namespace ExxerAI.MCPServer.Components.Account
             {
                 IEnumerable<KeyValuePair<string, StringValues>> query = [
                     new("ReturnUrl", returnUrl),
-                    new("Action", ExternalLogin.LoginCallbackAction)];
+                    new("Action", "LoginCallback")];
 
                 var redirectUrl = UriHelper.BuildRelative(
                     context.Request.PathBase,
@@ -62,7 +60,7 @@ namespace ExxerAI.MCPServer.Components.Account
                 var redirectUrl = UriHelper.BuildRelative(
                     context.Request.PathBase,
                     "/Account/Manage/ExternalLogins",
-                    QueryString.Create("Action", ExternalLogins.LinkLoginCallbackAction));
+                    QueryString.Create("Action", "LinkLoginCallback"));
 
                 var properties = signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, signInManager.UserManager.GetUserId(context.User));
                 return TypedResults.Challenge(properties, [provider]);
