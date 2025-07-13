@@ -74,7 +74,13 @@
 		<PackageReference Include="Docker.DotNet" />
 	</ItemGroup>
 
-
+	<!-- ============================================================================ -->
+	<!-- PACKAGE EXCLUSIONS - Cross-platform compatibility -->
+	<!-- ============================================================================ -->
+	<ItemGroup>
+		<!-- Exclude emptyfiles package that causes WSL path issues -->
+		<PackageReference Include="EmptyFiles" ExcludeAssets="all" />
+	</ItemGroup>
 
 	<!-- ============================================================================ -->
 	<!-- GLOBAL USINGS -->
