@@ -23,7 +23,7 @@ public class BasicCredentialTests
         // Arrange
         var configuration = Substitute.For<IConfiguration>();
         var configSection = Substitute.For<IConfigurationSection>();
-        var logger = Substitute.For<ILogger<GoogleDriveCredentialResolver>>();
+        var logger = Substitute.For<ILogger<HybridGoogleDriveCredentialResolver>>();
 
         // Mock configuration values
         configSection.Value.Returns("test-client-id");
@@ -31,7 +31,7 @@ public class BasicCredentialTests
         configuration["GoogleDrive:ClientSecret"].Returns("test-client-secret");
         configuration.GetSection("GoogleDrive:ClientId").Returns(configSection);
 
-        var resolver = new GoogleDriveCredentialResolver(configuration, logger);
+        var resolver = new HybridGoogleDriveCredentialResolver(configuration, logger);
 
         // Act
         var result = await resolver.ResolveCredentialsAsync();
@@ -52,7 +52,7 @@ public class BasicCredentialTests
     {
         // Arrange
         var configuration = Substitute.For<IConfiguration>();
-        var logger = Substitute.For<ILogger<GoogleDriveCredentialResolver>>();
+        var logger = Substitute.For<ILogger<HybridGoogleDriveCredentialResolver>>();
 
         // Mock empty configuration - ensure all possible sources return null
         configuration["GoogleDrive:ClientId"].Returns((string?)null);
@@ -60,7 +60,7 @@ public class BasicCredentialTests
         configuration["GoogleDrive:ApiKey"].Returns((string?)null);
         configuration["GoogleDrive:CredentialsPath"].Returns((string?)null);
 
-        var resolver = new GoogleDriveCredentialResolver(configuration, logger);
+        var resolver = new HybridGoogleDriveCredentialResolver(configuration, logger);
 
         // Act
         var result = await resolver.ResolveCredentialsAsync();
@@ -84,7 +84,7 @@ public class BasicCredentialTests
         
         services.AddSingleton(configuration);
         services.AddLogging();
-        services.AddScoped<IGoogleDriveCredentialResolver, GoogleDriveCredentialResolver>();
+        services.AddScoped<IGoogleDriveCredentialResolver, HybridGoogleDriveCredentialResolver>();
 
         // Act
         var serviceProvider = services.BuildServiceProvider();
@@ -92,6 +92,6 @@ public class BasicCredentialTests
 
         // Assert
         resolver.ShouldNotBeNull();
-        resolver.ShouldBeOfType<GoogleDriveCredentialResolver>();
+        resolver.ShouldBeOfType<HybridGoogleDriveCredentialResolver>();
     }
 }

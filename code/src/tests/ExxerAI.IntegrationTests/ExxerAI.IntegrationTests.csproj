@@ -53,10 +53,11 @@
 		</PackageReference>
 
 		<PackageReference Include="xunit.v3.runner.inproc.console" />
-		<PackageReference Include="xunit.v3.runner.msbuild">
+		<!-- Disabled MSBuild runner to fix cross-platform path issues -->
+		<!--<PackageReference Include="xunit.v3.runner.msbuild">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-		</PackageReference>
+		</PackageReference>-->
 	</ItemGroup>
 
 	<!-- ============================================================================ -->
