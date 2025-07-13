@@ -30,15 +30,12 @@ def test_service_account():
     print("\n🔐 Testing Service Account...")
     
     try:
-        # Load the service account info from GDrive.Api.json
-        with open('GDrive.Api.json', 'r') as f:
-            creds_data = json.load(f)
-        
-        # Extract service account info
-        service_info = creds_data.get('GDriveService', {})
+        # Load the service account info from exxerai.gdrive.json
+        with open('exxerai.gdrive.json', 'r') as f:
+            service_info = json.load(f)
         
         if not service_info:
-            print("❌ No GDriveService section found in GDrive.Api.json")
+            print("❌ No service account data found in exxerai.gdrive.json")
             return False
             
         print(f"📧 Service Account: {service_info.get('client_email', 'Not found')}")
@@ -70,7 +67,7 @@ def test_service_account():
         return True
         
     except FileNotFoundError:
-        print("❌ GDrive.Api.json file not found")
+        print("❌ exxerai.gdrive.json file not found")
         return False
     except KeyError as e:
         print(f"❌ Missing required field in service account: {e}")

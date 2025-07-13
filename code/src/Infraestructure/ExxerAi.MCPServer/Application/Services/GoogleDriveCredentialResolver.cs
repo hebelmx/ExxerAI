@@ -79,7 +79,20 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
     /// </summary>
     private Result<GoogleDriveCredentials> TryGetEnvironmentCredentials()
     {
-        // Try API Key first (simpler)
+        // Try Service Account JSON first (most comprehensive)
+        var serviceAccountJson = Environment.GetEnvironmentVariable("GOOGLE_SERVICE_ACCOUNT_JSON");
+        if (!string.IsNullOrEmpty(serviceAccountJson))
+        {
+            var serviceAccountResult = TryParseServiceAccountCredentials(serviceAccountJson);
+            if (serviceAccountResult.IsSuccess)
+            {
+                var creds = serviceAccountResult.Value;
+                creds.Source = "Environment Variables";
+                return Result<GoogleDriveCredentials>.WithSuccess(creds);
+            }
+        }
+
+        // Try API Key (simpler)
         var apiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY");
         if (!string.IsNullOrEmpty(apiKey))
         {
@@ -374,10 +387,34 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
 
             if (root.TryGetProperty("type", out var type) && type.GetString() == "service_account")
             {
-                // For service accounts, we need different handling
-                // This is a different authentication flow
-                _logger.LogInformation("🔍 Service Account credentials detected - requires different authentication flow");
-                return Result<GoogleDriveCredentials>.WithFailure("Service Account credentials require different authentication flow");
+                // Extract service account details
+                var clientEmail = root.TryGetProperty("client_email", out var emailElement) ? emailElement.GetString() : null;
+                var projectId = root.TryGetProperty("project_id", out var projectElement) ? projectElement.GetString() : null;
+                var clientId = root.TryGetProperty("client_id", out var clientIdElement) ? clientIdElement.GetString() : null;
+                var privateKeyId = root.TryGetProperty("private_key_id", out var keyIdElement) ? keyIdElement.GetString() : null;
+                var privateKey = root.TryGetProperty("private_key", out var keyElement) ? keyElement.GetString() : null;
+
+                if (!string.IsNullOrEmpty(clientEmail) && !string.IsNullOrEmpty(privateKey))
+                {
+                    var credentials = new GoogleDriveCredentials
+                    {
+                        Type = CredentialType.ServiceAccount,
+                        Source = "JSON File (Service Account)",
+                        ServiceAccountEmail = clientEmail,
+                        ProjectId = projectId ?? string.Empty,
+                        ServiceAccountUniqueId = clientId ?? string.Empty,
+                        // Store the entire JSON content for service account usage
+                        ServiceAccountJson = jsonContent
+                    };
+
+                    _logger.LogInformation("✅ Service Account credentials parsed successfully: {Email}", clientEmail);
+                    return Result<GoogleDriveCredentials>.WithSuccess(credentials);
+                }
+                else
+                {
+                    _logger.LogWarning("⚠️ Service Account missing required fields (client_email or private_key)");
+                    return Result<GoogleDriveCredentials>.WithFailure("Service Account missing required fields");
+                }
             }
 
             return Result<GoogleDriveCredentials>.WithFailure("Not a service account credential");
@@ -429,7 +466,7 @@ public class GoogleDriveCredentialResolver : IGoogleDriveCredentialResolver
 
 
 /// <summary>
-/// Represents resolved Google Drive credentials
+/// Represents resolved Google Drive credentials with modern ADC support
 /// </summary>
 public class GoogleDriveCredentials
 {
@@ -439,10 +476,15 @@ public class GoogleDriveCredentials
     public string ServiceAccountEmail { get; set; } = string.Empty;
     public string ServiceAccountName { get; set; } = string.Empty;
     public string ServiceAccountUniqueId { get; set; } = string.Empty;
+    public string ServiceAccountJson { get; set; } = string.Empty;
     public string Source { get; set; } = string.Empty;
     public string? RedirectUri { get; set; }
     public string? ProjectId { get; set; }
     public CredentialType Type { get; set; } = CredentialType.OAuth;
+    
+    // Modern ADC properties
+    public Google.Apis.Auth.OAuth2.GoogleCredential? GoogleCredential { get; set; }
+    public bool IsScoped { get; set; }
 }
 
 /// <summary>
@@ -452,5 +494,6 @@ public enum CredentialType
 {
     OAuth,
     ApiKey,
-    ServiceAccount
+    ServiceAccount,
+    ApplicationDefault  // Modern ADC approach
 } 

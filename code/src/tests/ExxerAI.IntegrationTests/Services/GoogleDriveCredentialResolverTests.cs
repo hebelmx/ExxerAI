@@ -257,7 +257,7 @@ public class GoogleDriveCredentialResolverTests
     }
 
     [Fact]
-    public async Task ResolveCredentialsAsync_WithServiceAccountJsonFile_ShouldReturnFailure()
+    public async Task ResolveCredentialsAsync_WithServiceAccountJsonFile_ShouldReturnSuccess()
     {
         // Arrange
         Environment.SetEnvironmentVariable("GOOGLE_OAUTH_CLIENT_ID", null);
@@ -270,7 +270,9 @@ public class GoogleDriveCredentialResolverTests
           "project_id": "test-project",
           "private_key_id": "key-id",
           "private_key": "-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----\n",
-          "client_email": "test@test-project.iam.gserviceaccount.com"
+          "client_email": "test@test-project.iam.gserviceaccount.com",
+          "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+          "token_uri": "https://oauth2.googleapis.com/token"
         }
         """;
 
@@ -292,9 +294,12 @@ public class GoogleDriveCredentialResolverTests
             // Act
             var result = await resolver.ResolveCredentialsAsync();
 
-            // Assert
-            result.IsFailure.ShouldBeTrue();
-            result.Error.ShouldContain("requires different authentication flow");
+            // Assert - Service accounts should now work!
+            result.IsSuccess.ShouldBeTrue();
+            result.Value.Type.ShouldBe(CredentialType.ServiceAccount);
+            result.Value.ServiceAccountEmail.ShouldBe("test@test-project.iam.gserviceaccount.com");
+            result.Value.ProjectId.ShouldBe("test-project");
+            result.Value.Source.ShouldContain("JSON File");
         }
         finally
         {

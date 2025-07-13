@@ -33,11 +33,10 @@ appsettings.Development.json
 appsettings.Local.json
 *.env
 .env.*
-secrets.json
-google-credentials.json
-GDrive.Api.json
-GDrive.Api
-exxerai.gdrive.json
+**/secrets.json
+**/google-credentials.json
+**/GDrive.Api.json
+**/exxerai.gdrive.json
 
 ## IDE
 .vscode/
