@@ -1,3 +1,0 @@
-- name: Set GOOGLE_APPLICATION_CREDENTIALS
-  run: export GOOGLE_APPLICATION_CREDENTIALS=wif-cred.json
-- run: dotnet test
